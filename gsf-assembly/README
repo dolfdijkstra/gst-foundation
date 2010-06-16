@@ -1,0 +1,10 @@
+this will eventually assemble the following components:
+- facades
+- cs-uri-assemblers which will include ipageref
+- webapp-profiling
+- trim-filter
+- gsf-taglib
+- gsf-tagging (get-reverse-children replacement)
+
+maybe?
+- xmlmvc or something like it?
