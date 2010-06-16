@@ -1,10 +1,10 @@
-package com.fatwire.cs.sql;
+package com.fatwire.gst.foundation.facade.sql;
 
 import java.util.Date;
 
 /**
  * 
- * Repesents a row in an IList.
+ * Represents a row in an IList.
  * 
  * Wrapper over IList so that it can be used by an iterator()
  * 

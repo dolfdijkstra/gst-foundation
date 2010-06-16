@@ -1,4 +1,4 @@
-package com.fatwire.cs.sql;
+package com.fatwire.gst.foundation.facade.sql;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

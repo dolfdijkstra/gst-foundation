@@ -1,4 +1,4 @@
-package com.fatwire.cs.sql;
+package com.fatwire.gst.foundation.facade.sql;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -7,6 +7,14 @@ import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.cs.core.db.Util;
 
+
+/**
+ * Wrapper for an IList that turns an <tt>IList</tt> into a <tt>Iterable</tt> 
+ * 
+ * 
+ * @author Dolf Dijkstra
+ *
+ */
 public class IListIterable implements Iterable<Row> {
 	private final IList list;
 
