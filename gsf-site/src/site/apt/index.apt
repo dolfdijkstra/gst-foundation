@@ -1,0 +1,36 @@
+Foundation
+
+	This document exists to define the foundation of a simple URL-management and request handling/request dispatching model that most sites can easily extend and build upon.
+	The initial emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+
+	*	Introduction of the notion of a web-referenceable asset, access to which is via a common controller
+
+	*	Support for vanity URLs for any web-referenceable asset
+
+	*	Built-in 404 response for deleted assets
+
+	*	Provides for managed alias assets that can represent any other URL
+
+	*	Can be used "out of the box" for a large number of sites
+
+	*	Can be cleanly extended to address custom client requirements
+
+	*	Fast and efficient handling/dispatching of requests
+
+	*	Fast and efficient construction of vanity URLs
+
+	*	Standardized set of meta attributes
+
+	*	Standardized usage of the Page asset for navigation
+
+
+	Hat's off to Tony Field for taking the lead on this project, with valuable assistance and insight from Dolf Dijkstra, Michael Sullivan, Suzanne Bourdeaux, and Randall Spicher.
+
+	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding in such enhancements into future versions of the GST Site Foundation.
+
+	June, 2010, The Global Solutions Team
+
+Document
+  
+  The document can be downloaded {{{GST Site Foundation 1.0.1.pdf}here}}.
+  
