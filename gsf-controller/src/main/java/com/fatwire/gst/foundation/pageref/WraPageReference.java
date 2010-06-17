@@ -1,10 +1,13 @@
 package com.fatwire.gst.foundation.pageref;
 
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
+import COM.FutureTense.Common.E;
 import COM.FutureTense.Export.ReferenceException;
+import COM.FutureTense.Interfaces.FTVAL;
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Util.ftMessage;
 
 import com.openmarket.xcelerate.publish.PageRef;
 
@@ -37,8 +40,8 @@ import com.openmarket.xcelerate.publish.PageRef;
 public class WraPageReference extends PageRef {
 
     @SuppressWarnings("unchecked")
-    Map<String, String> toMap(Map map) {
-        return (Map<String, String>) map;
+    Map<String, FTVAL> toMap(Map map) {
+        return (Map<String, FTVAL>) map;
     }
 
     /*
@@ -49,25 +52,33 @@ public class WraPageReference extends PageRef {
      * COM.FutureTense.Interfaces.ICS)
      */
     @Override
-    public void setParameters(Map m, ICS ics) throws ReferenceException {
-        Map<String, String> map = toMap(m);
+    public void setParameters(Map map, ICS ics) throws ReferenceException {
+        // the map is an FTValList
 
         // we have to manipulate the map
-
         // we get c and cid
         // we need path of the asset
-        for (Map.Entry<String, String> e : map.entrySet()) {
-            log.debug(e.getKey() + "=" + e.getValue());
+        for (Iterator<E> i = map.entrySet().iterator(); i.hasNext();) {
+            Map.Entry e = (Map.Entry) i.next();
+            log.debug(ics.ResolveVariables("CS.elementname") + ": "
+                    + e.getKey() + "=" + e.getValue());
         }
+//        log.debug(ics.ResolveVariables("CS.elementname") + ": "
+//                + getSatelliteContext());
+//        log.debug(ics.ResolveVariables("CS.elementname") + ": " + getAppType());
+
         if (true/*
                  * getSatelliteContext() == SatelliteContext.SATELLITE_SERVER &&
                  * getAppType() == AppType.CONTENT_SERVER
                  */) {
             // if CS leave alone, work only if apptype is contentserver
             // how do we detect that this is for us
-            String c = map.get("c");
-            String cid = map.get("cid");
-
+            //off all the stuff we pass in, we get c/cid/pagename (from site,c and tname)/wrapperpage and the arguments 
+            String c = (String) map.get("c" );
+            String cid = (String) map.get("cid");
+            String pagename = (String)map.get(ftMessage.PageName);
+            String wrapperPage = (String)map.get("WRAPPERPAGE");
+            String p = (String) map.get("p" );
         }
         super.setParameters(map, ics);
     }
