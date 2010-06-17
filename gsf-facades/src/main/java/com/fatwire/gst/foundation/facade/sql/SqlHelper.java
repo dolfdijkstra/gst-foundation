@@ -136,7 +136,7 @@ public class SqlHelper {
      * @param ics
      * @param stmt the PreparedStatement
      * @param data the statement parameters
-     * @return
+     * @return never null, always an IListIterable
      */
 
     public static final IListIterable select(final ICS ics,
