@@ -1,6 +1,6 @@
 package com.fatwire.gst.foundation.facade.sql.table;
 
-public abstract class TableColumn {
+public class TableColumn {
 
     public enum Type {
         propchar("cc.char"), propvarchar("cc.varchar"), proplongvarchar(
