@@ -59,7 +59,7 @@ public class BaseController extends AbstractController {
         if (templatename == null) {
             throw new CSRuntimeException("No template found", 404);
         }
-        String site = id.getSite();//resolveSite(id); 
+        String site = id.getSite();// resolveSite(id);
         if (site == null) {
             throw new CSRuntimeException("Could not locate site for " + id, 404);
         }
@@ -119,24 +119,18 @@ public class BaseController extends AbstractController {
 
     protected AssetIdWithSite resolveAssetId() {
         final AssetIdWithSite id;
-        if (goodString(ics.GetVar("virtual-webroot"))
-                && goodString(ics.GetVar("url-path"))) {
-            id = resolveAssetFromUrl(ics.GetVar("virtual-webroot"), ics
-                    .GetVar("url-path"));
-        } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))
-                && goodString(ics.GetVar("site"))) {
+        if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
+            id = resolveAssetFromUrl(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
+        } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid")) && goodString(ics.GetVar("site"))) {
             // handle these to be nice
-            id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics
-                    .GetVar("cid")), ics.GetVar("site"));
-        } else if (goodString(ics.GetVar("virtual-webroot"))
-                || goodString(ics.GetVar("url-path"))) // (but not both)
+            id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), ics.GetVar("site"));
+        } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) // (but
+                                                                                                    // not
+                                                                                                    // both)
         {
-            throw new CSRuntimeException(
-                    "Missing required param virtual-webroot & url-path.",
-                    ftErrors.badparams);
+            throw new CSRuntimeException("Missing required param virtual-webroot & url-path.", ftErrors.badparams);
         } else {
-            throw new CSRuntimeException("Missing required param c, cid and site.",
-                    ftErrors.badparams);
+            throw new CSRuntimeException("Missing required param c, cid and site.", ftErrors.badparams);
         }
         return id;
     }
@@ -146,8 +140,8 @@ public class BaseController extends AbstractController {
     static final String PUBLICATION_TABLE = "Publication";
 
     protected String resolveSite(AssetId assetId) {
-        final PreparedStmt stmt = new PreparedStmt(ASSETPUBLICATION_SELECT,
-                Arrays.asList(ASSETPUBLICATION_TABLE, PUBLICATION_TABLE));
+        final PreparedStmt stmt = new PreparedStmt(ASSETPUBLICATION_SELECT, Arrays.asList(ASSETPUBLICATION_TABLE,
+                PUBLICATION_TABLE));
         stmt.setElement(0, ASSETPUBLICATION_TABLE, "assettype");
         stmt.setElement(1, ASSETPUBLICATION_TABLE, "assetid");
         final StatementParam param = stmt.newParam();
@@ -172,10 +166,8 @@ public class BaseController extends AbstractController {
 
     static final String REGISTRY_TABLE = "GSTUrlRegistry";
 
-    protected AssetIdWithSite resolveAssetFromUrl(final String virtual_webroot,
-            final String url_path) {
-        final PreparedStmt stmt = new PreparedStmt(REGISTRY_SELECT, Collections
-                .singletonList(REGISTRY_TABLE));
+    protected AssetIdWithSite resolveAssetFromUrl(final String virtual_webroot, final String url_path) {
+        final PreparedStmt stmt = new PreparedStmt(REGISTRY_SELECT, Collections.singletonList(REGISTRY_TABLE));
         stmt.setElement(0, REGISTRY_TABLE, "opt_vwebroot");
         stmt.setElement(1, REGISTRY_TABLE, "opt_url_path");
         final StatementParam param = stmt.newParam();
@@ -187,8 +179,7 @@ public class BaseController extends AbstractController {
             final String assettype = asset.getString("assettype");
             final String assetid = asset.getString("assetid");
             if (inRange(asset, now)) {
-                return new AssetIdWithSite(assettype, Long.parseLong(assetid),
-                        asset.getString("opt_site"));
+                return new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
             }
         }
 
@@ -198,12 +189,9 @@ public class BaseController extends AbstractController {
     // TODO: Finish this method
 
     protected boolean inRange(final Row asset, final Date now) {
-        final Date startdate = asset.getString("startdate") != null ? parseJdbcDate(asset
-                .getString("startdate"))
+        final Date startdate = asset.getString("startdate") != null ? parseJdbcDate(asset.getString("startdate"))
                 : null;
-        final Date enddate = asset.getString("enddate") != null ? parseJdbcDate(asset
-                .getString("enddate"))
-                : null;
+        final Date enddate = asset.getString("enddate") != null ? parseJdbcDate(asset.getString("enddate")) : null;
 
         if (startdate != null || enddate != null) {
             if (startdate == null) {
@@ -221,11 +209,9 @@ public class BaseController extends AbstractController {
     }
 
     protected String lookupTemplateForAsset(final AssetId id) {
-        final String select = "SELECT template FROM " + id.getType()
-                + " where id=?";
+        final String select = "SELECT template FROM " + id.getType() + " where id=?";
 
-        final PreparedStmt stmt = new PreparedStmt(select, Collections
-                .singletonList(id.getType()));
+        final PreparedStmt stmt = new PreparedStmt(select, Collections.singletonList(id.getType()));
         stmt.setElement(0, id.getType(), "id");
 
         final StatementParam param = stmt.newParam();
@@ -237,14 +223,12 @@ public class BaseController extends AbstractController {
         return null;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays
-            .asList("c", "cid", "eid", "seid", "packedargs", "variant",
-                    "context", "pagename", "childpagename", "site", "tid",
-                    "virtual-webroot", "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
+            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
+            "url-path");
 
     @SuppressWarnings("unchecked")
-    protected void callTemplate(final String site, final AssetId id,
-            final String tname) {
+    protected void callTemplate(final String site, final AssetId id, final String tname) {
         final CallTemplate ct = new CallTemplate();
         ct.setSite(site);
         ct.setSlotname("wrapper");
@@ -253,8 +237,9 @@ public class BaseController extends AbstractController {
         ct.setAsset(id);
         ct.setTname(tname);
         ct.setContext("");
-        String target = tname.startsWith("/") ? site + "/" + tname : site + "/"
-                + id.getType() + "/" + tname; // typeless or not
+        String target = tname.startsWith("/") ? site + "/" + tname : site + "/" + id.getType() + "/" + tname; // typeless
+                                                                                                              // or
+                                                                                                              // not
         ct.setStyle(getCallTemplateCallStyle(target));
 
         final String variant = ics.GetVar("variant");

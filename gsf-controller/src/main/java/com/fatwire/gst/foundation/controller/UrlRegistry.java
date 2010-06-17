@@ -8,7 +8,6 @@ import com.fatwire.gst.foundation.facade.sql.table.TableCreator;
 import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.facade.sql.table.TableColumn.Type;
 
-
 /**
  * Installer for the GSTUrlRegistry
  * 

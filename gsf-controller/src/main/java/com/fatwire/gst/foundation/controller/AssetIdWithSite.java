@@ -10,8 +10,7 @@ import com.fatwire.assetapi.data.AssetId;
  * @author Dolf Dijkstra
  * @since Jun 17, 2010
  */
-public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>,
-        Serializable {
+public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Serializable {
 
     /**
      * 
@@ -108,8 +107,7 @@ public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>,
      */
     @Override
     public String toString() {
-        return "AssetIdWithSite [type=" + type + ", id=" + id + ", site="
-                + site + "]";
+        return "AssetIdWithSite [type=" + type + ", id=" + id + ", site=" + site + "]";
     }
 
     /*

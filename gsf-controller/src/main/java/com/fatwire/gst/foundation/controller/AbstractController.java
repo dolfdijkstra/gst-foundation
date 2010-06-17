@@ -21,8 +21,7 @@ import com.openmarket.xcelerate.publish.Render;
  */
 
 public abstract class AbstractController implements Seed2 {
-    protected static final Log LOG = LogFactory
-	    .getLog("com.fatwire.gst.foundation.controller");
+    protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller");
 
     public static String STATUS_HEADER = "X-Fatwire-Status";
 
@@ -37,7 +36,7 @@ public abstract class AbstractController implements Seed2 {
      */
 
     public void SetAppLogic(final IPS ips) {
-	ics = ips.GetICSObject();
+        ics = ips.GetICSObject();
 
     }
 
@@ -50,13 +49,13 @@ public abstract class AbstractController implements Seed2 {
      */
 
     public final String Execute(final FTValList vIn, final FTValList vOut) {
-	try {
-	    doExecute();
-	} catch (final Exception e) {
-	    handleException(e);
-	}
+        try {
+            doExecute();
+        } catch (final Exception e) {
+            handleException(e);
+        }
 
-	return "";
+        return "";
     }
 
     /**
@@ -67,74 +66,72 @@ public abstract class AbstractController implements Seed2 {
      * @return String to stream
      */
     protected String sendError(final int code, final Exception e) {
-	LOG.debug(code + " status code sent due to exception " + e.toString(),
-		e);
-	switch (code) { // all the http status codes, we may restrict the list
-			// to error and redirect
-	case 100:
-	case 101:
-	case 200:
-	case 201:
-	case 202:
-	case 203:
-	case 204:
-	case 205:
-	case 206:
-	case 300:
-	case 301:
-	case 302:
-	case 303:
-	case 304:
-	case 306:
-	case 307:
-	case 400:
-	case 401:
-	case 402:
-	case 403:
-	case 404:
-	case 405:
-	case 406:
-	case 407:
-	case 408:
-	case 409:
-	case 410:
-	case 411:
-	case 412:
-	case 413:
-	case 414:
-	case 415:
-	case 416:
-	case 417:
-	case 450:
-	case 500:
-	case 501:
-	case 502:
-	case 503:
-	case 504:
-	case 505:
-	    ics.StreamHeader(STATUS_HEADER, Integer.toString(code));
-	    break;
-	default:
-	    ics.StreamHeader(STATUS_HEADER, "500");
-	    break;
-	}
-	Render.UnknownDeps(ics);// failure case might be corrected on next
-				// publish or save
-	String element = null;
+        LOG.debug(code + " status code sent due to exception " + e.toString(), e);
+        switch (code) { // all the http status codes, we may restrict the list
+        // to error and redirect
+        case 100:
+        case 101:
+        case 200:
+        case 201:
+        case 202:
+        case 203:
+        case 204:
+        case 205:
+        case 206:
+        case 300:
+        case 301:
+        case 302:
+        case 303:
+        case 304:
+        case 306:
+        case 307:
+        case 400:
+        case 401:
+        case 402:
+        case 403:
+        case 404:
+        case 405:
+        case 406:
+        case 407:
+        case 408:
+        case 409:
+        case 410:
+        case 411:
+        case 412:
+        case 413:
+        case 414:
+        case 415:
+        case 416:
+        case 417:
+        case 450:
+        case 500:
+        case 501:
+        case 502:
+        case 503:
+        case 504:
+        case 505:
+            ics.StreamHeader(STATUS_HEADER, Integer.toString(code));
+            break;
+        default:
+            ics.StreamHeader(STATUS_HEADER, "500");
+            break;
+        }
+        Render.UnknownDeps(ics);// failure case might be corrected on next
+        // publish or save
+        String element = null;
 
-	if (goodString(ics.GetVar("site"))
-		&& ics.IsElement(ics.GetVar("site") + "/ErrorHandler/" + code)) {
-	    element = ics.GetVar("site") + "/ErrorHandler/" + code;
-	} else if (ics.IsElement("GST/ErrorHandler/" + code)) {
-	    element = "GST/ErrorHandler/" + code;
-	}
-	if (element != null) {
-	    ics.SetObj("com.fatwire.gst.foundation.exception", e);
-	    ics.CallElement(element, null);
-	}
-	ics.SetErrno(ftErrors.exceptionerr);
+        if (goodString(ics.GetVar("site")) && ics.IsElement(ics.GetVar("site") + "/ErrorHandler/" + code)) {
+            element = ics.GetVar("site") + "/ErrorHandler/" + code;
+        } else if (ics.IsElement("GST/ErrorHandler/" + code)) {
+            element = "GST/ErrorHandler/" + code;
+        }
+        if (element != null) {
+            ics.SetObj("com.fatwire.gst.foundation.exception", e);
+            ics.CallElement(element, null);
+        }
+        ics.SetErrno(ftErrors.exceptionerr);
 
-	return null;
+        return null;
 
     }
 
