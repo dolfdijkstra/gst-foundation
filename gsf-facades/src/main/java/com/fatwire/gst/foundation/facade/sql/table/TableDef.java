@@ -20,7 +20,7 @@ public class TableDef {
         this.type = type;
     }
 
-    public void addColumn(TableColumn col) {
+    public TableDef addColumn(TableColumn col) {
         if (col.isPrimary()) {
             for (TableColumn current : columns) {
                 if (current.isPrimary()) {
@@ -30,6 +30,7 @@ public class TableDef {
             }
         }
         this.columns.add(col);
+        return this;
     }
 
     Iterable<TableColumn> getColumns() {

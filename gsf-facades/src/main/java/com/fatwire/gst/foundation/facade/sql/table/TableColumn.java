@@ -49,24 +49,27 @@ public class TableColumn {
         return decimal;
     }
 
-    public void setDecimal(int decimal) {
+    public TableColumn setDecimal(int decimal) {
         this.decimal = decimal;
+        return this;
     }
 
     public int getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public TableColumn setLength(int length) {
         this.length = length;
+        return this;
     }
 
     public boolean isNullable() {
         return nullable;
     }
 
-    public void setNullable(boolean nullable) {
+    public TableColumn setNullable(boolean nullable) {
         this.nullable = nullable;
+        return this;
     }
 
     public boolean isPrimary() {
@@ -85,8 +88,9 @@ public class TableColumn {
         return unique;
     }
 
-    public void setUnique(boolean unique) {
+    public TableColumn setUnique(boolean unique) {
         this.unique = unique;
+        return this;
     }
 
 }
