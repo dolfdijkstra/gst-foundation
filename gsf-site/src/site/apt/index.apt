@@ -1,7 +1,6 @@
-Foundation
+GST Site Foundation Overview
 
-	This document exists to define the foundation of a simple URL-management and request handling/request dispatching model that most sites can easily extend and build upon.
-	The initial emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+	{{{GST Site Foundation 1.0.1.pdf}This document}} exists to define the foundation of a simple URL-management and request handling/request dispatching model that most sites can easily extend and build upon. The initial emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
 
 	*	Introduction of the notion of a web-referenceable asset, access to which is via a common controller
 
@@ -23,8 +22,25 @@ Foundation
 
 	*	Standardized usage of the Page asset for navigation
 
+	[]
 
-	Hat's off to Tony Field for taking the lead on this project, with valuable assistance and insight from Dolf Dijkstra, Michael Sullivan, Suzanne Bourdeaux, and Randall Spicher.
+	Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and acknowledgement that the URL is more important than the content. By giving each asset its own URL at the discretion of the editor, both problems are solved.
+
+	This is done in a way that accomplishes the following:
+
+	[[1]]	The process for business users is greatly simplified
+	
+	[[1]]	Coding is greatly simplified, to the point where much can be provided in common libraries
+	
+	[[1]]	Extension points are clearly identified
+
+	[]
+
+	The following patterns and guidelines, if strictly followed, will enable architects to design basic sites more quickly, and will enable developers to spend more time implementing project-specific requirements rather than standard functionality.
+
+	A checklist is included that helps an architect to determine if this rendering model is right for the project at hand.
+
+	Hats off to Tony Field for taking the lead on this project, with valuable assistance and insight from Dolf Dijkstra, Michael Sullivan, Suzanne Bourdeaux, and Randall Spicher.
 
 	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding in such enhancements into future versions of the GST Site Foundation.
 
@@ -32,5 +48,4 @@ Foundation
 
 Document
   
-  The document can be downloaded {{{GST Site Foundation 1.0.1.pdf}here}}.
-  
+  Download the {{{GST Site Foundation 1.0.1.pdf}GST Site Foundation Specification}}.
