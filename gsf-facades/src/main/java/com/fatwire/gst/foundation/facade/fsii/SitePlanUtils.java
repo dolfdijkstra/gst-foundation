@@ -47,7 +47,7 @@ public final class SitePlanUtils
      * @param ics context
      * @param p id of page asset
      * @param assocname name of the association between the page and the page detail asset
-     * @return
+     * @return the template name
      */
     public static String getPageDetailTemplateForPage(ICS ics, String p, String assocname)
     {
@@ -73,7 +73,7 @@ public final class SitePlanUtils
      * @param ics context
      * @param p page asset id
      * @param assocname name of the association containing the page detail.
-     * @return
+     * @return the assetid 
      */
     public static AssetId getPageDetailForPage(ICS ics, String p, String assocname)
     {
