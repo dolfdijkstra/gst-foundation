@@ -1,5 +1,13 @@
 package com.fatwire.gst.foundation.facade.sql.table;
 
+/**
+ * 
+ * 
+ * A column definition for a table
+ * 
+ * @author Dolf Dijkstra
+ * 
+ */
 public class TableColumn {
 
     public enum Type {

@@ -4,6 +4,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The definition of a ContentServer database table
+ * 
+ * @author Dolf Dijkstra
+ * 
+ */
+
 public class TableDef {
     private final String name;
 

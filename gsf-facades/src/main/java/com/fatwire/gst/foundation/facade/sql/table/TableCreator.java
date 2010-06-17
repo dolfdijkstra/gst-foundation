@@ -5,6 +5,13 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
 
+/**
+ * Facade over table create and delete CatalogManager operations
+ * 
+ * @author Dolf Dijkstra
+ * 
+ */
+
 public class TableCreator {
 
     private final ICS ics;
@@ -14,6 +21,32 @@ public class TableCreator {
         this.ics = ics;
     }
 
+    /**
+     * 
+     * Delete a table
+     * 
+     * @param name
+     *            the name of the table to delete
+     */
+    public void delteTable(String name) {
+        ics.ClearErrno();
+        final FTValList list = new FTValList();
+
+        list.setValString("ftcmd", "deletetable");
+        list.setValString("tablename", name);
+        if (!ics.CatalogManager(list)) {
+            throw new CSRuntimeException("Error deleting table " + name, ics
+                    .GetErrno());
+        }
+
+    }
+
+    /**
+     * Create a table
+     * 
+     * @param table
+     *            the table to create as defined by its TableDef
+     */
     public void createTable(TableDef table) {
         ics.ClearErrno();
         final FTValList list = new FTValList();
@@ -25,10 +58,7 @@ public class TableCreator {
         int i = 0;
         for (TableColumn col : table.getColumns()) {
 
-            list.setValString("colname" + i, col.getName() /*
-                                                            * ics.GetProperty("cc.contentkey"
-                                                            * )
-                                                            */);
+            list.setValString("colname" + i, col.getName());
             StringBuilder val = new StringBuilder();
             val.append(ics.GetProperty(col.getType().getProperty()));
             if (col.isPrimary()) {
