@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
     http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fatwire.gst</groupId>
@@ -6,6 +7,30 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>FatWire GST: Site Foundation Controller</name>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-controller</url>
+        <inceptionYear>2010</inceptionYear>
+    <organization>
+        <name>FatWire</name>
+        <url>http://www.fatwire.com</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Dolf Dijkstra</name>
+        </developer>
+        <developer>
+            <name>Tony Field</name>
+        </developer>
+    
+    </developers>
+    <scm>
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-wra-dispatcher</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-wra-dispatcher</developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-wra-dispatcher</url>
+    </scm>
+        <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
     <build>
         <plugins>
             <plugin>
@@ -14,10 +39,40 @@
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
+                    <encoding>ISO-8859-1</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <!-- version>2.7</version -->
+                <configuration>
+                    <detectLinks>true</detectLinks>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+        </plugins>
+    </reporting>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -25,7 +80,7 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
@@ -44,7 +99,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -58,61 +113,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>assetapi</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>assetapi-impl</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>cs</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>cs-core</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>basic</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>framework</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>assetframework</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>xcelerate</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>gator</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>MSXML</artifactId>
-            <version>7.5.3</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-facades</artifactId>
-            <version>2.0-SNAPSHOT</version>            
+            <version>2.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <repositories>
