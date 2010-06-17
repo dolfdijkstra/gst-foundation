@@ -35,8 +35,7 @@ public class TableCreator {
         list.setValString("ftcmd", "deletetable");
         list.setValString("tablename", name);
         if (!ics.CatalogManager(list)) {
-            throw new CSRuntimeException("Error deleting table " + name, ics
-                    .GetErrno());
+            throw new CSRuntimeException("Error deleting table " + name, ics.GetErrno());
         }
 
     }
@@ -61,17 +60,25 @@ public class TableCreator {
             list.setValString("colname" + i, col.getName());
             StringBuilder val = new StringBuilder();
             val.append(ics.GetProperty(col.getType().getProperty()));
-            if (col.getLength() > 0) {
-                val.append(" (");
-                val.append(Integer.toString(col.getLength()));
-                switch (col.getType()) {
+            switch (col.getType()) {
                 case ccdouble:
+                case ccchar:
                 case ccnumeric:
-                    val.append(",").append(Integer.toString(col.getDecimal()));
-                    break;
-                }
+                case ccvarchar:
+                case ccdatetime:
+                    if (col.getLength() > 0) {
+                        val.append(" (");
+                        val.append(Integer.toString(col.getLength()));
+                        switch (col.getType()) {
+                            case ccdouble:
+                                val.append(",").append(Integer.toString(col.getDecimal()));
+                                break;
+                        }
 
-                val.append(")");
+                        val.append(")");
+                    }
+                    break;
+
             }
             if (col.isPrimary()) {
                 val.append(" ");
@@ -88,8 +95,7 @@ public class TableCreator {
         }
 
         if (!ics.CatalogManager(list)) {
-            throw new CSRuntimeException("Error creating table "
-                    + table.getName(), ics.GetErrno());
+            throw new CSRuntimeException("Error creating table " + table.getName(), ics.GetErrno());
         }
 
     }
