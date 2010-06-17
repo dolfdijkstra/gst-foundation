@@ -4,6 +4,7 @@ import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.facade.sql.table.TableColumn.Type;
 
 /**
  * Facade over table create and delete CatalogManager operations
@@ -61,6 +62,18 @@ public class TableCreator {
             list.setValString("colname" + i, col.getName());
             StringBuilder val = new StringBuilder();
             val.append(ics.GetProperty(col.getType().getProperty()));
+            if (col.getLength() > 0) {
+                val.append(" (");
+                val.append(Integer.toString(col.getLength()));
+                switch (col.getType()) {
+                case ccdouble:
+                case ccnumeric:
+                    val.append(",").append(Integer.toString(col.getDecimal()));
+                    break;
+                }
+
+                val.append(")");
+            }
             if (col.isPrimary()) {
                 val.append(" ");
                 val.append(ics.GetProperty("cc.primary"));

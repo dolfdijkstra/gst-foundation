@@ -11,11 +11,11 @@ package com.fatwire.gst.foundation.facade.sql.table;
 public class TableColumn {
 
     public enum Type {
-        propchar("cc.char"), propvarchar("cc.varchar"), proplongvarchar(
-                "cc.bigtext"), propsmallint("cc.smallint"), propinteger(
-                "cc.integer"), propbigint("cc.bigint"), propnumeric(
-                "cc.numeric"), propdouble("cc.double"), proptimestamp(
-                "cc.datetime"), proplongvarbinary("cc.blob");
+        ccchar("cc.char"), ccvarchar("cc.varchar"), ccbigtext("cc.bigtext"), ccsmallint(
+                "cc.smallint"), ccinteger("cc.integer"), ccbigint("cc.bigint"), ccnumeric(
+                "cc.numeric"), ccdouble("cc.double"), ccdatetime("cc.datetime"), ccblob(
+                "cc.blob");
+
         private final String prop;
 
         Type(String prop) {
