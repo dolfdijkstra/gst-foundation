@@ -4,7 +4,6 @@ import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.facade.sql.table.TableColumn.Type;
 
 /**
  * Facade over table create and delete CatalogManager operations
