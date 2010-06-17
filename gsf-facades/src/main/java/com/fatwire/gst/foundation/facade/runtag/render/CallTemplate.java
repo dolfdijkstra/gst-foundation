@@ -14,17 +14,17 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * CallTemplate tag
- * <p/>
- * <RENDER.CALLTEMPLATE SITE="site name" SLOTNAME="name of slot"
+ * <p/><tt>
+ * &lt;RENDER.CALLTEMPLATE SITE="site name" SLOTNAME="name of slot"
  * TID="caller Template or CSElement id" [TTYPE="caller Template or CSElement"]
  * [C="asset type"] [CID="asset id"] [TNAME="target Template or CSElement name"]
  * [CONTEXT="context override"] [STYLE="pagelet or element"]
- * [VARIANT="template variant name"] [PACKEDARGS="packed arguments"]>
+ * [VARIANT="template variant name"] [PACKEDARGS="packed arguments"]&gt;
  * <p/>
- * [<RENDER.ARGUMENT NAME="variable1" VALUE="value1"/>]
+ * [&lt;RENDER.ARGUMENT NAME="variable1" VALUE="value1"/&gt;]
  * <p/>
- * </RENDER.CALLTEMPLATE>
- * 
+ * &lt;/RENDER.CALLTEMPLATE&gt;
+ * </tt>
  * @author Tony Field
  * @since Jun 10, 2010
  */
