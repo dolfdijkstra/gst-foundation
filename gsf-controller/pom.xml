@@ -27,7 +27,7 @@
         <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-wra-dispatcher</developerConnection>
         <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-wra-dispatcher</url>
     </scm>
-        <properties>
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
@@ -127,11 +127,6 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>fw_maven_repository-releases</id>
-            <name>fw_maven_repository-releases</name>
-            <url>http://alaska2:8080/artifactory/fw_local</url>
         </repository>
         <repository>
             <id>nl.fatwire.com</id>
