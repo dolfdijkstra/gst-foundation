@@ -9,13 +9,12 @@ import COM.FutureTense.Interfaces.IList;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 
-
 /**
  * A helper class over <tt>ICS.SQL</tt>
  * 
  * @author Dolf Dijkstra
  * @see ICS#SQL(String, String, String, int, boolean, boolean, StringBuffer)
- *
+ * 
  */
 public class SqlHelper {
 
@@ -26,18 +25,20 @@ public class SqlHelper {
 
     /**
      * facade over ICS.SQL
-     *
+     * 
      * limit =-1;
-     *
+     * 
      * bCache=true;
-     *
+     * 
      * clears errno before ics.SQL
-     *
+     * 
      * no IList registered in ics variable space
-     *
+     * 
      * @param ics
-     * @param table tablename
-     * @param sql the sql statement, needs to start with 'select'
+     * @param table
+     *            tablename
+     * @param sql
+     *            the sql statement, needs to start with 'select'
      * @return never null, always an IListIterable
      * @throws RuntimeException
      *             if errno is not zero or not -101
@@ -51,11 +52,14 @@ public class SqlHelper {
 
     /**
      * Executes an ICS.SQL operation with a limit.
-     *
+     * 
      * @param ics
-     * @param table tablename
-     * @param sql the sql statement, needs to start with 'select'
-     * @param limit maximum number of rows to return
+     * @param table
+     *            tablename
+     * @param sql
+     *            the sql statement, needs to start with 'select'
+     * @param limit
+     *            maximum number of rows to return
      * @return never null, always an IListIterable
      * @see ICS#SQL(String, String, String, int, boolean, StringBuffer)
      */
@@ -85,12 +89,14 @@ public class SqlHelper {
 
     /**
      * handles sql statements, other then SELECT statements
-     *
+     * 
      * flushes the table (ics.FlushCatalog()) after the statement execution
-     *
+     * 
      * @param ics
-     * @param table tablename
-     * @param sql the sql statement, can not start with "select"
+     * @param table
+     *            tablename
+     * @param sql
+     *            the sql statement, can not start with "select"
      */
     public static final void execute(final ICS ics, final String table,
             final String sql) {
@@ -129,13 +135,15 @@ public class SqlHelper {
                     + errstr.toString() + " for " + sql);
         }
     }
-    
+
     /**
      * Executes a PreparedStatement
      * 
      * @param ics
-     * @param stmt the PreparedStatement
-     * @param param the statement parameters
+     * @param stmt
+     *            the PreparedStatement
+     * @param param
+     *            the statement parameters
      * @return never null, always an IListIterable
      */
 

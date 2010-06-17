@@ -13,13 +13,13 @@ import java.util.Date;
  */
 
 public interface Row {
-	String getString(String key);
+    String getString(String key);
 
-	long getLong(String key);
+    long getLong(String key);
 
-	byte[] getBytes(String key);
+    byte[] getBytes(String key);
 
-	char getChar(String key);
+    char getChar(String key);
 
-	Date getDate(String key);
+    Date getDate(String key);
 }
