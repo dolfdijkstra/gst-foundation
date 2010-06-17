@@ -1,6 +1,8 @@
 GST Site Foundation Overview
 
-	{{{GST Site Foundation 1.0.1.pdf}This document}} exists to define the foundation of a simple URL-management and request handling/request dispatching model that most sites can easily extend and build upon. The initial emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+	{{{GST Site Foundation 1.0.1.pdf}The GST Site Foundation Document}} exists to define the foundation of a simple 
+	URL-management and request handling/request dispatching model that most sites can easily extend and build upon. 
+	The initial emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
 
 	*	Introduction of the notion of a web-referenceable asset, access to which is via a common controller
 
@@ -24,7 +26,9 @@ GST Site Foundation Overview
 
 	[]
 
-	Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and acknowledgement that the URL is more important than the content. By giving each asset its own URL at the discretion of the editor, both problems are solved.
+	Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and 
+	acknowledgement that the URL is more important than the content. By giving each asset its own URL at the 
+	discretion of the editor, both problems are solved.
 
 	This is done in a way that accomplishes the following:
 
@@ -36,16 +40,25 @@ GST Site Foundation Overview
 
 	[]
 
-	The following patterns and guidelines, if strictly followed, will enable architects to design basic sites more quickly, and will enable developers to spend more time implementing project-specific requirements rather than standard functionality.
+	The following patterns and guidelines, if strictly followed, will enable architects to design basic sites more 
+	quickly, and will enable developers to spend more time implementing project-specific requirements rather than 
+	standard functionality.
 
-	A checklist is included that helps an architect to determine if this rendering model is right for the project at hand.
+	A checklist is included that helps an architect to determine if this rendering model is right for the project 
+	at hand.
 
-	Hats off to Tony Field for taking the lead on this project, with valuable assistance and insight from Dolf Dijkstra, Michael Sullivan, Suzanne Bourdeaux, and Randall Spicher.
+	Hats off to Tony Field (tony.field at fatwire dot com) for taking the lead on this project, with valuable 
+	assistance and insight from Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
+	(michael.sullivan at fatwire dot com), Suzanne Bourdeaux (suzanne.bourdeaux  at fatwire dot com), and 
+	Randall Spicher (randall.spicher at fatwire dot com).
 
-	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding in such enhancements into future versions of the GST Site Foundation.
+	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal 
+	of folding in such enhancements into future versions of the GST Site Foundation.
 
 	June, 2010, The Global Solutions Team
 
 Document
   
-  Download the {{{GST Site Foundation 1.0.1.pdf}GST Site Foundation Specification}}.
+	Download the {{{GST Site Foundation 1.0.1.pdf}GST Site Foundation Document}}.
+
+	The current version is 1.0.1
