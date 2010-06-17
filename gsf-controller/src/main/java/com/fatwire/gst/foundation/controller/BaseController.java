@@ -29,7 +29,6 @@ import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
-import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * <p>
