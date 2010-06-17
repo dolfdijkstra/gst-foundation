@@ -29,6 +29,8 @@ public class UrlRegistry {
         def.addColumn(new TableColumn("startdate", Type.ccdatetime));
         def.addColumn(new TableColumn("enddate", Type.ccdatetime));
         def.addColumn(new TableColumn("opt_vwebroot", Type.ccvarchar).setLength(255));
+        def.addColumn(new TableColumn("opt_site", Type.ccvarchar).setLength(255));
+
         new TableCreator(ics).createTable(def);
     }
 
