@@ -9,6 +9,14 @@ import COM.FutureTense.Interfaces.IList;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 
+
+/**
+ * A helper class over <tt>ICS.SQL</tt>
+ * 
+ * @author Dolf Dijkstra
+ * @see ICS#SQL(String, String, String, int, boolean, boolean, StringBuffer)
+ *
+ */
 public class SqlHelper {
 
     private static final Log log = LogFactory.getLog(SqlHelper.class);
@@ -28,12 +36,12 @@ public class SqlHelper {
      * no IList registered in ics variable space
      *
      * @param ics
-     * @param table
-     * @param sql
+     * @param table tablename
+     * @param sql the sql statement, needs to start with 'select'
      * @return never null, always an IListIterable
      * @throws RuntimeException
      *             if errno is not zero or not -101
-     * @see ICS.SQL
+     * @see SqlHelper#select(ICS, String, String, int)
      */
 
     public static final IListIterable select(final ICS ics, final String table,
@@ -42,14 +50,14 @@ public class SqlHelper {
     }
 
     /**
-     *
+     * Executes an ICS.SQL operation with a limit.
      *
      * @param ics
-     * @param table
-     * @param sql
-     * @param limit
-     * @return
-     * @see SqlHepler.select
+     * @param table tablename
+     * @param sql the sql statement, needs to start with 'select'
+     * @param limit maximum number of rows to return
+     * @return never null, always an IListIterable
+     * @see ICS#SQL(String, String, String, int, boolean, StringBuffer)
      */
     public static final IListIterable select(final ICS ics, final String table,
             final String sql, final int limit) {
@@ -81,8 +89,8 @@ public class SqlHelper {
      * flushes the table (ics.FlushCatalog()) after the statement execution
      *
      * @param ics
-     * @param table
-     * @param sql
+     * @param table tablename
+     * @param sql the sql statement, can not start with "select"
      */
     public static final void execute(final ICS ics, final String table,
             final String sql) {
@@ -121,11 +129,20 @@ public class SqlHelper {
                     + errstr.toString() + " for " + sql);
         }
     }
+    
+    /**
+     * Executes a PreparedStatement
+     * 
+     * @param ics
+     * @param stmt the PreparedStatement
+     * @param data the statement parameters
+     * @return
+     */
 
     public static final IListIterable select(final ICS ics,
-            final PreparedStmt stmt, final StatementParam data) {
+            final PreparedStmt stmt, final StatementParam param) {
 
-        final IList i = ics.SQL(stmt, data, true);
+        final IList i = ics.SQL(stmt, param, true);
         if (ics.GetErrno() == 0) {
             // ok, no worries
         } else if (ics.GetErrno() != -101) { // no rows if fine
