@@ -112,7 +112,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>fatwire</groupId>
+			<groupId>com.fatwire.cs</groupId>
 			<artifactId>cs</artifactId>
 			<version>7.5.3</version>
 		</dependency>
