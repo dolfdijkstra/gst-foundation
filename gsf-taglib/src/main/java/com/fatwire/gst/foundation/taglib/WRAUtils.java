@@ -1,26 +1,24 @@
-package com.fatwire.gsf.taglib.utils;
+package com.fatwire.gst.foundation.taglib;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import COM.FutureTense.Interfaces.ICS;
-
-import java.util.*;
 
 /**
- * 
- *
  * Created by IntelliJ IDEA.
  * User: David Chesebro
  * Date: Jun 17, 2010
  * Time: 2:31:17 PM
  */
-public class WRAUtils
-{
+public class WRAUtils {
     ICS ics;
 
-    public WRAUtils(ICS ics)
-    {
+    public WRAUtils(ICS ics) {
         this.ics = ics;
     }
 
@@ -29,13 +27,12 @@ public class WRAUtils
      * <p/>
      * Does not resolve aliases.
      *
-     * @param c asset type
+     * @param c   asset type
      * @param cid asset id
      * @return Map<String,String> with keys title, keywords, and description
      */
-    public Map<String,String> getCoreFields(String c, String cid)
-    {
-        Map<String,String> coreFields = new HashMap<String,String>();
+    public Map<String, String> getCoreFields(String c, String cid) {
+        Map<String, String> coreFields = new HashMap<String, String>();
 
         AssetData data = AssetDataUtils.getAssetData(c, cid, "metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template");
         String metatitle = data.getAttributeData("metatitle").getData().toString();
