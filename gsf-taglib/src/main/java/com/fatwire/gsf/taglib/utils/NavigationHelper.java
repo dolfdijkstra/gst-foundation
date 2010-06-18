@@ -86,7 +86,7 @@ public final class NavigationHelper
             AssetData pageAssetData = AssetDataUtils.getAssetData(pageAssetId, "linktext", "h1title", "template");
             linkText = AttributeDataUtils.getWithFallback(pageAssetData, "linktext", "h1title");
             String tname = pageAssetData.getAttributeData("template").getData().toString();
-            String wrapper = ics.GetProperty("com.fatwire.gst.foundation.url.wrapathassembler.dispatcher");
+            String wrapper = ics.GetProperty("com.fatwire.gst.foundation.url.wrapathassembler.dispatcher", "ServletRequest.properties", true);
             if(!Utilities.goodString(wrapper))
             {
                 wrapper = "GSF/Dispatcher";
