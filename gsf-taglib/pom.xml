@@ -1,80 +1,39 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
     http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.fatwire.gst.foundation</groupId>
+    <parent>
+        <groupId>com.fatwire.gst</groupId>
+        <artifactId>gst-parent</artifactId>
+        <version>1</version>
+    </parent>
+    <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-taglib</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>GST Site Foundation Taglibs</name>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <encoding>ISO-8859-1</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <!-- version>2.7</version -->
-                <configuration>
-                    <detectLinks>true</detectLinks>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.5</version>
-            </plugin>
-        </plugins>
-    </reporting>
+    <name>FatWire GST: Site Foundation Taglibs</name>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-taglib</url>
+    <inceptionYear>2010</inceptionYear>
+    <developers>
+        <developer>
+            <name>David Chesebro</name>
+        </developer>
+        <developer>
+            <name>Tony Field</name>
+        </developer>
+        <developer>
+            <name>Dolf Dijkstra</name>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-taglib</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-taglib</developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-taglib</url>
+    </scm>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>logkit</groupId>
-                    <artifactId>logkit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>avalon-framework</groupId>
-                    <artifactId>avalon-framework</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -93,55 +52,10 @@
             <version>2.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Repository for Maven</name>
-            <url>http://download.java.net/maven/2/</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>nl.fatwire.com</id>
-            <url>http://www.nl.fatwire.com/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>snapshot.nl.fatwire.com</id>
-            <url>http://www.nl.fatwire.com/snapshot-repo</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
-
     <distributionManagement>
         <site>
             <id>website</id>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-wra-dispatcher</url>
+            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-taglib</url>
         </site>
-        <!-- use the following if you're not using a snapshot version. -->
-        <repository>
-            <id>fatwire-repository</id>
-            <name>FatWire Repository</name>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/maven2</url>
-        </repository>
-        <!-- use the following if you ARE using a snapshot version. -->
-        <snapshotRepository>
-            <id>fatwire-repository</id>
-            <name>FatWire Repository</name>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/snapshot-repo</url>
-        </snapshotRepository>
     </distributionManagement>
 </project>
-
