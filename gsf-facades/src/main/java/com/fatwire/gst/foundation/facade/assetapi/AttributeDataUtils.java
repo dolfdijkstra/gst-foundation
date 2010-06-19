@@ -76,12 +76,12 @@ public final class AttributeDataUtils {
      */
     public static Collection<String> getAndSplitString(AttributeData attributeData, String delimRegex) {
         if (attributeData == null)
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         Object o = attributeData.getData();
-        if (o != null) {
+        if (o instanceof String) { //test for null and String
             String[] s = ((String) o).split(delimRegex);
             return Arrays.asList(s);
         } else
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
     }
 }
