@@ -144,7 +144,7 @@ public final class GetAttributeValues extends AbstractTagRunner {
 
         // create asset set
         SetAsset setAsset = new SetAsset();
-        final String assetSetName = "__AssetSet" + ics.genID(true);
+        final String assetSetName = "__AssetSet" + ics.genID(false);
         setAsset.setName(assetSetName);
         setAsset.setType(id.getType());
         setAsset.setId(Long.toString(id.getId()));
