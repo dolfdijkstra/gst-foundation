@@ -58,7 +58,7 @@ public class BaseController extends AbstractController {
         if (templatename == null) {
             throw new CSRuntimeException("No template found", 404);
         }
-        String site = id.getSite();// resolveSite(id);
+        String site = id.getSite();
         if (site == null) {
             throw new CSRuntimeException("Could not locate site for " + id, 404);
         }
@@ -119,13 +119,15 @@ public class BaseController extends AbstractController {
         final AssetIdWithSite id;
         if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
             id = resolveAssetFromUrl(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
-        } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid")) && goodString(ics.GetVar("site"))) {
+        } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
-            id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), ics.GetVar("site"));
+            // Look up site because we can't trust the wrapper's resarg.
+            String site = resolveSiteForWebReferenceableAsset(ics.GetVar("c"), ics.GetVar("cid"));
+            id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
         } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) { // (but not both)
             throw new CSRuntimeException("Missing required param virtual-webroot & url-path.", ftErrors.badparams);
         } else {
-            throw new CSRuntimeException("Missing required param c, cid and site.", ftErrors.badparams);
+            throw new CSRuntimeException("Missing required param c, cid.", ftErrors.badparams);
         }
         return id;
     }
@@ -154,6 +156,33 @@ public class BaseController extends AbstractController {
 
         return null;
     }
+
+    static final String ASSETPUBLICATION_SELECT = "SELECT p.name from Publication p, AssetPublication ap where ap.assettype = ? and ap.assetid = ? and ap.pubid=p.id";
+     static final String ASSETPUBLICATION_TABLE = "AssetPublication";
+     static final String PUBLICATION_TABLE = "Publication";
+
+     protected String resolveSiteForWebReferenceableAsset(String c, String cid)
+     {
+         final PreparedStmt stmt = new PreparedStmt(ASSETPUBLICATION_SELECT, Arrays.asList(ASSETPUBLICATION_TABLE, PUBLICATION_TABLE));
+         stmt.setElement(0, ASSETPUBLICATION_TABLE, "assettype");
+         stmt.setElement(1, ASSETPUBLICATION_TABLE, "assetid");
+         final StatementParam param = stmt.newParam();
+         param.setString(0, c);
+         param.setLong(1, Long.valueOf(cid));
+         String result = null;
+         for(Row pubid : SqlHelper.select(ics, stmt, param))
+         {
+             if(result != null)
+             {
+                 LOG.warn("Found asset " + c+":"+cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found");
+             }
+             else
+             {
+                 result = pubid.getString("name");
+             }
+         }
+         return result;
+     }
 
     // TODO: Finish this method
 
