@@ -107,8 +107,41 @@ public final class GetAttributeValues extends AbstractTagRunner {
         this.set("ORDERING", s);
     }
 
-    public static IList GetAttributeValues(ICS ics, AssetId id, String deptype, String locale, String attr,
+    /**
+     * 
+     * GetAttributeValues method has a constructor name and should not be used
+     * 
+     * @param ics
+     * @param id
+     * @param deptype
+     * @param locale
+     * @param attr
+     * @param attrType
+     * @param ordering
+     * @return
+     * @deprecated
+     * @see GetAttributeValues#getAttributeValues(ICS, AssetId, String, String,
+     *      String, String, String)
+     */
+    public static IList GetAttributeValues(final ICS ics, final AssetId id, final String deptype, final String locale,
+            final String attr, final String attrType, final String ordering) {
+        return getAttributeValues(ics, id, deptype, locale, attr, attrType, ordering);
+    }
+
+    /**
+     * 
+     * @param ics
+     * @param id
+     * @param deptype
+     * @param locale
+     * @param attr
+     * @param attrType
+     * @param ordering
+     * @return
+     */
+    public static IList getAttributeValues(ICS ics, AssetId id, String deptype, String locale, String attr,
             String attrType, String ordering) {
+
         // create asset set
         SetAsset setAsset = new SetAsset();
         final String assetSetName = "__AssetSet" + ics.genID(true);
