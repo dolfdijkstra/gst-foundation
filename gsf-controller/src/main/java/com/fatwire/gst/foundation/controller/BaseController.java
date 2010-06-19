@@ -62,6 +62,7 @@ public class BaseController extends AbstractController {
         if (site == null) {
             throw new CSRuntimeException("Could not locate site for " + id, 404);
         }
+        ics.SetVar("site",site);
         callTemplate(site, id, templatename);
     }
 
