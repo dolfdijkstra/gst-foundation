@@ -15,53 +15,51 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * Wrapper around ASSET.SET tag
+ * 
  * @author Mike Field
  * @since Jun 11, 2008
  */
-public final class AssetSet extends AbstractTagRunner
-{
+public final class AssetSet extends AbstractTagRunner {
     // Default Constructor
-    public AssetSet()
-    { super ("ASSET.SET"); }
+    public AssetSet() {
+        super("ASSET.SET");
+    }
 
     /**
      * Sets name to the value of <code>s</code>
+     * 
      * @param s The name of the asset instance
      */
-    public void setName(String s)
-    {
+    public void setName(String s) {
         // validate first
-        if (s == null || s.length() == 0)
-        {
-            throw new IllegalArgumentException("Invalid string for Name: "+s);
+        if (s == null || s.length() == 0) {
+            throw new IllegalArgumentException("Invalid string for Name: " + s);
         }
         this.set("NAME", s);
     }
 
     /**
-      * Sets name to the field to be set, to <code>s</code>
-      * @param s The name of the field to be set
-      */
-     public void setField(String s)
-     {
-         // validate first
-         if (s == null || s.length() == 0)
-         {
-             throw new IllegalArgumentException("Invalid string for Field: "+s);
-         }
-         this.set("FIELD", s);
-     }
+     * Sets name to the field to be set, to <code>s</code>
+     * 
+     * @param s The name of the field to be set
+     */
+    public void setField(String s) {
+        // validate first
+        if (s == null || s.length() == 0) {
+            throw new IllegalArgumentException("Invalid string for Field: " + s);
+        }
+        this.set("FIELD", s);
+    }
 
     /**
      * Sets the value of the field to be set, to <code>s</code>
+     * 
      * @param s The name of the asset subtype
      */
-    public void setValue(String s)
-    {
+    public void setValue(String s) {
         // validate first
-        if (s == null || s.length() == 0)
-        {
-            throw new IllegalArgumentException("Invalid string for Value: "+s);
+        if (s == null || s.length() == 0) {
+            throw new IllegalArgumentException("Invalid string for Value: " + s);
         }
         this.set("VALUE", s);
     }

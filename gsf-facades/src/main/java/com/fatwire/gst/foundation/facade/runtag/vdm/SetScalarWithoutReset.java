@@ -16,58 +16,49 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.facade.runtag.TagRunner;
 
 /**
- * Sets a scalar attribute value without resetting it if
- * it has already been set to the same value.
- *
+ * Sets a scalar attribute value without resetting it if it has already been set
+ * to the same value.
+ * 
  * @author Tony Field
  * @since Sep 29, 2008
  */
-public class SetScalarWithoutReset implements TagRunner
-{
+public class SetScalarWithoutReset implements TagRunner {
 
     private final String attribute;
 
     private final String value;
 
-    public SetScalarWithoutReset(final String attribute, final String value)
-    {
+    public SetScalarWithoutReset(final String attribute, final String value) {
         super();
         this.attribute = attribute;
         this.value = value;
     }
 
-    public String execute(final ICS ics)
-    {
+    public String execute(final ICS ics) {
         final String varname = "get_scalar_output_value" + ics.genID(true);
-        try
-        {
+        try {
             ics.RemoveVar(varname);
             GetScalar getScalar = new GetScalar(attribute, varname);
             String getResult = getScalar.execute(ics);
             String attrVal = ics.GetVar(varname);
-            if(attrVal != null && attrVal.equals(value) || attrVal == null && value == null)
-            {
+            if (attrVal != null && attrVal.equals(value) || attrVal == null && value == null) {
                 // nothing to do. this saves a lot of processing
                 return getResult;
             }
 
             SetScalar setScalar = new SetScalar(attribute, value);
             return setScalar.execute(ics);
-        }
-        finally
-        {
-            //cleaning up
+        } finally {
+            // cleaning up
             ics.RemoveVar(varname);
         }
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public String getAttribute()
-    {
+    public String getAttribute() {
         return attribute;
     }
 }

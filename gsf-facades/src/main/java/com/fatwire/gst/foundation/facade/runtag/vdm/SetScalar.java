@@ -16,55 +16,59 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <VDM.SETSCALAR
- * ATTRIBUTE="attribute"
- * VALUE="value"/>
- *
+ * <VDM.SETSCALAR ATTRIBUTE="attribute" VALUE="value"/>
+ * 
  * @author Tony Field
  * @since Sep 29, 2008
  */
-public class SetScalar extends AbstractTagRunner
-{
+public class SetScalar extends AbstractTagRunner {
 
-    public SetScalar(String attribute, String value)
-    {
+    public SetScalar(String attribute, String value) {
         this();
         setAttribute(attribute);
         setValue(value);
     }
 
-    public SetScalar() { super("VDM.SETSCALAR"); }
+    public SetScalar() {
+        super("VDM.SETSCALAR");
+    }
 
-    public void setAttribute(String attr) { set("ATTRIBUTE", attr); }
+    public void setAttribute(String attr) {
+        set("ATTRIBUTE", attr);
+    }
 
-    public void setValue(String val) { set("VALUE", val); }
+    public void setValue(String val) {
+        set("VALUE", val);
+    }
 
-    public String execute(ICS ics)
-    {
+    public String execute(ICS ics) {
         String s = super.execute(ics);
 
         // Update from Tony Field September 19, 2009
-        // for some oddball reason, setscalar can fail with a database error (unique constraint violation)
-        // and the tag does not report errno.  However it does return a status code in a variable called
-        // cshttp.  We can look into this variable to get the code, parse it, and extract errno from it.
+        // for some oddball reason, setscalar can fail with a database error
+        // (unique constraint violation)
+        // and the tag does not report errno. However it does return a status
+        // code in a variable called
+        // cshttp. We can look into this variable to get the code, parse it, and
+        // extract errno from it.
         // Wow this is nasty...
 
         String statusCode = ics.GetVar("cshttp");
         ftStatusCode sc = new ftStatusCode();
-        if(sc.setFromData(statusCode))
-        {
+        if (sc.setFromData(statusCode)) {
             int errno = sc.getErrorID();
-            switch(errno)
-            {
+            switch (errno) {
                 case ftErrors.success:
                     return s;
-                case ftErrors.dberror:
-                {
-                    throw new CSRuntimeException("SetScalar failed with a database error.  It was returned in a ftStatusCode.  StatusCode:" + statusCode, -13704);
+                case ftErrors.dberror: {
+                    throw new CSRuntimeException(
+                            "SetScalar failed with a database error.  It was returned in a ftStatusCode.  StatusCode:"
+                                    + statusCode, -13704);
                 }
-                default:
-                {
-                    throw new CSRuntimeException("SetScalar failed with an unexpected error.  It was returned in a ftStatusCode.  StatusCode:" + statusCode, -13704);
+                default: {
+                    throw new CSRuntimeException(
+                            "SetScalar failed with an unexpected error.  It was returned in a ftStatusCode.  StatusCode:"
+                                    + statusCode, -13704);
                 }
             }
         }

@@ -1,52 +1,63 @@
 package com.fatwire.gst.foundation.facade.runtag.assetset;
 
-import COM.FutureTense.Interfaces.ICS;
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
-import com.fatwire.gst.foundation.facade.runtag.listobject.*;
-
 import java.util.List;
 
+import COM.FutureTense.Interfaces.ICS;
+
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
+import com.fatwire.gst.foundation.facade.runtag.listobject.AddRow;
+import com.fatwire.gst.foundation.facade.runtag.listobject.Create;
+import com.fatwire.gst.foundation.facade.runtag.listobject.ToList;
+
 /**
- * <assetset:getmultiplevalues name="myassetset" prefix="ValueList" list="listout" immediateonly="false" byasset="true"/>
- *
+ * <assetset:getmultiplevalues name="myassetset" prefix="ValueList"
+ * list="listout" immediateonly="false" byasset="true"/>
+ * 
  * @author Tony Field
  * @since Oct 24, 2008
  */
-public final class GetMultipleValues extends AbstractTagRunner
-{
-    public GetMultipleValues() { super("ASSETSET.GETMULTIPLEVALUES"); }
+public final class GetMultipleValues extends AbstractTagRunner {
+    public GetMultipleValues() {
+        super("ASSETSET.GETMULTIPLEVALUES");
+    }
 
-    public void setName(String name) { set("NAME", name); }
+    public void setName(String name) {
+        set("NAME", name);
+    }
 
-    public void setPrefix(String prefix) { set("PREFIX", prefix); }
+    public void setPrefix(String prefix) {
+        set("PREFIX", prefix);
+    }
 
-    public void setImmediateOnly(boolean b) { set("IMMEDIATEONLY", b ? "true" : "false");}
+    public void setImmediateOnly(boolean b) {
+        set("IMMEDIATEONLY", b ? "true" : "false");
+    }
 
-    public void setByAsset(boolean b) { set("BYASSET", b ? "true" : "false"); }
+    public void setByAsset(boolean b) {
+        set("BYASSET", b ? "true" : "false");
+    }
 
-    public void setList(String inputSortListName) { set("LIST", inputSortListName); }
+    public void setList(String inputSortListName) {
+        set("LIST", inputSortListName);
+    }
 
-
-    public static void getMultipleValues(ICS ics, AssetId id, String prefix, String attrType, List<String> columns)
-    {
+    public static void getMultipleValues(ICS ics, AssetId id, String prefix, String attrType, List<String> columns) {
         getMultipleValues(ics, id, null, null, false, false, prefix, attrType, columns);
     }
 
-    public static void getMultipleValues(ICS ics, AssetId id, String deptype, String locale, boolean byAsset, boolean immediateOnly, String prefix, String attrType, List<String> columns)
-    {
+    public static void getMultipleValues(ICS ics, AssetId id, String deptype, String locale, boolean byAsset,
+            boolean immediateOnly, String prefix, String attrType, List<String> columns) {
         // create asset set
         SetAsset setAsset = new SetAsset();
         final String assetSetName = "__AssetSet" + ics.genID(true);
         setAsset.setName(assetSetName);
         setAsset.setType(id.getType());
         setAsset.setId(Long.toString(id.getId()));
-        if(deptype != null)
-        {
+        if (deptype != null) {
             setAsset.setDeptype(deptype);
         }
-        if(locale != null)
-        {
+        if (locale != null) {
             setAsset.setLocale(locale);
         }
         setAsset.execute(ics);
@@ -59,8 +70,7 @@ public final class GetMultipleValues extends AbstractTagRunner
         createSortList.execute(ics);
 
         // add rows to sort list
-        for(String col : columns)
-        {
+        for (String col : columns) {
             AddRow addRow = new AddRow();
             addRow.setName(sortListObjectName);
             addRow.setColumnValue("attributetypename", attrType);

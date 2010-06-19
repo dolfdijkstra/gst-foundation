@@ -12,49 +12,46 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * Wrapper around the VDM.GETSCALAR xml tag
+ * 
  * @author Tony Field and Mike Field
  * @since June 9, 2008
  */
-public final class GetScalar extends AbstractTagRunner
-{
-    public GetScalar(String attribute, String varname)
-    {
+public final class GetScalar extends AbstractTagRunner {
+    public GetScalar(String attribute, String varname) {
         this();
         setAttribute(attribute);
         setVarname(varname);
     }
+
     // Default Constructor
-    public GetScalar()
-    { super ("VDM.GETSCALAR"); }
+    public GetScalar() {
+        super("VDM.GETSCALAR");
+    }
 
     /**
      * Sets attribute to the value of <code>s</code>
+     * 
      * @param s The name of the attribute
      */
-    public void setAttribute(String s)
-    {
+    public void setAttribute(String s) {
         // validate first
-        if (s == null || s.length() == 0)
-        {
-            throw new IllegalArgumentException("Invalid attribute string: "+s);
+        if (s == null || s.length() == 0) {
+            throw new IllegalArgumentException("Invalid attribute string: " + s);
         }
         this.set("ATTRIBUTE", s);
     }
 
     /**
      * Sets the varname to the value of <code>s</code>
+     * 
      * @param s The name of the varname
      */
-    public void setVarname(String s)
-    {
+    public void setVarname(String s) {
         // validate first
-        if (s == null || s.length() == 0)
-        {
-            throw new IllegalArgumentException("Invalid varname string: "+s);
+        if (s == null || s.length() == 0) {
+            throw new IllegalArgumentException("Invalid varname string: " + s);
         }
         this.set("VARNAME", s);
     }
-
-
 
 }

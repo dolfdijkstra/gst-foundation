@@ -11,17 +11,21 @@ package com.fatwire.gst.foundation.facade.runtag.siteplan;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <siteplan:load
-      name="name"
-      nodeid="nodeid"/>
- *
+ * <siteplan:load name="name" nodeid="nodeid"/>
+ * 
  * @author Tony Field
  * @since Sep 28, 2008
  */
-public class SitePlanLoad extends AbstractTagRunner
-{
-    public SitePlanLoad() { super("SITEPLAN.LOAD"); }
+public class SitePlanLoad extends AbstractTagRunner {
+    public SitePlanLoad() {
+        super("SITEPLAN.LOAD");
+    }
 
-    public void setName(String name) { set("NAME", name); }
-    public void setNodeid(String nodeid) { set("NODEID", nodeid); }
+    public void setName(String name) {
+        set("NAME", name);
+    }
+
+    public void setNodeid(String nodeid) {
+        set("NODEID", nodeid);
+    }
 }

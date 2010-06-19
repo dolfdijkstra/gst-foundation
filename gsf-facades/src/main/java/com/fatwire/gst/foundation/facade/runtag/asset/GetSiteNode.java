@@ -11,18 +11,21 @@ package com.fatwire.gst.foundation.facade.runtag.asset;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- *  <asset:getsitenode
- *    name="pageAssetName"
- *    output="nodeIDVariableName"/>
- *
+ * <asset:getsitenode name="pageAssetName" output="nodeIDVariableName"/>
+ * 
  * @author Tony Field
  * @since Sep 28, 2008
  */
-public class GetSiteNode extends AbstractTagRunner
-{
-    public GetSiteNode() { super("ASSET.GETSITENODE"); }
+public class GetSiteNode extends AbstractTagRunner {
+    public GetSiteNode() {
+        super("ASSET.GETSITENODE");
+    }
 
-    public void setName(String name) {set("NAME", name);}
+    public void setName(String name) {
+        set("NAME", name);
+    }
 
-    public void setOutput(String output) {set("OUTPUT", output);}
+    public void setOutput(String output) {
+        set("OUTPUT", output);
+    }
 }

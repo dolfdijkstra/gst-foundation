@@ -11,21 +11,27 @@ package com.fatwire.gst.foundation.facade.runtag.vdm;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <VDM.SETALIAS
-      KEY="keyvalue"
-      VALUE="aliasvalue"/>
- *
+ * <VDM.SETALIAS KEY="keyvalue" VALUE="aliasvalue"/>
+ * 
  * @author Tony Field
  * @since Sep 29, 2008
  */
-public class SetAlias extends AbstractTagRunner
-{
-    public SetAlias() { super("VDM.SETALIAS"); }
+public class SetAlias extends AbstractTagRunner {
+    public SetAlias() {
+        super("VDM.SETALIAS");
+    }
+
     public SetAlias(String key, String value) {
         this();
         setKey(key);
         setValue(value);
     }
-    public void setKey(String key) { set("KEY", key); }
-    public void setValue(String value) { set("VALUE", value);}
+
+    public void setKey(String key) {
+        set("KEY", key);
+    }
+
+    public void setValue(String value) {
+        set("VALUE", value);
+    }
 }

@@ -14,28 +14,30 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <VDM.GETALIAS
- * KEY="keyvalue"
- * VARNAME="varname"/>
- *
+ * <VDM.GETALIAS KEY="keyvalue" VARNAME="varname"/>
+ * 
  * @author Tony Field
  * @since Sep 29, 2008
  */
-public class GetAlias extends AbstractTagRunner
-{
+public class GetAlias extends AbstractTagRunner {
 
     protected static final Log log = LogFactory.getLog(GetAlias.class);
 
-    public GetAlias() { super("VDM.GETALIAS"); }
+    public GetAlias() {
+        super("VDM.GETALIAS");
+    }
 
-    public GetAlias(String key, String varname)
-    {
+    public GetAlias(String key, String varname) {
         this();
         setKey(key);
         setVarname(varname);
     }
 
-    public void setKey(String key) { set("KEY", key); }
+    public void setKey(String key) {
+        set("KEY", key);
+    }
 
-    public void setVarname(String varname) { set("VARNAME", varname); }
+    public void setVarname(String varname) {
+        set("VARNAME", varname);
+    }
 }

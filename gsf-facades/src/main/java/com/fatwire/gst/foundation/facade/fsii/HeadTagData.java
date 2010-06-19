@@ -10,43 +10,36 @@ package com.fatwire.gst.foundation.facade.fsii;
 
 /**
  * Value object to hold data that typically is found in the HTML HEAD tag.
- *
+ * 
  * @author Tony Field
  * @since Nov 17, 2009
  */
-public final class HeadTagData
-{
+public final class HeadTagData {
     private String title;
     private String keywords;
     private String description;
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getKeywords()
-    {
+    public String getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(String keywords)
-    {
+    public void setKeywords(String keywords) {
         this.keywords = keywords;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 }

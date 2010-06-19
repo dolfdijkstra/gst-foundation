@@ -6,31 +6,25 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * Wraps the <RENDER.LOGDEP> xml tag.
- *
+ * 
  * @author Tony Field
  * @since 10-Jun-2008
  */
-public final class LogDep extends AbstractTagRunner
-{
-    public LogDep()
-    {
+public final class LogDep extends AbstractTagRunner {
+    public LogDep() {
         super("RENDER.LOGDEP");
     }
 
-    public static enum DependencyType
-    {
+    public static enum DependencyType {
         exact, exists, greater, none
     }
 
-    public void setAsset(String s)
-    {
+    public void setAsset(String s) {
         set("ASSET", s);
     }
 
-    public void setDeptype(DependencyType deptype)
-    {
-        switch(deptype)
-        {
+    public void setDeptype(DependencyType deptype) {
+        switch (deptype) {
             case exact:
                 set("DEPTYPE", "exact");
                 break;
@@ -46,26 +40,22 @@ public final class LogDep extends AbstractTagRunner
         }
     }
 
-    public void setC(String s)
-    {
+    public void setC(String s) {
         set("c", s);
     }
 
-    public void setCid(String s)
-    {
+    public void setCid(String s) {
         set("cid", s);
     }
 
-    public static void logDep(ICS ics, String c, String cid)
-    {
+    public static void logDep(ICS ics, String c, String cid) {
         LogDep ld = new LogDep();
         ld.setC(c);
         ld.setCid(cid);
         ld.execute(ics);
     }
 
-    public static void logDep(ICS ics, AssetId id)
-    {
+    public static void logDep(ICS ics, AssetId id) {
         logDep(ics, id.getType(), Long.toString(id.getId()));
     }
 }

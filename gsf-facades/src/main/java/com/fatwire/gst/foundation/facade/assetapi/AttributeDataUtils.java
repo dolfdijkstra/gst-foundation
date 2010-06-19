@@ -78,7 +78,7 @@ public final class AttributeDataUtils {
         if (attributeData == null)
             return Collections.emptyList();
         Object o = attributeData.getData();
-        if (o instanceof String) { //test for null and String
+        if (o instanceof String) { // test for null and String
             String[] s = ((String) o).split(delimRegex);
             return Arrays.asList(s);
         } else

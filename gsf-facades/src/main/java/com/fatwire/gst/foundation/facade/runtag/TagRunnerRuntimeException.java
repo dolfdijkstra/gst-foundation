@@ -7,11 +7,10 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 
 /**
  * Exception that is thrown when a TagRunner is invoked and the
- *
+ * 
  * @author Dolf.Dijkstra
  */
-public class TagRunnerRuntimeException extends CSRuntimeException
-{
+public class TagRunnerRuntimeException extends CSRuntimeException {
     private final String pageName;
     private final String elementName;
     private final FTValList arguments;
@@ -21,13 +20,12 @@ public class TagRunnerRuntimeException extends CSRuntimeException
      * @param msg
      * @param errno
      */
-    public TagRunnerRuntimeException(String msg, int errno, final FTValList arguments)
-    {
+    public TagRunnerRuntimeException(String msg, int errno, final FTValList arguments) {
         this(msg, errno, arguments, null, null, null);
     }
 
-    public TagRunnerRuntimeException(String msg, int errno, final FTValList arguments, ftErrors complexError, String pagename, String elementname)
-    {
+    public TagRunnerRuntimeException(String msg, int errno, final FTValList arguments, ftErrors complexError,
+            String pagename, String elementname) {
         super(msg, complexError, errno);
         this.arguments = arguments;
         this.pageName = pagename;
@@ -38,8 +36,7 @@ public class TagRunnerRuntimeException extends CSRuntimeException
      * @return the pagename that generated this exception or null if this was
      *         not provided
      */
-    public String getPageName()
-    {
+    public String getPageName() {
         return pageName;
     }
 
@@ -47,19 +44,16 @@ public class TagRunnerRuntimeException extends CSRuntimeException
      * @return the name of the element that generated this exception or null if
      *         this was not provided
      */
-    public String getElementName()
-    {
+    public String getElementName() {
         return elementName;
     }
 
-    public FTValList getArguments()
-    {
+    public FTValList getArguments() {
         return arguments;
     }
 
     @Override
-    public String getMessage()
-    {
+    public String getMessage() {
         StringBuilder builder = new StringBuilder();
         builder.append(super.getMessage());
         builder.append("|");
@@ -68,20 +62,17 @@ public class TagRunnerRuntimeException extends CSRuntimeException
         builder.append(getPageName());
         builder.append("|");
         builder.append(getElementName());
-        if(getComplexError() != null)
-        {
+        if (getComplexError() != null) {
             builder.append("|");
             builder.append("reason: ").append(getComplexError().getReason());
             builder.append("|message: ");
             builder.append(getComplexError().getMessage());
 
             int details = getComplexError().details();
-            if(details > 0)
-            {
+            if (details > 0) {
                 builder.append("|");
             }
-            for(int i = 0; i < details; i++)
-            {
+            for (int i = 0; i < details; i++) {
                 builder.append(" ");
                 builder.append(getComplexError().detail(i));
             }

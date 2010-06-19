@@ -15,39 +15,39 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * Wrapper around the ASSET.SAVE tag
+ * 
  * @author Mike Field
  * @since Jun 11, 2008
  */
-public final class AssetSave extends AbstractTagRunner
-{
+public final class AssetSave extends AbstractTagRunner {
     // Default Constructor
-    public AssetSave()
-    { super ("ASSET.SAVE"); }
+    public AssetSave() {
+        super("ASSET.SAVE");
+    }
 
     /**
      * Sets name to the value of <code>s</code>
+     * 
      * @param s The name of the asset instance
      */
-    public void setName(String s)
-    {
+    public void setName(String s) {
         // validate first
-        if (s == null || s.length() == 0)
-        {
-            throw new IllegalArgumentException("Invalid string for Name: "+s);
+        if (s == null || s.length() == 0) {
+            throw new IllegalArgumentException("Invalid string for Name: " + s);
         }
         this.set("NAME", s);
     }
 
     /**
      * Sets the value of the flush field to <code>s</code>
+     * 
      * @param s The name of the asset subtype
      */
-    public void setFlush(String s)
-    {
+    public void setFlush(String s) {
         // validate first
-        if (s == null || s.length() == 0 || !s.equals("false") && !s.equals("true"))
-        {
-            throw new IllegalArgumentException("Invalid string for Flush: "+s+". Accepted values are 'true' and 'false'.");
+        if (s == null || s.length() == 0 || !s.equals("false") && !s.equals("true")) {
+            throw new IllegalArgumentException("Invalid string for Flush: " + s
+                    + ". Accepted values are 'true' and 'false'.");
         }
         this.set("FLUSH", s);
     }
