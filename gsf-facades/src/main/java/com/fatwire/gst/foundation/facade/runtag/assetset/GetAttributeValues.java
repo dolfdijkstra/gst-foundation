@@ -16,11 +16,13 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * Wrapper around the ASSETSET.GETATTRIBUTEVALUES xml tag
- * <ASSETSET.GETATTRIBUTEVALUES NAME="assetsetname" ATTRIBUTE="attribname"
+ * <pre>
+ * &lt;ASSETSET.GETATTRIBUTEVALUES NAME="assetsetname" ATTRIBUTE="attribname"
  * [TYPENAME="assettypename"] LISTVARNAME="varname"
- * [ORDERING="ascending|descending"]/>
- * 
+ * [ORDERING="ascending|descending"]/&gt;
+ * </pre>
  * @author Mike Field
+ * @author Dolf Dijkstra
  * @since July 15, 2008
  */
 public final class GetAttributeValues extends AbstractTagRunner {
