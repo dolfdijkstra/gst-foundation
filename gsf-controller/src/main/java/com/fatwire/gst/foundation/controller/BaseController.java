@@ -62,7 +62,7 @@ public class BaseController extends AbstractController {
         if (site == null) {
             throw new CSRuntimeException("Could not locate site for " + id, 404);
         }
-        ics.SetVar("site",site);
+        ics.SetVar("site", site);
         callTemplate(site, id, templatename);
     }
 
@@ -123,31 +123,30 @@ public class BaseController extends AbstractController {
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
-            String site = resolveSiteForWebReferenceableAsset(ics.GetVar("c"), ics.GetVar("cid"));
+            String site = resolveSiteForWRA(ics.GetVar("c"), ics.GetVar("cid"));
             id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
-        } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) { // (but not both)
-            throw new CSRuntimeException("Missing required param virtual-webroot & url-path.", ftErrors.badparams);
+        } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
+            // (but not both)
+            throw new CSRuntimeException("Missing required param virtual-webroot & url-path.", ftErrors.pagenotfound);
         } else {
-            throw new CSRuntimeException("Missing required param c, cid.", ftErrors.badparams);
+            throw new CSRuntimeException("Missing required param c, cid.", ftErrors.pagenotfound);
         }
         return id;
     }
 
-    // todo: add site to this table
-    static final String REGISTRY_SELECT = "SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate";
+    static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList("GSTUrlRegistry"));
 
-    static final String REGISTRY_TABLE = "GSTUrlRegistry";
+    static {
+        REGISTRY_SELECT.setElement(0, "GSTUrlRegistry", "opt_vwebroot");
+        REGISTRY_SELECT.setElement(1, "GSTUrlRegistry", "opt_url_path");
+    }
 
     protected AssetIdWithSite resolveAssetFromUrl(final String virtual_webroot, final String url_path) {
-        final PreparedStmt stmt = new PreparedStmt(REGISTRY_SELECT, Collections.singletonList(REGISTRY_TABLE));
-        stmt.setElement(0, REGISTRY_TABLE, "opt_vwebroot");
-        stmt.setElement(1, REGISTRY_TABLE, "opt_url_path");
-        final StatementParam param = stmt.newParam();
+        final StatementParam param = REGISTRY_SELECT.newParam();
         param.setString(0, virtual_webroot);
         param.setString(1, url_path);
         final Date now = new Date();
-        for (final Row asset : SqlHelper.select(ics, stmt, param)) {
-
+        for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
             final String assettype = asset.getString("assettype");
             final String assetid = asset.getString("assetid");
             if (inRange(asset, now)) {
@@ -158,32 +157,31 @@ public class BaseController extends AbstractController {
         return null;
     }
 
-    static final String ASSETPUBLICATION_SELECT = "SELECT p.name from Publication p, AssetPublication ap where ap.assettype = ? and ap.assetid = ? and ap.pubid=p.id";
-     static final String ASSETPUBLICATION_TABLE = "AssetPublication";
-     static final String PUBLICATION_TABLE = "Publication";
 
-     protected String resolveSiteForWebReferenceableAsset(String c, String cid)
-     {
-         final PreparedStmt stmt = new PreparedStmt(ASSETPUBLICATION_SELECT, Arrays.asList(ASSETPUBLICATION_TABLE, PUBLICATION_TABLE));
-         stmt.setElement(0, ASSETPUBLICATION_TABLE, "assettype");
-         stmt.setElement(1, ASSETPUBLICATION_TABLE, "assetid");
-         final StatementParam param = stmt.newParam();
-         param.setString(0, c);
-         param.setLong(1, Long.valueOf(cid));
-         String result = null;
-         for(Row pubid : SqlHelper.select(ics, stmt, param))
-         {
-             if(result != null)
-             {
-                 LOG.warn("Found asset " + c+":"+cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found");
-             }
-             else
-             {
-                 result = pubid.getString("name");
-             }
-         }
-         return result;
-     }
+    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
+    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Arrays.asList("Publication, AssetPublication"));
+
+    static {
+        AP_STMT.setElement(0, "AssetPublication", "assettype");
+        AP_STMT.setElement(1, "AssetPublication", "assetid");
+    }
+
+    protected String resolveSiteForWRA(String c, String cid) {
+        final StatementParam param = AP_STMT.newParam();
+        param.setString(0, c);
+        param.setLong(1, Long.valueOf(cid));
+        String result = null;
+        // todo: this query fails with a strange error
+        //        for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
+        for (Row pubid : SqlHelper.select(ics, "AssetPublication,Publication", "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype =  '" + c + "'AND ap.assetid =  " + cid + "AND ap.pubid=p.id")) {
+            if (result != null) {
+                LOG.warn("Found asset " + c + ":" + cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found");
+            } else {
+                result = pubid.getString("name");
+            }
+        }
+        return result;
+    }
 
     // TODO: Finish this method
 
