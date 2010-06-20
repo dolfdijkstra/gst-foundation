@@ -52,15 +52,15 @@ public class BaseController extends AbstractController {
 
         final AssetIdWithSite id = resolveAssetId();
         if (id == null) {
-            throw new CSRuntimeException("No asset found", 404);
+            throw new CSRuntimeException("No asset found", ftErrors.pagenotfound);
         }
         final String templatename = lookupTemplateForAsset(id);
         if (templatename == null) {
-            throw new CSRuntimeException("No template found", 404);
+            throw new CSRuntimeException("No template found", ftErrors.pagenotfound);
         }
         String site = id.getSite();
         if (site == null) {
-            throw new CSRuntimeException("Could not locate site for " + id, 404);
+            throw new CSRuntimeException("Could not locate site for " + id, ftErrors.pagenotfound);
         }
         ics.SetVar("site", site);
         callTemplate(site, id, templatename);
@@ -101,12 +101,15 @@ public class BaseController extends AbstractController {
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
         switch (e.getErrno()) {
+            case 400:
             case ftErrors.badparams:
                 sendError(400, e);
                 break;
+            case 404:
             case ftErrors.pagenotfound:
                 sendError(404, e);
                 break;
+            case 403:
             case ftErrors.noprivs:
                 sendError(403, e);
                 break;
