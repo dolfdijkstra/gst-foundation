@@ -54,16 +54,20 @@ public class BaseController extends AbstractController {
         if (id == null) {
             throw new CSRuntimeException("No asset found", ftErrors.pagenotfound);
         }
+        if (id.getSite() == null) {
+            throw new CSRuntimeException("Could not locate site for " + id, ftErrors.pagenotfound);
+        }
+        ics.SetVar("site", id.getSite()); // must be set into variable pool
+        LOG.trace("BaseController found a valid asset and site: " + id);
+
         final String templatename = lookupTemplateForAsset(id);
         if (templatename == null) {
             throw new CSRuntimeException("No template found", ftErrors.pagenotfound);
         }
-        String site = id.getSite();
-        if (site == null) {
-            throw new CSRuntimeException("Could not locate site for " + id, ftErrors.pagenotfound);
-        }
-        ics.SetVar("site", site);
-        callTemplate(site, id, templatename);
+        LOG.trace("BaseController found a valid template:" + templatename);
+
+        callTemplate(id.getSite(), id, templatename);
+        LOG.trace("BaseController execution complete");
     }
 
     @Override
@@ -237,7 +241,10 @@ public class BaseController extends AbstractController {
 
         // typeless or not...
         String target = tname.startsWith("/") ? site + "/" + tname : site + "/" + id.getType() + "/" + tname;
-        ct.setStyle(getCallTemplateCallStyle(target));
+        Style style = getCallTemplateCallStyle(target);
+        if (LOG.isTraceEnabled())
+            LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
+        ct.setStyle(style);
 
         final String variant = ics.GetVar("variant");
         if (variant != null && variant.length() > 0) {
@@ -250,12 +257,13 @@ public class BaseController extends AbstractController {
 
         final Enumeration<String> vars = ics.GetVars();
         while (vars.hasMoreElements()) {
-            final String varnane = vars.nextElement();
-            if (!CALLTEMPLATE_EXCLUDE_VARS.contains(varnane)) {
+            final String varname = vars.nextElement();
+            if (!CALLTEMPLATE_EXCLUDE_VARS.contains(varname)) {
                 // page criteria is automatically validated by the CallTemplate tag,
                 // but it is a bad idea to send params through if they aren't page criteria.
                 // todo: consider validating here. Validation is duplicated but may be useful
-                ct.setArgument(varnane, ics.GetVar(varnane));
+                ct.setArgument(varname, ics.GetVar(varname));
+                if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + varname + "=" + ics.GetVar(varname));
             }
         }
 
