@@ -40,7 +40,7 @@ import static com.fatwire.cs.core.db.Util.parseJdbcDate;
  * This controller should be called from an outer XML element via the
  * <tt>CALLJAVA</tt> tag: &lt;CALLJAVA
  * CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
- *
+ * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -100,7 +100,7 @@ public class BaseController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     *
+     * 
      * @param e exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
@@ -141,7 +141,9 @@ public class BaseController extends AbstractController {
         return id;
     }
 
-    static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList("GSTUrlRegistry"));
+    static final PreparedStmt REGISTRY_SELECT = new PreparedStmt(
+            "SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate",
+            Collections.singletonList("GSTUrlRegistry"));
 
     static {
         REGISTRY_SELECT.setElement(0, "GSTUrlRegistry", "opt_vwebroot");
@@ -164,9 +166,10 @@ public class BaseController extends AbstractController {
         return null;
     }
 
-
-    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
-    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Arrays.asList("Publication, AssetPublication"));
+    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
+            + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
+    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Arrays
+            .asList("AssetPublication,Publication"));
 
     static {
         AP_STMT.setElement(0, "AssetPublication", "assettype");
@@ -176,13 +179,17 @@ public class BaseController extends AbstractController {
     protected String resolveSiteForWRA(String c, String cid) {
         final StatementParam param = AP_STMT.newParam();
         param.setString(0, c);
-        param.setLong(1, Long.valueOf(cid));
+        param.setLong(1, Long.parseLong(cid));
         String result = null;
-        // todo: this query fails with a strange error
-        //        for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
-        for (Row pubid : SqlHelper.select(ics, "AssetPublication,Publication", "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype =  '" + c + "'AND ap.assetid =  " + cid + "AND ap.pubid=p.id")) {
+        for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
             if (result != null) {
-                LOG.warn("Found asset " + c + ":" + cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found");
+                LOG
+                        .warn("Found asset "
+                                + c
+                                + ":"
+                                + cid
+                                + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: "
+                                + result);
             } else {
                 result = pubid.getString("name");
             }
@@ -193,7 +200,8 @@ public class BaseController extends AbstractController {
     // TODO: Finish this method
 
     protected boolean inRange(final Row asset, final Date now) {
-        final Date startdate = asset.getString("startdate") != null ? parseJdbcDate(asset.getString("startdate")) : null;
+        final Date startdate = asset.getString("startdate") != null ? parseJdbcDate(asset.getString("startdate"))
+                : null;
         final Date enddate = asset.getString("enddate") != null ? parseJdbcDate(asset.getString("enddate")) : null;
 
         if (startdate != null || enddate != null) {
@@ -226,7 +234,9 @@ public class BaseController extends AbstractController {
         return null;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
+            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
+            "url-path");
 
     @SuppressWarnings("unchecked")
     protected void callTemplate(final String site, final AssetId id, final String tname) {
@@ -259,11 +269,15 @@ public class BaseController extends AbstractController {
         while (vars.hasMoreElements()) {
             final String varname = vars.nextElement();
             if (!CALLTEMPLATE_EXCLUDE_VARS.contains(varname)) {
-                // page criteria is automatically validated by the CallTemplate tag,
-                // but it is a bad idea to send params through if they aren't page criteria.
-                // todo: consider validating here. Validation is duplicated but may be useful
+                // page criteria is automatically validated by the CallTemplate
+                // tag,
+                // but it is a bad idea to send params through if they aren't
+                // page criteria.
+                // todo: consider validating here. Validation is duplicated but
+                // may be useful
                 ct.setArgument(varname, ics.GetVar(varname));
-                if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + varname + "=" + ics.GetVar(varname));
+                if (LOG.isTraceEnabled())
+                    LOG.trace("CallTemplate param added: " + varname + "=" + ics.GetVar(varname));
             }
         }
 
@@ -273,7 +287,8 @@ public class BaseController extends AbstractController {
     protected Style getCallTemplateCallStyle(String target) {
         if (ics.isCacheable(ics.GetVar(ftMessage.PageName))) {
             // call as element when current is caching.
-            // note that it may be useful to set this to "embedded" in some cases.
+            // note that it may be useful to set this to "embedded" in some
+            // cases.
             // override it in that situation
             return Style.element;
         } else if (ics.isCacheable(target)) {
