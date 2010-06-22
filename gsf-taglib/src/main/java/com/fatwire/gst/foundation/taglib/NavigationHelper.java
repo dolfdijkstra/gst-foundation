@@ -87,6 +87,7 @@ public final class NavigationHelper {
      * @param pageid id of the page assest
      * @param level  starting level number when traversing the site plan tree
      * @return Map<String,Object> of the site plan tree
+     * TODO: handle missing unnamed association gracefully (rather than throwing an exception)
      */
     private Map<String, Object> getSitePlanAsMap(String pageid, int level) {
         AssetData pageData = AssetDataUtils.getAssetData("Page", pageid, "subtype");
