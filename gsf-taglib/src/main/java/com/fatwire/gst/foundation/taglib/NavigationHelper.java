@@ -38,7 +38,7 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
  * @author David Chesebro
  * @since Jun 17, 2010
  */
-public final class NavigationHelper {
+public class NavigationHelper {
     private final ICS ics;
     private final WRAUtils wraUtils;
     private final Log LOG = LogFactory.getLog(NavigationHelper.class);
