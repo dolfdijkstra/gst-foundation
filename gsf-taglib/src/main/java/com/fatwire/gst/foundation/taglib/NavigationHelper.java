@@ -39,10 +39,23 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
  * @since Jun 17, 2010
  */
 public class NavigationHelper {
-    private final ICS ics;
-    private final WRAUtils wraUtils;
-    private final Log LOG = LogFactory.getLog(NavigationHelper.class);
-    private final Date effectiveDate;
+    /**
+     * ICS context
+     */
+    protected final ICS ics;
+    /**
+     * Local instance of WRAUtils object, pre-instantiated and ready to go
+     */
+    protected final WRAUtils wraUtils;
+    /**
+     * Log file
+     */
+    protected final Log LOG = LogFactory.getLog(NavigationHelper.class);
+    /**
+     * Effective date for the purposes of startdate/enddate comparisons for
+     * an asset.
+     */
+    protected final Date assetEffectiveDate;
 
 
     /**
@@ -53,7 +66,7 @@ public class NavigationHelper {
     public NavigationHelper(ICS ics) {
         this.ics = ics;
         this.wraUtils = new WRAUtils(ics);
-        this.effectiveDate = new Date(); // todo: look for preview date variable
+        this.assetEffectiveDate = new Date(); // todo: look for preview date variable
     }
 
     /**
@@ -108,9 +121,9 @@ public class NavigationHelper {
         // object to hold results
         Map<String, Object> result = new HashMap<String, Object>();
         AssetId pageId = new AssetIdImpl("Page", Long.parseLong(pageid));
-        if (!isValidOnDate(pageId, effectiveDate)) {
+        if (!isValidOnDate(pageId, assetEffectiveDate)) {
             // the input object is not valid.  Abort
-            if (LOG.isDebugEnabled()) LOG.debug("Input asset " + pageId + " is not effective on " + effectiveDate);
+            if (LOG.isDebugEnabled()) LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
             return result;
         }
         result.put("page", pageId);
@@ -130,7 +143,7 @@ public class NavigationHelper {
                 // tolerate bad data
                 LOG.warn("Page " + pageid + " has no unnamed association value so a link cannot be generated for it.");
             } else {
-                if (isValidOnDate(id, effectiveDate)) {
+                if (isValidOnDate(id, assetEffectiveDate)) {
                     result.put("id", id);
                     final String url;
                     final String linktext;
@@ -146,7 +159,7 @@ public class NavigationHelper {
 
                 } else {
                     if (LOG.isDebugEnabled())
-                        LOG.debug("Page content " + id + " is not effective on date " + effectiveDate);
+                        LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
                 }
             }
         }
@@ -269,7 +282,7 @@ public class NavigationHelper {
         AssetData data = wraUtils.getCoreFieldsAsAssetData(id);
         String linktext = AttributeDataUtils.getWithFallback(data, "linktitle", "h1title");
         if (linktext == null || linktext.length() == 0) {
-            LOG.warn("Could not retrieve linktext for WRA: " + id+ " (This is expected if the asset is not a web-referenceable asset).");
+            LOG.warn("Could not retrieve linktext for WRA: " + id + " (This is expected if the asset is not a web-referenceable asset).");
             return null;
         }
         return linktext;
