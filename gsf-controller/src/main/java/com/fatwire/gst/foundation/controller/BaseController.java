@@ -64,7 +64,7 @@ public class BaseController extends AbstractController {
         }
         LOG.trace("BaseController found a valid template:" + templatename);
 
-        callTemplate(id.getSite(), id, templatename);
+        callTemplate(id, templatename);
         LOG.trace("BaseController execution complete");
     }
 
@@ -237,9 +237,9 @@ public class BaseController extends AbstractController {
             "url-path");
 
     @SuppressWarnings("unchecked")
-    protected void callTemplate(final String site, final AssetId id, final String tname) {
+    protected void callTemplate(final AssetIdWithSite id, final String tname) {
         final CallTemplate ct = new CallTemplate();
-        ct.setSite(site);
+        ct.setSite(id.getSite());
         ct.setSlotname("wrapper");
         ct.setTid(ics.GetVar("eid"));
         ct.setTtype(CallTemplate.Type.CSElement);
@@ -248,7 +248,7 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? site + "/" + tname : site + "/" + id.getType() + "/" + tname;
+        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/" + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
             LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
@@ -263,7 +263,7 @@ public class BaseController extends AbstractController {
             ct.setPackedargs(packedargs);
         }
 
-        ct.setArgument("site", site);
+        ct.setArgument("site", id.getSite());
 
         // create a list of parameters that can be specified as arguments to the CallTemplate tag.
         final Map<String,String> arguments = new HashMap<String,String>();
@@ -284,7 +284,7 @@ public class BaseController extends AbstractController {
                 arguments.put(varname, ics.GetVar(varname));
             }
         }
-        getCallTemplateArguments(arguments);
+        getCallTemplateArguments(id, arguments);
         for (String name : arguments.keySet())
         {
             ct.setArgument(name, arguments.get(name));
@@ -298,9 +298,10 @@ public class BaseController extends AbstractController {
     /**
      * This method collects additional arguments for the CallTemplate call.
      * New arguments are added to the map as name-value pairs.
+     * @param id AssetIdWithSite object
      * @param arguments Map<String,String> containing arguments for the nested CallTemplate call
      */
-    protected void getCallTemplateArguments(Map<String,String> arguments)
+    protected void getCallTemplateArguments(AssetIdWithSite id, Map<String,String> arguments)
     {
         // nothing required here
     }
