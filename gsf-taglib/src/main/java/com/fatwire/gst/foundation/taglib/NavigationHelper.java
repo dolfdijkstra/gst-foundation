@@ -267,7 +267,12 @@ public final class NavigationHelper {
      */
     protected String getLinktextForWra(AssetId id) {
         AssetData data = wraUtils.getCoreFieldsAsAssetData(id);
-        return AttributeDataUtils.getWithFallback(data, "linktitle", "h1title");
+        String linktext = AttributeDataUtils.getWithFallback(data, "linktitle", "h1title");
+        if (linktext == null || linktext.length() == 0) {
+            LOG.warn("Could not retrieve linktext for WRA: " + id+ " (This is expected if the asset is not a web-referenceable asset).");
+            return null;
+        }
+        return linktext;
     }
 
     static final PreparedStmt FIND_P = new PreparedStmt("SELECT art.oid\n\tFROM AssetRelationTree art, AssetPublication ap, Publication p\n\tWHERE ap.assetid = art.oid\n\t" + "AND ap.assettype = 'Page'\n\t" + "AND ap.pubid = p.id\n\t" + "AND p.name = ?\n\t" + "AND art.otype = ap.assettype\n\t" + "AND art.nid in (\n\t\t" + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-'\n\t) ORDER BY ap.id", Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
