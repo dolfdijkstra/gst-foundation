@@ -132,13 +132,18 @@ public final class NavigationHelper {
             } else {
                 if (isValidOnDate(id, effectiveDate)) {
                     result.put("id", id);
+                    final String url;
+                    final String linktext;
                     if (isGstAlias(id)) {
-                        result.put("url", getUrlForAlias(id));
-                        result.put("linktext", getLinktextForAlias(id));
+                        url = getUrlForAlias(id);
+                        linktext = getLinktextForAlias(id);
                     } else {
-                        result.put("url", getUrlForWra(id));
-                        result.put("linktext", getLinktextForWra(id));
+                        url = getUrlForWra(id);
+                        linktext = getLinktextForWra(id);
                     }
+                    if (url != null) result.put("url", url);
+                    if (linktext != null) result.put("linktext", linktext);
+
                 } else {
                     if (LOG.isDebugEnabled())
                         LOG.debug("Page content " + id + " is not effective on date " + effectiveDate);
@@ -237,6 +242,10 @@ public final class NavigationHelper {
         String cid = Long.toString(id.getId());
         AssetData data = wraUtils.getCoreFieldsAsAssetData(id);
         String tname = AttributeDataUtils.getWithFallback(data, "template");
+        if (tname == null || tname.length() == 0) {
+            LOG.warn("Asset " + id + " does not have a valid template set.");
+            return null;
+        }
         String wrapper = ics.GetProperty("com.fatwire.gst.foundation.url.wrapathassembler.dispatcher", "ServletRequest.properties", true);
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GSF/Dispatcher";
