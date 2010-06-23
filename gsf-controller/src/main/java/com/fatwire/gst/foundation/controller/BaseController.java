@@ -12,7 +12,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
@@ -51,13 +53,9 @@ public class BaseController extends AbstractController {
         recordCompositionalDependencies();
 
         final AssetIdWithSite id = resolveAssetId();
-        if (id == null) {
-            throw new CSRuntimeException("No asset found", ftErrors.pagenotfound);
+        if (id == null || id.getSite() == null) {
+            throw new CSRuntimeException("Asset or site not found: "+id, ftErrors.pagenotfound);
         }
-        if (id.getSite() == null) {
-            throw new CSRuntimeException("Could not locate site for " + id, ftErrors.pagenotfound);
-        }
-        ics.SetVar("site", id.getSite()); // must be set into variable pool
         LOG.trace("BaseController found a valid asset and site: " + id);
 
         final String templatename = lookupTemplateForAsset(id);
@@ -265,23 +263,46 @@ public class BaseController extends AbstractController {
             ct.setPackedargs(packedargs);
         }
 
+        ct.setArgument("site", site);
+
+        // create a list of parameters that can be specified as arguments to the CallTemplate tag.
+        final Map<String,String> arguments = new HashMap<String,String>();
+
+        // Prime the map with the ics variable scope for the architect to make the
+        // controller as transparent as possible
         final Enumeration<String> vars = ics.GetVars();
         while (vars.hasMoreElements()) {
             final String varname = vars.nextElement();
+            // some parameters are automatically excluded because they relate directly
+            // to this controller only.
             if (!CALLTEMPLATE_EXCLUDE_VARS.contains(varname)) {
                 // page criteria is automatically validated by the CallTemplate
-                // tag,
-                // but it is a bad idea to send params through if they aren't
+                // tag, but it is a bad idea to send params through if they aren't
                 // page criteria.
                 // todo: consider validating here. Validation is duplicated but
                 // may be useful
-                ct.setArgument(varname, ics.GetVar(varname));
-                if (LOG.isTraceEnabled())
-                    LOG.trace("CallTemplate param added: " + varname + "=" + ics.GetVar(varname));
+                arguments.put(varname, ics.GetVar(varname));
             }
+        }
+        getCallTemplateArguments(arguments);
+        for (String name : arguments.keySet())
+        {
+            ct.setArgument(name, arguments.get(name));
+            if (LOG.isTraceEnabled())
+                LOG.trace("CallTemplate param added: " + name + "=" +  arguments.get(name));
         }
 
         ct.execute(ics);
+    }
+
+    /**
+     * This method collects additional arguments for the CallTemplate call.
+     * New arguments are added to the map as name-value pairs.
+     * @param arguments Map<String,String> containing arguments for the nested CallTemplate call
+     */
+    protected void getCallTemplateArguments(Map<String,String> arguments)
+    {
+        // nothing required here
     }
 
     protected Style getCallTemplateCallStyle(String target) {

@@ -107,6 +107,38 @@ public class Children extends AbstractTagRunner {
         }
     }
 
+      /**
+     * Look up the single valued named association for a specified asset. If no
+     * associated asset is found null is returned
+     *
+     * @param ics context
+     * @param c asset type
+     * @param cid asset id
+     * @param code association name
+     * @return id of the associated asset
+     */
+    public static AssetId getOptionalSingleAssociation(ICS ics, String c, String cid, String code) {
+        ics.RegisterList("spu-kids", null);
+        Children ac = new Children();
+        ac.setType(c);
+        ac.setAssetId(cid);
+        ac.setCode(code);
+        ac.setList("spu-kids");
+        ac.execute(ics);
+        IList spukids = ics.GetList("spu-kids");
+        ics.RegisterList("spu-kids", null);
+        if (spukids != null && spukids.hasData()) {
+            if (spukids.numRows() > 1) {
+                throw new IllegalStateException("Too many kids found associated to: " + c + ":" + cid
+                        + " for association:" + code + ".  expected 0 or 1 but got " + spukids.numRows());
+            }
+            spukids.moveTo(1);
+            return new AssetIdImpl(IListUtils.getStringValue(spukids, "otype"), IListUtils.getLongValue(spukids, "oid"));
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Look up the multi-valued named association for a specified asset. If no
      * associated asset is found an empty list is returned.
