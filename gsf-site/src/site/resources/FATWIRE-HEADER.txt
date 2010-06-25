@@ -1,0 +1,6 @@
+Copyright (c) 2009 FatWire Corporation. All Rights Reserved.
+Title, ownership rights, and intellectual property rights in and
+to this software remain with FatWire Corporation. This  software
+is protected by international copyright laws and treaties, and
+may be protected by other law.  Violation of copyright laws may
+result in civil liability and criminal penalties.
