@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gst-parent</artifactId>
-        <version>1</version>
+        <version>2</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-controller</artifactId>
@@ -27,8 +27,6 @@
         <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-controller</developerConnection>
         <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-controller</url>
     </scm>
-    <build>
-    </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
