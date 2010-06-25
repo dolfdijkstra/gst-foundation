@@ -33,8 +33,6 @@ import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
-
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
@@ -42,9 +40,11 @@ import COM.FutureTense.Interfaces.IPS;
 import COM.FutureTense.Servlet.IPSRegistry;
 import COM.FutureTense.Util.ftMessage;
 import COM.FutureTense.Util.ftTimedHashtable;
-import dd.DebugHelper;
-import dd.service.ICSLocator;
-import dd.service.ICSLocatorSupport;
+
+import com.fatwire.gst.foundation.core.DebugHelper;
+import com.fatwire.gst.foundation.core.service.ICSLocator;
+import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
+import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
 
 public abstract class CSTest extends TestCase {
     static Log log = LogFactory.getLog(CSTest.class);
