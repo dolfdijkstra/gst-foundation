@@ -22,16 +22,8 @@ import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
-import junit.framework.TestCase;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.dbcp.BasicDataSourceFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.FTValList;
@@ -46,6 +38,40 @@ import com.fatwire.gst.foundation.core.service.ICSLocator;
 import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
 import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
 
+import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp.BasicDataSourceFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import junit.framework.TestCase;
+
+/**
+ * NOTE July 6, 2010: The following instructions are not rigorously tested but the class works.
+ * <p/>
+ * JUnit test base class that allows AssetAPI and limited ICS usage in the absence of
+ * the ContentServer web container.
+ * <p/>
+ * Using this class, it is possible to test the DAO layer without requiring deployment
+ * to the web container.
+ * <p/>
+ * To set up, follow the following instructions:
+ * <ol>
+ * <li>mount the shared filesystem on your local machine in the same path that it is mounted
+ * on on the application server</li>
+ * <li>mount (or copy) the Content Server home folder onto your local file system.  It is probably
+ * not a bad idea to mount it in the same place that it is mounted on the application server. TODO: verify</li>
+ * <li>add the path to futuretense.ini to your classpath (this is the home folder described above)</li>
+ * <li>add a system property for cs.installDir, and set it to the of the Content Server home folder</li>
+ * <li>add a property file called "datasource.properties" to your classpath that contains the following properties, set
+ * to the appropriate values for the purposes of setting up a JDBCDataSource (you can probably get these from
+ * your application server administrator: username, password, driverClassName, url, maxActive, maxIdle)</li>
+ * </ol>
+ * This effectively sets up a local copy of Content Server without a servlet context.  Some operations that
+ * require the execution of a JSP element and related items will fail when using ICS, but core DB operations
+ * should succeed. The ICS object's cache is not reliable in this configuration, however, and writes to the
+ * database will not be noticed on the main server.  An ICS object is available, protected, and as well
+ * <code>SessionFactory.getSession(ics)</code> operates per usual.
+ */
 public abstract class CSTest extends TestCase {
     static Log log = LogFactory.getLog(CSTest.class);
 
@@ -54,10 +80,10 @@ public abstract class CSTest extends TestCase {
      * 
      * @see junit.framework.TestCase#tearDown()
      */
+
     @Override
     protected void tearDown() throws Exception {
-        if (ds != null)
-            ds.close();
+        if (ds != null) ds.close();
         super.tearDown();
     }
 
@@ -136,16 +162,13 @@ public abstract class CSTest extends TestCase {
             throw new IllegalStateException("cs.installDir is not found as a property.");
         }
         if (!(System.getProperty("cs.installDir").endsWith("/") || System.getProperty("cs.installDir").endsWith("\\"))) {
-            throw new IllegalStateException("cs.installDir property does not end with a slash or backslash. ("
-                    + System.getProperty("cs.installDir") + ")");
+            throw new IllegalStateException("cs.installDir property does not end with a slash or backslash. (" + System.getProperty("cs.installDir") + ")");
         }
         if (!new File(System.getProperty("cs.installDir")).exists()) {
-            throw new IllegalStateException("cs.installDir property does not exists. ("
-                    + System.getProperty("cs.installDir") + ")");
+            throw new IllegalStateException("cs.installDir property does not exists. (" + System.getProperty("cs.installDir") + ")");
         }
 
-        // System.setProperty("cs.installDir",
-        // "C:\\DATA\\CS\\zamak\\ContentServer\\");
+        // System.setProperty("cs.installDir", "C:\\DATA\\CS\\zamak\\ContentServer\\");
         // NEEDS slash at the end
 
         long t = System.nanoTime();
