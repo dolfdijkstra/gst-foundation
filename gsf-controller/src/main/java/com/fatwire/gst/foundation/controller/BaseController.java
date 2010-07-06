@@ -42,7 +42,7 @@ import static com.fatwire.cs.core.db.Util.parseJdbcDate;
  * This controller should be called from an outer XML element via the
  * <tt>CALLJAVA</tt> tag: &lt;CALLJAVA
  * CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
- * 
+ *
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -54,7 +54,7 @@ public class BaseController extends AbstractController {
 
         final AssetIdWithSite id = resolveAssetId();
         if (id == null || id.getSite() == null) {
-            throw new CSRuntimeException("Asset or site not found: "+id, ftErrors.pagenotfound);
+            throw new CSRuntimeException("Asset or site not found: " + id, ftErrors.pagenotfound);
         }
         LOG.trace("BaseController found a valid asset and site: " + id);
 
@@ -98,7 +98,7 @@ public class BaseController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     * 
+     *
      * @param e exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
@@ -139,9 +139,7 @@ public class BaseController extends AbstractController {
         return id;
     }
 
-    static final PreparedStmt REGISTRY_SELECT = new PreparedStmt(
-            "SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate",
-            Collections.singletonList("GSTUrlRegistry"));
+    static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList("GSTUrlRegistry"));
 
     static {
         REGISTRY_SELECT.setElement(0, "GSTUrlRegistry", "opt_vwebroot");
@@ -164,10 +162,8 @@ public class BaseController extends AbstractController {
         return null;
     }
 
-    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
-            + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
-    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Arrays
-            .asList("AssetPublication,Publication"));
+    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
+    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Collections.singletonList("AssetPublication")); // todo:determine why publication cannot fit there.
 
     static {
         AP_STMT.setElement(0, "AssetPublication", "assettype");
@@ -181,13 +177,7 @@ public class BaseController extends AbstractController {
         String result = null;
         for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
             if (result != null) {
-                LOG
-                        .warn("Found asset "
-                                + c
-                                + ":"
-                                + cid
-                                + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: "
-                                + result);
+                LOG.warn("Found asset " + c + ":" + cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: " + result);
             } else {
                 result = pubid.getString("name");
             }
@@ -195,12 +185,9 @@ public class BaseController extends AbstractController {
         return result;
     }
 
-    // TODO: Finish this method
-
     protected boolean inRange(final Row asset, final Date now) {
-        final Date startdate = asset.getString("startdate") != null ? parseJdbcDate(asset.getString("startdate"))
-                : null;
-        final Date enddate = asset.getString("enddate") != null ? parseJdbcDate(asset.getString("enddate")) : null;
+        final Date startdate = goodString(asset.getString("startdate")) ? parseJdbcDate(asset.getString("startdate")) : null;
+        final Date enddate = goodString(asset.getString("enddate")) ? parseJdbcDate(asset.getString("enddate")) : null;
 
         if (startdate != null || enddate != null) {
             if (startdate == null) {
@@ -232,9 +219,7 @@ public class BaseController extends AbstractController {
         return null;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
-            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
-            "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
 
     @SuppressWarnings("unchecked")
     protected void callTemplate(final AssetIdWithSite id, final String tname) {
@@ -266,7 +251,7 @@ public class BaseController extends AbstractController {
         ct.setArgument("site", id.getSite());
 
         // create a list of parameters that can be specified as arguments to the CallTemplate tag.
-        final Map<String,String> arguments = new HashMap<String,String>();
+        final Map<String, String> arguments = new HashMap<String, String>();
 
         // Prime the map with the ics variable scope for the architect to make the
         // controller as transparent as possible
@@ -285,11 +270,9 @@ public class BaseController extends AbstractController {
             }
         }
         getCallTemplateArguments(id, arguments);
-        for (String name : arguments.keySet())
-        {
+        for (String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled())
-                LOG.trace("CallTemplate param added: " + name + "=" +  arguments.get(name));
+            if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
         }
 
         ct.execute(ics);
@@ -298,11 +281,11 @@ public class BaseController extends AbstractController {
     /**
      * This method collects additional arguments for the CallTemplate call.
      * New arguments are added to the map as name-value pairs.
-     * @param id AssetIdWithSite object
+     *
+     * @param id        AssetIdWithSite object
      * @param arguments Map<String,String> containing arguments for the nested CallTemplate call
      */
-    protected void getCallTemplateArguments(AssetIdWithSite id, Map<String,String> arguments)
-    {
+    protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {
         // nothing required here
     }
 
