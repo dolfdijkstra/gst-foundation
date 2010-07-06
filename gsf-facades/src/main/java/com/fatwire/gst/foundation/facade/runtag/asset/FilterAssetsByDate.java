@@ -41,9 +41,11 @@ public final class FilterAssetsByDate {
     public static boolean isValidOnDate(AssetId id, Date date)
     {
         AssetData d = AssetDataUtils.getAssetData(id, STARTDATE, ENDDATE);
-        String sStartdate = d.getAttributeData(STARTDATE) != null ? d.getAttributeData(STARTDATE).toString() : null;
+        String sStartdate = d.getAttributeData(STARTDATE) != null && d.getAttributeData(STARTDATE).getData() != null
+        	? d.getAttributeData(STARTDATE).getData().toString() : null;
         Date startDate = goodString(sStartdate)? Util.parseJdbcDate(sStartdate):null;
-        String sEnddate = d.getAttributeData(ENDDATE) != null ? d.getAttributeData(ENDDATE).toString() : null;
+        String sEnddate = d.getAttributeData(ENDDATE) != null && d.getAttributeData(ENDDATE).getData() != null
+        	? d.getAttributeData(ENDDATE).getData().toString() : null;
         Date endDate = goodString(sEnddate)? Util.parseJdbcDate(sEnddate) : null;
 
         if (startDate == null && endDate == null)
