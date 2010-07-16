@@ -56,9 +56,9 @@ public class WRAUtils {
         // include bonus fields
         coreFields.put("id", AttributeDataUtils.getWithFallback(data, "id"));
         coreFields.put("name", AttributeDataUtils.getWithFallback(data, "name"));
-        coreFields.put("subtype", AttributeDataUtils.getWithFallback(data, "subtype"));
-        coreFields.put("startdate", AttributeDataUtils.getWithFallback(data, "startdate"));
-        coreFields.put("enddate", AttributeDataUtils.getWithFallback(data, "enddate"));
+        coreFields.put("subtype", AttributeDataUtils.asString(data.getAttributeData("subtype"))); // maybe null
+        coreFields.put("startdate", AttributeDataUtils.asString(data.getAttributeData("startdate"))); // maybe null.... note not a Date object
+        coreFields.put("enddate", AttributeDataUtils.asString(data.getAttributeData("enddate"))); // maybe null.... note not a Date object
         coreFields.put("status", AttributeDataUtils.getWithFallback(data, "status"));
 
         return coreFields;
@@ -81,7 +81,6 @@ public class WRAUtils {
      * @return AssetData containing core fields for Web-Referencable asset
      */
     public AssetData getCoreFieldsAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktitle",
-                "path", "template", "id", "name", "subtype", "startdate", "enddate", "status");
+        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status");
     }
 }
