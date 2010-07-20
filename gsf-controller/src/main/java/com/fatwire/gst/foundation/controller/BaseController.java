@@ -146,6 +146,7 @@ public class BaseController extends AbstractController {
         REGISTRY_SELECT.setElement(1, "GSTUrlRegistry", "opt_url_path");
     }
 
+    // TODO: port this to Lucene?
     protected AssetIdWithSite resolveAssetFromUrl(final String virtual_webroot, final String url_path) {
         final StatementParam param = REGISTRY_SELECT.newParam();
         param.setString(0, virtual_webroot);

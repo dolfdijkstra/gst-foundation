@@ -57,6 +57,12 @@
             <artifactId>gsf-facades</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <!-- todo: remove this dependency -->
+            <groupId>com.fatwire.developernet</groupId>
+            <artifactId>cs-url-assemblers</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <site>
