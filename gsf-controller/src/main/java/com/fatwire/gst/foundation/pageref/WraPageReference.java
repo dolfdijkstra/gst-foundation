@@ -18,7 +18,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.url.WRAPathAssembler2;
+import com.fatwire.gst.foundation.url.WraPathAssembler;
 import com.openmarket.xcelerate.publish.PageRef;
 import com.openmarket.xcelerate.publish.PubConstants;
 
@@ -92,7 +92,7 @@ public class WraPageReference extends PageRef {
                         if (vw != null) {
                             args.put("virtual-webroot", vw.getEnvVWebroot());
                             args.put("url-path", path.substring(vw.getMasterVWebroot().length() + 1));
-                            String pagename = ics.GetProperty(WRAPathAssembler2.DISPATCHER_PROPNAME, "ServletRequest.properties", true);
+                            String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME, "ServletRequest.properties", true);
                             if (!Utilities.goodString(pagename)) {
                                 pagename = "GST/Dispatcher";
                             }

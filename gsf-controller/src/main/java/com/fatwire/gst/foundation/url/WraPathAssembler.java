@@ -35,8 +35,8 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * @author Tony Field
  * @since Jul 20, 2010
  */
-public final class WRAPathAssembler2 extends LightweightAbstractAssembler {
-    protected static final Log LOG = LogFactory.getLog(WRAPathAssembler2.class.getName());
+public final class WraPathAssembler extends LightweightAbstractAssembler {
+    protected static final Log LOG = LogFactory.getLog(WraPathAssembler.class.getName());
 
     /**
      * Name of query string parameter for virtual webroot
@@ -75,7 +75,7 @@ public final class WRAPathAssembler2 extends LightweightAbstractAssembler {
         super.setProperties(properties);
         theBackupAssembler.setProperties(properties);
         pagename[0] = getProperty(DISPATCHER_PROPNAME, "GST/Dispatcher");
-        LOG.info("Initialized " + WRAPathAssembler2.class + " with properties " + properties);
+        LOG.info("Initialized " + WraPathAssembler.class + " with properties " + properties);
     }
 
     /**
