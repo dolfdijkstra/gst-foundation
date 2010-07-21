@@ -16,19 +16,27 @@
 
 package com.fatwire.gst.foundation.core.service;
 
+import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 
 /**
  * Base implementation of {@link ICSLocator}. Just one single ics is stored.
  * <p/>
  * <b>Not thread safe!!</b>
- * 
+ *
  * @author Dolf Dijkstra
- * 
  */
 
 public class ICSLocatorSupport implements ICSLocator {
     private final ICS ics;
+
+    public ICSLocatorSupport() {
+        try {
+            this.ics = Factory.newCS();
+        } catch (Exception e) {
+            throw new IllegalStateException("Failure instantiating new CS. Check Content Server configuration", e);
+        }
+    }
 
     public ICSLocatorSupport(ICS ics) {
         super();
