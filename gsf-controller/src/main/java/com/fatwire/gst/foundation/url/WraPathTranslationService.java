@@ -8,6 +8,7 @@
  */
 package com.fatwire.gst.foundation.url;
 
+import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 
 /**
@@ -31,5 +32,11 @@ public interface WraPathTranslationService {
      * @return asset id and site
      */
     AssetIdWithSite resolveAsset(final String virtual_webroot, final String url_path);
+
+    void addAsset(AssetId id);
+
+    void updateAsset(AssetId id);
+
+    void deleteAsset(AssetId id);
 
 }

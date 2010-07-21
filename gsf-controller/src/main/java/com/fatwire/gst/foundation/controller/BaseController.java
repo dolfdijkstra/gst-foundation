@@ -9,7 +9,6 @@
 package com.fatwire.gst.foundation.controller;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -19,15 +18,12 @@ import COM.FutureTense.Interfaces.IPS;
 import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.cs.core.db.PreparedStmt;
-import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
-import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 
@@ -51,11 +47,13 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 public class BaseController extends AbstractController {
 
     protected WraPathTranslationService pathTranslationService;
+    protected WraCoreFieldDao wraCoreFieldDao;
 
     @Override
     public void SetAppLogic(IPS ips) {
         super.SetAppLogic(ips);
         pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
+        wraCoreFieldDao = new WraCoreFieldDao();
     }
 
     @Override
@@ -68,13 +66,14 @@ public class BaseController extends AbstractController {
         }
         LOG.trace("BaseController found a valid asset and site: " + id);
 
-        final String templatename = lookupTemplateForAsset(id);
-        if (templatename == null) {
-            throw new CSRuntimeException("No template found", ftErrors.pagenotfound);
+        WebReferenceableAsset wra;
+        try {
+            wra = wraCoreFieldDao.getWra(id);
+        } catch (IllegalArgumentException e) {
+            throw new CSRuntimeException("Web-Referenceable Asset " + id + " is not valid", ftErrors.pagenotfound);
         }
-        LOG.trace("BaseController found a valid template:" + templatename);
 
-        callTemplate(id, templatename);
+        callTemplate(id, wra.getTemplate());
         LOG.trace("BaseController execution complete");
     }
 
@@ -138,7 +137,7 @@ public class BaseController extends AbstractController {
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
-            String site = resolveSiteForWRA(ics.GetVar("c"), ics.GetVar("cid"));
+            String site = wraCoreFieldDao.resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
             id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
         } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
             // (but not both)
@@ -147,44 +146,6 @@ public class BaseController extends AbstractController {
             throw new CSRuntimeException("Missing required param c, cid.", ftErrors.pagenotfound);
         }
         return id;
-    }
-
-    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
-    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Collections.singletonList("AssetPublication")); // todo:determine why publication cannot fit there.
-
-    static {
-        AP_STMT.setElement(0, "AssetPublication", "assettype");
-        AP_STMT.setElement(1, "AssetPublication", "assetid");
-    }
-
-    protected String resolveSiteForWRA(String c, String cid) {
-        final StatementParam param = AP_STMT.newParam();
-        param.setString(0, c);
-        param.setLong(1, Long.parseLong(cid));
-        String result = null;
-        for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
-            if (result != null) {
-                LOG.warn("Found asset " + c + ":" + cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: " + result);
-            } else {
-                result = pubid.getString("name");
-            }
-        }
-        return result;
-    }
-
-    protected String lookupTemplateForAsset(final AssetId id) {
-        final String select = "SELECT template FROM " + id.getType() + " where id=?";
-
-        final PreparedStmt stmt = new PreparedStmt(select, Collections.singletonList(id.getType()));
-        stmt.setElement(0, id.getType(), "id");
-
-        final StatementParam param = stmt.newParam();
-        param.setLong(0, id.getId());
-
-        for (final Row row : SqlHelper.select(ics, stmt, param)) {
-            return row.getString("template");
-        }
-        return null;
     }
 
     private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");

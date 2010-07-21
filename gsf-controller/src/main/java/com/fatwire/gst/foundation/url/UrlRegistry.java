@@ -6,8 +6,10 @@ import java.util.Date;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
 
+import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
+import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
@@ -15,6 +17,8 @@ import com.fatwire.gst.foundation.facade.sql.table.TableColumn;
 import com.fatwire.gst.foundation.facade.sql.table.TableColumn.Type;
 import com.fatwire.gst.foundation.facade.sql.table.TableCreator;
 import com.fatwire.gst.foundation.facade.sql.table.TableDef;
+import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 import static com.fatwire.cs.core.db.Util.parseJdbcDate;
@@ -28,13 +32,16 @@ import static com.fatwire.cs.core.db.Util.parseJdbcDate;
 public class UrlRegistry implements WraPathTranslationService {
 
     private final ICS ics;
+    private final WraCoreFieldDao wraDao;
+    private static final String URLREG_TABLE = "GSTUrlRegistry";
 
     UrlRegistry(ICS ics) {
         this.ics = ics;
+        wraDao = new WraCoreFieldDao();
     }
 
     public void install() {
-        TableDef def = new TableDef("GSTUrlRegistry", ftMessage.Browser, ftMessage.objecttbl);
+        TableDef def = new TableDef(URLREG_TABLE, ftMessage.Browser, ftMessage.objecttbl);
 
         def.addColumn(new TableColumn("id", Type.ccbigint, true).setNullable(false));
         def.addColumn(new TableColumn("path", Type.ccvarchar).setLength(4000).setNullable(false));
@@ -50,11 +57,11 @@ public class UrlRegistry implements WraPathTranslationService {
         new TableCreator(ics).createTable(def);
     }
 
-    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList("GSTUrlRegistry"));
+    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM " + URLREG_TABLE + " WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList(URLREG_TABLE));
 
     static {
-        REGISTRY_SELECT.setElement(0, "GSTUrlRegistry", "opt_vwebroot");
-        REGISTRY_SELECT.setElement(1, "GSTUrlRegistry", "opt_url_path");
+        REGISTRY_SELECT.setElement(0, URLREG_TABLE, "opt_vwebroot");
+        REGISTRY_SELECT.setElement(1, URLREG_TABLE, "opt_url_path");
     }
 
     public AssetIdWithSite resolveAsset(final String virtual_webroot, final String url_path) {
@@ -90,6 +97,38 @@ public class UrlRegistry implements WraPathTranslationService {
 
         }
         return true;
+    }
+
+    public void addAsset(AssetId asset) {
+        WebReferenceableAsset wra = wraDao.getWra(asset);
+
+        String id = ics.genID(false);
+        String path = wra.getPath();
+        String assettype = asset.getType();
+        long assetid = asset.getId();
+        Date start = wra.getStartDate();
+        Date end = wra.getEndDate();
+        String vwebroot = "http://www.fatwire.com"; // todo: implement
+        String urlpath = "/products/cs"; // todo: implement
+        int depth = 2; // todo: implement
+        String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
+
+        String qry = "insert into " + URLREG_TABLE + " (id, path, assettype, assetid, " + (start == null ? "" : "startdate, ") + (end == null ? "" : "enddate,") + " opt_vwebroot, opt_url_path, opt_depth, opt_site)" + " VALUES " + "(" + id + "," + quote(path) + "," + quote(assettype) + "," + assetid + "," + (start == null ? "" : quote(Util.formatJdbcDate(start)) + ",") + (end == null ? "" : quote(Util.formatJdbcDate(end)) + ",") + quote(vwebroot) + "," + quote(urlpath) + "," + depth + "," + quote(site) + ")";
+        SqlHelper.execute(ics, URLREG_TABLE, qry);
+    }
+
+    private String quote(String s) {
+        return "'" + s + "'";
+    }
+
+    public void updateAsset(AssetId id) {
+        // todo: optimize
+        deleteAsset(id);
+        addAsset(id);
+    }
+
+    public void deleteAsset(AssetId id) {
+        SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
     }
 
 

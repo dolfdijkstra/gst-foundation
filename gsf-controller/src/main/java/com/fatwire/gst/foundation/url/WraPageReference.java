@@ -2,20 +2,14 @@ package com.fatwire.gst.foundation.url;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import COM.FutureTense.Common.E;
 import COM.FutureTense.Export.ReferenceException;
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
-import com.fatwire.gst.foundation.facade.sql.IListIterable;
-import com.fatwire.gst.foundation.facade.sql.Row;
 import com.openmarket.xcelerate.publish.PageRef;
 import com.openmarket.xcelerate.publish.PubConstants;
 
@@ -114,7 +108,7 @@ public class WraPageReference extends PageRef {
     }
 
     private GSTVirtualWebroot findMatchingVirtualWebroot(ICS ics, String current_environment, String path) {
-        for (GSTVirtualWebroot vw : getAllVirtualWebroots(ics)) {
+        for (GSTVirtualWebroot vw : GSTVirtualWebroot.getAllVirtualWebroots(ics)) {
             // find longest first one that is found in the prefix of path. that is virtual-webroot
             if (current_environment.equals(vw.getEnvName()) && path.startsWith(vw.getMasterVWebroot())) {
                 return vw;
@@ -130,23 +124,6 @@ public class WraPageReference extends PageRef {
             environmentName = ics.GetProperty("com.fatwire.gst.foundation.env-name");
         }
         return environmentName;
-    }
-
-    private SortedSet<GSTVirtualWebroot> getAllVirtualWebroots(ICS ics) {
-        AssetList al = new AssetList();
-        al.setExcludeVoided(true);
-        al.setList("pr-out");
-        ics.RegisterList("pr-out", null);
-        al.execute(ics);
-        IList ilist = ics.GetList("pr-out");
-        ics.RegisterList("pr-out", null);
-        if (ilist == null) throw new IllegalStateException("No GSTVirtualWebroots are registered");
-
-        SortedSet result = new TreeSet<GSTVirtualWebroot>();
-        for (Row r : new IListIterable(ilist)) {
-            result.add(GSTVirtualWebroot.loadData(r.getString("id")));
-        }
-        return result;
     }
 
     /**

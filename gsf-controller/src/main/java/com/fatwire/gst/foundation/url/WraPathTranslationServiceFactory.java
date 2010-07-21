@@ -10,6 +10,8 @@ package com.fatwire.gst.foundation.url;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
+
 /**
  * Used to instantiate path translation services.  Probably should get replaced by DI at some point.
  *
@@ -17,7 +19,14 @@ import COM.FutureTense.Interfaces.ICS;
  * @since Jul 21, 2010
  */
 public final class WraPathTranslationServiceFactory {
+
+    /**
+     * Return a new instance of the WraPathTranslationService.
+     *
+     * @param ics context, if available. Null is allowed
+     * @return service
+     */
     public static WraPathTranslationService getService(ICS ics) {
-        return new UrlRegistry(ics);
+        return new UrlRegistry(ics == null ? new ICSLocatorSupport().getICS() : ics);
     }
 }
