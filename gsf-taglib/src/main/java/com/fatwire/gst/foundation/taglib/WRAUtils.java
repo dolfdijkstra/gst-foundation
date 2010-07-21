@@ -7,8 +7,9 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.cs.core.db.Util;
+import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
@@ -17,9 +18,11 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 public class WRAUtils {
     private ICS ics;
+    private WraCoreFieldDao dao;
 
     public WRAUtils(ICS ics) {
         this.ics = ics;
+        dao = new WraCoreFieldDao();
     }
 
     /**
@@ -44,22 +47,23 @@ public class WRAUtils {
     public Map<String, String> getCoreFields(String c, String cid) {
         Map<String, String> coreFields = new HashMap<String, String>();
 
-        AssetData data = getCoreFieldsAsAssetData(new AssetIdImpl(c, Long.valueOf(cid)));
-
-        coreFields.put("metatitle", AttributeDataUtils.getWithFallback(data, "metatitle"));
-        coreFields.put("metadescription", AttributeDataUtils.getWithFallback(data, "metadescription"));
-        coreFields.put("metakeyword", AttributeDataUtils.getWithFallback(data, "metakeyword"));
-        coreFields.put("h1title", AttributeDataUtils.getWithFallback(data, "h1title"));
-        coreFields.put("linktitle", AttributeDataUtils.getWithFallback(data, "linktitle", "h1title"));
-        coreFields.put("path", AttributeDataUtils.getWithFallback(data, "path"));
-        coreFields.put("template", AttributeDataUtils.getWithFallback(data, "template"));
+        WebReferenceableAsset wra = dao.getWra(new AssetIdImpl(c, Long.valueOf(cid)));
+        coreFields.put("metatitle", wra.getMetaTitle());
+        coreFields.put("metadescription", wra.getMetaDescription());
+        coreFields.put("metakeyword", wra.getMetaKeyword());
+        coreFields.put("h1title", wra.getH1Title());
+        coreFields.put("linktitle", wra.getLinkTitle());
+        coreFields.put("path", wra.getPath());
+        coreFields.put("template", wra.getTemplate());
         // include bonus fields
-        coreFields.put("id", AttributeDataUtils.getWithFallback(data, "id"));
-        coreFields.put("name", AttributeDataUtils.getWithFallback(data, "name"));
-        coreFields.put("subtype", AttributeDataUtils.asString(data.getAttributeData("subtype"))); // maybe null
-        coreFields.put("startdate", AttributeDataUtils.asString(data.getAttributeData("startdate"))); // maybe null.... note not a Date object
-        coreFields.put("enddate", AttributeDataUtils.asString(data.getAttributeData("enddate"))); // maybe null.... note not a Date object
-        coreFields.put("status", AttributeDataUtils.getWithFallback(data, "status"));
+        coreFields.put("id", cid);
+        coreFields.put("name", wra.getName());
+        coreFields.put("subtype", wra.getSubtype()); // maybe null
+        if (wra.getStartDate() != null)
+            coreFields.put("startdate", Util.formatJdbcDate(wra.getStartDate())); // maybe null.... note not a Date object
+        if (wra.getEndDate() != null)
+            coreFields.put("enddate", Util.formatJdbcDate(wra.getEndDate())); // maybe null.... note not a Date object
+        coreFields.put("status", wra.getStatus());
 
         return coreFields;
     }
@@ -81,6 +85,6 @@ public class WRAUtils {
      * @return AssetData containing core fields for Web-Referencable asset
      */
     public AssetData getCoreFieldsAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status");
+        return dao.getAsAssetData(id);
     }
 }
