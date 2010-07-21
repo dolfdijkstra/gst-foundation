@@ -30,7 +30,6 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * Web-referenceable asset path assembler.
- * TODO: sort out dependency on cs-url-assemblers module
  *
  * @author Tony Field
  * @since Jul 20, 2010
@@ -50,7 +49,6 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
 
     /**
      * The assembler to use in case the input does not support the WRAPath approach
-     * TODO: consider making this configurable
      */
     private final Assembler theBackupAssembler = new QueryAssembler();
 
@@ -205,7 +203,6 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             // Something bad happened
             throw new URISyntaxException(uri.toString(), e.toString());
         }
-
         return result;
     }
 }

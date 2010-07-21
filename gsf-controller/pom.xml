@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
     http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -23,8 +23,10 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-controller</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-controller</developerConnection>
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-controller
+        </connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-controller
+        </developerConnection>
         <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-controller</url>
     </scm>
     <properties>
@@ -58,10 +60,9 @@
             <version>2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <!-- todo: remove this dependency -->
             <groupId>com.fatwire.developernet</groupId>
             <artifactId>cs-url-assemblers</artifactId>
-            <version>1.1</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     <distributionManagement>

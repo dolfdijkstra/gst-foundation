@@ -7,10 +7,8 @@ import java.util.TreeSet;
 
 import COM.FutureTense.Common.E;
 import COM.FutureTense.Export.ReferenceException;
-import COM.FutureTense.Interfaces.FTVAL;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
-import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
@@ -21,6 +19,8 @@ import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.url.WraPathAssembler;
 import com.openmarket.xcelerate.publish.PageRef;
 import com.openmarket.xcelerate.publish.PubConstants;
+
+import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * This is the WebReferenceable assets PageRef class. This overrides the default
@@ -63,11 +63,6 @@ import com.openmarket.xcelerate.publish.PubConstants;
 
 public class WraPageReference extends PageRef {
 
-    @SuppressWarnings("unchecked")
-    Map<String, FTVAL> toMap(Map map) {
-        return (Map<String, FTVAL>) map;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -81,55 +76,43 @@ public class WraPageReference extends PageRef {
         _dumpVars(args, ics);
         if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && getAppType() == AppType.CONTENT_SERVER) {
             String current_environment = getEnvironment(ics);
-            if (Utilities.goodString(current_environment)) {
-                String c = (String) args.get("c");
-                String cid = (String) args.get("cid");
-                if (Utilities.goodString(c) && Utilities.goodString(cid)) {
-                    AssetData data = AssetDataUtils.getAssetData(c, cid, "path");
-                    String path = AttributeDataUtils.asString(data.getAttributeData("path"));
-                    if (Utilities.goodString(path)) {
-                        GSTVirtualWebroot vw = findMatchingVirtualWebroot(ics, current_environment, path);
-                        if (vw != null) {
-                            args.put("virtual-webroot", vw.getEnvVWebroot());
-                            args.put("url-path", path.substring(vw.getMasterVWebroot().length() + 1));
-                            String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME, "ServletRequest.properties", true);
-                            if (!Utilities.goodString(pagename)) {
-                                pagename = "GST/Dispatcher";
-                            }
-                            if (args.get(PubConstants.WRAPPERPAGE) != null)
-                                args.put(PubConstants.WRAPPERPAGE, pagename);
-                            else args.put("pagename", pagename);
-                        } else {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Not adding WRAPathAssembler args because no matching virtual webroot found for path " + path + " and environemnt " + current_environment);
-                            }
-                        }
-                    } else {
-                        if (log.isDebugEnabled()) {
-                            log.debug("Not adding WRAPathAssembler args because the asset " + c + ":" + cid + " does not have a path set, for " + args);
-                        }
+            String path = getPathForAsset((String) args.get("c"), (String) args.get("cid"));
+            if (goodString(current_environment) && goodString(path)) {
+                GSTVirtualWebroot vw = findMatchingVirtualWebroot(ics, current_environment, path);
+                if (vw != null) {
+                    args.put("virtual-webroot", vw.getEnvVWebroot());
+                    args.put("url-path", path.substring(vw.getMasterVWebroot().length() + 1));
+                    String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME, "ServletRequest.properties", true);
+                    if (!goodString(pagename)) {
+                        pagename = "GST/Dispatcher";
                     }
-
+                    if (args.get(PubConstants.WRAPPERPAGE) != null) args.put(PubConstants.WRAPPERPAGE, pagename);
+                    else args.put("pagename", pagename);
                 } else {
                     if (log.isDebugEnabled()) {
-                        log.debug("Not adding WRAPathAssembler args because c and cid are not found, for " + args);
+                        log.debug("Not adding WRAPathAssembler args because no matching virtual webroot found for path " + path + " and environemnt " + current_environment);
                     }
                 }
-
             } else {
                 if (log.isDebugEnabled()) {
-                    log.debug("Not adding WRAPathAssembler args because env_name is not set, for " + args);
+                    log.debug("Not adding WRAPathAssembler args because env_name is not set, or we cannot find the path for the input asset.  Args:" + args);
                 }
             }
-
         } else {
             if (log.isDebugEnabled()) {
-                log.debug("Not adding WRAPathAssembler args because context is not satellite server (it is " + getSatelliteContext() + ") and the app type is not ContentServer (it is " + getAppType() + "), for " + args);
+                log.debug("Not adding WRAPathAssembler args because context is not satellite server (it is " + getSatelliteContext() + ") and the app type is not ContentServer (it is " + getAppType() + ").  Args: " + args);
             }
         }
         super.setParameters(args, ics);
     }
 
+    private String getPathForAsset(String c, String cid) {
+        if (goodString(c) && goodString(cid)) {
+            AssetData data = AssetDataUtils.getAssetData(c, cid, "path");
+            return AttributeDataUtils.asString(data.getAttributeData("path"));
+        }
+        return null;
+    }
 
     private GSTVirtualWebroot findMatchingVirtualWebroot(ICS ics, String current_environment, String path) {
         for (GSTVirtualWebroot vw : getAllVirtualWebroots(ics)) {
