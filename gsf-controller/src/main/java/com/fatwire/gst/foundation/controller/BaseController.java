@@ -10,12 +10,12 @@ package com.fatwire.gst.foundation.controller;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import COM.FutureTense.Interfaces.IPS;
 import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
@@ -28,9 +28,10 @@ import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+import com.fatwire.gst.foundation.url.WraPathTranslationService;
+import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
-import static com.fatwire.cs.core.db.Util.parseJdbcDate;
 
 /**
  * <p>
@@ -48,6 +49,15 @@ import static com.fatwire.cs.core.db.Util.parseJdbcDate;
  * @since Jun 10, 2010
  */
 public class BaseController extends AbstractController {
+
+    protected WraPathTranslationService pathTranslationService;
+
+    @Override
+    public void SetAppLogic(IPS ips) {
+        super.SetAppLogic(ips);
+        pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
+    }
+
     @Override
     protected void doExecute() {
         recordCompositionalDependencies();
@@ -124,7 +134,7 @@ public class BaseController extends AbstractController {
     protected AssetIdWithSite resolveAssetId() {
         final AssetIdWithSite id;
         if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
-            id = resolveAssetFromUrl(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
+            id = pathTranslationService.resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
@@ -137,30 +147,6 @@ public class BaseController extends AbstractController {
             throw new CSRuntimeException("Missing required param c, cid.", ftErrors.pagenotfound);
         }
         return id;
-    }
-
-    static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM GSTUrlRegistry WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList("GSTUrlRegistry"));
-
-    static {
-        REGISTRY_SELECT.setElement(0, "GSTUrlRegistry", "opt_vwebroot");
-        REGISTRY_SELECT.setElement(1, "GSTUrlRegistry", "opt_url_path");
-    }
-
-    // TODO: port this to Lucene?
-    protected AssetIdWithSite resolveAssetFromUrl(final String virtual_webroot, final String url_path) {
-        final StatementParam param = REGISTRY_SELECT.newParam();
-        param.setString(0, virtual_webroot);
-        param.setString(1, url_path);
-        final Date now = new Date();
-        for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
-            final String assettype = asset.getString("assettype");
-            final String assetid = asset.getString("assetid");
-            if (inRange(asset, now)) {
-                return new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
-            }
-        }
-
-        return null;
     }
 
     private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
@@ -184,25 +170,6 @@ public class BaseController extends AbstractController {
             }
         }
         return result;
-    }
-
-    protected boolean inRange(final Row asset, final Date now) {
-        final Date startdate = goodString(asset.getString("startdate")) ? parseJdbcDate(asset.getString("startdate")) : null;
-        final Date enddate = goodString(asset.getString("enddate")) ? parseJdbcDate(asset.getString("enddate")) : null;
-
-        if (startdate != null || enddate != null) {
-            if (startdate == null) {
-                if (enddate.before(now)) {
-                    return false;
-                }
-            } else {
-                if (startdate.after(now)) {
-                    return false;
-                }
-            }
-
-        }
-        return true;
     }
 
     protected String lookupTemplateForAsset(final AssetId id) {
