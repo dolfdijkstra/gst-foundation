@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
     http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -19,7 +19,8 @@
     </organization>
     <scm>
         <connection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-facades</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-facades</developerConnection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-facades
+        </developerConnection>
         <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-facades</url>
     </scm>
     <properties>
@@ -123,6 +124,11 @@
             <groupId>com.fatwire.cs</groupId>
             <artifactId>MSXML</artifactId>
             <version>7.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <distributionManagement>
