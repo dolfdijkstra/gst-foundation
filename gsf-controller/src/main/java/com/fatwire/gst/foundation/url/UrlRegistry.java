@@ -22,6 +22,7 @@ import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 import static com.fatwire.cs.core.db.Util.parseJdbcDate;
+import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -115,10 +116,6 @@ public class UrlRegistry implements WraPathTranslationService {
 
         String qry = "insert into " + URLREG_TABLE + " (id, path, assettype, assetid, " + (start == null ? "" : "startdate, ") + (end == null ? "" : "enddate,") + " opt_vwebroot, opt_url_path, opt_depth, opt_site)" + " VALUES " + "(" + id + "," + quote(path) + "," + quote(assettype) + "," + assetid + "," + (start == null ? "" : quote(Util.formatJdbcDate(start)) + ",") + (end == null ? "" : quote(Util.formatJdbcDate(end)) + ",") + quote(vwebroot) + "," + quote(urlpath) + "," + depth + "," + quote(site) + ")";
         SqlHelper.execute(ics, URLREG_TABLE, qry);
-    }
-
-    private String quote(String s) {
-        return "'" + s + "'";
     }
 
     public void updateAsset(AssetId id) {

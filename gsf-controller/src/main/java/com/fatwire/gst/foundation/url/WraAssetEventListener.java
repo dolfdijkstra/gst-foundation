@@ -15,6 +15,8 @@ import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
+import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
+
 /**
  * Asset event for ensuring that a WRA is properly prepared for rendering.  Includes ensuring that
  * the asset is accessible through the WraPathTranslationService, among other things.
@@ -55,9 +57,5 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
         String blocking = "Y";
         SqlHelper.execute(ics, REGISTRY_TABLE, "delete from " + REGISTRY_TABLE + " where listener = " + quote(listener));
         SqlHelper.execute(ics, REGISTRY_TABLE, "insert into " + REGISTRY_TABLE + " (id, listener, blocking) VALUES (" + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
-    }
-
-    private String quote(String s) {
-        return "'" + s + "'";
     }
 }
