@@ -27,32 +27,33 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * A helper class over <tt>ICS.SQL</tt>
- * 
+ *
  * @author Dolf Dijkstra
  * @see ICS#SQL(String, String, String, int, boolean, boolean, StringBuffer)
- * 
  */
 public class SqlHelper {
 
     private static final Log log = LogFactory.getLog(SqlHelper.class);
 
     private SqlHelper() {
-    };
+    }
+
+    ;
 
     /**
      * facade over ICS.SQL
-     * 
+     * <p/>
      * limit =-1;
-     * 
+     * <p/>
      * bCache=true;
-     * 
+     * <p/>
      * clears errno before ics.SQL
-     * 
+     * <p/>
      * no IList registered in ics variable space
-     * 
+     *
      * @param ics
      * @param table tablename
-     * @param sql the sql statement, needs to start with 'select'
+     * @param sql   the sql statement, needs to start with 'select'
      * @return never null, always an IListIterable
      * @throws RuntimeException if errno is not zero or not -101
      * @see SqlHelper#select(ICS, String, String, int)
@@ -64,10 +65,10 @@ public class SqlHelper {
 
     /**
      * Executes an ICS.SQL operation with a limit.
-     * 
+     *
      * @param ics
      * @param table tablename
-     * @param sql the sql statement, needs to start with 'select'
+     * @param sql   the sql statement, needs to start with 'select'
      * @param limit maximum number of rows to return
      * @return never null, always an IListIterable
      * @see ICS#SQL(String, String, String, int, boolean, StringBuffer)
@@ -87,8 +88,7 @@ public class SqlHelper {
         } else if (ics.GetErrno() == -101) {
             ics.ClearErrno();
         } else {
-            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: '" + errstr.toString()
-                    + "' for " + sql);
+            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: '" + errstr.toString() + "' for " + sql);
         }
 
         return new IListIterable(i);
@@ -96,12 +96,12 @@ public class SqlHelper {
 
     /**
      * handles sql statements, other then SELECT statements
-     * 
+     * <p/>
      * flushes the table (ics.FlushCatalog()) after the statement execution
-     * 
+     *
      * @param ics
      * @param table tablename
-     * @param sql the sql statement, can not start with "select"
+     * @param sql   the sql statement, can not start with "select"
      */
     public static final void execute(final ICS ics, final String table, final String sql) {
         final StringBuffer errstr = new StringBuffer();
@@ -140,9 +140,9 @@ public class SqlHelper {
 
     /**
      * Executes a PreparedStatement
-     * 
+     *
      * @param ics
-     * @param stmt the PreparedStatement
+     * @param stmt  the PreparedStatement
      * @param param the statement parameters
      * @return never null, always an IListIterable
      */
@@ -155,12 +155,22 @@ public class SqlHelper {
         } else if (ics.GetErrno() != -101) { // no rows if fine
             ics.ClearErrno();
         } else {
-            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for "
-                    + stmt.toString());
+            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for " + stmt.toString());
         }
 
         return new IListIterable(i);
 
+    }
+
+    /**
+     * Quote a string for use in a SQL statement.
+     *
+     * @param s string to quote
+     * @return quoted string.  Null strings are returned simply as ''.
+     */
+    public static final String quote(String s) {
+        if (s == null || s.length() == 0) return "''";
+        return "'" + s.replace("'", "''") + "'";
     }
 
 }
