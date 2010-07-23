@@ -112,7 +112,7 @@ public class WraPageReference extends PageRef {
             }
         } else {
             if (log.isDebugEnabled()) {
-                log.debug("Not adding WRAPathAssembler args because context is not satellite server (it is " + getSatelliteContext() + ") and the app type is not ContentServer (it is " + getAppType() + ").  Args: " + args);
+                log.debug("Not adding WRAPathAssembler args because context is not satellite server (it is " + getSatelliteContext() + ").  Args: " + args);
             }
         }
         super.setParameters(args, ics);
