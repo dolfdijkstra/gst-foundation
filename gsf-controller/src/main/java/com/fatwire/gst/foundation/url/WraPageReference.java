@@ -72,6 +72,13 @@ public class WraPageReference extends PageRef {
     @SuppressWarnings("unchecked")
     @Override
     public void setParameters(Map args, ICS ics) throws ReferenceException {
+
+        StringBuilder sb = new StringBuilder("setParameters:");
+        for (Object key : args.keySet()) {
+            sb.append("\n").append(key).append("=").append(args.get(key));
+        }
+        log.info(sb);
+
         // no processing to do if not serving a page for SS
         if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && args.get(ftMessage.PageName) != null) {
             AssetId id = new AssetIdImpl((String) args.get("c"), Long.parseLong((String) args.get("cid")));
