@@ -6,6 +6,7 @@ import COM.FutureTense.Export.Reference;
 import COM.FutureTense.Export.ReferenceException;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IReference;
+import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.uri.Definition;
@@ -72,7 +73,7 @@ public class WraPageReference extends PageRef {
     @Override
     public void setParameters(Map args, ICS ics) throws ReferenceException {
         // no processing to do if not serving a page for SS
-        if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && getAppType() == AppType.CONTENT_SERVER) {
+        if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && args.get(ftMessage.PageName) != null) {
             AssetId id = new AssetIdImpl((String) args.get("c"), Long.parseLong((String) args.get("cid")));
             VirtualWebrootDao vwDao = new VirtualWebrootDao(ics);
             WraCoreFieldDao wraDao = new WraCoreFieldDao(ics);
