@@ -17,6 +17,8 @@ package com.fatwire.gst.foundation.facade.wra;
 
 import java.util.Collections;
 
+import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
@@ -32,11 +34,22 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Dao for dealing with core fields in a WRA
+ * todo: handle aliases cleanly
  *
  * @author Tony Field
  * @since Jul 21, 2010
  */
 public class WraCoreFieldDao {
+
+    private final ICS ics;
+
+    public WraCoreFieldDao() {
+        this.ics = new ICSLocatorSupport().getICS();
+    }
+
+    public WraCoreFieldDao(ICS ics) {
+        this.ics = ics;
+    }
 
     private static final Log LOG = LogFactory.getLog(WraCoreFieldDao.class);
 
@@ -60,6 +73,30 @@ public class WraCoreFieldDao {
         return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status");
     }
 
+    /**
+     * Method to test whether or not an asset is web-referenceable.
+     * todo: optimize as this will be called at runtime
+     *
+     * @param id asset ID to check
+     * @return true if the asset is a valid web-referenceable asset, false if it is not
+     */
+    public boolean isWebReferenceable(AssetId id) {
+        try {
+            getWra(id);
+            return true;
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Return a web referenceable asset bean given an input id.  Required fields must be set or an exception
+     * is thrown.
+     *
+     * @param id asset id
+     * @return WebReferenceableAsset
+     * @see #isWebReferenceable
+     */
     public WebReferenceableAsset getWra(AssetId id) {
         AssetData data = getAsAssetData(id);
         WraBeanImpl wra = new WraBeanImpl();
@@ -93,7 +130,7 @@ public class WraCoreFieldDao {
         param.setString(0, c);
         param.setLong(1, Long.parseLong(cid));
         String result = null;
-        for (Row pubid : SqlHelper.select(new ICSLocatorSupport().getICS(), AP_STMT, param)) {
+        for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
             if (result != null) {
                 LOG.warn("Found asset " + c + ":" + cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: " + result);
             } else {
