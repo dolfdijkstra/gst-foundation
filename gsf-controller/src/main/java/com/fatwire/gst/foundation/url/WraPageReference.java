@@ -73,14 +73,8 @@ public class WraPageReference extends PageRef {
     @Override
     public void setParameters(Map args, ICS ics) throws ReferenceException {
 
-        StringBuilder sb = new StringBuilder("setParameters:");
-        for (Object key : args.keySet()) {
-            sb.append("\n").append(key).append("=").append(args.get(key));
-        }
-        log.info(sb);
-
         // no processing to do if not serving a page for SS
-        if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && args.get(ftMessage.PageName) != null) {
+        if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && isGetTemplateUrl(args)) {
             AssetId id = new AssetIdImpl((String) args.get("c"), Long.parseLong((String) args.get("cid")));
             VirtualWebrootDao vwDao = new VirtualWebrootDao(ics);
             WraCoreFieldDao wraDao = new WraCoreFieldDao(ics);
@@ -122,5 +116,25 @@ public class WraPageReference extends PageRef {
             }
         }
         super.setParameters(args, ics);
+    }
+
+    /**
+     * Check to see if the tag being called is a getTemplateUrl tag.  If it is not, we should not be processing
+     * this for special links.  Note it's not that easy to figure this out, and there could be missing pieces here.
+     * @param args tag args
+     * @return true if it's a gettemplateurl tag, false otherwise.
+     */
+    private boolean isGetTemplateUrl(Map args) {
+        if (args.get("c") == null) return false;
+        if (args.get("cid") == null) return false;
+        String pagename = (String)args.get(ftMessage.PageName);
+        if (pagename == null) return false;
+        if (pagename.split("/").length < 3) return false; // need site/type/tname at least for a valid URL
+        if (args.get(PubConstants.WRAPPERPAGE) != null) return true; // wrapper is only supported for GTU calls
+        else
+        {
+            // possible further checks here just in case
+        }
+        return true;
     }
 }
