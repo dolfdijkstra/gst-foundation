@@ -174,7 +174,6 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             return theBackupAssembler.disassemble(uri, containerType);
         }
 
-
         if (LOG.isDebugEnabled()) {
             LOG.debug("Disassembling URI: " + uri);
         }
@@ -183,13 +182,6 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
         try {
             Map<String, String[]> qryParams = parseQueryString(uri.getRawQuery());
             qryParams.put(PubConstants.PAGENAME, pagename);
-            if (qryParams == null) {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Attempted to disassemble: " + uri + " " + this.getClass().getName() + " but the URL was not recognized.  No further attempt to decode this URL with this assembler will be made");
-                }
-                // This URL was not recognized and cannot be decoded.  Stop trying to deal with it.
-                return theBackupAssembler.disassemble(uri, containerType);
-            }
             final Definition.AppType appType = Definition.AppType.CONTENT_SERVER;
             final Definition.SatelliteContext satelliteContext = Definition.SatelliteContext.SATELLITE_SERVER;
             final boolean sessionEncode = false;
