@@ -1,15 +1,19 @@
 package com.fatwire.gst.foundation.url;
 
-import java.util.Iterator;
 import java.util.Map;
 
-import COM.FutureTense.Common.E;
+import COM.FutureTense.Export.Reference;
 import COM.FutureTense.Export.ReferenceException;
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IReference;
 
-import com.fatwire.assetapi.data.AssetData;
-import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.cs.core.uri.Definition;
+import com.fatwire.gst.foundation.facade.vwebroot.VirtualWebroot;
+import com.fatwire.gst.foundation.facade.vwebroot.VirtualWebrootDao;
+import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
 import com.openmarket.xcelerate.publish.PageRef;
 import com.openmarket.xcelerate.publish.PubConstants;
 
@@ -48,9 +52,9 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  *
  * @author Dolf Dijkstra
  * @author Tony Field
- * @see COM.FutureTense.Export.Reference
- * @see COM.FutureTense.Interfaces.IReference
- * @see com.fatwire.cs.core.uri.Definition
+ * @see Reference
+ * @see IReference
+ * @see Definition
  * @since Jun 17, 2010
  */
 
@@ -64,31 +68,44 @@ public class WraPageReference extends PageRef {
      * COM.FutureTense.Interfaces.ICS)
      */
 
+    @SuppressWarnings("unchecked")
     @Override
     public void setParameters(Map args, ICS ics) throws ReferenceException {
-        _dumpVars(args, ics);
+        // no processing to do if not serving a page for SS
         if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && getAppType() == AppType.CONTENT_SERVER) {
-            String current_environment = getEnvironment(ics);
-            String path = getPathForAsset((String) args.get("c"), (String) args.get("cid"));
-            if (goodString(current_environment) && goodString(path)) {
-                GSTVirtualWebroot vw = findMatchingVirtualWebroot(ics, current_environment, path);
+            AssetId id = new AssetIdImpl((String) args.get("c"), Long.parseLong((String) args.get("cid")));
+            VirtualWebrootDao vwDao = new VirtualWebrootDao(ics);
+            WraCoreFieldDao wraDao = new WraCoreFieldDao(ics);
+            String currentEnvironment = vwDao.getVirtualWebrootEnvironment();
+            // only look up webroots for WRAs when the environment is configured
+            if (currentEnvironment != null && wraDao.isWebReferenceable(id)) {
+                WebReferenceableAsset wra = wraDao.getWra(id);
+                // get the webroot
+                VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
                 if (vw != null) {
-                    args.put("virtual-webroot", vw.getEnvVWebroot());
-                    args.put("url-path", path.substring(vw.getMasterVWebroot().length() + 1));
+                    // set the special fields
+                    args.put("virtual-webroot", vw.getEnvironmentVirtualWebroot());
+                    args.put("url-path", wra.getPath().substring(vw.getMasterVirtualWebroot().length() + 1));
+                    // has pagename been set? if not, use default.
                     String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME, "ServletRequest.properties", true);
                     if (!goodString(pagename)) {
                         pagename = "GST/Dispatcher";
                     }
+                    // pagename or wrapperpage depending on whether or not we're going to use a wrapper.
                     if (args.get(PubConstants.WRAPPERPAGE) != null) args.put(PubConstants.WRAPPERPAGE, pagename);
                     else args.put("pagename", pagename);
                 } else {
                     if (log.isDebugEnabled()) {
-                        log.debug("Not adding WRAPathAssembler args because no matching virtual webroot found for path " + path + " and environemnt " + current_environment);
+                        log.debug("Not adding WRAPathAssembler args because no matching virtual webroot found for path " + wra.getPath() + " and environemnt " + currentEnvironment);
                     }
                 }
             } else {
                 if (log.isDebugEnabled()) {
-                    log.debug("Not adding WRAPathAssembler args because env_name is not set, or we cannot find the path for the input asset.  Args:" + args);
+                    if (currentEnvironment == null) {
+                        log.debug("Not adding WraPathAssembler args because virtual webroot environment is not configured");
+                    } else {
+                        log.debug("Not adding WraPathAssembler args because asset " + id + " is not web-referenceable");
+                    }
                 }
             }
         } else {
@@ -97,47 +114,5 @@ public class WraPageReference extends PageRef {
             }
         }
         super.setParameters(args, ics);
-    }
-
-    private String getPathForAsset(String c, String cid) {
-        if (goodString(c) && goodString(cid)) {
-            AssetData data = AssetDataUtils.getAssetData(c, cid, "path");
-            return AttributeDataUtils.asString(data.getAttributeData("path"));
-        }
-        return null;
-    }
-
-    private GSTVirtualWebroot findMatchingVirtualWebroot(ICS ics, String current_environment, String path) {
-        for (GSTVirtualWebroot vw : GSTVirtualWebroot.getAllVirtualWebroots(ics)) {
-            // find longest first one that is found in the prefix of path. that is virtual-webroot
-            if (current_environment.equals(vw.getEnvName()) && path.startsWith(vw.getMasterVWebroot())) {
-                return vw;
-            }
-        }
-        return null; // no match
-    }
-
-    private String getEnvironment(ICS ics) {
-        String environmentName = System.getProperty("com.fatwire.gst.foundation.env-name", null);
-        if (environmentName == null) {
-            // allow user to have accidentally mis-configured things
-            environmentName = ics.GetProperty("com.fatwire.gst.foundation.env-name");
-        }
-        return environmentName;
-    }
-
-    /**
-     * dump vars to disk
-     *
-     * @param ftValList
-     * @param ics
-     */
-    private void _dumpVars(Map ftValList, ICS ics) {
-        if (log.isDebugEnabled()) {
-            for (Iterator<E> i = ftValList.entrySet().iterator(); i.hasNext();) {
-                Map.Entry e = (Map.Entry) i.next();
-                log.debug(ics.ResolveVariables("CS.elementname") + ": " + e.getKey() + "=" + e.getValue());
-            }
-        }
     }
 }

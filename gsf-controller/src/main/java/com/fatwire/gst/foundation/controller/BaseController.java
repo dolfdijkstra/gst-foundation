@@ -53,7 +53,7 @@ public class BaseController extends AbstractController {
     public void SetAppLogic(IPS ips) {
         super.SetAppLogic(ips);
         pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
-        wraCoreFieldDao = new WraCoreFieldDao();
+        wraCoreFieldDao = new WraCoreFieldDao(ics);
     }
 
     @Override
