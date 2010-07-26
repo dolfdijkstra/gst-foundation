@@ -11,6 +11,7 @@ package com.fatwire.gst.foundation.url;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,11 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
      * Name of query string parameter for url-path
      */
     private static final String URL_PATH = "url-path";
+
+    /**
+     * Name of packedargs param
+     */
+    private static final String PACKEDARGS = "packedargs";
 
     /**
      * The assembler to use in case the input does not support the WRAPath approach
@@ -85,8 +91,20 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
      * @throws URISyntaxException
      */
     public URI assemble(Definition definition) throws URISyntaxException {
+
+        // get packedargs just in case we need them
+        Map<String, String[]> packedargs = getPackedargs(definition);
+
         String virtualWebroot = definition.getParameter(VIRTUAL_WEBROOT);
+        if (!goodString(virtualWebroot) && packedargs.containsKey(VIRTUAL_WEBROOT)) {
+            String[] s = packedargs.get(VIRTUAL_WEBROOT);
+            if (s != null && s.length > 0) virtualWebroot = s[0];
+        }
         String urlPath = definition.getParameter(URL_PATH);
+        if (!goodString(urlPath) && packedargs.containsKey(URL_PATH)) {
+            String[] s = packedargs.get(URL_PATH);
+            if (s != null && s.length > 0) urlPath = s[0];
+        }
         if (!goodString(virtualWebroot) || !goodString(urlPath)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("WRAPathAssembler can't assemble definition due to missing core params. Definition: " + definition);
@@ -109,13 +127,24 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             String key = (String) o;
 
             // Don't add embedded params to the query string
-            // This method DOES NOT strip embedded params from packedargs or unpack args at all.
             if (!EMBEDDED_PARAMS.contains(key)) {
                 String[] vals = definition.getParameters(key);
+                if (key.equals(PACKEDARGS)) {
+                    vals = excludeFromPackedargs(vals, EMBEDDED_PARAMS);
+                }
                 newQryParams.put(key, vals);
             }
         }
         return constructQueryString(newQryParams);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, String[]> getPackedargs(Definition definition) {
+        String[] packedargs = definition.getParameters(PACKEDARGS);
+        if (packedargs != null && packedargs.length > 0) {
+            return parseQueryString(packedargs[0]);
+        }
+        return Collections.EMPTY_MAP;
     }
 
     /**
