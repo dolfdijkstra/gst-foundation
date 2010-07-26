@@ -64,6 +64,7 @@ public final class VirtualWebrootDao {
         AssetList al = new AssetList();
         al.setExcludeVoided(true);
         al.setList("pr-out");
+        al.setType("GSTVirtualWebroot");
         ics.RegisterList("pr-out", null);
         al.execute(ics);
         IList ilist = ics.GetList("pr-out");
