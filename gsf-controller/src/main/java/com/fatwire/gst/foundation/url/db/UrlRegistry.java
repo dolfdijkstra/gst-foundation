@@ -1,4 +1,4 @@
-package com.fatwire.gst.foundation.url;
+package com.fatwire.gst.foundation.url.db;
 
 import java.util.Collections;
 import java.util.Date;
@@ -21,6 +21,7 @@ import com.fatwire.gst.foundation.facade.vwebroot.VirtualWebroot;
 import com.fatwire.gst.foundation.facade.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
+import com.fatwire.gst.foundation.url.WraPathTranslationService;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 import static com.fatwire.cs.core.db.Util.parseJdbcDate;

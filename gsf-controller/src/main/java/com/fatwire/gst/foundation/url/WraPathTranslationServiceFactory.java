@@ -11,6 +11,7 @@ package com.fatwire.gst.foundation.url;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
+import com.fatwire.gst.foundation.url.db.UrlRegistry;
 
 /**
  * Used to instantiate path translation services.  Probably should get replaced by DI at some point.
