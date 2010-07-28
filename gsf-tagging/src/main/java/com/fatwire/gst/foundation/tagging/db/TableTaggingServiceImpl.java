@@ -68,11 +68,11 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         new TableCreator(ics).createTable(def);
     }
 
-    public void recordCacheDependency(ICS ics, Tag tag) {
+    public void recordCacheDependency(Tag tag) {
         CacheManager.RecordItem(ics, convertTagToCacheDepString(tag));
     }
 
-    public void clearCacheForTag(ICS ics, Collection<Tag> tags) {
+    public void clearCacheForTag(Collection<Tag> tags) {
         CacheManager cm = new CacheManager(ics);
         List<String> ids = new ArrayList<String>();
         for (Tag tag : tags) {

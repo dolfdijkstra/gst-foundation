@@ -10,8 +10,6 @@ package com.fatwire.gst.foundation.tagging;
 
 import java.util.Collection;
 
-import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AssetId;
 
 /**
@@ -42,15 +40,14 @@ public interface AssetTaggingService {
      *
      * @param tags tags
      */
-    void clearCacheForTag(ICS ics, Collection<Tag> tags);
+    void clearCacheForTag(Collection<Tag> tags);
 
     /**
      * Record the specified tag as a dependency on the current pagelet
      *
-     * @param ics ICS context
      * @param tag tag
      */
-    void recordCacheDependency(ICS ics, Tag tag);
+    void recordCacheDependency(Tag tag);
 
     /**
      * Handle adding a tagged asset.  If the asset is not tagged, nothing happens.
