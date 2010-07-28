@@ -10,6 +10,8 @@ package com.fatwire.gst.foundation.tagging;
 
 import java.util.Collection;
 
+import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.assetapi.data.AssetId;
 
 /**
@@ -27,11 +29,28 @@ public interface AssetTaggingService {
     void install();
 
     /**
+     * Look up the tags for an asset. Returns an empty list if none or set or if the asset does not have a
+     * tag attribute or field
+     *
+     * @param id asset id
+     * @return collection of tags. Never null
+     */
+    Collection<Tag> getTags(AssetId id);
+
+    /**
      * Clear any cached items associated with the tag.
      *
      * @param tags tags
      */
-    void clearCacheForTag(Collection<Tag> tags);
+    void clearCacheForTag(ICS ics, Collection<Tag> tags);
+
+    /**
+     * Record the specified tag as a dependency on the current pagelet
+     *
+     * @param ics ICS context
+     * @param tag tag
+     */
+    void recordCacheDependency(ICS ics, Tag tag);
 
     /**
      * Handle adding a tagged asset.  If the asset is not tagged, nothing happens.
@@ -54,4 +73,11 @@ public interface AssetTaggingService {
      */
     void deleteAsset(AssetId id);
 
+    /**
+     * Return a collection of assets that are tagged with the specified tag.
+     *
+     * @param tag tag to use to look up assets
+     * @return collection of assets that have the specified tag set.  May return an empty list; never returns null.
+     */
+    Collection<AssetId> lookupTaggedAssets(Tag tag);
 }

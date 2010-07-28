@@ -1,0 +1,8 @@
+Last upated: July 27, 2010 4:33pm by Tony Field
+- create publishing hook to call cache flush stuff
+- document exactly how to wire listeners
+- create the gsf:tagged-list tag in gsf-taglib.
+- crate installer
+
+Someday maybe
+- create tool to clean up or at least identify orphan tags.

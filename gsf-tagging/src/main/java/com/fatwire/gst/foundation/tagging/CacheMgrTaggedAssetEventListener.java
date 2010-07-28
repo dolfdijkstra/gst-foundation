@@ -14,16 +14,16 @@ import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
 /**
- * Sends requests to the tagging service.
+ * Cache manager to be used to deal with cache updates
  *
  * @author Tony Field
  * @since Jul 28, 2010
  */
-public final class TaggedAssetEventListener extends AbstractAssetEventListener {
+public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventListener {
 
     private final AssetTaggingService svc;
 
-    public TaggedAssetEventListener() {
+    public CacheMgrTaggedAssetEventListener() {
         try {
             svc = AssetTaggingServiceFactory.getService(Factory.newCS());
         } catch (Exception e) {
@@ -31,19 +31,18 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
         }
     }
 
-
     @Override
     public void assetAdded(AssetId assetId) {
-        svc.addAsset(assetId);
+        svc.clearCacheForTag(svc.getTags(assetId));
     }
 
     @Override
     public void assetUpdated(AssetId assetId) {
-        svc.updateAsset(assetId);
+        svc.clearCacheForTag(svc.getTags(assetId));
     }
 
     @Override
     public void assetDeleted(AssetId assetId) {
-        svc.deleteAsset(assetId);
+        svc.clearCacheForTag(svc.getTags(assetId));
     }
 }
