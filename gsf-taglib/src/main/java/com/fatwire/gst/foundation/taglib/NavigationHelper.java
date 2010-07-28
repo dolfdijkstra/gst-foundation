@@ -88,8 +88,7 @@ public class NavigationHelper {
      * pageid you originally pass in = level 0)</li>
      * <li><code>id</code>: AssetId of asset associated to the Page in the unnamed association field.  Should
      * be either a WRA or an alias</li>
-     * <li><code>bean</code>: Bean object containing the field data of the unnamed associated asset. Currently  
-     * Alias or WebReferenceableAsset.</li>
+     * <li><code>bean</code>: WebReferenceableAsset object containing the field data of the unnamed associated asset.</li>
      * <li><code>url</code>: String url for the nav entry</li>
      * <li><code>linktext</code>: String linktext for the nav entry.  Images are not supported. </li>
      * <li><code>children</code>: (a List<Map<String,Object>> of the children (in the site plan tree) of the page,
@@ -155,7 +154,6 @@ public class NavigationHelper {
                     } else {
                     	result.putAll(extractAttrFromWra(id));
                     }
-
                 } else {
                     if (LOG.isDebugEnabled())
                         LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
@@ -294,6 +292,7 @@ public class NavigationHelper {
     	Alias alias = wraUtils.getAlias(id);
         String url = getUrlForAlias(alias);
         String linktext = getLinktextForAlias(alias);
+        result.put("bean", alias);
         if (url != null) result.put("url", url);
         if (linktext != null) result.put("linktext", linktext);
     	return result;
@@ -311,6 +310,7 @@ public class NavigationHelper {
     	WebReferenceableAsset wra = wraUtils.getWra(id);
         String url = getUrlForWra(wra);
         String linktext = getLinktextForWra(wra);
+        result.put("bean", wra);
         if (url != null) result.put("url", url);
         if (linktext != null) result.put("linktext", linktext);
     	return result;
