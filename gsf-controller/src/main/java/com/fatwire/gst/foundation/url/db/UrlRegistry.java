@@ -11,6 +11,7 @@ import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
+import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.facade.sql.table.TableColumn;
@@ -23,8 +24,6 @@ import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 
-import static COM.FutureTense.Interfaces.Utilities.goodString;
-import static com.fatwire.cs.core.db.Util.parseJdbcDate;
 import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
@@ -40,7 +39,7 @@ public class UrlRegistry implements WraPathTranslationService {
     private final VirtualWebrootDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
 
-    UrlRegistry(ICS ics) {
+    public UrlRegistry(ICS ics) {
         this.ics = ics;
         wraDao = new WraCoreFieldDao();
         vwDao = new VirtualWebrootDao(ics);
@@ -78,31 +77,12 @@ public class UrlRegistry implements WraPathTranslationService {
         for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
             final String assettype = asset.getString("assettype");
             final String assetid = asset.getString("assetid");
-            if (inRange(asset, now)) {
+            if (FilterAssetsByDate.isDateWithinRange(asset.getString("startdate"), now, asset.getString("enddate"))) {
                 return new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
             }
         }
 
         return null;
-    }
-
-    private boolean inRange(final Row asset, final Date now) {
-        final Date startdate = goodString(asset.getString("startdate")) ? parseJdbcDate(asset.getString("startdate")) : null;
-        final Date enddate = goodString(asset.getString("enddate")) ? parseJdbcDate(asset.getString("enddate")) : null;
-
-        if (startdate != null || enddate != null) {
-            if (startdate == null) {
-                if (enddate.before(now)) {
-                    return false;
-                }
-            } else {
-                if (startdate.after(now)) {
-                    return false;
-                }
-            }
-
-        }
-        return true;
     }
 
     public void addAsset(AssetId asset) {
