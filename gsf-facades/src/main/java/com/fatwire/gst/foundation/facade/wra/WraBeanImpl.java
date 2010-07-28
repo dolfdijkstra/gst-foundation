@@ -152,4 +152,8 @@ public class WraBeanImpl implements WebReferenceableAsset {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    public String toString() {
+    	return (getId() != null) ? getId().toString() : "[null id]";
+    }
 }

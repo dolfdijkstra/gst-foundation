@@ -109,11 +109,11 @@ public class WraCoreFieldDao {
         wra.setEndDate(AttributeDataUtils.asDate(data.getAttributeData("enddate")));
         wra.setMetaTitle(AttributeDataUtils.getWithFallback(data, "metatitle"));
         wra.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
-        wra.setMetaKeyword(AttributeDataUtils.getWithFallback(data, "metakeyword"));
+        wra.setMetaKeyword(AttributeDataUtils.asString(data.getAttributeData("metakeyword")));
         wra.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
         wra.setLinkTitle(AttributeDataUtils.getWithFallback(data, "linktitle", "h1title"));
-        wra.setPath(AttributeDataUtils.getWithFallback(data, "path"));
-        wra.setTemplate(AttributeDataUtils.getWithFallback(data, "template"));
+        wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
+        wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
         return wra;
     }
 

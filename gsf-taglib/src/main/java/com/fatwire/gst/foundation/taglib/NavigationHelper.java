@@ -1,5 +1,7 @@
 package com.fatwire.gst.foundation.taglib;
 
+import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -7,27 +9,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
 import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+import com.fatwire.gst.foundation.facade.wra.Alias;
+import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
 
 /**
  * Used to retrieve the Navigation Bar data. See the description of
@@ -83,10 +83,13 @@ public class NavigationHelper {
      * <ul>
      * <li><code>page</code>: AssetId of page asset</li>
      * <li><code>pagesubtype</code>: String subtype of page asset</li>
+     * <li><code>pagename</code>: String name of page asset</li>
      * <li><code>level</code>: int the number of levels down the site plan tree of the page asset (starting with the
      * pageid you originally pass in = level 0)</li>
      * <li><code>id</code>: AssetId of asset associated to the Page in the unnamed association field.  Should
      * be either a WRA or an alias</li>
+     * <li><code>bean</code>: Bean object containing the field data of the unnamed associated asset. Currently  
+     * Alias or WebReferenceableAsset.</li>
      * <li><code>url</code>: String url for the nav entry</li>
      * <li><code>linktext</code>: String linktext for the nav entry.  Images are not supported. </li>
      * <li><code>children</code>: (a List<Map<String,Object>> of the children (in the site plan tree) of the page,
@@ -130,10 +133,12 @@ public class NavigationHelper {
         result.put("level", level);
 
         // determine if it's a wra, a placeholder or an alias
-        AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype");
+        AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
         String subtype = pageData.getAttributeData("subtype").getData().toString();
+        String name = pageData.getAttributeData("name").getData().toString();
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
         result.put("pagesubtype", subtype);
+        result.put("pagename", name);
 
         // no link if it's just a placeholder
         if (!isNavigationPlaceholder) {
@@ -145,17 +150,11 @@ public class NavigationHelper {
             } else {
                 if (isValidOnDate(id, assetEffectiveDate)) {
                     result.put("id", id);
-                    final String url;
-                    final String linktext;
                     if (isGstAlias(id)) {
-                        url = getUrlForAlias(id);
-                        linktext = getLinktextForAlias(id);
+                    	result.putAll(extractAttrFromAlias(id));
                     } else {
-                        url = getUrlForWra(id);
-                        linktext = getLinktextForWra(id);
+                    	result.putAll(extractAttrFromWra(id));
                     }
-                    if (url != null) result.put("url", url);
-                    if (linktext != null) result.put("linktext", linktext);
 
                 } else {
                     if (LOG.isDebugEnabled())
@@ -199,20 +198,17 @@ public class NavigationHelper {
      * soon this function WILL CHANGE and will allow an alias to define the URL of the target also (if desired).  A
      * bug in the GSF prevents this for now.  This has to be fixed.  TODO: Reconcile this with revised spec.
      *
-     * @param id
-     * @return
+     * @param alias Alias bean
+     * @return url
      */
-    protected String getUrlForAlias(AssetId id) {
-        AssetData data = AssetDataUtils.getAssetData(id, "target", "targeturl", "linktext");
-        AttributeData targeturl = data.getAttributeData("targeturl");
-        if (targeturl != null && targeturl.getData() != null) {
-            return targeturl.getData().toString();
+    protected String getUrlForAlias(Alias alias) {
+    	if (alias.getTargetUrl() != null && alias.getTargetUrl().length() > 0) {
+            return alias.getTargetUrl();
         } else {
-            AttributeData target = data.getAttributeData("target");
-            if (target != null && target.getData() != null) {
-                return getUrlForWra((AssetId) target.getData());
+            if (alias.getTarget() != null) {
+                return getUrlForWra(wraUtils.getWra(alias.getTarget()));
             } else {
-                LOG.warn("Alias asset " + id + " does not specify a target asset or url.");
+                LOG.warn("Alias asset " + alias + " does not specify a target asset or url.");
                 return null;
             }
         }
@@ -225,21 +221,19 @@ public class NavigationHelper {
      * If linktext is specified in the alias, it is returned.  If it is not, the target linktext is returned.
      * If no target is found and linktext is not specified, null is returned and a warning is issued.
      *
-     * @param id of alias
+     * @param alias Alias bean
      * @return linktext or null on failure.
      */
-    protected String getLinktextForAlias(AssetId id) {
-        AssetData data = AssetDataUtils.getAssetData(id, "target", "targeturl", "linktext");
-        AttributeData linktext = data.getAttributeData("linktext");
-        if (linktext != null && linktext.getData() != null) {
-            return linktext.getData().toString();
+    protected String getLinktextForAlias(Alias alias) {
+        if (alias.getLinkText() != null && alias.getLinkText().length() > 0) {
+            return alias.getLinkText();
         } else {
             // it might be pointing directly to the target
-            AttributeData target = data.getAttributeData("target");
-            if (target != null && target.getData() != null) {
-                return getLinktextForWra((AssetId) target.getData());
+            if (alias.getTarget() != null) {
+            	
+                return getLinktextForWra(wraUtils.getWra(alias.getTarget()));
             } else {
-                LOG.warn("Alias asset " + id + " does not specify linktext.");
+                LOG.warn("Alias asset " + alias + " does not specify linktext.");
                 return null;
             }
         }
@@ -248,22 +242,20 @@ public class NavigationHelper {
     /**
      * Get the URL to use for the web-referenceable asset.
      *
-     * @param id id of wra
+     * @param wra WebReferenceableAsset bean
      * @return url
      */
-    protected String getUrlForWra(AssetId id) {
-        String cid = Long.toString(id.getId());
-        AssetData data = wraUtils.getCoreFieldsAsAssetData(id);
-        String tname = AttributeDataUtils.getWithFallback(data, "template");
-        if (tname == null || tname.length() == 0) {
-            LOG.warn("Asset " + id + " does not have a valid template set.");
+    protected String getUrlForWra(WebReferenceableAsset wra) {
+        if (wra.getTemplate() == null || wra.getTemplate().length() == 0) {
+            LOG.warn("Asset " + wra + " does not have a valid template set.");
             return null;
         }
         String wrapper = ics.GetProperty("com.fatwire.gst.foundation.url.wrapathassembler.dispatcher", "ServletRequest.properties", true);
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GSF/Dispatcher";
         }
-        GetTemplateUrl gtu = new GetTemplateUrl(ics, id.getType(), cid, tname, wrapper, "nav");
+        GetTemplateUrl gtu = new GetTemplateUrl(ics, wra.getId().getType(), 
+        		wra.getId().getId() + "", wra.getTemplate(), wrapper, "nav");
         ics.RemoveVar("gspal-url");
         gtu.setOutstr("gspal-url");
         gtu.execute(ics);
@@ -275,17 +267,53 @@ public class NavigationHelper {
     /**
      * Return the linktext to use for the web-referenceable asset
      *
-     * @param id id of wra
+     * @param wra WebReferenceableAsset bean
      * @return linktext
      */
-    protected String getLinktextForWra(AssetId id) {
-        AssetData data = wraUtils.getCoreFieldsAsAssetData(id);
-        String linktext = AttributeDataUtils.getWithFallback(data, "linktitle", "h1title");
-        if (linktext == null || linktext.length() == 0) {
-            LOG.warn("Could not retrieve linktext for WRA: " + id + " (This is expected if the asset is not a web-referenceable asset).");
+    protected String getLinktextForWra(WebReferenceableAsset wra) {
+    	if (wra.getLinkTitle() != null && wra.getLinkTitle().length() > 0) {
+        	return wra.getLinkTitle();
+    	} else if (wra.getH1Title() != null && wra.getH1Title().length() > 0) {
+    		return wra.getH1Title();
+    	} else {
+            LOG.warn("Could not retrieve linktext for WRA: " + wra + " (This is expected if the asset is not a web-referenceable asset).");
             return null;
         }
-        return linktext;
+    }
+    
+    /**
+     * Extracts attributes from the provided Alias asset. Separated into 
+     * its own method to facilitate overriding this method for custom 
+     * Alias assets or adding additional attributes.
+     *  
+     * @param id
+     * @return
+     */
+    protected Map<String,Object> extractAttrFromAlias(AssetId id) {
+    	Map<String,Object> result = new HashMap<String,Object>();
+    	Alias alias = wraUtils.getAlias(id);
+        String url = getUrlForAlias(alias);
+        String linktext = getLinktextForAlias(alias);
+        if (url != null) result.put("url", url);
+        if (linktext != null) result.put("linktext", linktext);
+    	return result;
+    }
+
+    /**
+     * Extracts attributes from the provided wra asset. Separated into 
+     * its own method to facilitate overriding to add additional attributes.
+     *  
+     * @param id
+     * @return
+     */
+    protected Map<String,Object> extractAttrFromWra(AssetId id) {
+    	Map<String,Object> result = new HashMap<String,Object>();
+    	WebReferenceableAsset wra = wraUtils.getWra(id);
+        String url = getUrlForWra(wra);
+        String linktext = getLinktextForWra(wra);
+        if (url != null) result.put("url", url);
+        if (linktext != null) result.put("linktext", linktext);
+    	return result;
     }
 
     static final PreparedStmt FIND_P = new PreparedStmt("SELECT art.oid\n\tFROM AssetRelationTree art, AssetPublication ap, Publication p\n\tWHERE ap.assetid = art.oid\n\t" + "AND ap.assettype = 'Page'\n\t" + "AND ap.pubid = p.id\n\t" + "AND p.name = ?\n\t" + "AND art.otype = ap.assettype\n\t" + "AND art.nid in (\n\t\t" + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-'\n\t) ORDER BY ap.id", Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
