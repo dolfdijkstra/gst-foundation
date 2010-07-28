@@ -13,12 +13,18 @@ import java.util.Collection;
 import com.fatwire.assetapi.data.AssetId;
 
 /**
- * Provides core tagging support systems.
+ * Provides core tagging support systems.  Note that add, update, and delete methods are smart enough to not
+ * fail if passed a non-tagged asset.
  *
  * @author Tony Field
  * @since Jul 28, 2010
  */
 public interface AssetTaggingService {
+
+    /**
+     * Bootstrap thyself
+     */
+    void install();
 
     /**
      * Clear any cached items associated with the tag.
@@ -28,21 +34,21 @@ public interface AssetTaggingService {
     void clearCacheForTag(Collection<Tag> tags);
 
     /**
-     * Handle adding a tagged asset
+     * Handle adding a tagged asset.  If the asset is not tagged, nothing happens.
      *
      * @param id asset with tag
      */
     void addAsset(AssetId id);
 
     /**
-     * Handle updating tagged asset
+     * Handle updating tagged asset.  If the asset is not tagged, nothing happens.
      *
      * @param id asset with tag
      */
     void updateAsset(AssetId id);
 
     /**
-     * Handle deleting tagged asset
+     * Handle deleting tagged asset.  If the asset is not tagged, nothing happens.
      *
      * @param id tagged asset
      */
