@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 FatWire Corporation. All Rights Reserved.
+ * Copyright 2008 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.fatwire.gst.foundation.core.modeller;
+package com.fatwire.gst.foundation.facade.ics;
 
 import COM.FutureTense.Interfaces.ICS;
-
 /**
- * Builds a model in the MVC sense, and also binds the variables and objects to
- * the ICS scope.
  * 
- * It has two responsibilities, building and binding, this probably need to be
- * refactored later.
+ * Accessor to ICS
  * 
- * 
- * @author Dolf.Dijkstra
- * 
+ * @author Dolf Dijkstra
+ *
  */
+public interface ICSLocator {
 
-public interface ModelBuilder {
-
-    void model(ICS ics);
+    ICS getICS();
 
 }

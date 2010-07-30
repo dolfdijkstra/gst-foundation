@@ -125,11 +125,6 @@
             <artifactId>MSXML</artifactId>
             <version>7.5.3</version>
         </dependency>
-        <dependency>
-            <groupId>com.fatwire.gst</groupId>
-            <artifactId>gsf-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
     <distributionManagement>
         <site>
