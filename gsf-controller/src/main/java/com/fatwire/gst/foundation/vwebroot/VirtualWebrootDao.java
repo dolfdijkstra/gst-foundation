@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 FatWire Corporation. All Rights Reserved.
+ * Copyright 2010 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.facade.vwebroot;
+package com.fatwire.gst.foundation.vwebroot;
 
 import java.util.Comparator;
 import java.util.SortedSet;
@@ -29,7 +29,7 @@ import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 
 /**
  * DAO for working with Virtual Webroots

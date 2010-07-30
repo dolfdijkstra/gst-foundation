@@ -1,3 +1,18 @@
+/*
+ * Copyright 2010 FatWire Corporation. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.fatwire.gst.foundation.url;
 
 import java.util.Map;
@@ -10,10 +25,10 @@ import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.uri.Definition;
-import com.fatwire.gst.foundation.facade.vwebroot.VirtualWebroot;
-import com.fatwire.gst.foundation.facade.vwebroot.VirtualWebrootDao;
-import com.fatwire.gst.foundation.facade.wra.WebReferenceableAsset;
-import com.fatwire.gst.foundation.facade.wra.WraCoreFieldDao;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
+import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 import com.openmarket.xcelerate.publish.PageRef;
 import com.openmarket.xcelerate.publish.PubConstants;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.facade;
+package com.fatwire.gst.foundation;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
