@@ -8,11 +8,11 @@
         <version>2</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
-    <artifactId>gsf-controller</artifactId>
+    <artifactId>gsf-wra</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>FatWire GST: Site Foundation Controller</name>
-    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-controller</url>
+    <name>FatWire GST: Site Foundation Web-Referenceable Asset Support</name>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-wra</url>
     <inceptionYear>2010</inceptionYear>
     <developers>
         <developer>
@@ -23,11 +23,11 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-controller
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-wra
         </connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-controller
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-wra
         </developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-controller</url>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-wra</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -68,7 +68,7 @@
     <distributionManagement>
         <site>
             <id>website</id>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-controller</url>
+            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-wra</url>
         </site>
     </distributionManagement>
 </project>
