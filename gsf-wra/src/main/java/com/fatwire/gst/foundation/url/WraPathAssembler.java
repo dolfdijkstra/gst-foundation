@@ -28,7 +28,6 @@ import com.fatwire.cs.core.uri.Assembler;
 import com.fatwire.cs.core.uri.Definition;
 import com.fatwire.cs.core.uri.QueryAssembler;
 import com.fatwire.cs.core.uri.Simple;
-import com.fatwire.developernet.uri.lightweight.LightweightAbstractAssembler;
 import com.openmarket.xcelerate.publish.PubConstants;
 
 import org.apache.commons.logging.Log;
