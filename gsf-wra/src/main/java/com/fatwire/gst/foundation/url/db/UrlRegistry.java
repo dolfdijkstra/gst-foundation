@@ -112,7 +112,7 @@ public class UrlRegistry implements WraPathTranslationService {
         Date end = wra.getEndDate();
         VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
         String vwebroot = vw.getEnvironmentVirtualWebroot();
-        String urlpath = wra.getPath().substring(vw.getMasterVirtualWebroot().length() + 1);
+        String urlpath = wra.getPath().substring(vw.getMasterVirtualWebroot().length());
         int depth = urlpath != null && urlpath.length() > 0 ? urlpath.split("/").length : 0;
         String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
 

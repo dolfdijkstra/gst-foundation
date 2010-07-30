@@ -102,7 +102,7 @@ public class WraPageReference extends PageRef {
                 if (vw != null) {
                     // set the special fields
                     args.put("virtual-webroot", vw.getEnvironmentVirtualWebroot());
-                    args.put("url-path", wra.getPath().substring(vw.getMasterVirtualWebroot().length() + 1));
+                    args.put("url-path", wra.getPath().substring(vw.getMasterVirtualWebroot().length()));
                     // has pagename been set? if not, use default.
                     String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME, "ServletRequest.properties", true);
                     if (!goodString(pagename)) {
