@@ -22,8 +22,16 @@ import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
+import junit.framework.TestCase;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp.BasicDataSourceFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.FTValList;
@@ -33,17 +41,10 @@ import COM.FutureTense.Servlet.IPSRegistry;
 import COM.FutureTense.Util.ftMessage;
 import COM.FutureTense.Util.ftTimedHashtable;
 
-import com.fatwire.gst.foundation.core.DebugHelper;
-import com.fatwire.gst.foundation.core.service.ICSLocator;
-import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
+import com.fatwire.gst.foundation.DebugHelper;
+import com.fatwire.gst.foundation.facade.ics.ICSLocator;
+import com.fatwire.gst.foundation.facade.ics.ICSLocatorSupport;
 import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.dbcp.BasicDataSourceFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import junit.framework.TestCase;
 
 /**
  * NOTE July 6, 2010: The following instructions are not rigorously tested but the class works.
