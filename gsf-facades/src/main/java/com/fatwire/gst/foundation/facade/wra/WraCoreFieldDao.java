@@ -23,9 +23,9 @@ import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
@@ -44,7 +44,7 @@ public class WraCoreFieldDao {
     private final ICS ics;
 
     public WraCoreFieldDao() {
-        this.ics = new ICSLocatorSupport().getICS();
+        this.ics = ICSFactory.newICS();
     }
 
     public WraCoreFieldDao(ICS ics) {

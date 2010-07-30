@@ -23,9 +23,9 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.assetapi.data.AssetData;
-import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
@@ -42,7 +42,7 @@ public final class VirtualWebrootDao {
     private final ICS ics;
 
     public VirtualWebrootDao() {
-        this.ics = new ICSLocatorSupport().getICS();
+        this.ics = ICSFactory.newICS();
     }
 
     public VirtualWebrootDao(ICS ics) {

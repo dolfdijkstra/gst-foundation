@@ -29,7 +29,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.IListUtils;
-import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.mda.Dimension;
 import com.fatwire.mda.DimensionException;
@@ -82,7 +82,7 @@ public final class LocaleUtils {
      *             example, to change the filter, or change enabled dimensions).
      */
     public static AssetId findTranslation(String c, String cid, String preferredLocaleDimensionId, String site) {
-        return findTranslation(new ICSLocatorSupport().getICS(), new AssetIdImpl(c, Long.valueOf(cid)), preferredLocaleDimensionId, site);
+        return findTranslation(ICSFactory.newICS(), new AssetIdImpl(c, Long.valueOf(cid)), preferredLocaleDimensionId, site);
     }
 
     /**
@@ -134,7 +134,7 @@ public final class LocaleUtils {
      *             filter, or change enabled dimensions).
      */
     public static AssetId findTranslation(AssetId id, String preferredLocaleDimensionIdString, String site) {
-        ICS ics = new ICSLocatorSupport().getICS();
+        ICS ics = ICSFactory.newICS();
         if (preferredLocaleDimensionIdString == null) {
             throw new IllegalArgumentException("Required preferred locale dimension ID not provided");
         }
