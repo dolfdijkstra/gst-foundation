@@ -19,7 +19,13 @@ import COM.FutureTense.Interfaces.ICS;
  */
 public final class ICSFactory {
 
-    public static final ICS newInstance() {
+    /**
+     * Create a new instance of ICS.  Expensive operation. Should be used sparingly.
+     * TODO: Document lifecycle restrictions
+     *
+     * @return ICS instance, not backed by servlet.
+     */
+    public static final ICS newICS() {
         try {
             return Factory.newCS();
         } catch (Exception e) {
