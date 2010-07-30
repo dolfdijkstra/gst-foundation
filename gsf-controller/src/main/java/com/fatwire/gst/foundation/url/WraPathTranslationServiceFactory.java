@@ -10,7 +10,7 @@ package com.fatwire.gst.foundation.url;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.url.db.UrlRegistry;
 
 /**
@@ -28,6 +28,6 @@ public final class WraPathTranslationServiceFactory {
      * @return service
      */
     public static WraPathTranslationService getService(ICS ics) {
-        return new UrlRegistry(ics == null ? new ICSLocatorSupport().getICS() : ics);
+        return new UrlRegistry(ics == null ? ICSFactory.newICS() : ics);
     }
 }

@@ -11,7 +11,7 @@ package com.fatwire.gst.foundation.url;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.core.service.ICSLocatorSupport;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
@@ -51,7 +51,7 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
      * Install self into AssetListener_reg table
      */
     public void install() {
-        ICS ics = new ICSLocatorSupport().getICS();
+        ICS ics = ICSFactory.newICS();
         String id = ics.genID(false);
         String listener = WraAssetEventListener.class.getName();
         String blocking = "Y";

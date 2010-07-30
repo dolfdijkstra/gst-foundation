@@ -13,6 +13,9 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 
 /**
  * Path translation service for going from assetid to WRA path and back
+ * <p/>
+ * todo: for any given partial url, get next children down, and "are they parents too"
+ * todo: remove installation method from interface.
  *
  * @author Tony Field
  * @since Jul 21, 2010
