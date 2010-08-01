@@ -43,7 +43,7 @@ public interface AssetTaggingService {
     Collection<Tag> getTags(AssetId id);
 
     /**
-     * Clear any cached items associated with the tag.
+     * Clear any pagelets containing the specified tags.
      *
      * @param tags tags
      */

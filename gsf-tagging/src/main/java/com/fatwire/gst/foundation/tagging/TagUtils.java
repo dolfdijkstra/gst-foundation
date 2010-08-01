@@ -54,6 +54,10 @@ public final class TagUtils {
             public String getTag() {
                 return tagValue;
             }
+
+            public String toString() {
+                return "tag:" + getTag();
+            }
         };
     }
 }
