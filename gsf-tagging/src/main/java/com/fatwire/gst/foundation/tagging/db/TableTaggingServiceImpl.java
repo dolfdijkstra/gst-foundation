@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import COM.FutureTense.Cache.CacheHelper;
@@ -122,6 +123,17 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     public Collection<Tag> getTags(AssetId id) {
         // this method records all the compositional dependencies that we need for this method (this is critical)
         return loadTaggedAsset(id).getTags();
+    }
+
+    public Collection<Tag> getTags(Collection<AssetId> ids) {
+        HashSet<Tag> tags = new HashSet<Tag>();
+        // todo: IMPORTANT: This should be optimized so that we don't kill the database
+        if (ids.size() > 5)
+            LOG.warn("Fetching tags serially for " + ids.size() + " assets.  TableTaggingServiceImpl isn't yet optimized to handle this very nicely");
+        for (AssetId id : ids) {
+            tags.addAll(getTags(id));
+        }
+        return tags;
     }
 
     /**

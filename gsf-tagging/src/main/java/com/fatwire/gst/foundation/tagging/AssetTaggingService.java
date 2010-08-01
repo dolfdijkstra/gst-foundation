@@ -29,11 +29,6 @@ import com.fatwire.assetapi.data.AssetId;
 public interface AssetTaggingService {
 
     /**
-     * Bootstrap thyself
-     */
-    void install();
-
-    /**
      * Look up the tags for an asset. Returns an empty list if none or set or if the asset does not have a
      * tag attribute or field
      *
@@ -41,6 +36,15 @@ public interface AssetTaggingService {
      * @return collection of tags. Never null
      */
     Collection<Tag> getTags(AssetId id);
+
+    /**
+     * Get the tags corresponding to a whole collection of AssetIds.  There is no way to determine which
+     * tags correspond to each of the input asset.
+     *
+     * @param ids asset ids, some of which may be tagged
+     * @return tags, never null
+     */
+    Collection<Tag> getTags(Collection<AssetId> ids);
 
     /**
      * Clear any pagelets containing the specified tags.

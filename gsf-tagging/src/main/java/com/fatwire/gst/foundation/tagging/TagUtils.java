@@ -58,6 +58,21 @@ public final class TagUtils {
             public String toString() {
                 return "tag:" + getTag();
             }
+
+            @Override
+            public int hashCode() {
+                return tagValue.hashCode();
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (o instanceof Tag) {
+                    Tag t = (Tag) o;
+                    return t.getTag().equals(tagValue);
+                }
+                return false;
+            }
+
         };
     }
 }

@@ -22,6 +22,11 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.realtime.PageCacheUpdaterImpl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepString;
+
 /**
  * RealTime publishing includes an API entitled RealTime CacheUpdater. We will override the default
  * com.fatwire.realtime.PageCacheUpdaterImpl to override the beforeSelect() method. The flush and regen keys will be
@@ -36,10 +41,19 @@ import com.fatwire.realtime.PageCacheUpdaterImpl;
  * @since Jul 30, 2010
  */
 public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl {
+
+    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
+
     @Override
     protected void beforeSelect(ICS ics, Collection<String> strings, Collection<String> strings1, Collection<AssetId> assetIds) {
-        // todo: implement com.fatwire.gst.foundation.tagging.TaggedAssetRealtimeCacheUpdater.beforeSelect
+        AssetTaggingService svc = AssetTaggingServiceFactory.getService(ics);
+        Collection<Tag> tags = svc.getTags(assetIds);
+        for (Tag tag : svc.getTags(assetIds)) {
+            String sTag = convertTagToCacheDepString(tag);
+            // todo: ensure this is right.... I THINK it's flushStrings & refreshStrings... and if so, we may not need to refresh.
+            strings.add(sTag);
+            strings1.add(sTag);
+        }
         super.beforeSelect(ics, strings, strings1, assetIds);
-
     }
 }
