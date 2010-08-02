@@ -11,7 +11,8 @@
     <artifactId>gsf-facades</artifactId>
     <version>2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>ContentServer XML Tag Library Facades</name>
+    <name>FatWire GST: Site Foundation ContentServer Library Facades</name>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-facades</url>
     <inceptionYear>2008</inceptionYear>
     <organization>
         <name>FatWire</name>
