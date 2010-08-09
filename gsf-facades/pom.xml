@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fatwire.gst</groupId>
-        <artifactId>gst-parent</artifactId>
-        <version>4</version>
+        <artifactId>gsf-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-facades</artifactId>
@@ -130,7 +130,7 @@
     <distributionManagement>
         <site>
             <id>website</id>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gsf-facades</url>
+            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-facades</url>
         </site>
     </distributionManagement>
 </project>

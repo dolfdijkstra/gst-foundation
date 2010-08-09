@@ -2,15 +2,15 @@
     <modelVersion>4.0.0</modelVersion>
    <parent>
         <groupId>com.fatwire.gst</groupId>
-        <artifactId>gst-parent</artifactId>
-        <version>4</version>
+        <artifactId>gsf-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gst-foundation</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>FatWire GST: Foundation</name>
-    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation</url>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/site</url>
     <inceptionYear>2010</inceptionYear>
     <organization>
         <name>FatWire</name>
@@ -38,45 +38,11 @@
             </plugin>
         </plugins>
     </reporting>
-    <repositories>
-        <repository>
-            <id>nl.fatwire.com</id>
-            <url>http://www.nl.fatwire.com/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>snapshot.nl.fatwire.com</id>
-            <url>http://www.nl.fatwire.com/snapshot-repo</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
 
     <distributionManagement>
         <site>
             <id>website</id>
             <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation</url>
         </site>
-        <!-- use the following if you're not using a snapshot version. -->
-        <repository>
-            <id>fatwire-repository</id>
-            <name>FatWire Repository</name>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/maven2</url>
-        </repository>
-        <!-- use the following if you ARE using a snapshot version. -->
-        <snapshotRepository>
-            <id>fatwire-repository</id>
-            <name>FatWire Repository</name>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/snapshot-repo</url>
-        </snapshotRepository>
     </distributionManagement>
 </project>

@@ -8,7 +8,7 @@
 		<version>4</version>
 	</parent>
     <groupId>com.fatwire.gst</groupId>
-    <artifactId>gsf-modules</artifactId>
+    <artifactId>gsf-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>FatWire GST: Site Foundation Modules</name>
@@ -36,7 +36,7 @@
     <module>gsf-wra</module>
     <module>gsf-taglib</module>
     <module>gsf-tagging</module>
-    <module>gsf-site </module>
+    <!--module>gsf-site </module-->
     <module>gsf-assembly</module>
   </modules>
 <build>
@@ -46,7 +46,7 @@
 		<groupId>com.mycila.maven-license-plugin</groupId>
 		<artifactId>maven-license-plugin</artifactId>
 		 <configuration>
-			<aggregate>false</aggregate>
+			<aggregate>true</aggregate>
 			<includes>
 				<include>src/**</include>
 			</includes>
@@ -76,4 +76,10 @@
          </releases>
       </repository>
    </repositories>
+  <distributionManagement>
+        <site>
+            <id>website</id>
+            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation</url>
+        </site>
+    </distributionManagement>
 </project>
