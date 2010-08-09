@@ -34,8 +34,8 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  * parent has not changed, pagelets that reference it are automatically flushed. This ensures that by simply tagging an
  * asset, it automatically and instantly appears in pages that render it.
  * The GSTTagRegistry table is read for the specific assets before the new values are inserted. This is to make sure that
- * pagelets are also flushed with the ‘old’ tag values for the cases where the tag is deleted or the values have changed.
- * Implementation examples can be found in the guide “Customizing RealTime Publishing Cache Management”. *
+ * pagelets are also flushed with the old tag values for the cases where the tag is deleted or the values have changed.
+ * Implementation examples can be found in the guide Customizing RealTime Publishing Cache Management. 
  *
  * @author Tony Field
  * @since Jul 30, 2010
@@ -57,3 +57,4 @@ public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl 
         super.beforeSelect(ics, strings, strings1, assetIds);
     }
 }
+
