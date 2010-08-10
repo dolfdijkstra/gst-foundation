@@ -78,7 +78,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
     }
 
     public void setProperties(Properties props) {
-        Enumeration en = props.propertyNames();
+        Enumeration<?> en = props.propertyNames();
         while (en.hasMoreElements()) {
             String pName = (String) en.nextElement();
             String pValue = props.getProperty(pName);
