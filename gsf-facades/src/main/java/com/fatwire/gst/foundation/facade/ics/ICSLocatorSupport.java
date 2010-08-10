@@ -15,7 +15,6 @@
  */
 package com.fatwire.gst.foundation.facade.ics;
 
-import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 
 /**
