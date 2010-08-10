@@ -139,7 +139,7 @@ public class WraPageReference extends PageRef {
      * @param args tag args
      * @return true if it's a gettemplateurl tag, false otherwise.
      */
-    private boolean isGetTemplateUrl(Map args) {
+    private boolean isGetTemplateUrl(Map<String,String> args) {
         if (args.get("c") == null) return false;
         if (args.get("cid") == null) return false;
         String pagename = (String)args.get(ftMessage.PageName);
