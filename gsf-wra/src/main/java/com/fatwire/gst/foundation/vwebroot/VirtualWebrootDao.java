@@ -71,7 +71,7 @@ public final class VirtualWebrootDao {
         ics.RegisterList("pr-out", null);
         if (ilist == null) throw new IllegalStateException("No GSTVirtualWebroots are registered");
 
-        SortedSet result = new TreeSet<VirtualWebroot>(new UrlInfoComparator());
+        SortedSet<VirtualWebroot> result = new TreeSet<VirtualWebroot>(new UrlInfoComparator());
         for (Row r : new IListIterable(ilist)) {
             result.add(getVirtualWebroot(r.getLong("id")));
         }
