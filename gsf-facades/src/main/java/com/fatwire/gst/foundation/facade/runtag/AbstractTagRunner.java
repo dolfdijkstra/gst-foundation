@@ -87,7 +87,7 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
                         isPW(key) ? "<password suppressed>" : list.getValString(key));
             }
             sb.append("\nVariables:");
-            Enumeration e = ics.GetVars();
+            Enumeration<?> e = ics.GetVars();
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
                 sb.append("\n\t").append(key).append("=").append(isPW(key) ? "<password suppressed>" : ics.GetVar(key));
@@ -111,7 +111,7 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
                         isPW(key) ? "<password suppressed>" : list.getValString(key));
             }
             sb.append("\nVariables:");
-            Enumeration e = ics.GetVars();
+            Enumeration<?> e = ics.GetVars();
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
                 sb.append("\n\t").append(key).append("=").append(isPW(key) ? "<password suppressed>" : ics.GetVar(key));
