@@ -32,14 +32,12 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  */
 public class WRAUtils {
     private final Log LOG = LogFactory.getLog(WRAUtils.class);
-    private ICS ics;
     private WraCoreFieldDao wraDao;
     private AliasCoreFieldDao aliasDao;
 
     public WRAUtils(ICS ics) {
-        this.ics = ics;
-        wraDao = new WraCoreFieldDao();
-        aliasDao = new AliasCoreFieldDao();
+        wraDao = new WraCoreFieldDao(ics);
+        aliasDao = new AliasCoreFieldDao(ics);
     }
 
     /**
