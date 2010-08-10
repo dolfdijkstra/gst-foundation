@@ -17,14 +17,13 @@
 package com.fatwire.gst.foundation.facade.runtag.render;
 
 import com.fatwire.assetapi.data.AssetId;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * CallTemplate tag
  * <p/>
- * <tt>
- * &lt;RENDER.CALLTEMPLATE SITE="site name" SLOTNAME="name of slot"
+ * <code>
+ * &lt;RENDER.CALLTEMPLATE SITE="site name" 
+ * SLOTNAME="name of slot"
  * TID="caller Template or CSElement id" [TTYPE="caller Template or CSElement"]
  * [C="asset type"] [CID="asset id"] [TNAME="target Template or CSElement name"]
  * [CONTEXT="context override"] [STYLE="pagelet or element"]
@@ -33,13 +32,13 @@ import org.apache.commons.logging.LogFactory;
  * [&lt;RENDER.ARGUMENT NAME="variable1" VALUE="value1"/&gt;]
  * <p/>
  * &lt;/RENDER.CALLTEMPLATE&gt;
- * </tt>
+ * </code>
  * 
  * @author Tony Field
  * @since Jun 10, 2010
  */
 public class CallTemplate extends TagRunnerWithArguments {
-    private static Log LOG = LogFactory.getLog(GetTemplateUrl.class);
+    
 
     public enum Style {
         element, pagelet, embedded
