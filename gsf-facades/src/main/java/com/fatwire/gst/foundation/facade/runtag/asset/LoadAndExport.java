@@ -69,7 +69,7 @@ public class LoadAndExport implements TagRunner {
             // cleaning up
             ics.SetObj(name, null);// clear obj from ics
             final List<String> toClean = new ArrayList<String>();
-            for (final Enumeration e = ics.GetVars(); e.hasMoreElements();) {
+            for (final Enumeration<?> e = ics.GetVars(); e.hasMoreElements();) {
                 final String k = (String) e.nextElement();
                 if (k.startsWith("as:")) {
                     toClean.add(k);
