@@ -65,10 +65,10 @@ public class DebugHelper {
     }
 
     /**
+     * Retrieves the root exception of a <code>Throwable</code>. 
      * 
      * 
-     * 
-     * @param e the exception with nested exception (causes)
+     * @param e the exception with nested exceptions (causes)
      * @return the root cause
      */
     public static Throwable findRootCause(Throwable e) {
@@ -88,7 +88,7 @@ public class DebugHelper {
      * seconds and milliseconds precision on larger elapsed times
      * 
      * @param elapsed the elapsed time in micro seconds (us)
-     * @return
+     * @return A human readable string for the elapsed micro seconds
      */
     public static String microToHuman(long elapsed) {
         String human = "(" + elapsed + "us) ";
@@ -108,10 +108,10 @@ public class DebugHelper {
      * Print the elapsed time between the <tt>start</tt> and <tt>end</tt> to the
      * provided logger in a human readable form
      * 
-     * @param log
-     * @param msg
-     * @param start time in nanoseconds {@link System#nanoSeconds}
-     * @param end time in nanoseconds {@link System.nanoSeconds}
+     * @param log The logger where the message will be printed to.
+     * @param msg The message as an indicator of the operation that was monitored.
+     * @param start time in nanoseconds {@link System#nanoTime()}
+     * @param end time in nanoseconds {@link System#nanoTime()}
      * @see DebugHelper#microToHuman(long)
      */
 
@@ -127,10 +127,10 @@ public class DebugHelper {
      * 
      * Print the elapsed time since the <tt>start</tt> to the provided Log
      * 
-     * @param log
-     * @param msg
-     * @param start time in nanoseconds {@link System.nanoSeconds}
-     * @see ebugHelper#microToHuman(long)
+     * @param log The logger where the message will be printed to.
+     * @param msg The message as an indicator of the operation that was monitored.
+     * @param start time in nanoseconds {@link System#nanoTime()}
+     * @see DebugHelper#microToHuman(long)
      */
 
     public static void printTime(final Log log, String msg, long start) {
@@ -141,12 +141,12 @@ public class DebugHelper {
 
     /**
      * Print the elapsed time since the <tt>start</tt> to the default time
-     * logger {@link TIME_LOGGER}
+     * logger {@link DebugHelper#TIME_LOGGER}
      * 
      * 
-     * @param msg
-     * @param start time in nanoseconds {@link System.nanoSeconds}
-     * @see ebugHelper#microToHuman(long)
+     * @param msg  The message as an indicator of the operation that was monitored.
+     * @param start time in nanoseconds {@link System#nanoTime()}
+     * @see DebugHelper#microToHuman(long)
      * 
      */
     public static void printTime(String msg, long start) {
