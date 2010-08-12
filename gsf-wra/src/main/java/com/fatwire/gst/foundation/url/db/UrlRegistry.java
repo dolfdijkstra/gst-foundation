@@ -102,7 +102,6 @@ public class UrlRegistry implements WraPathTranslationService {
 
     public void addAsset(AssetId asset) {
         if (wraDao.isWebReferenceable(asset)) {
-            // todo: fail gracefully
             WebReferenceableAsset wra = wraDao.getWra(asset);
 
             String id = ics.genID(false);
@@ -126,13 +125,15 @@ public class UrlRegistry implements WraPathTranslationService {
 
     public void updateAsset(AssetId id) {
         // todo: optimize
-        // todo: fail gracefully
-        deleteAsset(id);
-        addAsset(id);
+        if (wraDao.isWebReferenceable(id)) {
+            deleteAsset(id);
+            addAsset(id);
+        }
     }
 
     public void deleteAsset(AssetId id) {
-        // todo: fail gracefully
-        SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
+        if (wraDao.isWebReferenceable(id)) {
+            SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
+        }
     }
 }
