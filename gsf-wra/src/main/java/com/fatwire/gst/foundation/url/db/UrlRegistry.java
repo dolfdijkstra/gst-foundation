@@ -33,11 +33,11 @@ import com.fatwire.gst.foundation.facade.sql.table.TableColumn;
 import com.fatwire.gst.foundation.facade.sql.table.TableColumn.Type;
 import com.fatwire.gst.foundation.facade.sql.table.TableCreator;
 import com.fatwire.gst.foundation.facade.sql.table.TableDef;
+import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
-import com.fatwire.gst.foundation.url.WraPathTranslationService;
 
 import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
@@ -101,23 +101,27 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void addAsset(AssetId asset) {
-        // todo: fail gracefully
-        WebReferenceableAsset wra = wraDao.getWra(asset);
+        if (wraDao.isWebReferenceable(asset)) {
+            // todo: fail gracefully
+            WebReferenceableAsset wra = wraDao.getWra(asset);
 
-        String id = ics.genID(false);
-        String path = wra.getPath();
-        String assettype = asset.getType();
-        long assetid = asset.getId();
-        Date start = wra.getStartDate();
-        Date end = wra.getEndDate();
-        VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
-        String vwebroot = vw.getEnvironmentVirtualWebroot();
-        String urlpath = wra.getPath().substring(vw.getMasterVirtualWebroot().length());
-        int depth = urlpath != null && urlpath.length() > 0 ? urlpath.split("/").length : 0;
-        String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
+            String id = ics.genID(false);
+            String path = wra.getPath();
+            String assettype = asset.getType();
+            long assetid = asset.getId();
+            Date start = wra.getStartDate();
+            Date end = wra.getEndDate();
+            VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
+            if (vw != null) {
+                String vwebroot = vw.getEnvironmentVirtualWebroot();
+                String urlpath = wra.getPath().substring(vw.getMasterVirtualWebroot().length());
+                int depth = urlpath != null && urlpath.length() > 0 ? urlpath.split("/").length : 0;
+                String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
 
-        String qry = "insert into " + URLREG_TABLE + " (id, path, assettype, assetid, " + (start == null ? "" : "startdate, ") + (end == null ? "" : "enddate,") + " opt_vwebroot, opt_url_path, opt_depth, opt_site)" + " VALUES " + "(" + id + "," + quote(path) + "," + quote(assettype) + "," + assetid + "," + (start == null ? "" : quote(Util.formatJdbcDate(start)) + ",") + (end == null ? "" : quote(Util.formatJdbcDate(end)) + ",") + quote(vwebroot) + "," + quote(urlpath) + "," + depth + "," + quote(site) + ")";
-        SqlHelper.execute(ics, URLREG_TABLE, qry);
+                String qry = "insert into " + URLREG_TABLE + " (id, path, assettype, assetid, " + (start == null ? "" : "startdate, ") + (end == null ? "" : "enddate,") + " opt_vwebroot, opt_url_path, opt_depth, opt_site)" + " VALUES " + "(" + id + "," + quote(path) + "," + quote(assettype) + "," + assetid + "," + (start == null ? "" : quote(Util.formatJdbcDate(start)) + ",") + (end == null ? "" : quote(Util.formatJdbcDate(end)) + ",") + quote(vwebroot) + "," + quote(urlpath) + "," + depth + "," + quote(site) + ")";
+                SqlHelper.execute(ics, URLREG_TABLE, qry);
+            }
+        }
     }
 
     public void updateAsset(AssetId id) {

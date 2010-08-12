@@ -31,6 +31,9 @@ import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * DAO for working with Virtual Webroots
  *
@@ -38,6 +41,8 @@ import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
  * @since Jul 22, 2010
  */
 public final class VirtualWebrootDao {
+
+    private static final Log LOG = LogFactory.getLog(VirtualWebrootDao.class.getName());
 
     private final ICS ics;
 
@@ -102,6 +107,7 @@ public final class VirtualWebrootDao {
                 if (environmentName.length() == 0) environmentName = null;
             }
         }
+        if (environmentName == null) LOG.debug("Virtual webroot environment is not configured."); 
         return environmentName;
     }
 
