@@ -67,12 +67,7 @@ public final class TaggedList extends Base {
         outlist = null;
     }
 
-    /**
-     * Method to process after the body
-     *
-     * @return int process status (SKIP_BODY, EVAL_BODY_AGAIN)
-     */
-    public int doAfterBody(ICS ics, boolean bDebug) throws JspException {
+    public int doEndTag(ICS ics, boolean bDebug) throws JspException {
         if (tag == null) {
             throw new JspException("Missing required parameter 'tag'");
         }
@@ -82,6 +77,6 @@ public final class TaggedList extends Base {
         AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag(tag));
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
-        return super.doAfterBody(ics, bDebug);
+        return SKIP_BODY;
     }
 }
