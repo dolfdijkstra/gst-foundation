@@ -81,10 +81,10 @@ public class AssetIdIList extends AbstractIList {
 
     public String getValue(String s) throws NoSuchFieldException {
         // ID is column 2 but will likely be called more often that type so check it first.
-        if (ASSETID.equals(s)) {
+        if (ASSETID.equalsIgnoreCase(s)) {
             return Long.toString(ids.get(currentRow() - 1).getId());
         }
-        if (ASSETTYPE.equals(s)) {
+        if (ASSETTYPE.equalsIgnoreCase(s)) {
             return ids.get(currentRow() - 1).getType();
         }
         throw new NoSuchFieldException(s);
