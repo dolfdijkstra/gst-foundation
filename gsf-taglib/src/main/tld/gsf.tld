@@ -29,4 +29,30 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>asset-tagged-list</name>
+        <tagclass>com.fatwire.gst.foundation.taglib.AssetTaggedList</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Given an input assettype and assetid, convert it into a tag string format
+            and return an IList with ASSETTYPE,ASSETID as columns for any assets found
+            that match the specified tag.
+        </info>
+        <attribute>
+            <name>outlist</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>assettype</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>assetid</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
 </taglib>

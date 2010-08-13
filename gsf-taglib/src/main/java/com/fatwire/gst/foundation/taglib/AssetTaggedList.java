@@ -38,17 +38,22 @@ import com.openmarket.framework.jsp.Base;
  * @author Tony Field
  * @since Aug 13, 2010
  */
-public final class TaggedList extends Base {
+public final class AssetTaggedList extends Base {
 
-    private String tag = null;
+    private String assettype = null;
+    private String assetid = null;
     private String outlist = null;
 
-    public TaggedList() {
+    public AssetTaggedList() {
         super(true); // clear errno = true
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setAssettype(String assettype) {
+        this.assettype = assettype;
+    }
+
+    public void setAssetid(String assetid) {
+        this.assetid = assetid;
     }
 
     public void setOutlist(String outlist) {
@@ -57,13 +62,14 @@ public final class TaggedList extends Base {
 
     public void release() {
         super.release();
-        tag = null;
+        assettype = null;
+        assetid = null;
         outlist = null;
     }
 
     public int doEndTag(ICS ics, boolean bDebug) throws JspException {
         AssetTaggingService svc = new TableTaggingServiceImpl(ics);
-        final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag(tag));
+        final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag("asset-" + assetid + ":" + assettype));
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
         return SKIP_BODY;
     }
