@@ -176,6 +176,16 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         return ids;
     }
 
+    public boolean isTagged(AssetId id) {
+        // todo: optimize?
+        try {
+            loadTaggedAsset(id);
+            return true;
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
     private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT tag, assettype, assetid, startdate, enddate " + "FROM " + TAGREGISTRY_TABLE + " WHERE tag=? ORDER BY startdate,enddate", Collections.singletonList(TAGREGISTRY_TABLE));
 
     static {

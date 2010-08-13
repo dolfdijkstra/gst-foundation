@@ -45,17 +45,17 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
 
     @Override
     public void assetAdded(AssetId assetId) {
-        svc.clearCacheForTag(svc.getTags(assetId));
+        if (svc.isTagged(assetId)) svc.clearCacheForTag(svc.getTags(assetId));
     }
 
     @Override
     public void assetUpdated(AssetId assetId) {
-        svc.clearCacheForTag(svc.getTags(assetId));
+        if (svc.isTagged(assetId)) svc.clearCacheForTag(svc.getTags(assetId));
     }
 
     @Override
     public void assetDeleted(AssetId assetId) {
-        svc.clearCacheForTag(svc.getTags(assetId));
+        if (svc.isTagged(assetId)) svc.clearCacheForTag(svc.getTags(assetId));
     }
 
     /**

@@ -88,4 +88,12 @@ public interface AssetTaggingService {
      * @return collection of assets that have the specified tag set.  May return an empty list; never returns null.
      */
     Collection<AssetId> lookupTaggedAssets(Tag tag);
+
+    /**
+     * Returns true if an asset is tagged, false otherwise
+     *
+     * @param id id of asset
+     * @return true if it's tagged, false otherwise
+     */
+    boolean isTagged(AssetId id);
 }

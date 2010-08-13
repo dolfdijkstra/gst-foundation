@@ -15,7 +15,9 @@
  */
 package com.fatwire.gst.foundation.tagging;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -41,7 +43,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  * the old tag values for the cases where the tag is deleted or the values have
  * changed. Implementation examples can be found in the guide Customizing
  * RealTime Publishing Cache Management.
- * 
+ *
  * @author Tony Field
  * @since Jul 30, 2010
  */
@@ -50,13 +52,17 @@ public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl 
     private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
     @Override
-    protected void beforeSelect(ICS ics, Collection<String> strings, Collection<String> strings1,
-            Collection<AssetId> assetIds) {
+    protected void beforeSelect(ICS ics, Collection<String> strings, Collection<String> strings1, Collection<AssetId> assetIds) {
         AssetTaggingService svc = AssetTaggingServiceFactory.getService(ics);
-        for (Tag tag : svc.getTags(assetIds)) {
+        List<AssetId> tagged = new ArrayList<AssetId>();
+        for (AssetId id : assetIds) {
+            if (svc.isTagged(id)) {
+                tagged.add(id);
+            }
+        }
+        for (Tag tag : svc.getTags(tagged)) {
             if (LOG.isDebugEnabled())
-                LOG.debug("AssetTag found in beforeSelect: " + tag
-                        + ". Adding this to the list of compositional dependencies to be flushed.");
+                LOG.debug("AssetTag found in beforeSelect: " + tag + ". Adding this to the list of compositional dependencies to be flushed.");
             String sTag = convertTagToCacheDepString(tag);
             // todo: ensure this is right.... I THINK it's flushStrings &
             // refreshStrings... and if so, we may not need to refresh.

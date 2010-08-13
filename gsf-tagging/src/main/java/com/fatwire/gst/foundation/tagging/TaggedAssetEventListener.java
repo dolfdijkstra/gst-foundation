@@ -46,17 +46,17 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
 
     @Override
     public void assetAdded(AssetId assetId) {
-        svc.addAsset(assetId);
+        if (svc.isTagged(assetId)) svc.addAsset(assetId);
     }
 
     @Override
     public void assetUpdated(AssetId assetId) {
-        svc.updateAsset(assetId);
+        if (svc.isTagged(assetId)) svc.updateAsset(assetId);
     }
 
     @Override
     public void assetDeleted(AssetId assetId) {
-        svc.deleteAsset(assetId);
+        if (svc.isTagged(assetId)) svc.deleteAsset(assetId);
     }
 
     /**
