@@ -1,6 +1,6 @@
+<%@ page import="com.fatwire.gst.foundation.tagging.CacheMgrTaggedAssetEventListener" %>
+<%@ page import="com.fatwire.gst.foundation.tagging.TaggedAssetEventListener" %>
 <%@ page import="com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl" %>
-<%@ page import="com.fatwire.gst.foundation.url.WraAssetEventListener" %>
-<%@ page import="com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory" %>
 <%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld" %>
 <%@ taglib prefix="ics" uri="futuretense_cs/ics.tld" %>
 <%@ taglib prefix="satellite" uri="futuretense_cs/satellite.tld" %>
@@ -30,6 +30,10 @@ limitations under the License.
 %>
 <cs:ftcs>
 
-    <% new TableTaggingServiceImpl(ics).install(); %>
+    <%
+        new TableTaggingServiceImpl(ics).install();
+        new TaggedAssetEventListener().install();
+        new CacheMgrTaggedAssetEventListener().install();
+    %>
 
 </cs:ftcs>

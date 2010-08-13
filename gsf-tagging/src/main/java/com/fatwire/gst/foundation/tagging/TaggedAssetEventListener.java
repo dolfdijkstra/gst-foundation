@@ -16,9 +16,14 @@
 package com.fatwire.gst.foundation.tagging;
 
 import COM.FutureTense.CS.Factory;
+import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
+import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.openmarket.basic.event.AbstractAssetEventListener;
+
+import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
  * Sends requests to the tagging service.
@@ -53,4 +58,17 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
     public void assetDeleted(AssetId assetId) {
         svc.deleteAsset(assetId);
     }
+
+    /**
+     * Install self into AssetListener_reg table
+     */
+    public void install() {
+        ICS ics = ICSFactory.newICS();
+        String id = ics.genID(false);
+        String listener = TaggedAssetEventListener.class.getName();
+        String blocking = "Y";
+        SqlHelper.execute(ics, "AssetListener_reg", "delete from AssetListener_reg where listener = " + quote(listener));
+        SqlHelper.execute(ics, "AssetListener_reg", "insert into AssetListener_reg (id, listener, blocking) VALUES (" + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
+    }
+
 }
