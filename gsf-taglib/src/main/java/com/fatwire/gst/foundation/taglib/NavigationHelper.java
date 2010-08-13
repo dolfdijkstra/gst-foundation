@@ -15,17 +15,12 @@
  */
 package com.fatwire.gst.foundation.taglib;
 
-import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
@@ -43,6 +38,11 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
 
 /**
  * Used to retrieve the Navigation Bar data. See the description of
@@ -165,9 +165,9 @@ public class NavigationHelper {
                 if (isValidOnDate(id, assetEffectiveDate)) {
                     result.put("id", id);
                     if (isGstAlias(id)) {
-                    	result.putAll(extractAttrFromAlias(id));
+                        result.putAll(extractAttrFromAlias(id));
                     } else {
-                    	result.putAll(extractAttrFromWra(id));
+                        result.putAll(extractAttrFromWra(id));
                     }
                 } else {
                     if (LOG.isDebugEnabled())
@@ -215,7 +215,7 @@ public class NavigationHelper {
      * @return url
      */
     protected String getUrlForAlias(Alias alias) {
-    	if (alias.getTargetUrl() != null && alias.getTargetUrl().length() > 0) {
+        if (alias.getTargetUrl() != null && alias.getTargetUrl().length() > 0) {
             return alias.getTargetUrl();
         } else {
             if (alias.getTarget() != null) {
@@ -243,7 +243,7 @@ public class NavigationHelper {
         } else {
             // it might be pointing directly to the target
             if (alias.getTarget() != null) {
-            	
+
                 return getLinktextForWra(wraUtils.getWra(alias.getTarget()));
             } else {
                 LOG.warn("Alias asset " + alias + " does not specify linktext.");
@@ -267,8 +267,7 @@ public class NavigationHelper {
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GSF/Dispatcher";
         }
-        GetTemplateUrl gtu = new GetTemplateUrl(ics, wra.getId().getType(), 
-        		wra.getId().getId() + "", wra.getTemplate(), wrapper, "nav");
+        GetTemplateUrl gtu = new GetTemplateUrl(ics, wra.getId().getType(), wra.getId().getId() + "", wra.getTemplate(), wrapper, "nav");
         ics.RemoveVar("gspal-url");
         gtu.setOutstr("gspal-url");
         gtu.execute(ics);
@@ -284,51 +283,51 @@ public class NavigationHelper {
      * @return linktext
      */
     protected String getLinktextForWra(WebReferenceableAsset wra) {
-    	if (wra.getLinkTitle() != null && wra.getLinkTitle().length() > 0) {
-        	return wra.getLinkTitle();
-    	} else if (wra.getH1Title() != null && wra.getH1Title().length() > 0) {
-    		return wra.getH1Title();
-    	} else {
+        if (wra.getLinkTitle() != null && wra.getLinkTitle().length() > 0) {
+            return wra.getLinkTitle();
+        } else if (wra.getH1Title() != null && wra.getH1Title().length() > 0) {
+            return wra.getH1Title();
+        } else {
             LOG.warn("Could not retrieve linktext for WRA: " + wra + " (This is expected if the asset is not a web-referenceable asset).");
             return null;
         }
     }
-    
+
     /**
-     * Extracts attributes from the provided Alias asset. Separated into 
-     * its own method to facilitate overriding this method for custom 
+     * Extracts attributes from the provided Alias asset. Separated into
+     * its own method to facilitate overriding this method for custom
      * Alias assets or adding additional attributes.
-     *  
+     *
      * @param id
-     * @return
+     * @return map containing string-object mappings for use in things like placing in page scope
      */
-    protected Map<String,Object> extractAttrFromAlias(AssetId id) {
-    	Map<String,Object> result = new HashMap<String,Object>();
-    	Alias alias = wraUtils.getAlias(id);
+    protected Map<String, Object> extractAttrFromAlias(AssetId id) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        Alias alias = wraUtils.getAlias(id);
         String url = getUrlForAlias(alias);
         String linktext = getLinktextForAlias(alias);
         result.put("bean", alias);
         if (url != null) result.put("url", url);
         if (linktext != null) result.put("linktext", linktext);
-    	return result;
+        return result;
     }
 
     /**
-     * Extracts attributes from the provided wra asset. Separated into 
+     * Extracts attributes from the provided wra asset. Separated into
      * its own method to facilitate overriding to add additional attributes.
-     *  
-     * @param id
-     * @return
+     *
+     * @param id asset
+     * @return map containing string-object mappings for use in things like placing in page scope
      */
-    protected Map<String,Object> extractAttrFromWra(AssetId id) {
-    	Map<String,Object> result = new HashMap<String,Object>();
-    	WebReferenceableAsset wra = wraUtils.getWra(id);
+    protected Map<String, Object> extractAttrFromWra(AssetId id) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        WebReferenceableAsset wra = wraUtils.getWra(id);
         String url = getUrlForWra(wra);
         String linktext = getLinktextForWra(wra);
         result.put("bean", wra);
         if (url != null) result.put("url", url);
         if (linktext != null) result.put("linktext", linktext);
-    	return result;
+        return result;
     }
 
     static final PreparedStmt FIND_P = new PreparedStmt("SELECT art.oid\n\tFROM AssetRelationTree art, AssetPublication ap, Publication p\n\tWHERE ap.assetid = art.oid\n\t" + "AND ap.assettype = 'Page'\n\t" + "AND ap.pubid = p.id\n\t" + "AND p.name = ?\n\t" + "AND art.otype = ap.assettype\n\t" + "AND art.nid in (\n\t\t" + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-'\n\t) ORDER BY ap.id", Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
