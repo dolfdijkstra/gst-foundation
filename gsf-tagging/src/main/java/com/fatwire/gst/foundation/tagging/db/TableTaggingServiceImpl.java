@@ -71,7 +71,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     }
 
     public void install() {
-        TableDef def = new TableDef(TAGREGISTRY_TABLE, ftMessage.Browser, ftMessage.no);
+        TableDef def = new TableDef(TAGREGISTRY_TABLE, ftMessage.Browser, "obj"); // todo: define the PK properly (this will work for now)
 
         def.addColumn(new TableColumn("tag", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
         def.addColumn(new TableColumn("assettype", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
