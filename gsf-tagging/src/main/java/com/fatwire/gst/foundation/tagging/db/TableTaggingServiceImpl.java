@@ -104,7 +104,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             final String sAssetType = quote(id.getType());
             final String sStartDate = asset.getStartDate() == null ? "null" : quote(Util.formatJdbcDate(asset.getStartDate()));
             final String sEndDate = asset.getEndDate() == null ? "null" : quote(Util.formatJdbcDate(asset.getEndDate()));
-            String qry = "insert into " + TAGREGISTRY_TABLE + " (tag, assettype, assetid, startdate, enddate) VALUES " + "(" + sTag + "," + sAssetType + "," + id.getId() + "," + sStartDate + "," + sEndDate + ")";
+            String qry = "insert into " + TAGREGISTRY_TABLE + " (id, tag, assettype, assetid, startdate, enddate) VALUES " + "(" + ics.genID(true) + "," + sTag + "," + sAssetType + "," + id.getId() + "," + sStartDate + "," + sEndDate + ")";
             SqlHelper.execute(ics, TAGREGISTRY_TABLE, qry);
         }
     }
