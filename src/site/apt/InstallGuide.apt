@@ -1,0 +1,37 @@
+Installation Guide
+
+  The minimal installation guide exists of these steps:
+
+
+    [[1]] Install all the ContentServer jars in your local maven repository.
+
+    [[2]] Compile parent project with "mvn clean install".
+
+    [[3]] In futuretense_xcel.ini, set the following property:
+
+      <<<xcelerate.pageref=com.fatwire.gst.foundation.url.WraPageReference>>>
+
+    [[4]] In ServletRequest.properties, set the following properties:
+
+    # set to the name of your wrapper element. If not set, it defaults to <"GST/Dispatcher">
+
+    <<<com.fatwire.gst.foundation.url.wrapathassembler.dispatcher=Wrapper>>>
+
+    <<<uri.assembler.1.shortform=wrapath>>>
+    <<<uri.assembler.1.classname=com.fatwire.gst.foundation.url.WraPathAssembler>>>
+    <<<uri.assembler.2.shortform=query>>>
+    <<<uri.assembler.2.classname=com.fatwire.cs.core.uri.QueryAssembler>>>
+
+    [[5]] For each CS environment, set the system property <com.fatwire.gst.foundation.env-name> (i.e. in a CS startup script). For example,
+
+      <<<-Dcom.fatwire.gst.foundation.env-name=fatwire-dev>>>
+
+    [[6]] deploy the <<<gst-foundation-all-XXX-bundle.jar>>> from gsf-assembly project to to your CS webserver.
+
+    [[7]] In ContentServer, create a Virtual Webroot (GSTVirtualWebroot) asset for each site. 
+
+    The 'Environment Name' attribute must match the com.fatwire.gst.foundation.env-name property from step #4.
+
+    [[8]] In each Web-Referencable Asset, set the path field to a fully qualified URL using the Master Virtual Webroot.
+
+    For more information, please refer to the {{{http://www.nl.fatwire.com/dta/contrib/gst-foundation/}GST Site Foundation documentation}}.
