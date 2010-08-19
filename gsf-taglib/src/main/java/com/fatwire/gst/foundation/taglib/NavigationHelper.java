@@ -156,12 +156,16 @@ public class NavigationHelper {
 
         // no link if it's just a placeholder
         if (!isNavigationPlaceholder) {
-            // retrieve the unnamed association
-            AssetId id = Children.getOptionalSingleAssociation(ics, "Page", pageid, "-");
-            if (id == null) {
+            // retrieve the unnamed association(s)
+            List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", pageid, "-");
+            if (ids.size() < 1) {
                 // tolerate bad data
                 LOG.warn("Page " + pageid + " has no unnamed association value so a link cannot be generated for it.");
+            } else if (ids.size() > 1) {
+                // tolerate even more bad data
+                LOG.warn("Page " + pageid + " has more than one unnamed association values so a link cannot be generated for it.");
             } else {
+            	AssetId id = ids.get(0);
                 if (isValidOnDate(id, assetEffectiveDate)) {
                     result.put("id", id);
                     if (isGstAlias(id)) {
