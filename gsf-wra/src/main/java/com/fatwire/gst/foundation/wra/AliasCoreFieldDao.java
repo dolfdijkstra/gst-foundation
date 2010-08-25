@@ -70,8 +70,8 @@ public class AliasCoreFieldDao {
      * @return AssetData containing core fields for Alias asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", 
-        		"h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate", 
+        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword",
+        		"h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate",
         		"enddate", "status", "target", "target_url", "popup", "linktext", "linkimage");
     }
 
@@ -115,13 +115,13 @@ public class AliasCoreFieldDao {
         o.setMetaKeyword(AttributeDataUtils.getWithFallback(data, "metakeyword"));
         o.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
         o.setLinkTitle(AttributeDataUtils.getWithFallback(data, "linktitle", "h1title"));
-        o.setPath(AttributeDataUtils.getWithFallback(data, "path"));
-        o.setTemplate(AttributeDataUtils.getWithFallback(data, "template"));
+        o.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
+        o.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
         // Alias fields
         o.setTarget(AttributeDataUtils.asAssetId(data.getAttributeData("target")));
-        o.setTargetUrl(AttributeDataUtils.getWithFallback(data, "target_url"));
+        o.setTargetUrl(AttributeDataUtils.asString(data.getAttributeData("target_url")));
         o.setPopup(AttributeDataUtils.asInt(data.getAttributeData("popup")));
-        o.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext"));
+        o.setLinkText(AttributeDataUtils.asString(data.getAttributeData("linktext")));
         o.setLinkImage(AttributeDataUtils.asAssetId(data.getAttributeData("linkimage")));
         return o;
     }
