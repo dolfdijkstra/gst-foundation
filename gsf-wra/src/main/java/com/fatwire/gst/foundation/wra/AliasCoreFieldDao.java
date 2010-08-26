@@ -72,7 +72,7 @@ public class AliasCoreFieldDao {
     public AssetData getAsAssetData(AssetId id) {
         return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword",
         		"h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate",
-        		"enddate", "status", "target", "target_url", "popup", "linktext", "linkimage");
+        		"enddate", "status", "target", "target_url", "popup", "linkimage");
     }
 
     /**
@@ -120,8 +120,7 @@ public class AliasCoreFieldDao {
         // Alias fields
         o.setTarget(AttributeDataUtils.asAssetId(data.getAttributeData("target")));
         o.setTargetUrl(AttributeDataUtils.asString(data.getAttributeData("target_url")));
-        o.setPopup(AttributeDataUtils.asInt(data.getAttributeData("popup")));
-        o.setLinkText(AttributeDataUtils.asString(data.getAttributeData("linktext")));
+        o.setPopup(AttributeDataUtils.asString(data.getAttributeData("popup")));
         o.setLinkImage(AttributeDataUtils.asAssetId(data.getAttributeData("linkimage")));
         return o;
     }
