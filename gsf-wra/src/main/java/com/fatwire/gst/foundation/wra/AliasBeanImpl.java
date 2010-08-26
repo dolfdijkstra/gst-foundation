@@ -27,19 +27,14 @@ public class AliasBeanImpl extends WraBeanImpl implements Alias {
 
 	private AssetId target;
 	private String targetUrl;
-	private int popup;
-	private String linkText;
+	private String popup;
 	private AssetId linkImage;
-	
-	public String getLinkText() {
-		return linkText;
-	}
 
 	public AssetId getLinkImage() {
 		return linkImage;
 	}
 
-	public int getPopup() {
+	public String getPopup() {
 		return popup;
 	}
 
@@ -59,12 +54,8 @@ public class AliasBeanImpl extends WraBeanImpl implements Alias {
 		this.targetUrl = targetUrl;
 	}
 
-	public void setPopup(int popup) {
+	public void setPopup(String popup) {
 		this.popup = popup;
-	}
-
-	public void setLinkText(String linkText) {
-		this.linkText = linkText;
 	}
 
 	public void setLinkImage(AssetId linkImage) {
