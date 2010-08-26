@@ -24,15 +24,13 @@ import com.fatwire.assetapi.data.AssetId;
  * @since Jul 27, 2010
  */
 public interface Alias extends WebReferenceableAsset {
-	
+
 	public AssetId getTarget();
-	
+
 	public String getTargetUrl();
-	
-	public int getPopup();
-	
-	public String getLinkText();
-	
+
+	public String getPopup();
+
 	public AssetId getLinkImage();
-	
+
 }
