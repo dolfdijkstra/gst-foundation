@@ -242,15 +242,14 @@ public class NavigationHelper {
      * @return linktext or null on failure.
      */
     protected String getLinktextForAlias(Alias alias) {
-        if (alias.getLinkText() != null && alias.getLinkText().length() > 0) {
-            return alias.getLinkText();
+        if (alias.getLinkTitle() != null && alias.getLinkTitle().length() > 0) {
+            return alias.getLinkTitle();
         } else {
             // it might be pointing directly to the target
             if (alias.getTarget() != null) {
-
                 return getLinktextForWra(wraUtils.getWra(alias.getTarget()));
             } else {
-                LOG.warn("Alias asset " + alias + " does not specify linktext.");
+                LOG.warn("Alias asset " + alias + " does not specify linktitle.");
                 return null;
             }
         }
