@@ -34,6 +34,7 @@ import com.fatwire.assetapi.def.AttributeDefProperties;
  * been thoroughly tested and may therefore require some bug fixes.
  *
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Nov 17, 2009
  */
 public final class AttributeDataUtils {
