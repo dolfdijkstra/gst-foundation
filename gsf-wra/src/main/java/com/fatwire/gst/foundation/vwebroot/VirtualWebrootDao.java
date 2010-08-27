@@ -55,8 +55,9 @@ public final class VirtualWebrootDao {
     }
 
     public VirtualWebroot getVirtualWebroot(long cid) {
-        if (LOG.isTraceEnabled()) LOG.trace("Loiading virtual webroot data for for GSTVirtualWebroot:" + cid);
-        AssetData ad = AssetDataUtils.getAssetData("GSTVirtualWebroot", Long.toString(cid), "master_vwebroot", "env_vwebroot", "env_name");
+        String sCid = Long.toString(cid);
+        if (LOG.isTraceEnabled()) LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + sCid);
+        AssetData ad = AssetDataUtils.getAssetData("GSTVirtualWebroot", sCid, "master_vwebroot", "env_vwebroot", "env_name");
         return new VWebrootBeanImpl(cid, AttributeDataUtils.getWithFallback(ad, "master_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_name"));
 
     }
