@@ -120,41 +120,40 @@ public final class VirtualWebrootDao {
      * @return matching VirtualWebroot or null if no match is found.
      */
     public VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
-            String env = getVirtualWebrootEnvironment();
-            if (env == null) return null;
-            for (VirtualWebroot vw : getAllVirtualWebroots()) {
-                // find longest first one that is found in the prefix of path. that is virtual-webroot
-                // the path in the asset must start with the MASTER virtual webroot for this to work.  This could
-                // be loosened up but there is no real reason to right now.
-                if (env.equals(vw.getEnvironmentName()) && wra.getPath().startsWith(vw.getMasterVirtualWebroot())) {
-                    return vw;
-                }
+        if (LOG.isDebugEnabled()) LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
+        String env = getVirtualWebrootEnvironment();
+        if (env == null) return null;
+        for (VirtualWebroot vw : getAllVirtualWebroots()) {
+            // find longest first one that is found in the prefix of path. that is virtual-webroot
+            // the path in the asset must start with the MASTER virtual webroot for this to work.  This could
+            // be loosened up but there is no real reason to right now.
+            if (env.equals(vw.getEnvironmentName()) && wra.getPath().startsWith(vw.getMasterVirtualWebroot())) {
+                return vw;
             }
-            return null; // no match
         }
+        return null; // no match
+    }
 
 
-        /**
-         * Comparator that compares  virtual webroots by webroot.
-         */
-        public static class UrlInfoComparator implements Comparator<VirtualWebroot> {
+    /**
+     * Comparator that compares  virtual webroots by webroot.
+     */
+    public static class UrlInfoComparator implements Comparator<VirtualWebroot> {
 
-            public int compare(VirtualWebroot o1, VirtualWebroot o2) {
-                int i = o1.getMasterVirtualWebroot().compareTo(o2.getMasterVirtualWebroot());
-                if (i == 0) {
-                    int j = o1.getEnvironmentName().compareTo(o2.getEnvironmentName());
-                    if (j == 0) {
-                        int k = o1.getEnvironmentVirtualWebroot().compareTo(o2.getEnvironmentVirtualWebroot());
-                        if (k == 0) {
-                            return (int) (o1.getId().getId() - o2.getId().getId());
-                        }
-                        return k;
+        public int compare(VirtualWebroot o1, VirtualWebroot o2) {
+            int i = o1.getMasterVirtualWebroot().compareTo(o2.getMasterVirtualWebroot());
+            if (i == 0) {
+                int j = o1.getEnvironmentName().compareTo(o2.getEnvironmentName());
+                if (j == 0) {
+                    int k = o1.getEnvironmentVirtualWebroot().compareTo(o2.getEnvironmentVirtualWebroot());
+                    if (k == 0) {
+                        return (int) (o1.getId().getId() - o2.getId().getId());
                     }
-                    return j;
+                    return k;
                 }
-                return i;
+                return j;
             }
+            return i;
         }
     }
+}
