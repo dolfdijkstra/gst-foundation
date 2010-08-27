@@ -55,7 +55,7 @@ public final class VirtualWebrootDao {
     }
 
     public VirtualWebroot getVirtualWebroot(long cid) {
-        if (LOG.isDebugEnabled()) LOG.debug("Locataing virtual webroot for " + cid);
+        if (LOG.isTraceEnabled()) LOG.trace("Loiading virtual webroot data for for GSTVirtualWebroot:" + cid);
         AssetData ad = AssetDataUtils.getAssetData("GSTVirtualWebroot", Long.toString(cid), "master_vwebroot", "env_vwebroot", "env_name");
         return new VWebrootBeanImpl(cid, AttributeDataUtils.getWithFallback(ad, "master_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_name"));
 
@@ -120,39 +120,41 @@ public final class VirtualWebrootDao {
      * @return matching VirtualWebroot or null if no match is found.
      */
     public VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra) {
-        String env = getVirtualWebrootEnvironment();
-        if (env == null) return null;
-        for (VirtualWebroot vw : getAllVirtualWebroots()) {
-            // find longest first one that is found in the prefix of path. that is virtual-webroot
-            // the path in the asset must start with the MASTER virtual webroot for this to work.  This could
-            // be loosened up but there is no real reason to right now.
-            if (env.equals(vw.getEnvironmentName()) && wra.getPath().startsWith(vw.getMasterVirtualWebroot())) {
-                return vw;
-            }
-        }
-        return null; // no match
-    }
-
-
-    /**
-     * Comparator that compares  virtual webroots by webroot.
-     */
-    public static class UrlInfoComparator implements Comparator<VirtualWebroot> {
-
-        public int compare(VirtualWebroot o1, VirtualWebroot o2) {
-            int i = o1.getMasterVirtualWebroot().compareTo(o2.getMasterVirtualWebroot());
-            if (i == 0) {
-                int j = o1.getEnvironmentName().compareTo(o2.getEnvironmentName());
-                if (j == 0) {
-                    int k = o1.getEnvironmentVirtualWebroot().compareTo(o2.getEnvironmentVirtualWebroot());
-                    if (k == 0) {
-                        return (int) (o1.getId().getId() - o2.getId().getId());
-                    }
-                    return k;
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
+            String env = getVirtualWebrootEnvironment();
+            if (env == null) return null;
+            for (VirtualWebroot vw : getAllVirtualWebroots()) {
+                // find longest first one that is found in the prefix of path. that is virtual-webroot
+                // the path in the asset must start with the MASTER virtual webroot for this to work.  This could
+                // be loosened up but there is no real reason to right now.
+                if (env.equals(vw.getEnvironmentName()) && wra.getPath().startsWith(vw.getMasterVirtualWebroot())) {
+                    return vw;
                 }
-                return j;
             }
-            return i;
+            return null; // no match
+        }
+
+
+        /**
+         * Comparator that compares  virtual webroots by webroot.
+         */
+        public static class UrlInfoComparator implements Comparator<VirtualWebroot> {
+
+            public int compare(VirtualWebroot o1, VirtualWebroot o2) {
+                int i = o1.getMasterVirtualWebroot().compareTo(o2.getMasterVirtualWebroot());
+                if (i == 0) {
+                    int j = o1.getEnvironmentName().compareTo(o2.getEnvironmentName());
+                    if (j == 0) {
+                        int k = o1.getEnvironmentVirtualWebroot().compareTo(o2.getEnvironmentVirtualWebroot());
+                        if (k == 0) {
+                            return (int) (o1.getId().getId() - o2.getId().getId());
+                        }
+                        return k;
+                    }
+                    return j;
+                }
+                return i;
+            }
         }
     }
-}
