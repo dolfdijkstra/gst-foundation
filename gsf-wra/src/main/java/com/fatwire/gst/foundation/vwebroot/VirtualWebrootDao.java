@@ -55,6 +55,7 @@ public final class VirtualWebrootDao {
     }
 
     public VirtualWebroot getVirtualWebroot(long cid) {
+        if (LOG.isDebugEnabled()) LOG.debug("Locataing virtual webroot for " + cid);
         AssetData ad = AssetDataUtils.getAssetData("GSTVirtualWebroot", Long.toString(cid), "master_vwebroot", "env_vwebroot", "env_name");
         return new VWebrootBeanImpl(cid, AttributeDataUtils.getWithFallback(ad, "master_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_name"));
 
@@ -107,7 +108,7 @@ public final class VirtualWebrootDao {
                 if (environmentName.length() == 0) environmentName = null;
             }
         }
-        if (environmentName == null) LOG.debug("Virtual webroot environment is not configured."); 
+        if (environmentName == null) LOG.debug("Virtual webroot environment is not configured.");
         return environmentName;
     }
 
