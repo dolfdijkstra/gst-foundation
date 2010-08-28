@@ -16,6 +16,20 @@
 
 package com.fatwire.gst.foundation.facade.runtag.render;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import COM.FutureTense.Cache.CacheManager;
+import COM.FutureTense.Interfaces.FTValList;
+import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.Utilities;
+import COM.FutureTense.Util.ftMessage;
+
 import com.fatwire.assetapi.data.AssetId;
 
 /**
@@ -35,10 +49,26 @@ import com.fatwire.assetapi.data.AssetId;
  * </code>
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jun 10, 2010
  */
 public class CallTemplate extends TagRunnerWithArguments {
-    
+
+    private static Log LOG = LogFactory.getLog(ftMessage.PAGE_CACHE_DEBUG + ".calltemplate");
+
+    static private boolean configLoaded = false;
+    /**
+     * The default style, used if present
+     */
+    static private Style defaultStyle = null;
+    /**
+     * Do not use the user provided value for style, override
+     * 
+     */
+    static private boolean override = true;
+    static private boolean fixPageCriteria = false;
+    private String site, type, tname, cid;
+    private Style style;
 
     public enum Style {
         element, pagelet, embedded
@@ -59,63 +89,253 @@ public class CallTemplate extends TagRunnerWithArguments {
      * @param tname
      * @param type
      */
-    public CallTemplate(String slotname, String tname, Type type) {
+    public CallTemplate(final String slotname, final String tname, final Type type) {
         super("RENDER.CALLTEMPLATE");
         setSlotname(slotname);
         setTname(tname);
         setTtype(type);
-        setStyle(Style.element);
+        // setStyle(Style.element);
         setContext("");
-
     }
 
-    public void setSite(String s) {
+    /**
+     * Checks the current settings and based on the current and target tempplate
+     * state set the style to a best guess. This is only done if the developer
+     * didnot explicitly set the style.
+     */
+    @Override
+    protected void preExecute(final ICS ics) {
+        // consider to set site to ics.GetVar("site"); as helper for reasonable
+
+        // default value
+        readConfig(ics);
+
+        if (defaultStyle != null) {
+            setStyle(defaultStyle);
+        } else if (override || style == null) {
+            final Style newStyle = fixStyle(ics);
+            setStyle(newStyle);
+        }
+
+        super.preExecute(ics);
+    }
+
+    @Override
+    protected void postExecute(ICS ics) {
+        site = null;
+        type = null;
+        tname = null;
+        cid = null;
+        style = null;
+        super.postExecute(ics);
+    }
+
+    public void setSite(final String s) {
         set("SITE", s);
+        site = s;
     }
 
-    public void setSlotname(String s) {
+    public void setSlotname(final String s) {
         set("SLOTNAME", s);
     }
 
-    public void setTid(String s) {
+    public void setTid(final String s) {
         set("TID", s);
     }
 
-    public void setTtype(Type s) {
+    public void setTtype(final Type s) {
         set("TTYPE", s.toString());
     }
 
-    public void setC(String s) {
+    public void setC(final String s) {
         set("C", s);
+        type = s;
     }
 
-    public void setCid(String s) {
+    public void setCid(final String s) {
         set("CID", s);
+        cid = s;
     }
 
-    public void setTname(String s) {
+    public void setTname(final String s) {
         set("TNAME", s);
+        tname = s;
     }
 
-    public void setContext(String s) {
+    public void setContext(final String s) {
         set("CONTEXT", s);
     }
 
-    public void setStyle(Style s) {
+    public void setStyle(final Style s) {
         set("STYLE", s.toString());
+        style = s;
     }
 
-    public void setVariant(String s) {
+    public void setVariant(final String s) {
         set("VARIANT", s);
     }
 
-    public void setPackedargs(String s) {
+    public void setPackedargs(final String s) {
         set("PACKEDARGS", s);
     }
 
-    public void setAsset(AssetId id) {
+    public void setAsset(final AssetId id) {
         setC(id.getType());
         setCid(Long.toString(id.getId()));
+    }
+
+    void readConfig(final ICS ics) {
+        if (configLoaded) {
+            return;
+        }
+        final String tmp = getProperty(ics, "style");
+        if (tmp != null) {
+            CallTemplate.defaultStyle = Style.valueOf(tmp);
+        }
+        CallTemplate.override = "true".equals(getProperty(ics, "override"));
+        CallTemplate.fixPageCriteria = "true".equals(getProperty(ics, "fixPageCriteria"));
+        CallTemplate.configLoaded = true;
+
+    }
+
+    private String getProperty(final ICS ics, final String name) {
+        String val = System.getProperty(CallTemplate.class.getName() + "." + name);
+        if (!Utilities.goodString(val)) {
+            val = ics.GetProperty(CallTemplate.class.getName() + "." + name, "futuretense_xcel.ini", true);
+        }
+        LOG.trace(CallTemplate.class.getName() + "." + name + "=" + val);
+        return val;
+    }
+
+    private Style fixStyle(final ICS ics) {
+
+        /**
+         * Considerations 1) Check target for parameter callstyle and use that
+         * 
+         */
+        String pname;
+
+        if (tname.startsWith("/")) // typeless
+        {
+            pname = site + tname;
+        } else {
+            pname = site + "/" + type + "/" + tname;
+        }
+        // String targetStyle =(String)
+        // ics.getPageData(pname).getDefaultArguments().get("callstyle");
+        final boolean targetCached = isCacheable(ics, pname);
+        final boolean currentCached = isCacheable(ics, ics.GetVar(ftMessage.PageName));
+
+        final Style proposal = proposeStyle(ics, pname, currentCached, targetCached);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Setting style to '" + proposal + (style != null ? "' (user did set '" + style + "')" : "'")
+                    + " for calltemplate to '" + pname + "' with " + type + "," + cid + "," + getList()
+                    + " in element: '" + ics.ResolveVariables("CS.elementname") + "', caching: '" + currentCached + "/"
+                    + targetCached + "', page: " + ics.pageURL());
+        }
+        return proposal;
+
+    }
+
+    private Style proposeStyle(final ICS ics, final String pname, final boolean currentCache, final boolean targetCache) {
+        if (currentCache == false) // we are not caching for the current pagelet
+        {
+            if (targetCache == false) {
+                return Style.element; // call as element is target is also not
+                // cacheable
+            } else {
+                checkPageCriteria(ics, pname);
+                return Style.pagelet; // otherwise call as pagelet
+            }
+
+        } else { // currently we are caching
+
+            if (targetCache == false) {
+                checkPageCriteria(ics, pname);
+                return Style.pagelet;
+            } else {
+                // LOG.debug("getvar.cid=" + ics.GetVar("cid") + " at " +
+                // ics.pageURL());
+
+                final FTValList m = COM.FutureTense.Interfaces.Utilities.getParams(ics.pageURL());
+                final String pageCid = m.getValString("cid");
+                if (pageCid != null && !pageCid.equals(ics.GetVar("cid"))) {
+                    LOG.warn(ics.GetVar("cid") + " does not match cid (" + pageCid + ") in " + ics.pageURL());
+                }
+                // should we check if cid is current page criteria, we are a
+                // Template??
+                if (cid != null && cid.equals(pageCid)) {
+                    // if c/cid does not change than we call this as an element,
+                    // as reuse is unlikely
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Calling " + pname + " as an element from " + ics.ResolveVariables("CS.elementname")
+                                + " because cid is same as on current pagelet.");
+                    }
+                    return Style.element;
+                } else {
+                    checkPageCriteria(ics, pname);
+                    return Style.embedded; // this is calltemplate, assuming
+                    // that
+                    // headers/footers/leftnavs etc will be
+                    // via CSElements/SiteEntry
+                }
+            }
+
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void checkPageCriteria(final ICS ics, final String target) {
+        final FTValList o = getList();
+
+        if (o instanceof Map) {
+            String[] pc = ics.pageCriteriaKeys(target);
+            if (pc == null) {
+                pc = new String[0];
+            }
+            final Map<String, ?> m = o;
+            // m.keySet().retainAll(Arrays.asList(pc));
+            for (final Iterator<?> i = m.entrySet().iterator(); i.hasNext();) {
+                final Entry<String, ?> e = (Entry<String, ?>) i.next();
+                final String key = e.getKey();
+                boolean found = false;
+                for (final String c : pc) {
+                    if (c.equals(key)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    LOG.error("Argument '" + key + "' not found as PageCriterium on " + target
+                            + ". Calling element is " + ics.ResolveVariables("CS.elementname") + ". Arguments are: "
+                            + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
+                    // we could correct this by calling as an element
+                    // or by removing the argument
+                    if (fixPageCriteria) {
+                        i.remove();
+                        LOG.warn("Argument '" + key + "' is removed from the call to '" + target
+                                + "' as it is not a PageCriterium.");
+                    }
+
+                }
+            }
+
+        }
+
+    }
+
+    /**
+     * Checks if the pagelet should be cached. Takes into consideration if
+     * current pagelet is rendered for Satellite Server.
+     * 
+     * @param ics
+     * @param pname
+     *            the pagename
+     * @return
+     */
+    boolean isCacheable(final ICS ics, final String pname) {
+        return CacheManager.clientIsSS(ics) ? ics.getPageData(pname).getSSCacheInfo().shouldCache() : ics.getPageData(
+                pname).getCSCacheInfo().shouldCache();
     }
 
 }
