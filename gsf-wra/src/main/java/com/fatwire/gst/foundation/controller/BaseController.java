@@ -15,6 +15,8 @@
  */
 package com.fatwire.gst.foundation.controller;
 
+import static COM.FutureTense.Interfaces.Utilities.goodString;
+
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -26,15 +28,14 @@ import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
-import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
-import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
-import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
+import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
-
-import static COM.FutureTense.Interfaces.Utilities.goodString;
+import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 /**
  * <p>
@@ -44,9 +45,9 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * </p>
  * <p/>
  * This controller should be called from an outer XML element via the
- * <tt>CALLJAVA</tt> tag: &lt;CALLJAVA
- * CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
- *
+ * <tt>CALLJAVA</tt> tag: 
+ * <code>&lt;CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
+ * </code>
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -114,8 +115,9 @@ public class BaseController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     *
-     * @param e exception
+     * 
+     * @param e
+     *            exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
         switch (e.getErrno()) {
@@ -155,7 +157,9 @@ public class BaseController extends AbstractController {
         return id;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
+            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
+            "url-path");
 
     @SuppressWarnings("unchecked")
     protected void callTemplate(final AssetIdWithSite id, final String tname) {
@@ -169,7 +173,8 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/" + tname;
+        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/"
+                + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
             LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
@@ -186,19 +191,23 @@ public class BaseController extends AbstractController {
 
         ct.setArgument("site", id.getSite());
 
-        // create a list of parameters that can be specified as arguments to the CallTemplate tag.
+        // create a list of parameters that can be specified as arguments to the
+        // CallTemplate tag.
         final Map<String, String> arguments = new HashMap<String, String>();
 
-        // Prime the map with the ics variable scope for the architect to make the
+        // Prime the map with the ics variable scope for the architect to make
+        // the
         // controller as transparent as possible
         final Enumeration<String> vars = ics.GetVars();
         while (vars.hasMoreElements()) {
             final String varname = vars.nextElement();
-            // some parameters are automatically excluded because they relate directly
+            // some parameters are automatically excluded because they relate
+            // directly
             // to this controller only.
             if (!CALLTEMPLATE_EXCLUDE_VARS.contains(varname)) {
                 // page criteria is automatically validated by the CallTemplate
-                // tag, but it is a bad idea to send params through if they aren't
+                // tag, but it is a bad idea to send params through if they
+                // aren't
                 // page criteria.
                 // todo: consider validating here. Validation is duplicated but
                 // may be useful
@@ -208,31 +217,35 @@ public class BaseController extends AbstractController {
         getCallTemplateArguments(id, arguments);
         for (String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+            if (LOG.isTraceEnabled())
+                LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
         }
 
         ct.execute(ics);
     }
 
     /**
-     * This method collects additional arguments for the CallTemplate call.
-     * New arguments are added to the map as name-value pairs.
-     *
-     * @param id        AssetIdWithSite object
-     * @param arguments Map<String,String> containing arguments for the nested CallTemplate call
+     * This method collects additional arguments for the CallTemplate call. New
+     * arguments are added to the map as name-value pairs.
+     * 
+     * @param id
+     *            AssetIdWithSite object
+     * @param arguments
+     *            Map<String,String> containing arguments for the nested
+     *            CallTemplate call
      */
     protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {
         // nothing required here
     }
 
     protected Style getCallTemplateCallStyle(String target) {
-        if (ics.isCacheable(ics.GetVar(ftMessage.PageName))) {
+        if (RenderUtils.isCacheable(ics, ics.GetVar(ftMessage.PageName))) {
             // call as element when current is caching.
             // note that it may be useful to set this to "embedded" in some
             // cases.
             // override it in that situation
             return Style.element;
-        } else if (ics.isCacheable(target)) {
+        } else if (RenderUtils.isCacheable(ics, target)) {
             // call as embedded when current is not caching and target is
             return Style.embedded;
         } else {
