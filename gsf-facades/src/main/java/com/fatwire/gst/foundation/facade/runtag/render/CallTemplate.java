@@ -24,13 +24,13 @@ import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
 import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.RenderUtils;
 
 /**
  * CallTemplate tag
@@ -113,7 +113,7 @@ public class CallTemplate extends TagRunnerWithArguments {
         if (defaultStyle != null) {
             setStyle(defaultStyle);
         } else if (override || style == null) {
-            final Style newStyle = fixStyle(ics);
+            final Style newStyle = proposeStyle(ics);
             setStyle(newStyle);
         }
 
@@ -167,7 +167,7 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     public void setStyle(final Style s) {
-        set("STYLE", s.toString());
+        set("STYLE", s != null ? s.toString() : null);
         style = s;
     }
 
@@ -207,7 +207,7 @@ public class CallTemplate extends TagRunnerWithArguments {
         return val;
     }
 
-    private Style fixStyle(final ICS ics) {
+    public Style proposeStyle(final ICS ics) {
 
         /**
          * Considerations 1) Check target for parameter callstyle and use that
@@ -223,10 +223,10 @@ public class CallTemplate extends TagRunnerWithArguments {
         }
         // String targetStyle =(String)
         // ics.getPageData(pname).getDefaultArguments().get("callstyle");
-        final boolean targetCached = isCacheable(ics, pname);
-        final boolean currentCached = isCacheable(ics, ics.GetVar(ftMessage.PageName));
+        final boolean targetCached = RenderUtils.isCacheable(ics, pname);
+        final boolean currentCached = RenderUtils.isCacheable(ics, ics.GetVar(ftMessage.PageName));
 
-        final Style proposal = proposeStyle(ics, pname, currentCached, targetCached);
+        final Style proposal = calculateStyle(ics, pname, currentCached, targetCached);
         if (LOG.isDebugEnabled()) {
             LOG.debug("Setting style to '" + proposal + (style != null ? "' (user did set '" + style + "')" : "'")
                     + " for calltemplate to '" + pname + "' with " + type + "," + cid + "," + getList()
@@ -237,7 +237,8 @@ public class CallTemplate extends TagRunnerWithArguments {
 
     }
 
-    private Style proposeStyle(final ICS ics, final String pname, final boolean currentCache, final boolean targetCache) {
+    private Style calculateStyle(final ICS ics, final String pname, final boolean currentCache,
+            final boolean targetCache) {
         if (currentCache == false) // we are not caching for the current pagelet
         {
             if (targetCache == false) {
@@ -324,18 +325,5 @@ public class CallTemplate extends TagRunnerWithArguments {
 
     }
 
-    /**
-     * Checks if the pagelet should be cached. Takes into consideration if
-     * current pagelet is rendered for Satellite Server.
-     * 
-     * @param ics
-     * @param pname
-     *            the pagename
-     * @return
-     */
-    boolean isCacheable(final ICS ics, final String pname) {
-        return CacheManager.clientIsSS(ics) ? ics.getPageData(pname).getSSCacheInfo().shouldCache() : ics.getPageData(
-                pname).getCSCacheInfo().shouldCache();
-    }
 
 }
