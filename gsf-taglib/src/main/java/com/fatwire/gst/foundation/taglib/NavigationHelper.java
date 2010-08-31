@@ -81,7 +81,7 @@ public class NavigationHelper {
     public NavigationHelper(ICS ics) {
         this.ics = ics;
         this.wraUtils = new WRAUtils(ics);
-        this.assetEffectiveDate = new Date(); // todo: look for preview date variable
+        this.assetEffectiveDate = new Date(); // todo: look for preview date variable (GSF-2)
     }
 
     /**
