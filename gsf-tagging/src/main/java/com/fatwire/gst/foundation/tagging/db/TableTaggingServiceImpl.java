@@ -148,13 +148,13 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         AssetData data = AssetDataUtils.getAssetData(id, "startdate", "enddate", "gsttag");
         Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
         Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
-
         TaggedAsset ret = new TaggedAsset(id, startDate, endDate);
         for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
             Tag oTag = asTag(tag);
             recordCacheDependency(oTag);
             ret.addTag(oTag);
         }
+        if (LOG.isTraceEnabled()) LOG.trace("Loaded tagged asset " + ret);
         return ret;
     }
 
