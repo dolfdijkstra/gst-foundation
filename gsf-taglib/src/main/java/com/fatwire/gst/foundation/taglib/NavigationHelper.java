@@ -165,7 +165,7 @@ public class NavigationHelper {
                 // tolerate even more bad data
                 LOG.warn("Page " + pageid + " has more than one unnamed association values so a link cannot be generated for it.");
             } else {
-            	AssetId id = ids.get(0);
+                AssetId id = ids.get(0);
                 if (isValidOnDate(id, assetEffectiveDate)) {
                     result.put("id", id);
                     if (isGstAlias(id)) {
@@ -268,7 +268,7 @@ public class NavigationHelper {
         }
         String wrapper = ics.GetProperty("com.fatwire.gst.foundation.url.wrapathassembler.dispatcher", "ServletRequest.properties", true);
         if (!Utilities.goodString(wrapper)) {
-            wrapper = "GSF/Dispatcher";
+            wrapper = "GST/Dispatcher";
         }
         GetTemplateUrl gtu = new GetTemplateUrl(ics, wra.getId().getType(), wra.getId().getId() + "", wra.getTemplate(), wrapper, "nav");
         ics.RemoveVar("gspal-url");
