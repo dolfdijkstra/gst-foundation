@@ -41,7 +41,33 @@
                 <targetPath>META-INF</targetPath>
             </resource>
         </resources>
+        <!--
+		<plugins>
+		  <plugin>
+			<groupId>net.sourceforge.maven-taglib</groupId>
+			<artifactId>maven-taglib-plugin</artifactId>
+			<configuration>
+			<srcDir>src/main/tld</srcDir>
+			<taglib.src.dir>src/main/tld</taglib.src.dir>
+			</configuration>
+		  </plugin>
+		</plugins>
+        -->
     </build>
+     <reporting>
+	    <plugins>
+	      <plugin>
+	        <groupId>net.sourceforge.maven-taglib</groupId>
+	        <artifactId>maven-taglib-plugin</artifactId>
+	        <version>2.4</version>
+	        <configuration>
+	          <parseHtml>false</parseHtml>
+	          <srcDir>src/main/tld</srcDir>
+			  <!--taglib.src.dir>src/main/tld</taglib.src.dir-->
+	        </configuration>
+	      </plugin>
+	    </plugins>
+	  </reporting>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
