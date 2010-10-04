@@ -242,14 +242,14 @@ public class NavigationHelper {
      * @return linktext or null on failure.
      */
     protected String getLinktextForAlias(Alias alias) {
-        if (alias.getLinkTitle() != null && alias.getLinkTitle().length() > 0) {
-            return alias.getLinkTitle();
+        if (alias.getLinkText() != null && alias.getLinkText().length() > 0) {
+            return alias.getLinkText();
         } else {
             // it might be pointing directly to the target
             if (alias.getTarget() != null) {
                 return getLinktextForWra(wraUtils.getWra(alias.getTarget()));
             } else {
-                LOG.warn("Alias asset " + alias + " does not specify linktitle.");
+                LOG.warn("Alias asset " + alias + " does not specify linktext.");
                 return null;
             }
         }
@@ -286,8 +286,8 @@ public class NavigationHelper {
      * @return linktext
      */
     protected String getLinktextForWra(WebReferenceableAsset wra) {
-        if (wra.getLinkTitle() != null && wra.getLinkTitle().length() > 0) {
-            return wra.getLinkTitle();
+        if (wra.getLinkText() != null && wra.getLinkText().length() > 0) {
+            return wra.getLinkText();
         } else if (wra.getH1Title() != null && wra.getH1Title().length() > 0) {
             return wra.getH1Title();
         } else {

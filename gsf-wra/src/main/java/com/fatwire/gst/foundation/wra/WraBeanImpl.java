@@ -35,7 +35,7 @@ public class WraBeanImpl implements WebReferenceableAsset {
     private String metaDescription;
     private String metaKeyword;
     private String h1Title;
-    private String linkTitle;
+    private String linkText;
     private String path;
     private String template;
     private Date startDate;
@@ -113,12 +113,12 @@ public class WraBeanImpl implements WebReferenceableAsset {
         this.h1Title = h1Title;
     }
 
-    public String getLinkTitle() {
-        return linkTitle;
+    public String getLinkText() {
+        return linkText;
     }
 
-    public void setLinkTitle(String linkTitle) {
-        this.linkTitle = linkTitle;
+    public void setLinkText(String linkText) {
+        this.linkText = linkText;
     }
 
     public String getPath() {
@@ -154,6 +154,6 @@ public class WraBeanImpl implements WebReferenceableAsset {
     }
 
     public String toString() {
-    	return (getId() != null) ? getId().toString() : "[null id]";
+        return (getId() != null) ? getId().toString() : "[null id]";
     }
 }

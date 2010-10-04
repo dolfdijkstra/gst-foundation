@@ -70,7 +70,7 @@ public class WraCoreFieldDao {
      * @return AssetData containing core fields for Web-Referencable asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status");
+        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status");
     }
 
     /**
@@ -111,7 +111,7 @@ public class WraCoreFieldDao {
         wra.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
         wra.setMetaKeyword(AttributeDataUtils.asString(data.getAttributeData("metakeyword")));
         wra.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
-        wra.setLinkTitle(AttributeDataUtils.getWithFallback(data, "linktitle", "h1title"));
+        wra.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
         wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
         wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
         return wra;

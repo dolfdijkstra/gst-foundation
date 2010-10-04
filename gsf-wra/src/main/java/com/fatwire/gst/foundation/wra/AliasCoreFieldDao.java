@@ -17,9 +17,6 @@ package com.fatwire.gst.foundation.wra;
 
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
@@ -31,6 +28,9 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Dao for dealing with core fields in a WRA
@@ -70,9 +70,7 @@ public class AliasCoreFieldDao {
      * @return AssetData containing core fields for Alias asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword",
-        		"h1title", "linktitle", "path", "template", "id", "name", "subtype", "startdate",
-        		"enddate", "status", "target", "target_url", "popup", "linkimage");
+        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status", "target", "target_url", "popup", "linkimage");
     }
 
     /**
@@ -114,7 +112,7 @@ public class AliasCoreFieldDao {
         o.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
         o.setMetaKeyword(AttributeDataUtils.getWithFallback(data, "metakeyword"));
         o.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
-        o.setLinkTitle(AttributeDataUtils.getWithFallback(data, "linktitle", "h1title"));
+        o.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
         o.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
         o.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
         // Alias fields

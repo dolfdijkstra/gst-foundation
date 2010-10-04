@@ -49,7 +49,7 @@ public interface WebReferenceableAsset {
 
     public String getH1Title();
 
-    public String getLinkTitle();
+    public String getLinkText();
 
     public String getPath();
 
