@@ -121,7 +121,7 @@ public class WraPageReference extends PageRef {
                     if (currentEnvironment == null) {
                         log.debug("Not adding WraPathAssembler args because virtual webroot environment is not configured");
                     } else {
-                        log.debug("Not adding WraPathAssembler args because asset " + id + " is not web-referenceable");
+                        log.debug("Not adding WraPathAssembler args because asset " + id + " does not have a path set.");
                     }
                 }
             }
@@ -136,18 +136,18 @@ public class WraPageReference extends PageRef {
     /**
      * Check to see if the tag being called is a getTemplateUrl tag.  If it is not, we should not be processing
      * this for special links.  Note it's not that easy to figure this out, and there could be missing pieces here.
+     *
      * @param args tag args
      * @return true if it's a gettemplateurl tag, false otherwise.
      */
-    private boolean isGetTemplateUrl(Map<String,String> args) {
+    private boolean isGetTemplateUrl(Map<String, String> args) {
         if (args.get("c") == null) return false;
         if (args.get("cid") == null) return false;
-        String pagename = (String)args.get(ftMessage.PageName);
+        String pagename = (String) args.get(ftMessage.PageName);
         if (pagename == null) return false;
         if (pagename.split("/").length < 3) return false; // need site/type/tname at least for a valid URL
         if (args.get(PubConstants.WRAPPERPAGE) != null) return true; // wrapper is only supported for GTU calls
-        else
-        {
+        else {
             // possible further checks here just in case
         }
         return true;

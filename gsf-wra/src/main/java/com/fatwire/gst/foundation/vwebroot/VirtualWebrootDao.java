@@ -122,13 +122,18 @@ public final class VirtualWebrootDao {
      */
     public VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra) {
         if (LOG.isDebugEnabled()) LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
+        String wraPath = wra.getPath();
+        if (wraPath == null) {
+            LOG.trace("WRA does ont have a path set - cannot locate virtual webroot");
+            return null;
+        }
         String env = getVirtualWebrootEnvironment();
         if (env == null) return null;
         for (VirtualWebroot vw : getAllVirtualWebroots()) {
             // find longest first one that is found in the prefix of path. that is virtual-webroot
             // the path in the asset must start with the MASTER virtual webroot for this to work.  This could
             // be loosened up but there is no real reason to right now.
-            if (env.equals(vw.getEnvironmentName()) && wra.getPath().startsWith(vw.getMasterVirtualWebroot())) {
+            if (env.equals(vw.getEnvironmentName()) && wraPath.startsWith(vw.getMasterVirtualWebroot())) {
                 return vw;
             }
         }
