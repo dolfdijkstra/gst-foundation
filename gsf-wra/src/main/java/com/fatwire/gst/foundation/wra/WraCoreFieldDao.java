@@ -15,6 +15,7 @@
  */
 package com.fatwire.gst.foundation.wra;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import COM.FutureTense.Interfaces.ICS;
@@ -23,6 +24,7 @@ import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
+import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
@@ -138,6 +140,44 @@ public class WraCoreFieldDao {
             }
         }
         return result;
+    }
+
+    static final PreparedStmt FIND_P = new PreparedStmt("SELECT art.oid\n\tFROM AssetRelationTree art, AssetPublication ap, Publication p\n\tWHERE ap.assetid = art.oid\n\t" + "AND ap.assettype = 'Page'\n\t" + "AND ap.pubid = p.id\n\t" + "AND p.name = ?\n\t" + "AND art.otype = ap.assettype\n\t" + "AND art.nid in (\n\t\t" + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-'\n\t) ORDER BY ap.id", Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
+
+    static {
+        FIND_P.setElement(0, "Publication", "name");
+        FIND_P.setElement(1, "AssetRelationTree", "otype");
+        FIND_P.setElement(2, "AssetRelationTree", "oid");
+    }
+
+    /**
+     * Locate the page that contains the specified Web-Referenceable Asset.
+     * <p/>
+     * A WRA is supposed to just be placed on one page (in the unnamed association
+     * block), and this method locates it.  If it is not found, 0L is returned.
+     * <p/>
+     * If multiple matches are found, a warning is logged and the first one is
+     * returned.
+     *
+     * @param wraAssetIdWithSite id of the web-referenceable asset. Site is included
+     * @return page asset ID or 0L.
+     */
+    public long findP(AssetIdWithSite wraAssetIdWithSite) {
+        final StatementParam param = FIND_P.newParam();
+        param.setString(0, wraAssetIdWithSite.getSite());
+        param.setString(1, wraAssetIdWithSite.getType());
+        param.setLong(2, wraAssetIdWithSite.getId());
+        long result = 0L;
+        for (final Row r : SqlHelper.select(ics, FIND_P, param)) {
+            if (result != 0L)
+                LOG.warn("Asset " + wraAssetIdWithSite + " was found as the primary content on multiple pages in the site.  Web-referenceable assets should only be the primary content on one Page to comply with SEO rules.  Automatically selecting the oldest page");
+            else result = r.getLong("oid");
+        }
+        if (result == 0L) {
+            // could not locate
+        }
+        return result;
+
     }
 
 

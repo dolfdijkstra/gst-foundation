@@ -16,7 +16,6 @@
 package com.fatwire.gst.foundation.taglib;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,16 +26,14 @@ import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.cs.core.db.PreparedStmt;
-import com.fatwire.cs.core.db.StatementParam;
+import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
 import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
-import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.logging.Log;
@@ -63,6 +60,10 @@ public class NavigationHelper {
      */
     protected final WRAUtils wraUtils;
     /**
+     * Local instance of the WraCoreFieldDao, pre-instantiated and ready to go
+     */
+    protected final WraCoreFieldDao wraDao;
+    /**
      * Log file
      */
     protected final Log LOG = LogFactory.getLog(NavigationHelper.class);
@@ -81,6 +82,7 @@ public class NavigationHelper {
     public NavigationHelper(ICS ics) {
         this.ics = ics;
         this.wraUtils = new WRAUtils(ics);
+        this.wraDao = new WraCoreFieldDao(ics);
         this.assetEffectiveDate = new Date(); // todo: look for preview date variable (GSF-2)
     }
 
@@ -333,14 +335,6 @@ public class NavigationHelper {
         return result;
     }
 
-    static final PreparedStmt FIND_P = new PreparedStmt("SELECT art.oid\n\tFROM AssetRelationTree art, AssetPublication ap, Publication p\n\tWHERE ap.assetid = art.oid\n\t" + "AND ap.assettype = 'Page'\n\t" + "AND ap.pubid = p.id\n\t" + "AND p.name = ?\n\t" + "AND art.otype = ap.assettype\n\t" + "AND art.nid in (\n\t\t" + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-'\n\t) ORDER BY ap.id", Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
-
-    static {
-        FIND_P.setElement(0, "Publication", "name");
-        FIND_P.setElement(1, "AssetRelationTree", "otype");
-        FIND_P.setElement(2, "AssetRelationTree", "oid");
-    }
-
     /**
      * Locate the page that contains the specified Web-Referenceable Asset.
      * <p/>
@@ -355,20 +349,6 @@ public class NavigationHelper {
      * @return page asset ID or 0L.
      */
     public long findP(String site_name, AssetId wraAssetId) {
-        final StatementParam param = FIND_P.newParam();
-        param.setString(0, site_name);
-        param.setString(1, wraAssetId.getType());
-        param.setLong(2, wraAssetId.getId());
-        long result = 0L;
-        for (final Row r : SqlHelper.select(ics, FIND_P, param)) {
-            if (result != 0L)
-                LOG.warn("Asset " + wraAssetId + " was found as the primary content on multiple pages in the site.  Web-referenceable assets should only be the primary content on one Page to comply with SEO rules.  Automatically selecting the oldest page");
-            else result = r.getLong("oid");
-        }
-        if (result == 0L) {
-            // could not locate
-        }
-        return result;
-
+        return wraDao.findP(new AssetIdWithSite(wraAssetId.getType(), wraAssetId.getId(), site_name));
     }
 }

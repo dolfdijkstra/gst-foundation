@@ -15,8 +15,6 @@
  */
 package com.fatwire.gst.foundation.controller;
 
-import static COM.FutureTense.Interfaces.Utilities.goodString;
-
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -30,12 +28,14 @@ import COM.FutureTense.Util.ftMessage;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
-import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
+import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
+
+import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * <p>
@@ -45,9 +45,10 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  * </p>
  * <p/>
  * This controller should be called from an outer XML element via the
- * <tt>CALLJAVA</tt> tag: 
+ * <tt>CALLJAVA</tt> tag:
  * <code>&lt;CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
  * </code>
+ *
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -115,9 +116,8 @@ public class BaseController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     * 
-     * @param e
-     *            exception
+     *
+     * @param e exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
         switch (e.getErrno()) {
@@ -157,9 +157,7 @@ public class BaseController extends AbstractController {
         return id;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
-            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
-            "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
 
     @SuppressWarnings("unchecked")
     protected void callTemplate(final AssetIdWithSite id, final String tname) {
@@ -173,8 +171,7 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/"
-                + tname;
+        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/" + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
             LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
@@ -217,8 +214,7 @@ public class BaseController extends AbstractController {
         getCallTemplateArguments(id, arguments);
         for (String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled())
-                LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+            if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
         }
 
         ct.execute(ics);
@@ -227,15 +223,32 @@ public class BaseController extends AbstractController {
     /**
      * This method collects additional arguments for the CallTemplate call. New
      * arguments are added to the map as name-value pairs.
-     * 
-     * @param id
-     *            AssetIdWithSite object
-     * @param arguments
-     *            Map<String,String> containing arguments for the nested
-     *            CallTemplate call
+     *
+     * @param id        AssetIdWithSite object
+     * @param arguments Map<String,String> containing arguments for the nested
+     *                  CallTemplate call
      */
     protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {
-        // nothing required here
+        findAndSetP(id, arguments);
+    }
+
+    /**
+     * Add p to the input parameters, if it is known or knowable.  First check to see if it has been
+     * explicitly set, then look it up if it hasn't been.  The variable is not guaranteed to be found.
+     *
+     * @param id        asset id with site
+     * @param arguments calltemplate arguments
+     */
+    private void findAndSetP(AssetIdWithSite id, Map<String, String> arguments) {
+        String pVar = ics.GetVar("p");
+        if (pVar != null && pVar.length() > 0) {
+            arguments.put("p", pVar);
+        } else {
+            long p = wraCoreFieldDao.findP(id);
+            if (p > 0L) {
+                arguments.put("p", Long.toString(p));
+            }
+        }
     }
 
     protected Style getCallTemplateCallStyle(String target) {
