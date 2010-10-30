@@ -18,8 +18,13 @@ package com.fatwire.gst.foundation.facade.runtag.asset;
 
 import java.util.Date;
 
+import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.Utilities;
+import COM.FutureTense.Util.ftMessage;
+
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 
@@ -87,5 +92,30 @@ public final class FilterAssetsByDate {
                 return startDate.before(effectiveDate) && effectiveDate.before(endDate);
             }
         }
+    }
+
+
+    /**
+     * Check to see if SitePreview is enabled.  If it is, don't cache the
+     * pagelet that invoked this.  Next, check the session for the preview
+     * date.  If found, return it.  Otherwise, return null.
+     *
+     * @param ics context
+     * @return preview date if site preview is enabled, or null
+     */
+    public static Date getSitePreviewDateAndDoSetup(ICS ics) {
+        Date result = null;
+        if (ftMessage.cm.equals(ics.GetProperty(ftMessage.cssitepreview))) {
+            ics.DisableFragmentCache();
+            String sitePreviewDefinedDate = ics.GetSSVar("__insiteDate");
+            if (Utilities.goodString(sitePreviewDefinedDate)) {
+                // workaround for broken parseJdbcDate function
+                if (sitePreviewDefinedDate.indexOf(".") == -1) {
+                    sitePreviewDefinedDate += ".000";
+                }
+                result = Util.parseJdbcDate(sitePreviewDefinedDate);
+            }
+        }
+        return result;
     }
 }

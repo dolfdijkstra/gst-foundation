@@ -127,7 +127,7 @@ public class SqlHelper {
                 ics.ClearErrno();
             } else {
                 // throw exception??
-                log.warn("Flushing failed for table " + table);
+                log.warn("Flushing failed for table " + table+". ("+ics.GetErrno()+")");
 
                 ics.ClearErrno();
 

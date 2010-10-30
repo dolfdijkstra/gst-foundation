@@ -178,7 +178,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
             AssetId id = new AssetIdImpl(asset.getString("assettype"), asset.getLong("assetid"));
             LogDep.logDep(ics, id);
-            Date effectiveDate = null; // todo: add support for previewing future dates. (GSF-2)
+            Date effectiveDate = FilterAssetsByDate.getSitePreviewDateAndDoSetup(ics);
             if (FilterAssetsByDate.isDateWithinRange(asset.getString("startdate"), effectiveDate, asset.getString("enddate"))) {
                 ids.add(id);
             } else {

@@ -34,7 +34,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * <SITEPLAN.LISTPAGES NAME="thePubNode" PLACEDLIST="placedPages" LEVEL="1"/>
- * 
+ *
  * @author Tony Field
  * @since Jul 14, 2009
  */
@@ -59,9 +59,9 @@ public final class ListPages extends AbstractTagRunner {
      * Return the immediate children of the specified page in the site plan
      * tree. If the page is not present in the site plan tree, an exception is
      * thrown. If no child pages are found an empty list is returned.
-     * 
+     *
      * @param ics ICS context
-     * @param p ID of the the page whose children will be looked up
+     * @param p   ID of the the page whose children will be looked up
      * @return list of children of the input page, never null
      */
     public static List<AssetId> getChildPages(ICS ics, long p) {
@@ -93,8 +93,7 @@ public final class ListPages extends AbstractTagRunner {
             sitePlanLoad.setNodeid(ics.GetVar(CURRENT_PAGE_NODE_ID));
             sitePlanLoad.execute(ics);
             if (ics.GetErrno() < 0) {
-                throw new CSRuntimeException("Could not load site plan tree for page identified by Page:" + p, ics
-                        .GetErrno());
+                throw new CSRuntimeException("Could not load site plan tree for page identified by Page:" + p, ics.GetErrno());
             }
 
             ListPages listPages = new ListPages();
@@ -108,13 +107,13 @@ public final class ListPages extends AbstractTagRunner {
 
             // otype/oid are what we care about
             IList placedList = ics.GetList(PLACED_LIST);
-            if (placedList == null || !placedList.hasData()) {
+            if (ics.GetErrno() < 0 || placedList == null || !placedList.hasData()) {
+                ics.ClearErrno();
                 return Collections.emptyList();
             }
             List<AssetId> list = new ArrayList<AssetId>();
             for (IList row : new IterableIListWrapper(placedList)) {
-                AssetId id = new AssetIdImpl(IListUtils.getStringValue(row, "AssetType"), IListUtils.getLongValue(row,
-                        "Id"));
+                AssetId id = new AssetIdImpl(IListUtils.getStringValue(row, "AssetType"), IListUtils.getLongValue(row, "Id"));
                 list.add(id);
             }
             return list;

@@ -29,6 +29,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
+import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
 import com.fatwire.gst.foundation.wra.Alias;
@@ -82,8 +83,7 @@ public class NavigationHelper {
     public NavigationHelper(ICS ics) {
         this.ics = ics;
         this.wraUtils = new WRAUtils(ics);
-        this.wraDao = new WraCoreFieldDao(ics);
-        this.assetEffectiveDate = new Date(); // todo: look for preview date variable (GSF-2)
+        this.assetEffectiveDate = FilterAssetsByDate.getSitePreviewDateAndDoSetup(ics);
     }
 
     /**
@@ -145,40 +145,52 @@ public class NavigationHelper {
             if (LOG.isDebugEnabled()) LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
             return result;
         }
-        result.put("page", pageId);
-        result.put("level", level);
 
         // determine if it's a wra, a placeholder or an alias
         AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
         String subtype = pageData.getAttributeData("subtype").getData().toString();
         String name = pageData.getAttributeData("name").getData().toString();
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
-        result.put("pagesubtype", subtype);
-        result.put("pagename", name);
 
-        // no link if it's just a placeholder
-        if (!isNavigationPlaceholder) {
+        if (isNavigationPlaceholder) {
+            result.put("page", pageId);
+            result.put("level", level);
+            result.put("pagesubtype", subtype);
+            result.put("pagename", name);
+        } else {
+            // no link if it's just a placeholder
             // retrieve the unnamed association(s)
             List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", pageid, "-");
             if (ids.size() < 1) {
                 // tolerate bad data
-                LOG.warn("Page " + pageid + " has no unnamed association value so a link cannot be generated for it.");
-            } else if (ids.size() > 1) {
-                // tolerate even more bad data
-                LOG.warn("Page " + pageid + " has more than one unnamed association values so a link cannot be generated for it.");
+                LOG.warn("Page " + pageid + " has no unnamed association value so a link cannot be generated for it.  Skipping.");
             } else {
-                AssetId id = ids.get(0);
-                if (isValidOnDate(id, assetEffectiveDate)) {
+                ArrayList<AssetId> wra = new ArrayList<AssetId>();
+                for (AssetId id : ids) {
+                    if (isValidOnDate(id, assetEffectiveDate)) {
+                        wra.add(id);
+                    } else if (LOG.isDebugEnabled())
+                        LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
+
+                }
+                if (wra.size() < 1) {
+                    LOG.debug("Page " + pageid + " does not have any valid unnamed associations for date " + assetEffectiveDate + ", so a link cannot be generated for it.  Skipping.");
+                } else if (wra.size() > 1) {
+                    LOG.warn("Page " + pageid + " has more than one unnamed association that is valid for date " + assetEffectiveDate + ", so no link can be generated for it.  Skipping.");
+                } else {
+                    result.put("page", pageId);
+                    result.put("level", level);
+                    result.put("pagesubtype", subtype);
+                    result.put("pagename", name);
+                    AssetId id = wra.get(0);
                     result.put("id", id);
                     if (isGstAlias(id)) {
                         result.putAll(extractAttrFromAlias(id));
                     } else {
                         result.putAll(extractAttrFromWra(id));
                     }
-                } else {
-                    if (LOG.isDebugEnabled())
-                        LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
                 }
+
             }
         }
 

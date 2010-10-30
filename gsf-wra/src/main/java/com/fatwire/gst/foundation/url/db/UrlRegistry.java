@@ -88,11 +88,11 @@ public class UrlRegistry implements WraPathTranslationService {
         final StatementParam param = REGISTRY_SELECT.newParam();
         param.setString(0, virtual_webroot);
         param.setString(1, url_path);
-        final Date now = new Date();
+        final Date effectiveDate = FilterAssetsByDate.getSitePreviewDateAndDoSetup(ics);
         for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
             final String assettype = asset.getString("assettype");
             final String assetid = asset.getString("assetid");
-            if (FilterAssetsByDate.isDateWithinRange(asset.getString("startdate"), now, asset.getString("enddate"))) {
+            if (FilterAssetsByDate.isDateWithinRange(asset.getString("startdate"), effectiveDate, asset.getString("enddate"))) {
                 return new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
             }
         }
