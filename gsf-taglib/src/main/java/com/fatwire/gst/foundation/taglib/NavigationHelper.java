@@ -83,6 +83,7 @@ public class NavigationHelper {
     public NavigationHelper(ICS ics) {
         this.ics = ics;
         this.wraUtils = new WRAUtils(ics);
+        this.wraDao = new WraCoreFieldDao(ics);
         this.assetEffectiveDate = FilterAssetsByDate.getSitePreviewDateAndDoSetup(ics);
     }
 

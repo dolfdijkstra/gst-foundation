@@ -148,7 +148,7 @@ public class WraCoreFieldDao {
         FIND_P.setElement(0, "Publication", "name");
         FIND_P.setElement(1, "AssetRelationTree", "otype");
         FIND_P.setElement(2, "AssetRelationTree", "oid");
-    }
+}
 
     /**
      * Locate the page that contains the specified Web-Referenceable Asset.
