@@ -61,7 +61,7 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void install() {
-        TableDef def = new TableDef(URLREG_TABLE, ftMessage.Browser, ftMessage.objecttbl);
+        TableDef def = new TableDef(URLREG_TABLE, "Browser,xceleditor", ftMessage.objecttbl);
 
         def.addColumn(new TableColumn("id", Type.ccbigint, true).setNullable(false));
         def.addColumn(new TableColumn("path", Type.ccvarchar).setLength(4000).setNullable(false));

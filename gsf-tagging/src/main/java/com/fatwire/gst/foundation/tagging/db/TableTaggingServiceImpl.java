@@ -24,6 +24,7 @@ import java.util.List;
 
 import COM.FutureTense.Cache.CacheHelper;
 import COM.FutureTense.Cache.CacheManager;
+import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
 
@@ -32,6 +33,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.cs.core.db.Util;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
@@ -48,7 +50,6 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 import static com.fatwire.gst.foundation.tagging.TagUtils.asTag;
 import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepString;
 
@@ -71,7 +72,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     }
 
     public void install() {
-        TableDef def = new TableDef(TAGREGISTRY_TABLE, ftMessage.Browser, "obj"); // todo: define the PK properly (this will work for now)
+        TableDef def = new TableDef(TAGREGISTRY_TABLE, "Browser,xceleditor", "obj"); // todo: define the PK properly (this will work for now)
 
         def.addColumn(new TableColumn("tag", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
         def.addColumn(new TableColumn("assettype", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
@@ -99,13 +100,21 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
 
     public void addAsset(AssetId id) {
         TaggedAsset asset = loadTaggedAsset(id);
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Adding tagged asset to tag registry: " + asset);
+        }
         for (Tag tag : loadTaggedAsset(id).getTags()) {
-            final String sTag = quote(tag.getTag());
-            final String sAssetType = quote(id.getType());
-            final String sStartDate = asset.getStartDate() == null ? "null" : quote(Util.formatJdbcDate(asset.getStartDate()));
-            final String sEndDate = asset.getEndDate() == null ? "null" : quote(Util.formatJdbcDate(asset.getEndDate()));
-            String qry = "insert into " + TAGREGISTRY_TABLE + " (id, tag, assettype, assetid, startdate, enddate) VALUES " + "(" + ics.genID(true) + "," + sTag + "," + sAssetType + "," + id.getId() + "," + sStartDate + "," + sEndDate + ")";
-            SqlHelper.execute(ics, TAGREGISTRY_TABLE, qry);
+            FTValList vl = new FTValList();
+            vl.setValString("ftcmd", "addrow");
+            vl.setValString("tablename", TAGREGISTRY_TABLE);
+            vl.setValString("id", ics.genID(true));
+            vl.setValString("tag", tag.getTag());
+            vl.setValString("assettype", id.getType());
+            vl.setValString("assetid", Long.toString(id.getId()));
+            if (asset.getStartDate() != null) vl.setValString("startdate", Util.formatJdbcDate(asset.getStartDate()));
+            if (asset.getEndDate() != null) vl.setValString("enddate", Util.formatJdbcDate(asset.getEndDate()));
+            if (!ics.CatalogManager(vl) || ics.GetErrno() < 0)
+                throw new CSRuntimeException("Failure adding tag to tag registry", ics.GetErrno());
         }
     }
 
@@ -116,6 +125,9 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     }
 
     public void deleteAsset(AssetId id) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Removing tagged asset from tag registry:" + id);
+        }
         // todo: fail gracefully
         SqlHelper.execute(ics, TAGREGISTRY_TABLE, "delete from " + TAGREGISTRY_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
     }
