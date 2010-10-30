@@ -16,6 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import COM.FutureTense.Interfaces.ICS;
@@ -24,12 +25,14 @@ import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import static COM.FutureTense.Interfaces.Utilities.goodString;
-import static com.fatwire.cs.core.db.Util.parseJdbcDate;
 
 /**
  * Filters assets via startdate/enddate.
@@ -42,8 +45,12 @@ import static com.fatwire.cs.core.db.Util.parseJdbcDate;
  * @since Jun 23, 2010
  */
 public final class FilterAssetsByDate {
+    private static final Log LOG = LogFactory.getLog(FilterAssetsByDate.class);
     private static final String STARTDATE = "startdate";
     private static final String ENDDATE = "enddate";
+
+    private static String[] jdbcDateFormatStrings = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS"};
+
 
     public static boolean isValidOnDate(AssetId id, Date date) {
         AssetData d = AssetDataUtils.getAssetData(id, STARTDATE, ENDDATE);
@@ -106,16 +113,32 @@ public final class FilterAssetsByDate {
     public static Date getSitePreviewDateAndDoSetup(ICS ics) {
         Date result = null;
         if (ftMessage.cm.equals(ics.GetProperty(ftMessage.cssitepreview))) {
+            LOG.trace("Site preview is enabled.  Attempting to filter assets by date.");
             ics.DisableFragmentCache();
             String sitePreviewDefinedDate = ics.GetSSVar("__insiteDate");
             if (Utilities.goodString(sitePreviewDefinedDate)) {
-                // workaround for broken parseJdbcDate function
-                if (sitePreviewDefinedDate.indexOf(".") == -1) {
-                    sitePreviewDefinedDate += ".000";
-                }
-                result = Util.parseJdbcDate(sitePreviewDefinedDate);
+                if (LOG.isTraceEnabled()) LOG.trace("Found effective date: " + sitePreviewDefinedDate);
+                result = parseJdbcDate(sitePreviewDefinedDate);
+
             }
         }
+        if (LOG.isDebugEnabled()) LOG.debug("Checked for Site Preview effective date and found " + result);
         return result;
     }
+
+    /**
+     * Given an input string in JDBC form, parse it and return a date object.
+     *
+     * @param string jdbc date string in the form yyyy-MM-dd HH:mm:ss
+     * @return Date
+     * @throws IllegalArgumentException on failure
+     */
+    public static Date parseJdbcDate(String string) {
+        try {
+            return DateUtils.parseDate(string, jdbcDateFormatStrings);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Failure parsing string " + string, e);
+        }
+    }
+
 }

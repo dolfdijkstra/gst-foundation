@@ -39,6 +39,9 @@ import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
@@ -48,6 +51,8 @@ import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
  * @since Jun 17, 2010
  */
 public class UrlRegistry implements WraPathTranslationService {
+
+    private static final Log LOG = LogFactory.getLog(UrlRegistry.class);
 
     private final ICS ics;
     private final WraCoreFieldDao wraDao;
@@ -92,8 +97,14 @@ public class UrlRegistry implements WraPathTranslationService {
         for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
             final String assettype = asset.getString("assettype");
             final String assetid = asset.getString("assetid");
+            AssetIdWithSite id = new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
             if (FilterAssetsByDate.isDateWithinRange(asset.getString("startdate"), effectiveDate, asset.getString("enddate"))) {
-                return new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
+                if (LOG.isDebugEnabled())
+                    LOG.debug("Resolved and validated effective date for asset " + id + " from virtual-webroot:" + virtual_webroot + " and url-path:" + url_path);
+                return id;
+            } else {
+                if (LOG.isDebugEnabled())
+                    LOG.debug("Resolved asset " + id + " but it is not valid on the effective date of " + effectiveDate);
             }
         }
 
