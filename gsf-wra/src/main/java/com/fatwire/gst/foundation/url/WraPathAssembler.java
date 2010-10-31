@@ -199,13 +199,13 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
         String[] virtualWebrootArr = params.get(VIRTUAL_WEBROOT);
         String[] uriPathArr = params.get(URL_PATH);
         if (virtualWebrootArr == null || virtualWebrootArr.length != 1) {
-            if (LOG.isDebugEnabled())
-                LOG.debug("WRAPathAssembler cannot disassemble URI '" + uri + "' because the " + VIRTUAL_WEBROOT + " parameter is either missing or has more than one value");
+            if (LOG.isTraceEnabled())
+                LOG.trace("WRAPathAssembler cannot disassemble URI '" + uri + "' because the " + VIRTUAL_WEBROOT + " parameter is either missing or has more than one value");
             return theBackupAssembler.disassemble(uri, containerType);
         }
         if (uriPathArr == null || uriPathArr.length != 1) {
-            if (LOG.isDebugEnabled())
-                LOG.debug("WRAPathAssembler cannot disassemble URI '" + uri + "' because the " + URL_PATH + " parameter is either missing or has more than one value");
+            if (LOG.isTraceEnabled())
+                LOG.trace("WRAPathAssembler cannot disassemble URI '" + uri + "' because the " + URL_PATH + " parameter is either missing or has more than one value");
             return theBackupAssembler.disassemble(uri, containerType);
         }
 
