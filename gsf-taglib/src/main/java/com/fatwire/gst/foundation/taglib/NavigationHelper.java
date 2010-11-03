@@ -31,6 +31,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
+import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
@@ -138,6 +139,7 @@ public class NavigationHelper {
      * @return Map<String,Object> of the site plan tree
      */
     private Map<String, Object> getSitePlanAsMap(String pageid, int level) {
+        LogDep.logDep(ics, "Page", pageid);
         // object to hold results
         Map<String, Object> result = new HashMap<String, Object>();
         AssetId pageId = new AssetIdImpl("Page", Long.parseLong(pageid));
