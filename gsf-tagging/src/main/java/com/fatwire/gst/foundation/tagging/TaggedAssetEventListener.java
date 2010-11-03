@@ -23,6 +23,9 @@ import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
@@ -32,6 +35,8 @@ import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
  * @since Jul 28, 2010
  */
 public final class TaggedAssetEventListener extends AbstractAssetEventListener {
+
+    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.logging.TaggedAssetEventListener");
 
     private final AssetTaggingService svc;
 
@@ -46,16 +51,25 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
 
     @Override
     public void assetAdded(AssetId assetId) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Heard assetAdded event for " + assetId);
+        }
         if (svc.isTagged(assetId)) svc.addAsset(assetId);
     }
 
     @Override
     public void assetUpdated(AssetId assetId) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Heard assetUpdated event for " + assetId);
+        }
         if (svc.isTagged(assetId)) svc.updateAsset(assetId);
     }
 
     @Override
     public void assetDeleted(AssetId assetId) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Heard assetDeleted event for " + assetId);
+        }
         if (svc.isTagged(assetId)) svc.deleteAsset(assetId);
     }
 
