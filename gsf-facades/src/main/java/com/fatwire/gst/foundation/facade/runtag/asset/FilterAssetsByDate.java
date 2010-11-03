@@ -16,6 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
+import java.text.Format;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.Date;
@@ -24,17 +25,14 @@ import java.util.List;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Interfaces.Utilities;
-import COM.FutureTense.Util.ftMessage;
 
-import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.IListUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -50,10 +48,9 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  */
 public final class FilterAssetsByDate extends AbstractTagRunner {
     private static final Log LOG = LogFactory.getLog(FilterAssetsByDate.class);
-    private static final String STARTDATE = "startdate";
-    private static final String ENDDATE = "enddate";
 
     private static String[] jdbcDateFormatStrings = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS"};
+    private static Format jdbcDateFormat = FastDateFormat.getInstance(jdbcDateFormatStrings[0]);
 
 
     public FilterAssetsByDate() {
@@ -79,15 +76,25 @@ public final class FilterAssetsByDate extends AbstractTagRunner {
         setInputList(name);
     }
 
-    public void setSingleAssetInput(ICS ics, AssetId id) {
-        setInputList(ics, Collections.singletonList(id));
-    }
+    /**
+     * Filter a single asset, checking to see if it's valid on the given date.  If no date
+     * is specified, then the date used is the one used by the FilterAssetsByDate tag when no
+     * parameter is specified
+     *
+     * @param ics  context
+     * @param id   input asset
+     * @param date override date
+     * @return true if the asset is valid, false otherwise.
+     */
+    public static boolean isValidOnDate(ICS ics, AssetId id, Date date) {
 
-    public static boolean filterAsset(ICS ics, AssetId input) {
         FilterAssetsByDate tag = new FilterAssetsByDate();
-        tag.setInputList(ics, Collections.singletonList(input));
+        tag.setInputList(ics, Collections.singletonList(id));
         final String outlist = "FilterAssetsByDateOutputList-" + ics.genID(false);
         tag.setOutputList(outlist);
+        if (date != null) {
+            tag.setDate(jdbcDateFormat.format(date));
+        }
         tag.execute(ics);
         IList out = ics.GetList(outlist);
         if (out == null) throw new IllegalStateException("Tag executed successfully but no outlist was returned");
@@ -95,19 +102,12 @@ public final class FilterAssetsByDate extends AbstractTagRunner {
             return false; // no matches
         }
         String c = IListUtils.getStringValue(out, "assettype");
-        if (!input.getType().equals(c)) {
+        if (!id.getType().equals(c)) {
             return false; // wrong type - not supposed to be even possible
         }
         String cid = IListUtils.getStringValue(out, "assetid");
-        return Utilities.goodString(cid) && input.getId() == Long.parseLong(cid);
-    }
+        return Utilities.goodString(cid) && id.getId() == Long.parseLong(cid);
 
-
-    public static boolean isValidOnDate(AssetId id, Date date) {
-        AssetData d = AssetDataUtils.getAssetData(id, STARTDATE, ENDDATE);
-        Date startDate = AttributeDataUtils.asDate(d.getAttributeData(STARTDATE));
-        Date endDate = AttributeDataUtils.asDate(d.getAttributeData(ENDDATE));
-        return isDateWithinRange(startDate, date, endDate);
     }
 
     /**
@@ -154,30 +154,6 @@ public final class FilterAssetsByDate extends AbstractTagRunner {
 
 
     /**
-     * Check to see if SitePreview is enabled.  If it is, don't cache the
-     * pagelet that invoked this.  Next, check the session for the preview
-     * date.  If found, return it.  Otherwise, return null.
-     *
-     * @param ics context
-     * @return preview date if site preview is enabled, or null
-     */
-    public static Date getSitePreviewDateAndDoSetup(ICS ics) {
-        Date result = null;
-        if (ftMessage.cm.equals(ics.GetProperty(ftMessage.cssitepreview))) {
-            LOG.trace("Site preview is enabled.  Attempting to filter assets by date.");
-            ics.DisableFragmentCache();
-            String sitePreviewDefinedDate = ics.GetSSVar("__insiteDate");
-            if (Utilities.goodString(sitePreviewDefinedDate)) {
-                if (LOG.isTraceEnabled()) LOG.trace("Found effective date: " + sitePreviewDefinedDate);
-                result = parseJdbcDate(sitePreviewDefinedDate);
-
-            }
-        }
-        if (LOG.isDebugEnabled()) LOG.debug("Checked for Site Preview effective date and found " + result);
-        return result;
-    }
-
-    /**
      * Given an input string in JDBC form, parse it and return a date object.
      *
      * @param string jdbc date string in the form yyyy-MM-dd HH:mm:ss
@@ -191,5 +167,4 @@ public final class FilterAssetsByDate extends AbstractTagRunner {
             throw new IllegalArgumentException("Failure parsing string " + string, e);
         }
     }
-
 }

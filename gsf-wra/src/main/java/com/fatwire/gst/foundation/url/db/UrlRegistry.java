@@ -93,18 +93,17 @@ public class UrlRegistry implements WraPathTranslationService {
         final StatementParam param = REGISTRY_SELECT.newParam();
         param.setString(0, virtual_webroot);
         param.setString(1, url_path);
-        final Date effectiveDate = FilterAssetsByDate.getSitePreviewDateAndDoSetup(ics);
         for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
             final String assettype = asset.getString("assettype");
             final String assetid = asset.getString("assetid");
             AssetIdWithSite id = new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
-            if (FilterAssetsByDate.isDateWithinRange(asset.getString("startdate"), effectiveDate, asset.getString("enddate"))) {
+            if (FilterAssetsByDate.isValidOnDate(ics, id, null)) {
                 if (LOG.isDebugEnabled())
                     LOG.debug("Resolved and validated effective date for asset " + id + " from virtual-webroot:" + virtual_webroot + " and url-path:" + url_path);
                 return id;
             } else {
                 if (LOG.isDebugEnabled())
-                    LOG.debug("Resolved asset " + id + " but it is not valid on the effective date of " + effectiveDate);
+                    LOG.debug("Resolved asset " + id + " but it is not valid on the effective date as determined by the asset.filterassetsbydate tag.");
             }
         }
 

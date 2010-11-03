@@ -29,7 +29,6 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
-import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
@@ -77,7 +76,7 @@ public class NavigationHelper {
 
 
     /**
-     * Constructor
+     * Constructor.  Initializes assetEffectiveDate to null.
      *
      * @param ics object
      */
@@ -85,7 +84,7 @@ public class NavigationHelper {
         this.ics = ics;
         this.wraUtils = new WRAUtils(ics);
         this.wraDao = new WraCoreFieldDao(ics);
-        this.assetEffectiveDate = FilterAssetsByDate.getSitePreviewDateAndDoSetup(ics);
+        this.assetEffectiveDate = null;
     }
 
     /**
@@ -143,7 +142,7 @@ public class NavigationHelper {
         // object to hold results
         Map<String, Object> result = new HashMap<String, Object>();
         AssetId pageId = new AssetIdImpl("Page", Long.parseLong(pageid));
-        if (!isValidOnDate(pageId, assetEffectiveDate)) {
+        if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
             // the input object is not valid.  Abort
             if (LOG.isDebugEnabled()) LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
             return result;
@@ -170,7 +169,7 @@ public class NavigationHelper {
             } else {
                 ArrayList<AssetId> wra = new ArrayList<AssetId>();
                 for (AssetId id : ids) {
-                    if (isValidOnDate(id, assetEffectiveDate)) {
+                    if (isValidOnDate(ics, id, assetEffectiveDate)) {
                         wra.add(id);
                     } else if (LOG.isDebugEnabled())
                         LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
