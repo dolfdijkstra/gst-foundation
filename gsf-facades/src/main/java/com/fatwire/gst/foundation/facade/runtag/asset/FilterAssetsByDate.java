@@ -87,6 +87,9 @@ public final class FilterAssetsByDate extends AbstractTagRunner {
      * @return true if the asset is valid, false otherwise.
      */
     public static boolean isValidOnDate(ICS ics, AssetId id, Date date) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Checking to see if asset " + id + " is valid on " + (date == null ? "the site preview date, (assuming site preview is enabled)." : date));
+        }
 
         FilterAssetsByDate tag = new FilterAssetsByDate();
         tag.setInputList(ics, Collections.singletonList(id));
@@ -99,15 +102,23 @@ public final class FilterAssetsByDate extends AbstractTagRunner {
         IList out = ics.GetList(outlist);
         if (out == null) throw new IllegalStateException("Tag executed successfully but no outlist was returned");
         if (!out.hasData()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Asset " + id + " is not valid on the effective date.");
+            }
             return false; // no matches
         }
         String c = IListUtils.getStringValue(out, "assettype");
         if (!id.getType().equals(c)) {
-            return false; // wrong type - not supposed to be even possible
+            throw new IllegalStateException("Output asset is not the right type: in:" + id + ", out:" + c);
         }
         String cid = IListUtils.getStringValue(out, "assetid");
-        return Utilities.goodString(cid) && id.getId() == Long.parseLong(cid);
 
+        boolean result = Utilities.goodString(cid) && id.getId() == Long.parseLong(cid);
+
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Asset " + id + " is " + (result ? "" : "not ") + "valid on the effective date.");
+        }
+        return result;
     }
 
     /**
