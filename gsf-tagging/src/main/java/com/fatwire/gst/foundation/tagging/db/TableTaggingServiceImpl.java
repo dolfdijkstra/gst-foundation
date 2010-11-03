@@ -26,7 +26,6 @@ import COM.FutureTense.Cache.CacheHelper;
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
@@ -72,7 +71,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     }
 
     public void install() {
-        TableDef def = new TableDef(TAGREGISTRY_TABLE, "Browser,xceleditor", "obj"); // todo: define the PK properly (this will work for now)
+        TableDef def = new TableDef(TAGREGISTRY_TABLE, "Browser,xceleditor,xcelpublish", "obj"); // todo: define the PK properly (this will work for now)
 
         def.addColumn(new TableColumn("tag", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
         def.addColumn(new TableColumn("assettype", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
