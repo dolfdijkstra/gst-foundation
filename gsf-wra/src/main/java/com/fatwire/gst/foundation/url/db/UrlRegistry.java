@@ -58,6 +58,7 @@ public class UrlRegistry implements WraPathTranslationService {
     private final WraCoreFieldDao wraDao;
     private final VirtualWebrootDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
+    public static String TABLE_ACL_LIST = "Browser,xceleditor,xcelpublish";
 
     public UrlRegistry(ICS ics) {
         this.ics = ics;

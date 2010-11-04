@@ -26,6 +26,7 @@ import COM.FutureTense.Cache.CacheHelper;
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
@@ -63,6 +64,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
     public static String TAGREGISTRY_TABLE = "GSTTagRegistry";
+    public static String TABLE_ACL_LIST = "Browser,xceleditor,xcelpublish";
 
     private final ICS ics;
 
@@ -71,7 +73,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     }
 
     public void install() {
-        TableDef def = new TableDef(TAGREGISTRY_TABLE, "Browser,xceleditor,xcelpublish", "obj"); // todo: define the PK properly (this will work for now)
+        TableDef def = new TableDef(TAGREGISTRY_TABLE, TABLE_ACL_LIST, "obj"); // todo: define the PK properly (this will work for now)
 
         def.addColumn(new TableColumn("tag", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
         def.addColumn(new TableColumn("assettype", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
@@ -112,8 +114,22 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             vl.setValString("assetid", Long.toString(id.getId()));
             if (asset.getStartDate() != null) vl.setValString("startdate", Util.formatJdbcDate(asset.getStartDate()));
             if (asset.getEndDate() != null) vl.setValString("enddate", Util.formatJdbcDate(asset.getEndDate()));
-            if (!ics.CatalogManager(vl) || ics.GetErrno() < 0)
+            if (!ics.CatalogManager(vl) || ics.GetErrno() < 0) {
+                if (ics.GetErrno() == -3) {
+                    for (Row row : SqlHelper.select(ics, "SystemInfo", "select acl from SystemInfo where tblname = '"+TAGREGISTRY_TABLE+"'")) {
+                        String acl = row.getString("acl");
+                        String msg = "Failure adding tag to tag registry due to permission problem.  The ACLs assigned " +
+                                "to the GSTTagRegistry table are inadequate for the currently logged-in user.  " +
+                                "Expected ACLs are "+TABLE_ACL_LIST+". ACL as registered: "+acl+".";
+                        if (LOG.isTraceEnabled()) {
+                            msg += "  Current user acl:"+ics.GetSSVar(ftMessage.curUserACL)+
+                                    ", current user is "+ics.GetSSVar("curUserID");
+                        }
+                        throw new CSRuntimeException(msg, ics.GetErrno());
+                    }
+                }
                 throw new CSRuntimeException("Failure adding tag to tag registry", ics.GetErrno());
+            }
         }
     }
 
