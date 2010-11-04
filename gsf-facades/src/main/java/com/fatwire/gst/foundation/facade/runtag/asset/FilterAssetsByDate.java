@@ -20,16 +20,15 @@ import java.text.Format;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
-import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
@@ -41,40 +40,19 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 /**
  * Filters assets via startdate/enddate.
  * <p/>
+ * NOTE: This class calls a public yet internal function inside the JSP tag.  No guarantees can therefore exist as to
+ * its compatibility across patch versions.  The core function, however, is exceptionally slow to begin with, so
+ * caution should be exercised when using this function.
  * <p/>
  *
  * @author Tony Field
  * @since Jun 23, 2010
  */
-public final class FilterAssetsByDate extends AbstractTagRunner {
+public final class FilterAssetsByDate {
     private static final Log LOG = LogFactory.getLog(FilterAssetsByDate.class);
 
     private static String[] jdbcDateFormatStrings = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS"};
     private static Format jdbcDateFormat = FastDateFormat.getInstance(jdbcDateFormatStrings[0]);
-
-
-    public FilterAssetsByDate() {
-        super("ASSET.FILTERASSETSBYDATE");
-    }
-
-    public void setInputList(String s) {
-        set("INPUTLIST", s);
-    }
-
-    public void setOutputList(String s) {
-        set("OUTPUTLIST", s);
-    }
-
-    public void setDate(String s) {
-        set("DATE", s);
-    }
-
-    public void setInputList(ICS ics, List<AssetId> ids) {
-        final String name = "FilterAssetByDateInputList-" + ics.genID(false);
-        IList list = new AssetIdIList(name, ids);
-        ics.RegisterList(name, list);
-        setInputList(name);
-    }
 
     /**
      * Filter a single asset, checking to see if it's valid on the given date.  If no date
@@ -91,15 +69,19 @@ public final class FilterAssetsByDate extends AbstractTagRunner {
             LOG.trace("Checking to see if asset " + id + " is valid on " + (date == null ? "the site preview date, (assuming site preview is enabled)." : date));
         }
 
-        FilterAssetsByDate tag = new FilterAssetsByDate();
-        tag.setInputList(ics, Collections.singletonList(id));
-        final String outlist = "FilterAssetsByDateOutputList-" + ics.genID(false);
-        tag.setOutputList(outlist);
-        if (date != null) {
-            tag.setDate(jdbcDateFormat.format(date));
+        final String inListName = "FilterAssetByDateInputList-" + ics.genID(false);
+        IList inlist = new AssetIdIList(inListName, Collections.singletonList(id));
+        final String outListName = "FilterAssetsByDateOutputList-" + ics.genID(false);
+        String sDate = date == null ? null : jdbcDateFormat.format(date);
+
+        int errno = com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter(inlist, outListName, sDate, ics);
+        if (errno < 0) {
+            throw new CSRuntimeException("Unexpected exception filtering assets by date.  Input Asset: " + id + ", date: " + null + " (null is ok)", errno);
         }
-        tag.execute(ics);
-        IList out = ics.GetList(outlist);
+
+        IList out = ics.GetList(outListName);
+        ics.RegisterList(outListName, null); // tidy up!
+
         if (out == null) throw new IllegalStateException("Tag executed successfully but no outlist was returned");
         if (!out.hasData()) {
             if (LOG.isTraceEnabled()) {
