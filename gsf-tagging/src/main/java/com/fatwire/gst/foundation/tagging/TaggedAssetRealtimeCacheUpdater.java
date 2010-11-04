@@ -52,7 +52,7 @@ public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl 
     private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
     @Override
-    protected void beforeSelect(ICS ics, Collection<String> strings, Collection<String> strings1, Collection<AssetId> assetIds) {
+    protected void beforeSelect(ICS ics, Collection<String> invalKeys, Collection<String> regenKeys, Collection<AssetId> assetIds) {
         AssetTaggingService svc = AssetTaggingServiceFactory.getService(ics);
         List<AssetId> tagged = new ArrayList<AssetId>();
         for (AssetId id : assetIds) {
@@ -64,11 +64,9 @@ public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl 
             if (LOG.isDebugEnabled())
                 LOG.debug("AssetTag found in beforeSelect: " + tag + ". Adding this to the list of compositional dependencies to be flushed.");
             String sTag = convertTagToCacheDepString(tag);
-            // todo: ensure this is right.... I THINK it's flushStrings &
-            // refreshStrings... and if so, we may not need to refresh.
-            strings.add(sTag);
-            strings1.add(sTag);
+            invalKeys.add(sTag);
+            regenKeys.add(sTag);
         }
-        super.beforeSelect(ics, strings, strings1, assetIds);
+        super.beforeSelect(ics, invalKeys, regenKeys, assetIds);
     }
 }
