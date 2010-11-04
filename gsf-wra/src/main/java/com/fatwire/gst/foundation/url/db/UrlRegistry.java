@@ -58,7 +58,7 @@ public class UrlRegistry implements WraPathTranslationService {
     private final WraCoreFieldDao wraDao;
     private final VirtualWebrootDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
-    public static String TABLE_ACL_LIST = "Browser,xceleditor,xcelpublish";
+    public static String TABLE_ACL_LIST = ""; // no ACLs because events are anonymous
 
     public UrlRegistry(ICS ics) {
         this.ics = ics;
@@ -67,7 +67,7 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void install() {
-        TableDef def = new TableDef(URLREG_TABLE, "Browser,xceleditor,xcelpublish", ftMessage.objecttbl);
+        TableDef def = new TableDef(URLREG_TABLE, TABLE_ACL_LIST, ftMessage.objecttbl);
 
         def.addColumn(new TableColumn("id", Type.ccbigint, true).setNullable(false));
         def.addColumn(new TableColumn("path", Type.ccvarchar).setLength(4000).setNullable(false));
