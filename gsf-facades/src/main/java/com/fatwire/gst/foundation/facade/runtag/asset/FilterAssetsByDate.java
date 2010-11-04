@@ -68,17 +68,27 @@ public final class FilterAssetsByDate {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Checking to see if asset " + id + " is valid on " + (date == null ? "the site preview date, (assuming site preview is enabled)." : date));
         }
+        ics.ClearErrno();
 
         final String inListName = "FilterAssetByDateInputList-" + ics.genID(false);
         IList inlist = new AssetIdIList(inListName, Collections.singletonList(id));
+        ics.RegisterList(inListName, inlist);
+
         final String outListName = "FilterAssetsByDateOutputList-" + ics.genID(false);
-        String sDate = date == null ? null : jdbcDateFormat.format(date);
 
-        int errno = com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter(inlist, outListName, sDate, ics);
-        if (errno < 0) {
-            throw new CSRuntimeException("Unexpected exception filtering assets by date.  Input Asset: " + id + ", date: " + null + " (null is ok)", errno);
+        com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate tag = new com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate();
+        tag.setInputList(inListName);
+        tag.setOutputList(outListName);
+        if (date != null) {
+            tag.setDate(jdbcDateFormat.format(date));
         }
-
+        tag.doEndTag(ics, true);
+        if (ics.GetErrno() < 0) {
+            LOG.warn("Errno set by <asset:filterassetsbydate> JSP tag while attempting to filter asset "+id+" by date: "+date+ "(null date is ok). Errno: "+ics.GetErrno());
+            // note the above tag behaves erratically and errno is unreliable
+//            throw new CSRuntimeException("Unexpected exception filtering assets by date.  Input Asset: " + id + ", date: " + null + " (null is ok)", errno);
+        }
+        
         IList out = ics.GetList(outListName);
         ics.RegisterList(outListName, null); // tidy up!
 
