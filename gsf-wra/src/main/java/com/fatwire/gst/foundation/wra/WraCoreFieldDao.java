@@ -163,6 +163,7 @@ public class WraCoreFieldDao {
      * @return page asset ID or 0L.
      */
     public long findP(AssetIdWithSite wraAssetIdWithSite) {
+        ics.ClearErrno();
         final StatementParam param = FIND_P.newParam();
         param.setString(0, wraAssetIdWithSite.getSite());
         param.setString(1, wraAssetIdWithSite.getType());
