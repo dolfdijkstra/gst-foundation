@@ -193,8 +193,14 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         // todo: optimize?
         try {
             loadTaggedAsset(id);
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("isTagged found that " + id + " is a tagged asset.");
+            }
             return true;
         } catch (RuntimeException e) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: " + e.toString());
+            }
             return false;
         }
     }
