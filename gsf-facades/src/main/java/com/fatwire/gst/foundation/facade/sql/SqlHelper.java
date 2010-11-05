@@ -38,8 +38,6 @@ public class SqlHelper {
     private SqlHelper() {
     }
 
-    ;
-
     /**
      * facade over ICS.SQL
      * <p/>
@@ -118,7 +116,8 @@ public class SqlHelper {
             if (ics.FlushCatalog(table)) {
                 ics.ClearErrno();
             } else {
-                log.warn("Flushing failed for table " + table);
+                log.warn("Flushing failed for table " + table+". ("+ics.GetErrno()+")");
+                ics.ClearErrno();
             }
         } else if (ics.GetErrno() == -502) { // update statements do not
             // return an IList, cs signals
@@ -128,11 +127,8 @@ public class SqlHelper {
             } else {
                 // throw exception??
                 log.warn("Flushing failed for table " + table+". ("+ics.GetErrno()+")");
-
                 ics.ClearErrno();
-
             }
-
         } else {
             log.warn("ics.SQL returned " + ics.GetErrno() + " and errstr: " + errstr.toString() + " for " + sql);
         }
