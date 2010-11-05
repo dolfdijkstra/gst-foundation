@@ -16,8 +16,8 @@
 package com.fatwire.gst.foundation.url.db;
 
 import java.util.Collections;
-import java.util.Date;
 
+import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
 
@@ -25,6 +25,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.cs.core.db.Util;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.sql.Row;
@@ -41,8 +42,6 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -113,14 +112,11 @@ public class UrlRegistry implements WraPathTranslationService {
 
     public void addAsset(AssetId asset) {
         if (wraDao.isWebReferenceable(asset)) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Attempting to add WRA " + asset + " to url registry");
+            }
             WebReferenceableAsset wra = wraDao.getWra(asset);
 
-            String id = ics.genID(false);
-            String path = wra.getPath();
-            String assettype = asset.getType();
-            long assetid = asset.getId();
-            Date start = wra.getStartDate();
-            Date end = wra.getEndDate();
             VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
             if (vw != null) {
                 String vwebroot = vw.getEnvironmentVirtualWebroot();
@@ -128,9 +124,40 @@ public class UrlRegistry implements WraPathTranslationService {
                 int depth = urlpath != null && urlpath.length() > 0 ? urlpath.split("/").length : 0;
                 String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
 
-                String qry = "insert into " + URLREG_TABLE + " (id, path, assettype, assetid, " + (start == null ? "" : "startdate, ") + (end == null ? "" : "enddate,") + " opt_vwebroot, opt_url_path, opt_depth, opt_site)" + " VALUES " + "(" + id + "," + quote(path) + "," + quote(assettype) + "," + assetid + "," + (start == null ? "" : quote(Util.formatJdbcDate(start)) + ",") + (end == null ? "" : quote(Util.formatJdbcDate(end)) + ",") + quote(vwebroot) + "," + quote(urlpath) + "," + depth + "," + quote(site) + ")";
-                SqlHelper.execute(ics, URLREG_TABLE, qry);
+                FTValList vl = new FTValList();
+                vl.setValString("ftcmd", "addrow");
+                vl.setValString("tablename", URLREG_TABLE);
+                vl.setValString("id", ics.genID(true));
+                vl.setValString("path", wra.getPath());
+                vl.setValString("assettype", asset.getType());
+                vl.setValString("assetid", Long.toString(asset.getId()));
+                if (wra.getStartDate() != null) {
+                    vl.setValString("startdate", Util.formatJdbcDate(wra.getStartDate()));
+                }
+                if (wra.getEndDate() != null) {
+                    vl.setValString("enddate", Util.formatJdbcDate(wra.getEndDate()));
+                }
+                vl.setValString("opt_vwebroot", vwebroot);
+                vl.setValString("opt_url_path", urlpath);
+                vl.setValString("opt_depth", Integer.toString(depth));
+                vl.setValString("opt_site", site);
+
+                if (!ics.CatalogManager(vl) || ics.GetErrno() < 0) {
+                    throw new CSRuntimeException("Failure adding tag to tag registry", ics.GetErrno());
+                }
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Added WRA " + asset + " to url registry");
+                }
+
+            } else {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Did not add WRA " + asset + " to url registry because no valid virtual webroot was found");
+                }
             }
+        } else {
+            if (LOG.isTraceEnabled())
+                LOG.trace("Heard addAsset event for " + asset + " but since it is not a WRA we are ignoring it");
         }
     }
 
@@ -144,7 +171,16 @@ public class UrlRegistry implements WraPathTranslationService {
 
     public void deleteAsset(AssetId id) {
         if (wraDao.isWebReferenceable(id)) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Attempting to delete WRA " + id + " from url registry");
+            }
             SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Deleted WRA " + id + " from url registry");
+            }
+        } else {
+            if (LOG.isTraceEnabled())
+                LOG.trace("Heard deleteAsset event for " + id + " but since it is not a WRA we are ignoring it");
         }
     }
 }
