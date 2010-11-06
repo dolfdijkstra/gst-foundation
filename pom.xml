@@ -21,6 +21,21 @@
         <developer>
             <name>Tony Field</name>
         </developer>
+        <developer>
+            <name>Michael Sullivan</name>
+        </developer>
+        <developer>
+            <name>Larissa Kowaliw</name>
+        </developer>
+        <developer>
+            <name>David Chesebro</name>
+        </developer>
+        <developer>
+            <name>Mike Field</name>
+        </developer>
+        <developer>
+            <name>Raman Gill</name>
+        </developer>
     </developers>
     <scm>
         <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk</connection>

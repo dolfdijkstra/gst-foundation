@@ -16,52 +16,49 @@
 
 GST Site Foundation Overview
 
-	{{{./GST Site Foundation 1.0.1.pdf}The GST Site Foundation Document}} exists to define the foundation of a simple 
-	URL-management and request handling/request dispatching model that most sites can easily extend and build upon. 
-	The initial emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+    The GST Site Foundation accomplishes the following:
 
-	*	Introduction of the notion of a web-referenceable asset, access to which is via a common controller
+    [[1]]	Defines architectural and design standards for the foundation of a site
 
-	*	Support for vanity URLs for any web-referenceable asset
+    [[1]]	Standardizes processes for business users
 
-	*	Built-in 404 response for deleted assets
+    [[1]]	Simplifies coding greatly, to the point where much can be provided in common libraries
+
+    [[1]]	Clearly defines extension points
+
+	[]
+
+	{{{./GST Site Foundation 1.0.3.pdf}The GST Site Foundation Document}} defines a simple URL-management and request
+	handling/request dispatching model that Content Server architects can easily extend and build upon. The initial
+	emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+
+	*	Is suitable for use "out of the box" for a large number of sites
+
+	*	Introduces the notion of a web-referenceable asset,  which is accessed via a common controller
+
+	*	Handles and dispatches requests quickly and efficiently
+
+	*	Supports easily-constructed vanity URLs for any web-referenceable asset
+
+	*	Standardizes usage of the Page asset for navigation
+
+	*	Standardizes meta attributes
+
+	*	Provides infrastructure for built-in 404 responses for assets as required
 
 	*	Provides for managed alias assets that can represent any other URL
 
-	*	Can be used "out of the box" for a large number of sites
-
 	*	Can be cleanly extended to address custom client requirements
 
-	*	Fast and efficient handling/dispatching of requests
-
-	*	Fast and efficient construction of vanity URLs
-
-	*	Standardized set of meta attributes
-
-	*	Standardized usage of the Page asset for navigation
-
 	[]
 
-	Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and 
-	acknowledgement that the URL is more important than the content. By giving each asset its own URL at the 
-	discretion of the editor, both problems are solved.
+    Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and
+    acknowledgement that the URL is more important than the content.  By giving each asset its own URL at the
+    discretion of the editor, both problems are solved.
 
-	This is done in a way that accomplishes the following:
-
-	[[1]]	The process for business users is greatly simplified
-	
-	[[1]]	Coding is greatly simplified, to the point where much can be provided in common libraries
-	
-	[[1]]	Extension points are clearly identified
-
-	[]
-
-	The following patterns and guidelines, if strictly followed, will enable architects to design basic sites more 
-	quickly, and will enable developers to spend more time implementing project-specific requirements rather than 
-	standard functionality.
-
-	A checklist is included that helps an architect to determine if this rendering model is right for the project 
-	at hand.
+    This model is appropriate for many different solution designs. However there may be some site requirements which
+    would make the patterns and conventions of this approach less suitable.  A checklist is included that helps an
+    architect to determine if this rendering model is the best approach for the project at hand.
 
 	Hats off to Tony Field (tony.field at fatwire dot com) for taking the lead on this project, with valuable 
 	assistance and insight from Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
@@ -73,14 +70,19 @@ GST Site Foundation Overview
 
 	June, 2010, The Global Solutions Team
 
-Document
+Documentation
   
-	Download the {{{./GST Site Foundation 1.0.1.pdf}GST Site Foundation Document}}.
+	* {{{./GST Site Foundation 1.0.3.pdf}Architecture specification document}} - the core specification
 
-	The current version is 1.0.1.
+	* {{{./apidocs/index.html}JavaDoc API Reference}} - toolkit API
+
+	* {{{./InstallGuide.html}GSF Installation ReadMe}} - Minimalistic gide for installing and configuring the GSF toolkit
+
+	* Tutorial (coming soon) - Step-by-step instructions for installing and using the GSF toolkit
 
 Installation
 
-    The {{{./InstallGuide.html}GST Installation Readme document}} is a minimalistic guide on how to compile, install and configure the Foundation.
+    Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}attached minimalitic guide}}
+    should get you up and running quickly.
 
-
+    More detailed information can be found in the Tutorial.  (Coming soon).
