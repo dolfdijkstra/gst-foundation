@@ -21,7 +21,7 @@ Installation Guide
 
     [[1]] Install all the ContentServer jars in your local maven repository.
 
-    [[2]] Compile parent project with "mvn clean install" then "mvn clean package".
+    [[2]] Compile parent project with "mvn clean install".
 
     [[3]] In futuretense_xcel.ini, set the following property:
 
