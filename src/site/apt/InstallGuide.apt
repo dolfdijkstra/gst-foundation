@@ -66,10 +66,10 @@ Installation Guide
     
       <<<http://www.nl.fatwire.com/dta/contrib/webapp-profiling/>>>
     
-    [[13]] Create Wrapper
+    [[13]] Create Wrapper (CSElement should be two lines of code, 1 the XML tag and the remaining code)
     
-      <<<<?xml version="1.0" ?>
-          <!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd"><FTCS Version="1.1"><CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController"/></FTCS>>>>
+      <<<<?xml version="1.0" ?>\
+      <!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd"><FTCS Version="1.1"><CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController"/></FTCS>>>>
     
     [[14]] Install and configure Tuckey URLRewrite
     
