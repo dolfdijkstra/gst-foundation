@@ -199,7 +199,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             return true;
         } catch (RuntimeException e) {
             if (LOG.isTraceEnabled()) {
-                LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: " + e.toString());
+                LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: " + e.toString(), e);
             }
             return false;
         }
