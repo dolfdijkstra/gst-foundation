@@ -18,6 +18,8 @@ package com.fatwire.gst.foundation.facade.assetapi;
 
 import java.util.Arrays;
 
+import COM.FutureTense.CS.Factory;
+import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.assetapi.common.AssetAccessException;
@@ -31,7 +33,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * Convenient shortcuts for working with AssetData objects
- * 
+ *
  * @author Tony Field
  * @since Nov 17, 2009
  */
@@ -41,7 +43,7 @@ public final class AssetDataUtils {
 
     /**
      * Return the AssetData for the specified asset
-     * 
+     *
      * @param c
      * @param cid
      * @param attributes
@@ -53,18 +55,40 @@ public final class AssetDataUtils {
 
     /**
      * Return the AssetData for the specified asset
-     * 
+     *
      * @param id
      * @param attributes
      * @return asset data
      */
     public static AssetData getAssetData(AssetId id, String... attributes) {
-        Session ses = SessionFactory.getSession();
-        AssetDataManager mgr = (AssetDataManager) ses.getManager(AssetDataManager.class.getName());
+        AssetDataManager mgr = (AssetDataManager) getSession().getManager(AssetDataManager.class.getName());
         try {
             return mgr.readAttributes(id, Arrays.asList(attributes));
         } catch (AssetAccessException e) {
             throw new CSRuntimeException("Failed to read attribute data", ftErrors.exceptionerr, e);
         }
+    }
+
+    /**
+     * Get a session to work with the Asset API.  Because this class may end up getting called in a non-Http context,
+     * we have to ensure that the session does exist.  If we can't find a valid context, we create a new context.
+     *
+     * @return session object, either backed by the existing context or a brand new one.
+     */
+    private static Session getSession() {
+        Session ses;
+        try {
+            ses = SessionFactory.getSession();
+        } catch (IllegalStateException e) {
+            // assume there's no backing ICS anywhere.  Bootstrap the context
+            final ICS ics;
+            try {
+                ics = Factory.newCS();
+            } catch (Exception ee) {
+                throw new CSRuntimeException("Could not create a new ICS object", ftErrors.exceptionerr, ee);
+            }
+            ses = SessionFactory.getSession(ics);
+        }
+        return ses;
     }
 }
