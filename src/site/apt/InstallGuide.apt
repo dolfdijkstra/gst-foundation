@@ -44,10 +44,35 @@ Installation Guide
 
     [[6]] deploy the <<<gst-foundation-all-XXX-bundle.jar>>> from gsf-assembly project to to your CS webserver.
 
-    [[7]] In ContentServer, create a Virtual Webroot (GSTVirtualWebroot) asset for each site. 
+    [[7]] Add SiteGod ACL to your user.
+    
+    [[8]] Import the following ElementCatalog.html and SiteCatalog.html from:
+    
+      <<<gsf-tagging/src/main/elements/>>>
+      <<<gsf-wra/src/main/elements/>>>
+
+    [[9]] Install the GSF Events
+
+      <<<http://<server>:<port>/cs/ContentServer?pagename=GST/Foundation/UrlRegistryInstaller>>>
+      <<<http://<server>:<port>/cs/ContentServer?pagename=GST/Foundation/TagRegistryInstaller>>>
+    
+    [[10]] Create GST Flex Family
+    
+    [[11]] In ContentServer, create a Virtual Webroot (GSTVirtualWebroot) asset for each site. 
 
     The 'Environment Name' attribute must match the com.fatwire.gst.foundation.env-name property from step #4.
 
-    [[8]] In each Web-Referencable Asset, set the path field to a fully qualified URL using the Master Virtual Webroot.
+    [[12]] Add Status Servlet Filter
+    
+      <<<http://www.nl.fatwire.com/dta/contrib/webapp-profiling/>>>
+    
+    [[13]] Create Wrapper (CSElement should be two lines of code, 1 the XML tag and the remaining code)
+    
+      <<<<?xml version="1.0" ?>\
+      <!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd"><FTCS Version="1.1"><CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController"/></FTCS>>>>
+    
+    [[14]] Install and configure Tuckey URLRewrite
+    
+    [[15]] In each Web-Referencable Asset, set the path field to a fully qualified URL using the Master Virtual Webroot.
 
     For more information, please refer to the {{{http://www.nl.fatwire.com/dta/contrib/gst-foundation/}GST Site Foundation documentation}}.
