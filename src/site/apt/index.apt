@@ -80,6 +80,18 @@ Documentation
 
 	* Tutorial (coming soon) - Step-by-step instructions for installing and using the GSF toolkit
 
+Download
+
+    The GSF is not yet packaged into a single, downloadable bundle.  In its current state, the core components must be
+    downloaded using {{{http://subversion.apache.org}Subversion}}, and the pre-compiled jar file can be downloaded
+     from the Maven repository.
+
+     *  Subversion repository {{http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.0}}
+
+     *  Pre-compiled Jar {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/1.0/gst-foundation-all-1.0.jar}}
+
+     []
+
 Installation
 
     Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}attached minimalitic guide}}
