@@ -24,7 +24,16 @@ import COM.FutureTense.Interfaces.IList;
 import com.fatwire.cs.core.db.Util;
 
 /**
- * Wrapper for an IList that turns an <tt>IList</tt> into a <tt>Iterable</tt>
+ * Wrapper for an IList that turns an <tt>IList</tt> into a <tt>Iterable</tt>.
+ *
+ * Sample usage:
+ *
+<pre>
+ SortedSet<VirtualWebroot> result = new TreeSet<VirtualWebroot>(new UrlInfoComparator());
+ for (Row listRow : new IListIterable(ics.GetList("pr-out"))) {
+     result.add(getVirtualWebroot(listRow.getLong("id")));
+ }
+</pre>
  * 
  * 
  * @author Dolf Dijkstra
