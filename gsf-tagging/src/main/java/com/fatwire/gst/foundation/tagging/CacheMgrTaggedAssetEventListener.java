@@ -15,6 +15,8 @@
  */
 package com.fatwire.gst.foundation.tagging;
 
+import java.util.Collection;
+
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 
@@ -53,7 +55,10 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetAdded event for " + assetId);
         }
-        if (svc.isTagged(assetId)) svc.clearCacheForTag(svc.getTags(assetId));
+        if (svc.isTagged(assetId)) {
+            Collection<Tag> tags = svc.getTags(assetId);
+            svc.clearCacheForTag(tags);
+        }
     }
 
     @Override
@@ -61,7 +66,10 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetUpdated event for " + assetId);
         }
-        if (svc.isTagged(assetId)) svc.clearCacheForTag(svc.getTags(assetId));
+        if (svc.isTagged(assetId)) {
+            Collection<Tag> tags = svc.getTags(assetId);
+            svc.clearCacheForTag(tags);
+        }
     }
 
     @Override
@@ -69,7 +77,10 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetDeleted event for " + assetId);
         }
-        if (svc.isTagged(assetId)) svc.clearCacheForTag(svc.getTags(assetId));
+        if (svc.isTagged(assetId)) {
+            Collection<Tag> tags = svc.getTags(assetId);
+            svc.clearCacheForTag(tags);
+        }
     }
 
     /**

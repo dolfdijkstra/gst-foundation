@@ -99,22 +99,26 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     }
 
     public void addAsset(AssetId id) {
-        TaggedAsset asset = loadTaggedAsset(id);
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Adding tagged asset to tag registry: " + asset);
-        }
-        for (Tag tag : loadTaggedAsset(id).getTags()) {
-            FTValList vl = new FTValList();
-            vl.setValString("ftcmd", "addrow");
-            vl.setValString("tablename", TAGREGISTRY_TABLE);
-            vl.setValString("id", ics.genID(true));
-            vl.setValString("tag", tag.getTag());
-            vl.setValString("assettype", id.getType());
-            vl.setValString("assetid", Long.toString(id.getId()));
-            if (asset.getStartDate() != null) vl.setValString("startdate", Util.formatJdbcDate(asset.getStartDate()));
-            if (asset.getEndDate() != null) vl.setValString("enddate", Util.formatJdbcDate(asset.getEndDate()));
-            if (!ics.CatalogManager(vl) || ics.GetErrno() < 0) {
-                throw new CSRuntimeException("Failure adding tag to tag registry", ics.GetErrno());
+        // Only add assets that are tagged.
+        if (isTagged(id)) {
+            TaggedAsset asset = loadTaggedAsset(id);
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Adding tagged asset to tag registry: " + asset);
+            }
+            for (Tag tag : loadTaggedAsset(id).getTags()) {
+                FTValList vl = new FTValList();
+                vl.setValString("ftcmd", "addrow");
+                vl.setValString("tablename", TAGREGISTRY_TABLE);
+                vl.setValString("id", ics.genID(true));
+                vl.setValString("tag", tag.getTag());
+                vl.setValString("assettype", id.getType());
+                vl.setValString("assetid", Long.toString(id.getId()));
+                if (asset.getStartDate() != null)
+                    vl.setValString("startdate", Util.formatJdbcDate(asset.getStartDate()));
+                if (asset.getEndDate() != null) vl.setValString("enddate", Util.formatJdbcDate(asset.getEndDate()));
+                if (!ics.CatalogManager(vl) || ics.GetErrno() < 0) {
+                    throw new CSRuntimeException("Failure adding tag to tag registry", ics.GetErrno());
+                }
             }
         }
     }
@@ -192,11 +196,18 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     public boolean isTagged(AssetId id) {
         // todo: optimize?
         try {
-            loadTaggedAsset(id);
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("isTagged found that " + id + " is a tagged asset.");
+            TaggedAsset ta = loadTaggedAsset(id);
+            if (ta.getTags().size() > 0) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("isTagged loaded the asset and found that " + id + " is a tagged asset.");
+                }
+                return true;
+            } else {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("isTagged loaded the asset and found that " + id + " is not a tagged asset.");
+                }
+                return false;
             }
-            return true;
         } catch (RuntimeException e) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: " + e.toString(), e);

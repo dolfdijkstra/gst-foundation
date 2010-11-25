@@ -54,7 +54,7 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetAdded event for " + assetId);
         }
-        if (svc.isTagged(assetId)) svc.addAsset(assetId);
+       svc.addAsset(assetId);
     }
 
     @Override
@@ -62,7 +62,7 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetUpdated event for " + assetId);
         }
-        if (svc.isTagged(assetId)) svc.updateAsset(assetId);
+       svc.updateAsset(assetId);
     }
 
     @Override
@@ -70,7 +70,7 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetDeleted event for " + assetId);
         }
-        if (svc.isTagged(assetId)) svc.deleteAsset(assetId);
+        svc.deleteAsset(assetId);
     }
 
     /**
