@@ -16,6 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.assetapi;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -84,6 +85,8 @@ public final class AttributeDataUtils {
      * Get an attribute that is a comma-separated string and split it into a
      * collection. If the attribute has no values, an empty list is returned.
      *
+     * All attribute values or substring values of zero length are dropped.
+     *
      * @param attributeData
      * @param delimRegex    regex for splitting
      * @return Collection<String> of attribute data, never null (though an empty
@@ -94,7 +97,10 @@ public final class AttributeDataUtils {
         Object o = attributeData.getData();
         if (o instanceof String) { // test for null and String
             String[] s = ((String) o).split(delimRegex);
-            return Arrays.asList(s);
+            if (s.length == 0) return Collections.emptyList();
+            Collection<String> c = new ArrayList<String>();
+            for (String s1 : s) if (s1 != null && s1.length() > 0) c.add(s1);
+            return c;
         } else return Collections.emptyList();
     }
 
