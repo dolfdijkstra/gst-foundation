@@ -84,7 +84,7 @@ Documentation
 
 	* Functioning Microsite Sample {{./GST-Dispatcher.xml}} and {{./Microsite.jsp}}
 
-	* Tutorial (coming soon) - Step-by-step instructions for installing and using the GSF toolkit
+	* {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}} - Step-by-step instructions for installing and using the GSF toolkit
 
 Download
 
@@ -103,4 +103,4 @@ Installation
     Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}attached minimalitic guide}}
     should get you up and running quickly.
 
-    More detailed information can be found in the Tutorial.  (Coming soon).
+    More detailed information can be found in the {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}}.
