@@ -26,15 +26,31 @@ import com.fatwire.gst.foundation.url.db.UrlRegistry;
  * @author Tony Field
  * @since Jul 21, 2010
  */
-public final class WraPathTranslationServiceFactory {
+public final class WraPathTranslationServiceFactory
+{
 
-    /**
-     * Return a new instance of the WraPathTranslationService.
-     *
-     * @param ics context, if available. Null is allowed
-     * @return service
-     */
-    public static WraPathTranslationService getService(ICS ics) {
-        return new UrlRegistry(ics == null ? ICSFactory.newICS() : ics);
-    }
+	/**
+	 * Return a new instance of the WraPathTranslationService.
+	 *
+	 * @param ics context, if available. Null is allowed
+	 * @return service
+	 */
+	public static WraPathTranslationService getService(ICS ics)
+	{
+		if (ics == null)
+		{
+			return new UrlRegistry(ICSFactory.newICS());
+		}
+		else
+		{
+			Object o = ics.GetObj(WraPathTranslationService.class.getName());
+			if (o instanceof UrlRegistry)
+				return (UrlRegistry) o;
+
+			UrlRegistry x = new UrlRegistry(ics);
+			ics.SetObj(WraPathTranslationService.class.getName(), x);
+			return x;
+		}
+
+	}
 }
