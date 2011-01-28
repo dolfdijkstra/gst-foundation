@@ -136,7 +136,7 @@ public final class AttributeDataUtils {
      * LONG Long
      * LARGE_TEXT String
      * ASSET AssetId
-     * BLOB BlobObjec
+     * BLOB BlobObject
      * </pre>
      *
      * @param attr
