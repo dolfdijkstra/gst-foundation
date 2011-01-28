@@ -16,26 +16,25 @@
 
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
+import static COM.FutureTense.Interfaces.Utilities.goodString;
+
 import java.text.Format;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.Date;
-
-import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Interfaces.IList;
-import COM.FutureTense.Interfaces.Utilities;
-
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.IListUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import static COM.FutureTense.Interfaces.Utilities.goodString;
+import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IList;
+import COM.FutureTense.Interfaces.Utilities;
+
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.IListUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
 
 /**
  * Filters assets via startdate/enddate.

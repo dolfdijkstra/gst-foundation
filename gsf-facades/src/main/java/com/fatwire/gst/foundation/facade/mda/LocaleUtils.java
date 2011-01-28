@@ -82,7 +82,7 @@ public final class LocaleUtils {
      *             example, to change the filter, or change enabled dimensions).
      */
     public static AssetId findTranslation(String c, String cid, String preferredLocaleDimensionId, String site) {
-        return findTranslation(ICSFactory.newICS(), new AssetIdImpl(c, Long.valueOf(cid)), preferredLocaleDimensionId, site);
+        return findTranslation(ICSFactory.getOrCreateICS(), new AssetIdImpl(c, Long.valueOf(cid)), preferredLocaleDimensionId, site);
     }
 
     /**
@@ -134,7 +134,7 @@ public final class LocaleUtils {
      *             filter, or change enabled dimensions).
      */
     public static AssetId findTranslation(AssetId id, String preferredLocaleDimensionIdString, String site) {
-        ICS ics = ICSFactory.newICS();
+        ICS ics = ICSFactory.getOrCreateICS();
         if (preferredLocaleDimensionIdString == null) {
             throw new IllegalArgumentException("Required preferred locale dimension ID not provided");
         }
