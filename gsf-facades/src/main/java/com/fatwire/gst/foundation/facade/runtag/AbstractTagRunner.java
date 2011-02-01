@@ -57,16 +57,20 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
 
     }
 
-    /*
+    /**
      * Executes the tag via ics.runtag
-     * 
-     * order is bind(ics); preExecute(); ics.runTag(); postExceute();
-     * handleError() is runTag or postExecute set errno to anything else the
+     * <p/>
+     * order is
+     * <ul>
+     * <li> 
+     * bind(ics); 
+     * <li>preExecute(); 
+     * <li>ics.runTag(); 
+     * <li>postExceute();
+     * <li>handleError() if runTag or postExecute set errno to anything else then
      * zero.
-     * 
-     * 
-     * (non-Javadoc)
-     * 
+     * </ul>
+     *
      * @see
      * com.fatwire.developernet.facade.TagRunner#execute(COM.FutureTense.Interfaces
      * .ICS)
