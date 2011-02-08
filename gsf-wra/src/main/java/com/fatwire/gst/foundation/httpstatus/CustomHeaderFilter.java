@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 FatWire Corporation. All Rights Reserved.
+ * Copyright 2010 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,14 +34,13 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * A response header filter sets the customer status headers from
- * ContentServer.
+ * A response header filter sets the customer status headers from ContentServer.
  * </p>
- *
- *
+ * 
+ * 
  * @since 16 June 2009
  * @author Daniel Iversen, Ram Sabnavis, Dolf Dijkstra
- *
+ * 
  */
 public class CustomHeaderFilter implements Filter {
 
@@ -60,19 +59,14 @@ public class CustomHeaderFilter implements Filter {
      * This method performs the filtering process on the response headers to set
      * the custom headers in the response object and initiates the subsequent
      * filter chain
-     *
-     * @param request
-     *            Request object
-     * @param response
-     *            Response Object
-     * @param filterChain
-     *            FilterChain Object
-     * @throws IOException
-     *             , ServletException
+     * 
+     * @param request Request object
+     * @param response Response Object
+     * @param filterChain FilterChain Object
+     * @throws IOException , ServletException
      */
 
-    public void doFilter(final ServletRequest request,
-            final ServletResponse response, final FilterChain filterChain)
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain)
             throws IOException, ServletException {
 
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -81,19 +75,16 @@ public class CustomHeaderFilter implements Filter {
             printRequestHeaders(request);
         }
 
-        final HttpServletResponseWrapper wrapper = new StatusFilterHttpResponseWrapper(
-                httpResponse);
+        final HttpServletResponseWrapper wrapper = new StatusFilterHttpResponseWrapper(httpResponse);
 
         filterChain.doFilter(request, wrapper);
 
     }
 
-   
     private void printRequestHeaders(final ServletRequest request) {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
-     
-        for (Enumeration<?> en = httpRequest.getHeaderNames(); en
-                .hasMoreElements();) {
+
+        for (Enumeration<?> en = httpRequest.getHeaderNames(); en.hasMoreElements();) {
             String headername = (String) en.nextElement();
             log.debug(headername + ": " + httpRequest.getHeader(headername));
         }
@@ -102,9 +93,8 @@ public class CustomHeaderFilter implements Filter {
     /**
      * This method is called by application server at the startup and
      * initializes the FilterConfig object
-     *
-     * @param filterConf
-     *            FilterConfig object
+     * 
+     * @param filterConf FilterConfig object
      * @throws ServletException
      */
 

@@ -75,7 +75,7 @@ public abstract class AbstractController implements Seed2 {
 
     /**
      * Sends the http status code to the user-agent
-     *
+     * 
      * @param code the http response code
      * @return String to stream
      */
@@ -151,15 +151,15 @@ public abstract class AbstractController implements Seed2 {
 
     /**
      * Executes the core business logic of the controller.
-     *
-     * @throws CSRuntimeException may throw a CSRuntimeException which is handled by
-     *                            handleCSRuntimeException
+     * 
+     * @throws CSRuntimeException may throw a CSRuntimeException which is
+     *             handled by handleCSRuntimeException
      */
     abstract protected void doExecute();
 
     /**
      * Handles the exception, doing what is required
-     *
+     * 
      * @param e exception
      */
     abstract protected void handleException(Exception e);

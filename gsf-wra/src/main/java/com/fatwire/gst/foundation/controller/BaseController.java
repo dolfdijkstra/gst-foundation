@@ -48,7 +48,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * <tt>CALLJAVA</tt> tag:
  * <code>&lt;CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
  * </code>
- *
+ * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -116,7 +116,7 @@ public class BaseController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     *
+     * 
      * @param e exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
@@ -157,7 +157,9 @@ public class BaseController extends AbstractController {
         return id;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
+            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
+            "url-path");
 
     @SuppressWarnings("unchecked")
     protected void callTemplate(final AssetIdWithSite id, final String tname) {
@@ -171,7 +173,8 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/" + tname;
+        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/"
+                + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
             LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
@@ -214,7 +217,8 @@ public class BaseController extends AbstractController {
         getCallTemplateArguments(id, arguments);
         for (String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+            if (LOG.isTraceEnabled())
+                LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
         }
 
         ct.execute(ics);
@@ -223,20 +227,21 @@ public class BaseController extends AbstractController {
     /**
      * This method collects additional arguments for the CallTemplate call. New
      * arguments are added to the map as name-value pairs.
-     *
-     * @param id        AssetIdWithSite object
+     * 
+     * @param id AssetIdWithSite object
      * @param arguments Map<String,String> containing arguments for the nested
-     *                  CallTemplate call
+     *            CallTemplate call
      */
     protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {
         findAndSetP(id, arguments);
     }
 
     /**
-     * Add p to the input parameters, if it is known or knowable.  First check to see if it has been
-     * explicitly set, then look it up if it hasn't been.  The variable is not guaranteed to be found.
-     *
-     * @param id        asset id with site
+     * Add p to the input parameters, if it is known or knowable. First check to
+     * see if it has been explicitly set, then look it up if it hasn't been. The
+     * variable is not guaranteed to be found.
+     * 
+     * @param id asset id with site
      * @param arguments calltemplate arguments
      */
     private void findAndSetP(AssetIdWithSite id, Map<String, String> arguments) {
