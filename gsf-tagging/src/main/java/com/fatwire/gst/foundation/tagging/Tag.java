@@ -17,7 +17,7 @@ package com.fatwire.gst.foundation.tagging;
 
 /**
  * GSF tag object
- *
+ * 
  * @author Tony Field
  * @since Jul 28, 2010
  */
@@ -25,7 +25,7 @@ public interface Tag {
 
     /**
      * Return the value of the tag
-     *
+     * 
      * @return tag value as a string
      */
     String getTag();

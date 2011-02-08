@@ -21,7 +21,7 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
 
 /**
  * TODO: Add class/interface details
- *
+ * 
  * @author Tony Field
  * @since Jul 28, 2010
  */

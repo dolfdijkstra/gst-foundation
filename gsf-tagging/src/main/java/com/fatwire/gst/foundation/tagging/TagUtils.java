@@ -17,7 +17,7 @@ package com.fatwire.gst.foundation.tagging;
 
 /**
  * Utilities for converting a tag into a cache dependency string and back
- *
+ * 
  * @author Tony Field
  * @since Jul 28, 2010
  */
@@ -26,8 +26,9 @@ public final class TagUtils {
     private static final String IITEM_PREFIX = "gsf-tag-";
 
     /**
-     * Return the cache dependency string format corresponding to the specified tag
-     *
+     * Return the cache dependency string format corresponding to the specified
+     * tag
+     * 
      * @param tag the tag
      * @return string
      */
@@ -36,14 +37,16 @@ public final class TagUtils {
     }
 
     /**
-     * Convert the cache dep string to a Tag.  If the string is not valid, null is returned
-     *
+     * Convert the cache dep string to a Tag. If the string is not valid, null
+     * is returned
+     * 
      * @param cacheDepString input string, note not the same as the tag itself.
      * @return Tag or null
      * @see #convertTagToCacheDepString
      */
     public static Tag convertCacheDepStringToTag(String cacheDepString) {
-        if (cacheDepString != null && cacheDepString.length() > IITEM_PREFIX.length() && cacheDepString.startsWith(IITEM_PREFIX)) {
+        if (cacheDepString != null && cacheDepString.length() > IITEM_PREFIX.length()
+                && cacheDepString.startsWith(IITEM_PREFIX)) {
             return asTag(cacheDepString.substring(IITEM_PREFIX.length() + 1));
         }
         return null;

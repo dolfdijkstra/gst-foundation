@@ -43,7 +43,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  * the old tag values for the cases where the tag is deleted or the values have
  * changed. Implementation examples can be found in the guide Customizing
  * RealTime Publishing Cache Management.
- *
+ * 
  * @author Tony Field
  * @since Jul 30, 2010
  */
@@ -52,7 +52,8 @@ public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl 
     private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
     @Override
-    protected void beforeSelect(ICS ics, Collection<String> invalKeys, Collection<String> regenKeys, Collection<AssetId> assetIds) {
+    protected void beforeSelect(ICS ics, Collection<String> invalKeys, Collection<String> regenKeys,
+            Collection<AssetId> assetIds) {
         AssetTaggingService svc = AssetTaggingServiceFactory.getService(ics);
         List<AssetId> tagged = new ArrayList<AssetId>();
         for (AssetId id : assetIds) {
@@ -62,7 +63,8 @@ public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl 
         }
         for (Tag tag : svc.getTags(tagged)) {
             if (LOG.isDebugEnabled())
-                LOG.debug("AssetTag found in beforeSelect: " + tag + ". Adding this to the list of compositional dependencies to be flushed.");
+                LOG.debug("AssetTag found in beforeSelect: " + tag
+                        + ". Adding this to the list of compositional dependencies to be flushed.");
             String sTag = convertTagToCacheDepString(tag);
             invalKeys.add(sTag);
             regenKeys.add(sTag);

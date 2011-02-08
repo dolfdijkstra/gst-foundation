@@ -30,7 +30,7 @@ import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
  * Sends requests to the tagging service.
- *
+ * 
  * @author Tony Field
  * @since Jul 28, 2010
  */
@@ -48,13 +48,12 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
         }
     }
 
-
     @Override
     public void assetAdded(AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetAdded event for " + assetId);
         }
-       svc.addAsset(assetId);
+        svc.addAsset(assetId);
     }
 
     @Override
@@ -62,7 +61,7 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetUpdated event for " + assetId);
         }
-       svc.updateAsset(assetId);
+        svc.updateAsset(assetId);
     }
 
     @Override
@@ -81,8 +80,10 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
         String id = ics.genID(false);
         String listener = TaggedAssetEventListener.class.getName();
         String blocking = "Y";
-        SqlHelper.execute(ics, "AssetListener_reg", "delete from AssetListener_reg where listener = " + quote(listener));
-        SqlHelper.execute(ics, "AssetListener_reg", "insert into AssetListener_reg (id, listener, blocking) VALUES (" + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
+        SqlHelper
+                .execute(ics, "AssetListener_reg", "delete from AssetListener_reg where listener = " + quote(listener));
+        SqlHelper.execute(ics, "AssetListener_reg", "insert into AssetListener_reg (id, listener, blocking) VALUES ("
+                + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
     }
 
 }

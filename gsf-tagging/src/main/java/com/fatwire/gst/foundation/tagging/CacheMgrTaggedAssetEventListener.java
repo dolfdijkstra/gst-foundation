@@ -32,13 +32,14 @@ import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
  * Cache manager to be used to deal with cache updates
- *
+ * 
  * @author Tony Field
  * @since Jul 28, 2010
  */
 public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventListener {
 
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.logging.CacheMgrTaggedAssetEventListener");
+    private static final Log LOG = LogFactory
+            .getLog("com.fatwire.gst.foundation.logging.CacheMgrTaggedAssetEventListener");
 
     private final AssetTaggingService svc;
 
@@ -91,7 +92,9 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
         String id = ics.genID(false);
         String listener = CacheMgrTaggedAssetEventListener.class.getName();
         String blocking = "Y";
-        SqlHelper.execute(ics, "AssetListener_reg", "delete from AssetListener_reg where listener = " + quote(listener));
-        SqlHelper.execute(ics, "AssetListener_reg", "insert into AssetListener_reg (id, listener, blocking) VALUES (" + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
+        SqlHelper
+                .execute(ics, "AssetListener_reg", "delete from AssetListener_reg where listener = " + quote(listener));
+        SqlHelper.execute(ics, "AssetListener_reg", "insert into AssetListener_reg (id, listener, blocking) VALUES ("
+                + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
     }
 }
