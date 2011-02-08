@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.facade.ics;
 
 import COM.FutureTense.CS.Factory;
@@ -21,43 +22,43 @@ import COM.FutureTense.Interfaces.IPS;
 import COM.FutureTense.Servlet.IPSRegistry;
 
 /**
- * Factory class for creating new ICS instances.  This process is very expensive so use it sparingly.
- *
+ * Factory class for creating new ICS instances. This process is very expensive
+ * so use it sparingly.
+ * 
  * @author Tony Field
  * @since Jul 29, 2010
  */
-public final class ICSFactory
-{
+public final class ICSFactory {
 
-	/**
-	 * Create a new instance of ICS.  Expensive operation. Should be used sparingly.
-	 * TODO: Document lifecycle restrictions
-	 *
-	 * @return ICS instance, not backed by servlet.
-	 */
-	public static final ICS newICS()
-	{
-		try
-		{
-			return Factory.newCS();
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException("Could not create new ICS instance: " + e, e);
-		}
-	}
+    /**
+     * Create a new instance of ICS. Expensive operation. Should be used
+     * sparingly. TODO: Document lifecycle restrictions
+     * 
+     * @return ICS instance, not backed by servlet.
+     */
+    public static final ICS newICS() {
+        try {
+            return Factory.newCS();
+        } catch (Exception e) {
+            throw new RuntimeException("Could not create new ICS instance: " + e, e);
+        }
+    }
 
-	public static final ICS getOrCreateICS()
-	{
-		ICS ics = null;
+    /**
+     * Returns the ICS object from current IPSRegistry or creates a new one if
+     * non is found on the IPSRegistry.
+     * 
+     * @return ICS object
+     */
+    public static final ICS getOrCreateICS() {
+        ICS ics = null;
 
-		IPS ips = IPSRegistry.getInstance().get();
-		ics = (ips != null) ? ips.GetICSObject() : null;
+        IPS ips = IPSRegistry.getInstance().get();
+        ics = (ips != null) ? ips.GetICSObject() : null;
 
-		if (ics == null)
-		{
-			ics = newICS();
-		}
-		return ics;
-	}
+        if (ics == null) {
+            ics = newICS();
+        }
+        return ics;
+    }
 }
