@@ -21,9 +21,9 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 /**
  * Path translation service for going from assetid to WRA path and back
  * <p/>
- * todo: for any given partial url, get next children down, and "are they parents too"
- * todo: remove installation method from interface.
- *
+ * todo: for any given partial url, get next children down, and
+ * "are they parents too" todo: remove installation method from interface.
+ * 
  * @author Tony Field
  * @since Jul 21, 2010
  */
@@ -35,8 +35,9 @@ public interface WraPathTranslationService {
     void install();
 
     /**
-     * Look up the asset corresponding to the input virtual-0webroot and url-path
-     *
+     * Look up the asset corresponding to the input virtual-0webroot and
+     * url-path
+     * 
      * @param virtual_webroot
      * @param url_path
      * @return asset id and site

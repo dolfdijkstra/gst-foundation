@@ -28,9 +28,10 @@ import org.apache.commons.logging.LogFactory;
 import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
- * Asset event for ensuring that a WRA is properly prepared for rendering.  Includes ensuring that
- * the asset is accessible through the WraPathTranslationService, among other things.
- *
+ * Asset event for ensuring that a WRA is properly prepared for rendering.
+ * Includes ensuring that the asset is accessible through the
+ * WraPathTranslationService, among other things.
+ * 
  * @author Tony Field
  * @since Jul 21, 2010
  */
@@ -76,7 +77,9 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
         String id = ics.genID(false);
         String listener = WraAssetEventListener.class.getName();
         String blocking = "Y";
-        SqlHelper.execute(ics, REGISTRY_TABLE, "delete from " + REGISTRY_TABLE + " where listener = " + quote(listener));
-        SqlHelper.execute(ics, REGISTRY_TABLE, "insert into " + REGISTRY_TABLE + " (id, listener, blocking) VALUES (" + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
+        SqlHelper
+                .execute(ics, REGISTRY_TABLE, "delete from " + REGISTRY_TABLE + " where listener = " + quote(listener));
+        SqlHelper.execute(ics, REGISTRY_TABLE, "insert into " + REGISTRY_TABLE + " (id, listener, blocking) VALUES ("
+                + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
     }
 }

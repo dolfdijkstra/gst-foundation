@@ -40,7 +40,8 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * PageRef, so we can manipulate the arguments that go into the assembler while
  * we have database access.
  * <p/>
- * <p> It will alter the input args map by adding the derived parameters
+ * <p>
+ * It will alter the input args map by adding the derived parameters
  * <ul>
  * <li>virtual-webroot</li>
  * <li>url-path</li>
@@ -65,7 +66,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * <li>interface IReference extends Definition</li>
  * </ol>
  * </p>
- *
+ * 
  * @author Dolf Dijkstra
  * @author Tony Field
  * @see Reference
@@ -104,16 +105,21 @@ public class WraPageReference extends PageRef {
                     args.put("virtual-webroot", vw.getEnvironmentVirtualWebroot());
                     args.put("url-path", wra.getPath().substring(vw.getMasterVirtualWebroot().length()));
                     // has pagename been set? if not, use default.
-                    String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME, "ServletRequest.properties", true);
+                    String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME,
+                            "ServletRequest.properties", true);
                     if (!goodString(pagename)) {
                         pagename = "GST/Dispatcher";
                     }
-                    // pagename or wrapperpage depending on whether or not we're going to use a wrapper.
-                    if (args.get(PubConstants.WRAPPERPAGE) != null) args.put(PubConstants.WRAPPERPAGE, pagename);
-                    else args.put("pagename", pagename);
+                    // pagename or wrapperpage depending on whether or not we're
+                    // going to use a wrapper.
+                    if (args.get(PubConstants.WRAPPERPAGE) != null)
+                        args.put(PubConstants.WRAPPERPAGE, pagename);
+                    else
+                        args.put("pagename", pagename);
                 } else {
                     if (log.isDebugEnabled()) {
-                        log.debug("Not adding WRAPathAssembler args because no matching virtual webroot found for path " + wra.getPath() + " and environemnt " + currentEnvironment);
+                        log.debug("Not adding WRAPathAssembler args because no matching virtual webroot found for path "
+                                + wra.getPath() + " and environemnt " + currentEnvironment);
                     }
                 }
             } else {
@@ -127,26 +133,33 @@ public class WraPageReference extends PageRef {
             }
         } else {
             if (log.isDebugEnabled()) {
-                log.debug("Not adding WRAPathAssembler args because context is not satellite server (it is " + getSatelliteContext() + ").  Args: " + args);
+                log.debug("Not adding WRAPathAssembler args because context is not satellite server (it is "
+                        + getSatelliteContext() + ").  Args: " + args);
             }
         }
         super.setParameters(args, ics);
     }
 
     /**
-     * Check to see if the tag being called is a getTemplateUrl tag.  If it is not, we should not be processing
-     * this for special links.  Note it's not that easy to figure this out, and there could be missing pieces here.
-     *
+     * Check to see if the tag being called is a getTemplateUrl tag. If it is
+     * not, we should not be processing this for special links. Note it's not
+     * that easy to figure this out, and there could be missing pieces here.
+     * 
      * @param args tag args
      * @return true if it's a gettemplateurl tag, false otherwise.
      */
     private boolean isGetTemplateUrl(Map<String, String> args) {
-        if (args.get("c") == null) return false;
-        if (args.get("cid") == null) return false;
+        if (args.get("c") == null)
+            return false;
+        if (args.get("cid") == null)
+            return false;
         String pagename = (String) args.get(ftMessage.PageName);
-        if (pagename == null) return false;
-        if (pagename.split("/").length < 3) return false; // need site/type/tname at least for a valid URL
-        if (args.get(PubConstants.WRAPPERPAGE) != null) return true; // wrapper is only supported for GTU calls
+        if (pagename == null)
+            return false;
+        if (pagename.split("/").length < 3)
+            return false; // need site/type/tname at least for a valid URL
+        if (args.get(PubConstants.WRAPPERPAGE) != null)
+            return true; // wrapper is only supported for GTU calls
         else {
             // possible further checks here just in case
         }

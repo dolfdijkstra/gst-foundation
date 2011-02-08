@@ -70,8 +70,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
         try {
             Util.encode("fake string", enc);
         } catch (UnsupportedEncodingException e) {
-            LOG
-                    .warn("UTF-8 encoding not supported by this platform. Using the platform's default encoding as the URL encoding.");
+            LOG.warn("UTF-8 encoding not supported by this platform. Using the platform's default encoding as the URL encoding.");
             enc = null;
         }
         this.encoding = enc;
