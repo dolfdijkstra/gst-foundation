@@ -28,18 +28,19 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
 import com.openmarket.framework.jsp.Base;
 
 /**
- * Tagged list tag support
- * This tag uses ICS.SQL(PreparedStmt, boolean) to query the GSTTagRegistry and retrieve the assets that point to the specified tag.
- * Input tagname - the name of the tag outlist - name of output list
- * Output The name of an IList object to be placed in the list pool. It contains two columns: ASSETTYPE, ASSETID.
- * Null is never returned, but the returned list can be empty.
- * A java method is provided in order for the same logic to be called from java. *
- *
+ * Tagged list tag support This tag uses ICS.SQL(PreparedStmt, boolean) to query
+ * the GSTTagRegistry and retrieve the assets that point to the specified tag.
+ * Input tagname - the name of the tag outlist - name of output list Output The
+ * name of an IList object to be placed in the list pool. It contains two
+ * columns: ASSETTYPE, ASSETID. Null is never returned, but the returned list
+ * can be empty. A java method is provided in order for the same logic to be
+ * called from java. *
+ * 
  * @author Tony Field
  * @since Aug 13, 2010
  */
 public final class AssetTaggedList extends Base {
-
+    private static final long serialVersionUID = 1L;
     private String assettype = null;
     private String assetid = null;
     private String outlist = null;
@@ -67,10 +68,20 @@ public final class AssetTaggedList extends Base {
         outlist = null;
     }
 
+    /* (non-Javadoc)
+     * @see com.openmarket.framework.jsp.Base#doEndTag(COM.FutureTense.Interfaces.ICS, boolean)
+     */
     public int doEndTag(ICS ics, boolean bDebug) throws JspException {
         AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag("asset-" + assetid + ":" + assettype));
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
+        return Base.EVAL_PAGE;
+    }
+    /* (non-Javadoc)
+     * @see com.openmarket.framework.jsp.Base#doStartTag(COM.FutureTense.Interfaces.ICS, boolean)
+     */
+    protected int doStartTag(ICS arg0, boolean arg1) throws Exception {
+        
         return SKIP_BODY;
     }
 }
