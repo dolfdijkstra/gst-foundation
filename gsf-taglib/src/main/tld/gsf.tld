@@ -1,66 +1,108 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
- <taglib xmlns="http://java.sun.com/xml/ns/j2ee" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-
-jsptaglibrary_2_0.xsd" 
-  version="2.0">  
-    <tlib-version>1.0</tlib-version>
-    <short-name>gsf</short-name>
-    <display-name>GST Site Foundation Taglib</display-name>
-    <uri>http://gst.fatwire.com/foundation/tags/gsf</uri>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<tlib-version>1.1</tlib-version>
+	<short-name>gsf</short-name>
+	<display-name>GST Site Foundation Taglib</display-name>
+	<uri>http://gst.fatwire.com/foundation/tags/gsf</uri>
 
-    <description>
-        usage: &lt;%@ taglib uri="http://gst.fatwire.com/foundation/tags/gsf" prefix="gsf" %&gt; 
-    </description>
+	<description>
+		usage: &lt;%@ taglib uri="http://gst.fatwire.com/foundation/tags/gsf"
+		prefix="gsf" %&gt; </description>
 
-    <tag>
-        <name>tagged-list</name>
-        <tag-class>com.fatwire.gst.foundation.taglib.TaggedList</tag-class>
-        <body-content>tagdependent</body-content>
-        <description>
-            Given an input tag, returns an IList with ASSETTYPE,ASSETID as columns for any assets found
-            that match the specified tag.
+	<tag>
+		<name>tagged-list</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.TaggedList</tag-class>
+		<body-content>tagdependent</body-content>
+		<description>
+			Given an input tag, returns an IList with ASSETTYPE,ASSETID as columns for
+			any assets found
+			that match the specified tag.
         </description>
-        <attribute>
-            <name>outlist</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>the name of the list containing the result</description>
-        </attribute>
-        <attribute>
-            <name>tag</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>the name of the tag</description>
-        </attribute>
-    </tag>
+		<attribute>
+			<name>outlist</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the list containing the result</description>
+		</attribute>
+		<attribute>
+			<name>tag</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the tag</description>
+		</attribute>
+	</tag>
 
-    <tag>
-        <name>asset-tagged-list</name>
-        <tag-class>com.fatwire.gst.foundation.taglib.AssetTaggedList</tag-class>
-        <body-content>tagdependent</body-content>
-        <description>
-            Given an input assettype and assetid, convert it into a tag string format
-            and return an IList with ASSETTYPE,ASSETID as columns for any assets found
-            that match the specified tag.
+	<tag>
+		<name>asset-tagged-list</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetTaggedList
+		</tag-class>
+		<body-content>tagdependent</body-content>
+		<description>
+			Given an input assettype and assetid, convert it into a tag string format
+			and return an IList with ASSETTYPE,ASSETID as columns for any assets
+			found
+			that match the specified tag.
         </description>
-        <attribute>
-            <name>outlist</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>the name of the list containing the result</description>
-        </attribute>
-        <attribute>
-            <name>assettype</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>the assettype</description>
-        </attribute>
-        <attribute>
-            <name>assetid</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>the assetid</description>
-        </attribute>
-    </tag>
+		<attribute>
+			<name>outlist</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the list containing the result</description>
+		</attribute>
+		<attribute>
+			<name>assettype</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the assettype</description>
+		</attribute>
+		<attribute>
+			<name>assetid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the assetid</description>
+		</attribute>
+	</tag>
+    <tag>
+		<name>navigation</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.navigation.NavigationTag</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Given an input pagename for the name of the Page asset return the NavNodes for that page.
+        </description>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of jsp page attribute holding the NavNode</description>
+		</attribute>
+		<attribute>
+			<name>depth</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the depth of the navigation, defaults to 1</description>
+		</attribute>
+		<attribute>
+			<name>pagename</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the Page asset</description>
+		</attribute>
+	</tag>	
+	<tag>
+		<description>tag to expose ics variables as page attributes for JSP
+			EL.</description>
+		<name>csvars</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.IcsVarTag</tag-class>
+		<body-content>JSP</body-content>
+	</tag>
+	<tag>
+		<description>replacement for cs:ftcs tag, this tag is also to expose
+			ics variables as page attributes for JSP EL.</description>
+		<name>root</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.GsfRootTag</tag-class>
+		<tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
+		<body-content>JSP</body-content>
+	</tag>
 </taglib>
