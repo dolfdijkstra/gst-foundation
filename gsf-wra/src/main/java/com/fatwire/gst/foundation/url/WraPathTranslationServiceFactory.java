@@ -21,36 +21,32 @@ import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.url.db.UrlRegistry;
 
 /**
- * Used to instantiate path translation services.  Probably should get replaced by DI at some point.
- *
+ * Used to instantiate path translation services. Probably should get replaced
+ * by DI at some point.
+ * 
  * @author Tony Field
  * @since Jul 21, 2010
  */
-public final class WraPathTranslationServiceFactory
-{
+public final class WraPathTranslationServiceFactory {
 
-	/**
-	 * Return a new instance of the WraPathTranslationService.
-	 *
-	 * @param ics context, if available. Null is allowed
-	 * @return service
-	 */
-	public static WraPathTranslationService getService(ICS ics)
-	{
-		if (ics == null)
-		{
-			return new UrlRegistry(ICSFactory.newICS());
-		}
-		else
-		{
-			Object o = ics.GetObj(WraPathTranslationService.class.getName());
-			if (o instanceof UrlRegistry)
-				return (UrlRegistry) o;
+    /**
+     * Return a new instance of the WraPathTranslationService.
+     * 
+     * @param ics context, if available. Null is allowed
+     * @return service
+     */
+    public static WraPathTranslationService getService(ICS ics) {
+        if (ics == null) {
+            ics = ICSFactory.getOrCreateICS();
+        }
 
-			UrlRegistry x = new UrlRegistry(ics);
-			ics.SetObj(WraPathTranslationService.class.getName(), x);
-			return x;
-		}
+        Object o = ics.GetObj(WraPathTranslationService.class.getName());
+        if (o instanceof UrlRegistry)
+            return (UrlRegistry) o;
 
-	}
+        UrlRegistry x = new UrlRegistry(ics);
+        ics.SetObj(WraPathTranslationService.class.getName(), x);
+        return x;
+
+    }
 }
