@@ -33,9 +33,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Dao for dealing with core fields in a WRA
- * todo: handle aliases cleanly
- *
+ * Dao for dealing with core fields in a WRA todo: handle aliases cleanly
+ * 
  * @author Tony Field
  * @since Jul 21, 2010
  */
@@ -44,7 +43,7 @@ public class AliasCoreFieldDao {
     private final ICS ics;
 
     public AliasCoreFieldDao() {
-        this.ics = ICSFactory.newICS();
+        this.ics = ICSFactory.getOrCreateICS();
     }
 
     public AliasCoreFieldDao(ICS ics) {
@@ -54,7 +53,8 @@ public class AliasCoreFieldDao {
     private static final Log LOG = LogFactory.getLog(AliasCoreFieldDao.class);
 
     /**
-     * Return an AssetData object containing the core fields found in an alias asset.
+     * Return an AssetData object containing the core fields found in an alias
+     * asset.
      * <p/>
      * Also includes selected metadata fields:
      * <ul>
@@ -65,18 +65,20 @@ public class AliasCoreFieldDao {
      * <li>enddate</li>
      * <li>status</li>
      * </ul>
-     *
+     * 
      * @param id id of alias asset
      * @return AssetData containing core fields for Alias asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status", "target", "target_url", "popup", "linkimage");
+        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext",
+                "path", "template", "id", "name", "subtype", "startdate", "enddate", "status", "target", "target_url",
+                "popup", "linkimage");
     }
 
     /**
-     * Method to test whether or not an asset is an Alias.
-     * todo: optimize as this will be called at runtime
-     *
+     * Method to test whether or not an asset is an Alias. todo: optimize as
+     * this will be called at runtime
+     * 
      * @param id asset ID to check
      * @return true if the asset is a valid Alias asset, false if it is not
      */
@@ -90,9 +92,9 @@ public class AliasCoreFieldDao {
     }
 
     /**
-     * Return an alias asset bean given an input id.  Required fields must be set or an exception
-     * is thrown.
-     *
+     * Return an alias asset bean given an input id. Required fields must be set
+     * or an exception is thrown.
+     * 
      * @param id asset id
      * @return Alias
      * @see #isAlias
@@ -123,8 +125,12 @@ public class AliasCoreFieldDao {
         return o;
     }
 
-    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
-    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Collections.singletonList("AssetPublication")); // todo:determine why publication cannot fit there.
+    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
+            + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
+    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY,
+            Collections.singletonList("AssetPublication")); // todo:determine
+                                                            // why publication
+                                                            // cannot fit there.
 
     static {
         AP_STMT.setElement(0, "AssetPublication", "assettype");
@@ -138,13 +144,17 @@ public class AliasCoreFieldDao {
         String result = null;
         for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
             if (result != null) {
-                LOG.warn("Found asset " + c + ":" + cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: " + result);
+                LOG.warn("Found asset "
+                        + c
+                        + ":"
+                        + cid
+                        + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: "
+                        + result);
             } else {
                 result = pubid.getString("name");
             }
         }
         return result;
     }
-
 
 }
