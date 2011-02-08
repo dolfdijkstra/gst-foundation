@@ -33,7 +33,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * Convenient shortcuts for working with AssetData objects
- *
+ * 
  * @author Tony Field
  * @since Nov 17, 2009
  */
@@ -43,7 +43,7 @@ public final class AssetDataUtils {
 
     /**
      * Return the AssetData for the specified asset
-     *
+     * 
      * @param c
      * @param cid
      * @param attributes
@@ -55,7 +55,7 @@ public final class AssetDataUtils {
 
     /**
      * Return the AssetData for the specified asset
-     *
+     * 
      * @param id
      * @param attributes
      * @return asset data
@@ -70,17 +70,31 @@ public final class AssetDataUtils {
     }
 
     /**
-     * Get a session to work with the Asset API.  Because this class may end up getting called in a non-Http context,
-     * we have to ensure that the session does exist.  If we can't find a valid context, we create a new context.
-     *
-     * @return session object, either backed by the existing context or a brand new one.
+     * This is a convenience method to read AssetData for the current c/cid
+     * asset on the ics scope.
+     * 
+     * @param ics
+     * @param attributes
+     * @return asset data
+     */
+    public static AssetData getCurrentAssetData(ICS ics, String... attributes) {
+        return getAssetData(ics.GetVar("c"), ics.GetVar("cid"), attributes);
+    }
+
+    /**
+     * Get a session to work with the Asset API. Because this class may end up
+     * getting called in a non-Http context, we have to ensure that the session
+     * does exist. If we can't find a valid context, we create a new context.
+     * 
+     * @return session object, either backed by the existing context or a brand
+     *         new one.
      */
     private static Session getSession() {
         Session ses;
         try {
             ses = SessionFactory.getSession();
         } catch (IllegalStateException e) {
-            // assume there's no backing ICS anywhere.  Bootstrap the context
+            // assume there's no backing ICS anywhere. Bootstrap the context
             final ICS ics;
             try {
                 ics = Factory.newCS();

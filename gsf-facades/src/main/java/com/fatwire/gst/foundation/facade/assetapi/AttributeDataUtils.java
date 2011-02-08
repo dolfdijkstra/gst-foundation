@@ -31,9 +31,10 @@ import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeDefProperties;
 
 /**
- * Utility class for processing attribute data.  Some of the data conversion methods have not
- * been thoroughly tested and may therefore require some bug fixes.
- *
+ * Utility class for processing attribute data. Some of the data conversion
+ * methods have not been thoroughly tested and may therefore require some bug
+ * fixes.
+ * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Nov 17, 2009
@@ -47,10 +48,10 @@ public final class AttributeDataUtils {
      * found, get the next field listed. Continue until the end of the list.
      * Safe to use with a single value. If no data is found for any attribute,
      * an exception is thrown.
-     *
-     * @param assetData             populated AssetData object
+     * 
+     * @param assetData populated AssetData object
      * @param orderedAttributeNames vararg array of attribute names that are
-     *                              expected to be found and populated in the assetData object
+     *            expected to be found and populated in the assetData object
      * @return the value, never null
      */
     public static String getWithFallback(AssetData assetData, String... orderedAttributeNames) {
@@ -60,13 +61,14 @@ public final class AttributeDataUtils {
                 return attrData.getData().toString();
             }
         }
-        throw new IllegalArgumentException("Asset data [" + assetData + "] does not contain any of the specified attributes: " + Arrays.asList(orderedAttributeNames));
+        throw new IllegalArgumentException("Asset data [" + assetData
+                + "] does not contain any of the specified attributes: " + Arrays.asList(orderedAttributeNames));
     }
 
     /**
      * Get the specified attribute data, converting each of the values into a
      * string and separating them with a comma (no space).
-     *
+     * 
      * @param attributeData multi-valued attribute data
      * @return attribute data converted to a string, comma-separated.
      */
@@ -84,24 +86,29 @@ public final class AttributeDataUtils {
     /**
      * Get an attribute that is a comma-separated string and split it into a
      * collection. If the attribute has no values, an empty list is returned.
-     *
+     * 
      * All attribute values or substring values of zero length are dropped.
-     *
+     * 
      * @param attributeData
-     * @param delimRegex    regex for splitting
+     * @param delimRegex regex for splitting
      * @return Collection<String> of attribute data, never null (though an empty
      *         list may be returned
      */
     public static Collection<String> getAndSplitString(AttributeData attributeData, String delimRegex) {
-        if (attributeData == null) return Collections.emptyList();
+        if (attributeData == null)
+            return Collections.emptyList();
         Object o = attributeData.getData();
         if (o instanceof String) { // test for null and String
             String[] s = ((String) o).split(delimRegex);
-            if (s.length == 0) return Collections.emptyList();
+            if (s.length == 0)
+                return Collections.emptyList();
             Collection<String> c = new ArrayList<String>();
-            for (String s1 : s) if (s1 != null && s1.length() > 0) c.add(s1);
+            for (String s1 : s)
+                if (s1 != null && s1.length() > 0)
+                    c.add(s1);
             return c;
-        } else return Collections.emptyList();
+        } else
+            return Collections.emptyList();
     }
 
     static public boolean isSingleValued(AttributeData attr) {
@@ -111,14 +118,16 @@ public final class AttributeDataUtils {
     }
 
     static public boolean isSingleValued(AttributeDef ad) {
-        return ad.getProperties() == null ? true : ad.getProperties().getValueCount().equals(AttributeDefProperties.ValueCount.SINGLE);
+        return ad.getProperties() == null ? true : ad.getProperties().getValueCount()
+                .equals(AttributeDefProperties.ValueCount.SINGLE);
 
     }
 
     static public List<?> asList(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
 
         if (isSingleValued(attr)) {
             throw new RuntimeException("not a multi valued attribute");
@@ -138,7 +147,7 @@ public final class AttributeDataUtils {
      * ASSET AssetId
      * BLOB BlobObject
      * </pre>
-     *
+     * 
      * @param attr
      * @return attribute as an integer
      */
@@ -146,7 +155,8 @@ public final class AttributeDataUtils {
     static public Integer asInt(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
             case INT:
                 return (Integer) o;
@@ -174,7 +184,8 @@ public final class AttributeDataUtils {
     static public Date asDate(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
             case DATE:
                 return (Date) o;
@@ -202,7 +213,8 @@ public final class AttributeDataUtils {
     static public BlobObject asBlob(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
             case URL:
             case BLOB:
@@ -230,7 +242,8 @@ public final class AttributeDataUtils {
     static public Float asFloat(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
             case FLOAT:
             case INT:
@@ -258,7 +271,8 @@ public final class AttributeDataUtils {
     static public Double asDouble(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
             case FLOAT:
             case INT:
@@ -286,7 +300,8 @@ public final class AttributeDataUtils {
     static public Long asLong(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
             case INT:
             case LONG:
@@ -314,7 +329,8 @@ public final class AttributeDataUtils {
     static public AssetId asAssetId(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
             case ASSET:
                 return (AssetId) o;
@@ -342,7 +358,8 @@ public final class AttributeDataUtils {
     static public String asString(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
-        if (o == null) return null;
+        if (o == null)
+            return null;
         switch (attr.getType()) {
 
             case INT:

@@ -62,18 +62,17 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
      * <p/>
      * order is
      * <ul>
-     * <li> 
-     * bind(ics); 
-     * <li>preExecute(); 
-     * <li>ics.runTag(); 
+     * <li>
+     * bind(ics);
+     * <li>preExecute();
+     * <li>ics.runTag();
      * <li>postExceute();
-     * <li>handleError() if runTag or postExecute set errno to anything else then
-     * zero.
+     * <li>handleError() if runTag or postExecute set errno to anything else
+     * then zero.
      * </ul>
-     *
-     * @see
-     * com.fatwire.developernet.facade.TagRunner#execute(COM.FutureTense.Interfaces
-     * .ICS)
+     * 
+     * @see com.fatwire.developernet.facade.TagRunner#execute(COM.FutureTense.Interfaces
+     *      .ICS)
      */
     public String execute(ICS ics) {
         bind(ics);
@@ -87,8 +86,8 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
             sb.append("\nInput param list:");
             for (Object k : list.keySet()) {
                 String key = (String) k;
-                sb.append("\n\t").append(key).append("=").append(
-                        isPW(key) ? "<password suppressed>" : list.getValString(key));
+                sb.append("\n\t").append(key).append("=")
+                        .append(isPW(key) ? "<password suppressed>" : list.getValString(key));
             }
             sb.append("\nVariables:");
             Enumeration<?> e = ics.GetVars();
@@ -100,8 +99,8 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
             e = ics.GetSSVars();
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
-                sb.append("\n\t").append(key).append("=").append(
-                        isPW(key) ? "<password suppressed>" : ics.GetSSVar(key));
+                sb.append("\n\t").append(key).append("=")
+                        .append(isPW(key) ? "<password suppressed>" : ics.GetSSVar(key));
             }
             LOG.trace(sb);
         }
@@ -111,8 +110,8 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
             sb.append("\nInput param list:");
             for (Object k : list.keySet()) {
                 String key = (String) k;
-                sb.append("\n\t").append(key).append("=").append(
-                        isPW(key) ? "<password suppressed>" : list.getValString(key));
+                sb.append("\n\t").append(key).append("=")
+                        .append(isPW(key) ? "<password suppressed>" : list.getValString(key));
             }
             sb.append("\nVariables:");
             Enumeration<?> e = ics.GetVars();
@@ -124,8 +123,8 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
             e = ics.GetSSVars();
             while (e.hasMoreElements()) {
                 String key = (String) e.nextElement();
-                sb.append("\n\t").append(key).append("=").append(
-                        isPW(key) ? "<password suppressed>" : ics.GetSSVar(key));
+                sb.append("\n\t").append(key).append("=")
+                        .append(isPW(key) ? "<password suppressed>" : ics.GetSSVar(key));
             }
             LOG.trace(sb);
         }
@@ -173,8 +172,8 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
      * @see TagRunnerRuntimeException
      */
     protected void handleError(ICS ics) {
-        throw new TagRunnerRuntimeException("ics.runTag(" + tagName + ") returned an errno.", ics.GetErrno(), list, ics
-                .getComplexError(), ics.GetVar("pagename"), ics.ResolveVariables("CS.elementname"));
+        throw new TagRunnerRuntimeException("ics.runTag(" + tagName + ") returned an errno.", ics.GetErrno(), list,
+                ics.getComplexError(), ics.GetVar("pagename"), ics.ResolveVariables("CS.elementname"));
 
     }
 }

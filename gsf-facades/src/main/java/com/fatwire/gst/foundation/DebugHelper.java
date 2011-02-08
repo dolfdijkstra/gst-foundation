@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation;
 
 import java.io.PrintWriter;
@@ -38,12 +39,11 @@ import com.fatwire.assetapi.def.AttributeDefProperties;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
 import com.fatwire.mda.Dimension;
 
-
 /**
  * various helper classes for debugging
  * 
  * @author Dolf Dijkstra
- *
+ * 
  */
 public class DebugHelper {
 
@@ -65,7 +65,7 @@ public class DebugHelper {
     }
 
     /**
-     * Retrieves the root exception of a <code>Throwable</code>. 
+     * Retrieves the root exception of a <code>Throwable</code>.
      * 
      * 
      * @param e the exception with nested exceptions (causes)
@@ -109,7 +109,8 @@ public class DebugHelper {
      * provided logger in a human readable form
      * 
      * @param log The logger where the message will be printed to.
-     * @param msg The message as an indicator of the operation that was monitored.
+     * @param msg The message as an indicator of the operation that was
+     *            monitored.
      * @param start time in nanoseconds {@link System#nanoTime()}
      * @param end time in nanoseconds {@link System#nanoTime()}
      * @see DebugHelper#microToHuman(long)
@@ -128,7 +129,8 @@ public class DebugHelper {
      * Print the elapsed time since the <tt>start</tt> to the provided Log
      * 
      * @param log The logger where the message will be printed to.
-     * @param msg The message as an indicator of the operation that was monitored.
+     * @param msg The message as an indicator of the operation that was
+     *            monitored.
      * @param start time in nanoseconds {@link System#nanoTime()}
      * @see DebugHelper#microToHuman(long)
      */
@@ -144,7 +146,8 @@ public class DebugHelper {
      * logger {@link DebugHelper#TIME_LOGGER}
      * 
      * 
-     * @param msg  The message as an indicator of the operation that was monitored.
+     * @param msg The message as an indicator of the operation that was
+     *            monitored.
      * @param start time in nanoseconds {@link System#nanoTime()}
      * @see DebugHelper#microToHuman(long)
      * 

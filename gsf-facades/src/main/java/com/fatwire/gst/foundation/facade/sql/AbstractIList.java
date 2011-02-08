@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.facade.sql;
 
 import COM.FutureTense.Interfaces.IList;
 
 /**
  * Base IList class supporting navigation & naming.
- *
+ * 
  * @author Tony Field
  * @since Aug 13, 2010
  */
@@ -27,7 +28,7 @@ public abstract class AbstractIList implements IList {
     private String name;
     private int currentRow;
 
-    protected AbstractIList(String name) {
+    protected AbstractIList(final String name) {
         this.name = name;
     }
 
@@ -35,11 +36,11 @@ public abstract class AbstractIList implements IList {
         return name;
     }
 
-    public final void rename(String newname) {
-        this.name = newname;
+    public final void rename(final String newname) {
+        name = newname;
     }
 
-    public final boolean moveTo(int i) {
+    public final boolean moveTo(final int i) {
         if (1 <= i && i <= numRows()) {
             currentRow = i;
             return true;
@@ -48,7 +49,7 @@ public abstract class AbstractIList implements IList {
         }
     }
 
-    public final boolean moveToRow(int how, int row) {
+    public final boolean moveToRow(final int how, final int row) {
         if (numRows() == 0) {
             return false;
         }

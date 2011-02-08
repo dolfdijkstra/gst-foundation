@@ -47,8 +47,7 @@ public class TableDef {
         if (col.isPrimary()) {
             for (TableColumn current : columns) {
                 if (current.isPrimary()) {
-                    throw new IllegalStateException(
-                            "Table has already have a primary column");
+                    throw new IllegalStateException("Table has already have a primary column");
                 }
             }
         }

@@ -326,14 +326,14 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     /**
-     * Call template args need to be altered slightly in order to be available in the
-     * called template
+     * Call template args need to be altered slightly in order to be available
+     * in the called template
+     * 
      * @param name parameter name
      * @param value parameter value
      */
     public void setArgument(final String name, final String value) {
-        super.set("ARGS_"+name, value);
+        super.set("ARGS_" + name, value);
     }
-
 
 }

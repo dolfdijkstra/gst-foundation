@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2008 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.facade.runtag.user;
 
 import COM.FutureTense.Interfaces.ICS;
@@ -21,7 +22,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * TODO: Add class/interface details
- *
+ * 
  * @author Tony Field
  * @since Feb 1, 2011
  */

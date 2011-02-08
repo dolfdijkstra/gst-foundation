@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.facade.ics;
 
 import COM.FutureTense.Interfaces.ICS;
@@ -21,7 +22,7 @@ import COM.FutureTense.Interfaces.ICS;
  * Base implementation of {@link ICSLocator}. Just one single ics is stored.
  * <p/>
  * <b>Not thread safe!!</b>
- *
+ * 
  * @author Dolf Dijkstra
  */
 

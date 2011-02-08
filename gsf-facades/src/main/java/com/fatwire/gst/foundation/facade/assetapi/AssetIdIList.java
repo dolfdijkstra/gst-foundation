@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.facade.assetapi;
 
 import java.util.ArrayList;
@@ -27,8 +28,9 @@ import com.fatwire.gst.foundation.facade.sql.AbstractIList;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 
 /**
- * IList implementation that starts with a List<AssetId> and exposes the rows as ASSETTYPE,ASSETID.
- *
+ * IList implementation that starts with a List<AssetId> and exposes the rows as
+ * ASSETTYPE,ASSETID.
+ * 
  * @author Tony Field
  * @see IListIterable
  * @since Aug 13, 2010
@@ -44,9 +46,9 @@ public class AssetIdIList extends AbstractIList {
 
     /**
      * Construct a new IList taking the name and the data.
-     *
+     * 
      * @param name IList name
-     * @param ids  asset ids.
+     * @param ids asset ids.
      */
     public AssetIdIList(String name, Collection<AssetId> ids) {
         super(name);
@@ -70,8 +72,10 @@ public class AssetIdIList extends AbstractIList {
     }
 
     public String getColumnName(int i) throws ArrayIndexOutOfBoundsException {
-        if (i == 0) return ASSETTYPE;
-        if (i == 1) return ASSETID;
+        if (i == 0)
+            return ASSETTYPE;
+        if (i == 1)
+            return ASSETID;
         throw new ArrayIndexOutOfBoundsException(i);
     }
 
@@ -80,7 +84,8 @@ public class AssetIdIList extends AbstractIList {
     }
 
     public String getValue(String s) throws NoSuchFieldException {
-        // ID is column 2 but will likely be called more often that type so check it first.
+        // ID is column 2 but will likely be called more often that type so
+        // check it first.
         if (ASSETID.equalsIgnoreCase(s)) {
             return Long.toString(ids.get(currentRow() - 1).getId());
         }

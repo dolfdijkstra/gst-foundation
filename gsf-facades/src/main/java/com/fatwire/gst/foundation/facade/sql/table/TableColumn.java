@@ -27,10 +27,9 @@ package com.fatwire.gst.foundation.facade.sql.table;
 public class TableColumn {
 
     public enum Type {
-        ccchar("cc.char"), ccvarchar("cc.varchar"), ccbigtext("cc.bigtext"), ccsmallint(
-                "cc.smallint"), ccinteger("cc.integer"), ccbigint("cc.bigint"), ccnumeric(
-                "cc.numeric"), ccdouble("cc.double"), ccdatetime("cc.datetime"), ccblob(
-                "cc.blob");
+        ccchar("cc.char"), ccvarchar("cc.varchar"), ccbigtext("cc.bigtext"), ccsmallint("cc.smallint"), ccinteger(
+                "cc.integer"), ccbigint("cc.bigint"), ccnumeric("cc.numeric"), ccdouble("cc.double"), ccdatetime(
+                "cc.datetime"), ccblob("cc.blob");
 
         private final String prop;
 

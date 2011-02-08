@@ -115,10 +115,10 @@ public class Children extends AbstractTagRunner {
         }
     }
 
-      /**
+    /**
      * Look up the single valued named association for a specified asset. If no
      * associated asset is found null is returned
-     *
+     * 
      * @param ics context
      * @param c asset type
      * @param cid asset id
@@ -170,9 +170,7 @@ public class Children extends AbstractTagRunner {
         List<AssetId> result = new ArrayList<AssetId>();
         if (spukids != null && spukids.hasData()) {
             for (IList row : new IterableIListWrapper(spukids)) {
-                result
-                        .add(new AssetIdImpl(IListUtils.getStringValue(row, "otype"), IListUtils.getLongValue(row,
-                                "oid")));
+                result.add(new AssetIdImpl(IListUtils.getStringValue(row, "otype"), IListUtils.getLongValue(row, "oid")));
 
             }
         }

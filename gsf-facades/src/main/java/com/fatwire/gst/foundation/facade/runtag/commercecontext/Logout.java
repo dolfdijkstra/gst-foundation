@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag.commercecontext;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- *When visitors access a site implemented with CS-Engage, they are
+ * When visitors access a site implemented with CS-Engage, they are
  * automatically assigned a visitor ID. This tag clears the current visitor ID
  * and assigns a new one. Typical use for this method is to use it to create a
  * logout button so a new visitor can interact with the site without having to

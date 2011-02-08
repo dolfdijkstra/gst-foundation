@@ -61,9 +61,9 @@ public class AssetLoadById extends AbstractAssetLoad {
     }
 
     protected void handleError(ICS ics) {
-        throw new TagRunnerRuntimeException("Loading asset by ID failed for asset ID: " + list.get("OBJECTID"), ics
-                .GetErrno(), list, ics.getComplexError(), ics.GetVar("pagename"), ics
-                .ResolveVariables("CS.elementname"));
+        throw new TagRunnerRuntimeException("Loading asset by ID failed for asset ID: " + list.get("OBJECTID"),
+                ics.GetErrno(), list, ics.getComplexError(), ics.GetVar("pagename"),
+                ics.ResolveVariables("CS.elementname"));
 
     }
 

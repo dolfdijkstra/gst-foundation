@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2008 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.facade.runtag.user;
 
 import COM.FutureTense.Interfaces.ICS;
@@ -24,7 +25,7 @@ import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
 
 /**
  * <user.login>
- *
+ * 
  * @author Tony Field
  * @since Feb 1, 2011
  */
@@ -34,12 +35,14 @@ public final class Login extends AbstractTagRunner {
     }
 
     public void setUsername(String s) {
-        if (!Utilities.goodString(s)) throw new IllegalArgumentException("Username cannot be null");
+        if (!Utilities.goodString(s))
+            throw new IllegalArgumentException("Username cannot be null");
         set("username", s);
     }
 
     public void setPassword(String s) {
-        if (!Utilities.goodString(s)) throw new IllegalArgumentException("Password cannot be null");
+        if (!Utilities.goodString(s))
+            throw new IllegalArgumentException("Password cannot be null");
         set("password", s);
     }
 
@@ -52,7 +55,8 @@ public final class Login extends AbstractTagRunner {
         } catch (TagRunnerRuntimeException e) {
             if (e.getErrno() == ftErrors.badpassword || e.getErrno() == ftErrors.unknownuser) {
                 return false;
-            } else throw e;
+            } else
+                throw e;
         }
         return true;
     }

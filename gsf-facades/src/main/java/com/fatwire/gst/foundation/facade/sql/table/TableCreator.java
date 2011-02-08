@@ -41,8 +41,7 @@ public class TableCreator {
      * 
      * Delete a table
      * 
-     * @param name
-     *            the name of the table to delete
+     * @param name the name of the table to delete
      */
     public void delteTable(String name) {
         ics.ClearErrno();
@@ -59,8 +58,7 @@ public class TableCreator {
     /**
      * Create a table
      * 
-     * @param table
-     *            the table to create as defined by its TableDef
+     * @param table the table to create as defined by its TableDef
      */
     public void createTable(TableDef table) {
         ics.ClearErrno();

@@ -121,8 +121,8 @@ public class NodePath extends AbstractTagRunner {
             sitePlanLoad.setNodeid(ics.GetVar(CURRENT_PAGE_NODE_ID));
             sitePlanLoad.execute(ics);
             if (ics.GetErrno() < 0) {
-                throw new CSRuntimeException("Could not load site plan tree for page identified by Page:" + p, ics
-                        .GetErrno());
+                throw new CSRuntimeException("Could not load site plan tree for page identified by Page:" + p,
+                        ics.GetErrno());
             }
 
             NodePath nodePath = new NodePath();
@@ -190,8 +190,8 @@ public class NodePath extends AbstractTagRunner {
             sitePlanLoad.setNodeid(ics.GetVar(CURRENT_PAGE_NODE));
             sitePlanLoad.execute(ics);
             if (ics.GetErrno() < 0) {
-                throw new CSRuntimeException("Could not load site plan tree for page identified by Page:" + p, ics
-                        .GetErrno());
+                throw new CSRuntimeException("Could not load site plan tree for page identified by Page:" + p,
+                        ics.GetErrno());
             }
 
             NodePath nodePath = new NodePath();
