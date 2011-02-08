@@ -1,0 +1,273 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<!-- GST/Foundation/InstallDefinitions
+
+INPUT
+
+OUTPUT
+
+-->
+<!-- Record dependencies for the SiteEntry and the CSElement -->
+<IF COND="IsVariable.seid=true"><THEN><RENDER.LOGDEP cid="Variables.seid" c="SiteEntry"/></THEN></IF>
+<IF COND="IsVariable.eid=true"><THEN><RENDER.LOGDEP cid="Variables.eid" c="CSElement"/></THEN></IF>
+
+Adding GSF Flex Defintions, Page subtypes and GSTAlias named assoc<br/>
+
+<SETVAR NAME="attributetype" VALUE="GSTAttribute"/>
+<SETVAR NAME="TemplateType" VALUE="asset"/>
+<SETVAR NAME="templatetype" VALUE="GSTPDefinition"/>
+<SETVAR NAME="filtertype" VALUE="GSTFilter"/>
+<SETVAR NAME="AssetType" VALUE="GSTDefinition"/>
+<SETVAR NAME="assetname" VALUE="theCurrentAsset"/>
+<SETVAR NAME="prefix" VALUE="GSTDefinition"/>
+
+
+<asset.create NAME="theCurrentAsset" TYPE="Variables.AssetType"/>
+
+<SETVAR NAME="FlexTmpls:name" VALUE="GSTVirtualWebroot"/>
+<SETVAR NAME="FlexTmpls:description" VALUE="GST Virtual Webroot"/>
+<SETVAR NAME="FlexTmpls:renderid" VALUE="Variables.empty"/>
+
+<!-- get renderid from template name 
+
+	<ASSET.LIST TYPE="Template" LIST="MyTemplate" FIELD1="rootelement" VALUE1="Variables.FlexTmpls:template"/>
+
+	<setvar NAME="FlexTmpls:renderid"  VALUE="MyTemplate.id"/>
+
+-->
+
+
+
+
+ <!-- if flex def -->
+
+<fttm.getattributetype  ASSETTYPE="Variables.AssetType"  VARNAME="attributetype"/>
+
+<fttm.gettemplatetype  ASSETTYPE="Variables.AssetType"  VARNAME="templatetype"/>
+
+<SETVAR NAME="errno" VALUE="0"/>
+
+<SETVAR NAME="tablename" VALUE="FlexTmplTypes"/>
+
+<EXECSQL SQL="SELECT assetfilter FROM Variables.tablename WHERE assettype='Variables.AssetType'" LIST="flextmpltypes"/>
+
+<SETVAR NAME="filtertype" VALUE="flextmpltypes.assetfilter"/>
+
+
+<!-- if flex parent def 
+
+<fgttm.getattributetype  ASSETTYPE="Variables.AssetType"  VARNAME="attributetype"/>
+
+<SETVAR NAME="errno" VALUE="0"/>
+
+<SETVAR NAME="tablename" VALUE="FlexGrpTmplTypes"/>
+
+<EXECSQL SQL="SELECT assetfilter FROM Variables.tablename WHERE assettype='Variables.AssetType'" LIST="flextmpltypes"/>
+
+<SETVAR NAME="filtertype" VALUE="flextmpltypes.assetfilter"/>
+
+-->
+
+
+<!-- attributes -->
+
+
+<LISTOBJECT.CREATE NAME="myList" COLUMNS="assetid,required,ordinal"/>
+
+<ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="env_name"/>
+
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="1"/>
+
+
+<ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="env_vwebroot"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="2"/>
+
+
+<ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="master_vwebroot"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="3"/>
+
+
+<LISTOBJECT.TOLIST NAME="myList" LISTVARNAME="FlexTmpls:Attributes"/>
+
+
+<!-- add filters , count seems to start at zero
+
+<SETVAR NAME="FlexTmpls:Filters:0:filter" VALUE="filterlist.ITEM"/>
+<SETVAR NAME="FlexTmpls:Filters:1:filter" VALUE="filterlist.ITEM"/>
+
+<SETVAR NAME="ordinalVar" VALUE="FlexTmpls:Filters:Counters.ordinalCount:ordinal"/>
+
+-->	
+
+<SETVAR NAME="FlexTmpls:Filters:Total" VALUE="0"/>
+
+  
+
+
+<!-- adding parent defs -->
+<LISTOBJECT.CREATE NAME="myList" COLUMNS="assetid,required,multiple"/>
+<!--
+<LISTOBJECT.ADDROW NAME="myList" assetid="Variables.myid" required="false" multiple="false"/>
+-->
+
+
+<LISTOBJECT.TOLIST NAME="myList" LISTVARNAME="FlexTmpls:Groups"/>
+
+
+<!-- if flex parent def -->
+
+
+<ASSET.GATHER NAME="theCurrentAsset" PREFIX="FlexTmpls" FIELDLIST="name,description,template,renderid,Attributes,Groups,Filters"/>
+
+<flextemplate.setrendertemplate  NAME="theCurrentAsset"  ID="Variables.FlexTmpls:renderid"/>
+
+
+<!-- if flex parent def 
+
+<ASSET.GATHER NAME="theCurrentAsset" PREFIX="FlexTmpls" FIELDLIST="name,description,style,Attributes,Groups,Filters,startdate,enddate"/>
+-->
+
+
+
+<asset.save NAME="theCurrentAsset"/>
+
+
+
+<asset.create NAME="theCurrentAsset" TYPE="Variables.AssetType"/>
+
+<SETVAR NAME="FlexTmpls:name" VALUE="GSTAlias"/>
+<SETVAR NAME="FlexTmpls:description" VALUE="GST Alias"/>
+<SETVAR NAME="FlexTmpls:renderid" VALUE="Variables.empty"/>
+
+<!-- get renderid from template name 
+
+	<ASSET.LIST TYPE="Template" LIST="MyTemplate" FIELD1="rootelement" VALUE1="Variables.FlexTmpls:template"/>
+
+	<setvar NAME="FlexTmpls:renderid"  VALUE="MyTemplate.id"/>
+
+-->
+
+
+
+
+ <!-- if flex def -->
+
+<fttm.getattributetype  ASSETTYPE="Variables.AssetType"  VARNAME="attributetype"/>
+
+<fttm.gettemplatetype  ASSETTYPE="Variables.AssetType"  VARNAME="templatetype"/>
+
+<SETVAR NAME="errno" VALUE="0"/>
+
+<SETVAR NAME="tablename" VALUE="FlexTmplTypes"/>
+
+<EXECSQL SQL="SELECT assetfilter FROM Variables.tablename WHERE assettype='Variables.AssetType'" LIST="flextmpltypes"/>
+
+<SETVAR NAME="filtertype" VALUE="flextmpltypes.assetfilter"/>
+
+
+<!-- if flex parent def 
+
+<fgttm.getattributetype  ASSETTYPE="Variables.AssetType"  VARNAME="attributetype"/>
+
+<SETVAR NAME="errno" VALUE="0"/>
+
+<SETVAR NAME="tablename" VALUE="FlexGrpTmplTypes"/>
+
+<EXECSQL SQL="SELECT assetfilter FROM Variables.tablename WHERE assettype='Variables.AssetType'" LIST="flextmpltypes"/>
+
+<SETVAR NAME="filtertype" VALUE="flextmpltypes.assetfilter"/>
+
+-->
+
+
+<!-- attributes -->
+
+
+<LISTOBJECT.CREATE NAME="myList" COLUMNS="assetid,required,ordinal"/>
+
+<ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="target_url"/>
+
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="1"/>
+
+
+<ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="popup"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="2"/>
+
+
+<ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="linktext"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="3"/>
+
+
+<ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="linkimage"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="4"/>
+
+
+<LISTOBJECT.TOLIST NAME="myList" LISTVARNAME="FlexTmpls:Attributes"/>
+
+
+<!-- add filters , count seems to start at zero
+
+<SETVAR NAME="FlexTmpls:Filters:0:filter" VALUE="filterlist.ITEM"/>
+<SETVAR NAME="FlexTmpls:Filters:1:filter" VALUE="filterlist.ITEM"/>
+
+<SETVAR NAME="ordinalVar" VALUE="FlexTmpls:Filters:Counters.ordinalCount:ordinal"/>
+
+-->	
+
+<SETVAR NAME="FlexTmpls:Filters:Total" VALUE="0"/>
+
+  
+
+
+<!-- adding parent defs -->
+<LISTOBJECT.CREATE NAME="myList" COLUMNS="assetid,required,multiple"/>
+
+<!--
+<LISTOBJECT.ADDROW NAME="myList" assetid="Variables.myid" required="false" multiple="false"/>
+-->
+
+
+
+<LISTOBJECT.TOLIST NAME="myList" LISTVARNAME="FlexTmpls:Groups"/>
+
+
+<!-- if flex parent def -->
+
+
+<ASSET.GATHER NAME="theCurrentAsset" PREFIX="FlexTmpls" FIELDLIST="name,description,template,renderid,Attributes,Groups,Filters"/>
+
+<flextemplate.setrendertemplate  NAME="theCurrentAsset"  ID="Variables.FlexTmpls:renderid"/>
+
+
+<!-- if flex parent def 
+
+<ASSET.GATHER NAME="theCurrentAsset" PREFIX="FlexTmpls" FIELDLIST="name,description,style,Attributes,Groups,Filters,startdate,enddate"/>
+-->
+
+
+
+<asset.save NAME="theCurrentAsset"/>
+
+
+
+<!-- adding named association -->
+
+<SETVAR NAME="Association:name" VALUE="target"/>
+<SETVAR NAME="Association:description" VALUE="target"/>
+<SETVAR NAME="Association:assettype" VALUE="GSTAlias"/>
+<SETVAR NAME="Association:childassettype" VALUE="GSTAlias"/> <!-- * for all -->
+<SETVAR NAME="Association:deptype" VALUE="E"/>
+<SETVAR NAME="Association:multivalued" VALUE="F"/>
+<SETVAR NAME="Association:subtypes" VALUE="*"/>
+
+<ASSOCNAMEDMANAGER.CREATE OBJVARNAME="association"/>
+<ASSOCNAMED.GATHER NAME="association" PREFIX="Association:"/>
+<ASSOCNAMEDMANAGER.SAVE OBJECT="association"/>
+
+<!-- adding subtypes to the Page asset -->
+
+<SUBTYPES.ADD ASSETTYPE="Page" PUBID="Variables.pubid" SUBTYPE="GSTNavName"/>
+<SUBTYPES.ADD ASSETTYPE="Page" PUBID="Variables.pubid" SUBTYPE="GSTNavLink"/>
+
+</FTCS>

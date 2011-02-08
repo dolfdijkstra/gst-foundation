@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<!-- GST/Foundation/InstallAttributes
+
+INPUT
+
+OUTPUT
+
+-->
+<!-- Record dependencies for the SiteEntry and the CSElement -->
+<IF COND="IsVariable.seid=true"><THEN><RENDER.LOGDEP cid="Variables.seid" c="SiteEntry"/></THEN></IF>
+<IF COND="IsVariable.eid=true"><THEN><RENDER.LOGDEP cid="Variables.eid" c="CSElement"/></THEN></IF>
+<SETVAR NAME="isNew" VALUE="true"/>
+<REMOVEVAR NAME="newid"/>
+<REMOVEVAR NAME="Inid"/>
+<REMOVEVAR NAME="id"/>
+
+
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="env_name"/>
+<SETVAR NAME="asset:description" VALUE="Environment Name"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<SETVAR NAME="asset:valuestyle" VALUE="S"/> 
+<SETVAR NAME="asset:embedtype" VALUE="U"/>
+<SETVAR NAME="asset:assettypename" VALUE="Variables.empty"/>
+<SETVAR NAME="asset:deptype" VALUE="E"/>
+<SETVAR NAME="asset:editing" VALUE="L"/>
+<SETVAR NAME="asset:storage" VALUE="L"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="env_vwebroot"/>
+<SETVAR NAME="asset:description" VALUE="Virtual Webroot"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="master_vwebroot"/>
+<SETVAR NAME="asset:description" VALUE="Master Webroot"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="linktext"/>
+<SETVAR NAME="asset:description" VALUE="Link Text"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="linkimage"/>
+<SETVAR NAME="asset:description" VALUE="Link Image"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<SETVAR NAME="asset:valuestyle" VALUE="S"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="popup"/>
+<SETVAR NAME="asset:description" VALUE="Popup"/>
+<SETVAR NAME="asset:type" VALUE="int"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="target_url"/>
+<SETVAR NAME="asset:description" VALUE="Target URL"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="gsttag"/>
+<SETVAR NAME="asset:description" VALUE="Tag"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="h1title"/>
+<SETVAR NAME="asset:description" VALUE="h1title"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<!-- linktext string is already defined-->
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="metadescription"/>
+<SETVAR NAME="asset:description" VALUE="Metadescription"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="metakeyword"/>
+<SETVAR NAME="asset:description" VALUE="Metakeyword"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="metatitle"/>
+<SETVAR NAME="asset:description" VALUE="Metatitle"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
+
+</FTCS>

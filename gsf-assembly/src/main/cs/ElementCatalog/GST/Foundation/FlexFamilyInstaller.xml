@@ -1,0 +1,124 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<!-- GST/FlexFamilyInstaller
+
+INPUT
+
+OUTPUT
+
+-->
+<!-- Record dependencies for the SiteEntry and the CSElement -->
+<IF COND="IsVariable.seid=true"><THEN><RENDER.LOGDEP cid="Variables.seid" c="SiteEntry"/></THEN></IF>
+<IF COND="IsVariable.eid=true"><THEN><RENDER.LOGDEP cid="Variables.eid" c="CSElement"/></THEN></IF>
+Creating flex family<br/>
+<CALLELEMENT NAME="OpenMarket/Gator/FlexibleAssets/AssetMaker/makeasset" SCOPED="LOCAL">
+
+<ARGUMENT NAME="Filt" VALUE="GSTFilter"/>
+<ARGUMENT NAME="PluralFilt" VALUE="GST Filters"/>
+<ARGUMENT NAME="DescFilt" VALUE="GST Filter"/>
+
+<ARGUMENT NAME="Attr" VALUE="GSTAttribute"/>
+<ARGUMENT NAME="PluralAttr" VALUE="GST Attributes"/>
+<ARGUMENT NAME="DescAttr" VALUE="GST Attribute"/>
+
+<ARGUMENT NAME="PGT" VALUE="GSTPDefinition"/>
+
+<ARGUMENT NAME="DescPGT" VALUE="GST Parent Definition"/>
+
+<ARGUMENT NAME="PluralPGT" VALUE="GST Parent Definitions"/>
+
+<ARGUMENT NAME="PT" VALUE="GSTDefinition"/>
+
+<ARGUMENT NAME="DescPT" VALUE="GST Definition"/>
+
+<ARGUMENT NAME="PluralPT" VALUE="GST Definitions"/>
+
+<ARGUMENT NAME="Group" VALUE="GSTParent"/>
+
+<ARGUMENT NAME="DescGroup" VALUE="GST Parent"/>
+
+<ARGUMENT NAME="PluralGroup" VALUE="GST Parents"/>
+
+<ARGUMENT NAME="Prod" VALUE="GSTVirtualWebroot"/>
+
+<ARGUMENT NAME="DescProd" VALUE="GST VirtualWebroot"/>
+
+<ARGUMENT NAME="PluralProd" VALUE="GST VirtualWebroots"/>
+
+</CALLELEMENT>
+
+Adding GSTAlias to flex family<br/>
+<CALLELEMENT NAME="OpenMarket/Xcelerate/Admin/FlexFamily" SCOPED="LOCAL">
+    <ARGUMENT NAME="op" VALUE="make"/>
+    <ARGUMENT NAME="pagetype" VALUE="post"/>
+    <ARGUMENT NAME="member" VALUE="asset"/>
+    <ARGUMENT NAME="parent" VALUE="GSTParent"/>
+    <ARGUMENT NAME="def" VALUE="GSTDefinition"/>
+    <argument NAME="Filt" VALUE="GSTAlias"/>
+    <argument NAME="DescFilt" VALUE="GST Alias"/>
+    <argument NAME="PluralFilt" VALUE="GST Aliases"/>
+</CALLELEMENT>
+
+<STRINGLIST NAME="AssetTypes" STR="GSTAttribute,GSTFilter,GSTPDefinition,GSTDefinition,GSTParent,GSTVirtualWebroot,GSTAlias" DELIM=","/>
+<LOOP LIST="AssetTypes">
+    Enabling and creating start menu's for <CSVAR NAME="AssetTypes.ITEM"/><br/>
+    <callelement NAME="OpenMarket/Xcelerate/Actions/AssetMgt/EnableAssetTypePub" SCOPED="LOCAL">
+	    <argument NAME="upcommand" VALUE="EnableAssetType"/>
+	    <argument NAME="assettype" VALUE="AssetTypes.ITEM"/>
+	    <argument NAME="pubid" VALUE="Variables.pubid"/>
+    </callelement>
+
+    <!--
+    <STARTMENU.CREATE OBJVARNAME="newsm"/>
+    <STARTMENUITEM.SCATTER NAME="newsm" PREFIX="item:"/>
+    <STARTMENUITEM.GETSITES NAME="newsm" OBJVARNAME="siteobj"/>
+    <SETVAR NAME="item:assettype" VALUE="Variables.createSMICounters.create"/>
+    <SETVAR NAME="item:name" VALUE="Variables.name"/>
+    <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_"/>
+    <SETVAR NAME="item:itemtype" VALUE="Variables.createSMItypeCounters.create"/>
+    <STARTMENUITEM.GATHER NAME="newsm" PREFIX="item:"/>
+    <SITELIST.CLEAR NAME="siteobj"/>
+    <SITELIST.ADD NAME="siteobj" PUBID="Variables.pubid"/>
+    <STARTMENUITEM.SETLEGALSITES NAME="newsm" OBJECT="siteobj"/>
+    <STARTMENUITEM.SETSITES NAME="newsm" OBJECT="siteobj"/>
+    <STARTMENU.SAVE OBJECT="newsm"/>
+    -->
+    <assettype.list LIST="ThisAsset" FIELD1="assettype" VALUE1="AssetTypes.ITEM"/>
+
+    <STRING.STREAM VALUE="ThisAsset.description"/>
+
+    <STARTMENU.CREATE OBJVARNAME="mi" />
+    <SETVAR NAME="item:name" VALUE="Find AssetTypes.ITEM" />
+    <SETVAR NAME="item:description" VALUE="Find ThisAsset.description" />
+    <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+    <SETVAR NAME="item:itemtype" VALUE="Search" />
+    <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
+    <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+    <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+    <SETVAR NAME="item:assetsubtype" VALUE="Variables.empty" />
+    <SETVAR NAME="item:processinput" VALUE="notallowed" />
+    <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+    <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+    <SETVAR NAME="item:argumentsargumentTotal" VALUE="0" />
+    <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+    <STARTMENU.SAVE OBJECT="mi" />
+
+    <STARTMENU.CREATE OBJVARNAME="mi" />
+    <SETVAR NAME="item:name" VALUE="New AssetTypes.ITEM" />
+    <SETVAR NAME="item:description" VALUE="New ThisAsset.description" />
+    <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+    <SETVAR NAME="item:itemtype" VALUE="ContentForm" />
+    <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
+    <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+    <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+    <SETVAR NAME="item:assetsubtype" VALUE="Variables.empty" />
+    <SETVAR NAME="item:processinput" VALUE="notallowed" />
+    <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+    <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+    <SETVAR NAME="item:argumentsargumentTotal" VALUE="0" />
+    <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+    <STARTMENU.SAVE OBJECT="mi" />
+
+</LOOP>
+</FTCS>
