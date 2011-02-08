@@ -22,7 +22,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * Simple Virtual Webroot Bean
- *
+ * 
  * @author Tony Field
  * @since Jul 22, 2010
  */
@@ -41,10 +41,10 @@ final class VWebrootBeanImpl implements VirtualWebroot {
         if (!Utilities.goodString(envVWebroot))
             throw new IllegalArgumentException("Invalid Env VWebroot:" + envVWebroot);
         this.envVWebroot = envVWebroot;
-        if (!Utilities.goodString(envName)) throw new IllegalArgumentException("Invalid Env Name:" + envName);
+        if (!Utilities.goodString(envName))
+            throw new IllegalArgumentException("Invalid Env Name:" + envName);
         this.envName = envName;
     }
-
 
     public AssetId getId() {
         return id;

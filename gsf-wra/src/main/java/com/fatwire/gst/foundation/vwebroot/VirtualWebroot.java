@@ -19,7 +19,7 @@ import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Virtual webroot as defined in GST Site Foundation document
- *
+ * 
  * @author Tony Field
  * @since Jul 22, 2010
  */
