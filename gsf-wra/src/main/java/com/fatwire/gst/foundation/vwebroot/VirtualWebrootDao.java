@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * DAO for working with Virtual Webroots
- *
+ * 
  * @author Tony Field
  * @since Jul 22, 2010
  */
@@ -47,7 +47,7 @@ public final class VirtualWebrootDao {
     private final ICS ics;
 
     public VirtualWebrootDao() {
-        this.ics = ICSFactory.newICS();
+        this.ics = ICSFactory.getOrCreateICS();
     }
 
     public VirtualWebrootDao(ICS ics) {
@@ -56,15 +56,19 @@ public final class VirtualWebrootDao {
 
     public VirtualWebroot getVirtualWebroot(long cid) {
         String sCid = Long.toString(cid);
-        if (LOG.isTraceEnabled()) LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + sCid);
-        AssetData ad = AssetDataUtils.getAssetData("GSTVirtualWebroot", sCid, "master_vwebroot", "env_vwebroot", "env_name");
-        return new VWebrootBeanImpl(cid, AttributeDataUtils.getWithFallback(ad, "master_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_vwebroot"), AttributeDataUtils.getWithFallback(ad, "env_name"));
+        if (LOG.isTraceEnabled())
+            LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + sCid);
+        AssetData ad = AssetDataUtils.getAssetData("GSTVirtualWebroot", sCid, "master_vwebroot", "env_vwebroot",
+                "env_name");
+        return new VWebrootBeanImpl(cid, AttributeDataUtils.getWithFallback(ad, "master_vwebroot"),
+                AttributeDataUtils.getWithFallback(ad, "env_vwebroot"), AttributeDataUtils.getWithFallback(ad,
+                        "env_name"));
 
     }
 
     /**
      * Get all of the virtual webroots, sorted by URL length.
-     *
+     * 
      * @return list of virtual webroots
      */
     public SortedSet<VirtualWebroot> getAllVirtualWebroots() {
@@ -76,7 +80,8 @@ public final class VirtualWebrootDao {
         al.execute(ics);
         IList ilist = ics.GetList("pr-out");
         ics.RegisterList("pr-out", null);
-        if (ilist == null) throw new IllegalStateException("No GSTVirtualWebroots are registered");
+        if (ilist == null)
+            throw new IllegalStateException("No GSTVirtualWebroots are registered");
 
         SortedSet<VirtualWebroot> result = new TreeSet<VirtualWebroot>(new UrlInfoComparator());
         for (Row r : new IListIterable(ilist)) {
@@ -86,9 +91,9 @@ public final class VirtualWebrootDao {
     }
 
     /**
-     * Get the current virtual webroot environment as defined by the configuration properties.  Null indicates
-     * that none is configured.
-     *
+     * Get the current virtual webroot environment as defined by the
+     * configuration properties. Null indicates that none is configured.
+     * 
      * @return virtual webroot environment or null if not set.
      */
     public String getVirtualWebrootEnvironment() {
@@ -97,7 +102,8 @@ public final class VirtualWebrootDao {
         // avoid configuration problem trickery
         if (environmentName != null) {
             environmentName = environmentName.trim();
-            if (environmentName.length() == 0) environmentName = null;
+            if (environmentName.length() == 0)
+                environmentName = null;
         }
 
         if (environmentName == null) {
@@ -106,32 +112,39 @@ public final class VirtualWebrootDao {
             // avoid configuration problem trickery
             if (environmentName != null) {
                 environmentName = environmentName.trim();
-                if (environmentName.length() == 0) environmentName = null;
+                if (environmentName.length() == 0)
+                    environmentName = null;
             }
         }
-        if (environmentName == null) LOG.debug("Virtual webroot environment is not configured.");
+        if (environmentName == null)
+            LOG.debug("Virtual webroot environment is not configured.");
         return environmentName;
     }
 
     /**
-     * Look up and return the VirtualWebroot corresponding to the specified WebReferenceableAsset, for the current
-     * environment.  If the current environment is not configured, no match can be found.
-     *
+     * Look up and return the VirtualWebroot corresponding to the specified
+     * WebReferenceableAsset, for the current environment. If the current
+     * environment is not configured, no match can be found.
+     * 
      * @param wra web-referenceable asset
      * @return matching VirtualWebroot or null if no match is found.
      */
     public VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra) {
-        if (LOG.isDebugEnabled()) LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
+        if (LOG.isDebugEnabled())
+            LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
         String wraPath = wra.getPath();
         if (wraPath == null) {
             LOG.trace("WRA does ont have a path set - cannot locate virtual webroot");
             return null;
         }
         String env = getVirtualWebrootEnvironment();
-        if (env == null) return null;
+        if (env == null)
+            return null;
         for (VirtualWebroot vw : getAllVirtualWebroots()) {
-            // find longest first one that is found in the prefix of path. that is virtual-webroot
-            // the path in the asset must start with the MASTER virtual webroot for this to work.  This could
+            // find longest first one that is found in the prefix of path. that
+            // is virtual-webroot
+            // the path in the asset must start with the MASTER virtual webroot
+            // for this to work. This could
             // be loosened up but there is no real reason to right now.
             if (env.equals(vw.getEnvironmentName()) && wraPath.startsWith(vw.getMasterVirtualWebroot())) {
                 return vw;
@@ -140,9 +153,8 @@ public final class VirtualWebrootDao {
         return null; // no match
     }
 
-
     /**
-     * Comparator that compares  virtual webroots by webroot.
+     * Comparator that compares virtual webroots by webroot.
      */
     public static class UrlInfoComparator implements Comparator<VirtualWebroot> {
 
