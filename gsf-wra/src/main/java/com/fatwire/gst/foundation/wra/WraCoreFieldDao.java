@@ -46,7 +46,7 @@ public class WraCoreFieldDao {
     private final ICS ics;
 
     public WraCoreFieldDao() {
-        this.ics = ICSFactory.newICS();
+        this.ics = ICSFactory.getOrCreateICS();
     }
 
     public WraCoreFieldDao(ICS ics) {
