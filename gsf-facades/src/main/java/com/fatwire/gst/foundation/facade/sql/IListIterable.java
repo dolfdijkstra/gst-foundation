@@ -16,24 +16,21 @@
 
 package com.fatwire.gst.foundation.facade.sql;
 
-import java.util.Date;
 import java.util.Iterator;
 
 import COM.FutureTense.Interfaces.IList;
 
-import com.fatwire.cs.core.db.Util;
-
 /**
  * Wrapper for an IList that turns an <tt>IList</tt> into a <tt>Iterable</tt>.
- *
+ * 
  * Sample usage:
- *
-<pre>
- SortedSet<VirtualWebroot> result = new TreeSet<VirtualWebroot>(new UrlInfoComparator());
- for (Row listRow : new IListIterable(ics.GetList("pr-out"))) {
-     result.add(getVirtualWebroot(listRow.getLong("id")));
- }
-</pre>
+ * 
+ * <pre>
+ * SortedSet&lt;VirtualWebroot&gt; result = new TreeSet&lt;VirtualWebroot&gt;(new UrlInfoComparator());
+ * for (Row listRow : new IListIterable(ics.GetList(&quot;pr-out&quot;))) {
+ *     result.add(getVirtualWebroot(listRow.getLong(&quot;id&quot;)));
+ * }
+ * </pre>
  * 
  * 
  * @author Dolf Dijkstra
@@ -48,9 +45,9 @@ public class IListIterable implements Iterable<Row> {
         super();
         this.list = list;
         if (list != null) {
-            this.numRows = list.numRows();
+            numRows = list.numRows();
         } else {
-            this.numRows = 0;
+            numRows = 0;
         }
     }
 
@@ -82,61 +79,7 @@ public class IListIterable implements Iterable<Row> {
             public Row next() {
                 rowNum++;
                 list.moveTo(rowNum);
-                return new Row() {
-
-                    public byte[] getBytes(String key) {
-                        try {
-                            return (byte[]) list.getObject(key);
-                        } catch (NoSuchFieldException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    public char getChar(String key) {
-                        try {
-                            String s = list.getValue(key);
-                            if (s != null && s.length() > 0) {
-                                return s.charAt(0);
-                            }
-                            throw new RuntimeException("no value for " + key);
-                        } catch (NoSuchFieldException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    public Date getDate(String key) {
-                        try {
-                            String s = list.getValue(key);
-                            if (s != null && s.length() > 0) {
-                                return Util.parseJdbcDate(s);
-                            }
-                            throw new RuntimeException("no value for " + key);
-                        } catch (NoSuchFieldException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    public long getLong(String key) {
-                        try {
-                            String s = list.getValue(key);
-                            if (s != null && s.length() > 0) {
-                                return Long.parseLong(s);
-                            }
-                            throw new RuntimeException("no value for " + key);
-                        } catch (NoSuchFieldException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                    public String getString(String key) {
-                        try {
-                            return list.getValue(key);
-                        } catch (NoSuchFieldException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                };
+                return new SingleRow(list);
             }
 
             public void remove() {
@@ -150,32 +93,36 @@ public class IListIterable implements Iterable<Row> {
     }
 
     public void flush() {
-        if (list != null)
+        if (list != null) {
             list.flush();
+        }
     }
 
-    public String getColumnName(int i) {
-        if (list != null)
+    public String getColumnName(final int i) {
+        if (list != null) {
             return list.getColumnName(i);
+        }
         return "";
     }
 
-    public String getIndirectColumnName(int index) {
-        if (list != null)
-
+    public String getIndirectColumnName(final int index) {
+        if (list != null) {
             return list.getIndirectColumnName(index);
+        }
         return "";
     }
 
     public int numColumns() {
-        if (list != null)
+        if (list != null) {
             return list.numColumns();
+        }
         return 0;
     }
 
     public int numIndirectColumns() {
-        if (list != null)
+        if (list != null) {
             return list.numIndirectColumns();
+        }
         return 0;
     }
 

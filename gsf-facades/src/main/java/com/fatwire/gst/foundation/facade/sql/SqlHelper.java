@@ -16,18 +16,18 @@
 
 package com.fatwire.gst.foundation.facade.sql;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * A helper class over <tt>ICS.SQL</tt>
- *
+ * 
  * @author Dolf Dijkstra
  * @see ICS#SQL(String, String, String, int, boolean, boolean, StringBuffer)
  */
@@ -48,10 +48,10 @@ public class SqlHelper {
      * clears errno before ics.SQL
      * <p/>
      * no IList registered in ics variable space
-     *
+     * 
      * @param ics
      * @param table tablename
-     * @param sql   the sql statement, needs to start with 'select'
+     * @param sql the sql statement, needs to start with 'select'
      * @return never null, always an IListIterable
      * @throws RuntimeException if errno is not zero or not -101
      * @see SqlHelper#select(ICS, String, String, int)
@@ -63,10 +63,10 @@ public class SqlHelper {
 
     /**
      * Executes an ICS.SQL operation with a limit.
-     *
+     * 
      * @param ics
      * @param table tablename
-     * @param sql   the sql statement, needs to start with 'select'
+     * @param sql the sql statement, needs to start with 'select'
      * @param limit maximum number of rows to return
      * @return never null, always an IListIterable
      * @see ICS#SQL(String, String, String, int, boolean, StringBuffer)
@@ -86,7 +86,8 @@ public class SqlHelper {
         } else if (ics.GetErrno() == -101) {
             ics.ClearErrno();
         } else {
-            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: '" + errstr.toString() + "' for " + sql);
+            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: '" + errstr.toString()
+                    + "' for " + sql);
         }
 
         return new IListIterable(i);
@@ -96,10 +97,10 @@ public class SqlHelper {
      * handles sql statements, other then SELECT statements
      * <p/>
      * flushes the table (ics.FlushCatalog()) after the statement execution
-     *
+     * 
      * @param ics
      * @param table tablename
-     * @param sql   the sql statement, can not start with "select"
+     * @param sql the sql statement, can not start with "select"
      */
     public static final void execute(final ICS ics, final String table, final String sql) {
         final StringBuffer errstr = new StringBuffer();
@@ -116,7 +117,7 @@ public class SqlHelper {
             if (ics.FlushCatalog(table)) {
                 ics.ClearErrno();
             } else {
-                log.warn("Flushing failed for table " + table+". ("+ics.GetErrno()+")");
+                log.warn("Flushing failed for table " + table + ". (" + ics.GetErrno() + ")");
                 ics.ClearErrno();
             }
         } else if (ics.GetErrno() == -502) { // update statements do not
@@ -126,7 +127,7 @@ public class SqlHelper {
                 ics.ClearErrno();
             } else {
                 // throw exception??
-                log.warn("Flushing failed for table " + table+". ("+ics.GetErrno()+")");
+                log.warn("Flushing failed for table " + table + ". (" + ics.GetErrno() + ")");
                 ics.ClearErrno();
             }
         } else {
@@ -136,9 +137,9 @@ public class SqlHelper {
 
     /**
      * Executes a PreparedStatement
-     *
+     * 
      * @param ics
-     * @param stmt  the PreparedStatement
+     * @param stmt the PreparedStatement
      * @param param the statement parameters
      * @return never null, always an IListIterable
      */
@@ -151,7 +152,8 @@ public class SqlHelper {
         } else if (ics.GetErrno() != -101) { // no rows if fine
             ics.ClearErrno();
         } else {
-            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for " + stmt.toString());
+            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for "
+                    + stmt.toString());
         }
 
         return new IListIterable(i);
@@ -159,13 +161,40 @@ public class SqlHelper {
     }
 
     /**
-     * Quote a string for use in a SQL statement.
-     *
-     * @param s string to quote
-     * @return quoted string.  Null strings are returned simply as ''.
+     * Executes a PreparedStatement
+     * 
+     * @param ics
+     * @param stmt the PreparedStatement
+     * @param param the statement parameters
+     * @return Row if resultset is returned, otherwise null
      */
-    public static final String quote(String s) {
-        if (s == null || s.length() == 0) return "''";
+
+    public static final Row selectSingle(final ICS ics, final PreparedStmt stmt, final StatementParam param) {
+
+        final IList i = ics.SQL(stmt, param, true);
+        if (ics.GetErrno() == 0) {
+            i.moveTo(IList.first);
+            return new SingleRow(i);
+        } else if (ics.GetErrno() != -101) { // no rows if fine
+            ics.ClearErrno();
+            return null;
+        } else {
+            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for "
+                    + stmt.toString());
+        }
+
+    }
+
+    /**
+     * Quote a string for use in a SQL statement.
+     * 
+     * @param s string to quote
+     * @return quoted string. Null strings are returned simply as ''.
+     */
+    public static final String quote(final String s) {
+        if (s == null || s.length() == 0) {
+            return "''";
+        }
         return "'" + s.replace("'", "''") + "'";
     }
 
