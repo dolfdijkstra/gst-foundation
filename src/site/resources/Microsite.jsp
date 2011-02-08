@@ -34,9 +34,7 @@ limitations under the License.
 <gsf:root>
     <%-- gsf:root tags takes care of log deps --%>
 <%
-
-ScatteredAssetAccessTemplate assetTemplate = new ScatteredAssetAccessTemplate(ics);
-ScatteredAsset asset = assetTemplate.readCurrent("metatitle", "metadescription", "metakeyword", "h1title", "linktext", "body");
+ScatteredAsset asset = assetDao.readCurrent("metatitle", "metadescription", "metakeyword", "h1title", "linktext", "body");
 
 %><c:set var="asset" value="<%= asset %>" />
     <html>
@@ -48,18 +46,12 @@ ScatteredAsset asset = assetTemplate.readCurrent("metatitle", "metadescription",
     </head>
     <body>
 	
-    <div id="nav"><% 
-            NavigationHelper nh = new NavigationHelper(ics);
-            NavNode nav = nh.getSitePlanByPage(1,"MainNav");
-        %>
+    <div id="nav"><gsf:navigation name="nav" depth="1" pagename="MainNav"/>
         <ul>
-        <c:forEach var="kid" items="<%= nav.getChildren() %>">
-        <%
-            //for(NavNode kid : nav.getChildren()) {
-        %><li>
-                <a href='${kid.url}'>${kid.linktext}</a>
-            </li>
+        <c:forEach var="kid" items="${nav.children}">
+          <li><a href='${kid.url}'>${kid.linktext}</a></li>
         </c:forEach>
+        </ul>
     </div>
 
 	<p>Current date is <strong><%= new java.util.Date()%></strong></p>
