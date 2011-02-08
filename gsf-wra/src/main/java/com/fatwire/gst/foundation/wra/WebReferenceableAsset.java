@@ -21,7 +21,7 @@ import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Bean containing core WebReferenceableAsset fields
- *
+ * 
  * @author Tony Field
  * @since Jul 21, 2010
  */

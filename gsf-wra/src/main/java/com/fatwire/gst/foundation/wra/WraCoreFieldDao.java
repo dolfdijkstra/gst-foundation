@@ -87,11 +87,15 @@ public class WraCoreFieldDao {
      */
     public boolean isWebReferenceable(AssetId id) {
         try {
-            WebReferenceableAsset wra=getWra(id);
-            return wra !=null && StringUtils.isNotBlank(wra.getPath());
+            WebReferenceableAsset wra = getWra(id);
+            return isWebReferenceable(wra);
         } catch (RuntimeException e) {
             return false;
         }
+    }
+
+    public boolean isWebReferenceable(WebReferenceableAsset wra) {
+        return wra != null && StringUtils.isNotBlank(wra.getPath());
     }
 
     /**

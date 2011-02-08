@@ -19,18 +19,18 @@ import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Bean containing core Alias fields
- *
+ * 
  * @author Larissa Kowaliw
  * @since Jul 27, 2010
  */
 public interface Alias extends WebReferenceableAsset {
 
-	public AssetId getTarget();
+    public AssetId getTarget();
 
-	public String getTargetUrl();
+    public String getTargetUrl();
 
-	public String getPopup();
+    public String getPopup();
 
-	public AssetId getLinkImage();
+    public AssetId getLinkImage();
 
 }

@@ -19,46 +19,46 @@ import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Simple Alias bean
- *
+ * 
  * @author Larissa Kowaliw
  * @since Jul 27, 2010
  */
 public class AliasBeanImpl extends WraBeanImpl implements Alias {
 
-	private AssetId target;
-	private String targetUrl;
-	private String popup;
-	private AssetId linkImage;
+    private AssetId target;
+    private String targetUrl;
+    private String popup;
+    private AssetId linkImage;
 
-	public AssetId getLinkImage() {
-		return linkImage;
-	}
+    public AssetId getLinkImage() {
+        return linkImage;
+    }
 
-	public String getPopup() {
-		return popup;
-	}
+    public String getPopup() {
+        return popup;
+    }
 
-	public AssetId getTarget() {
-		return target;
-	}
+    public AssetId getTarget() {
+        return target;
+    }
 
-	public String getTargetUrl() {
-		return targetUrl;
-	}
+    public String getTargetUrl() {
+        return targetUrl;
+    }
 
-	public void setTarget(AssetId target) {
-		this.target = target;
-	}
+    public void setTarget(AssetId target) {
+        this.target = target;
+    }
 
-	public void setTargetUrl(String targetUrl) {
-		this.targetUrl = targetUrl;
-	}
+    public void setTargetUrl(String targetUrl) {
+        this.targetUrl = targetUrl;
+    }
 
-	public void setPopup(String popup) {
-		this.popup = popup;
-	}
+    public void setPopup(String popup) {
+        this.popup = popup;
+    }
 
-	public void setLinkImage(AssetId linkImage) {
-		this.linkImage = linkImage;
-	}
+    public void setLinkImage(AssetId linkImage) {
+        this.linkImage = linkImage;
+    }
 }

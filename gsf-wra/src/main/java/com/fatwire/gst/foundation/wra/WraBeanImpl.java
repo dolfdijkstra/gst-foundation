@@ -21,7 +21,7 @@ import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Simple WRA bean
- *
+ * 
  * @author Tony Field
  * @since Jul 21, 2010
  */
