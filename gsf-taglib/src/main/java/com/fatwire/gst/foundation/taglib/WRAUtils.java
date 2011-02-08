@@ -42,15 +42,16 @@ public class WRAUtils {
 
     /**
      * @param id id of web-referenceable asset
-     * @return WebReferenceableAsset bean containing fields for Web-Referencable asset
+     * @return WebReferenceableAsset bean containing fields for Web-Referencable
+     *         asset
      */
     public WebReferenceableAsset getWra(AssetId id) {
-    	try {
-    		return wraDao.getWra(id);
-    	} catch (RuntimeException e) {
-    		LOG.warn("Asset " + id + " is not a web-referenceable asset.");
-    		return null;
-    	}
+        try {
+            return wraDao.getWra(id);
+        } catch (RuntimeException e) {
+            LOG.warn("Asset " + id + " is not a web-referenceable asset.");
+            return null;
+        }
     }
 
     /**
@@ -58,11 +59,11 @@ public class WRAUtils {
      * @return Alias bean containing fields for Alias asset
      */
     public Alias getAlias(AssetId id) {
-    	try {
-    		return aliasDao.getAlias(id);
-    	} catch (RuntimeException e) {
-    		LOG.warn("Asset " + id + " is not an alias asset.");
-    		return null;
-    	}
+        try {
+            return aliasDao.getAlias(id);
+        } catch (RuntimeException e) {
+            LOG.warn("Asset " + id + " is not an alias asset.");
+            return null;
+        }
     }
 }
