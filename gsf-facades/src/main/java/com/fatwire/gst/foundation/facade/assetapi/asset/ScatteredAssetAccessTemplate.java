@@ -16,6 +16,11 @@
 
 package com.fatwire.gst.foundation.facade.assetapi.asset;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
@@ -51,6 +56,51 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
      */
     public ScatteredAsset read(AssetId id) {
         return this.readAsset(id, mapper);
+    }
+
+    /**
+     * @param id
+     * @param attributes
+     * @return
+     */
+    public ScatteredAsset read(AssetId id, String... attributes) {
+        return this.readAsset(id, mapper, attributes);
+    }
+
+    /**
+     * @param id
+     * @param associationType
+     * @return the assets from the associations.
+     */
+    public Collection<ScatteredAsset> readAssociatedAssets(AssetId id, String associationType) {
+        List<AssetId> list = this.readAsset(id).getAssociatedAssets(associationType);
+        if (list == null || list.isEmpty())
+            return Collections.emptyList();
+        List<ScatteredAsset> l = new LinkedList<ScatteredAsset>();
+        for (AssetId child : list) {
+            l.add(read(child));
+        }
+        return l;
+
+    }
+
+    /**
+     * @param id the parent asset
+     * @param associationType the name of the association or '-' for an unnamed
+     *            association
+     * @param attributes the list of attributes to load
+     * @return the assets from the associations.
+     */
+    public Collection<ScatteredAsset> readAssociatedAssets(AssetId id, String associationType, String... attributes) {
+        List<AssetId> list = this.readAsset(id).getAssociatedAssets(associationType);
+        if (list == null || list.isEmpty())
+            return Collections.emptyList();
+        List<ScatteredAsset> l = new LinkedList<ScatteredAsset>();
+        for (AssetId child : list) {
+            l.add(read(child, attributes));
+        }
+        return l;
+
     }
 
     /**
