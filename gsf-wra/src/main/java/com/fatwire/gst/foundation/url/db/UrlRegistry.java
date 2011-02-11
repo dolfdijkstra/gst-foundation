@@ -190,10 +190,12 @@ public class UrlRegistry implements WraPathTranslationService {
         if (row != null) {
             deleteAsset(id);
         }
-        WebReferenceableAsset wra = wraDao.getWra(id);
-        if (wraDao.isWebReferenceable(wra)) {
 
-            addAsset(wra);
+        if (wraDao.isWebReferenceable(id)) {
+            // asset api is throwing NPE when an attribute that is asked for does
+            // not exist
+            // WebReferenceableAsset wra = wraDao.getWra(id);
+            addAsset(id);
         }
     }
 
