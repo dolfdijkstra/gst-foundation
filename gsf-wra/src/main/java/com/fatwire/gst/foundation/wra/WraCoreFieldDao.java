@@ -17,11 +17,17 @@ package com.fatwire.gst.foundation.wra;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
@@ -31,10 +37,6 @@ import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Dao for dealing with core fields in a WRA todo: handle aliases cleanly
  * 
@@ -42,6 +44,9 @@ import org.apache.commons.logging.LogFactory;
  * @since Jul 21, 2010
  */
 public class WraCoreFieldDao {
+
+    public static String[] WRA_ATTRIBUTE_NAMES = { "metatitle", "metadescription", "metakeyword", "h1title",
+            "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status" };
 
     private final ICS ics;
 
@@ -73,8 +78,7 @@ public class WraCoreFieldDao {
      * @return AssetData containing core fields for Web-Referencable asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext",
-                "path", "template", "id", "name", "subtype", "startdate", "enddate", "status");
+        return AssetDataUtils.getAssetData(id, WRA_ATTRIBUTE_NAMES);
     }
 
     /**
@@ -98,6 +102,17 @@ public class WraCoreFieldDao {
         return wra != null && StringUtils.isNotBlank(wra.getPath());
     }
 
+    public boolean hasPathAttribute(AssetData data) {
+        /*
+         * List<String> toCheck = Arrays.asList(WRA_ATTRIBUTE_NAMES); for
+         * (AttributeDef d : data.getAssetTypeDef().getAttributeDefs()) {
+         * toCheck.remove(d.getName());
+         * 
+         * }
+         */
+        return data != null && StringUtils.isNotBlank(AttributeDataUtils.asString(data.getAttributeData("path")));
+    }
+
     /**
      * Return a web referenceable asset bean given an input id. Required fields
      * must be set or an exception is thrown.
@@ -108,8 +123,34 @@ public class WraCoreFieldDao {
      */
     public WebReferenceableAsset getWra(AssetId id) {
         AssetData data = getAsAssetData(id);
+
         WraBeanImpl wra = new WraBeanImpl();
         wra.setId(id);
+        wra.setName(AttributeDataUtils.getWithFallback(data, "name"));
+        wra.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
+        wra.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
+        wra.setStatus(AttributeDataUtils.asString(data.getAttributeData("status")));
+        wra.setStartDate(AttributeDataUtils.asDate(data.getAttributeData("startdate")));
+        wra.setEndDate(AttributeDataUtils.asDate(data.getAttributeData("enddate")));
+        wra.setMetaTitle(AttributeDataUtils.getWithFallback(data, "metatitle"));
+        wra.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
+        wra.setMetaKeyword(AttributeDataUtils.asString(data.getAttributeData("metakeyword")));
+        wra.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
+        wra.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
+        wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
+        wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
+        return wra;
+    }
+
+    public WebReferenceableAsset getWra(AssetData data) {
+
+        List<String> toCheck = Arrays.asList(WRA_ATTRIBUTE_NAMES);
+        for (AttributeDef d : data.getAssetTypeDef().getAttributeDefs()) {
+            toCheck.remove(d.getName());
+
+        }
+        WraBeanImpl wra = new WraBeanImpl();
+        wra.setId(data.getAssetId());
         wra.setName(AttributeDataUtils.getWithFallback(data, "name"));
         wra.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
         wra.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
