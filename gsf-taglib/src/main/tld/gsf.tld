@@ -8,17 +8,21 @@
 	<uri>http://gst.fatwire.com/foundation/tags/gsf</uri>
 
 	<description>
-		usage: &lt;%@ taglib uri="http://gst.fatwire.com/foundation/tags/gsf"
-		prefix="gsf" %&gt; </description>
+		usage: &lt;%@ taglib
+		uri="http://gst.fatwire.com/foundation/tags/gsf"
+		prefix="gsf" %&gt;
+	</description>
 
 	<tag>
 		<name>tagged-list</name>
 		<tag-class>com.fatwire.gst.foundation.taglib.TaggedList</tag-class>
 		<body-content>tagdependent</body-content>
 		<description>
-			Given an input tag, returns an IList with ASSETTYPE,ASSETID as columns for
+			Given an input tag, returns an IList with
+			ASSETTYPE,ASSETID as columns for
 			any assets found
-			that match the specified tag.
+			that match the
+			specified tag.
         </description>
 		<attribute>
 			<name>outlist</name>
@@ -40,11 +44,13 @@
 		</tag-class>
 		<body-content>tagdependent</body-content>
 		<description>
-			Given an input assettype and assetid, convert it into a tag string format
-			and return an IList with ASSETTYPE,ASSETID as columns for any assets
+			Given an input assettype and assetid, convert it into a
+			tag string format
+			and return an IList with ASSETTYPE,ASSETID as
+			columns for any assets
 			found
 			that match the specified tag.
-        </description>
+		</description>
 		<attribute>
 			<name>outlist</name>
 			<required>true</required>
@@ -64,21 +70,26 @@
 			<description>the assetid</description>
 		</attribute>
 	</tag>
-    <tag>
+	<tag>
 		<name>navigation</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.navigation.NavigationTag</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.navigation.NavigationTag
+		</tag-class>
 		<body-content>empty</body-content>
+
 		<description>
-			Given an input pagename for the name of the Page asset return the NavNodes for that page.
+			Given an input pagename for the name of the Page asset
+			return the NavNodes for that page.
         </description>
 		<attribute>
 			<name>name</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>the name of jsp page attribute holding the NavNode</description>
+			<description>the name of jsp page attribute holding the NavNode
+			</description>
 		</attribute>
 		<attribute>
 			<name>depth</name>
+			<type>java.lang.Integer</type>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>the depth of the navigation, defaults to 1</description>
@@ -89,11 +100,12 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>the name of the Page asset</description>
 		</attribute>
-	</tag>	
+	</tag>
 	<tag>
-		<description>tag to expose ics variables as page attributes for JSP
-			EL.</description>
 		<name>csvars</name>
+		<description>tag to expose ics variables as page attributes for JSP
+			EL. This tag is redundant if placed inside a gsf:root tag and this
+			should be avoided.</description>
 		<tag-class>com.fatwire.gst.foundation.taglib.IcsVarTag</tag-class>
 		<body-content>JSP</body-content>
 	</tag>
