@@ -82,7 +82,7 @@ public class AssetAccessTemplate {
     }
 
     public <T> T readAsset(AssetId id, AssetMapper<T> mapper) {
-        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        AssetDataManager m = getAssetDataManager();
 
         T t = null;
         try {
@@ -97,7 +97,7 @@ public class AssetAccessTemplate {
     }
 
     public <T> T readAsset(AssetId id, AssetMapper<T> mapper, String[] attributes) {
-        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        AssetDataManager m = getAssetDataManager();
 
         T t = null;
         try {
@@ -110,7 +110,7 @@ public class AssetAccessTemplate {
     }
 
     public void readAsset(AssetId id, AssetClosure closure) {
-        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        AssetDataManager m = getAssetDataManager();
 
         try {
             Iterable<AssetData> assets = m.read(Arrays.asList(id));
@@ -137,7 +137,7 @@ public class AssetAccessTemplate {
      * 
      */
     public AssetData readAsset(AssetId id, String... attributes) {
-        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        AssetDataManager m = getAssetDataManager();
 
         Iterable<AssetData> assets;
         try {
@@ -161,9 +161,17 @@ public class AssetAccessTemplate {
         return null;
     }
 
+    /**
+     * @return
+     */
+    protected AssetDataManager getAssetDataManager() {
+        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        return m;
+    }
+
     public AssetData readAsset(AssetId id) {
 
-        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        AssetDataManager m = getAssetDataManager();
 
         Iterable<AssetData> assets;
         try {
@@ -188,7 +196,7 @@ public class AssetAccessTemplate {
     }
 
     public Iterable<AssetData> query(Query q) {
-        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        AssetDataManager m = getAssetDataManager();
 
         Iterable<AssetData> assets;
         try {
