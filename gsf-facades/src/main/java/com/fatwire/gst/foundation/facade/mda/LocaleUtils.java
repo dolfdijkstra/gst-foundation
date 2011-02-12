@@ -271,7 +271,7 @@ public final class LocaleUtils {
     }
 
     private static final PreparedStmt FIND_DIMSET_FOR_SITE_PREPAREDSTMT = new PreparedStmt(
-            "select ds.id as id from dimensionset ds, publication p, assetpublication ap where p.name = ? and p.id = ap.pubid and ap.assetid = ds.id and ds.status != 'VO' order by ds.updateddate",
+            "select ds.id as id from DimensionSet ds, Publication p, AssetPublication ap where p.name = ? and p.id = ap.pubid and ap.assetid = ds.id and ds.status != 'VO' order by ds.updateddate",
             Arrays.asList("DimensionSet", "AssetPublication", "Publication"));
 
     static {
