@@ -25,6 +25,7 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.assetapi.query.Query;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 
@@ -119,6 +120,14 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
     public ScatteredAsset readCurrent(String... attributes) {
         AssetId id = createAssetId(ics.GetVar("c"), ics.GetVar("cid"));
         return this.readAsset(id, mapper, attributes);
+    }
+
+    /**
+     * @param q
+     * @return
+     */
+    public Iterable<ScatteredAsset> query(Query q) {
+        return this.readAssets(q, mapper);
     }
 
 }

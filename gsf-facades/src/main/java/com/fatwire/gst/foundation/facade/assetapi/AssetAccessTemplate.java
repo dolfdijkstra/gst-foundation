@@ -19,6 +19,7 @@ package com.fatwire.gst.foundation.facade.assetapi;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import COM.FutureTense.Interfaces.FTValList;
@@ -77,10 +78,21 @@ public class AssetAccessTemplate {
         session = SessionFactory.getSession(ics);
     }
 
+    /**
+     * @param c
+     * @param cid
+     * @return
+     */
     public AssetId createAssetId(String c, String cid) {
         return new AssetIdImpl(c, Long.parseLong(cid));
     }
 
+    /**
+     * @param <T>
+     * @param id
+     * @param mapper
+     * @return
+     */
     public <T> T readAsset(AssetId id, AssetMapper<T> mapper) {
         AssetDataManager m = getAssetDataManager();
 
@@ -96,6 +108,13 @@ public class AssetAccessTemplate {
         return t;
     }
 
+    /**
+     * @param <T>
+     * @param id
+     * @param mapper
+     * @param attributes
+     * @return
+     */
     public <T> T readAsset(AssetId id, AssetMapper<T> mapper, String[] attributes) {
         AssetDataManager m = getAssetDataManager();
 
@@ -109,6 +128,10 @@ public class AssetAccessTemplate {
         return t;
     }
 
+    /**
+     * @param id
+     * @param closure
+     */
     public void readAsset(AssetId id, AssetClosure closure) {
         AssetDataManager m = getAssetDataManager();
 
@@ -169,6 +192,10 @@ public class AssetAccessTemplate {
         return m;
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public AssetData readAsset(AssetId id) {
 
         AssetDataManager m = getAssetDataManager();
@@ -195,7 +222,11 @@ public class AssetAccessTemplate {
         return null;
     }
 
-    public Iterable<AssetData> query(Query q) {
+    /**
+     * @param q
+     * @return
+     */
+    public Iterable<AssetData> readAssets(Query q) {
         AssetDataManager m = getAssetDataManager();
 
         Iterable<AssetData> assets;
@@ -208,6 +239,29 @@ public class AssetAccessTemplate {
         return assets;
     }
 
+    /**
+     * @param <T>
+     * @param q
+     * @param mapper
+     * @return
+     */
+    public <T> Iterable<T> readAssets(Query q, AssetMapper<T> mapper) {
+
+        List<T> r = new LinkedList<T>();
+
+        for (AssetData data : readAssets(q)) {
+            r.add(mapper.map(data));
+        }
+
+        return r;
+    }
+
+    /**
+     * @param ics
+     * @param assetType
+     * @param name
+     * @return
+     */
     public AssetId findByName(ICS ics, String assetType, String name) {
         // TODO: name does not need to be unique, how do we handle this?
         FTValList l = new FTValList();
@@ -229,16 +283,32 @@ public class AssetAccessTemplate {
 
     }
 
+    /**
+     * @param ics
+     * @param assetType
+     * @param name
+     * @return
+     */
     public IAsset loadByName(ICS ics, String assetType, String name) {
         return (IAsset) Asset.Load(ics, "name", name, assetType, IApprovalDependency.DEPTYPE_EXISTS,
                 IAsset.LOAD_READONLY, null);
     }
 
+    /**
+     * @param ics
+     * @param id
+     * @return
+     */
     public IAsset loadById(ICS ics, AssetId id) {
         return Asset.callLoad(ics, id.getId(), null, id.getType(), false);
 
     }
 
+    /**
+     * @param assetType
+     * @param assetName
+     * @return
+     */
     public SimpleQuery createNameQuery(String assetType, String assetName) {
         final SimpleQuery q = new SimpleQuery(assetType, null, ConditionFactory.createCondition("name",
                 OpTypeEnum.EQUALS, assetName), Arrays.asList("id"));
