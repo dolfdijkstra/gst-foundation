@@ -148,7 +148,7 @@ public final class AttributeDataUtils {
      * BLOB BlobObject
      * </pre>
      * 
-     * @param attr
+     * @param value
      * @return attribute as an integer
      */
 
@@ -174,7 +174,7 @@ public final class AttributeDataUtils {
             case STRUCT:
             case LIST:
             case ONEOF:
-                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Long");
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Integer");
             default:
                 throw new IllegalArgumentException("Don't know about " + attr.getType());
         }
@@ -232,7 +232,7 @@ public final class AttributeDataUtils {
             case STRUCT:
             case LIST:
             case ONEOF:
-                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Blob");
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a BlobObject");
             default:
                 throw new IllegalArgumentException("Don't know about " + attr.getType());
         }
