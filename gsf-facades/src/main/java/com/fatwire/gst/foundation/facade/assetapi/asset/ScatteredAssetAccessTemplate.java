@@ -28,6 +28,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.query.Query;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
+import com.fatwire.gst.foundation.facade.assetapi.QueryBuilder;
 
 /**
  * @author Dolf Dijkstra
@@ -123,10 +124,34 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
     }
 
     /**
-     * @param q
+     * @param query
      * @return
      */
-    public Iterable<ScatteredAsset> query(Query q) {
+    public Iterable<ScatteredAsset> query(Query query) {
+        return this.readAssets(query, mapper);
+    }
+
+    /**
+     * Queries for a list of scattered assets.
+     * <p/>
+     * Sample queries are:<ul>
+     * <li>name='foo'</li>
+     * <li>name = 'foo'</li>
+     * <li>name = foo</li>
+     * <li>name= 'foo bar'</li>
+     * <li>size=[1,2]</li>
+     * <li>size{10,250}</li>
+     * <li>name!='foo'</li>
+     * 
+     * @param query
+     * @return a list of scattered assets.
+     */
+    public Iterable<ScatteredAsset> query(String assetType, String subType, String query) {
+        Query q = new QueryBuilder(assetType, subType).condition(query).setReadAll(true).toQuery();
+        return this.readAssets(q, mapper);
+    }
+    public Iterable<ScatteredAsset> query(String assetType, String subType, String query, String[] attributes) {
+        Query q = new QueryBuilder(assetType, subType).condition(query).attributes(attributes).toQuery();
         return this.readAssets(q, mapper);
     }
 
