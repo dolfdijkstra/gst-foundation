@@ -28,7 +28,7 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
 import com.openmarket.framework.jsp.Base;
 
 /**
- * Tagged list tag support This tag uses ICS.SQL(PreparedStmt, boolean) to query
+ * Tagged list tag support. This tag uses ICS.SQL(PreparedStmt, boolean) to query
  * the GSTTagRegistry and retrieve the assets that point to the specified tag.
  * Input tagname - the name of the tag outlist - name of output list Output The
  * name of an IList object to be placed in the list pool. It contains two

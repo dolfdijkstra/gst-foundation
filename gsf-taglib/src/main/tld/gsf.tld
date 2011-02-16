@@ -37,6 +37,27 @@
 			<description>the name of the tag</description>
 		</attribute>
 	</tag>
+	<tag>
+		<name>tagged-assets</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.TaggedAssets</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Given an input tag, returns an Collection of AssetIds for
+			any assets found that match the specified tag.
+        </description>
+		<attribute>
+			<name>list</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the list containing the result</description>
+		</attribute>
+		<attribute>
+			<name>tag</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the tag</description>
+		</attribute>
+	</tag>
 
 	<tag>
 		<name>asset-tagged-list</name>
@@ -69,6 +90,81 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>the assetid</description>
 		</attribute>
+	</tag>
+	<tag>
+		<name>asset-load</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetLoad
+		</tag-class>
+		<body-content>empty</body-content>
+		<description>
+		</description>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the loaded asset as JSP page attribute
+			</description>
+		</attribute>
+		<attribute>
+			<name>c</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the assettype</description>
+		</attribute>
+		<attribute>
+			<name>cid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the assetid</description>
+		</attribute>
+		<attribute>
+			<name>attributes</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the asset attributes</description>
+		</attribute>
+
+	</tag>
+	<tag>
+		<name>asset-query</name>
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetSimpleQuery
+		</tag-class>
+		<body-content>empty</body-content>
+		<description>
+		</description>
+		<attribute>
+			<name>list</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the name of the list with the loaded asset as JSP page
+				attribute
+			</description>
+		</attribute>
+		<attribute>
+			<name>c</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the assettype</description>
+		</attribute>
+		<attribute>
+			<name>subtype</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the assetid</description>
+		</attribute>
+		<attribute>
+			<name>query</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the query</description>
+		</attribute>
+		<attribute>
+			<name>attributes</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>the asset attributes</description>
+		</attribute>
+
 	</tag>
 	<tag>
 		<name>navigation</name>
