@@ -16,6 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.assetapi.asset;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,10 +40,12 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 public class TemplateAsset {
 
     private final AssetData delegate;
+    private List<String> metaList = new ArrayList<String>();
 
     public TemplateAsset(AssetData delegate) {
         super();
         this.delegate = delegate;
+        fillMetaAttributes();
     }
 
     public AssetData getDelegate() {
@@ -111,12 +114,16 @@ public class TemplateAsset {
 
     }
 
+    private AttributeData getMetaFirst(String name) {
+        return delegate.getAttributeData(name, this.metaList.contains(name));
+    }
+
     /**
      * @param name
      * @return
      */
     public List<?> asList(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
 
         return AttributeDataUtils.asList(attr);
     }
@@ -132,7 +139,7 @@ public class TemplateAsset {
      */
 
     public Integer asInt(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asInt(attr);
 
     }
@@ -142,7 +149,7 @@ public class TemplateAsset {
      * @return
      */
     public Date asDate(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asDate(attr);
     }
 
@@ -151,7 +158,7 @@ public class TemplateAsset {
      * @return
      */
     public BlobObject asBlob(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asBlob(attr);
     }
 
@@ -160,7 +167,7 @@ public class TemplateAsset {
      * @return
      */
     public Float asFloat(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asFloat(attr);
     }
 
@@ -169,7 +176,7 @@ public class TemplateAsset {
      * @return
      */
     public Double asDouble(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asDouble(attr);
     }
 
@@ -178,7 +185,7 @@ public class TemplateAsset {
      * @return
      */
     public Long asLong(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asLong(attr);
     }
 
@@ -187,7 +194,8 @@ public class TemplateAsset {
      * @return
      */
     public AssetId asAssetId(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asAssetId(attr);
     }
 
@@ -196,7 +204,7 @@ public class TemplateAsset {
      * @return
      */
     public String asString(String name) {
-        AttributeData attr = delegate.getAttributeData(name);
+        AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asString(attr);
     }
 
@@ -206,6 +214,22 @@ public class TemplateAsset {
      */
     public List<String> getAttributeNames() {
         return delegate.getAttributeNames();
+    }
+
+    /**
+     * @return the name of all the attributes of the asset
+     * @see com.fatwire.assetapi.data.AssetData#getAttributeNames()
+     */
+    public List<String> getMetaAttributeNames() {
+
+        return metaList;
+    }
+
+    private void fillMetaAttributes() {
+        for (AttributeDef def : delegate.getAssetTypeDef().getAttributeDefs()) {
+            if (def.isMetaDataAttribute())
+                metaList.add(def.getName());
+        }
     }
 
     /**
@@ -225,6 +249,17 @@ public class TemplateAsset {
      */
     public List<AssetId> getParents() throws AssetAccessException {
         return delegate.getParents();
+    }
+
+    /**
+     * @param name
+     * @param meta
+     * @return
+     * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
+     *      boolean)
+     */
+    public AttributeData getAttributeData(String name, boolean meta) {
+        return delegate.getAttributeData(name, meta);
     }
 
 }
