@@ -1,80 +1,82 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.fatwire.gst</groupId>
-		<artifactId>gsf-parent</artifactId>
-		<version>1.1-SNAPSHOT</version>
-	</parent>
-	<groupId>com.fatwire.gst</groupId>
-	<artifactId>gst-foundation-all</artifactId>
-	<version>1.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>FatWire GST: Site Foundation Aggregator</name>
-	<url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-assembly/</url>
-	<inceptionYear>2010</inceptionYear>
-	<developers>
-		<developer>
-			<name>Dolf Dijkstra</name>
-		</developer>
-		<developer>
-			<name>Tony Field</name>
-		</developer>
-	</developers>
-	<scm>
-		<connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-assembly</connection>
-		<developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-assembly</developerConnection>
-		<url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-assembly</url>
-	</scm>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-facades</artifactId>
-			<version>2.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-wra</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-tagging</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-taglib</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<createSourcesJar>true</createSourcesJar>
-							<shadedArtifactAttached>false</shadedArtifactAttached>
-							<artifactSet>
-								<includes>
-									<include>com.fatwire.gst:*</include>
-								</includes>
-							</artifactSet>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.fatwire.gst</groupId>
+        <artifactId>gsf-parent</artifactId>
+        <version>1.1-SNAPSHOT</version>
+    </parent>
+    <groupId>com.fatwire.gst</groupId>
+    <artifactId>gst-foundation-all</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>FatWire GST: Site Foundation Aggregator</name>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-assembly/</url>
+    <inceptionYear>2010</inceptionYear>
+    <developers>
+        <developer>
+            <name>Dolf Dijkstra</name>
+        </developer>
+        <developer>
+            <name>Tony Field</name>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-assembly</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-assembly
+        </developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-assembly</url>
+    </scm>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-facades</artifactId>
+            <version>2.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-wra</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-tagging</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-taglib</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createSourcesJar>true</createSourcesJar>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.fatwire.gst:*</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <configuration>
                         <descriptors>
@@ -90,15 +92,15 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
+                </plugin-->
 
-		</plugins>
-	</build>
-	<distributionManagement>
-		<site>
-			<id>website</id>
-			<url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-assembly</url>
-		</site>
-	</distributionManagement>
+        </plugins>
+    </build>
+    <distributionManagement>
+        <site>
+            <id>website</id>
+            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-assembly</url>
+        </site>
+    </distributionManagement>
 
 </project>
