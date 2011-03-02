@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.fatwire.gst</groupId>
 		<artifactId>gst-parent</artifactId>
-		<version>4</version>
+		<version>5</version>
 	</parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-parent</artifactId>
