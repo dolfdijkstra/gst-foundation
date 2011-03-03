@@ -25,6 +25,7 @@ import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
+import com.fatwire.assetapi.data.BlobObject.BlobAddress;
 import com.fatwire.assetapi.def.AssetTypeDef;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
@@ -206,6 +207,15 @@ public class TemplateAsset {
     public String asString(String name) {
         AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asString(attr);
+    }
+
+    /**
+     * @param name
+     * @return
+     */
+    public BlobAddress asBlobAddress(String name) {
+        BlobObject blob = asBlob(name);
+        return blob == null ? null : blob.getBlobAddress();
     }
 
     /**

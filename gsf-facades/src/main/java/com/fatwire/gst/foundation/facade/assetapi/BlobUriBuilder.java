@@ -8,8 +8,9 @@ import com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl;
 
 /**
  * Builder support for blob urls.
+ * 
  * <pre>
- * new BlobUriBuilder(blob).mimeType("image/jpeg").parent("12345").toURI(ics);
+ * new BlobUriBuilder(blob).mimeType(&quot;image/jpeg&quot;).parent(&quot;12345&quot;).toURI(ics);
  * </pre>
  * 
  * @author Dolf Dijkstra
@@ -17,8 +18,6 @@ import com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl;
  * 
  */
 public class BlobUriBuilder {
-    
-   
 
     private GetBlobUrl tag = new GetBlobUrl();
     private int n = 1;
@@ -27,11 +26,18 @@ public class BlobUriBuilder {
      * @param blob
      */
     public BlobUriBuilder(final BlobObject blob) {
-        BlobAddress a = blob.getBlobAddress();
-        tag.setBlobCol(a.getColumnName());
-        tag.setBlobKey(a.getIdentifier().toString());
-        tag.setBlobTable(a.getTableName());
-        tag.setBlobWhere(a.getIdentifierColumnName());
+        this(blob.getBlobAddress());
+    }
+
+    /**
+     * @param address
+     */
+    public BlobUriBuilder(final BlobAddress address) {
+
+        tag.setBlobCol(address.getColumnName());
+        tag.setBlobKey(address.getIdentifier().toString());
+        tag.setBlobTable(address.getTableName());
+        tag.setBlobWhere(address.getIdentifierColumnName());
     }
 
     /**

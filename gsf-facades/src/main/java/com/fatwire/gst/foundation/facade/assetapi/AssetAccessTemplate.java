@@ -110,6 +110,28 @@ public class AssetAccessTemplate {
 
     /**
      * @param <T>
+     * @param c the assetType
+     * @param cid the asset id
+     * @param mapper
+     * @return
+     */
+    public <T> T readAsset(String c, String cid, AssetMapper<T> mapper) {
+        return readAsset(this.createAssetId(c, cid), mapper);
+    }
+
+    /**
+     * @param <T>
+     * @param c the assetType
+     * @param cid the asset id
+     * @param mapper
+     * @return
+     */
+    public <T> T readAsset(String c, long cid, AssetMapper<T> mapper) {
+        return readAsset(new AssetIdImpl(c, cid), mapper);
+    }
+
+    /**
+     * @param <T>
      * @param id
      * @param mapper
      * @param attributes
