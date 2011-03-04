@@ -34,6 +34,9 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
  * 
  * Asset to be used in rendering code. It has easy accessors for the different
  * attribute types.
+ * <p/>
+ * It must be noted that naming conflicts between flex attribute names and meta
+ * attribute names are resolved by giving the meta attribute preference.
  * 
  * @author Dolf Dijkstra
  * 
@@ -41,9 +44,12 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 public class TemplateAsset {
 
     private final AssetData delegate;
-    private List<String> metaList = new ArrayList<String>();
+    private final List<String> metaList = new ArrayList<String>();
 
-    public TemplateAsset(AssetData delegate) {
+    /**
+     * @param delegate
+     */
+    public TemplateAsset(final AssetData delegate) {
         super();
         this.delegate = delegate;
         fillMetaAttributes();
@@ -74,7 +80,7 @@ public class TemplateAsset {
      * @return
      * @see com.fatwire.assetapi.data.AssetData#getAssociatedAssets(java.lang.String)
      */
-    public List<AssetId> getAssociatedAssets(String name) {
+    public List<AssetId> getAssociatedAssets(final String name) {
         return delegate.getAssociatedAssets(name);
     }
 
@@ -84,7 +90,7 @@ public class TemplateAsset {
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
      *      boolean)
      */
-    public Object getAttribute(String name) {
+    public Object getAttribute(final String name) {
         return delegate.getAttributeData(name, false).getData();
     }
 
@@ -94,7 +100,7 @@ public class TemplateAsset {
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
      *      boolean)
      */
-    public Object getMetaAttribute(String name) {
+    public Object getMetaAttribute(final String name) {
         return delegate.getAttributeData(name, true).getData();
     }
 
@@ -102,7 +108,7 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public boolean isSingleValued(String name) {
+    public boolean isSingleValued(final String name) {
         AttributeDef ad = delegate.getAssetTypeDef().getAttributeDef(name, true);
         if (ad == null) {
             ad = delegate.getAssetTypeDef().getAttributeDef(name, false);
@@ -110,21 +116,25 @@ public class TemplateAsset {
         return isSingleValued(ad);
     }
 
-    private boolean isSingleValued(AttributeDef ad) {
+    private boolean isSingleValued(final AttributeDef ad) {
         return AttributeDataUtils.isSingleValued(ad);
 
     }
 
-    private AttributeData getMetaFirst(String name) {
-        return delegate.getAttributeData(name, this.metaList.contains(name));
+    private boolean isMetaAttribute(final String name) {
+        return this.metaList.contains(name);
+    }
+
+    private AttributeData getMetaFirst(final String name) {
+        return delegate.getAttributeData(name, isMetaAttribute(name));
     }
 
     /**
      * @param name
      * @return
      */
-    public List<?> asList(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public List<?> asList(final String name) {
+        final AttributeData attr = getMetaFirst(name);
 
         return AttributeDataUtils.asList(attr);
     }
@@ -139,8 +149,8 @@ public class TemplateAsset {
      * @return
      */
 
-    public Integer asInt(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public Integer asInt(final String name) {
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asInt(attr);
 
     }
@@ -149,8 +159,8 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public Date asDate(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public Date asDate(final String name) {
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asDate(attr);
     }
 
@@ -158,8 +168,8 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public BlobObject asBlob(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public BlobObject asBlob(final String name) {
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asBlob(attr);
     }
 
@@ -167,8 +177,8 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public Float asFloat(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public Float asFloat(final String name) {
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asFloat(attr);
     }
 
@@ -176,8 +186,8 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public Double asDouble(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public Double asDouble(final String name) {
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asDouble(attr);
     }
 
@@ -185,8 +195,8 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public Long asLong(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public Long asLong(final String name) {
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asLong(attr);
     }
 
@@ -194,9 +204,9 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public AssetId asAssetId(String name) {
+    public AssetId asAssetId(final String name) {
 
-        AttributeData attr = getMetaFirst(name);
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asAssetId(attr);
     }
 
@@ -204,8 +214,8 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public String asString(String name) {
-        AttributeData attr = getMetaFirst(name);
+    public String asString(final String name) {
+        final AttributeData attr = getMetaFirst(name);
         return AttributeDataUtils.asString(attr);
     }
 
@@ -213,8 +223,8 @@ public class TemplateAsset {
      * @param name
      * @return
      */
-    public BlobAddress asBlobAddress(String name) {
-        BlobObject blob = asBlob(name);
+    public BlobAddress asBlobAddress(final String name) {
+        final BlobObject blob = asBlob(name);
         return blob == null ? null : blob.getBlobAddress();
     }
 
@@ -236,9 +246,10 @@ public class TemplateAsset {
     }
 
     private void fillMetaAttributes() {
-        for (AttributeDef def : delegate.getAssetTypeDef().getAttributeDefs()) {
-            if (def.isMetaDataAttribute())
+        for (final AttributeDef def : delegate.getAssetTypeDef().getAttributeDefs()) {
+            if (def.isMetaDataAttribute()) {
                 metaList.add(def.getName());
+            }
         }
     }
 
@@ -248,7 +259,7 @@ public class TemplateAsset {
      * @throws AssetAccessException
      * @see com.fatwire.assetapi.data.AssetData#getImmediateParents(java.lang.String)
      */
-    public List<AssetId> getImmediateParents(String name) throws AssetAccessException {
+    public List<AssetId> getImmediateParents(final String name) throws AssetAccessException {
         return delegate.getImmediateParents(name);
     }
 
@@ -268,7 +279,7 @@ public class TemplateAsset {
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
      *      boolean)
      */
-    public AttributeData getAttributeData(String name, boolean meta) {
+    public AttributeData getAttributeData(final String name, final boolean meta) {
         return delegate.getAttributeData(name, meta);
     }
 
