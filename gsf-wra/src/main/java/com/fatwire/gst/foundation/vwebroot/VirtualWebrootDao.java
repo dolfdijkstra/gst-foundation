@@ -155,15 +155,17 @@ public final class VirtualWebrootDao {
 
     /**
      * Comparator that compares virtual webroots by webroot.
+     * Uses reverse-natural ordering to ensure that overlapping
+     * virtual webroots resolve properly.
      */
     public static class UrlInfoComparator implements Comparator<VirtualWebroot> {
 
         public int compare(VirtualWebroot o1, VirtualWebroot o2) {
-            int i = o1.getMasterVirtualWebroot().compareTo(o2.getMasterVirtualWebroot());
+            int i = -o1.getMasterVirtualWebroot().compareTo(o2.getMasterVirtualWebroot());
             if (i == 0) {
-                int j = o1.getEnvironmentName().compareTo(o2.getEnvironmentName());
+                int j = -o1.getEnvironmentName().compareTo(o2.getEnvironmentName());
                 if (j == 0) {
-                    int k = o1.getEnvironmentVirtualWebroot().compareTo(o2.getEnvironmentVirtualWebroot());
+                    int k = -o1.getEnvironmentVirtualWebroot().compareTo(o2.getEnvironmentVirtualWebroot());
                     if (k == 0) {
                         return (int) (o1.getId().getId() - o2.getId().getId());
                     }
