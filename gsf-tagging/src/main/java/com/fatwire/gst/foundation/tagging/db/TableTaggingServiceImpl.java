@@ -132,18 +132,12 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     }
 
     public void deleteAsset(AssetId id) {
-        if (isTagged(id)) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Attempting to remove tagged asset from tag registry:" + id);
-            }
-            SqlHelper.execute(ics, TAGREGISTRY_TABLE, "delete from " + TAGREGISTRY_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Deleted tagged asset " + id + " from tag registry");
-            }
-        } else {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Heard deleteAsset event for id " + id + " but since it is not tagged we are ignoring it.");
-            }
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Attempting to remove asset from tag registry:" + id);
+        }
+        SqlHelper.execute(ics, TAGREGISTRY_TABLE, "delete from " + TAGREGISTRY_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Deleted tagged asset " + id + " from tag registry (or asset was never there in the first place)");
         }
     }
 
