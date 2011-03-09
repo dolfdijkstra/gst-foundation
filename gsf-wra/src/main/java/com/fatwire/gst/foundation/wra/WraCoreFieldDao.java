@@ -19,10 +19,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
@@ -37,9 +33,13 @@ import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Dao for dealing with core fields in a WRA
- * todo: HIGH priority: handle aliases cleanly
+ * This DAO is not aware of Aliases.  To work with Alias assets, see {@link AliasCoreFieldDao}.}
  * 
  * @author Tony Field
  * @since Jul 21, 2010
@@ -105,10 +105,9 @@ public class WraCoreFieldDao {
 
     public boolean hasPathAttribute(AssetData data) {
         /*
-         * List<String> toCheck = Arrays.asList(WRA_ATTRIBUTE_NAMES); for
-         * (AttributeDef d : data.getAssetTypeDef().getAttributeDefs()) {
-         * toCheck.remove(d.getName());
-         * 
+         * List<String> toCheck = Arrays.asList(WRA_ATTRIBUTE_NAMES);
+         * for(AttributeDef d : data.getAssetTypeDef().getAttributeDefs()) {
+         *      toCheck.remove(d.getName());
          * }
          */
         return data != null && StringUtils.isNotBlank(AttributeDataUtils.asString(data.getAttributeData("path")));
