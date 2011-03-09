@@ -32,6 +32,8 @@ import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
+import com.fatwire.gst.foundation.wra.Alias;
+import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
@@ -57,12 +59,14 @@ public class BaseController extends AbstractController {
 
     protected WraPathTranslationService pathTranslationService;
     protected WraCoreFieldDao wraCoreFieldDao;
+    protected AliasCoreFieldDao aliasCoreFieldDao;
 
     @Override
     public void SetAppLogic(IPS ips) {
         super.SetAppLogic(ips);
         pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
         wraCoreFieldDao = new WraCoreFieldDao(ics);
+        aliasCoreFieldDao = new AliasCoreFieldDao(ics);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class BaseController extends AbstractController {
 
         WebReferenceableAsset wra;
         try {
-            wra = wraCoreFieldDao.getWra(id);
+            wra = Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType()) ? aliasCoreFieldDao.getAlias(id) :  wraCoreFieldDao.getWra(id);
         } catch (IllegalArgumentException e) {
             throw new CSRuntimeException("Web-Referenceable Asset " + id + " is not valid", ftErrors.pagenotfound);
         }

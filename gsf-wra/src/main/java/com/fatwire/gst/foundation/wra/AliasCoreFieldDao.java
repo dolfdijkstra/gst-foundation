@@ -89,6 +89,7 @@ public class AliasCoreFieldDao {
      * @return true if the asset is a valid Alias asset, false if it is not
      */
     public boolean isAlias(AssetId id) {
+        if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType()) == false) return false;
         try {
             getAlias(id);
             return true;
@@ -106,6 +107,8 @@ public class AliasCoreFieldDao {
      * @see #isAlias
      */
     public Alias getAlias(AssetId id) {
+        if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType()) == false) throw new IllegalArgumentException("Asset type is not GSTAlias: "+id);
+        
         AssetData data = getAsAssetData(id);
         AssetId target = Children.getOptionalSingleAssociation(ics, id.getType(), Long.toString(id.getId()), "target");
         if (target == null) {

@@ -25,6 +25,8 @@ import com.fatwire.assetapi.data.AssetId;
  */
 public interface Alias extends WebReferenceableAsset {
 
+    public static String ALIAS_ASSET_TYPE_NAME = "GSTAlias";
+
     public AssetId getTarget();
 
     public String getTargetUrl();

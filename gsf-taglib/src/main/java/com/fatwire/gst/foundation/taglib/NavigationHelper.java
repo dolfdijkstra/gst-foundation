@@ -15,16 +15,11 @@
  */
 package com.fatwire.gst.foundation.taglib;
 
-import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
@@ -43,6 +38,11 @@ import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
 
 /**
  * Used to retrieve the Navigation Bar data. See the description of
@@ -182,7 +182,7 @@ public class NavigationHelper {
      * See that function's description for details
      * 
      * @param depth
-     * @param pageid id of the page assest
+     * @param pageId id of the page asset
      * @param level starting level number when traversing the site plan tree
      * @return Map<String,Object> of the site plan tree
      */
@@ -344,7 +344,7 @@ public class NavigationHelper {
     /**
      * Constant containing the asset type of the GST Alias asset.
      */
-    public final String GST_ALIAS_TYPE = "GSTAlias";
+    public final String GST_ALIAS_TYPE = Alias.ALIAS_ASSET_TYPE_NAME;
 
     /**
      * Return true if the asset type is a GSTAlias asset type. May be overridden
@@ -360,25 +360,24 @@ public class NavigationHelper {
     }
 
     /**
-     * Get the URL for the alias. Currently this just looks up the target and
-     * generates the URL for that. However, soon this function WILL CHANGE and
-     * will allow an alias to define the URL of the target also (if desired). A
-     * bug in the GSF prevents this for now. This has to be fixed.
-     * TODO: high priority:  Reconcile this with revised spec.
-     * 
-     * @param alias Alias bean
+     * Get the URL for the alias.
+     *
+     * For external links, the targeturl attribute is rendered.
+     *
+     * For Aliases that refer to another WRA, the alias is allowed to
+     * override any WRA fields.  For instance, the path, and the template can
+     * be overridden by an alias for a WRA (though the template in the Alias
+     * had better be typeless, or a template of the same name must exist
+     * in the WRA's asset type or there will be a problem).
+     *
+     * @param alias Alias bean, which of course is also a WRA.
      * @return url
      */
     protected String getUrlForAlias(Alias alias) {
-        if (alias.getTargetUrl() != null && alias.getTargetUrl().length() > 0) {
+        if (alias.getTargetUrl() != null) {
             return alias.getTargetUrl();
         } else {
-            if (alias.getTarget() != null) {
-                return getUrlForWra(wraUtils.getWra(alias.getTarget()));
-            } else {
-                LOG.warn("Alias asset " + alias + " does not specify a target asset or url.");
-                return null;
-            }
+            return getUrlForWra(alias);
         }
     }
 
@@ -392,19 +391,10 @@ public class NavigationHelper {
      * 
      * @param alias Alias bean
      * @return linktext or null on failure.
+     * @deprecated See {@link #getLinktext}}
      */
     protected String getLinktextForAlias(Alias alias) {
-        if (alias.getLinkText() != null && alias.getLinkText().length() > 0) {
-            return alias.getLinkText();
-        } else {
-            // it might be pointing directly to the target
-            if (alias.getTarget() != null) {
-                return getLinktextForWra(wraUtils.getWra(alias.getTarget()));
-            } else {
-                LOG.warn("Alias asset " + alias + " does not specify linktext.");
-                return null;
-            }
-        }
+        return alias.getLinkText();
     }
 
     /**
@@ -438,6 +428,7 @@ public class NavigationHelper {
      * 
      * @param wra WebReferenceableAsset bean
      * @return linktext
+     * @deprecated See {@link #getLinktext}}
      */
     protected String getLinktextForWra(WebReferenceableAsset wra) {
         if (wra.getLinkText() != null && wra.getLinkText().length() > 0) {
@@ -449,6 +440,15 @@ public class NavigationHelper {
                     + " (This is expected if the asset is not a web-referenceable asset).");
             return null;
         }
+    }
+
+    /**
+     * Return the linktext for the WRA.  Note that aliases extend WRAs.
+     * @param wra WebReferenceableAsset or Alias
+     * @return linktext
+     */
+    protected String getLinktext(WebReferenceableAsset wra) {
+        return wra.getLinkText();
     }
 
     /**
