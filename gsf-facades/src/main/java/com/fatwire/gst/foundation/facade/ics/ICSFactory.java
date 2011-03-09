@@ -32,7 +32,7 @@ public final class ICSFactory {
 
     /**
      * Create a new instance of ICS. Expensive operation. Should be used
-     * sparingly. TODO: Document lifecycle restrictions
+     * sparingly. TODO: low priority:  Document lifecycle restrictions
      * 
      * @return ICS instance, not backed by servlet.
      */

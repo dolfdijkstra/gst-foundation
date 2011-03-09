@@ -209,7 +209,7 @@ public class BaseController extends AbstractController {
                 // tag, but it is a bad idea to send params through if they
                 // aren't
                 // page criteria.
-                // todo: consider validating here. Validation is duplicated but
+                // todo: low priority consider validating here. Validation is duplicated but
                 // may be useful
                 arguments.put(varname, ics.GetVar(varname));
             }

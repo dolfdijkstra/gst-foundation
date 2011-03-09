@@ -181,7 +181,7 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void updateAsset(AssetId id) {
-        // todo: optimize
+        // todo: low priority: optimize
 
         StatementParam param = REGISTRY_SELECT_ID.newParam();
         param.setString(0, id.getType());

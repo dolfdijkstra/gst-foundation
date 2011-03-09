@@ -33,7 +33,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Dao for dealing with core fields in a WRA todo: handle aliases cleanly
+ * Dao for dealing with core fields in a WRA
+ * todo: high priority: handle aliases cleanly
  * 
  * @author Tony Field
  * @since Jul 21, 2010
@@ -76,8 +77,8 @@ public class AliasCoreFieldDao {
     }
 
     /**
-     * Method to test whether or not an asset is an Alias. todo: optimize as
-     * this will be called at runtime
+     * Method to test whether or not an asset is an Alias.
+     * todo: low priority: optimize as this will be called at runtime
      * 
      * @param id asset ID to check
      * @return true if the asset is a valid Alias asset, false if it is not
@@ -100,6 +101,8 @@ public class AliasCoreFieldDao {
      * @see #isAlias
      */
     public Alias getAlias(AssetId id) {
+
+        // TODO: HIGH priority: FIX THIS TO ONLY RETRIEVE PROPER ATTRS
         AssetData data = getAsAssetData(id);
         AliasBeanImpl o = new AliasBeanImpl();
         // Wra fields
@@ -128,7 +131,7 @@ public class AliasCoreFieldDao {
     private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
             + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
     static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY,
-            Collections.singletonList("AssetPublication")); // todo:determine
+            Collections.singletonList("AssetPublication")); // todo: low priority: determine
                                                             // why publication
                                                             // cannot fit there.
 

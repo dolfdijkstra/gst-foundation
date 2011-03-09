@@ -48,7 +48,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * Used to retrieve the Navigation Bar data. See the description of
  * getSitePlanAsMap(String pageid) for more details.
  * <p/>
- * TODO: add multilingual support
+ * TODO: low priority: add multilingual support
  * 
  * @author David Chesebro
  * @since Jun 17, 2010
@@ -363,8 +363,8 @@ public class NavigationHelper {
      * Get the URL for the alias. Currently this just looks up the target and
      * generates the URL for that. However, soon this function WILL CHANGE and
      * will allow an alias to define the URL of the target also (if desired). A
-     * bug in the GSF prevents this for now. This has to be fixed. TODO:
-     * Reconcile this with revised spec.
+     * bug in the GSF prevents this for now. This has to be fixed.
+     * TODO: high priority:  Reconcile this with revised spec.
      * 
      * @param alias Alias bean
      * @return url

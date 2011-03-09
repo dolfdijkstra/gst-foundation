@@ -21,7 +21,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * TODO: Add class/interface details
+ * Facade for user.logout tag
  * 
  * @author Tony Field
  * @since Feb 1, 2011

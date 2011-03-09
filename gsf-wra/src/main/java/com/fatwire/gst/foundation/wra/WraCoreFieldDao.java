@@ -38,7 +38,8 @@ import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
 /**
- * Dao for dealing with core fields in a WRA todo: handle aliases cleanly
+ * Dao for dealing with core fields in a WRA
+ * todo: HIGH priority: handle aliases cleanly
  * 
  * @author Tony Field
  * @since Jul 21, 2010
@@ -82,8 +83,8 @@ public class WraCoreFieldDao {
     }
 
     /**
-     * Method to test whether or not an asset is web-referenceable. todo:
-     * optimize as this will be called at runtime
+     * Method to test whether or not an asset is web-referenceable.
+     * todo: low priority: optimize as this will be called at runtime
      * 
      * @param id asset ID to check
      * @return true if the asset is a valid web-referenceable asset, false if it
@@ -170,7 +171,7 @@ public class WraCoreFieldDao {
     private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
             + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
     static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY,
-            Collections.singletonList("AssetPublication")); // todo:determine
+            Collections.singletonList("AssetPublication")); // todo: low priority: determine
                                                             // why publication
                                                             // cannot fit there.
 

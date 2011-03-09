@@ -20,7 +20,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
 
 /**
- * TODO: Add class/interface details
+ * Factory to access the asset tagging service instance.
  * 
  * @author Tony Field
  * @since Jul 28, 2010
