@@ -37,8 +37,9 @@ import org.apache.commons.logging.LogFactory;
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
- * Dao for dealing with core fields in a WRA
- * todo: high priority: handle aliases cleanly
+ * Dao for dealing with core fields in an alias.  Aliases may override
+ * fields in their target WRA if it points to another asset.  Aliases
+ * may also refer to external URLs.
  *
  * @author Tony Field
  * @since Jul 21, 2010
