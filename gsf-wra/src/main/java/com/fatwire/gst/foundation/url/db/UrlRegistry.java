@@ -17,9 +17,6 @@ package com.fatwire.gst.foundation.url.db;
 
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
@@ -43,9 +40,12 @@ import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
- * 
+ *
  * @author Dolf.Dijkstra
  * @since Jun 17, 2010
  */
@@ -58,7 +58,7 @@ public class UrlRegistry implements WraPathTranslationService {
     private final VirtualWebrootDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
     public static String TABLE_ACL_LIST = ""; // no ACLs because events are
-                                              // anonymous
+    // anonymous
 
     public UrlRegistry(ICS ics) {
         this.ics = ics;
@@ -83,12 +83,9 @@ public class UrlRegistry implements WraPathTranslationService {
         new TableCreator(ics).createTable(def);
     }
 
-    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt(
-            "SELECT assettype, assetid, startdate, enddate, opt_site FROM " + URLREG_TABLE
-                    + " WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate",
-            Collections.singletonList(URLREG_TABLE));
-    private static final PreparedStmt REGISTRY_SELECT_ID = new PreparedStmt("SELECT assettype, assetid FROM "
-            + URLREG_TABLE + " WHERE assettype=? AND assetid=?", Collections.singletonList(URLREG_TABLE));
+    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM " + URLREG_TABLE + " WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList(URLREG_TABLE));
+    private static final PreparedStmt REGISTRY_SELECT_ID = new PreparedStmt("SELECT assettype, assetid FROM " + URLREG_TABLE + " WHERE assettype=? AND assetid=?", Collections.singletonList(URLREG_TABLE));
+
     static {
         REGISTRY_SELECT.setElement(0, URLREG_TABLE, "opt_vwebroot");
         REGISTRY_SELECT.setElement(1, URLREG_TABLE, "opt_url_path");
@@ -107,14 +104,11 @@ public class UrlRegistry implements WraPathTranslationService {
             AssetIdWithSite id = new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
             if (FilterAssetsByDate.isValidOnDate(ics, id, null)) {
                 if (LOG.isDebugEnabled())
-                    LOG.debug("Resolved and validated effective date for asset " + id + " from virtual-webroot:"
-                            + virtual_webroot + " and url-path:" + url_path);
+                    LOG.debug("Resolved and validated effective date for asset " + id + " from virtual-webroot:" + virtual_webroot + " and url-path:" + url_path);
                 return id;
             } else {
                 if (LOG.isDebugEnabled())
-                    LOG.debug("Resolved asset "
-                            + id
-                            + " but it is not valid on the effective date as determined by the asset.filterassetsbydate tag.");
+                    LOG.debug("Resolved asset " + id + " but it is not valid on the effective date as determined by the asset.filterassetsbydate tag.");
             }
         }
 
@@ -200,18 +194,12 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void deleteAsset(AssetId id) {
-        if (wraDao.isWebReferenceable(id)) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Attempting to delete WRA " + id + " from url registry");
-            }
-            SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType()
-                    + "' and assetid = " + id.getId());
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Deleted WRA " + id + " from url registry");
-            }
-        } else {
-            if (LOG.isTraceEnabled())
-                LOG.trace("Heard deleteAsset event for " + id + " but since it is not a WRA we are ignoring it");
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Attempting to delete asset " + id + " from url registry (it might not have been there but we must try anyway");
+        }
+        SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Asset " + id + " was either never present or is now removed from url registry");
         }
     }
 }
