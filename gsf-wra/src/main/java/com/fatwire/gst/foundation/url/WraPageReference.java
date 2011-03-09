@@ -153,11 +153,11 @@ public class WraPageReference extends PageRef {
             return false;
         if (args.get("cid") == null)
             return false;
-        String pagename = (String) args.get(ftMessage.PageName);
+        String pagename = args.get(ftMessage.PageName);
         if (pagename == null)
             return false;
-        if (pagename.split("/").length < 3)
-            return false; // need site/type/tname at least for a valid URL
+        if (pagename.split("/").length < 2)
+            return false; // need site/type/tname or site/tname at least for a valid URL
         if (args.get(PubConstants.WRAPPERPAGE) != null)
             return true; // wrapper is only supported for GTU calls
         else {
