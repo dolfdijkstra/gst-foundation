@@ -198,19 +198,17 @@
 		</attribute>
 	</tag>
 	<tag>
-		<name>csvars</name>
-		<description>tag to expose ics variables as page attributes for JSP
-			EL. This tag is redundant if placed inside a gsf:root tag and this
-			should be avoided.</description>
-		<tag-class>com.fatwire.gst.foundation.taglib.IcsVarTag</tag-class>
-		<body-content>JSP</body-content>
-	</tag>
-	<tag>
-		<description>replacement for cs:ftcs tag, this tag is also to expose
-			ics variables as page attributes for JSP EL.</description>
 		<name>root</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.GsfRootTag</tag-class>
-		<tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
+		<description>Tag to expose ics variables as page attributes for JSP
+			EL. Content Server variables, lists, and objects are exposed with
+            the prefix "cs".  Also exposes
+            an instance of ScatteredAssetAccessTemplate under the name
+            assetDao which is very useful for accessing asset data.  Lastly,
+            this tag records dependencies for tid, seid, eid which means it
+            is not necessary to do this within a JSP.  This tag
+            should be placed immediately inside the cs:ftcs tag.</description>
+		<tag-class>com.fatwire.gst.foundation.taglib.IcsVarTag</tag-class>
+        <tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
 		<body-content>JSP</body-content>
 	</tag>
 </taglib>

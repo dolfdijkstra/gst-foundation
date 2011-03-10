@@ -20,13 +20,10 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
+import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.JspTags.Root;
-
-import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 
 public class GsfRootTei extends TagExtraInfo {
     private static final Log log = LogFactory.getLog(GsfRootTei.class);
@@ -35,8 +32,7 @@ public class GsfRootTei extends TagExtraInfo {
         if (log.isDebugEnabled()) {
             log.debug("getVariableInfo: " + data);
         }
-        return new VariableInfo[] { new VariableInfo(Root.sICS, ICS.class.getName(), true, VariableInfo.NESTED),
-                new VariableInfo("assetDao", ScatteredAssetAccessTemplate.class.getName(), true, VariableInfo.NESTED) };
+        return new VariableInfo[] {  new VariableInfo("assetDao", ScatteredAssetAccessTemplate.class.getName(), true, VariableInfo.NESTED) };
 
     }
 }
