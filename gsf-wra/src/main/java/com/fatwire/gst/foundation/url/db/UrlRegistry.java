@@ -116,12 +116,11 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void addAsset(AssetId asset) {
-        WebReferenceableAsset wra = wraDao.getWra(asset);
-        if (wraDao.isWebReferenceable(wra)) {
+        if (wraDao.isWebReferenceable(asset)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Attempting to add WRA " + asset + " to url registry");
             }
-            // WebReferenceableAsset wra = wraDao.getWra(asset);
+            WebReferenceableAsset wra = wraDao.getWra(asset);
             addAsset(wra);
         } else {
             if (LOG.isTraceEnabled())
@@ -175,7 +174,7 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void updateAsset(AssetId id) {
-        // todo: low priority: optimize
+        // todo: low priority: optimize (assest api incache will mitigate the performance issue)
 
         StatementParam param = REGISTRY_SELECT_ID.newParam();
         param.setString(0, id.getType());

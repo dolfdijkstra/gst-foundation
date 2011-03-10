@@ -84,7 +84,7 @@ public class WraCoreFieldDao {
 
     /**
      * Method to test whether or not an asset is web-referenceable.
-     * todo: low priority: optimize as this will be called at runtime
+     * todo: low priority: optimize as this will be called at runtime (assest api incache will mitigate the performance issue)
      * 
      * @param id asset ID to check
      * @return true if the asset is a valid web-referenceable asset, false if it
@@ -93,12 +93,17 @@ public class WraCoreFieldDao {
     public boolean isWebReferenceable(AssetId id) {
         try {
             WebReferenceableAsset wra = getWra(id);
-            return isWebReferenceable(wra);
+            return StringUtils.isNotBlank(wra.getPath());
         } catch (RuntimeException e) {
             return false;
         }
     }
 
+    /**
+     * @deprecated - use isWebReferenceable(AssetId id) instead
+     * @param wra
+     * @return
+     */
     public boolean isWebReferenceable(WebReferenceableAsset wra) {
         return wra != null && StringUtils.isNotBlank(wra.getPath());
     }
@@ -118,7 +123,7 @@ public class WraCoreFieldDao {
      * must be set or an exception is thrown.
      * 
      * @param id asset id
-     * @return WebReferenceableAsset
+     * @return WebReferenceableAsset, never null
      * @see #isWebReferenceable
      */
     public WebReferenceableAsset getWra(AssetId id) {
