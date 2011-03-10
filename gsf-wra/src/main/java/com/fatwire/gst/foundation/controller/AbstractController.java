@@ -22,7 +22,7 @@ import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.XML.Template.Seed2;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.openmarket.xcelerate.publish.Render;
+import com.fatwire.gst.foundation.facade.runtag.render.Unknowndeps;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -130,7 +130,7 @@ public abstract class AbstractController implements Seed2 {
                 ics.StreamHeader(STATUS_HEADER, "500");
                 break;
         }
-        Render.UnknownDeps(ics);// failure case might be corrected on next
+        Unknowndeps.unknonwDeps(ics);// failure case might be corrected on next
         // publish or save
         String element = null;
 
