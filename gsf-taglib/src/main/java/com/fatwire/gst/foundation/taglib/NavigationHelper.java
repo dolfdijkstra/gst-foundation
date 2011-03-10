@@ -129,6 +129,7 @@ public class NavigationHelper {
      *            with. Typically this would be a nav name. The nav name would
      *            be included in the output object. Recursion is automatic
      * @return Map<String,Object> of the site plan tree (see above)
+     * @deprecated
      */
     public Map<String, Object> getSitePlanAsMap(String pageid) {
         return getSitePlanAsMap(pageid, 0);
@@ -143,6 +144,8 @@ public class NavigationHelper {
     }
 
     /**
+     * Retrieves the NavNode for the given Page with the provided name.
+     * 
      * @param depth the maximum depth to retrieve, -1 for no limit.
      * @param name the name of the Page asset
      * @return NavNode for the Page with the name
@@ -154,6 +157,12 @@ public class NavigationHelper {
         return nh.getSitePlan(depth, pageid);
     }
 
+    /**
+     * Retrieves the NavNode for the given Page with the provided id.
+     * 
+     * @param pageid the assetid of the Page asset.
+     * @return
+     */
     public NavNode getSitePlan(String pageid) {
         return getSitePlan(new AssetIdImpl("Page", Long.parseLong(pageid)));
     }
@@ -169,6 +178,8 @@ public class NavigationHelper {
     }
 
     /**
+     * Retrieves the NavNode for the given Page with the provided id.
+     * 
      * @param depth the maximum depth to retrieve, -1 for no limit.
      * @param pageid the AssetId for the page
      * @return the NavNode for this page
@@ -178,13 +189,13 @@ public class NavigationHelper {
     }
 
     /**
-     * Called from public Map<String,Object> getSitePlanAsMap(String pageid).
+     * Called from public {@link #getSitePlan(int, AssetId)}.
      * See that function's description for details
      * 
      * @param depth
      * @param pageId id of the page asset
      * @param level starting level number when traversing the site plan tree
-     * @return Map<String,Object> of the site plan tree
+     * @return NavNode of the site plan tree
      */
     private NavNode getSitePlan(int depth, AssetId pageId, int level) {
         LogDep.logDep(ics, pageId);
@@ -263,6 +274,13 @@ public class NavigationHelper {
         return node;
     }
 
+    /**
+     * 
+     * @param pageid
+     * @param level
+     * @return
+     * @deprecated
+     */
     private Map<String, Object> getSitePlanAsMap(String pageid, int level) {
         LogDep.logDep(ics, "Page", pageid);
         // object to hold results
@@ -361,15 +379,15 @@ public class NavigationHelper {
 
     /**
      * Get the URL for the alias.
-     *
+     * 
      * For external links, the targeturl attribute is rendered.
-     *
-     * For Aliases that refer to another WRA, the alias is allowed to
-     * override any WRA fields.  For instance, the path, and the template can
-     * be overridden by an alias for a WRA (though the template in the Alias
-     * had better be typeless, or a template of the same name must exist
-     * in the WRA's asset type or there will be a problem).
-     *
+     * 
+     * For Aliases that refer to another WRA, the alias is allowed to override
+     * any WRA fields. For instance, the path, and the template can be
+     * overridden by an alias for a WRA (though the template in the Alias had
+     * better be typeless, or a template of the same name must exist in the
+     * WRA's asset type or there will be a problem).
+     * 
      * @param alias Alias bean, which of course is also a WRA.
      * @return url
      */
@@ -391,7 +409,7 @@ public class NavigationHelper {
      * 
      * @param alias Alias bean
      * @return linktext or null on failure.
-     * @deprecated See {@link #getLinktext}}
+     * @deprecated See {@link #getLinktext}
      */
     protected String getLinktextForAlias(Alias alias) {
         return alias.getLinkText();
@@ -428,7 +446,7 @@ public class NavigationHelper {
      * 
      * @param wra WebReferenceableAsset bean
      * @return linktext
-     * @deprecated See {@link #getLinktext}}
+     * @deprecated See {@link #getLinktext}
      */
     protected String getLinktextForWra(WebReferenceableAsset wra) {
         if (wra.getLinkText() != null && wra.getLinkText().length() > 0) {
@@ -443,7 +461,8 @@ public class NavigationHelper {
     }
 
     /**
-     * Return the linktext for the WRA.  Note that aliases extend WRAs.
+     * Return the linktext for the WRA. Note that aliases extend WRAs.
+     * 
      * @param wra WebReferenceableAsset or Alias
      * @return linktext
      */
@@ -459,6 +478,7 @@ public class NavigationHelper {
      * @param id
      * @return map containing string-object mappings for use in things like
      *         placing in page scope
+     * @deprecated
      */
     protected Map<String, Object> extractAttrFromAlias(AssetId id) {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -480,6 +500,7 @@ public class NavigationHelper {
      * @param id asset
      * @return map containing string-object mappings for use in things like
      *         placing in page scope
+     * @deprecated
      */
     protected Map<String, Object> extractAttrFromWra(AssetId id) {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -512,9 +533,9 @@ public class NavigationHelper {
         String linktext = getLinktextForAlias(alias);
         node.setWra(alias);
         if (url != null)
-            node.setUrl(url);// result.put("url", url);
+            node.setUrl(url);
         if (linktext != null)
-            node.setLinktext(linktext);// result.put("linktext", linktext);
+            node.setLinktext(linktext);
 
     }
 
