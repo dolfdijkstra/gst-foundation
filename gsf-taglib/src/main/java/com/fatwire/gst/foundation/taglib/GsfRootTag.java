@@ -22,7 +22,6 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
@@ -31,7 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class GsfRootTag extends BodyTagSupport {
-
+    public static final String ICS_VARIABLE_NAME = "ics";
     public static final String VARIABLE_SCOPE_NAME = "cs";
     public static final String ASSET_DAO = "assetDao";
     /**
@@ -50,7 +49,7 @@ public class GsfRootTag extends BodyTagSupport {
     public int doStartTag() throws JspException {
         log.debug("doStartTag");
 
-        int ret = super.doStartTag();
+        super.doStartTag();
 
         ICS ics = getICS();
 
@@ -71,7 +70,7 @@ public class GsfRootTag extends BodyTagSupport {
     }
 
     protected ICS getICS() {
-        Object o = pageContext.getAttribute(Root.sICS, PageContext.PAGE_SCOPE);
+        Object o = pageContext.getAttribute(ICS_VARIABLE_NAME, PageContext.PAGE_SCOPE);
         if (o instanceof ICS)
             return (ICS) o;
         return null;
