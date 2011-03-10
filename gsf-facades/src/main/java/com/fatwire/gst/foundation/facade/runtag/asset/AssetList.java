@@ -24,10 +24,10 @@ import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * Exposes ASSET.LIST <asset:list type="assetType" list="nameOfList"
+ * Exposes ASSET.LIST &lt;asset:list type="assetType" list="nameOfList"
  * [order="order"] [pubid="siteId"] [excludevoided="trueOrFalse"]
  * [field[n]="fieldName"] [value[n]="fieldValue"]> <asset:argument
- * name="fieldName" value="fieldValue"/> </asset:list>
+ * name="fieldName" value="fieldValue"/&gt; &lt;/asset:list&gt;
  * 
  * @author Tony Field
  * @since Sep 28, 2008
