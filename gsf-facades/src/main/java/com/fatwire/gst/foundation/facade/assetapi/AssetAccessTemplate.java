@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 
@@ -34,12 +33,10 @@ import com.fatwire.assetapi.query.ConditionFactory;
 import com.fatwire.assetapi.query.OpTypeEnum;
 import com.fatwire.assetapi.query.Query;
 import com.fatwire.assetapi.query.SimpleQuery;
+import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
-import com.openmarket.xcelerate.asset.Asset;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-import com.openmarket.xcelerate.interfaces.IApprovalDependency;
-import com.openmarket.xcelerate.interfaces.IAsset;
 
 /**
  * 
@@ -70,6 +67,8 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Constructor that accepts ICS as an argument.
+     * 
      * @param ics
      */
     public AssetAccessTemplate(ICS ics) {
@@ -79,6 +78,8 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Helper method to create an AssetId from c and cid as string values.
+     * 
      * @param c
      * @param cid
      * @return
@@ -88,6 +89,9 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Method to read an asset and use the AssetMapper to transform the
+     * AssetData into another object as specified by the AssetMapper.
+     * 
      * @param <T>
      * @param id
      * @param mapper
@@ -109,6 +113,9 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Method to read an asset and use the AssetMapper to transform the
+     * AssetData into another object as specified by the AssetMapper.
+     * 
      * @param <T>
      * @param c the assetType
      * @param cid the asset id
@@ -120,6 +127,9 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Method to read an asset and use the AssetMapper to transform the
+     * AssetData into another object as specified by the AssetMapper.
+     * 
      * @param <T>
      * @param c the assetType
      * @param cid the asset id
@@ -131,6 +141,10 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Method to read an asset and use the AssetMapper to transform the
+     * AssetData into another object as specified by the AssetMapper. Only the
+     * list of lister attributes is retrieved from the asset.
+     * 
      * @param <T>
      * @param id
      * @param mapper
@@ -151,6 +165,9 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Method to read an asset and pass the results to the closure for further
+     * handling.
+     * 
      * @param id
      * @param closure
      */
@@ -206,12 +223,16 @@ public class AssetAccessTemplate {
         return null;
     }
 
+    private AssetDataManager assetDataManager;
+
     /**
      * @return
      */
     protected AssetDataManager getAssetDataManager() {
-        AssetDataManager m = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
-        return m;
+        if (assetDataManager == null) {
+            assetDataManager = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+        }
+        return assetDataManager;
     }
 
     /**
@@ -262,6 +283,7 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Reading assets with the Query and using the mapper to transform the AssetData into another object, as specified by T.
      * @param <T>
      * @param q
      * @param mapper
@@ -286,10 +308,14 @@ public class AssetAccessTemplate {
      */
     public AssetId findByName(ICS ics, String assetType, String name) {
         // TODO: name does not need to be unique, how do we handle this?
-        FTValList l = new FTValList();
-        l.setValString("name", name);
+        AssetList x = new AssetList();
+        x.setType(assetType);
+        x.setField("name", name);
+        x.setList("name");
+        x.execute(ics);
 
-        IList list = Asset.List(ics, l, "name", assetType);
+        IList list = ics.GetList("name__");
+        ics.RegisterList("name__", null);
         if (list != null && list.hasData()) {
             list.moveTo(1);
             try {
@@ -305,32 +331,6 @@ public class AssetAccessTemplate {
 
     }
 
-    /**
-     * @param ics
-     * @param assetType
-     * @param name
-     * @return
-     */
-    public IAsset loadByName(ICS ics, String assetType, String name) {
-        return (IAsset) Asset.Load(ics, "name", name, assetType, IApprovalDependency.DEPTYPE_EXISTS,
-                IAsset.LOAD_READONLY, null);
-    }
-
-    /**
-     * @param ics
-     * @param id
-     * @return
-     */
-    public IAsset loadById(ICS ics, AssetId id) {
-        return Asset.callLoad(ics, id.getId(), null, id.getType(), false);
-
-    }
-
-    /**
-     * @param assetType
-     * @param assetName
-     * @return
-     */
     public SimpleQuery createNameQuery(String assetType, String assetName) {
         final SimpleQuery q = new SimpleQuery(assetType, null, ConditionFactory.createCondition("name",
                 OpTypeEnum.EQUALS, assetName), Arrays.asList("id"));
