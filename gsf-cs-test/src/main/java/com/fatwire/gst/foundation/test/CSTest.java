@@ -28,22 +28,20 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import junit.framework.TestCase;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.dbcp.BasicDataSourceFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
-import COM.FutureTense.Util.ftTimedHashtable;
 
 import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.ics.ICSLocator;
 import com.fatwire.gst.foundation.facade.ics.ICSLocatorSupport;
 import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp.BasicDataSourceFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * NOTE July 6, 2010: The following instructions are not rigorously tested but
@@ -216,17 +214,6 @@ public abstract class CSTest extends TestCase {
         DebugHelper.printTime(log, "booting ICS", t);
         locator = new ICSLocatorSupport(ics);
 
-    }
-
-    protected void dumpFTTH() {
-        for (Object n : ftTimedHashtable.getAllCacheNames()) {
-            ftTimedHashtable h = ftTimedHashtable.findHash(n.toString());
-            System.out.println("name: " + h.getName());
-            // for (Enumeration<String> k = h.keys(); k.hasMoreElements();) {
-            // System.out.println("key: "+k.nextElement());
-            //
-            // }
-        }
     }
 
 }
