@@ -13,36 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 --%>
-<%@ taglib prefix="asset" uri="futuretense_cs/asset.tld" 
-%><%@ taglib prefix="assetset" uri="futuretense_cs/assetset.tld" 
-%><%@ taglib prefix="commercecontext" uri="futuretense_cs/commercecontext.tld" 
-%><%@ taglib prefix="ics" uri="futuretense_cs/ics.tld" 
-%><%@ taglib prefix="listobject" uri="futuretense_cs/listobject.tld" 
-%><%@ taglib prefix="render" uri="futuretense_cs/render.tld" 
-%><%@ taglib prefix="siteplan" uri="futuretense_cs/siteplan.tld" 
-%><%@ taglib prefix="searchstate" uri="futuretense_cs/searchstate.tld" 
-%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
-%><%@ taglib uri="http://gst.fatwire.com/foundation/tags/gsf" prefix="gsf"
-%><%@ page import="java.util.ArrayList,
-                 java.util.Map,
-                 com.fatwire.assetapi.data.AssetData,
-                 com.fatwire.assetapi.data.AssetId,
-                 com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate,
-                 com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAsset,
-                 com.fatwire.gst.foundation.taglib.NavNode,
-                 com.fatwire.gst.foundation.taglib.NavigationHelper" %>
-<gsf:root>
-    <%-- gsf:root tags takes care of log deps --%>
-<%
-ScatteredAsset asset = assetDao.readCurrent("metatitle", "metadescription", "metakeyword", "h1title", "linktext", "body");
-
-%><c:set var="asset" value="<%= asset %>" />
+<%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://gst.fatwire.com/foundation/tags/gsf" prefix="gsf"%>
+<cs:ftcs><gsf:root>
+<gsf:asset-load name="wra" attributes="metatitle,metadescription,metakeyword,h1title,linktext,body" />
     <html>
     <head>
-		<meta name="title" content='${asset.metatitle}' />
-		<meta name="description" content='${asset.metadescription}' />
-		<meta name="keyword" content='${asset.metakeyword}' />
-		<title>${asset.metatitle} | <ics:getvar name="site" /></title>
+		<meta name="title" content='${wra.metatitle}' />
+		<meta name="description" content='${wra.metadescription}' />
+		<meta name="keyword" content='${wra.metakeyword}' />
+		<title>${wra.metatitle} | ${cs.site}</title>
     </head>
     <body>
 	
@@ -56,10 +37,11 @@ ScatteredAsset asset = assetDao.readCurrent("metatitle", "metadescription", "met
 
 	<p>Current date is <strong><%= new java.util.Date()%></strong></p>
 
-    <h1>${asset.h1title}</h1>
+    <h1>${wra.h1title}</h1>
 
-    <div class="articlebody">${asset.body}</div>
+    <div class="articlebody">${wra.body}</div>
 
     </body>
     </html>
 </gsf:root>
+</cs:ftcs>

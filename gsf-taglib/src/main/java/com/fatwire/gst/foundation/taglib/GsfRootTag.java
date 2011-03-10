@@ -67,7 +67,7 @@ public class GsfRootTag extends BodyTagSupport {
         } else {
             throw new JspException("ics is not found on the page context");
         }
-        return ret;
+        return EVAL_BODY_INCLUDE;
     }
 
     protected ICS getICS() {

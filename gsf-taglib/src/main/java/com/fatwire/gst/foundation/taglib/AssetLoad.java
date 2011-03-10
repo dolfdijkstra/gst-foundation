@@ -17,17 +17,16 @@
 package com.fatwire.gst.foundation.taglib;
 
 import java.io.IOException;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import org.apache.commons.lang.StringUtils;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+
+import org.apache.commons.lang.StringUtils;
 
 public class AssetLoad extends SimpleTagSupport {
 
@@ -43,7 +42,7 @@ public class AssetLoad extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
 
         ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
-        ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
+        ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics); // todo: medium: find in page context if it's there (due to presence of gsf:root
         if (StringUtils.isBlank(c) || StringUtils.isBlank(cid)) {
             if (StringUtils.isBlank(attributes)) {
                 getJspContext().setAttribute(name, t.readCurrent());

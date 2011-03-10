@@ -88,7 +88,7 @@ public class ICSAsMap implements Map<String, Object> {
 
         IList i = ics.GetList((String) key, true);
         if (i != null) {
-            // TODO: transform into List/Map like
+            // TODO: medium transform into List/Map like
             return i;
         }
 
