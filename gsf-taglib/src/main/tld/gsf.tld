@@ -207,7 +207,7 @@
             this tag records dependencies for tid, seid, eid which means it
             is not necessary to do this within a JSP.  This tag
             should be placed immediately inside the cs:ftcs tag.</description>
-		<tag-class>com.fatwire.gst.foundation.taglib.IcsVarTag</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.GsfRootTag</tag-class>
         <tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
 		<body-content>JSP</body-content>
 	</tag>

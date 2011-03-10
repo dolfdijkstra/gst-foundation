@@ -30,7 +30,7 @@ import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class IcsVarTag extends BodyTagSupport {
+public class GsfRootTag extends BodyTagSupport {
 
     public static final String VARIABLE_SCOPE_NAME = "cs";
     public static final String ASSET_DAO = "assetDao";
@@ -39,7 +39,7 @@ public class IcsVarTag extends BodyTagSupport {
 	 */
     private static final long serialVersionUID = -5369419132504852400L;
 
-    private static final Log log = LogFactory.getLog(IcsVarTag.class);
+    private static final Log log = LogFactory.getLog(GsfRootTag.class);
 
     /*
      * (non-Javadoc)
