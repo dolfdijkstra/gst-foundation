@@ -53,6 +53,10 @@ public class AliasCoreFieldDao {
         this(ICSFactory.getOrCreateICS());
     }
 
+    public AliasCoreFieldDao(ICS ics, WraCoreFieldDao wraCoreFieldDao) {
+        this.ics = ics;
+        this.wraCoreFieldDao = wraCoreFieldDao;
+    }
     public AliasCoreFieldDao(ICS ics) {
         this.ics = ics;
         wraCoreFieldDao = new WraCoreFieldDao(ics);

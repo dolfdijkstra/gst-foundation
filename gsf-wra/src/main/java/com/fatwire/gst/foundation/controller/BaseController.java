@@ -66,7 +66,7 @@ public class BaseController extends AbstractController {
         super.SetAppLogic(ips);
         pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
         wraCoreFieldDao = new WraCoreFieldDao(ics);
-        aliasCoreFieldDao = new AliasCoreFieldDao(ics);
+        aliasCoreFieldDao = new AliasCoreFieldDao(ics,wraCoreFieldDao);
     }
 
     @Override
