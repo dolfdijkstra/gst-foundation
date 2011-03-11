@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.assetapi;
 import com.fatwire.assetapi.data.AssetData;
 
 /**
- * Closure to work with a single AssetData
+ * Closure to work with a single AssetData.
  * 
  * @author Dolf Dijkstra
  * 
