@@ -28,15 +28,21 @@ import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.data.BlobObject.BlobAddress;
 import com.fatwire.assetapi.def.AssetTypeDef;
 import com.fatwire.assetapi.def.AttributeDef;
+import com.fatwire.assetapi.def.AttributeTypeEnum;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 
 /**
  * 
- * Asset to be used in rendering code. It has easy accessors for the different
+ * This class provides easy access to AssetData, to be used in rendering code in read-only mode. It has casting accessors for values of the different
  * attribute types.
  * <p/>
  * It must be noted that naming conflicts between flex attribute names and meta
  * attribute names are resolved by giving the meta attribute preference.
+ * <p/>
+ * <code>
+ * TemplateAsset asset = ...;
+ * String name = asset.asString("name");
+ * </code>
  * 
  * @author Dolf Dijkstra
  * 
@@ -95,8 +101,8 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
-     * @return
+     * @param name the name of the attribute.
+     * @return the meta attribute value.
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
      *      boolean)
      */
@@ -106,7 +112,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return true is the attribute is defined as single valued.
      */
     public boolean isSingleValued(final String name) {
         AttributeDef ad = delegate.getAssetTypeDef().getAttributeDef(name, true);
@@ -131,7 +137,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute as a List
      */
     public List<?> asList(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -146,7 +152,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a Integer, can be null; please be careful with autoboxing.
      */
 
     public Integer asInt(final String name) {
@@ -157,7 +163,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a Date.
      */
     public Date asDate(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -166,7 +172,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a BlobObject.
      */
     public BlobObject asBlob(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -175,7 +181,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a Float, can be null; please be careful with autoboxing.
      */
     public Float asFloat(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -184,7 +190,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a Double, can be null; please be careful with autoboxing.
      */
     public Double asDouble(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -193,7 +199,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a Long, can be null; please be careful with autoboxing.
      */
     public Long asLong(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -202,7 +208,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a AssetId.
      */
     public AssetId asAssetId(final String name) {
 
@@ -212,7 +218,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a String.
      */
     public String asString(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -221,7 +227,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return attribute value as a BlobAddress.
      */
     public BlobAddress asBlobAddress(final String name) {
         final BlobObject blob = asBlob(name);
@@ -229,14 +235,26 @@ public class TemplateAsset {
     }
 
     /**
+     * Get all the attribute names.
      * @return the name of all the attributes of the asset
      * @see com.fatwire.assetapi.data.AssetData#getAttributeNames()
      */
     public List<String> getAttributeNames() {
+        
         return delegate.getAttributeNames();
     }
 
     /**
+     * Get the type of the attribute.
+     * @param name
+     * @return
+     */
+    public AttributeTypeEnum getType(String name){
+        return delegate.getAssetTypeDef().getAttributeDef(name, isMetaAttribute(name)).getType();
+    }
+    
+    /**
+     * Gets all the names of the meta attributes.
      * @return the name of all the attributes of the asset
      * @see com.fatwire.assetapi.data.AssetData#getAttributeNames()
      */
