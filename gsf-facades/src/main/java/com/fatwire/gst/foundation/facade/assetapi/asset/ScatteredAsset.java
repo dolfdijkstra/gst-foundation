@@ -38,11 +38,20 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 
 /**
  * 
- * Very simple form of an asset, that has loaded the attributes into memory.
+ * An asset that has loaded the attributes into memory. In the constructor all
+ * the attributes are copied into memory and and can be accessed via the
+ * {@link Map} methods.
+ * <p/>
+ * This class implements Serializable interface so the object can be serialized
+ * if needed. The serialization use-case is the best use-case for this class.
+ * The {@link AssetMapAdapter} is a better candidate to use if you are
+ * interested in accessing attribute data as a Map, for instance in a expression
+ * language like JSP EL.
+ * 
  * 
  * @author Dolf.Dijkstra
  * @since Nov 23, 2009
- * 
+ * @see AssetMapAdapter
  */
 
 public class ScatteredAsset extends AbstractMap<String, Object> implements Serializable {
