@@ -23,7 +23,7 @@ import com.fatwire.assetapi.data.AssetData;
 
 /**
  * 
- * Inteface to transform an asset into another form
+ * Inteface to transform a AssetData into another form.
  * 
  * @author Dolf Dijkstra
  * 
@@ -32,6 +32,11 @@ import com.fatwire.assetapi.data.AssetData;
 
 public interface AssetMapper<T> {
 
+    /**
+     * Creates a new object based on the provided AssetData.
+     * @param assetData
+     * @return the created object.
+     */
     T map(AssetData assetData);
 
 }
