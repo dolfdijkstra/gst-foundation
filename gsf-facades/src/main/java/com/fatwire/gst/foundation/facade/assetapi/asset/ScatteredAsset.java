@@ -38,7 +38,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 
 /**
  * 
- * Very simple form of an asset, that has loaded the attributes into memory
+ * Very simple form of an asset, that has loaded the attributes into memory.
  * 
  * @author Dolf.Dijkstra
  * @since Nov 23, 2009
@@ -161,11 +161,11 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                 case ONEOF:
                     Object o = attr.getData();
                     int size = 0;
-                    if (o instanceof List) {
+                    if (o instanceof List<?>) {
                         size = ((List<?>) o).size();
-                    } else if (o instanceof Set) {
+                    } else if (o instanceof Set<?>) {
                         size = ((Set<?>) o).size();
-                    } else if (o instanceof Map) {
+                    } else if (o instanceof Map<?, ?>) {
                         size = ((Map<?, ?>) o).size();
                     } else {
                         log.info(name + " " + o.getClass().getName());
