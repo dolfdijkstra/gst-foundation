@@ -1,66 +1,91 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.fatwire.gst</groupId>
-		<artifactId>gst-parent</artifactId>
-		<version>5</version>
-	</parent>
-    <groupId>com.fatwire.gst</groupId>
-    <artifactId>gsf-parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>FatWire GST: Site Foundation</name>
-    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/</url>
-    <inceptionYear>2010</inceptionYear>
-    <developers>
-        <developer>
-            <name>Dolf Dijkstra</name>
-        </developer>
-        <developer>
-            <name>Tony Field</name>
-        </developer>
-    </developers>
-    <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk</developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk</url>
-    </scm>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
- <modules>
-    <module>gsf-cs-all</module>
-    <module>gsf-facades</module>
-    <!--module>gsf-cs-test</module-->
-    <module>gsf-wra</module>
-    <module>gsf-taglib</module>
-    <module>gsf-tagging</module>
-    <module>gsf-assembly</module>
-  </modules>
-<build>
-	<plugins>
-		<plugin>
-		<inherited>false</inherited>
-		<groupId>com.mycila.maven-license-plugin</groupId>
-		<artifactId>maven-license-plugin</artifactId>
-		 <configuration>
-			<aggregate>true</aggregate>
-			<includes>
-				<include>src/**</include>
-			</includes>
-		 </configuration>
-		</plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <preparationGoals>clean install</preparationGoals>
-        </configuration>
-      </plugin>
-	</plugins>
-</build>
-  <repositories>
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+      <groupId>com.fatwire.gst</groupId>
+      <artifactId>gst-parent</artifactId>
+      <version>5</version>
+   </parent>
+   <groupId>com.fatwire.gst</groupId>
+   <artifactId>gsf-parent</artifactId>
+   <version>1.1-SNAPSHOT</version>
+   <packaging>pom</packaging>
+   <name>FatWire GST: Site Foundation</name>
+   <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/</url>
+   <inceptionYear>2010</inceptionYear>
+   <developers>
+      <developer>
+         <name>Dolf Dijkstra</name>
+      </developer>
+      <developer>
+         <name>Tony Field</name>
+      </developer>
+   </developers>
+   <scm>
+      <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk</connection>
+      <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk</developerConnection>
+      <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk</url>
+   </scm>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   <modules>
+      <module>gsf-cs-all</module>
+      <module>gsf-facades</module>
+      <!--module>gsf-cs-test</module-->
+      <module>gsf-wra</module>
+      <module>gsf-taglib</module>
+      <module>gsf-tagging</module>
+      <module>gsf-assembly</module>
+   </modules>
+   <build>
+      <plugins>
+         <plugin>
+            <inherited>true</inherited>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <version>1.6.0</version>
+            <configuration>
+               <header>http://www.nl.fatwire.com/dta/contrib/gst-foundation/APACHE2-HEADER.txt</header>
+               <failIfMissing>true</failIfMissing>
+               <aggregate>true</aggregate>
+               <properties>
+                  <year>${project.inceptionYear}</year>
+               </properties>
+               <includes>
+                  <include>src/**</include>
+               </includes>
+               <excludes>
+                  <exclude>LICENSE.txt</exclude>
+                  <exclude>**/*.txt</exclude>
+                  <exclude>**/src/test/resources/**</exclude>
+                  <exclude>**/src/test/data/**</exclude>
+               </excludes>
+               <mapping>
+                  <java>SLASHSTAR_STYLE</java>
+                  <groovy>SLASHSTAR_STYLE</groovy>
+               </mapping>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>check-headers</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>2.1</version>
+            <configuration>
+               <preparationGoals>clean install</preparationGoals>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+   <repositories>
       <repository>
          <id>nl.fatwire.com</id>
          <url>http://www.nl.fatwire.com/maven2</url>
@@ -82,10 +107,10 @@
          </releases>
       </repository>
    </repositories>
-  <distributionManagement>
-        <site>
-            <id>website</id>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation</url>
-        </site>
-    </distributionManagement>
+   <distributionManagement>
+      <site>
+         <id>website</id>
+         <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation</url>
+      </site>
+   </distributionManagement>
 </project>
