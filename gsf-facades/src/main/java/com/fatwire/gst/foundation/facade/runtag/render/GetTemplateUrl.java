@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Implements the RENDER.GETTEMPLATEURL tag.
  * <p/>
- * <render:gettemplateurl [addsession="true|false"]
+ * &lt;render:gettemplateurl [addsession="true|false"]
  * [assembler="uri assembler shortform"] [authority="authority value"]
  * [c="asset type"] [cid="asset id"] [container="servlet|portlet"]
  * [context="context override"] [deptype="exists|none"] [dynamic="true|false"]
@@ -36,11 +36,11 @@ import org.apache.commons.logging.LogFactory;
  * tid="caller Template or CSElement id"
  * [tname="target Template or CSElement name"]
  * [ttype="caller Template or CSElement"] [variant="template variant name"]
- * [wrapperpage="name of uncached wrapper page"] />
+ * [wrapperpage="name of uncached wrapper page"] /&gt;
  * <p/>
- * [<render:argument name="variable1" value="value1"/>]
+ * [&lt;render:argument name="variable1" value="value1"/&gt;]
  * <p/>
- * </render:gettemplateurl>
+ * &lt;/render:gettemplateurl&gt;
  * 
  * @author Tony Field
  * @since Nov 17, 2009
