@@ -83,8 +83,7 @@ public class AliasCoreFieldDao {
      * @return AssetData containing core fields for Alias asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id);
-//        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status", "target", "target_url", "popup", "linkimage");
+        return AssetDataUtils.getAssetData(id); // load all instead of specific fields, because we do not know which fields are set.
     }
 
     /**
