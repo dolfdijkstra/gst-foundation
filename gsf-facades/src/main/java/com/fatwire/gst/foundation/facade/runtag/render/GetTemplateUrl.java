@@ -45,97 +45,185 @@ import org.apache.commons.logging.LogFactory;
  * @author Tony Field
  * @since Nov 17, 2009
  */
+/**
+ * @author Dolf Dijkstra
+ * @since Mar 13, 2011
+ */
 public final class GetTemplateUrl extends TagRunnerWithArguments {
     private static Log LOG = LogFactory.getLog(GetTemplateUrl.class);
 
+    /**
+     * 
+     */
     public GetTemplateUrl() {
         super("RENDER.GETTEMPLATEURL");
     }
 
+    /**
+     * @param s
+     */
     public void setAsset(String s) {
         set("ASSET", s);
     }
 
+    /**
+     * @param b
+     */
     public void setAddSession(boolean b) {
         set("ADDSESSION", b ? "TRUE" : "FALSE");
     }
 
+    /**
+     * @param s
+     */
     public void setAssembler(String s) {
         set("ASSEMBLER", s);
     }
 
+    /**
+     * @param s
+     */
     public void setAuthority(String s) {
         set("AUTHORITY", s);
     }
 
+    /**
+     * @param s
+     */
     public void setC(String s) {
         set("C", s);
     }
 
+    /**
+     * @param s
+     */
     public void setCid(String s) {
         set("CID", s);
     }
 
+    /**
+     * @param s
+     */
     public void setContainer(String s) {
         set("CONTAINER", s);
     }
 
+    /**
+     * @param s
+     */
     public void setContext(String s) {
         set("CONTEXT", s);
     }
 
+    /**
+     * @param s
+     */
     public void setDeptype(String s) {
         set("DEPTYPE", s);
     }
 
+    /**
+     * @param b
+     */
     public void setDynamic(boolean b) {
         set("DYNAMIC", b ? "TRUE" : "FALSE");
     }
+    /**
+     * @param b
+     * @deprecated use {@link #setDynamic(boolean)}.
+     */
+    public void setDynamic(String b) {
+        set("DYNAMIC", b );
+    }
 
+    /**
+     * @param s
+     */
     public void setFragment(String s) {
         set("FRAGMENT", s);
     }
 
+    /**
+     * @param s
+     */
     public void setOutstr(String s) {
         set("OUTSTR", s);
     }
 
+    /**
+     * @param s
+     */
     public void setPackedargs(String s) {
         set("PACKEDARGS", s);
     }
 
+    /**
+     * @param b
+     */
     public void setSatellite(boolean b) {
         set("SATELLITE", b ? "TRUE" : "FALSE");
     }
 
+    /**
+     * @param b
+     * @deprecated use {@link #setSatellite(boolean)}.
+     */
+    public void setSatellite(String b) {
+        set("SATELLITE", b );
+    }
+
+    /**
+     * @param s
+     */
     public void setScheme(String s) {
         set("SCHEME", s);
     }
 
+    /**
+     * @param s
+     */
     public void setSite(String s) {
         set("SITE", s);
     }
 
+    /**
+     * @param s
+     */
     public void setSlotname(String s) {
         set("SLOTNAME", s);
     }
 
+    /**
+     * @param s
+     */
     public void setTid(String s) {
         set("TID", s);
     }
 
+    /**
+     * @param s
+     */
     public void setTname(String s) {
         set("TNAME", s);
     }
 
+    /**
+     * @param s
+     */
     public void setTtype(String s) {
         set("TTYPE", s);
     }
 
+    /**
+     * @param s
+     */
     public void setVariant(String s) {
         set("VARIANT", s);
     }
 
+    /**
+     * @param s
+     */
     public void setWrapperpage(String s) {
         LOG.trace("Setting wrapper to :" + s);
         set("wrapperpage", s);
