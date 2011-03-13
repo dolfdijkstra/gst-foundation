@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.facade.assetapi;
+package com.fatwire.gst.foundation.facade.uri;
 
 import COM.FutureTense.Interfaces.ICS;
 

@@ -88,8 +88,8 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
         set("DEPTYPE", s);
     }
 
-    public void setDynamic(String s) {
-        set("DYNAMIC", s);
+    public void setDynamic(boolean b) {
+        set("DYNAMIC", b ? "TRUE" : "FALSE");
     }
 
     public void setFragment(String s) {
@@ -104,8 +104,8 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
         set("PACKEDARGS", s);
     }
 
-    public void setSatellite(String s) {
-        set("SATELLITE", s);
+    public void setSatellite(boolean b) {
+        set("SATELLITE", b ? "TRUE" : "FALSE");
     }
 
     public void setScheme(String s) {
@@ -229,7 +229,7 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
         }
 
         if (dynamic != null) {
-            setDynamic(dynamic);
+            setDynamic("false".equalsIgnoreCase(dynamic));
         }
 
         if (fragment != null) {
@@ -241,7 +241,7 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
         }
 
         if (satellite != null) {
-            setSatellite(satellite);
+            setSatellite("false".equalsIgnoreCase(satellite));
         }
 
         if (scheme != null) {
