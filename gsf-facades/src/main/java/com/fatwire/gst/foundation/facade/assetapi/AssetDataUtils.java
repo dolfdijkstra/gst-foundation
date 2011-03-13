@@ -17,6 +17,7 @@
 package com.fatwire.gst.foundation.facade.assetapi;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
@@ -54,6 +55,23 @@ public final class AssetDataUtils {
     }
 
     /**
+     * Read all attributes for the given asset id.
+     * @param id, must be valid or else an exception is thrown
+     * @return asset data, never null.
+     */
+    public static AssetData getAssetData(AssetId id) {
+        AssetDataManager mgr = (AssetDataManager) getSession().getManager(AssetDataManager.class.getName());
+        try {
+            for (AssetData data : mgr.read(Collections.singletonList(id))) {
+                return data; // first one wins
+            }
+        } catch (AssetAccessException e) {
+            throw new CSRuntimeException("Failed to read attribute data: "+e, ftErrors.exceptionerr, e);
+        }
+        throw new CSRuntimeException("Asset not found: "+id, ftErrors.badparams);
+    }
+
+    /**
      * Return the AssetData for the specified asset
      * 
      * @param id
@@ -65,7 +83,7 @@ public final class AssetDataUtils {
         try {
             return mgr.readAttributes(id, Arrays.asList(attributes));
         } catch (AssetAccessException e) {
-            throw new CSRuntimeException("Failed to read attribute data", ftErrors.exceptionerr, e);
+            throw new CSRuntimeException("Failed to read attribute data: "+e, ftErrors.exceptionerr, e);
         }
     }
 

@@ -25,7 +25,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
 import com.fatwire.gst.foundation.facade.sql.Row;
@@ -57,6 +57,7 @@ public class AliasCoreFieldDao {
         this.ics = ics;
         this.wraCoreFieldDao = wraCoreFieldDao;
     }
+
     public AliasCoreFieldDao(ICS ics) {
         this.ics = ics;
         wraCoreFieldDao = new WraCoreFieldDao(ics);
@@ -82,7 +83,8 @@ public class AliasCoreFieldDao {
      * @return AssetData containing core fields for Alias asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status", "target", "target_url", "popup", "linkimage");
+        return AssetDataUtils.getAssetData(id);
+//        return AssetDataUtils.getAssetData(id, "metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status", "target", "target_url", "popup", "linkimage");
     }
 
     /**
@@ -111,12 +113,10 @@ public class AliasCoreFieldDao {
      * @see #isAlias
      */
     public Alias getAlias(AssetId id) {
-        if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType()) == false) throw new IllegalArgumentException("Asset type is not GSTAlias: "+id);
-        
-        AssetData data = getAsAssetData(id);
+        TemplateAsset alias = new TemplateAsset(getAsAssetData(id));
         AssetId target = Children.getOptionalSingleAssociation(ics, id.getType(), Long.toString(id.getId()), "target");
         if (target == null) {
-            String targetUrl = AttributeDataUtils.asString(data.getAttributeData("target_url"));
+            String targetUrl = alias.asString("target_url");
             if (targetUrl != null && targetUrl.length() == 0)
                 throw new IllegalStateException("Asset is not an alias because it has neither a target_url attribute nor a target named association: " + id);
             LOG.trace("Alias " + id + " refers to an external URL");
@@ -124,23 +124,28 @@ public class AliasCoreFieldDao {
             AliasBeanImpl o = new AliasBeanImpl();
             // Wra fields
             o.setId(id);
-            o.setName(AttributeDataUtils.getWithFallback(data, "name"));
-            o.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
-            o.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
-            o.setStatus(AttributeDataUtils.asString(data.getAttributeData("status")));
-            o.setStartDate(AttributeDataUtils.asDate(data.getAttributeData("startdate")));
-            o.setEndDate(AttributeDataUtils.asDate(data.getAttributeData("enddate")));
-            o.setMetaTitle(AttributeDataUtils.getWithFallback(data, "metatitle"));
-            o.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
-            o.setMetaKeyword(AttributeDataUtils.getWithFallback(data, "metakeyword"));
-            o.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
-            o.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
-            o.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
-            o.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
+            o.setName(alias.asString("name"));
+            o.setDescription(alias.asString("description"));
+            o.setSubtype("GSTAlias");
+            o.setStatus(alias.asString("status"));
+            o.setStartDate(alias.asDate("startdate"));
+            o.setEndDate(alias.asDate("enddate"));
+            String linktext = alias.asString("linktext");
+            o.setLinkText(goodString(linktext) ? linktext : o.getH1Title());
+
+            // these fields really don't make much sense in an external link...
+            if (alias.getAttributeNames().contains("h1title")) o.setH1Title(alias.asString("h1title"));
+            if (alias.getAttributeNames().contains("metatitle")) o.setMetaTitle(alias.asString("metatitle"));
+            if (alias.getAttributeNames().contains("metadescription"))
+                o.setMetaDescription(alias.asString("metadescription"));
+            if (alias.getAttributeNames().contains("metakeyword")) o.setMetaKeyword(alias.asString("metakeyword"));
+            o.setPath(alias.asString("path"));
+            o.setTemplate(alias.asString("template"));
+
             // Alias fields
-            o.setTargetUrl(AttributeDataUtils.asString(data.getAttributeData("target_url")));
-            o.setPopup(AttributeDataUtils.asString(data.getAttributeData("popup")));
-            o.setLinkImage(AttributeDataUtils.asAssetId(data.getAttributeData("linkimage")));
+            o.setTargetUrl(targetUrl);
+            if (alias.getAttributeNames().contains("popup")) o.setPopup(alias.asString("popup"));
+            if (alias.getAttributeNames().contains("linkimage")) o.setLinkImage(alias.asAssetId("linkimage"));
             return o;
 
 
@@ -154,53 +159,57 @@ public class AliasCoreFieldDao {
             AliasBeanImpl o = new AliasBeanImpl();
             // Wra fields
             o.setId(id);
-            o.setName(AttributeDataUtils.getWithFallback(data, "name"));
-            o.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
-            o.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
-            o.setStatus(AttributeDataUtils.asString(data.getAttributeData("status")));
+            o.setName(alias.asString("name"));
+            o.setDescription(alias.asString("description"));
+            o.setSubtype("GSTAlias");
+            o.setStatus(alias.asString("status"));
 
-            Date d = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
-            if (d == null) d = wra.getStartDate();
-            o.setStartDate(d);
+            Date d = alias.asDate("startdate");
+            o.setStartDate(d == null ? wra.getStartDate() : d);
+            d = alias.asDate("enddate");
+            o.setEndDate(d == null ? wra.getEndDate() : d);
 
-            d = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
-            if (d == null) d = wra.getEndDate();
-            o.setEndDate(d);
+            if (alias.getAttributeNames().contains("h1title")) {
+                String s = alias.asString("h1title");
+                o.setH1Title(s == null ? wra.getH1Title() : s);
+            }
 
-            String s = AttributeDataUtils.getWithFallback(data, "metatitle");
-            if (!goodString(s)) s = wra.getMetaTitle();
-            o.setMetaTitle(s);
+            if (alias.getAttributeNames().contains("linktext")) {
+                String s = alias.asString("linktext");
+                o.setLinkText(s == null ? wra.getLinkText() : s);
+            }
 
-            s = AttributeDataUtils.getWithFallback(data, "metadescription");
-            if (!goodString(s)) s = wra.getMetaDescription();
-            o.setMetaDescription(s);
+            if (alias.getAttributeNames().contains("metatitle")) {
+                String s = alias.asString("metatitle");
+                if (!goodString(s)) s = wra.getMetaTitle();
+                o.setMetaTitle(s);
+            }
 
-            s = AttributeDataUtils.getWithFallback(data, "metakeyword");
-            if (!goodString(s)) s = wra.getMetaKeyword();
-            o.setMetaKeyword(s);
+            if (alias.getAttributeNames().contains("metadescription")) {
+                String s = alias.asString("metadescription");
+                if (!goodString(s)) s = wra.getMetaDescription();
+                o.setMetaDescription(s);
+            }
+
+            if (alias.getAttributeNames().contains("metakeyword")) {
+                String s = alias.asString("metakeyword");
+                if (!goodString(s)) s = wra.getMetaKeyword();
+                o.setMetaKeyword(s);
+            }
 
 
-            s = AttributeDataUtils.getWithFallback(data, "h1title");
-            if (!goodString(s)) s = wra.getH1Title();
-            o.setH1Title(s);
-
-            s = AttributeDataUtils.getWithFallback(data, "linktext", "h1title");
-            if (!goodString(s)) s = wra.getLinkText();
-            o.setLinkText(s);
-
-
-            s = AttributeDataUtils.getWithFallback(data, "path");
+            String s = alias.asString("path");
             if (!goodString(s)) s = wra.getPath();
             o.setPath(s);
 
-            s = AttributeDataUtils.getWithFallback(data, "template");
+            s = alias.asString("template");
             if (!goodString(s)) s = wra.getTemplate();
             o.setTemplate(s);
 
             // Alias fields
-            o.setTarget(AttributeDataUtils.asAssetId(data.getAttributeData("target")));
-            o.setPopup(AttributeDataUtils.asString(data.getAttributeData("popup")));
-            o.setLinkImage(AttributeDataUtils.asAssetId(data.getAttributeData("linkimage")));
+            o.setTarget(target);
+            if (alias.getAttributeNames().contains("popup")) o.setPopup(alias.asString("popup"));
+            if (alias.getAttributeNames().contains("linkimage")) o.setLinkImage(alias.asAssetId("linkimage"));
 
             return o;
         }

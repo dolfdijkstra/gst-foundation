@@ -37,7 +37,7 @@ public class WRAUtils {
 
     public WRAUtils(ICS ics) {
         wraDao = new WraCoreFieldDao(ics);
-        aliasDao = new AliasCoreFieldDao(ics);
+        aliasDao = new AliasCoreFieldDao(ics, wraDao);
     }
 
     /**
@@ -50,6 +50,7 @@ public class WRAUtils {
             return wraDao.getWra(id);
         } catch (RuntimeException e) {
             LOG.warn("Asset " + id + " is not a web-referenceable asset.");
+            LOG.debug("Asset " + id + " is not a web-referenceable asset: " + e, e);
             return null;
         }
     }
@@ -63,6 +64,7 @@ public class WRAUtils {
             return aliasDao.getAlias(id);
         } catch (RuntimeException e) {
             LOG.warn("Asset " + id + " is not an alias asset.");
+            LOG.debug("Asset " + id + " is not an alias asset: " + e,e);
             return null;
         }
     }
