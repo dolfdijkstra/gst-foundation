@@ -35,6 +35,7 @@ import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.WraBeanImpl;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
@@ -50,7 +51,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * <tt>CALLJAVA</tt> tag:
  * <code>&lt;CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
  * </code>
- * 
+ *
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -66,7 +67,7 @@ public class BaseController extends AbstractController {
         super.SetAppLogic(ips);
         pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
         wraCoreFieldDao = new WraCoreFieldDao(ics);
-        aliasCoreFieldDao = new AliasCoreFieldDao(ics,wraCoreFieldDao);
+        aliasCoreFieldDao = new AliasCoreFieldDao(ics, wraCoreFieldDao);
     }
 
     @Override
@@ -79,14 +80,9 @@ public class BaseController extends AbstractController {
         }
         LOG.trace("BaseController found a valid asset and site: " + id);
 
-        WebReferenceableAsset wra;
-        try {
-            wra = Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType()) ? aliasCoreFieldDao.getAlias(id) :  wraCoreFieldDao.getWra(id);
-        } catch (IllegalArgumentException e) {
-            throw new CSRuntimeException("Web-Referenceable Asset " + id + " is not valid", ftErrors.pagenotfound);
-        }
+        WebReferenceableAsset wra = getWraAndResolveAlias(id);
 
-        callTemplate(id, wra.getTemplate());
+        callTemplate(new AssetIdWithSite(wra.getId().getType(), wra.getId().getId(), id.getSite()), wra.getTemplate());
         LOG.trace("BaseController execution complete");
     }
 
@@ -120,7 +116,7 @@ public class BaseController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     * 
+     *
      * @param e exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
@@ -143,27 +139,30 @@ public class BaseController extends AbstractController {
         }
     }
 
-    protected AssetIdWithSite resolveAssetId() {
-        final AssetIdWithSite id;
-        if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
-            id = pathTranslationService.resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
-        } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
-            // handle these to be nice
-            // Look up site because we can't trust the wrapper's resarg.
-            String site = wraCoreFieldDao.resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
-            id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
-        } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
-            // (but not both)
-            throw new CSRuntimeException("Missing required param virtual-webroot & url-path.", ftErrors.pagenotfound);
-        } else {
-            throw new CSRuntimeException("Missing required param c, cid.", ftErrors.pagenotfound);
+    /**
+     * Load the WRA, or the alias, and return it for use by the controller.
+     * If the asset is not found, an exception is thrown
+     *
+     * @param id asset id
+     * @return WRA, never null.  May be an instance of an Alias
+     */
+    private WebReferenceableAsset getWraAndResolveAlias(AssetIdWithSite id) {
+        try {
+            if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType())) {
+                if (LOG.isTraceEnabled()) LOG.trace("Loading alias: " + id);
+                Alias alias = aliasCoreFieldDao.getAlias(id);
+                WraBeanImpl wra = new WraBeanImpl(alias);
+                wra.setId(alias.getTarget());
+                if (LOG.isDebugEnabled()) LOG.debug("Loaded alias: " + id + " which resolved to " + wra.getId());
+                return wra;
+            } else {
+                if (LOG.isTraceEnabled()) LOG.trace("Loading wra: " + id);
+                return wraCoreFieldDao.getWra(id);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new CSRuntimeException("Web-Referenceable Asset " + id + " is not valid", ftErrors.pagenotfound);
         }
-        return id;
     }
-
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
-            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
-            "url-path");
 
     @SuppressWarnings("unchecked")
     protected void callTemplate(final AssetIdWithSite id, final String tname) {
@@ -177,8 +176,7 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/"
-                + tname;
+        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/" + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
             LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
@@ -221,20 +219,39 @@ public class BaseController extends AbstractController {
         getCallTemplateArguments(id, arguments);
         for (String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled())
-                LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+            if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
         }
 
         ct.execute(ics);
     }
 
+    protected AssetIdWithSite resolveAssetId() {
+        final AssetIdWithSite id;
+        if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
+            id = pathTranslationService.resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
+        } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
+            // handle these to be nice
+            // Look up site because we can't trust the wrapper's resarg.
+            String site = wraCoreFieldDao.resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
+            id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
+        } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
+            // (but not both)
+            throw new CSRuntimeException("Missing required param virtual-webroot & url-path.", ftErrors.pagenotfound);
+        } else {
+            throw new CSRuntimeException("Missing required param c, cid.", ftErrors.pagenotfound);
+        }
+        return id;
+    }
+
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
+
     /**
      * This method collects additional arguments for the CallTemplate call. New
      * arguments are added to the map as name-value pairs.
-     * 
-     * @param id AssetIdWithSite object
+     *
+     * @param id        AssetIdWithSite object
      * @param arguments Map<String,String> containing arguments for the nested
-     *            CallTemplate call
+     *                  CallTemplate call
      */
     protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {
         findAndSetP(id, arguments);
@@ -244,8 +261,8 @@ public class BaseController extends AbstractController {
      * Add p to the input parameters, if it is known or knowable. First check to
      * see if it has been explicitly set, then look it up if it hasn't been. The
      * variable is not guaranteed to be found.
-     * 
-     * @param id asset id with site
+     *
+     * @param id        asset id with site
      * @param arguments calltemplate arguments
      */
     private void findAndSetP(AssetIdWithSite id, Map<String, String> arguments) {

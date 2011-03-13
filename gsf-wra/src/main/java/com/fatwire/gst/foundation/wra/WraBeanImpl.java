@@ -21,7 +21,7 @@ import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Simple WRA bean
- * 
+ *
  * @author Tony Field
  * @since Jul 21, 2010
  */
@@ -40,6 +40,26 @@ public class WraBeanImpl implements WebReferenceableAsset {
     private String template;
     private Date startDate;
     private Date endDate;
+
+    public WraBeanImpl() {
+    }
+
+    public WraBeanImpl(WebReferenceableAsset wra) {
+        id = wra.getId();
+        name = wra.getName();
+        description = wra.getDescription();
+        subtype = wra.getSubtype();
+        status = wra.getStatus();
+        metaTitle = wra.getMetaTitle();
+        metaDescription = wra.getMetaDescription();
+        metaKeyword = wra.getMetaKeyword();
+        h1Title = wra.getH1Title();
+        linkText = wra.getLinkText();
+        path = wra.getPath();
+        template = wra.getTemplate();
+        startDate = wra.getStartDate();
+        endDate = wra.getEndDate();
+    }
 
     public AssetId getId() {
         return id;

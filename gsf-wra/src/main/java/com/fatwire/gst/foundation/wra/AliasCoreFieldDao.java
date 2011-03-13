@@ -158,9 +158,15 @@ public class AliasCoreFieldDao {
             AliasBeanImpl o = new AliasBeanImpl();
             // Wra fields
             o.setId(id);
+            if (LOG.isTraceEnabled())
+                LOG.trace("alias name: " + alias.asString("name") + ", wra name:" + wra.getName());
             o.setName(alias.asString("name"));
+            if (LOG.isTraceEnabled())
+                LOG.trace("alias description: " + alias.asString("description") + ", wra description:" + wra.getDescription());
             o.setDescription(alias.asString("description"));
             o.setSubtype("GSTAlias");
+            if (LOG.isTraceEnabled())
+                LOG.trace("alias status: " + alias.asString("status") + ", wra status:" + wra.getStatus());
             o.setStatus(alias.asString("status"));
 
             Date d = alias.asDate("startdate");
@@ -198,10 +204,12 @@ public class AliasCoreFieldDao {
 
 
             String s = alias.asString("path");
+            if (LOG.isTraceEnabled()) LOG.trace("alias path: " + s + ", wra path:" + wra.getPath());
             if (!goodString(s)) s = wra.getPath();
             o.setPath(s);
 
             s = alias.asString("template");
+            if (LOG.isTraceEnabled()) LOG.trace("alias template: " + s + ", wra template:" + wra.getTemplate());
             if (!goodString(s)) s = wra.getTemplate();
             o.setTemplate(s);
 
