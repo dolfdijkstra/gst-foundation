@@ -146,7 +146,7 @@ public class BaseController extends AbstractController {
      * @param id asset id
      * @return WRA, never null.  May be an instance of an Alias
      */
-    private WebReferenceableAsset getWraAndResolveAlias(AssetIdWithSite id) {
+    protected WebReferenceableAsset getWraAndResolveAlias(AssetIdWithSite id) {
         try {
             if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType())) {
                 if (LOG.isTraceEnabled()) LOG.trace("Loading alias: " + id);
