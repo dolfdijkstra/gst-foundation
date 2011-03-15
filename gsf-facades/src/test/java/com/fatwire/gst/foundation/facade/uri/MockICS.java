@@ -66,6 +66,10 @@ public class MockICS implements ICS {
         return null;
     }
 
+    public String getSQL(String s) {
+        throw new UnsupportedOperationException("NYI");
+    }
+
     public IList CallSQL(String arg0, String arg1, int arg2, boolean arg3, boolean arg4, StringBuffer arg5) {
         // TODO Auto-generated method stub
         return null;
