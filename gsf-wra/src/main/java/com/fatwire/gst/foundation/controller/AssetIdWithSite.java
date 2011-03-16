@@ -22,23 +22,23 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * AssetId with SiteName attached to it
- * 
+ *
  * @author Dolf Dijkstra
  * @since Jun 17, 2010
  */
 public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private final String type;
     private final long id;
     private final String site;
 
+    public AssetIdWithSite(AssetId id, String site) {
+        this(id.getType(), id.getId(), site);
+    }
+
     public AssetIdWithSite(String type, long id, String site) {
-        if (type == null || site == null)
-            throw new NullPointerException("type=" + type + ",site=" + site);
+        if (type == null || site == null) throw new NullPointerException("type=" + type + ",site=" + site);
         this.type = type;
         this.id = id;
         this.site = site;
@@ -100,25 +100,17 @@ public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Se
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof AssetIdWithSite))
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof AssetIdWithSite)) return false;
         AssetIdWithSite other = (AssetIdWithSite) obj;
-        if (id != other.id)
-            return false;
+        if (id != other.id) return false;
         if (site == null) {
-            if (other.site != null)
-                return false;
-        } else if (!site.equals(other.site))
-            return false;
+            if (other.site != null) return false;
+        } else if (!site.equals(other.site)) return false;
         if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
-            return false;
+            if (other.type != null) return false;
+        } else if (!type.equals(other.type)) return false;
         return true;
     }
 
@@ -140,15 +132,11 @@ public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Se
      */
 
     public int compareTo(AssetIdWithSite o) {
-        if (this == o)
-            return 0;
-        if (o.id > this.id)
-            return -1;
-        if (o.id < this.id)
-            return 1;
+        if (this == o) return 0;
+        if (o.id > this.id) return -1;
+        if (o.id < this.id) return 1;
         int t = this.type.compareTo(o.type);
-        if (t != 0)
-            return t;
+        if (t != 0) return t;
 
         return this.site.compareTo(o.site);
     }
