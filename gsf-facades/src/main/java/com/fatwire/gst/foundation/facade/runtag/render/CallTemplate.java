@@ -27,16 +27,18 @@ import org.apache.commons.logging.LogFactory;
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
+import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.RenderUtils;
+import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
 
 /**
  * CallTemplate tag
  * <p/>
  * <code>
- * &lt;RENDER.CALLTEMPLATE SITE="site name" 
+ * &lt;RENDER.CALLTEMPLATE SITE="site name"
  * SLOTNAME="name of slot"
  * TID="caller Template or CSElement id" [TTYPE="caller Template or CSElement"]
  * [C="asset type"] [CID="asset id"] [TNAME="target Template or CSElement name"]
@@ -47,7 +49,7 @@ import com.fatwire.gst.foundation.facade.RenderUtils;
  * <p/>
  * &lt;/RENDER.CALLTEMPLATE&gt;
  * </code>
- * 
+ *
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -63,7 +65,6 @@ public class CallTemplate extends TagRunnerWithArguments {
     static private Style defaultStyle = null;
     /**
      * Do not use the user provided value for style, override
-     * 
      */
     static private boolean override = true;
     static private boolean fixPageCriteria = false;
@@ -84,7 +85,7 @@ public class CallTemplate extends TagRunnerWithArguments {
 
     /**
      * Sets up CallTemplate with default <tt>Style.element</tt>
-     * 
+     *
      * @param slotname
      * @param tname
      * @param type
@@ -211,7 +212,7 @@ public class CallTemplate extends TagRunnerWithArguments {
 
         /**
          * Considerations 1) Check target for parameter callstyle and use that
-         * 
+         *
          */
         String pname;
 
@@ -228,17 +229,13 @@ public class CallTemplate extends TagRunnerWithArguments {
 
         final Style proposal = calculateStyle(ics, pname, currentCached, targetCached);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting style to '" + proposal + (style != null ? "' (user did set '" + style + "')" : "'")
-                    + " for calltemplate to '" + pname + "' with " + type + "," + cid + "," + getList()
-                    + " in element: '" + ics.ResolveVariables("CS.elementname") + "', caching: '" + currentCached + "/"
-                    + targetCached + "', page: " + ics.pageURL());
+            LOG.debug("Setting style to '" + proposal + (style != null ? "' (user did set '" + style + "')" : "'") + " for calltemplate to '" + pname + "' with " + type + "," + cid + "," + getList() + " in element: '" + ics.ResolveVariables("CS.elementname") + "', caching: '" + currentCached + "/" + targetCached + "', page: " + ics.pageURL());
         }
         return proposal;
 
     }
 
-    private Style calculateStyle(final ICS ics, final String pname, final boolean currentCache,
-            final boolean targetCache) {
+    private Style calculateStyle(final ICS ics, final String pname, final boolean currentCache, final boolean targetCache) {
         if (currentCache == false) // we are not caching for the current pagelet
         {
             if (targetCache == false) {
@@ -269,8 +266,7 @@ public class CallTemplate extends TagRunnerWithArguments {
                     // if c/cid does not change than we call this as an element,
                     // as reuse is unlikely
                     if (LOG.isTraceEnabled()) {
-                        LOG.trace("Calling " + pname + " as an element from " + ics.ResolveVariables("CS.elementname")
-                                + " because cid is same as on current pagelet.");
+                        LOG.trace("Calling " + pname + " as an element from " + ics.ResolveVariables("CS.elementname") + " because cid is same as on current pagelet.");
                     }
                     return Style.element;
                 } else {
@@ -307,15 +303,12 @@ public class CallTemplate extends TagRunnerWithArguments {
                     }
                 }
                 if (!found) {
-                    LOG.error("Argument '" + key + "' not found as PageCriterium on " + target
-                            + ". Calling element is " + ics.ResolveVariables("CS.elementname") + ". Arguments are: "
-                            + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
+                    LOG.error("Argument '" + key + "' not found as PageCriterium on " + target + ". Calling element is " + ics.ResolveVariables("CS.elementname") + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
                     // we could correct this by calling as an element
                     // or by removing the argument
                     if (fixPageCriteria) {
                         i.remove();
-                        LOG.warn("Argument '" + key + "' is removed from the call to '" + target
-                                + "' as it is not a PageCriterium.");
+                        LOG.warn("Argument '" + key + "' is removed from the call to '" + target + "' as it is not a PageCriterium.");
                     }
 
                 }
@@ -328,12 +321,26 @@ public class CallTemplate extends TagRunnerWithArguments {
     /**
      * Call template args need to be altered slightly in order to be available
      * in the called template
-     * 
-     * @param name parameter name
+     *
+     * @param name  parameter name
      * @param value parameter value
      */
     public void setArgument(final String name, final String value) {
         super.set("ARGS_" + name, value);
+    }
+
+    protected void handleError(ICS ics) {
+
+        int errno = ics.GetErrno();
+        FTValList arguments = list;
+        ftErrors complexError = ics.getComplexError();
+        String pagename = ics.GetVar("pagename");
+        String elementname = ics.GetVar("CS.elementname");
+        String msg = "ics.runTag(RENDER.CALLTEMPLATE) failed for tname: " + list.getValString("TNAME") + " for asset: " + list.getValString("C") + ":" + list.getValString("CID") + " within pagename:" + pagename;
+        if (elementname != null) msg += " and element:" + elementname;
+        msg += ".";
+
+        throw new TagRunnerRuntimeException(msg, errno, arguments, complexError, pagename, elementname);
     }
 
 }
