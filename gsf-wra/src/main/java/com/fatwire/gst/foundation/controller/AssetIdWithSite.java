@@ -22,25 +22,31 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * AssetId with SiteName attached to it
- *
+ * 
  * @author Dolf Dijkstra
  * @since Jun 17, 2010
  */
 public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final String type;
-    private final long id;
+    private final AssetIdImpl id;
     private final String site;
 
     public AssetIdWithSite(AssetId id, String site) {
-        this(id.getType(), id.getId(), site);
+        if (id == null)
+            throw new NullPointerException("id can not be null.");
+        if (id instanceof AssetIdImpl) {
+            this.id = (AssetIdImpl) id;
+        } else {
+            this.id = new AssetIdImpl(id.getType(), id.getId());
+        }
+        this.site = site;
     }
 
     public AssetIdWithSite(String type, long id, String site) {
-        if (type == null || site == null) throw new NullPointerException("type=" + type + ",site=" + site);
-        this.type = type;
-        this.id = id;
+        if (type == null || site == null)
+            throw new NullPointerException("type=" + type + ",site=" + site);
+        this.id = new AssetIdImpl(type, id);
         this.site = site;
 
     }
@@ -52,7 +58,7 @@ public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Se
      */
 
     public long getId() {
-        return id;
+        return id.getId();
     }
 
     /*
@@ -62,11 +68,11 @@ public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Se
      */
 
     public String getType() {
-        return type;
+        return id.getType();
     }
 
     public AssetId getAssetId() {
-        return new AssetIdImpl(type, id);
+        return id;
     }
 
     /**
@@ -79,50 +85,12 @@ public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Se
     /*
      * (non-Javadoc)
      * 
-     * @see java.lang.Object#hashCode()
-     */
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + ((site == null) ? 0 : site.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof AssetIdWithSite)) return false;
-        AssetIdWithSite other = (AssetIdWithSite) obj;
-        if (id != other.id) return false;
-        if (site == null) {
-            if (other.site != null) return false;
-        } else if (!site.equals(other.site)) return false;
-        if (type == null) {
-            if (other.type != null) return false;
-        } else if (!type.equals(other.type)) return false;
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see java.lang.Object#toString()
      */
 
     @Override
     public String toString() {
-        return "AssetIdWithSite [type=" + type + ", id=" + id + ", site=" + site + "]";
+        return "AssetIdWithSite [type=" + id.getType() + ", id=" + id.getId() + ", site=" + site + "]";
     }
 
     /*
@@ -132,13 +100,56 @@ public class AssetIdWithSite implements AssetId, Comparable<AssetIdWithSite>, Se
      */
 
     public int compareTo(AssetIdWithSite o) {
-        if (this == o) return 0;
-        if (o.id > this.id) return -1;
-        if (o.id < this.id) return 1;
-        int t = this.type.compareTo(o.type);
-        if (t != 0) return t;
+        if (this == o)
+            return 0;
+        int l = id.compareTo(o.getAssetId());
+        if (l != 0)
+            return l;
 
         return this.site.compareTo(o.site);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((site == null) ? 0 : site.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (obj instanceof AssetIdImpl)
+            return id.equals(obj);
+        if (!(obj instanceof AssetIdWithSite))
+            return false;
+        AssetIdWithSite other = (AssetIdWithSite) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (site == null) {
+            if (other.site != null)
+                return false;
+        } else if (!site.equals(other.site))
+            return false;
+        return true;
     }
 
 }
