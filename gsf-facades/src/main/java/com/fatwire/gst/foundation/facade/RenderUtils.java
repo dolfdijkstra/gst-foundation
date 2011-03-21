@@ -16,8 +16,13 @@
 
 package com.fatwire.gst.foundation.facade;
 
+import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
+
+import static COM.FutureTense.Interfaces.Utilities.goodString;
+
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Util.ftMessage;
 
 public class RenderUtils {
 
@@ -33,8 +38,30 @@ public class RenderUtils {
      * @return
      */
     public static boolean isCacheable(final ICS ics, final String pname) {
-        return CacheManager.clientIsSS(ics) ? ics.getPageData(pname).getSSCacheInfo().shouldCache() : ics
-                .getPageData(pname).getCSCacheInfo().shouldCache();
+        return CacheManager.clientIsSS(ics) ? ics.getPageData(pname).getSSCacheInfo().shouldCache() : ics.getPageData(
+                pname).getCSCacheInfo().shouldCache();
+    }
+
+    /**
+     * Records the compositions dependancies for SiteEntry,CSElement and
+     * Template.
+     * 
+     * @param ics
+     */
+    public static void recordBaseCompositionalDependencies(final ICS ics) {
+
+        if (isCacheable(ics, ics.GetVar(ftMessage.PageName))) {
+            if (goodString(ics.GetVar("seid"))) {
+                LogDep.logDep(ics, "SiteEntry", ics.GetVar("seid"));
+            }
+            if (goodString(ics.GetVar("eid"))) {
+                LogDep.logDep(ics, "CSElement", ics.GetVar("eid"));
+            }
+            if (goodString(ics.GetVar("tid"))) {
+                LogDep.logDep(ics, "Template", ics.GetVar("tid"));
+            }
+
+        }
     }
 
 }
