@@ -44,7 +44,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * Generic page-rendering controller.
- *
+ * 
  * @author Tony Field
  * @since 2011-03-15
  */
@@ -69,8 +69,9 @@ public class RenderPage implements Controller {
     }
 
     /**
-     * Return a context object that is convenient for use within the RenderPage controller.
-     *
+     * Return a context object that is convenient for use within the RenderPage
+     * controller.
+     * 
      * @param ics Content Server context
      * @return render page context object
      */
@@ -85,23 +86,26 @@ public class RenderPage implements Controller {
     }
 
     /**
-     * Load the WRA, or the alias, and return it for use by the controller.
-     * If the asset is not found, an exception is thrown
-     *
+     * Load the WRA, or the alias, and return it for use by the controller. If
+     * the asset is not found, an exception is thrown
+     * 
      * @param id asset id
-     * @return WRA, never null.  May be an instance of an Alias
+     * @return WRA, never null. May be an instance of an Alias
      */
     protected WebReferenceableAsset getWraAndResolveAlias(RenderPageContext context, AssetIdWithSite id) {
         try {
             if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType())) {
-                if (LOG.isTraceEnabled()) LOG.trace("Loading alias: " + id);
+                if (LOG.isTraceEnabled())
+                    LOG.trace("Loading alias: " + id);
                 Alias alias = context.getAliasCoreFieldDao().getAlias(id);
                 WraBeanImpl wra = new WraBeanImpl(alias);
                 wra.setId(alias.getTarget());
-                if (LOG.isDebugEnabled()) LOG.debug("Loaded alias: " + id + " which resolved to " + wra.getId());
+                if (LOG.isDebugEnabled())
+                    LOG.debug("Loaded alias: " + id + " which resolved to " + wra.getId());
                 return wra;
             } else {
-                if (LOG.isTraceEnabled()) LOG.trace("Loading wra: " + id);
+                if (LOG.isTraceEnabled())
+                    LOG.trace("Loading wra: " + id);
                 return context.getWraCoreFieldDao().getWra(id);
             }
         } catch (IllegalArgumentException e) {
@@ -109,29 +113,33 @@ public class RenderPage implements Controller {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    
     protected void callTemplate(RenderPageContext context, final AssetIdWithSite id, final String tname) {
         ICS ics = context.getICS();
         final CallTemplate ct = new CallTemplate();
+        ct.setFixPageCriteria(true);
         ct.setSite(id.getSite());
         ct.setSlotname("wrapper");
         ct.setTid(ics.GetVar("eid"));
         ct.setTtype(CallTemplate.Type.CSElement);
         ct.setAsset(id);
         ct.setTname(tname);
-        ct.setContext("");
+        // ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/" + tname;
-        CallTemplate.Style style = getCallTemplateCallStyle(context, target);
-        if (LOG.isDebugEnabled())
-            LOG.debug("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
-        ct.setStyle(style);
-
-        final String variant = ics.GetVar("variant");
-        if (variant != null && variant.length() > 0) {
-            ct.setVariant(variant);
-        }
+        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/"
+                + tname;
+        /*
+         * CallTemplate.Style style = getCallTemplateCallStyle(ics, target); if
+         * (LOG.isDebugEnabled())
+         * LOG.debug("RenderPage about to call template on " + id + " with " +
+         * tname + " using style:" + style); ct.setStyle(style);
+         */
+        imposeStyle(ics, ct, target);
+        /*
+         * final String variant = ics.GetVar("variant"); if (variant != null &&
+         * variant.length() > 0) { ct.setVariant(variant); }
+         */
         final String packedargs = ics.GetVar("packedargs");
         if (packedargs != null && packedargs.length() > 0) {
             ct.setPackedargs(packedargs);
@@ -139,6 +147,14 @@ public class RenderPage implements Controller {
 
         ct.setArgument("site", id.getSite());
 
+        copyEnvironmentVariables(context, id, ics, ct);
+
+        ct.execute(ics);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void copyEnvironmentVariables(RenderPageContext context, final AssetIdWithSite id, ICS ics,
+            final CallTemplate ct) {
         // create a list of parameters that can be specified as arguments to the
         // CallTemplate tag.
         final Map<String, String> arguments = new HashMap<String, String>();
@@ -157,29 +173,38 @@ public class RenderPage implements Controller {
                 // tag, but it is a bad idea to send params through if they
                 // aren't
                 // page criteria.
-                // todo: low priority consider validating here. Validation is duplicated but
+                // todo: low priority consider validating here. Validation is
+                // duplicated but
                 // may be useful
+                // TODO: high, fix this as this is bad practise.
                 arguments.put(varname, ics.GetVar(varname));
             }
         }
         getCallTemplateArguments(context, id, arguments);
         for (String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+            if (LOG.isTraceEnabled())
+                LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
         }
+    }
 
-        ct.execute(ics);
+    protected void imposeStyle(ICS ics, CallTemplate ct, String target) {
+        // rely on CallTemplate logic by default.
+        // ct.proposeStyle(ics)
+
     }
 
     protected AssetIdWithSite resolveAssetId(RenderPageContext context) {
         ICS ics = context.getICS();
         final AssetIdWithSite id;
         if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
-            id = context.getWraPathTranslationService().resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
+            id = context.getWraPathTranslationService().resolveAsset(ics.GetVar("virtual-webroot"),
+                    ics.GetVar("url-path"));
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
             String site = context.getWraCoreFieldDao().resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
+            // TODO: high, what if site can't be found
             id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
         } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
             // (but not both)
@@ -190,15 +215,17 @@ public class RenderPage implements Controller {
         return id;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
+            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
+            "url-path");
 
     /**
      * This method collects additional arguments for the CallTemplate call. New
      * arguments are added to the map as name-value pairs.
-     *
-     * @param id        AssetIdWithSite object
+     * 
+     * @param id AssetIdWithSite object
      * @param arguments Map<String,String> containing arguments for the nested
-     *                  CallTemplate call
+     *            CallTemplate call
      */
     protected void getCallTemplateArguments(RenderPageContext context, AssetIdWithSite id, Map<String, String> arguments) {
         findAndSetP(context, id, arguments);
@@ -208,11 +235,11 @@ public class RenderPage implements Controller {
      * Add p to the input parameters, if it is known or knowable. First check to
      * see if it has been explicitly set, then look it up if it hasn't been. The
      * variable is not guaranteed to be found.
-     *
-     * @param id        asset id with site
+     * 
+     * @param id asset id with site
      * @param arguments calltemplate arguments
      */
-    private void findAndSetP(RenderPageContext context, AssetIdWithSite id, Map<String, String> arguments) {
+    protected final void findAndSetP(RenderPageContext context, AssetIdWithSite id, Map<String, String> arguments) {
         String pVar = context.getICS().GetVar("p");
         if (pVar != null && pVar.length() > 0) {
             arguments.put("p", pVar);
@@ -224,8 +251,25 @@ public class RenderPage implements Controller {
         }
     }
 
+    /**
+     * @param context
+     * @param target
+     * @return
+     * @deprecated
+     */
     protected CallTemplate.Style getCallTemplateCallStyle(RenderPageContext context, String target) {
         ICS ics = context.getICS();
+        return getCallTemplateCallStyle(ics, target);
+    }
+
+    /**
+     * @param ics
+     * @param target
+     * @return
+     * @deprecated CallTemplate facade takes care of this.
+     */
+    protected CallTemplate.Style getCallTemplateCallStyle(ICS ics, String target) {
+
         if (RenderUtils.isCacheable(ics, ics.GetVar(ftMessage.PageName))) {
             // call as element when current is caching.
             // note that it may be useful to set this to "embedded" in some
@@ -240,4 +284,5 @@ public class RenderPage implements Controller {
             return CallTemplate.Style.element;
         }
     }
+
 }
