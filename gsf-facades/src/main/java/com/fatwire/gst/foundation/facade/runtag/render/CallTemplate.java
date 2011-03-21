@@ -56,6 +56,8 @@ import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
  */
 public class CallTemplate extends TagRunnerWithArguments {
 
+    private static final String ARGS = "ARGS_";
+
     private static Log LOG = LogFactory.getLog(ftMessage.PAGE_CACHE_DEBUG + ".calltemplate");
 
     static private boolean configLoaded = false;
@@ -67,7 +69,8 @@ public class CallTemplate extends TagRunnerWithArguments {
      * Do not use the user provided value for style, override
      */
     static private boolean override = true;
-    static private boolean fixPageCriteria = false;
+    static private boolean config_FixPageCriteria = false;
+    private boolean fixPageCriteria = false;
     private String site, type, tname, cid;
     private Style style;
 
@@ -100,7 +103,7 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     /**
-     * Checks the current settings and based on the current and target tempplate
+     * Checks the current settings and based on the current and target template
      * state set the style to a best guess. This is only done if the developer
      * didnot explicitly set the style.
      */
@@ -194,7 +197,7 @@ public class CallTemplate extends TagRunnerWithArguments {
             CallTemplate.defaultStyle = Style.valueOf(tmp);
         }
         CallTemplate.override = "true".equals(getProperty(ics, "override"));
-        CallTemplate.fixPageCriteria = "true".equals(getProperty(ics, "fixPageCriteria"));
+        CallTemplate.config_FixPageCriteria = "true".equals(getProperty(ics, "config_FixPageCriteria"));
         CallTemplate.configLoaded = true;
 
     }
@@ -300,13 +303,16 @@ public class CallTemplate extends TagRunnerWithArguments {
                     if (c.equals(key)) {
                         found = true;
                         break;
+                    }else if(c.equals(ARGS+key)){
+                        found = true;
+                        break;
                     }
                 }
                 if (!found) {
                     LOG.error("Argument '" + key + "' not found as PageCriterium on " + target + ". Calling element is " + ics.ResolveVariables("CS.elementname") + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
                     // we could correct this by calling as an element
                     // or by removing the argument
-                    if (fixPageCriteria) {
+                    if (isFixPageCriteria() || config_FixPageCriteria) {
                         i.remove();
                         LOG.warn("Argument '" + key + "' is removed from the call to '" + target + "' as it is not a PageCriterium.");
                     }
@@ -326,7 +332,7 @@ public class CallTemplate extends TagRunnerWithArguments {
      * @param value parameter value
      */
     public void setArgument(final String name, final String value) {
-        super.set("ARGS_" + name, value);
+        super.set(ARGS + name, value);
     }
 
     protected void handleError(ICS ics) {
@@ -341,6 +347,20 @@ public class CallTemplate extends TagRunnerWithArguments {
         msg += ".";
 
         throw new TagRunnerRuntimeException(msg, errno, arguments, complexError, pagename, elementname);
+    }
+
+    /**
+     * @return the fixPageCriteria
+     */
+    public boolean isFixPageCriteria() {
+        return fixPageCriteria;
+    }
+
+    /**
+     * @param fixPageCriteria the fixPageCriteria to set
+     */
+    public void setFixPageCriteria(boolean fixPageCriteria) {
+        this.fixPageCriteria = fixPageCriteria;
     }
 
 }
