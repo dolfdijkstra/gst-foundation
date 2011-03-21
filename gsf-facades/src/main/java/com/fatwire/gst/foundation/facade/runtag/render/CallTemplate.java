@@ -35,7 +35,7 @@ import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
 
 /**
- * CallTemplate tag
+ * CallTemplate tag with many improvements around context and style.
  * <p/>
  * <code>
  * &lt;RENDER.CALLTEMPLATE SITE="site name"
@@ -319,7 +319,7 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     /**
-     * Call template args need to be altered slightly in order to be available
+     * Call template args are prefixed with ARGS_ in order to be available
      * in the called template
      *
      * @param name  parameter name
