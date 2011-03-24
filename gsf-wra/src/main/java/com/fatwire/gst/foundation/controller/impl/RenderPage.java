@@ -44,6 +44,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * Generic page-rendering action.
+ * // todo: high: clean up lifecycle and get rid of context usage. make icsaware.
  * 
  * @author Tony Field
  * @since 2011-03-15

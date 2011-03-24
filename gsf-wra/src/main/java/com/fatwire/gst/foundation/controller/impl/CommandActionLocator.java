@@ -24,6 +24,7 @@ import COM.FutureTense.Util.ftErrors;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.Action;
 import com.fatwire.gst.foundation.controller.ActionLocator;
+import com.fatwire.gst.foundation.controller.ICSAware;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -55,6 +56,10 @@ public final class CommandActionLocator implements ActionLocator {
             throw new CSRuntimeException("No action configured for cmd: " + cmd, ftErrors.badparams);
         }
         if (LOG.isTraceEnabled()) LOG.trace("Command '" + cmd + "' maps to action " + c.getClass().getName());
+        
+        if (ICSAware.class.isAssignableFrom(c.getClass())) {
+            ((ICSAware) c).setICS(ics);
+        }
         return c;
     }
 

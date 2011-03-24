@@ -24,6 +24,7 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 /**
  * Context for page rendering.  This class is a convenient holder for regularly-utilized
  * business objects and is used by the RenderPage controller.
+ * // todo: high remove and replace functionality directly inside action using new lifecycle and icsaware interface
  *
  * @author Tony Field
  * @since 2011-03-15
