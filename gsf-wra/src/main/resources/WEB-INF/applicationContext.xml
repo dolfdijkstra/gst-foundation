@@ -24,7 +24,7 @@ limitations under the License.
     <!-- ========================= Start of GSF Configuration ========================= -->
 <!-- todo; high: make this a bean factory to ensure we have new instances of beans (verify) -->
     <!-- todo: high: move to gsf-applicationcontext -->
-    <bean id="gsfActionMapping" class="com.fatwire.gst.foundation.controller.impl.SpringActionMapping">
+    <bean id="gsfActionLocator" class="com.fatwire.gst.foundation.controller.impl.CommandActionLocator">
         <property name="defaultAction" ref="gsfRenderPage"/>
         <property name="actionMap">
             <map>

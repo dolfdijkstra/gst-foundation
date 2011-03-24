@@ -21,7 +21,7 @@ import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.controller.impl.SpringActionMapping;
+import com.fatwire.gst.foundation.controller.impl.CommandActionLocator;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 
 import org.springframework.web.context.WebApplicationContext;
@@ -39,7 +39,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  */
 public class ActionController extends AbstractController {
 
-    private static final String ACTION_MAPPING_BEAN = "gsfActionMapping";
+    private static final String ACTION_LOCATOR_BEAN = "gsfActionLocator";
 
     protected void doExecute() {
 
@@ -47,8 +47,8 @@ public class ActionController extends AbstractController {
         recordCompositionalDependencies();
 
         // find the action locator
-        LOG.trace("Dispatcher looking for action mapping");
-        ActionMapping locator = getActionMapping();
+        LOG.trace("Dispatcher looking for action locator");
+        ActionLocator locator = getActionLocator();
         if (LOG.isTraceEnabled()) LOG.trace("Using action locator: " + locator.getClass().getName());
 
         // get the action
@@ -60,23 +60,23 @@ public class ActionController extends AbstractController {
         LOG.trace("Request handling complete");
     }
 
-    protected ActionMapping getActionMapping() {
+    protected ActionLocator getActionLocator() {
 
         // get the spring web application context
         ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
-        // get the bean.  Note for lazy administrators, a default mapping is provided
-        final ActionMapping cm;
-        if (wac.containsBean(ACTION_MAPPING_BEAN)) {
-            cm = (ActionMapping) wac.getBean(ACTION_MAPPING_BEAN);
+        // get the bean.  Note for lazy administrators, a default locator is provided
+        final ActionLocator locator;
+        if (wac.containsBean(ACTION_LOCATOR_BEAN)) {
+            locator = (ActionLocator) wac.getBean(ACTION_LOCATOR_BEAN);
             if (LOG.isTraceEnabled())
-                LOG.trace("Using actionLocatorBean as configured: " + cm.getClass().getName());
+                LOG.trace("Using actionLocatorBean as configured: " + locator.getClass().getName());
         } else {
-            cm = new SpringActionMapping();
-            if (LOG.isTraceEnabled()) LOG.trace("Using default actionLocatorBean " + cm.getClass().getName());
+            locator = new CommandActionLocator();
+            if (LOG.isTraceEnabled()) LOG.trace("Using default actionLocatorBean " + locator.getClass().getName());
         }
-        return cm;
+        return locator;
     }
 
     @Override

@@ -23,7 +23,7 @@ import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.Action;
-import com.fatwire.gst.foundation.controller.ActionMapping;
+import com.fatwire.gst.foundation.controller.ActionLocator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -37,7 +37,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Tony Field
  * @since 2011-03-15
  */
-public final class SpringActionMapping implements ActionMapping {
+public final class CommandActionLocator implements ActionLocator {
     protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller.mapping");
     private static final String CMD_VAR = "cmd";
     private Map<String, Action> commandActionMap = new HashMap<String, Action>();

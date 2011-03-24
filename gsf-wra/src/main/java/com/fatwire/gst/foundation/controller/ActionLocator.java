@@ -19,11 +19,10 @@ import COM.FutureTense.Interfaces.ICS;
 
 /**
  * Interface to be implemented by objects that define a mapping between requests and handler objects.
- * todo: high: rename to actionlocator
  * @author Tony Field
  * @since 2011-03-15
  */
-public interface ActionMapping {
+public interface ActionLocator {
 
     /**
      * Get the action for the request specified.
