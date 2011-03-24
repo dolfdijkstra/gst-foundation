@@ -26,8 +26,8 @@ import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.controller.Action;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
-import com.fatwire.gst.foundation.controller.Controller;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
@@ -43,12 +43,12 @@ import org.apache.commons.logging.LogFactory;
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
- * Generic page-rendering controller.
+ * Generic page-rendering action.
  * 
  * @author Tony Field
  * @since 2011-03-15
  */
-public class RenderPage implements Controller {
+public class RenderPage implements Action {
 
     protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller.impl.RenderPage");
 
@@ -147,13 +147,13 @@ public class RenderPage implements Controller {
 
         ct.setArgument("site", id.getSite());
 
-        copyEnvironmentVariables(context, id, ics, ct);
+        setArguments(context, id, ics, ct);
 
         ct.execute(ics);
     }
 
     @SuppressWarnings("unchecked")
-    protected void copyEnvironmentVariables(RenderPageContext context, final AssetIdWithSite id, ICS ics,
+    private void setArguments(RenderPageContext context, final AssetIdWithSite id, ICS ics,
             final CallTemplate ct) {
         // create a list of parameters that can be specified as arguments to the
         // CallTemplate tag.
@@ -169,14 +169,10 @@ public class RenderPage implements Controller {
             // directly
             // to this controller only.
             if (!CALLTEMPLATE_EXCLUDE_VARS.contains(varname)) {
+                // todo: high: validate against page criteria, because dumping everything into the template is bad
                 // page criteria is automatically validated by the CallTemplate
                 // tag, but it is a bad idea to send params through if they
-                // aren't
-                // page criteria.
-                // todo: low priority consider validating here. Validation is
-                // duplicated but
-                // may be useful
-                // TODO: high, fix this as this is bad practise.
+                // aren't page criteria. May require PageReader privs.
                 arguments.put(varname, ics.GetVar(varname));
             }
         }

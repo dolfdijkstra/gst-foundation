@@ -22,17 +22,17 @@ limitations under the License.
                      configuration file is warranted -->
 
     <!-- ========================= Start of GSF Configuration ========================= -->
-
-    <bean id="gsfControllerMapping" class="com.fatwire.gst.foundation.controller.impl.SpringControllerMapping">
-        <property name="defaultController" ref="gsfRenderPageController"/>
-        <property name="commandControllerMap">
+<!-- todo; high: make this a bean factory to ensure we have new instances of beans (verify) -->
+    <!-- todo: high: move to gsf-applicationcontext -->
+    <bean id="gsfActionMapping" class="com.fatwire.gst.foundation.controller.impl.SpringActionMapping">
+        <property name="defaultAction" ref="gsfRenderPage"/>
+        <property name="actionMap">
             <map>
-                <entry key="render" value-ref="gsfRenderPageController"/>
+                <entry key="render" value-ref="gsfRenderPage"/>
             </map>
         </property>
     </bean>
 
-    <bean id="gsfRenderPageController" class="com.fatwire.gst.foundation.controller.impl.RenderPage"/>
-
+    <bean id="gsfRenderPage" class="com.fatwire.gst.foundation.controller.impl.RenderPage" />
 
 </beans>

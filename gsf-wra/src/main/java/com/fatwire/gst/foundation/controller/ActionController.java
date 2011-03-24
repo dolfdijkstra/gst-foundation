@@ -21,7 +21,7 @@ import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.controller.impl.SpringControllerMapping;
+import com.fatwire.gst.foundation.controller.impl.SpringActionMapping;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 
 import org.springframework.web.context.WebApplicationContext;
@@ -30,50 +30,51 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
- * Dispatching controller. Relies on handlerMapping to dispatch control to
+ * Dispatching controller. Relies on actionLocator to dispatch control to
  * action classes.
  *
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Mar 15, 2011
  */
-public class Dispatcher extends AbstractController {
+public class ActionController extends AbstractController {
 
-    private static final String CONTROLLER_MAPPING_BEAN = "gsfControllerMapping";
+    private static final String ACTION_MAPPING_BEAN = "gsfActionMapping";
 
     protected void doExecute() {
 
         // record seid and eid and any other deps required
         recordCompositionalDependencies();
 
-        // find the controller mapping
-        LOG.trace("Dispatcher looking for controller mapping");
-        ControllerMapping cm = getControllerMapping();
-        if (LOG.isTraceEnabled()) LOG.trace("Using controller mapping: " + cm.getClass().getName());
+        // find the action locator
+        LOG.trace("Dispatcher looking for action mapping");
+        ActionMapping locator = getActionMapping();
+        if (LOG.isTraceEnabled()) LOG.trace("Using action locator: " + locator.getClass().getName());
 
-        // get the controller
-        Controller controller = cm.getController(ics);
-        if (LOG.isTraceEnabled()) LOG.trace("Using controller: " + controller.getClass().getName());
+        // get the action
+        Action action = locator.getAction(ics);
+        if (LOG.isTraceEnabled()) LOG.trace("Using action: " + action.getClass().getName());
 
         // execute the command
-        controller.handleRequest(ics);
+        action.handleRequest(ics);
         LOG.trace("Request handling complete");
     }
 
-    protected ControllerMapping getControllerMapping() {
+    protected ActionMapping getActionMapping() {
 
         // get the spring web application context
         ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
         // get the bean.  Note for lazy administrators, a default mapping is provided
-        final ControllerMapping cm;
-        if (wac.containsBean(CONTROLLER_MAPPING_BEAN)) {
-            cm = (ControllerMapping) wac.getBean(CONTROLLER_MAPPING_BEAN);
+        final ActionMapping cm;
+        if (wac.containsBean(ACTION_MAPPING_BEAN)) {
+            cm = (ActionMapping) wac.getBean(ACTION_MAPPING_BEAN);
             if (LOG.isTraceEnabled())
-                LOG.trace("Using controllerMappingBean as configured: " + cm.getClass().getName());
+                LOG.trace("Using actionLocatorBean as configured: " + cm.getClass().getName());
         } else {
-            cm = new SpringControllerMapping();
-            if (LOG.isTraceEnabled()) LOG.trace("Using default controllerMappingBean " + cm.getClass().getName());
+            cm = new SpringActionMapping();
+            if (LOG.isTraceEnabled()) LOG.trace("Using default actionLocatorBean " + cm.getClass().getName());
         }
         return cm;
     }

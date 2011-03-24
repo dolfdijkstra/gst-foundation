@@ -22,49 +22,49 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.controller.Controller;
-import com.fatwire.gst.foundation.controller.ControllerMapping;
+import com.fatwire.gst.foundation.controller.Action;
+import com.fatwire.gst.foundation.controller.ActionMapping;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Spring configuration-based controller mapping.
+ * Spring configuration-based action mapping.
  * The ICS variable "cmd" is mapped to a class name in the configuration
  * to a class.
  *
  * @author Tony Field
  * @since 2011-03-15
  */
-public final class SpringControllerMapping implements ControllerMapping {
+public final class SpringActionMapping implements ActionMapping {
     protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller.mapping");
     private static final String CMD_VAR = "cmd";
-    private Map<String, Controller> commandControllerMap = new HashMap<String, Controller>();
-    private Controller defaultController = new RenderPage();
+    private Map<String, Action> commandActionMap = new HashMap<String, Action>();
+    private Action defaultAction = new RenderPage();
 
-    public Controller getController(ICS ics) {
+    public Action getAction(ICS ics) { // todo: high: support icsaware?
         final String cmd = ics.GetVar(CMD_VAR);
         if (StringUtils.isBlank(cmd)) {
-            LOG.trace("No command specified. Returning default controller: " + defaultController.getClass().getName());
-            return defaultController;
+            LOG.trace("No command specified. Returning default action: " + defaultAction.getClass().getName());
+            return defaultAction;
         }
 
-        Controller c = commandControllerMap.get(cmd);
+        Action c = commandActionMap.get(cmd);
         if (c == null) {
-            throw new CSRuntimeException("No controller configured for command: " + cmd, ftErrors.badparams);
+            throw new CSRuntimeException("No action configured for cmd: " + cmd, ftErrors.badparams);
         }
-        if (LOG.isTraceEnabled()) LOG.trace("Command '" + cmd + "' maps to controller " + c.getClass().getName());
+        if (LOG.isTraceEnabled()) LOG.trace("Command '" + cmd + "' maps to action " + c.getClass().getName());
         return c;
     }
 
-    public void setCommandControllerMap(Map<String, Controller> map) {
-        LOG.debug("Configured controller mapping with " + (map == null ? 0 : map.size() + " entries."));
-        this.commandControllerMap = map;
+    public void setActionMap(Map<String, Action> map) {
+        LOG.debug("Configured action mapping with " + (map == null ? 0 : map.size() + " entries."));
+        this.commandActionMap = map;
     }
 
-    public void setDefaultController(Controller controller) {
-        LOG.info("Setting default controllerMapping to " + controller.getClass().getName());
-        defaultController = controller;
+    public void setDefaultAction(Action action) {
+        LOG.info("Setting default action mapping to " + action.getClass().getName());
+        defaultAction = action;
     }
 }

@@ -18,19 +18,17 @@ package com.fatwire.gst.foundation.controller;
 import COM.FutureTense.Interfaces.ICS;
 
 /**
- * Interface to be implemented by objects that define a mapping between requests and handler objects.
+ * Base action interface, representing a component that receives ICS like a HttpServlet but is able to
+ * participate in an MVC workflow. Comparable to the notion of a Struts Action or a Spring MVC Controller.
  *
  * @author Tony Field
  * @since 2011-03-15
  */
-public interface ControllerMapping {
-
+public interface Action {
     /**
-     * Get the controller for the request specified.
+     * Process and handle the request.  This method is responsible for invoking the view as well.
      *
-     * @param ics Content Server context object
-     * @return controller, never null
+     * @param ics Content Server context.
      */
-    Controller getController(ICS ics);
-
+    void handleRequest(ICS ics);
 }
