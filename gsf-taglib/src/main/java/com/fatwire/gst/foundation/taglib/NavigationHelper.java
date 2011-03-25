@@ -46,7 +46,7 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
 
 /**
  * Used to retrieve the Navigation Bar data. See the description of
- * getSitePlanAsMap(String pageid) for more details.
+ * {@link #getSitePlan(String)} for more details.
  * <p/>
  * TODO: low priority: add multilingual support
  * 
@@ -129,7 +129,7 @@ public class NavigationHelper {
      *            with. Typically this would be a nav name. The nav name would
      *            be included in the output object. Recursion is automatic
      * @return Map<String,Object> of the site plan tree (see above)
-     * @deprecated
+     * @deprecated replaced by {@link #getSitePlan(String)}.
      */
     public Map<String, Object> getSitePlanAsMap(String pageid) {
         return getSitePlanAsMap(pageid, 0);
@@ -160,6 +160,16 @@ public class NavigationHelper {
     /**
      * Retrieves the NavNode for the given Page with the provided id.
      * 
+     * The NavNode contains all the attributes necessary to create a nav bar.
+     * <p/>
+     * Links are not populated for Navigation Placeholders, but it is often very
+     * convenient to pass a navigation placeholder into this function in order
+     * to return all children under a specific placeholder.
+     * <p/>
+     * StartDate and EndDate are checked and invalid pages aren't added. If a
+     * Page asset is not valid, its children are not even examined.
+     * 
+     * 
      * @param pageid the assetid of the Page asset.
      * @return
      */
@@ -189,10 +199,10 @@ public class NavigationHelper {
     }
 
     /**
-     * Called from public {@link #getSitePlan(int, AssetId)}.
-     * See that function's description for details
+     * Called from public {@link #getSitePlan(int, AssetId)}. See that
+     * function's description for details
      * 
-     * @param depth
+     * @param depth the depth of the tree to retrieve, -1 for unlimited depth.
      * @param pageId id of the page asset
      * @param level starting level number when traversing the site plan tree
      * @return NavNode of the site plan tree
