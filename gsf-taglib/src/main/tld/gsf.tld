@@ -12,39 +12,30 @@
 		uri="http://gst.fatwire.com/foundation/tags/gsf"
 		prefix="gsf" %&gt;
 	</description>
-
-	<tag>
-		<name>tagged-list</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.TaggedListTag</tag-class>
-		<body-content>tagdependent</body-content>
-		<description>
-			Given an input tag, returns an IList with
-			ASSETTYPE,ASSETID as columns for
-			any assets found
-			that match the
-			specified tag.
-        </description>
-		<attribute>
-			<name>outlist</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>the name of the list containing the result</description>
-		</attribute>
-		<attribute>
-			<name>tag</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>the name of the tag</description>
-		</attribute>
-	</tag>
+    <tag>
+        <name>tagged-list</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.TaggedListTag</tag-class>
+        <body-content>tagdependent</body-content>
+        <description>Given an input tag, returns an IList with ASSETTYPE,ASSETID as columns for any assets found that match the
+    specified tag.</description>
+        <attribute>
+            <name>outlist</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the name of the list containing the result</description>
+        </attribute>
+        <attribute>
+            <name>tag</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the name of the tag</description>
+        </attribute>
+    </tag>
 	<tag>
 		<name>tagged-assets</name>
 		<tag-class>com.fatwire.gst.foundation.taglib.TaggedAssetsTag</tag-class>
 		<body-content>empty</body-content>
-		<description>
-			Given an input tag, returns an Collection of AssetIds for
-			any assets found that match the specified tag.
-        </description>
+		<description>Given an input tag, returns an Collection of AssetIds for any assets found that match the specified tag.</description>
 		<attribute>
 			<name>list</name>
 			<required>true</required>
@@ -61,17 +52,10 @@
 
 	<tag>
 		<name>asset-tagged-list</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.AssetTaggedListTag
-		</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetTaggedListTag</tag-class>
 		<body-content>tagdependent</body-content>
-		<description>
-			Given an input assettype and assetid, convert it into a
-			tag string format
-			and return an IList with ASSETTYPE,ASSETID as
-			columns for any assets
-			found
-			that match the specified tag.
-		</description>
+		<description> Given an input assettype and assetid, convert it into a tag string format and return an IList with
+    ASSETTYPE,ASSETID as columns for any assets found that match the specified tag.</description>
 		<attribute>
 			<name>outlist</name>
 			<required>true</required>
@@ -93,8 +77,7 @@
 	</tag>
 	<tag>
 		<name>asset-load</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.AssetLoadTag
-		</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetLoadTag</tag-class>
 		<body-content>empty</body-content>
 		<description>
 		</description>
@@ -102,8 +85,7 @@
 			<name>name</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>the name of the loaded asset as JSP page attribute
-			</description>
+			<description>the name of the loaded asset as JSP page attribute</description>
 		</attribute>
 		<attribute>
 			<name>c</name>
@@ -123,15 +105,12 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>the asset attributes</description>
 		</attribute>
-
 	</tag>
     <tag>
         <name>asset-children</name>
-        <tag-class>com.fatwire.gst.foundation.taglib.AssetChildrenTag
-        </tag-class>
+        <tag-class>com.fatwire.gst.foundation.taglib.AssetChildrenTag</tag-class>
         <body-content>empty</body-content>
-        <description>
-        </description>
+        <description>A facade over asset:children</description>
         <attribute>
             <name>list</name>
             <required>true</required>
@@ -163,25 +142,19 @@
             <rtexprvalue>true</rtexprvalue>
             <description>the asset attributes to retrieve, if provided the child assets are loaded with the listed attributes.
             If this is not provided, a list of AssetId's are returned, if a '*' is provided, all the attributes are returned.
-             
             </description>
         </attribute>
     </tag>
-
 	<tag>
 		<name>asset-query</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.AssetSimpleQueryTag
-		</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetSimpleQueryTag</tag-class>
 		<body-content>empty</body-content>
-		<description>
-		</description>
+		<description>A tag to query for assets.</description>
 		<attribute>
 			<name>list</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>the name of the list with the loaded asset as JSP page
-				attribute
-			</description>
+			<description>the name of the list with the loaded asset as JSP page attribute</description>
 		</attribute>
 		<attribute>
 			<name>c</name>
@@ -211,14 +184,9 @@
 	</tag>
 	<tag>
 		<name>navigation</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.navigation.NavigationTag
-		</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.navigation.NavigationTag</tag-class>
 		<body-content>empty</body-content>
-
-		<description>
-			Given an input pagename for the name of the Page asset
-			return the NavNodes for that page.
-        </description>
+		<description> Given an input pagename for the name of the Page asset return the NavNodes for that page.</description>
 		<attribute>
 			<name>name</name>
 			<required>true</required>
@@ -242,14 +210,10 @@
 	</tag>
 	<tag>
 		<name>root</name>
-		<description>Tag to expose ics variables as page attributes for JSP
-			EL. Content Server variables, lists, and objects are exposed with
-            the prefix "cs".  Also exposes
-            an instance of ScatteredAssetAccessTemplate under the name
-            assetDao which is very useful for accessing asset data.  Lastly,
-            this tag records dependencies for tid, seid, eid which means it
-            is not necessary to do this within a JSP.  This tag
-            should be placed immediately inside the cs:ftcs tag.</description>
+		<description>Tag to expose ics variables as page attributes for JSP EL. Content Server variables, lists, and objects are
+    exposed with the prefix "cs". Also exposes an instance of ScatteredAssetAccessTemplate under the name assetDao which is very
+    useful for accessing asset data. Lastly, this tag records dependencies for tid, seid, eid which means it is not necessary to
+    do this within a JSP. This tag should be placed immediately inside the cs:ftcs tag; &ltcs:ftcs&gt;&gsf:root&gt; jsp code &gsf:root&gt;&ltcs:ftcs&gt;</description>
 		<tag-class>com.fatwire.gst.foundation.taglib.GsfRootTag</tag-class>
         <tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
 		<body-content>JSP</body-content>
