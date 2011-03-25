@@ -28,7 +28,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 final class VWebrootBeanImpl implements VirtualWebroot {
 
-    private static final String GST_VIRTUAL_WEBROOT = "GSTVirtualWebroot";
+    public static final String GST_VIRTUAL_WEBROOT = "GSTVirtualWebroot";
     private AssetId id;
     private String masterVWebroot;
     private String envVWebroot;
