@@ -32,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
 public class AssetLoadTag extends SimpleTagSupport {
 
     private String c;
-    private String cid;
+    private long cid;
     private String attributes;
     private String name;
 
@@ -45,21 +45,10 @@ public class AssetLoadTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
 
         final ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
-        final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics); // todo:
-                                                                                      // medium:
-                                                                                      // find
-                                                                                      // in
-                                                                                      // page
-                                                                                      // context
-                                                                                      // if
-                                                                                      // it's
-                                                                                      // there
-                                                                                      // (due
-                                                                                      // to
-                                                                                      // presence
-                                                                                      // of
-                                                                                      // gsf:root
-        if (StringUtils.isBlank(c) || StringUtils.isBlank(cid)) {
+        final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
+        // todo: medium: find in page context if it's there (due to presence of
+        // gsf:root
+        if (StringUtils.isBlank(c) || cid == 0) {
             if (StringUtils.isBlank(attributes)) {
                 getJspContext().setAttribute(name, t.readCurrent());
             } else {
@@ -90,7 +79,19 @@ public class AssetLoadTag extends SimpleTagSupport {
      * @param cid the cid to set
      */
     public void setCid(final String cid) {
+        this.cid = Long.parseLong(cid);
+    }
+
+    /**
+     * @param cid the cid to set
+     */
+    public void setCid(final long cid) {
         this.cid = cid;
+    }
+
+    public void setCid(final AssetId cid) {
+        this.cid = cid.getId();
+        this.c = cid.getType();
     }
 
     /**
