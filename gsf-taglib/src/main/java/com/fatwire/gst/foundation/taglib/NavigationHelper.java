@@ -177,7 +177,7 @@ public class NavigationHelper {
      * 
      * 
      * @param pageid the assetid of the Page asset.
-     * @return
+     * @return the NavNode for this page
      */
     public NavNode getSitePlan(final String pageid) {
         return getSitePlan(new AssetIdImpl("Page", Long.parseLong(pageid)));
