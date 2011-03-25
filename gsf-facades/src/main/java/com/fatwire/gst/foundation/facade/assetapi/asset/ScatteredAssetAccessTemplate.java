@@ -75,7 +75,7 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
      * @return the assets from the associations.
      */
     public Collection<ScatteredAsset> readAssociatedAssets(AssetId id, String associationType) {
-        List<AssetId> list = this.readAsset(id).getAssociatedAssets(associationType);
+        Collection<AssetId> list = readAssociatedAssetIds(id, associationType);
         if (list == null || list.isEmpty())
             return Collections.emptyList();
         List<ScatteredAsset> l = new LinkedList<ScatteredAsset>();
@@ -83,6 +83,19 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
             l.add(read(child));
         }
         return l;
+
+    }
+
+    /**
+     * @param id
+     * @param associationType
+     * @return the assets from the associations.
+     */
+    public Collection<AssetId> readAssociatedAssetIds(AssetId id, String associationType) {
+        List<AssetId> list = this.readAsset(id).getAssociatedAssets(associationType);
+        if (list == null)
+            return Collections.emptyList();
+        return list;
 
     }
 
@@ -134,7 +147,8 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
     /**
      * Queries for a list of scattered assets.
      * <p/>
-     * Sample queries are:<ul>
+     * Sample queries are:
+     * <ul>
      * <li>name='foo'</li>
      * <li>name = 'foo'</li>
      * <li>name = foo</li>
@@ -150,6 +164,7 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
         Query q = new QueryBuilder(assetType, subType).condition(query).setReadAll(true).toQuery();
         return this.readAssets(q, mapper);
     }
+
     public Iterable<ScatteredAsset> query(String assetType, String subType, String query, String[] attributes) {
         Query q = new QueryBuilder(assetType, subType).condition(query).attributes(attributes).toQuery();
         return this.readAssets(q, mapper);
