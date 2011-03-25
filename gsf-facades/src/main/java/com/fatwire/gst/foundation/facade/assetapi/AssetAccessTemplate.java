@@ -93,6 +93,17 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Helper method to create an AssetId from c and cid as string values.
+     * 
+     * @param c
+     * @param cid
+     * @return
+     */
+    public AssetId createAssetId(final String c, final long cid) {
+        return new AssetIdImpl(c, cid);
+    }
+
+    /**
      * Method to read an asset and use the AssetMapper to transform the
      * AssetData into another object as specified by the AssetMapper.
      * 
