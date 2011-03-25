@@ -153,7 +153,7 @@ public class RenderPage implements Action {
      *
      * @param ct             CallTemplate tag
      * @param targetPagename target pagename
-     * @see CallTemplate#setStyle(CallTemplate.Style)
+     * @see CallTemplate #setStyle(CallTemplate.Style)
      */
     protected void imposeCallTemplateStyle(CallTemplate ct, String targetPagename) {
     }
