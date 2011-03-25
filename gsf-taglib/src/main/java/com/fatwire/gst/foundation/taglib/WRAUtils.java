@@ -29,6 +29,7 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 /**
  * @author David Chesebro
  * @since Jun 17, 2010
+ * @deprecated unsafe use, as it is eating exceptions and returning null objects
  */
 public class WRAUtils {
     private final Log LOG = LogFactory.getLog(WRAUtils.class);
@@ -44,6 +45,7 @@ public class WRAUtils {
      * @param id id of web-referenceable asset
      * @return WebReferenceableAsset bean containing fields for Web-Referencable
      *         asset
+     *         @deprecated
      */
     public WebReferenceableAsset getWra(AssetId id) {
         try {
@@ -58,6 +60,7 @@ public class WRAUtils {
     /**
      * @param id id of alias asset
      * @return Alias bean containing fields for Alias asset
+     * @deprecated
      */
     public Alias getAlias(AssetId id) {
         try {

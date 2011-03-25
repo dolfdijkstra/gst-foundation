@@ -35,6 +35,7 @@ import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
 import com.fatwire.gst.foundation.wra.Alias;
+import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
@@ -49,8 +50,11 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
  * {@link #getSitePlan(String)} for more details.
  * <p/>
  * TODO: low priority: add multilingual support
+ * <p/>
+ * TODO: medium: move to navigation package
  * 
  * @author David Chesebro
+ * @author Dolf Dijkstra
  * @since Jun 17, 2010
  */
 public class NavigationHelper {
@@ -59,13 +63,14 @@ public class NavigationHelper {
      */
     protected final ICS ics;
     /**
-     * Local instance of WRAUtils object, pre-instantiated and ready to go
-     */
-    protected final WRAUtils wraUtils;
-    /**
      * Local instance of the WraCoreFieldDao, pre-instantiated and ready to go
      */
     protected final WraCoreFieldDao wraDao;
+
+    /**
+     * Local instance of the AliasCoreFieldDao.
+     */
+    protected final AliasCoreFieldDao aliasDao;
     /**
      * Log file
      */
@@ -81,10 +86,10 @@ public class NavigationHelper {
      * 
      * @param ics object
      */
-    public NavigationHelper(ICS ics) {
+    public NavigationHelper(final ICS ics) {
         this.ics = ics;
-        this.wraUtils = new WRAUtils(ics);
         this.wraDao = new WraCoreFieldDao(ics);
+        aliasDao = new AliasCoreFieldDao(ics);
         this.assetEffectiveDate = null;
     }
 
@@ -492,7 +497,7 @@ public class NavigationHelper {
      */
     protected Map<String, Object> extractAttrFromAlias(AssetId id) {
         Map<String, Object> result = new HashMap<String, Object>();
-        Alias alias = wraUtils.getAlias(id);
+        Alias alias = aliasDao.getAlias(id);
         String url = getUrlForAlias(alias);
         String linktext = getLinktextForAlias(alias);
         result.put("bean", alias);
@@ -514,7 +519,7 @@ public class NavigationHelper {
      */
     protected Map<String, Object> extractAttrFromWra(AssetId id) {
         Map<String, Object> result = new HashMap<String, Object>();
-        WebReferenceableAsset wra = wraUtils.getWra(id);
+        WebReferenceableAsset wra = wraDao.getWra(id);
         String url = getUrlForWra(wra);
         String linktext = getLinktextForWra(wra);
         result.put("bean", wra);
@@ -527,7 +532,7 @@ public class NavigationHelper {
 
     protected void decorateAsWra(AssetId id, NavNode node) {
 
-        WebReferenceableAsset wra = wraUtils.getWra(id);
+        WebReferenceableAsset wra = wraDao.getWra(id);
         String url = getUrlForWra(wra);
         String linktext = getLinktextForWra(wra);
         node.setWra(wra);
@@ -538,7 +543,7 @@ public class NavigationHelper {
     }
 
     protected void decorateAsAlias(AssetId id, NavNode node) {
-        Alias alias = wraUtils.getAlias(id);
+        Alias alias = aliasDao.getAlias(id); // wraUtils.getAlias(id);
         String url = getUrlForAlias(alias);
         String linktext = getLinktextForAlias(alias);
         node.setWra(alias);
