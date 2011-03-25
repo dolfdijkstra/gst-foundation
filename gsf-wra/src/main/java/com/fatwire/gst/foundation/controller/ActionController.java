@@ -36,7 +36,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * Dispatching controller. Relies on actionLocator to dispatch control to
- * action classes.
+ * Action classes.
  *
  * @author Tony Field
  * @author Dolf Dijkstra
@@ -71,7 +71,7 @@ public class ActionController extends AbstractController {
     protected ActionLocator getActionLocator() {
 
         // get the spring web application context
-        ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
+        ServletContext servletContext = getServletContext();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
         // get the bean.  Note for lazy administrators, a default locator is provided
@@ -85,6 +85,12 @@ public class ActionController extends AbstractController {
             if (LOG.isTraceEnabled()) LOG.trace("Using default actionLocatorBean " + locator.getClass().getName());
         }
         return locator;
+    }
+
+    @SuppressWarnings("deprecation")
+    private ServletContext getServletContext() {
+        ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
+        return servletContext;
     }
 
     /**
@@ -172,7 +178,7 @@ public class ActionController extends AbstractController {
      * @param fieldType the type of the field used by the action
      * @return object to inject or null if it is not known how to do it
      */
-    protected Object getValueForInjection(ICS ics, String fieldName, Class fieldType) {
+    protected Object getValueForInjection(ICS ics, String fieldName, Class<?> fieldType) {
         if (ICS.class.isAssignableFrom(fieldType)) {
             return ics;
         }
