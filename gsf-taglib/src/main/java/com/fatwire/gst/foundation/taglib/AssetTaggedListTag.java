@@ -15,8 +15,11 @@
  */
 package com.fatwire.gst.foundation.taglib;
 
+import java.io.IOException;
 import java.util.Collection;
+
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -25,7 +28,6 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
 import com.fatwire.gst.foundation.tagging.AssetTaggingService;
 import com.fatwire.gst.foundation.tagging.TagUtils;
 import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
-import com.openmarket.framework.jsp.Base;
 
 /**
  * Tagged list tag support This tag uses ICS.SQL(PreparedStmt, boolean) to query
@@ -37,16 +39,17 @@ import com.openmarket.framework.jsp.Base;
  * called from java. *
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Aug 13, 2010
  */
-public final class AssetTaggedListTag extends Base {
+public final class AssetTaggedListTag extends SimpleTagSupport {
     private static final long serialVersionUID = 1L;
     private String assettype = null;
     private String assetid = null;
     private String outlist = null;
 
     public AssetTaggedListTag() {
-        super(true); // clear errno = true
+
     }
 
     public void setAssettype(String assettype) {
@@ -62,26 +65,26 @@ public final class AssetTaggedListTag extends Base {
     }
 
     public void release() {
-        super.release();
+
         assettype = null;
         assetid = null;
         outlist = null;
     }
 
-    /* (non-Javadoc)
-     * @see com.openmarket.framework.jsp.Base#doEndTag(COM.FutureTense.Interfaces.ICS, boolean)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
-    public int doEndTag(ICS ics, boolean bDebug) throws JspException {
+    @Override
+    public void doTag() throws JspException, IOException {
+
+        ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
         AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag("asset-" + assetid + ":" + assettype));
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
-        return Base.EVAL_PAGE;
+
+        super.doTag();
     }
-    /* (non-Javadoc)
-     * @see com.openmarket.framework.jsp.Base#doStartTag(COM.FutureTense.Interfaces.ICS, boolean)
-     */
-    protected int doStartTag(ICS arg0, boolean arg1) throws Exception {
-        
-        return SKIP_BODY;
-    }
+
 }

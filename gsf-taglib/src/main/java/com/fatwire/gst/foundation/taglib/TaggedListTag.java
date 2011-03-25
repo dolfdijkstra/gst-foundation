@@ -15,10 +15,14 @@
  */
 package com.fatwire.gst.foundation.taglib;
 
+import java.io.IOException;
 import java.util.Collection;
+
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
@@ -28,10 +32,10 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
 import com.openmarket.framework.jsp.Base;
 
 /**
- * Tagged list tag support. This tag uses ICS.SQL(PreparedStmt, boolean) to query
- * the GSTTagRegistry and retrieve the assets that point to the specified tag.
- * Input tagname - the name of the tag outlist - name of output list Output The
- * name of an IList object to be placed in the list pool. It contains two
+ * Tagged list tag support. This tag uses ICS.SQL(PreparedStmt, boolean) to
+ * query the GSTTagRegistry and retrieve the assets that point to the specified
+ * tag. Input tagname - the name of the tag outlist - name of output list Output
+ * The name of an IList object to be placed in the list pool. It contains two
  * columns: ASSETTYPE, ASSETID. Null is never returned, but the returned list
  * can be empty. A java method is provided in order for the same logic to be
  * called from java. *
@@ -39,13 +43,12 @@ import com.openmarket.framework.jsp.Base;
  * @author Tony Field
  * @since Aug 13, 2010
  */
-public final class TaggedListTag extends Base {
+public final class TaggedListTag extends SimpleTagSupport {
     private static final long serialVersionUID = 1L;
     private String tag = null;
     private String outlist = null;
 
     public TaggedListTag() {
-        super(true); // clear errno = true
     }
 
     public void setTag(String tag) {
@@ -56,30 +59,19 @@ public final class TaggedListTag extends Base {
         this.outlist = outlist;
     }
 
-    public void release() {
-        tag = null;
-        outlist = null;
-        super.release();
-        
-    }
-
-    public int doEndTag(ICS ics, boolean bDebug) throws JspException {
-        AssetTaggingService svc = new TableTaggingServiceImpl(ics);
-        final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag(tag));
-        ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
-        return Base.EVAL_PAGE;
-    }
-
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.openmarket.framework.jsp.Base#doStartTag(COM.FutureTense.Interfaces
-     * .ICS, boolean)
+     * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
-    protected int doStartTag(ICS arg0, boolean arg1) throws Exception {
-        
-        return SKIP_BODY;
+    public void doTag() throws JspException, IOException {
+        ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
+        AssetTaggingService svc = new TableTaggingServiceImpl(ics);
+        final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag(tag));
+        //todo: medium; return a collection on jsp context for use with jstl
+        ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
+
+        super.doTag();
     }
 }

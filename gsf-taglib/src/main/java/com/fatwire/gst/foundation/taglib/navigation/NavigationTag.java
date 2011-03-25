@@ -16,11 +16,16 @@
 
 package com.fatwire.gst.foundation.taglib.navigation;
 
+import java.io.IOException;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import COM.FutureTense.Interfaces.ICS;
 
+import com.fatwire.gst.foundation.taglib.GsfRootTag;
 import com.fatwire.gst.foundation.taglib.NavNode;
 import com.fatwire.gst.foundation.taglib.NavigationHelper;
-import com.openmarket.framework.jsp.Base;
 
 /**
  * 
@@ -29,7 +34,7 @@ import com.openmarket.framework.jsp.Base;
  * @author Dolf Dijkstra
  * 
  */
-public class NavigationTag extends Base {
+public class NavigationTag extends SimpleTagSupport {
 
     /**
      * 
@@ -60,34 +65,21 @@ public class NavigationTag extends Base {
         this.pagename = pagename;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.openmarket.framework.jsp.Base#doEndTag(COM.FutureTense.Interfaces
-     * .ICS, boolean)
+
+    /* (non-Javadoc)
+     * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
-    protected int doEndTag(ICS ics, boolean debug) throws Exception {
+    public void doTag() throws JspException, IOException {
+
+        ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
         NavigationHelper nh = new NavigationHelper(ics);
 
         NavNode nav = nh.getSitePlanByPage(depth, pagename);
-        pageContext.setAttribute(name, nav);
+        getJspContext().setAttribute(name, nav);
         depth=1;
-        return Base.EVAL_PAGE;
+        super.doTag();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.openmarket.framework.jsp.Base#doStartTag(COM.FutureTense.Interfaces
-     * .ICS, boolean)
-     */
-    @Override
-    protected int doStartTag(ICS arg0, boolean arg1) throws Exception {
-        
-        return SKIP_BODY;
-    }
 
 }
