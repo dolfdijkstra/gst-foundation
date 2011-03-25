@@ -31,13 +31,13 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
-import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
+import com.fatwire.gst.foundation.wra.WraUriBuilder;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.logging.Log;
@@ -456,14 +456,8 @@ public class NavigationHelper {
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GST/Dispatcher";
         }
-        final GetTemplateUrl gtu = new GetTemplateUrl(ics, wra.getId().getType(), wra.getId().getId() + "", wra
-                .getTemplate(), wrapper, "nav");
-        ics.RemoveVar("gspal-url");
-        gtu.setOutstr("gspal-url");
-        gtu.execute(ics);
-        final String url = ics.GetVar("gspal-url");
-        ics.RemoveVar("gspal-url");
-        return url;
+        return new WraUriBuilder(wra.getId(), wrapper).toURI(ics);
+        
     }
 
     /**
