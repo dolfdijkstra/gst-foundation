@@ -49,7 +49,7 @@ final class AttributeActionLocator implements ActionLocator {
     }
 
     private String getAttribute(ICS ics) {
-        return null; // todo: high: implement
+        return null; // todo: high: figure out if it's even possible to access the WRA yet - we haven't resolved the pretty URLs yet
     }
 
     private Action getAction(String attribute) {
