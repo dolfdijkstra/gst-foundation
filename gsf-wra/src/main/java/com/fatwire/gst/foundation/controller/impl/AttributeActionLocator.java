@@ -21,7 +21,9 @@ import COM.FutureTense.Util.ftErrors;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.Action;
 import com.fatwire.gst.foundation.controller.ActionLocator;
-import com.fatwire.gst.foundation.controller.ICSAware;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * ActionLocator that looks at an attribute of a WRA and retrieves the 'gstaction' attribute, then determines
@@ -31,6 +33,7 @@ import com.fatwire.gst.foundation.controller.ICSAware;
  * @since Mar 24, 2011
  */
 final class AttributeActionLocator implements ActionLocator {
+    protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller.mapping");
     public static final String GST_ACTION_ATTR_NAME = "gstaction";
     public static final String ACTION_TYPE_SPRING_BEAN_PREFIX = "spring-bean:";
 
@@ -41,10 +44,7 @@ final class AttributeActionLocator implements ActionLocator {
         if (result == null) {
             throw new CSRuntimeException("No action configured for attribute: " + attribute, ftErrors.badparams);
         }
-        if (ICSAware.class.isAssignableFrom(result.getClass())) {
-            ((ICSAware) result).setICS(ics);
-        }
-        // todo: high implement other injections
+
         return null;
     }
 

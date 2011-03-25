@@ -15,19 +15,24 @@
  */
 package com.fatwire.gst.foundation.controller;
 
+import java.lang.reflect.Field;
 import javax.servlet.ServletContext;
 
+import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
-import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.DebugHelper;
+import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 import com.fatwire.gst.foundation.controller.impl.CommandActionLocator;
-import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
+import com.fatwire.gst.foundation.facade.RenderUtils;
+import com.fatwire.gst.foundation.url.WraPathTranslationService;
+import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
+import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
+import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * Dispatching controller. Relies on actionLocator to dispatch control to
@@ -43,8 +48,8 @@ public class ActionController extends AbstractController {
 
     protected void doExecute() {
 
-        // record seid and eid and any other deps required
-        recordCompositionalDependencies();
+        // record seid and eid
+        RenderUtils.recordBaseCompositionalDependencies(ics);
 
         // find the action locator
         LOG.trace("Dispatcher looking for action locator");
@@ -54,6 +59,9 @@ public class ActionController extends AbstractController {
         // get the action
         Action action = locator.getAction(ics);
         if (LOG.isTraceEnabled()) LOG.trace("Using action: " + action.getClass().getName());
+
+        // inject the required data into the action
+        injectIntoAction(ics, action);
 
         // execute the command
         action.handleRequest(ics);
@@ -77,6 +85,44 @@ public class ActionController extends AbstractController {
             if (LOG.isTraceEnabled()) LOG.trace("Using default actionLocatorBean " + locator.getClass().getName());
         }
         return locator;
+    }
+
+    /**
+     * Inject ICS runtime objects into the action.  Objects flagged with the {@Inject} annotation
+     * will be populated by this method by retrieving the value from the {#getValueForInjection} method.
+     *
+     * @param ics    ICS context
+     * @param action action
+     * @see #getValueForInjection(ICS, String, Class)
+     */
+    protected final void injectIntoAction(ICS ics, Action action) {
+        long start = System.nanoTime();
+        try {
+            Class<?> c = action.getClass();
+            while (c != Object.class) {
+                for (Field field : c.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(InjectForRequest.class)) {
+                        Object injectionValue = getValueForInjection(ics, field.getName(), field.getType());
+                        if (injectionValue == null) {
+                            throw new CSRuntimeException(this.getClass().getName() + " does not know how to inject '" + field.getType().getName() + "' into the field '" + field.getName() + "' for an action.", ftErrors.badparams);
+                        }
+                        field.setAccessible(true); //make private fields accessible
+                        if (LOG.isDebugEnabled())
+                            LOG.debug("Injecting " + injectionValue.getClass().getName() + " into field " + field.getName() + " for " + action.getClass().getName());
+                        try {
+                            field.set(action, injectionValue);
+                        } catch (IllegalArgumentException e) {
+                            throw new CSRuntimeException("IllegalArgumentException injecting " + injectionValue + " into field " + field.getName(), ftErrors.exceptionerr, e);
+                        } catch (IllegalAccessException e) {
+                            throw new CSRuntimeException("IllegalAccessException injecting " + injectionValue + " into field " + field.getName(), ftErrors.exceptionerr, e);
+                        }
+                    }
+                    c = c.getSuperclass();
+                }
+            }
+        } finally {
+            DebugHelper.printTime("inject model for " + action.getClass().getName(), start);
+        }
     }
 
     @Override
@@ -119,16 +165,28 @@ public class ActionController extends AbstractController {
     }
 
     /**
-     * Record compositional dependencies that are required for the controller
+     * Provides the data to be injected into the action
+     *
+     * @param ics       ICS context
+     * @param fieldName the name of the field to be set
+     * @param fieldType the type of the field used by the action
+     * @return object to inject or null if it is not known how to do it
      */
-    protected void recordCompositionalDependencies() {
-        if (ics.isCacheable(ics.GetVar(ftMessage.PageName))) {
-            if (goodString(ics.GetVar("seid"))) {
-                LogDep.logDep(ics, "SiteEntry", ics.GetVar("seid"));
-            }
-            if (goodString(ics.GetVar("eid"))) {
-                LogDep.logDep(ics, "CSElement", ics.GetVar("eid"));
-            }
+    protected Object getValueForInjection(ICS ics, String fieldName, Class fieldType) {
+        if (ICS.class.isAssignableFrom(fieldType)) {
+            return ics;
         }
+        if (WraCoreFieldDao.class.isAssignableFrom(fieldType)) {
+            return WraCoreFieldDao.getInstance(ics);
+        }
+        if (AliasCoreFieldDao.class.isAssignableFrom(fieldType)) {
+            WraCoreFieldDao wraCoreFieldDao = WraCoreFieldDao.getInstance(ics);
+            return new AliasCoreFieldDao(ics, wraCoreFieldDao);
+        }
+        if (WraPathTranslationService.class.isAssignableFrom(fieldType)) {
+            return WraPathTranslationServiceFactory.getService(ics);
+        }
+        return null;
     }
+
 }

@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller;
+package com.fatwire.gst.foundation.controller.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Interface used for adding ICS instance to an object
+ * Annotation used to indicate that the field should have its value injected by the action locator.
  *
  * @author Dolf Dijkstra
- * @since Mar 24, 2011
+ * @since 2011-03-24
  */
-import COM.FutureTense.Interfaces.ICS;
-
-public interface ICSAware {
-
-    void setICS(ICS ics);
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface InjectForRequest {
 
 }

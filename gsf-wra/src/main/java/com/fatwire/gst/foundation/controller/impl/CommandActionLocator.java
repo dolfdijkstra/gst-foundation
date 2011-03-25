@@ -24,7 +24,6 @@ import COM.FutureTense.Util.ftErrors;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.Action;
 import com.fatwire.gst.foundation.controller.ActionLocator;
-import com.fatwire.gst.foundation.controller.ICSAware;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -44,23 +43,20 @@ public final class CommandActionLocator implements ActionLocator {
     private Map<String, Action> commandActionMap = new HashMap<String, Action>();
     private Action defaultAction = new RenderPage();
 
-    public Action getAction(ICS ics) { // todo: high: support icsaware?
+    public Action getAction(ICS ics) {
         final String cmd = ics.GetVar(CMD_VAR);
+        final Action action;
         if (StringUtils.isBlank(cmd)) {
             LOG.trace("No command specified. Returning default action: " + defaultAction.getClass().getName());
-            return defaultAction;
+            action = defaultAction;
+        } else {
+            action = commandActionMap.get(cmd);
+            if (action == null) {
+                throw new CSRuntimeException("No action configured for cmd: " + cmd, ftErrors.badparams);
+            }
+            if (LOG.isTraceEnabled()) LOG.trace("Command '" + cmd + "' maps to action " + action.getClass().getName());
         }
-
-        Action c = commandActionMap.get(cmd);
-        if (c == null) {
-            throw new CSRuntimeException("No action configured for cmd: " + cmd, ftErrors.badparams);
-        }
-        if (LOG.isTraceEnabled()) LOG.trace("Command '" + cmd + "' maps to action " + c.getClass().getName());
-        
-        if (ICSAware.class.isAssignableFrom(c.getClass())) {
-            ((ICSAware) c).setICS(ics);
-        }
-        return c;
+        return action;
     }
 
     public void setActionMap(Map<String, Action> map) {
