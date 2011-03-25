@@ -20,7 +20,7 @@ import javax.servlet.ServletContext;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.controller.impl.CommandActionLocator;
+import com.fatwire.gst.foundation.controller.action.CommandActionLocator;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 
 import org.springframework.web.context.WebApplicationContext;
