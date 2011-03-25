@@ -28,13 +28,14 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 final class VWebrootBeanImpl implements VirtualWebroot {
 
+    private static final String GST_VIRTUAL_WEBROOT = "GSTVirtualWebroot";
     private AssetId id;
     private String masterVWebroot;
     private String envVWebroot;
     private String envName;
 
     VWebrootBeanImpl(long id, String masterVWebroot, String envVWebroot, String envName) {
-        this.id = new AssetIdImpl("GSTVirtualWebroot", id);
+        this.id = new AssetIdImpl(GST_VIRTUAL_WEBROOT, id);
         if (!Utilities.goodString(masterVWebroot))
             throw new IllegalArgumentException("Invalid Master VWebroot:" + masterVWebroot);
         this.masterVWebroot = masterVWebroot;
