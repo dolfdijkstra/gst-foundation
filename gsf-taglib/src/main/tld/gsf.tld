@@ -125,6 +125,49 @@
 		</attribute>
 
 	</tag>
+    <tag>
+        <name>asset-children</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.AssetChildren
+        </tag-class>
+        <body-content>empty</body-content>
+        <description>
+        </description>
+        <attribute>
+            <name>list</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the name of the collection with the child assets
+            </description>
+        </attribute>
+        <attribute>
+            <name>c</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the assettype</description>
+        </attribute>
+        <attribute>
+            <name>cid</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the assetid</description>
+        </attribute>
+        <attribute>
+            <name>assoc</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the asset attributes</description>
+        </attribute>
+        <attribute>
+            <name>attributes</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>the asset attributes to retrieve, if provided the child assets are loaded with the listed attributes.
+            If this is not provided, a list of AssetId's are returned, if a '*' is provided, all the attributes are returned.
+             
+            </description>
+        </attribute>
+    </tag>
+
 	<tag>
 		<name>asset-query</name>
 		<tag-class>com.fatwire.gst.foundation.taglib.AssetSimpleQuery
@@ -150,7 +193,7 @@
 			<name>subtype</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<description>the assetid</description>
+			<description>the subtype</description>
 		</attribute>
 		<attribute>
 			<name>query</name>
