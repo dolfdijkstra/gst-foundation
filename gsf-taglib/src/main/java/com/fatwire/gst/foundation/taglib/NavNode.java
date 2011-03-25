@@ -22,6 +22,13 @@ import java.util.List;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 
+/**
+ * This class represents a node is a navigation bar.
+ * 
+ * TODO: medium: move to navigation package
+ * @author Dolf Dijkstra
+ * @since Feb 8, 2011
+ */
 public class NavNode {
     private AssetId page;
     private int level;
