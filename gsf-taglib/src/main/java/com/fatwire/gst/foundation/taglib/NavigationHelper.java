@@ -181,7 +181,7 @@ public class NavigationHelper {
      * Get the NavNode for the current page with unlimited depth.
      * 
      * @param pageid
-     * @return
+     * @return the NavNode associated with this pageid.
      */
     public NavNode getSitePlan(AssetId pageid) {
         return getSitePlan(-1, pageid, 0);
