@@ -47,39 +47,39 @@ public class NavigationTag extends SimpleTagSupport {
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
     /**
      * @param depth the depth to set
      */
-    public void setDepth(int depth) {
+    public void setDepth(final int depth) {
         this.depth = depth;
     }
 
     /**
      * @param pagename the pagename to set
      */
-    public void setPagename(String pagename) {
+    public void setPagename(final String pagename) {
         this.pagename = pagename;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
     public void doTag() throws JspException, IOException {
 
-        ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
-        NavigationHelper nh = new NavigationHelper(ics);
+        final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
+        final NavigationHelper nh = new NavigationHelper(ics);
 
-        NavNode nav = nh.getSitePlanByPage(depth, pagename);
+        final NavNode nav = nh.getSitePlanByPage(depth, pagename);
         getJspContext().setAttribute(name, nav);
-        depth=1;
+        depth = 1;
         super.doTag();
     }
-
 
 }

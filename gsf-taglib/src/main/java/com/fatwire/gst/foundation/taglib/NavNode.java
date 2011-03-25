@@ -26,6 +26,7 @@ import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
  * This class represents a node is a navigation bar.
  * 
  * TODO: medium: move to navigation package
+ * 
  * @author Dolf Dijkstra
  * @since Feb 8, 2011
  */
@@ -38,11 +39,12 @@ public class NavNode {
     private WebReferenceableAsset wra;
     private String url;
     private String linktext;
-    private List<NavNode> children = new LinkedList<NavNode>();
+    private final List<NavNode> children = new LinkedList<NavNode>();
 
-    public void addChild(NavNode child) {
-        if (child != null)
+    public void addChild(final NavNode child) {
+        if (child != null) {
             children.add(child);
+        }
     }
 
     /**
@@ -55,7 +57,7 @@ public class NavNode {
     /**
      * @param page the page to set
      */
-    public void setPage(AssetId page) {
+    public void setPage(final AssetId page) {
         this.page = page;
     }
 
@@ -69,7 +71,7 @@ public class NavNode {
     /**
      * @param level the level to set
      */
-    public void setLevel(int level) {
+    public void setLevel(final int level) {
         this.level = level;
     }
 
@@ -83,7 +85,7 @@ public class NavNode {
     /**
      * @param pagesubtype the pagesubtype to set
      */
-    public void setPagesubtype(String pagesubtype) {
+    public void setPagesubtype(final String pagesubtype) {
         this.pagesubtype = pagesubtype;
     }
 
@@ -97,7 +99,7 @@ public class NavNode {
     /**
      * @param pagename the pagename to set
      */
-    public void setPagename(String pagename) {
+    public void setPagename(final String pagename) {
         this.pagename = pagename;
     }
 
@@ -111,7 +113,7 @@ public class NavNode {
     /**
      * @param id the id to set
      */
-    public void setId(AssetId id) {
+    public void setId(final AssetId id) {
         this.id = id;
     }
 
@@ -132,11 +134,11 @@ public class NavNode {
     /**
      * @param wra the wra to set
      */
-    public void setWra(WebReferenceableAsset wra) {
+    public void setWra(final WebReferenceableAsset wra) {
         this.wra = wra;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -144,7 +146,7 @@ public class NavNode {
         return url;
     }
 
-    public void setLinktext(String linktext) {
+    public void setLinktext(final String linktext) {
         this.linktext = linktext;
     }
 

@@ -40,14 +40,16 @@ public final class TaggedAssetsTag extends SimpleTagSupport {
     private String tag = null;
     private String list = null;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
     public void doTag() throws JspException, IOException {
 
-        ICS ics = (ICS) getJspContext().getAttribute(Root.sICS);
-        AssetTaggingService svc = new TableTaggingServiceImpl(ics);
+        final ICS ics = (ICS) getJspContext().getAttribute(Root.sICS);
+        final AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         getJspContext().setAttribute(list, svc.lookupTaggedAssets(TagUtils.asTag(tag)));
         super.doTag();
     }
@@ -55,11 +57,11 @@ public final class TaggedAssetsTag extends SimpleTagSupport {
     /**
      * @param list the list to set
      */
-    public void setList(String list) {
+    public void setList(final String list) {
         this.list = list;
     }
 
-    public void setTag(String tag) {
+    public void setTag(final String tag) {
         this.tag = tag;
     }
 

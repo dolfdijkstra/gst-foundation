@@ -17,6 +17,7 @@
 package com.fatwire.gst.foundation.taglib;
 
 import java.io.IOException;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
@@ -35,14 +36,29 @@ public class AssetLoadTag extends SimpleTagSupport {
     private String attributes;
     private String name;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
     public void doTag() throws JspException, IOException {
 
-        ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
-        ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics); // todo: medium: find in page context if it's there (due to presence of gsf:root
+        final ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
+        final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics); // todo:
+                                                                                      // medium:
+                                                                                      // find
+                                                                                      // in
+                                                                                      // page
+                                                                                      // context
+                                                                                      // if
+                                                                                      // it's
+                                                                                      // there
+                                                                                      // (due
+                                                                                      // to
+                                                                                      // presence
+                                                                                      // of
+                                                                                      // gsf:root
         if (StringUtils.isBlank(c) || StringUtils.isBlank(cid)) {
             if (StringUtils.isBlank(attributes)) {
                 getJspContext().setAttribute(name, t.readCurrent());
@@ -51,7 +67,7 @@ public class AssetLoadTag extends SimpleTagSupport {
             }
 
         } else {
-            AssetId id = t.createAssetId(c, cid);
+            final AssetId id = t.createAssetId(c, cid);
             if (StringUtils.isBlank(attributes)) {
                 getJspContext().setAttribute(name, t.read(id));
             } else {
@@ -66,28 +82,28 @@ public class AssetLoadTag extends SimpleTagSupport {
     /**
      * @param c the c to set
      */
-    public void setC(String c) {
+    public void setC(final String c) {
         this.c = c;
     }
 
     /**
      * @param cid the cid to set
      */
-    public void setCid(String cid) {
+    public void setCid(final String cid) {
         this.cid = cid;
     }
 
     /**
      * @param attributes the attributes to set
      */
-    public void setAttributes(String attributes) {
+    public void setAttributes(final String attributes) {
         this.attributes = attributes;
     }
 
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 

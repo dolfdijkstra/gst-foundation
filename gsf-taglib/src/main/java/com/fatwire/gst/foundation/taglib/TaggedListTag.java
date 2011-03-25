@@ -29,7 +29,6 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
 import com.fatwire.gst.foundation.tagging.AssetTaggingService;
 import com.fatwire.gst.foundation.tagging.TagUtils;
 import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
-import com.openmarket.framework.jsp.Base;
 
 /**
  * Tagged list tag support. This tag uses ICS.SQL(PreparedStmt, boolean) to
@@ -51,11 +50,11 @@ public final class TaggedListTag extends SimpleTagSupport {
     public TaggedListTag() {
     }
 
-    public void setTag(String tag) {
+    public void setTag(final String tag) {
         this.tag = tag;
     }
 
-    public void setOutlist(String outlist) {
+    public void setOutlist(final String outlist) {
         this.outlist = outlist;
     }
 
@@ -66,10 +65,10 @@ public final class TaggedListTag extends SimpleTagSupport {
      */
     @Override
     public void doTag() throws JspException, IOException {
-        ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
-        AssetTaggingService svc = new TableTaggingServiceImpl(ics);
+        final ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
+        final AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag(tag));
-        //todo: medium; return a collection on jsp context for use with jstl
+        // todo: medium; return a collection on jsp context for use with jstl
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
 
         super.doTag();

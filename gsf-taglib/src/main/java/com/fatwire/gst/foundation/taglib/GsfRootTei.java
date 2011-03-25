@@ -28,11 +28,13 @@ import org.apache.commons.logging.LogFactory;
 public class GsfRootTei extends TagExtraInfo {
     private static final Log log = LogFactory.getLog(GsfRootTei.class);
 
-    public VariableInfo[] getVariableInfo(TagData data) {
+    @Override
+    public VariableInfo[] getVariableInfo(final TagData data) {
         if (log.isDebugEnabled()) {
             log.debug("getVariableInfo: " + data);
         }
-        return new VariableInfo[] {  new VariableInfo("assetDao", ScatteredAssetAccessTemplate.class.getName(), true, VariableInfo.NESTED) };
+        return new VariableInfo[] { new VariableInfo("assetDao", ScatteredAssetAccessTemplate.class.getName(), true,
+                VariableInfo.NESTED) };
 
     }
 }

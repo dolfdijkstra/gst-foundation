@@ -51,18 +51,21 @@ public class GsfRootTag extends BodyTagSupport {
 
         super.doStartTag();
 
-        ICS ics = getICS();
+        final ICS ics = getICS();
 
         if (ics != null) {
             pageContext.setAttribute(VARIABLE_SCOPE_NAME, new ICSAsMap(ics), PageContext.PAGE_SCOPE);
-            ScatteredAssetAccessTemplate assetTemplate = new ScatteredAssetAccessTemplate(ics);
+            final ScatteredAssetAccessTemplate assetTemplate = new ScatteredAssetAccessTemplate(ics);
             pageContext.setAttribute(ASSET_DAO, assetTemplate, PageContext.PAGE_SCOPE);
-            if (ics.GetVar("tid") != null)
+            if (ics.GetVar("tid") != null) {
                 LogDep.logDep(ics, "Template", ics.GetVar("tid"));
-            if (ics.GetVar("seid") != null)
+            }
+            if (ics.GetVar("seid") != null) {
                 LogDep.logDep(ics, "SiteEntry", ics.GetVar("seid"));
-            if (ics.GetVar("eid") != null)
+            }
+            if (ics.GetVar("eid") != null) {
                 LogDep.logDep(ics, "CSElement", ics.GetVar("eid"));
+            }
         } else {
             throw new JspException("ics is not found on the page context");
         }
@@ -70,9 +73,10 @@ public class GsfRootTag extends BodyTagSupport {
     }
 
     protected ICS getICS() {
-        Object o = pageContext.getAttribute(ICS_VARIABLE_NAME, PageContext.PAGE_SCOPE);
-        if (o instanceof ICS)
+        final Object o = pageContext.getAttribute(ICS_VARIABLE_NAME, PageContext.PAGE_SCOPE);
+        if (o instanceof ICS) {
             return (ICS) o;
+        }
         return null;
     }
 

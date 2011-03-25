@@ -21,12 +21,12 @@ import java.io.IOException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import org.apache.commons.lang.StringUtils;
-
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+
+import org.apache.commons.lang.StringUtils;
 
 public class AssetSimpleQueryTag extends SimpleTagSupport {
 
@@ -36,19 +36,21 @@ public class AssetSimpleQueryTag extends SimpleTagSupport {
     private String c;
     private String subtype;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
     public void doTag() throws JspException, IOException {
 
-        ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
-        ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
+        final ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
+        final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
 
         if (StringUtils.isBlank(attributes)) {
             getJspContext().setAttribute(list, t.query(c, subtype, query));
         } else {
-            getJspContext().setAttribute(list, t.query(c, subtype, query,attributes.split(",")));
+            getJspContext().setAttribute(list, t.query(c, subtype, query, attributes.split(",")));
         }
 
         super.doTag();
@@ -57,21 +59,21 @@ public class AssetSimpleQueryTag extends SimpleTagSupport {
     /**
      * @param attributes the attributes to set
      */
-    public void setAttributes(String attributes) {
+    public void setAttributes(final String attributes) {
         this.attributes = attributes;
     }
 
     /**
      * @param list the list to set
      */
-    public void setList(String list) {
+    public void setList(final String list) {
         this.list = list;
     }
 
     /**
      * @param query the query to set
      */
-    public void setQuery(String query) {
+    public void setQuery(final String query) {
         this.query = query;
     }
 

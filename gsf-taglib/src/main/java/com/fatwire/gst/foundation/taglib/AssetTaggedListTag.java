@@ -52,15 +52,15 @@ public final class AssetTaggedListTag extends SimpleTagSupport {
 
     }
 
-    public void setAssettype(String assettype) {
+    public void setAssettype(final String assettype) {
         this.assettype = assettype;
     }
 
-    public void setAssetid(String assetid) {
+    public void setAssetid(final String assetid) {
         this.assetid = assetid;
     }
 
-    public void setOutlist(String outlist) {
+    public void setOutlist(final String outlist) {
         this.outlist = outlist;
     }
 
@@ -79,8 +79,8 @@ public final class AssetTaggedListTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
-        AssetTaggingService svc = new TableTaggingServiceImpl(ics);
+        final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
+        final AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag("asset-" + assetid + ":" + assettype));
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
 

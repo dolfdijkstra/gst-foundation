@@ -44,7 +44,7 @@ public class ICSAsMap implements Map<String, Object> {
     /**
      * @param ics
      */
-    public ICSAsMap(ICS ics) {
+    public ICSAsMap(final ICS ics) {
         super();
         this.ics = ics;
     }
@@ -53,20 +53,20 @@ public class ICSAsMap implements Map<String, Object> {
 
     }
 
-    public boolean containsKey(Object key) {
+    public boolean containsKey(final Object key) {
         return ics.GetVar((String) key) != null;
 
     }
 
-    public boolean containsValue(Object value) {
+    public boolean containsValue(final Object value) {
         return false;
     }
 
     @SuppressWarnings("unchecked")
     public Set<java.util.Map.Entry<String, Object>> entrySet() {
-        Map<String, Object> tmp = new HashMap<String, Object>();
-        for (Enumeration<String> enumeration = ics.GetVars(); enumeration.hasMoreElements();) {
-            String name = (String) enumeration.nextElement();
+        final Map<String, Object> tmp = new HashMap<String, Object>();
+        for (final Enumeration<String> enumeration = ics.GetVars(); enumeration.hasMoreElements();) {
+            final String name = enumeration.nextElement();
             tmp.put(name, get(name));
         }
 
@@ -74,26 +74,26 @@ public class ICSAsMap implements Map<String, Object> {
     }
 
     @SuppressWarnings("deprecation")
-    public Object get(Object key) {
+    public Object get(final Object key) {
         if (!(key instanceof String)) {
             throw new IllegalArgumentException("key must be a String");
         }
         // first: check the object pool
-        Object o = ics.GetObj((String) key);
+        final Object o = ics.GetObj((String) key);
         if (o != null) {
             return o;
         }
 
         // second: lists
 
-        IList i = ics.GetList((String) key, true);
+        final IList i = ics.GetList((String) key, true);
         if (i != null) {
             // TODO: medium transform into List/Map like
             return i;
         }
 
         // FTVAL mungo jungo
-        FTVAL val = ics.GetCgi((String) key);
+        final FTVAL val = ics.GetCgi((String) key);
         if (val != null) {
             switch (val.GetType()) {
                 case FTVAL.BLOB:
@@ -122,18 +122,18 @@ public class ICSAsMap implements Map<String, Object> {
         return new HashSet<String>(Collections.list(ics.GetVars()));
     }
 
-    public Object put(String key, Object value) {
+    public Object put(final String key, final Object value) {
         // TODO implement??
         // ics.SetVar(key,value);
         // ics.SetVar(key, new FTVAL(value));
         throw new UnsupportedOperationException();
     }
 
-    public void putAll(Map<? extends String, ? extends Object> t) {
+    public void putAll(final Map<? extends String, ? extends Object> t) {
         throw new UnsupportedOperationException();
     }
 
-    public String remove(Object key) {
+    public String remove(final Object key) {
         throw new UnsupportedOperationException();
     }
 
@@ -143,10 +143,10 @@ public class ICSAsMap implements Map<String, Object> {
     }
 
     public Collection<Object> values() {
-        Collection<Object> tmp = new ArrayList<Object>();
+        final Collection<Object> tmp = new ArrayList<Object>();
         for (@SuppressWarnings("unchecked")
-        Enumeration<String> enumeration = ics.GetVars(); enumeration.hasMoreElements();) {
-            String name = (String) enumeration.nextElement();
+        final Enumeration<String> enumeration = ics.GetVars(); enumeration.hasMoreElements();) {
+            final String name = enumeration.nextElement();
             tmp.add(get(name));
         }
 

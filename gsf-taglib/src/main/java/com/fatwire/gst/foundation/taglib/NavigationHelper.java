@@ -136,7 +136,8 @@ public class NavigationHelper {
      * @return Map<String,Object> of the site plan tree (see above)
      * @deprecated replaced by {@link #getSitePlan(String)}.
      */
-    public Map<String, Object> getSitePlanAsMap(String pageid) {
+    @Deprecated
+    public Map<String, Object> getSitePlanAsMap(final String pageid) {
         return getSitePlanAsMap(pageid, 0);
     }
 
@@ -144,7 +145,7 @@ public class NavigationHelper {
      * @param name the name of the Page asset
      * @return NavNode for the Page with the name
      */
-    public NavNode getSitePlanByPage(String name) {
+    public NavNode getSitePlanByPage(final String name) {
         return getSitePlanByPage(1, name);
     }
 
@@ -155,10 +156,10 @@ public class NavigationHelper {
      * @param name the name of the Page asset
      * @return NavNode for the Page with the name
      */
-    public NavNode getSitePlanByPage(int depth, String name) {
-        AssetAccessTemplate assetTemplate = new AssetAccessTemplate(ics);
-        AssetId pageid = assetTemplate.findByName(ics, "Page", name);
-        NavigationHelper nh = new NavigationHelper(ics);
+    public NavNode getSitePlanByPage(final int depth, final String name) {
+        final AssetAccessTemplate assetTemplate = new AssetAccessTemplate(ics);
+        final AssetId pageid = assetTemplate.findByName(ics, "Page", name);
+        final NavigationHelper nh = new NavigationHelper(ics);
         return nh.getSitePlan(depth, pageid);
     }
 
@@ -178,7 +179,7 @@ public class NavigationHelper {
      * @param pageid the assetid of the Page asset.
      * @return
      */
-    public NavNode getSitePlan(String pageid) {
+    public NavNode getSitePlan(final String pageid) {
         return getSitePlan(new AssetIdImpl("Page", Long.parseLong(pageid)));
     }
 
@@ -188,7 +189,7 @@ public class NavigationHelper {
      * @param pageid
      * @return the NavNode associated with this pageid.
      */
-    public NavNode getSitePlan(AssetId pageid) {
+    public NavNode getSitePlan(final AssetId pageid) {
         return getSitePlan(-1, pageid, 0);
     }
 
@@ -199,7 +200,7 @@ public class NavigationHelper {
      * @param pageid the AssetId for the page
      * @return the NavNode for this page
      */
-    public NavNode getSitePlan(int depth, AssetId pageid) {
+    public NavNode getSitePlan(final int depth, final AssetId pageid) {
         return getSitePlan(depth, pageid, 0);
     }
 
@@ -212,22 +213,23 @@ public class NavigationHelper {
      * @param level starting level number when traversing the site plan tree
      * @return NavNode of the site plan tree
      */
-    private NavNode getSitePlan(int depth, AssetId pageId, int level) {
+    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level) {
         LogDep.logDep(ics, pageId);
         if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
             // the input object is not valid. Abort
-            if (LOG.isDebugEnabled())
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
+            }
             return null;
         }
 
         // determine if it's a wra, a placeholder or an alias
 
-        AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
-        String subtype = AttributeDataUtils.asString(pageData.getAttributeData("subtype"));
-        String name = AttributeDataUtils.asString(pageData.getAttributeData("name"));
+        final AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
+        final String subtype = AttributeDataUtils.asString(pageData.getAttributeData("subtype"));
+        final String name = AttributeDataUtils.asString(pageData.getAttributeData("name"));
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
-        NavNode node = new NavNode();
+        final NavNode node = new NavNode();
         if (isNavigationPlaceholder) {
             node.setPage(pageId);
             node.setLevel(level);
@@ -236,19 +238,20 @@ public class NavigationHelper {
         } else {
             // no link if it's just a placeholder
             // retrieve the unnamed association(s)
-            List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", Long.toString(pageId.getId()),
-                    "-");
+            final List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", Long.toString(pageId
+                    .getId()), "-");
             if (ids.size() < 1) {
                 // tolerate bad data
                 LOG.warn("Page " + pageId.getId()
                         + " has no unnamed association value so a link cannot be generated for it.  Skipping.");
             } else {
-                ArrayList<AssetId> wra = new ArrayList<AssetId>();
-                for (AssetId id : ids) {
+                final ArrayList<AssetId> wra = new ArrayList<AssetId>();
+                for (final AssetId id : ids) {
                     if (isValidOnDate(ics, id, assetEffectiveDate)) {
                         wra.add(id);
-                    } else if (LOG.isDebugEnabled())
+                    } else if (LOG.isDebugEnabled()) {
                         LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
+                    }
 
                 }
                 if (wra.size() < 1) {
@@ -264,7 +267,7 @@ public class NavigationHelper {
                     node.setLevel(level);
                     node.setPagesubtype(subtype);
                     node.setPagename(name);
-                    AssetId id = wra.get(0);
+                    final AssetId id = wra.get(0);
                     node.setId(id);
                     if (isGstAlias(id)) {
                         decorateAsAlias(id, node);
@@ -278,12 +281,13 @@ public class NavigationHelper {
 
         if (depth < 0 || depth > level) {
             // get the children in the Site Plan
-            List<AssetId> childrenIDs = ListPages.getChildPages(ics, pageId.getId());
-            for (AssetId aid : childrenIDs) {
+            final List<AssetId> childrenIDs = ListPages.getChildPages(ics, pageId.getId());
+            for (final AssetId aid : childrenIDs) {
                 // note recursing here
-                NavNode kidInfo = getSitePlan(depth, aid, level + 1);
-                if (kidInfo != null && kidInfo.getPage() != null)
+                final NavNode kidInfo = getSitePlan(depth, aid, level + 1);
+                if (kidInfo != null && kidInfo.getPage() != null) {
                     node.addChild(kidInfo);
+                }
             }
         }
         return node;
@@ -296,22 +300,24 @@ public class NavigationHelper {
      * @return
      * @deprecated
      */
-    private Map<String, Object> getSitePlanAsMap(String pageid, int level) {
+    @Deprecated
+    private Map<String, Object> getSitePlanAsMap(final String pageid, final int level) {
         LogDep.logDep(ics, "Page", pageid);
         // object to hold results
-        Map<String, Object> result = new HashMap<String, Object>();
-        AssetId pageId = new AssetIdImpl("Page", Long.parseLong(pageid));
+        final Map<String, Object> result = new HashMap<String, Object>();
+        final AssetId pageId = new AssetIdImpl("Page", Long.parseLong(pageid));
         if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
             // the input object is not valid. Abort
-            if (LOG.isDebugEnabled())
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
+            }
             return result;
         }
 
         // determine if it's a wra, a placeholder or an alias
-        AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
-        String subtype = pageData.getAttributeData("subtype").getData().toString();
-        String name = pageData.getAttributeData("name").getData().toString();
+        final AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
+        final String subtype = pageData.getAttributeData("subtype").getData().toString();
+        final String name = pageData.getAttributeData("name").getData().toString();
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
 
         if (isNavigationPlaceholder) {
@@ -322,18 +328,19 @@ public class NavigationHelper {
         } else {
             // no link if it's just a placeholder
             // retrieve the unnamed association(s)
-            List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", pageid, "-");
+            final List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", pageid, "-");
             if (ids.size() < 1) {
                 // tolerate bad data
                 LOG.warn("Page " + pageid
                         + " has no unnamed association value so a link cannot be generated for it.  Skipping.");
             } else {
-                ArrayList<AssetId> wra = new ArrayList<AssetId>();
-                for (AssetId id : ids) {
+                final ArrayList<AssetId> wra = new ArrayList<AssetId>();
+                for (final AssetId id : ids) {
                     if (isValidOnDate(ics, id, assetEffectiveDate)) {
                         wra.add(id);
-                    } else if (LOG.isDebugEnabled())
+                    } else if (LOG.isDebugEnabled()) {
                         LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
+                    }
 
                 }
                 if (wra.size() < 1) {
@@ -347,7 +354,7 @@ public class NavigationHelper {
                     result.put("level", level);
                     result.put("pagesubtype", subtype);
                     result.put("pagename", name);
-                    AssetId id = wra.get(0);
+                    final AssetId id = wra.get(0);
                     result.put("id", id);
                     if (isGstAlias(id)) {
                         result.putAll(extractAttrFromAlias(id));
@@ -360,17 +367,19 @@ public class NavigationHelper {
         }
 
         // get the children in the Site Plan
-        List<AssetId> childrenIDs = ListPages.getChildPages(ics, Long.parseLong(pageid));
-        List<Map<String, Object>> navChildren = new ArrayList<Map<String, Object>>();
-        for (AssetId aid : childrenIDs) {
-            String childPageID = Long.toString(aid.getId());
+        final List<AssetId> childrenIDs = ListPages.getChildPages(ics, Long.parseLong(pageid));
+        final List<Map<String, Object>> navChildren = new ArrayList<Map<String, Object>>();
+        for (final AssetId aid : childrenIDs) {
+            final String childPageID = Long.toString(aid.getId());
             // note recursing here
-            Map<String, Object> kidInfo = getSitePlanAsMap(childPageID, level + 1);
-            if (kidInfo.keySet().size() > 0)
+            final Map<String, Object> kidInfo = getSitePlanAsMap(childPageID, level + 1);
+            if (kidInfo.keySet().size() > 0) {
                 navChildren.add(kidInfo);
+            }
         }
-        if (navChildren.size() > 0)
+        if (navChildren.size() > 0) {
             result.put("children", navChildren);
+        }
         return result;
     }
 
@@ -388,7 +397,7 @@ public class NavigationHelper {
      * @return true if the asset is an alias, false if it is a web-referenceable
      *         asset
      */
-    protected boolean isGstAlias(AssetId id) {
+    protected boolean isGstAlias(final AssetId id) {
         return GST_ALIAS_TYPE.equals(id.getType());
     }
 
@@ -406,7 +415,7 @@ public class NavigationHelper {
      * @param alias Alias bean, which of course is also a WRA.
      * @return url
      */
-    protected String getUrlForAlias(Alias alias) {
+    protected String getUrlForAlias(final Alias alias) {
         if (alias.getTargetUrl() != null) {
             return alias.getTargetUrl();
         } else {
@@ -426,7 +435,8 @@ public class NavigationHelper {
      * @return linktext or null on failure.
      * @deprecated See {@link #getLinktext}
      */
-    protected String getLinktextForAlias(Alias alias) {
+    @Deprecated
+    protected String getLinktextForAlias(final Alias alias) {
         return alias.getLinkText();
     }
 
@@ -436,7 +446,7 @@ public class NavigationHelper {
      * @param wra WebReferenceableAsset bean
      * @return url
      */
-    protected String getUrlForWra(WebReferenceableAsset wra) {
+    protected String getUrlForWra(final WebReferenceableAsset wra) {
         if (wra.getTemplate() == null || wra.getTemplate().length() == 0) {
             LOG.warn("Asset " + wra + " does not have a valid template set.");
             return null;
@@ -446,12 +456,12 @@ public class NavigationHelper {
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GST/Dispatcher";
         }
-        GetTemplateUrl gtu = new GetTemplateUrl(ics, wra.getId().getType(), wra.getId().getId() + "",
-                wra.getTemplate(), wrapper, "nav");
+        final GetTemplateUrl gtu = new GetTemplateUrl(ics, wra.getId().getType(), wra.getId().getId() + "", wra
+                .getTemplate(), wrapper, "nav");
         ics.RemoveVar("gspal-url");
         gtu.setOutstr("gspal-url");
         gtu.execute(ics);
-        String url = ics.GetVar("gspal-url");
+        final String url = ics.GetVar("gspal-url");
         ics.RemoveVar("gspal-url");
         return url;
     }
@@ -463,7 +473,8 @@ public class NavigationHelper {
      * @return linktext
      * @deprecated See {@link #getLinktext}
      */
-    protected String getLinktextForWra(WebReferenceableAsset wra) {
+    @Deprecated
+    protected String getLinktextForWra(final WebReferenceableAsset wra) {
         if (wra.getLinkText() != null && wra.getLinkText().length() > 0) {
             return wra.getLinkText();
         } else if (wra.getH1Title() != null && wra.getH1Title().length() > 0) {
@@ -481,7 +492,7 @@ public class NavigationHelper {
      * @param wra WebReferenceableAsset or Alias
      * @return linktext
      */
-    protected String getLinktext(WebReferenceableAsset wra) {
+    protected String getLinktext(final WebReferenceableAsset wra) {
         return wra.getLinkText();
     }
 
@@ -495,16 +506,19 @@ public class NavigationHelper {
      *         placing in page scope
      * @deprecated
      */
-    protected Map<String, Object> extractAttrFromAlias(AssetId id) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        Alias alias = aliasDao.getAlias(id);
-        String url = getUrlForAlias(alias);
-        String linktext = getLinktextForAlias(alias);
+    @Deprecated
+    protected Map<String, Object> extractAttrFromAlias(final AssetId id) {
+        final Map<String, Object> result = new HashMap<String, Object>();
+        final Alias alias = aliasDao.getAlias(id);
+        final String url = getUrlForAlias(alias);
+        final String linktext = getLinktextForAlias(alias);
         result.put("bean", alias);
-        if (url != null)
+        if (url != null) {
             result.put("url", url);
-        if (linktext != null)
+        }
+        if (linktext != null) {
             result.put("linktext", linktext);
+        }
         return result;
     }
 
@@ -517,40 +531,47 @@ public class NavigationHelper {
      *         placing in page scope
      * @deprecated
      */
-    protected Map<String, Object> extractAttrFromWra(AssetId id) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        WebReferenceableAsset wra = wraDao.getWra(id);
-        String url = getUrlForWra(wra);
-        String linktext = getLinktextForWra(wra);
+    @Deprecated
+    protected Map<String, Object> extractAttrFromWra(final AssetId id) {
+        final Map<String, Object> result = new HashMap<String, Object>();
+        final WebReferenceableAsset wra = wraDao.getWra(id);
+        final String url = getUrlForWra(wra);
+        final String linktext = getLinktextForWra(wra);
         result.put("bean", wra);
-        if (url != null)
+        if (url != null) {
             result.put("url", url);
-        if (linktext != null)
+        }
+        if (linktext != null) {
             result.put("linktext", linktext);
+        }
         return result;
     }
 
-    protected void decorateAsWra(AssetId id, NavNode node) {
+    protected void decorateAsWra(final AssetId id, final NavNode node) {
 
-        WebReferenceableAsset wra = wraDao.getWra(id);
-        String url = getUrlForWra(wra);
-        String linktext = getLinktextForWra(wra);
+        final WebReferenceableAsset wra = wraDao.getWra(id);
+        final String url = getUrlForWra(wra);
+        final String linktext = getLinktextForWra(wra);
         node.setWra(wra);
-        if (url != null)
+        if (url != null) {
             node.setUrl(url);// result.put("url", url);
-        if (linktext != null)
+        }
+        if (linktext != null) {
             node.setLinktext(linktext);// result.put("linktext", linktext);
+        }
     }
 
-    protected void decorateAsAlias(AssetId id, NavNode node) {
-        Alias alias = aliasDao.getAlias(id); // wraUtils.getAlias(id);
-        String url = getUrlForAlias(alias);
-        String linktext = getLinktextForAlias(alias);
+    protected void decorateAsAlias(final AssetId id, final NavNode node) {
+        final Alias alias = aliasDao.getAlias(id); // wraUtils.getAlias(id);
+        final String url = getUrlForAlias(alias);
+        final String linktext = getLinktextForAlias(alias);
         node.setWra(alias);
-        if (url != null)
+        if (url != null) {
             node.setUrl(url);
-        if (linktext != null)
+        }
+        if (linktext != null) {
             node.setLinktext(linktext);
+        }
 
     }
 
@@ -568,7 +589,7 @@ public class NavigationHelper {
      * @param wraAssetId the asset id of the web-referenceable asset
      * @return page asset ID or 0L.
      */
-    public long findP(String site_name, AssetId wraAssetId) {
+    public long findP(final String site_name, final AssetId wraAssetId) {
         return wraDao.findP(new AssetIdWithSite(wraAssetId.getType(), wraAssetId.getId(), site_name));
     }
 }

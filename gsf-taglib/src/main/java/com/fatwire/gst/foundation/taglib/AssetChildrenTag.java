@@ -45,9 +45,9 @@ public class AssetChildrenTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
-        ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
-        AssetId id = new AssetIdImpl(c, cid);
+        final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
+        final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
+        final AssetId id = new AssetIdImpl(c, cid);
 
         if (StringUtils.isBlank(attributes)) {
             getJspContext().setAttribute(list, t.readAssociatedAssetIds(id, assoc));
@@ -63,42 +63,42 @@ public class AssetChildrenTag extends SimpleTagSupport {
     /**
      * @param attributes the attributes to set
      */
-    public void setAttributes(String attributes) {
+    public void setAttributes(final String attributes) {
         this.attributes = attributes;
     }
 
     /**
      * @param list the list to set
      */
-    public void setList(String list) {
+    public void setList(final String list) {
         this.list = list;
     }
 
     /**
      * @param assoc the assoc to set
      */
-    public void setAssoc(String assoc) {
+    public void setAssoc(final String assoc) {
         this.assoc = assoc;
     }
 
     /**
      * @param c the c to set
      */
-    public void setC(String c) {
+    public void setC(final String c) {
         this.c = c;
     }
 
     /**
      * @param cid the cid to set
      */
-    public void setCid(long cid) {
+    public void setCid(final long cid) {
         this.cid = cid;
     }
 
     /**
      * @param cid the cid to set
      */
-    public void setCid(String cid) {
+    public void setCid(final String cid) {
         this.cid = Long.parseLong(cid);
     }
 
