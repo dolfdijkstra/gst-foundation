@@ -39,13 +39,13 @@ import com.openmarket.framework.jsp.Base;
  * @author Tony Field
  * @since Aug 13, 2010
  */
-public final class AssetTaggedList extends Base {
+public final class AssetTaggedListTag extends Base {
     private static final long serialVersionUID = 1L;
     private String assettype = null;
     private String assetid = null;
     private String outlist = null;
 
-    public AssetTaggedList() {
+    public AssetTaggedListTag() {
         super(true); // clear errno = true
     }
 

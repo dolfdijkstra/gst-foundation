@@ -29,7 +29,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.lang.StringUtils;
 
-public class AssetChildren extends SimpleTagSupport {
+public class AssetChildrenTag extends SimpleTagSupport {
 
     private String attributes;
     private String list;

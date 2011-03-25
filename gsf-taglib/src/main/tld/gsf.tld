@@ -15,7 +15,7 @@
 
 	<tag>
 		<name>tagged-list</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.TaggedList</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.TaggedListTag</tag-class>
 		<body-content>tagdependent</body-content>
 		<description>
 			Given an input tag, returns an IList with
@@ -39,7 +39,7 @@
 	</tag>
 	<tag>
 		<name>tagged-assets</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.TaggedAssets</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.TaggedAssetsTag</tag-class>
 		<body-content>empty</body-content>
 		<description>
 			Given an input tag, returns an Collection of AssetIds for
@@ -61,7 +61,7 @@
 
 	<tag>
 		<name>asset-tagged-list</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.AssetTaggedList
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetTaggedListTag
 		</tag-class>
 		<body-content>tagdependent</body-content>
 		<description>
@@ -93,7 +93,7 @@
 	</tag>
 	<tag>
 		<name>asset-load</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.AssetLoad
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetLoadTag
 		</tag-class>
 		<body-content>empty</body-content>
 		<description>
@@ -127,7 +127,7 @@
 	</tag>
     <tag>
         <name>asset-children</name>
-        <tag-class>com.fatwire.gst.foundation.taglib.AssetChildren
+        <tag-class>com.fatwire.gst.foundation.taglib.AssetChildrenTag
         </tag-class>
         <body-content>empty</body-content>
         <description>
@@ -170,7 +170,7 @@
 
 	<tag>
 		<name>asset-query</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.AssetSimpleQuery
+		<tag-class>com.fatwire.gst.foundation.taglib.AssetSimpleQueryTag
 		</tag-class>
 		<body-content>empty</body-content>
 		<description>

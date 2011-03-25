@@ -39,12 +39,12 @@ import com.openmarket.framework.jsp.Base;
  * @author Tony Field
  * @since Aug 13, 2010
  */
-public final class TaggedList extends Base {
+public final class TaggedListTag extends Base {
     private static final long serialVersionUID = 1L;
     private String tag = null;
     private String outlist = null;
 
-    public TaggedList() {
+    public TaggedListTag() {
         super(true); // clear errno = true
     }
 

@@ -28,7 +28,7 @@ import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 
-public class AssetSimpleQuery extends SimpleTagSupport {
+public class AssetSimpleQueryTag extends SimpleTagSupport {
 
     private String attributes;
     private String list;

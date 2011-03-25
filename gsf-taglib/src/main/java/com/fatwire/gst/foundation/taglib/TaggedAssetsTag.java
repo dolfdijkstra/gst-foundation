@@ -35,7 +35,7 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * @since Feb 14, 2011
  * @see AssetTaggingService
  */
-public final class TaggedAssets extends SimpleTagSupport {
+public final class TaggedAssetsTag extends SimpleTagSupport {
     private static final long serialVersionUID = 1L;
     private String tag = null;
     private String list = null;

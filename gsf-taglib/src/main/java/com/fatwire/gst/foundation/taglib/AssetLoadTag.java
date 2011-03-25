@@ -28,7 +28,7 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemp
 
 import org.apache.commons.lang.StringUtils;
 
-public class AssetLoad extends SimpleTagSupport {
+public class AssetLoadTag extends SimpleTagSupport {
 
     private String c;
     private String cid;
