@@ -15,6 +15,7 @@
  */
 package com.fatwire.gst.foundation.controller.impl;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,8 +23,14 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.Action;
 import com.fatwire.gst.foundation.controller.ActionLocator;
+import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
+import com.fatwire.gst.foundation.url.WraPathTranslationService;
+import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
+import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
+import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -56,6 +63,10 @@ public final class CommandActionLocator implements ActionLocator {
             }
             if (LOG.isTraceEnabled()) LOG.trace("Command '" + cmd + "' maps to action " + action.getClass().getName());
         }
+
+        // inject the required data into the action
+        injectIntoAction(ics, action);
+
         return action;
     }
 
@@ -68,4 +79,68 @@ public final class CommandActionLocator implements ActionLocator {
         LOG.info("Setting default action mapping to " + action.getClass().getName());
         defaultAction = action;
     }
+
+    /**
+     * Inject ICS runtime objects into the action.  Objects flagged with the {@Inject} annotation
+     * will be populated by this method by retrieving the value from the {#getValueForInjection} method.
+     *
+     * @param ics    ICS context
+     * @param action action
+     * @see #getValueForInjection(ICS, String, Class)
+     */
+    protected final void injectIntoAction(ICS ics, Action action) {
+        long start = System.nanoTime();
+        try {
+            Class<?> c = action.getClass();
+            while (c != Object.class) {
+                for (Field field : c.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(InjectForRequest.class)) {
+                        Object injectionValue = getValueForInjection(ics, field.getName(), field.getType());
+                        if (injectionValue == null) {
+                            throw new CSRuntimeException(this.getClass().getName() + " does not know how to inject '" + field.getType().getName() + "' into the field '" + field.getName() + "' for an action.", ftErrors.badparams);
+                        }
+                        field.setAccessible(true); //make private fields accessible
+                        if (LOG.isDebugEnabled())
+                            LOG.debug("Injecting " + injectionValue.getClass().getName() + " into field " + field.getName() + " for " + action.getClass().getName());
+                        try {
+                            field.set(action, injectionValue);
+                        } catch (IllegalArgumentException e) {
+                            throw new CSRuntimeException("IllegalArgumentException injecting " + injectionValue + " into field " + field.getName(), ftErrors.exceptionerr, e);
+                        } catch (IllegalAccessException e) {
+                            throw new CSRuntimeException("IllegalAccessException injecting " + injectionValue + " into field " + field.getName(), ftErrors.exceptionerr, e);
+                        }
+                    }
+                    c = c.getSuperclass();
+                }
+            }
+        } finally {
+            DebugHelper.printTime("inject model for " + action.getClass().getName(), start);
+        }
+    }
+
+    /**
+     * Provides the data to be injected into the action
+     *
+     * @param ics       ICS context
+     * @param fieldName the name of the field to be set
+     * @param fieldType the type of the field used by the action
+     * @return object to inject or null if it is not known how to do it
+     */
+    protected Object getValueForInjection(ICS ics, String fieldName, Class<?> fieldType) {
+        if (ICS.class.isAssignableFrom(fieldType)) {
+            return ics;
+        }
+        if (WraCoreFieldDao.class.isAssignableFrom(fieldType)) {
+            return WraCoreFieldDao.getInstance(ics);
+        }
+        if (AliasCoreFieldDao.class.isAssignableFrom(fieldType)) {
+            WraCoreFieldDao wraCoreFieldDao = WraCoreFieldDao.getInstance(ics);
+            return new AliasCoreFieldDao(ics, wraCoreFieldDao);
+        }
+        if (WraPathTranslationService.class.isAssignableFrom(fieldType)) {
+            return WraPathTranslationServiceFactory.getService(ics);
+        }
+        return null;
+    }
+    
 }
