@@ -102,4 +102,12 @@ public class AssetChildrenTag extends SimpleTagSupport {
         this.cid = Long.parseLong(cid);
     }
 
+    /**
+     * @param cid the cid to set
+     */
+    public void setCid(final AssetId id) {
+        this.cid = id.getId();
+        c = id.getType();
+    }
+
 }
