@@ -85,9 +85,10 @@ public class WraPageReference extends PageRef {
      * COM.FutureTense.Interfaces.ICS)
      */
 
+    
     @SuppressWarnings("unchecked")
     @Override
-    public void setParameters(@SuppressWarnings("rawtypes") Map args, ICS ics) throws ReferenceException {
+    public void setParameters(Map args, ICS ics) throws ReferenceException {
 
         // no processing to do if not serving a page for SS
         if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && isGetTemplateUrl(args)) {
