@@ -31,7 +31,7 @@
    <modules>
       <module>gsf-cs-all</module>
       <module>gsf-facades</module>
-      <!--module>gsf-cs-test</module-->
+      <module>gsf-cs-test</module>
       <module>gsf-wra</module>
       <module>gsf-taglib</module>
       <module>gsf-tagging</module>

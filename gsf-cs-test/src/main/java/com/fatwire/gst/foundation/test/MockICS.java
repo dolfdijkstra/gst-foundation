@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.facade.uri;
+package com.fatwire.gst.foundation.test;
 
 import java.io.OutputStream;
 import java.security.Principal;

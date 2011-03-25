@@ -33,9 +33,6 @@ import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
 
-import com.fatwire.gst.foundation.DebugHelper;
-import com.fatwire.gst.foundation.facade.ics.ICSLocator;
-import com.fatwire.gst.foundation.facade.ics.ICSLocatorSupport;
 import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
 
 import org.apache.commons.dbcp.BasicDataSource;
@@ -95,7 +92,7 @@ public abstract class CSTest extends TestCase {
     }
 
     protected ICS ics;
-    protected ICSLocator locator;
+    //protected ICSLocator locator;
     private BasicDataSource ds;
     private boolean login;
 
@@ -189,14 +186,14 @@ public abstract class CSTest extends TestCase {
         // "C:\\DATA\\CS\\zamak\\ContentServer\\");
         // NEEDS slash at the end
 
-        long t = System.nanoTime();
+        //long t = System.nanoTime();
 
         // IPS ips = IPSRegistry.getInstance().get();
         // ics = (ips != null) ? ips.GetICSObject() : null;
         if (ics == null) {
-            long t0 = System.nanoTime();
+            //long t0 = System.nanoTime();
             ics = Factory.newCS();
-            DebugHelper.printTime(log, "newICS", t0);
+            //DebugHelper.printTime(log, "newICS", t0);
 
             if (login) {
                 FTValList cmds = new FTValList();
@@ -211,8 +208,8 @@ public abstract class CSTest extends TestCase {
             }
         }
 
-        DebugHelper.printTime(log, "booting ICS", t);
-        locator = new ICSLocatorSupport(ics);
+        //DebugHelper.printTime(log, "booting ICS", t);
+        //locator = new ICSLocatorSupport(ics);
 
     }
 

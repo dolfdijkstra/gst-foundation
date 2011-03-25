@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import junit.framework.TestCase;
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.facade.uri.MockICS;
+import com.fatwire.gst.foundation.test.MockICS;
 
 public class ControllerMappingResolverTest extends TestCase {
 
