@@ -47,7 +47,7 @@ public class AssetChildrenTag extends SimpleTagSupport {
 
         final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
         final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
-        final AssetId id = new AssetIdImpl(c, cid);
+        final AssetId id = (StringUtils.isBlank(c) || cid == 0) ?  t.currentId() : new AssetIdImpl(c, cid);
 
         if (StringUtils.isBlank(attributes)) {
             getJspContext().setAttribute(list, t.readAssociatedAssetIds(id, assoc));
