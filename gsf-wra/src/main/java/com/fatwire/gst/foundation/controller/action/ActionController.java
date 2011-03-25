@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller;
+package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
 
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.controller.action.CommandActionLocator;
+import com.fatwire.gst.foundation.controller.AbstractController;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 
 import org.springframework.web.context.WebApplicationContext;

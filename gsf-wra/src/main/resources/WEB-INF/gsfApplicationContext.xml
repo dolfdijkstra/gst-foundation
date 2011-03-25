@@ -31,7 +31,7 @@ USAGE:
 Be sure to set any actions that need to be sateful to have a scope="prototype" in order that they are created as
 new instances.
 -->
-    <bean id="gsfActionLocator"  scope="prototype" class="com.fatwire.gst.foundation.controller.impl.CommandActionLocator">
+    <bean id="gsfActionLocator"  scope="prototype" class="com.fatwire.gst.foundation.controller.action.CommandActionLocator">
         <property name="defaultAction" ref="gsfRenderPage"/>
         <property name="actionMap">
             <map>
@@ -40,6 +40,6 @@ new instances.
         </property>
     </bean>
 
-    <bean id="gsfRenderPage" scope="prototype" class="com.fatwire.gst.foundation.controller.impl.RenderPage" />
+    <bean id="gsfRenderPage" scope="prototype" class="com.fatwire.gst.foundation.controller.action.RenderPage" />
 
 </beans>

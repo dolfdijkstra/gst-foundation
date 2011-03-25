@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller;
+package com.fatwire.gst.foundation.controller.action;
 
 import COM.FutureTense.Interfaces.ICS;
 
