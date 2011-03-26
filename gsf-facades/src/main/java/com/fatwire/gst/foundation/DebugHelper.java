@@ -48,14 +48,18 @@ import com.fatwire.mda.Dimension;
 public class DebugHelper {
 
     public static String TIME_LOGGER = DebugHelper.class.getName() + ".time";
-    private static final Log log = LogFactory.getLog(DebugHelper.class);
-    private static final Log log_time = LogFactory.getLog(TIME_LOGGER);
+    private static final Log LOG = LogFactory.getLog(DebugHelper.class);
+    private static final Log LOG_TIME = LogFactory.getLog(TIME_LOGGER);
 
     private DebugHelper() {
     }
 
-    @SuppressWarnings("unchecked")
     public static void dumpVars(ICS ics) {
+        dumpVars(ics, LOG);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void dumpVars(ICS ics, Log log) {
         if (log.isDebugEnabled()) {
             for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements();) {
                 final String n = e.nextElement();
@@ -154,7 +158,7 @@ public class DebugHelper {
      */
     public static void printTime(String msg, long start) {
         if (start > 0) {
-            printTime(log_time, msg, start);
+            printTime(LOG_TIME, msg, start);
         }
     }
 

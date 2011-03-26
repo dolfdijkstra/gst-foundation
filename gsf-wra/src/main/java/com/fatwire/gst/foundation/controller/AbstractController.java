@@ -22,6 +22,7 @@ import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.XML.Template.Seed2;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.runtag.render.Unknowndeps;
 
 import org.apache.commons.logging.Log;
@@ -81,6 +82,9 @@ public abstract class AbstractController implements Seed2 {
      */
     protected String sendError(final int code, final Exception e) {
         LOG.debug(code + " status code sent due to exception " + e.toString(), e);
+        if (LOG.isTraceEnabled()) {
+            DebugHelper.dumpVars(ics, LOG);
+        }
         switch (code) { // all the http status codes, we may restrict the list
             // to error and redirect
             case 100:
