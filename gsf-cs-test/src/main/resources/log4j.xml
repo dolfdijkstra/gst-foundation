@@ -26,6 +26,7 @@
          <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%t] [%c{5}] %m%n" />
       </layout>
    </appender>
+   <!-- 
     <appender name="file" class="org.apache.log4j.RollingFileAppender">
         <param name="file" value="logs/fatwire.log"/>
         <param name="MaxFileSize" value="50MB"/>
@@ -37,7 +38,7 @@
             <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%t] [%c{1}] %m%n"/>
         </layout>
     </appender>
-
+ -->
    <logger name="com.fatwire.logging.cs">
       <level value="INFO"></level>
    </logger>
@@ -81,6 +82,5 @@
    <root>
       <priority value="info" />
       <appender-ref ref="console" />
-      <appender-ref ref="file" />
    </root>
 </log4j:configuration>
