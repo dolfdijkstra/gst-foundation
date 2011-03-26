@@ -44,8 +44,6 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Tony Field
  * @since Nov 17, 2009
- */
-/**
  * @author Dolf Dijkstra
  * @since Mar 13, 2011
  */

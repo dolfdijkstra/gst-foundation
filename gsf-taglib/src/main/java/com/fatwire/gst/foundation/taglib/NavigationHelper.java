@@ -456,7 +456,7 @@ public class NavigationHelper {
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GST/Dispatcher";
         }
-        return new WraUriBuilder(wra.getId(), wrapper).toURI(ics);
+        return new WraUriBuilder(wra, wrapper).toURI(ics);
         
     }
 

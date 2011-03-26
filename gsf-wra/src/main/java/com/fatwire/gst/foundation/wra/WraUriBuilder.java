@@ -19,6 +19,7 @@ package com.fatwire.gst.foundation.wra;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,13 +31,16 @@ import org.apache.commons.lang.StringUtils;
 public class WraUriBuilder {
 
     private final GetTemplateUrl tag = new GetTemplateUrl();
+    private String tid = null;
+    private String slotname = null;
+    private String site = null;
 
     /**
      * Constructor with AssetId and default wrapper (GST/Dispatcher).
      * 
      * @param id
      */
-    public WraUriBuilder(AssetId id) {
+    private WraUriBuilder(AssetId id) {
         this(id, "GST/Dispatcher");
 
     }
@@ -47,7 +51,7 @@ public class WraUriBuilder {
      * @param id
      * @param wrapper
      */
-    public WraUriBuilder(AssetId id, String wrapper) {
+    private WraUriBuilder(AssetId id, String wrapper) {
         tag.setWrapperpage(wrapper);
         tag.setC(id.getType());
         tag.setCid(Long.toString(id.getId()));
@@ -72,12 +76,50 @@ public class WraUriBuilder {
      * @see com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#execute(COM.FutureTense.Interfaces.ICS)
      */
     public String toURI(ICS ics) {
+        ensureTid(ics);
+        ensureSlotname();
+        ensureSite(ics);
         ics.RemoveVar("uri__");
         tag.setOutstr("uri__");
         tag.execute(ics);
         String uri = ics.GetVar("uri__");
         ics.RemoveVar("uri__");
         return uri;
+    }
+
+    private void ensureTid(ICS ics) {
+        String _ttype = null;
+        String _tid = null;
+        if (tid == null) {
+            _ttype = "Template";
+            _tid = ics.GetVar("tid");
+            if (!AssetList.assetExists(ics, _ttype, _tid)) {
+                _ttype = "CSElement";
+                _tid = ics.GetVar("eid");
+                if (!AssetList.assetExists(ics, _ttype, _tid)) {
+                    throw new IllegalArgumentException(
+                            "tid was not specified and neither tid nor eid were found valid in the variable scope");
+                }
+            }
+        }
+        ttype(_ttype);
+        tid(_tid);
+    }
+
+    private void ensureSlotname() {
+        if (slotname == null) {
+            // The user has not specified slotname.
+            // This implies that the link has no special characteristics
+            // therefore other usages of this non-special link can be re-used
+            // so we can re-use slot by giving it a constant name.
+            slotname("WraUriBuilderLink");
+        }
+    }
+
+    private void ensureSite(ICS ics) {
+        if (site == null) {
+            site(ics.GetVar("site"));
+        }
     }
 
     /**
@@ -174,6 +216,29 @@ public class WraUriBuilder {
 
     public WraUriBuilder template(String template) {
         tag.setTname(template);
+        return this;
+    }
+
+    public WraUriBuilder tid(String tid) {
+        this.tid = tid;
+        tag.setTid(tid);
+        return this;
+    }
+
+    public WraUriBuilder ttype(String ttype) {
+        tag.setTtype(ttype);
+        return this;
+    }
+
+    public WraUriBuilder slotname(String slotname) {
+        this.slotname = slotname;
+        tag.setSlotname(slotname);
+        return this;
+    }
+
+    public WraUriBuilder site(String site) {
+        this.site = site;
+        tag.setSite(site);
         return this;
     }
 
