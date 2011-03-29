@@ -38,9 +38,14 @@ public class ConditionParser {
                 ">="), BETWEEN("={"), BETWEEN_EXCLUDING("=!{"), LIKE("~"), RICHTEXT("#");
         private final String op;
 
-        Operator(String op) {
+        Operator(final String op) {
             this.op = op;
         }
+    };
+
+    private enum State {
+        ATTRIBUTE, OP, VALUE
+
     };
 
     interface ParserState {
@@ -50,15 +55,15 @@ public class ConditionParser {
     }
 
     static class AttributeState implements ParserState {
-        private StringBuilder value = new StringBuilder();
+        private final StringBuilder value = new StringBuilder();
         private boolean quoted = false;
         private final ParserState next;
 
-        AttributeState(ParserState next) {
+        AttributeState(final ParserState next) {
             this.next = next;
         }
 
-        public ParserState parse(char c) {
+        public ParserState parse(final char c) {
             if (Character.isWhitespace(c)) {
                 if (quoted) {
                     value.append(c);
@@ -93,14 +98,14 @@ public class ConditionParser {
     }
 
     static class OperatorState implements ParserState {
-        private StringBuilder value = new StringBuilder();
+        private final StringBuilder value = new StringBuilder();
         private final ParserState next;
 
-        OperatorState(ParserState next) {
+        OperatorState(final ParserState next) {
             this.next = next;
         }
 
-        public ParserState parse(char c) {
+        public ParserState parse(final char c) {
             if ("=!<>~{".indexOf(c) != -1) {
                 value.append(c);
             } else {
@@ -117,10 +122,10 @@ public class ConditionParser {
     }
 
     static class ValueState implements ParserState {
-        private StringBuilder value = new StringBuilder();
+        private final StringBuilder value = new StringBuilder();
         private boolean quoted = false;
 
-        public ParserState parse(char c) {
+        public ParserState parse(final char c) {
             if (Character.isWhitespace(c)) {
                 if (quoted) {
                     value.append(c);
@@ -148,61 +153,65 @@ public class ConditionParser {
 
     }
 
-    public Condition parse(String s) {
+    public Condition parse(final String s) {
         final ValueState valueState = new ValueState();
         final OperatorState operatorState = new OperatorState(valueState);
         final AttributeState attributeState = new AttributeState(operatorState);
         ParserState state = attributeState;
 
-        char[] c = s.trim().toCharArray();
+        final char[] c = s.trim().toCharArray();
         for (int i = 0; i < c.length; i++) {
             state = state.parse(c[i]);
         }
-        String attName = attributeState.toValue();
-        if (StringUtils.isBlank(attName))
+        final String attName = attributeState.toValue();
+        if (StringUtils.isBlank(attName)) {
             throw new IllegalArgumentException("No attribute name found in '" + s + "'.");
+        }
 
         OpTypeEnum opType;
         try {
             opType = toOpType(operatorState.toValue());
-        } catch (Exception e) {
-            IllegalArgumentException e2 = new IllegalArgumentException("No operator found in '" + s + "'. "
+        } catch (final Exception e) {
+            final IllegalArgumentException e2 = new IllegalArgumentException("No operator found in '" + s + "'. "
                     + e.getMessage());
             e2.initCause(e);
             throw e2;
         }
 
-        String value = valueState.toValue();
+        final String value = valueState.toValue();
         if (opType == OpTypeEnum.BETWEEN) {
 
-            String[] parts = valueSplit(value);
-            if (parts.length != 2)
+            final String[] parts = valueSplit(value);
+            if (parts.length != 2) {
                 throw new IllegalArgumentException("Between condition does not two comma-seperated values in '" + s
                         + "'. ");
+            }
             try {
                 return new ConditionFactory().createBetweenCondition(attName, parts[0], parts[1]);
-            } catch (AssetAccessException e) {
-                RuntimeAssetAccessException e1 = new RuntimeAssetAccessException(e.getMessage());
+            } catch (final AssetAccessException e) {
+                final RuntimeAssetAccessException e1 = new RuntimeAssetAccessException(e.getMessage());
                 e1.initCause(e);
                 throw e1;
             }
         } else if (opType == OpTypeEnum.EQUALS && value.startsWith("[") && value.endsWith("]")) {
 
-            String[] parts = valueSplit(value.substring(1, value.length() - 1));
-            if (parts.length < 1)
+            final String[] parts = valueSplit(value.substring(1, value.length() - 1));
+            if (parts.length < 1) {
                 throw new IllegalArgumentException("Equals condition with multiple values does have any values: '" + s
                         + "'. ");
+            }
 
             return ConditionFactory.createCondition(attName, opType, Arrays.asList(parts));
         } else if (opType == OpTypeEnum.NOT_EQUALS && value.startsWith("[") && value.endsWith("]")) {
 
-            String[] parts = valueSplit(value.substring(1, value.length() - 1));
-            if (parts.length < 1)
+            final String[] parts = valueSplit(value.substring(1, value.length() - 1));
+            if (parts.length < 1) {
                 throw new IllegalArgumentException("Equals condition with multiple values does have any values: '" + s
                         + "'. ");
+            }
             Condition condition = null;
-            for (String part : parts) {
-                Condition cc = ConditionFactory.createCondition(attName, opType, part);
+            for (final String part : parts) {
+                final Condition cc = ConditionFactory.createCondition(attName, opType, part);
                 if (condition == null) {
                     condition = cc;
                 } else {
@@ -216,23 +225,25 @@ public class ConditionParser {
 
     }
 
-    private String unquote(String value) {
-        if (StringUtils.isBlank(value))
+    private String unquote(final String value) {
+        if (StringUtils.isBlank(value)) {
             return value;
-        char c = value.charAt(0);
+        }
+        final char c = value.charAt(0);
         if (c == '\'' || c == '"') {
-            if (value.length() < 3)
+            if (value.length() < 3) {
                 return "";
+            }
             return value.substring(1, value.length() - 1);
         }
         return value;
     }
 
-    public String[] valueSplit(String s) {
-        List<String> list = new LinkedList<String>();
+    public String[] valueSplit(final String s) {
+        final List<String> list = new LinkedList<String>();
         boolean quoted = false;
-        char[] c = s.toCharArray();
-        StringBuilder cur = new StringBuilder();
+        final char[] c = s.toCharArray();
+        final StringBuilder cur = new StringBuilder();
         for (int i = 0; i < c.length; i++) {
             if (c[i] == ',') {
                 if (quoted) {
@@ -252,13 +263,14 @@ public class ConditionParser {
         return list.toArray(new String[0]);
     }
 
-    OpTypeEnum toOpType(StringBuilder op) {
+    OpTypeEnum toOpType(final StringBuilder op) {
         return toOpType(op.toString().toLowerCase());
     }
 
-    OpTypeEnum toOpType(String op) {
-        if (StringUtils.isBlank(op))
+    OpTypeEnum toOpType(final String op) {
+        if (StringUtils.isBlank(op)) {
             throw new IllegalArgumentException("Operator can  not be blank.");
+        }
         if ("=".equals(op)) {
             return OpTypeEnum.EQUALS;
         } else if ("!=".equals(op)) {
