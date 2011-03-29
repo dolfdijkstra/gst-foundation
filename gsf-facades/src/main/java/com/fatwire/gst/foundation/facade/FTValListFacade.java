@@ -40,27 +40,27 @@ public class FTValListFacade {
         super();
     }
 
-    protected final void set(final String key, final String value) {
+    public final void set(final String key, final String value) {
         list.setValString(key, value);
     }
 
-    protected final void set(final String key, final boolean value) {
+    public final void set(final String key, final boolean value) {
         list.setValString(key, Boolean.toString(value));
     }
 
-    protected final void set(final String key, final int value) {
+    public final void set(final String key, final int value) {
         list.setValInt(key, value);
     }
 
-    protected final void set(final String key, final byte[] value) {
+    public final void set(final String key, final byte[] value) {
         list.setValBLOB(key, value);
     }
 
-    protected final void set(final String key, final long value) {
+    public final void set(final String key, final long value) {
         list.setValString(key, Long.toString(value));
     }
 
-    protected final void set(final String key, final Date value) {
+    public final void set(final String key, final Date value) {
         list.setValString(key, Util.formatJdbcDate(value));
     }
 
