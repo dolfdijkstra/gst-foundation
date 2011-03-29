@@ -34,7 +34,7 @@ public abstract class FTCmdTemplate extends FTValListFacade {
     }
 
     /**
-     * We can do preliminary check on the values for lst to see if they are
+     * We can do preliminary check on the values for list to see if they are
      * complete
      * 
      * @return true to continue with ics.CatalogManager call
