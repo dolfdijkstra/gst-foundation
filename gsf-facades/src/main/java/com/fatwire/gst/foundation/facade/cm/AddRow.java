@@ -16,6 +16,11 @@
 
 package com.fatwire.gst.foundation.facade.cm;
 
+/**
+ * CatalogManager addrow.
+ * @author Dolf Dijkstra
+ * @since Mar 29, 2011
+ */
 public class AddRow extends FTCmdTemplate {
 
     public AddRow(final String table) {

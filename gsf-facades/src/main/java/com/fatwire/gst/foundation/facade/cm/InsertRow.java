@@ -16,6 +16,11 @@
 
 package com.fatwire.gst.foundation.facade.cm;
 
+/**
+ * CatalogManager insertrow.
+ * @author Dolf Dijkstra
+ * 
+ */
 public class InsertRow extends FTCmdTemplate {
 
     public InsertRow(final String table) {

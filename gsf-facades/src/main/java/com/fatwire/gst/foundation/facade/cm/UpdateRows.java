@@ -16,6 +16,13 @@
 
 package com.fatwire.gst.foundation.facade.cm;
 
+/**
+ * CatalogManager updaterows.
+ * 
+ * @author Dolf Dijkstra
+ * 
+ */
+
 public class UpdateRows extends FTCmdTemplate {
 
     public UpdateRows(final String table) {
