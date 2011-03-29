@@ -41,7 +41,11 @@ public class FTValListFacade {
     }
 
     public final void set(final String key, final String value) {
-        list.setValString(key, value);
+        if (value == null)
+            list.remove(key);
+        else
+
+            list.setValString(key, value);
     }
 
     public final void set(final String key, final boolean value) {
@@ -57,11 +61,15 @@ public class FTValListFacade {
     }
 
     public final void set(final String key, final long value) {
+
         list.setValString(key, Long.toString(value));
     }
 
     public final void set(final String key, final Date value) {
-        list.setValString(key, Util.formatJdbcDate(value));
+        if (value == null)
+            list.remove(key);
+        else
+            list.setValString(key, Util.formatJdbcDate(value));
     }
 
     protected final FTValList getList() {
