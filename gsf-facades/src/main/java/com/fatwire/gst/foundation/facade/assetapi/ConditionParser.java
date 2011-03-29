@@ -20,13 +20,17 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.query.Condition;
 import com.fatwire.assetapi.query.ConditionFactory;
 import com.fatwire.assetapi.query.OpTypeEnum;
 
+import org.apache.commons.lang.StringUtils;
+
+/**
+ * @author Dolf Dijkstra
+ * @since Mar 29, 2011
+ */
 public class ConditionParser {
 
     enum Operator {
@@ -37,11 +41,6 @@ public class ConditionParser {
         Operator(String op) {
             this.op = op;
         }
-    };
-
-    private enum State {
-        ATTRIBUTE, OP, VALUE
-
     };
 
     interface ParserState {
@@ -195,19 +194,6 @@ public class ConditionParser {
                         + "'. ");
 
             return ConditionFactory.createCondition(attName, opType, Arrays.asList(parts));
-            /*
-             *             Condition condition = null;
-            for (String part : parts) {
-                System.out.println(part);
-                Condition cc = ConditionFactory.createCondition(attName, opType, part);
-                if (condition == null) {
-                    condition = cc;
-                } else {
-                    condition = condition.or(cc);
-                }
-            }
-            return condition;
-            */
         } else if (opType == OpTypeEnum.NOT_EQUALS && value.startsWith("[") && value.endsWith("]")) {
 
             String[] parts = valueSplit(value.substring(1, value.length() - 1));
@@ -264,166 +250,6 @@ public class ConditionParser {
         }
         list.add(cur.toString());
         return list.toArray(new String[0]);
-    }
-
-    public Condition parseOld(String s) {
-        State state = State.ATTRIBUTE;
-        StringBuilder attr = new StringBuilder();
-        StringBuilder op = new StringBuilder();
-        StringBuilder val = new StringBuilder();
-        boolean quoted = false;
-
-        char[] c = s.trim().toCharArray();
-        for (int i = 0; i < c.length; i++) {
-
-            if (Character.isWhitespace(c[i])) {
-                switch (state) {
-                    case ATTRIBUTE:
-                        if (quoted) {
-                            attr.append(c[i]);
-                        } else {
-                            state = State.OP;
-                        }
-                        break;
-                    case OP:
-                        state = State.VALUE;
-                        break;
-                    case VALUE:
-                        if (quoted) {
-                            val.append(c[i]);
-                        } else if (val.length() > 0) {
-                            val.append(c[i]);
-                        }
-                        break;
-
-                }
-            } else if (c[i] == '"' || c[i] == '\'') {
-                switch (state) {
-                    case ATTRIBUTE:
-                        if (quoted) {
-                            state = State.OP;
-                            quoted = false;
-                        } else {
-                            quoted = true;
-                        }
-                        break;
-                    case OP:
-                        state = State.VALUE;
-                        quoted = true;
-                        break;
-                    case VALUE:
-                        quoted = !quoted;
-                        break;
-
-                }
-            } else if ("=!<>~".indexOf(c[i]) != -1) {
-                switch (state) {
-                    case ATTRIBUTE:
-                        if (quoted) {
-                            attr.append(c[i]);
-                        } else if (attr.length() > 0) {
-                            state = State.OP;
-                            op.append(c[i]);
-                        }
-
-                        break;
-                    case OP:
-                        op.append(c[i]);
-                        break;
-                    case VALUE:
-                        val.append(c[i]);
-                        break;
-
-                }
-            } else if ("{}".indexOf(c[i]) != -1) {
-                switch (state) {
-                    case ATTRIBUTE:
-                        if (quoted) {
-                            attr.append(c[i]);
-                        } else if (attr.length() > 0) {
-                            state = State.OP;
-                            op.append(c[i]);
-                        }
-
-                        break;
-                    case OP:
-                        op.append(c[i]);
-                        break;
-                    case VALUE: // brackets must always be quoted in values
-                        if (quoted) {
-                            val.append(c[i]);
-                        }
-
-                        break;
-
-                }
-            } else {
-                switch (state) {
-                    case ATTRIBUTE:
-                        attr.append(c[i]);
-                        break;
-                    case OP:
-                        state = State.VALUE;
-                        val.append(c[i]);
-                        break;
-                    case VALUE:
-                        val.append(c[i]);
-                        break;
-
-                }
-
-            }
-        }
-
-        String attName = attr.toString();
-        if (StringUtils.isBlank(attName))
-            throw new IllegalArgumentException("No attribute name found in '" + s + "'.");
-
-        OpTypeEnum opType;
-        try {
-            opType = toOpType(op);
-        } catch (Exception e) {
-            IllegalArgumentException e2 = new IllegalArgumentException("No operator found in '" + s + "'. "
-                    + e.getMessage());
-            e2.initCause(e);
-            throw e2;
-        }
-
-        String v = val.toString();
-        if (opType == OpTypeEnum.BETWEEN) {
-            String[] parts = v.split(",");
-            if (parts.length != 2)
-                throw new IllegalArgumentException("Between condition does not two comma-seperated values in '" + s
-                        + "'. ");
-            try {
-                return new ConditionFactory().createBetweenCondition(attName, parts[0], parts[1]);
-            } catch (AssetAccessException e) {
-                RuntimeAssetAccessException e1 = new RuntimeAssetAccessException(e.getMessage());
-                e1.initCause(e);
-                throw e1;
-            }
-        } else if (opType == OpTypeEnum.EQUALS && v.startsWith("[") && v.endsWith("]")) {
-
-            String[] parts = v.substring(1, v.length() - 2).split(",");
-            if (parts.length < 1)
-                throw new IllegalArgumentException("Equals condition with multiple values does have any values: '" + s
-                        + "'. ");
-            Condition condition = null;
-            for (String part : parts) {
-                System.out.println(part);
-                Condition cc = ConditionFactory.createCondition(attName, opType, part);
-                if (condition == null) {
-                    condition = cc;
-                } else {
-                    condition = condition.or(cc);
-                }
-            }
-            return condition;
-
-        }
-
-        return ConditionFactory.createCondition(attName, opType, v);
-
     }
 
     OpTypeEnum toOpType(StringBuilder op) {
