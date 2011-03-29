@@ -24,8 +24,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.taglib.GsfRootTag;
-import com.fatwire.gst.foundation.taglib.NavNode;
-import com.fatwire.gst.foundation.taglib.NavigationHelper;
+import com.fatwire.gst.foundation.wra.navigation.NavNode;
+import com.fatwire.gst.foundation.wra.navigation.NavigationHelper;
 
 /**
  * 
