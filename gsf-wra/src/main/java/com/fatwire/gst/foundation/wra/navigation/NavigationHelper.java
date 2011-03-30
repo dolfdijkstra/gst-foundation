@@ -159,8 +159,7 @@ public class NavigationHelper {
     public NavNode getSitePlanByPage(final int depth, final String name) {
         final AssetAccessTemplate assetTemplate = new AssetAccessTemplate(ics);
         final AssetId pageid = assetTemplate.findByName(ics, "Page", name);
-        final NavigationHelper nh = new NavigationHelper(ics);
-        return nh.getSitePlan(depth, pageid);
+        return getSitePlan(depth, pageid);
     }
 
     /**
