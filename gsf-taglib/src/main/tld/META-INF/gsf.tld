@@ -79,7 +79,7 @@
 		<name>asset-load</name>
 		<tag-class>com.fatwire.gst.foundation.taglib.AssetLoadTag</tag-class>
 		<body-content>empty</body-content>
-		<description>
+		<description>Loads an asset. It puts a TemplateAsset on the page scope with the variable key as provided by the 'name' attribute.
 		</description>
 		<attribute>
 			<name>name</name>
@@ -196,7 +196,7 @@
 		</attribute>
 		<attribute>
 			<name>depth</name>
-			<type>java.lang.Integer</type>
+			<type>int</type>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>the depth of the navigation, defaults to 1</description>
