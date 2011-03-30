@@ -95,7 +95,7 @@ public final class SwitchUser {
     }
 
     private void clearState() {
-        Enumeration e = ics.GetVars();
+        Enumeration<?> e = ics.GetVars();
         while (e.hasMoreElements()) {
             ics.RemoveVar((String) e.nextElement());
         }
@@ -107,7 +107,7 @@ public final class SwitchUser {
 
     private void saveState() {
         vars = new HashMap<String, String>();
-        Enumeration e = ics.GetVars();
+        Enumeration<?> e = ics.GetVars();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
             vars.put(key, ics.GetVar(key));
