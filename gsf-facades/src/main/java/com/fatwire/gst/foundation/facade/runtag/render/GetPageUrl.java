@@ -20,10 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * @author Dolf Dijkstra
- * @since Mar 13, 2011
- */
-/**
+ * Builds a PageUrl.
+ * 
  * @author Dolf Dijkstra
  * @since Mar 13, 2011
  */
@@ -123,10 +121,10 @@ public class GetPageUrl extends TagRunnerWithArguments {
     }
 
     /**
-     * @param s
+     * @param b
      */
-    public void setSatellite(String s) {
-        set("SATELLITE", s);
+    public void setSatellite(boolean b) {
+        set("SATELLITE", b ? "TRUE" : "FALSE");
     }
 
     /**
@@ -147,7 +145,8 @@ public class GetPageUrl extends TagRunnerWithArguments {
      * @param s
      */
     public void setWrapperpage(String s) {
-        LOG.trace("Setting wrapper to :" + s);
+        if (LOG.isTraceEnabled())
+            LOG.trace("Setting wrapper to :" + s);
         set("wrapperpage", s);
         set("WRAPPERPAGE", s);
     }
