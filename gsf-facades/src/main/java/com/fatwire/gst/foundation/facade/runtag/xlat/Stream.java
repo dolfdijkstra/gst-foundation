@@ -134,6 +134,7 @@ public final class Stream extends AbstractTagRunner {
         ics.SetObj("NewVars", newVars);
     }
 
+    @SuppressWarnings("unchecked")
     protected void postExecute(ICS ics) {
         super.postExecute(ics);
         List<String> newVars = (List<String>) ics.GetObj("NewVars");
