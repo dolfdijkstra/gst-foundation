@@ -166,7 +166,7 @@ public class AssetAccessTemplate {
      * @param attributes
      * @return
      */
-    public <T> T readAsset(final AssetId id, final AssetMapper<T> mapper, final String[] attributes) {
+    public <T> T readAsset(final AssetId id, final AssetMapper<T> mapper, final String... attributes) {
         final AssetDataManager m = getAssetDataManager();
 
         T t = null;
