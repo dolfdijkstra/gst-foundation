@@ -94,7 +94,7 @@ public class SqlHelper {
     }
 
     /**
-     * handles sql statements, other then SELECT statements
+     * Executes sql statements, other then SELECT statements.
      * <p/>
      * flushes the table (ics.FlushCatalog()) after the statement execution
      * 
