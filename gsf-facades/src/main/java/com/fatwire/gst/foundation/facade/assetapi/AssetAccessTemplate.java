@@ -299,6 +299,25 @@ public class AssetAccessTemplate {
         return assets;
     }
 
+    
+    /**
+     * Invokes the work(asset) method on the provided Closure for assets returned by the Query.
+     * 
+     * @param query
+     * @param closure
+     */
+    public void readAssets(final Query query, final AssetClosure closure) {
+        final AssetDataManager m = getAssetDataManager();
+
+        try {
+            for (AssetData asset : m.read(query)) {
+                closure.work(asset);
+            }
+        } catch (final AssetAccessException e) {
+            throw new RuntimeAssetAccessException(e);
+        }
+    }
+
     /**
      * Reading assets with the Query and using the mapper to transform the
      * AssetData into another object, as specified by T.
