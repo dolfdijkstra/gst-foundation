@@ -29,6 +29,10 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * @author Dolf Dijkstra
+ * @since Mar, 2011
+ */
 public class AssetChildrenTag extends SimpleTagSupport {
 
     private String attributes;
@@ -103,7 +107,7 @@ public class AssetChildrenTag extends SimpleTagSupport {
     }
 
     /**
-     * @param cid the cid to set
+     * @param id the AssetId to set
      */
     public void setCid(final AssetId id) {
         this.cid = id.getId();
