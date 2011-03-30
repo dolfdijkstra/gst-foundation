@@ -58,7 +58,7 @@ public class BlobUriBuilder {
 
     /**
      * @param ics
-     * @return
+     * @return the URI
      */
     public String toURI(ICS ics) {
         tag.setOutstr("foo_");
@@ -70,6 +70,7 @@ public class BlobUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setAssembler(java.lang.String)
      */
     public BlobUriBuilder assembler(String s) {
@@ -79,6 +80,7 @@ public class BlobUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setFragment(java.lang.String)
      */
     public BlobUriBuilder fragment(String s) {
@@ -88,6 +90,7 @@ public class BlobUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBobHeader(java.lang.String)
      */
     public BlobUriBuilder mimeType(String s) {
@@ -97,6 +100,7 @@ public class BlobUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobNoCache(java.lang.String)
      */
     public BlobUriBuilder blobNoCache(String s) {
@@ -105,8 +109,9 @@ public class BlobUriBuilder {
     }
 
     /**
-     * @param n
-     * @param s
+     * @param name
+     * @param value
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int,
      *      java.lang.String)
      */
@@ -119,6 +124,7 @@ public class BlobUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
      */
     public BlobUriBuilder parent(String s) {
