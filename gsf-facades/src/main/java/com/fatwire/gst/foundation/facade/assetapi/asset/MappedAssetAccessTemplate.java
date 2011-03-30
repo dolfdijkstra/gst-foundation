@@ -24,8 +24,8 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 
 /**
- * @author dolf
- * 
+ * @author Dolf Dijkstra
+ * @deprecated replaced by {@link ScatteredAssetAccessTemplate}
  */
 public class MappedAssetAccessTemplate extends AssetAccessTemplate {
 
