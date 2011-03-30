@@ -24,17 +24,17 @@ import java.util.List;
 
 import COM.FutureTense.Cache.CacheHelper;
 import COM.FutureTense.Cache.CacheManager;
-import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.cs.core.db.Util;
-import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.cm.AddRow;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.Row;
@@ -54,7 +54,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
 
 /**
  * Database-backed implementation of AsseTaggingService
- *
+ * 
  * @author Tony Field
  * @since Jul 28, 2010
  */
@@ -76,11 +76,11 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         TableDef def = new TableDef(TAGREGISTRY_TABLE, TABLE_ACL_LIST, "obj");
         // todo: low priority: define the PK properly (this will work for now)
 
-        def.addColumn(new TableColumn("tag", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
-        def.addColumn(new TableColumn("assettype", TableColumn.Type.ccvarchar).setLength(255).setNullable(false));
-        def.addColumn(new TableColumn("assetid", TableColumn.Type.ccbigint).setNullable(false));
-        def.addColumn(new TableColumn("startdate", TableColumn.Type.ccdatetime).setNullable(true));
-        def.addColumn(new TableColumn("enddate", TableColumn.Type.ccdatetime).setNullable(true));
+        def.addColumn("tag", TableColumn.Type.ccvarchar).setLength(255).setNullable(false);
+        def.addColumn("assettype", TableColumn.Type.ccvarchar).setLength(255).setNullable(false);
+        def.addColumn("assetid", TableColumn.Type.ccbigint).setNullable(false);
+        def.addColumn("startdate", TableColumn.Type.ccdatetime).setNullable(true);
+        def.addColumn("enddate", TableColumn.Type.ccdatetime).setNullable(true);
 
         new TableCreator(ics).createTable(def);
     }
@@ -108,19 +108,16 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
                 LOG.trace("Adding tagged asset to tag registry: " + asset);
             }
             for (Tag tag : loadTaggedAsset(id).getTags()) {
-                FTValList vl = new FTValList();
-                vl.setValString("ftcmd", "addrow");
-                vl.setValString("tablename", TAGREGISTRY_TABLE);
-                vl.setValString("id", ics.genID(true));
-                vl.setValString("tag", tag.getTag());
-                vl.setValString("assettype", id.getType());
-                vl.setValString("assetid", Long.toString(id.getId()));
-                if (asset.getStartDate() != null)
-                    vl.setValString("startdate", Util.formatJdbcDate(asset.getStartDate()));
-                if (asset.getEndDate() != null) vl.setValString("enddate", Util.formatJdbcDate(asset.getEndDate()));
-                if (!ics.CatalogManager(vl) || ics.GetErrno() < 0) {
-                    throw new CSRuntimeException("Failure adding tag to tag registry", ics.GetErrno());
-                }
+
+                AddRow r = new AddRow(TAGREGISTRY_TABLE);
+
+                r.set("id", ics.genID(true));
+                r.set("tag", tag.getTag());
+                r.set("assettype", id.getType());
+                r.set("assetid", id.getId());
+                r.set("startdate", asset.getStartDate());
+                r.set("enddate", asset.getEndDate());
+                r.execute(ics);
             }
         }
     }
@@ -135,9 +132,12 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Attempting to remove asset from tag registry:" + id);
         }
-        SqlHelper.execute(ics, TAGREGISTRY_TABLE, "delete from " + TAGREGISTRY_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
+        SqlHelper.execute(ics, TAGREGISTRY_TABLE, "delete from " + TAGREGISTRY_TABLE + " where assettype = '"
+                + id.getType() + "' and assetid = " + id.getId());
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Deleted tagged asset " + id + " from tag registry (or asset was never there in the first place)");
+            LOG
+                    .debug("Deleted tagged asset " + id
+                            + " from tag registry (or asset was never there in the first place)");
         }
     }
 
@@ -149,9 +149,11 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
 
     public Collection<Tag> getTags(Collection<AssetId> ids) {
         HashSet<Tag> tags = new HashSet<Tag>();
-        // todo: medium priority: IMPORTANT: This should be optimized so that we don't kill the db
+        // todo: medium priority: IMPORTANT: This should be optimized so that we
+        // don't kill the db
         if (ids.size() > 5)
-            LOG.warn("Fetching tags serially for " + ids.size() + " assets.  TableTaggingServiceImpl isn't yet optimized to handle this very nicely");
+            LOG.warn("Fetching tags serially for " + ids.size()
+                    + " assets.  TableTaggingServiceImpl isn't yet optimized to handle this very nicely");
         for (AssetId id : ids) {
             tags.addAll(getTags(id));
         }
@@ -161,7 +163,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     /**
      * Retrieve the tags for the tagged asset. This method records a
      * compositional dependency on both the input asset AND the tags themselves.
-     *
+     * 
      * @param id asset id
      * @return tagged asset
      */
@@ -176,7 +178,46 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             recordCacheDependency(oTag);
             ret.addTag(oTag);
         }
-        if (LOG.isTraceEnabled()) LOG.trace("Loaded tagged asset " + ret);
+        if (LOG.isTraceEnabled())
+            LOG.trace("Loaded tagged asset " + ret);
+        return ret;
+    }
+
+    private AssetMapper<TaggedAsset> mapper = new AssetMapper<TaggedAsset>() {
+
+        public TaggedAsset map(AssetData data) {
+            Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
+            Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
+            TaggedAsset ret = new TaggedAsset(data.getAssetId(), startDate, endDate);
+            for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
+                Tag oTag = asTag(tag);
+
+                ret.addTag(oTag);
+            }
+
+            return ret;
+        }
+
+    };
+
+    /**
+     * Retrieve the tags for the tagged asset. This method records a
+     * compositional dependency on both the input asset AND the tags themselves.
+     * 
+     * @param id asset id
+     * @return tagged asset
+     */
+
+    private TaggedAsset loadTaggedAssetNew(AssetId id) {
+        LogDep.logDep(ics, id);
+        AssetAccessTemplate aat = new AssetAccessTemplate(ics);
+        TaggedAsset ret = aat.readAsset(id, mapper, "startdate", "enddate", "gsttag");
+
+        for (Tag tag : ret.getTags()) {
+            recordCacheDependency(tag);
+        }
+        if (LOG.isTraceEnabled())
+            LOG.trace("Loaded tagged asset " + ret);
         return ret;
     }
 
@@ -215,13 +256,16 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             }
         } catch (RuntimeException e) {
             if (LOG.isTraceEnabled()) {
-                LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: " + e.toString(), e);
+                LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: "
+                        + e.toString(), e);
             }
             return false;
         }
     }
 
-    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT tag, assettype, assetid, startdate, enddate " + "FROM " + TAGREGISTRY_TABLE + " WHERE tag=? ORDER BY startdate,enddate", Collections.singletonList(TAGREGISTRY_TABLE));
+    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt(
+            "SELECT tag, assettype, assetid, startdate, enddate " + "FROM " + TAGREGISTRY_TABLE
+                    + " WHERE tag=? ORDER BY startdate,enddate", Collections.singletonList(TAGREGISTRY_TABLE));
 
     static {
         REGISTRY_SELECT.setElement(0, TAGREGISTRY_TABLE, "tag");
@@ -240,6 +284,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             tags = new ArrayList<Tag>();
         }
 
+        @SuppressWarnings("unused")
         public AssetId getId() {
             return id;
         }
