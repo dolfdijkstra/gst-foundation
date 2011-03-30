@@ -106,7 +106,7 @@ public class PageUriBuilder {
      * wrapper (if provided).
      * 
      * @param ics
-     * @return
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#execute(COM.FutureTense.Interfaces.ICS)
      */
     public String toURI(ICS ics) {
@@ -121,6 +121,7 @@ public class PageUriBuilder {
     /**
      * @param name
      * @param value
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.TagRunnerWithArguments#setArgument(java.lang.String,
      *      java.lang.String)
      */
@@ -131,6 +132,7 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAssembler(java.lang.String)
      */
     public PageUriBuilder assembler(String s) {
@@ -140,6 +142,7 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAuthority(java.lang.String)
      */
     public PageUriBuilder authority(String s) {
@@ -149,6 +152,7 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setContainer(java.lang.String)
      */
     public PageUriBuilder container(String s) {
@@ -158,6 +162,7 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setDynamic(java.lang.String)
      */
     public PageUriBuilder dynamic(boolean s) {
@@ -167,6 +172,7 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setFragment(java.lang.String)
      */
     public PageUriBuilder fragment(String s) {
@@ -176,6 +182,7 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setPackedargs(java.lang.String)
      */
     public PageUriBuilder packedargs(String s) {
@@ -185,15 +192,17 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setSatellite(java.lang.String)
      */
-    public PageUriBuilder satellite(String s) {
+    public PageUriBuilder satellite(boolean s) {
         tag.setSatellite(s);
         return this;
     }
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setScheme(java.lang.String)
      */
     public PageUriBuilder scheme(String s) {
@@ -203,6 +212,7 @@ public class PageUriBuilder {
 
     /**
      * @param s
+     * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setWrapperpage(java.lang.String)
      */
     public PageUriBuilder wrapper(String s) {
