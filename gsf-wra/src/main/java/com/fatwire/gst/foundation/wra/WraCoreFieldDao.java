@@ -38,15 +38,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Dao for dealing with core fields in a WRA
- * This DAO is not aware of Aliases.  To work with Alias assets, see {@link AliasCoreFieldDao}.}
- *
+ * Dao for dealing with core fields in a WRA This DAO is not aware of Aliases.
+ * To work with Alias assets, see {@link AliasCoreFieldDao}.}
+ * 
  * @author Tony Field
  * @since Jul 21, 2010
  */
 public class WraCoreFieldDao {
 
-    public static String[] WRA_ATTRIBUTE_NAMES = {"metatitle", "metadescription", "metakeyword", "h1title", "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status"};
+    public static String[] WRA_ATTRIBUTE_NAMES = { "metatitle", "metadescription", "metakeyword", "h1title",
+            "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status" };
 
     public static final WraCoreFieldDao getInstance(ICS ics) {
         if (ics == null) {
@@ -86,7 +87,7 @@ public class WraCoreFieldDao {
      * <li>enddate</li>
      * <li>status</li>
      * </ul>
-     *
+     * 
      * @param id id of web-referenceable asset
      * @return AssetData containing core fields for Web-Referencable asset
      */
@@ -95,9 +96,10 @@ public class WraCoreFieldDao {
     }
 
     /**
-     * Method to test whether or not an asset is web-referenceable.
-     * todo: low priority: optimize as this will be called at runtime (assest api incache will mitigate the performance issue)
-     *
+     * Method to test whether or not an asset is web-referenceable. todo: low
+     * priority: optimize as this will be called at runtime (assest api incache
+     * will mitigate the performance issue)
+     * 
      * @param id asset ID to check
      * @return true if the asset is a valid web-referenceable asset, false if it
      *         is not
@@ -124,8 +126,7 @@ public class WraCoreFieldDao {
         /*
          * List<String> toCheck = Arrays.asList(WRA_ATTRIBUTE_NAMES);
          * for(AttributeDef d : data.getAssetTypeDef().getAttributeDefs()) {
-         *      toCheck.remove(d.getName());
-         * }
+         * toCheck.remove(d.getName()); }
          */
         return data != null && StringUtils.isNotBlank(AttributeDataUtils.asString(data.getAttributeData("path")));
     }
@@ -133,7 +134,7 @@ public class WraCoreFieldDao {
     /**
      * Return a web referenceable asset bean given an input id. Required fields
      * must be set or an exception is thrown.
-     *
+     * 
      * @param id asset id
      * @return WebReferenceableAsset, never null
      * @see #isWebReferenceable
@@ -184,8 +185,11 @@ public class WraCoreFieldDao {
         return wra;
     }
 
-    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap " + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
-    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Collections.singletonList("AssetPublication")); // todo: low priority: determine
+    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
+            + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
+    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY, Collections
+            .singletonList("AssetPublication")); // todo: low priority:
+    // determine
     // why publication
     // cannot fit there.
 
@@ -201,7 +205,13 @@ public class WraCoreFieldDao {
         String result = null;
         for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
             if (result != null) {
-                LOG.warn("Found asset " + c + ":" + cid + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: " + result);
+                LOG
+                        .warn("Found asset "
+                                + c
+                                + ":"
+                                + cid
+                                + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: "
+                                + result);
             } else {
                 result = pubid.getString("name");
             }
@@ -209,7 +219,12 @@ public class WraCoreFieldDao {
         return result;
     }
 
-    static final PreparedStmt FIND_P = new PreparedStmt("SELECT art.oid\n\tFROM AssetRelationTree art, AssetPublication ap, Publication p\n\tWHERE ap.assetid = art.oid\n\t" + "AND ap.assettype = 'Page'\n\t" + "AND ap.pubid = p.id\n\t" + "AND p.name = ?\n\t" + "AND art.otype = ap.assettype\n\t" + "AND art.nid in (\n\t\t" + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-'\n\t) ORDER BY ap.id", Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
+    static final PreparedStmt FIND_P = new PreparedStmt(
+            "SELECT art.oid FROM AssetRelationTree art, AssetPublication ap, Publication p WHERE ap.assetid = art.oid "
+                    + "AND ap.assettype = 'Page'" + "AND ap.pubid = p.id" + "AND p.name = ?"
+                    + "AND art.otype = ap.assettype" + "AND art.nid in ("
+                    + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-') ORDER BY ap.id",
+            Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
 
     static {
         FIND_P.setElement(0, "Publication", "name");
@@ -226,9 +241,9 @@ public class WraCoreFieldDao {
      * <p/>
      * If multiple matches are found, a warning is logged and the first one is
      * returned.
-     *
+     * 
      * @param wraAssetIdWithSite id of the web-referenceable asset. Site is
-     *                           included
+     *            included
      * @return page asset ID or 0L.
      */
     public long findP(AssetIdWithSite wraAssetIdWithSite) {
@@ -240,8 +255,12 @@ public class WraCoreFieldDao {
         long result = 0L;
         for (final Row r : SqlHelper.select(ics, FIND_P, param)) {
             if (result != 0L)
-                LOG.warn("Asset " + wraAssetIdWithSite + " was found as the primary content on multiple pages in the site.  Web-referenceable assets should only be the primary content on one Page to comply with SEO rules.  Automatically selecting the oldest page");
-            else result = r.getLong("oid");
+                LOG
+                        .warn("Asset "
+                                + wraAssetIdWithSite
+                                + " was found as the primary content on multiple pages in the site.  Web-referenceable assets should only be the primary content on one Page to comply with SEO rules.  Automatically selecting the oldest page");
+            else
+                result = r.getLong("oid");
         }
         if (result == 0L) {
             // could not locate
