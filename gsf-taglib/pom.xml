@@ -36,21 +36,8 @@
         <resources>
             <resource>
                 <directory>src/main/tld</directory>
-                <targetPath>META-INF</targetPath>
             </resource>
         </resources>
-        <!--
-		<plugins>
-		  <plugin>
-			<groupId>net.sourceforge.maven-taglib</groupId>
-			<artifactId>maven-taglib-plugin</artifactId>
-			<configuration>
-			<srcDir>src/main/tld</srcDir>
-			<taglib.src.dir>src/main/tld</taglib.src.dir>
-			</configuration>
-		  </plugin>
-		</plugins>
-        -->
     </build>
      <reporting>
 	    <plugins>
@@ -60,8 +47,7 @@
 	        <version>2.4</version>
 	        <configuration>
 	          <parseHtml>false</parseHtml>
-	          <srcDir>src/main/tld</srcDir>
-			  <!--taglib.src.dir>src/main/tld</taglib.src.dir-->
+	          <srcDir>src/main/tld/META-INF</srcDir>
 	        </configuration>
 	      </plugin>
 	    </plugins>
