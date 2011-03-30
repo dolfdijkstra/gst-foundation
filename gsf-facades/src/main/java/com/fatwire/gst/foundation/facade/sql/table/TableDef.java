@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fatwire.gst.foundation.facade.sql.table.TableColumn.Type;
+
 /**
  * The definition of a ContentServer database table
  * 
@@ -53,6 +55,37 @@ public class TableDef {
         }
         this.columns.add(col);
         return this;
+    }
+
+    /**
+     * Adds a column to this table.
+     * @param name
+     * @param type
+     * @param primary
+     * @return
+     */
+    public TableColumn addColumn(final String name, final Type type, final boolean primary) {
+        TableColumn col = new TableColumn(name, type, primary);
+        if (col.isPrimary()) {
+            for (TableColumn current : columns) {
+                if (current.isPrimary()) {
+                    throw new IllegalStateException("Table has already have a primary column");
+                }
+            }
+        }
+        this.columns.add(col);
+        return col;
+    }
+
+    /**
+     * Adds a non primary column to this table.
+     * @param name
+     * @param type
+     * @return the added TableColumn
+     */
+    public TableColumn addColumn(final String name, final Type type) {
+
+        return addColumn(name, type, false);
     }
 
     Iterable<TableColumn> getColumns() {
