@@ -77,4 +77,18 @@ public class AssetSimpleQueryTag extends SimpleTagSupport {
         this.query = query;
     }
 
+    /**
+     * @param c the c to set
+     */
+    public void setC(String c) {
+        this.c = c;
+    }
+
+    /**
+     * @param subtype the subtype to set
+     */
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
+    }
+
 }
