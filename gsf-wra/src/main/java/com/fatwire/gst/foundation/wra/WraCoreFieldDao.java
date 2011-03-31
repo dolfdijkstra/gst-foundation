@@ -221,9 +221,9 @@ public class WraCoreFieldDao {
 
     static final PreparedStmt FIND_P = new PreparedStmt(
             "SELECT art.oid FROM AssetRelationTree art, AssetPublication ap, Publication p WHERE ap.assetid = art.oid "
-                    + "AND ap.assettype = 'Page'" + "AND ap.pubid = p.id" + "AND p.name = ?"
-                    + "AND art.otype = ap.assettype" + "AND art.nid in ("
-                    + "SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-') ORDER BY ap.id",
+                    + "AND ap.assettype = 'Page' AND ap.pubid = p.id AND p.name = ? "
+                    + "AND art.otype = ap.assettype AND art.nid in "
+                    + "(SELECT nparentid FROM AssetRelationtree WHERE otype=? AND oid=? AND ncode='-') ORDER BY ap.id",
             Arrays.asList("AssetRelationTree", "AssetPublication", "Publication"));
 
     static {
