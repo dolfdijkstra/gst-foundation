@@ -17,6 +17,7 @@
 package com.fatwire.gst.foundation.facade.runtag.render;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,6 +34,7 @@ import COM.FutureTense.Util.ftMessage;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
+import com.fatwire.gst.foundation.facade.runtag.satellite.Page;
 
 /**
  * CallTemplate tag with many improvements around context and style.
@@ -73,6 +75,9 @@ public class CallTemplate extends TagRunnerWithArguments {
     private boolean fixPageCriteria = false;
     private String site, type, tname, cid;
     private Style style;
+
+    private Map<String,String> attributes = new HashMap<String,String>();
+    private Map<String,String> arguments = new HashMap<String,String>();
 
     public enum Style {
         element, pagelet, embedded
@@ -124,6 +129,14 @@ public class CallTemplate extends TagRunnerWithArguments {
         super.preExecute(ics);
     }
 
+    public String execute(ICS ics) {
+        if (style == Style.pagelet) {
+            LOG.debug("Using <render.calltemplate style=\"paglet\">. Invoking workaround to use <satellite.page>");
+            return executePagelet(ics);
+        }
+        else return super.execute(ics);
+    }
+
     @Override
     protected void postExecute(ICS ics) {
         site = null;
@@ -135,6 +148,7 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     public void setSite(final String s) {
+        attributes.put("site", s);
         set("SITE", s);
         site = s;
     }
@@ -152,11 +166,13 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     public void setC(final String s) {
+        attributes.put("c", s);
         set("C", s);
         type = s;
     }
 
     public void setCid(final String s) {
+        attributes.put("cid", s);
         set("CID", s);
         cid = s;
     }
@@ -180,6 +196,8 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     public void setPackedargs(final String s) {
+        // todo: this may need more work
+        attributes.put("packedargs", s);
         set("PACKEDARGS", s);
     }
 
@@ -217,14 +235,8 @@ public class CallTemplate extends TagRunnerWithArguments {
          * Considerations 1) Check target for parameter callstyle and use that
          *
          */
-        String pname;
+        String pname = getTargetPagename();
 
-        if (tname.startsWith("/")) // typeless
-        {
-            pname = site + tname;
-        } else {
-            pname = site + "/" + type + "/" + tname;
-        }
         // String targetStyle =(String)
         // ics.getPageData(pname).getDefaultArguments().get("callstyle");
         final boolean targetCached = RenderUtils.isCacheable(ics, pname);
@@ -236,6 +248,18 @@ public class CallTemplate extends TagRunnerWithArguments {
         }
         return proposal;
 
+    }
+
+    private String getTargetPagename() {
+        String pname;
+
+        if (tname.startsWith("/")) // typeless
+        {
+            pname = site + tname;
+        } else {
+            pname = site + "/" + type + "/" + tname;
+        }
+        return pname;
     }
 
     private Style calculateStyle(final ICS ics, final String pname, final boolean currentCache, final boolean targetCache) {
@@ -332,6 +356,7 @@ public class CallTemplate extends TagRunnerWithArguments {
      * @param value parameter value
      */
     public void setArgument(final String name, final String value) {
+        arguments.put(name, value);
         super.set(ARGS + name, value);
     }
 
@@ -361,6 +386,20 @@ public class CallTemplate extends TagRunnerWithArguments {
      */
     public void setFixPageCriteria(boolean fixPageCriteria) {
         this.fixPageCriteria = fixPageCriteria;
+    }
+
+    private String executePagelet(ICS ics) {
+        Page p = new Page();
+        p.setPagename(getTargetPagename());
+        for (String name : attributes.keySet()) {
+            LOG.trace("<RENDER.CALLTEMPLATE style=pagelet> setting attribute: "+name+"="+attributes.get(name));
+            p.set(name, attributes.get(name));
+        }
+        for (String name : arguments.keySet()) {
+            LOG.trace("<RENDER.CALLTEMPLATE style=pagelet> setting argument: "+name+"="+arguments.get(name));
+            p.set(name, arguments.get(name));
+        }
+        return p.execute(ics);
     }
 
 }
