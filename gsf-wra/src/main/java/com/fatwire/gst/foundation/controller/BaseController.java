@@ -51,7 +51,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * <tt>CALLJAVA</tt> tag:
  * <code>&lt;CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;
  * </code>
- *
+ * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -116,7 +116,7 @@ public class BaseController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     *
+     * 
      * @param e exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {
@@ -140,23 +140,26 @@ public class BaseController extends AbstractController {
     }
 
     /**
-     * Load the WRA, or the alias, and return it for use by the controller.
-     * If the asset is not found, an exception is thrown
-     *
+     * Load the WRA, or the alias, and return it for use by the controller. If
+     * the asset is not found, an exception is thrown
+     * 
      * @param id asset id
-     * @return WRA, never null.  May be an instance of an Alias
+     * @return WRA, never null. May be an instance of an Alias
      */
     protected WebReferenceableAsset getWraAndResolveAlias(AssetIdWithSite id) {
         try {
             if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType())) {
-                if (LOG.isTraceEnabled()) LOG.trace("Loading alias: " + id);
+                if (LOG.isTraceEnabled())
+                    LOG.trace("Loading alias: " + id);
                 Alias alias = aliasCoreFieldDao.getAlias(id);
                 WraBeanImpl wra = new WraBeanImpl(alias);
                 wra.setId(alias.getTarget());
-                if (LOG.isDebugEnabled()) LOG.debug("Loaded alias: " + id + " which resolved to " + wra.getId());
+                if (LOG.isDebugEnabled())
+                    LOG.debug("Loaded alias: " + id + " which resolved to " + wra.getId());
                 return wra;
             } else {
-                if (LOG.isTraceEnabled()) LOG.trace("Loading wra: " + id);
+                if (LOG.isTraceEnabled())
+                    LOG.trace("Loading wra: " + id);
                 return wraCoreFieldDao.getWra(id);
             }
         } catch (IllegalArgumentException e) {
@@ -176,7 +179,8 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/" + tname;
+        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/"
+                + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
             LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
@@ -211,7 +215,8 @@ public class BaseController extends AbstractController {
                 // tag, but it is a bad idea to send params through if they
                 // aren't
                 // page criteria.
-                // todo: low priority consider validating here. Validation is duplicated but
+                // todo: low priority consider validating here. Validation is
+                // duplicated but
                 // may be useful
                 arguments.put(varname, ics.GetVar(varname));
             }
@@ -219,10 +224,14 @@ public class BaseController extends AbstractController {
         getCallTemplateArguments(id, arguments);
         for (String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled()) LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+            if (LOG.isTraceEnabled())
+                LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
         }
 
-        ct.execute(ics);
+        String s = ct.execute(ics);
+        if (s != null) {
+            ics.StreamText(s);
+        }
     }
 
     protected AssetIdWithSite resolveAssetId() {
@@ -243,15 +252,17 @@ public class BaseController extends AbstractController {
         return id;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
+            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
+            "url-path");
 
     /**
      * This method collects additional arguments for the CallTemplate call. New
      * arguments are added to the map as name-value pairs.
-     *
-     * @param id        AssetIdWithSite object
+     * 
+     * @param id AssetIdWithSite object
      * @param arguments Map<String,String> containing arguments for the nested
-     *                  CallTemplate call
+     *            CallTemplate call
      */
     protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {
         findAndSetP(id, arguments);
@@ -261,8 +272,8 @@ public class BaseController extends AbstractController {
      * Add p to the input parameters, if it is known or knowable. First check to
      * see if it has been explicitly set, then look it up if it hasn't been. The
      * variable is not guaranteed to be found.
-     *
-     * @param id        asset id with site
+     * 
+     * @param id asset id with site
      * @param arguments calltemplate arguments
      */
     private void findAndSetP(AssetIdWithSite id, Map<String, String> arguments) {
