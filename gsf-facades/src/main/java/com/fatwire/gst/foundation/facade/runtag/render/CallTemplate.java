@@ -17,14 +17,10 @@
 package com.fatwire.gst.foundation.facade.runtag.render;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
@@ -35,7 +31,9 @@ import COM.FutureTense.Util.ftMessage;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
-import com.fatwire.gst.foundation.facade.runtag.satellite.Page;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * CallTemplate tag with many improvements around context and style.
@@ -77,8 +75,8 @@ public class CallTemplate extends TagRunnerWithArguments {
     private String site, type, tname, cid;
     private Style style;
 
-    private Map<String, String> attributes = new HashMap<String, String>();
-    private Map<String, String> arguments = new HashMap<String, String>();
+    // private Map<String, String> attributes = new HashMap<String, String>();
+    // private Map<String, String> arguments = new HashMap<String, String>();
 
     public enum Style {
         element, pagelet, embedded
@@ -146,7 +144,6 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     public void setSite(final String s) {
-        attributes.put("site", s);
         set("SITE", s);
         site = s;
     }
@@ -164,13 +161,11 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     public void setC(final String s) {
-        attributes.put("c", s);
         set("C", s);
         type = s;
     }
 
     public void setCid(final String s) {
-        attributes.put("cid", s);
         set("CID", s);
         cid = s;
     }
@@ -195,7 +190,6 @@ public class CallTemplate extends TagRunnerWithArguments {
 
     public void setPackedargs(final String s) {
         // todo: this may need more work
-        attributes.put("packedargs", s);
         set("PACKEDARGS", s);
     }
 
@@ -311,6 +305,9 @@ public class CallTemplate extends TagRunnerWithArguments {
         }
     }
 
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("C", "CID", "EID", "SEID",
+            "PACKEDARGS", "VARIANT", "CONTEXT", "SITE", "TID", "rendermode", "ft_ss");
+
     @SuppressWarnings("unchecked")
     private void checkPageCriteria(final ICS ics, final String target) {
         final FTValList o = getList();
@@ -325,14 +322,16 @@ public class CallTemplate extends TagRunnerWithArguments {
             for (final Iterator<?> i = m.entrySet().iterator(); i.hasNext();) {
                 final Entry<String, ?> e = (Entry<String, ?>) i.next();
                 final String key = e.getKey();
-                boolean found = false;
-                for (final String c : pc) {
-                    if (c.equals(key)) {
-                        found = true;
-                        break;
-                    } else if (c.equals(ARGS + key)) {
-                        found = true;
-                        break;
+                boolean found = CALLTEMPLATE_EXCLUDE_VARS.contains(key);
+                if (!found) {
+                    for (final String c : pc) {
+                        if (c.equalsIgnoreCase(key)) {
+                            found = true;
+                            break;
+                        } else if ((ARGS + c).equalsIgnoreCase(key)) {
+                            found = true;
+                            break;
+                        }
                     }
                 }
                 if (!found) {
@@ -362,7 +361,6 @@ public class CallTemplate extends TagRunnerWithArguments {
      * @param value parameter value
      */
     public void setArgument(final String name, final String value) {
-        arguments.put(name, value);
         super.set(ARGS + name, value);
     }
 
@@ -396,19 +394,4 @@ public class CallTemplate extends TagRunnerWithArguments {
         this.fixPageCriteria = fixPageCriteria;
     }
 
-    private String executePagelet(ICS ics) {
-        Page p = new Page();
-        p.setPagename(getTargetPagename());
-        for (String name : attributes.keySet()) {
-            LOG.trace("<RENDER.CALLTEMPLATE style=pagelet> setting attribute: " + name + "=" + attributes.get(name));
-            p.set(name, attributes.get(name));
-        }
-        //if (!attributes.containsKey("rendermode")) {
-            String rendermode = ics.GetVar("rendermode");
-            if (StringUtils.isBlank(rendermode))
-                rendermode = "live";
-            p.set("rendermode", rendermode);
-        //}
-        return p.execute(ics);
-    }
 }
