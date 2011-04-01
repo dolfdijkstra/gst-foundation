@@ -305,7 +305,7 @@ public class CallTemplate extends TagRunnerWithArguments {
         }
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("C", "CID", "EID", "SEID",
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("TNAME", "C", "CID", "EID", "SEID",
             "PACKEDARGS", "VARIANT", "CONTEXT", "SITE", "TID", "rendermode", "ft_ss");
 
     @SuppressWarnings("unchecked")
