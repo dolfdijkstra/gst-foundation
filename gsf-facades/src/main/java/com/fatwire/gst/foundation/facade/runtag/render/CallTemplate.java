@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -51,7 +52,7 @@ import com.fatwire.gst.foundation.facade.runtag.satellite.Page;
  * <p/>
  * &lt;/RENDER.CALLTEMPLATE&gt;
  * </code>
- *
+ * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -76,8 +77,8 @@ public class CallTemplate extends TagRunnerWithArguments {
     private String site, type, tname, cid;
     private Style style;
 
-    private Map<String,String> attributes = new HashMap<String,String>();
-    private Map<String,String> arguments = new HashMap<String,String>();
+    private Map<String, String> attributes = new HashMap<String, String>();
+    private Map<String, String> arguments = new HashMap<String, String>();
 
     public enum Style {
         element, pagelet, embedded
@@ -93,7 +94,7 @@ public class CallTemplate extends TagRunnerWithArguments {
 
     /**
      * Sets up CallTemplate with default <tt>Style.element</tt>
-     *
+     * 
      * @param slotname
      * @param tname
      * @param type
@@ -129,14 +130,11 @@ public class CallTemplate extends TagRunnerWithArguments {
         super.preExecute(ics);
     }
 
-    public String execute(ICS ics) {
-        if (style == Style.pagelet) {
-            LOG.debug("Using <render.calltemplate style=\"paglet\">. Invoking workaround to use <satellite.page>");
-            return executePagelet(ics);
-        }
-        else return super.execute(ics);
-    }
-
+    /*
+     * public String execute(ICS ics) { if (style == Style.pagelet) {LOG.debug(
+     * "Using <render.calltemplate style=\"paglet\">. Invoking workaround to use <satellite.page>"
+     * ); return executePagelet(ics); } else return super.execute(ics); }
+     */
     @Override
     protected void postExecute(ICS ics) {
         site = null;
@@ -233,7 +231,7 @@ public class CallTemplate extends TagRunnerWithArguments {
 
         /**
          * Considerations 1) Check target for parameter callstyle and use that
-         *
+         * 
          */
         String pname = getTargetPagename();
 
@@ -244,7 +242,10 @@ public class CallTemplate extends TagRunnerWithArguments {
 
         final Style proposal = calculateStyle(ics, pname, currentCached, targetCached);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting style to '" + proposal + (style != null ? "' (user did set '" + style + "')" : "'") + " for calltemplate to '" + pname + "' with " + type + "," + cid + "," + getList() + " in element: '" + ics.ResolveVariables("CS.elementname") + "', caching: '" + currentCached + "/" + targetCached + "', page: " + ics.pageURL());
+            LOG.debug("Setting style to '" + proposal + (style != null ? "' (user did set '" + style + "')" : "'")
+                    + " for calltemplate to '" + pname + "' with " + type + "," + cid + "," + getList()
+                    + " in element: '" + ics.ResolveVariables("CS.elementname") + "', caching: '" + currentCached + "/"
+                    + targetCached + "', page: " + ics.pageURL());
         }
         return proposal;
 
@@ -262,7 +263,8 @@ public class CallTemplate extends TagRunnerWithArguments {
         return pname;
     }
 
-    private Style calculateStyle(final ICS ics, final String pname, final boolean currentCache, final boolean targetCache) {
+    private Style calculateStyle(final ICS ics, final String pname, final boolean currentCache,
+            final boolean targetCache) {
         if (currentCache == false) // we are not caching for the current pagelet
         {
             if (targetCache == false) {
@@ -293,7 +295,8 @@ public class CallTemplate extends TagRunnerWithArguments {
                     // if c/cid does not change than we call this as an element,
                     // as reuse is unlikely
                     if (LOG.isTraceEnabled()) {
-                        LOG.trace("Calling " + pname + " as an element from " + ics.ResolveVariables("CS.elementname") + " because cid is same as on current pagelet.");
+                        LOG.trace("Calling " + pname + " as an element from " + ics.ResolveVariables("CS.elementname")
+                                + " because cid is same as on current pagelet.");
                     }
                     return Style.element;
                 } else {
@@ -327,18 +330,21 @@ public class CallTemplate extends TagRunnerWithArguments {
                     if (c.equals(key)) {
                         found = true;
                         break;
-                    }else if(c.equals(ARGS+key)){
+                    } else if (c.equals(ARGS + key)) {
                         found = true;
                         break;
                     }
                 }
                 if (!found) {
-                    LOG.error("Argument '" + key + "' not found as PageCriterium on " + target + ". Calling element is " + ics.ResolveVariables("CS.elementname") + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
+                    LOG.error("Argument '" + key + "' not found as PageCriterium on " + target
+                            + ". Calling element is " + ics.ResolveVariables("CS.elementname") + ". Arguments are: "
+                            + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
                     // we could correct this by calling as an element
                     // or by removing the argument
                     if (isFixPageCriteria() || config_FixPageCriteria) {
                         i.remove();
-                        LOG.warn("Argument '" + key + "' is removed from the call to '" + target + "' as it is not a PageCriterium.");
+                        LOG.warn("Argument '" + key + "' is removed from the call to '" + target
+                                + "' as it is not a PageCriterium.");
                     }
 
                 }
@@ -349,10 +355,10 @@ public class CallTemplate extends TagRunnerWithArguments {
     }
 
     /**
-     * Call template args are prefixed with ARGS_ in order to be available
-     * in the called template
-     *
-     * @param name  parameter name
+     * Call template args are prefixed with ARGS_ in order to be available in
+     * the called template
+     * 
+     * @param name parameter name
      * @param value parameter value
      */
     public void setArgument(final String name, final String value) {
@@ -367,8 +373,10 @@ public class CallTemplate extends TagRunnerWithArguments {
         ftErrors complexError = ics.getComplexError();
         String pagename = ics.GetVar("pagename");
         String elementname = ics.GetVar("CS.elementname");
-        String msg = "ics.runTag(RENDER.CALLTEMPLATE) failed for tname: " + list.getValString("TNAME") + " for asset: " + list.getValString("C") + ":" + list.getValString("CID") + " within pagename:" + pagename;
-        if (elementname != null) msg += " and element:" + elementname;
+        String msg = "ics.runTag(RENDER.CALLTEMPLATE) failed for tname: " + list.getValString("TNAME") + " for asset: "
+                + list.getValString("C") + ":" + list.getValString("CID") + " within pagename:" + pagename;
+        if (elementname != null)
+            msg += " and element:" + elementname;
         msg += ".";
 
         throw new TagRunnerRuntimeException(msg, errno, arguments, complexError, pagename, elementname);
@@ -392,14 +400,15 @@ public class CallTemplate extends TagRunnerWithArguments {
         Page p = new Page();
         p.setPagename(getTargetPagename());
         for (String name : attributes.keySet()) {
-            LOG.trace("<RENDER.CALLTEMPLATE style=pagelet> setting attribute: "+name+"="+attributes.get(name));
+            LOG.trace("<RENDER.CALLTEMPLATE style=pagelet> setting attribute: " + name + "=" + attributes.get(name));
             p.set(name, attributes.get(name));
         }
-        for (String name : arguments.keySet()) {
-            LOG.trace("<RENDER.CALLTEMPLATE style=pagelet> setting argument: "+name+"="+arguments.get(name));
-            p.set(name, arguments.get(name));
-        }
+        //if (!attributes.containsKey("rendermode")) {
+            String rendermode = ics.GetVar("rendermode");
+            if (StringUtils.isBlank(rendermode))
+                rendermode = "live";
+            p.set("rendermode", rendermode);
+        //}
         return p.execute(ics);
     }
-
 }
