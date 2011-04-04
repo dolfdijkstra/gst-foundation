@@ -873,4 +873,9 @@ public class MockICS implements ICS {
         return false;
     }
 
+	public IList CatalogIndexDef(String arg0, String arg1, StringBuffer arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
