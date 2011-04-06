@@ -19,13 +19,20 @@ package com.fatwire.gst.foundation.facade.runtag;
 import COM.FutureTense.Interfaces.ICS;
 
 /**
- * 
+ * Command over ics.runTag.
  * 
  * @author Dolf Dijkstra
+ * @see {@link ICS#runTag(String, COM.FutureTense.Interfaces.FTValList)}
  * 
  */
 public interface TagRunner {
 
+    /**
+     * Invokes runTag with the tag name and FTValList populated by the class.
+     * 
+     * @param ics
+     * @return the returned string from {@link ICS#runTag(String, COM.FutureTense.Interfaces.FTValList)}
+     */
     String execute(ICS ics);
 
 }
