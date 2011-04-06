@@ -26,6 +26,7 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.assetapi.common.AssetAccessException;
+import com.fatwire.assetapi.common.SiteAccessException;
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetDataManager;
 import com.fatwire.assetapi.data.AssetId;
@@ -33,6 +34,8 @@ import com.fatwire.assetapi.query.ConditionFactory;
 import com.fatwire.assetapi.query.OpTypeEnum;
 import com.fatwire.assetapi.query.Query;
 import com.fatwire.assetapi.query.SimpleQuery;
+import com.fatwire.assetapi.site.Site;
+import com.fatwire.assetapi.site.SiteManager;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
@@ -299,9 +302,9 @@ public class AssetAccessTemplate {
         return assets;
     }
 
-    
     /**
-     * Invokes the work(asset) method on the provided Closure for assets returned by the Query.
+     * Invokes the work(asset) method on the provided Closure for assets
+     * returned by the Query.
      * 
      * @param query
      * @param closure
@@ -337,8 +340,10 @@ public class AssetAccessTemplate {
 
         return r;
     }
+
     /**
-     * Finds the assetid by the name of the asset in a particular site. The asset can not be voided.
+     * Finds the assetid by the name of the asset in a particular site. The
+     * asset can not be voided.
      * 
      * @param ics
      * @param assetType the type of the asset.
@@ -346,15 +351,15 @@ public class AssetAccessTemplate {
      * @param siteid the Site id.
      * @return the assetid, null if asset is not found.
      */
-    public AssetId findByName(final ICS ics, final String assetType, final String name, String siteid) {
+    public AssetId findByName(final ICS ics, final String assetType, final String name, long siteid) {
         // TODO: name does not need to be unique, how do we handle this?
-        final AssetList x = new AssetList();
-        x.setType(assetType);
-        x.setField("name", name);
-        x.setExcludeVoided(true);
-        x.setPubid(siteid);
-        x.setList("name__");
-        x.execute(ics);
+        final AssetList tag = new AssetList();
+        tag.setType(assetType);
+        tag.setField("name", name);
+        tag.setExcludeVoided(true);
+        tag.setPubid(Long.toString(siteid));
+        tag.setList("name__");
+        tag.execute(ics);
 
         final IList list = ics.GetList("name__");
         ics.RegisterList("name__", null);
@@ -418,4 +423,21 @@ public class AssetAccessTemplate {
         return q;
     }
 
+    /**
+     * Finds the Site object by the given name.
+     * 
+     * @param name the name of the site.
+     * @return the Site object.
+     */
+    public Site readSite(String name) {
+        SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
+        try {
+            List<Site> list = sm.read(Arrays.asList(name));
+            if (list == null || list.isEmpty())
+                return null;
+            return list.get(0);
+        } catch (SiteAccessException e) {
+            throw new SiteAccessRuntimeException(e);
+        }
+    }
 }
