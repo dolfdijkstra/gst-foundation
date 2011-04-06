@@ -17,17 +17,16 @@ package com.fatwire.gst.foundation.wra;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.Row;
@@ -64,6 +63,9 @@ public class WraCoreFieldDao {
 
     private final ICS ics;
 
+    /**
+     * @deprecated use WraCoreFieldDao(ICS).
+     */
     public WraCoreFieldDao() {
         this.ics = ICSFactory.getOrCreateICS();
     }
@@ -141,48 +143,36 @@ public class WraCoreFieldDao {
      */
     public WebReferenceableAsset getWra(AssetId id) {
         AssetData data = getAsAssetData(id);
-
-        WraBeanImpl wra = new WraBeanImpl();
-        wra.setId(id);
-        wra.setName(AttributeDataUtils.getWithFallback(data, "name"));
-        wra.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
-        wra.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
-        wra.setStatus(AttributeDataUtils.asString(data.getAttributeData("status")));
-        wra.setStartDate(AttributeDataUtils.asDate(data.getAttributeData("startdate")));
-        wra.setEndDate(AttributeDataUtils.asDate(data.getAttributeData("enddate")));
-        wra.setMetaTitle(AttributeDataUtils.getWithFallback(data, "metatitle"));
-        wra.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
-        wra.setMetaKeyword(AttributeDataUtils.asString(data.getAttributeData("metakeyword")));
-        wra.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
-        wra.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
-        wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
-        wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
-        return wra;
+        return mapper.map(data);
     }
+
+    private AssetMapper<WebReferenceableAsset> mapper = new AssetMapper<WebReferenceableAsset>() {
+
+        public WebReferenceableAsset map(AssetData data) {
+            WraBeanImpl wra = new WraBeanImpl();
+            wra.setId(data.getAssetId());
+            wra.setName(AttributeDataUtils.getWithFallback(data, "name"));
+            wra.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
+            wra.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
+            wra.setStatus(AttributeDataUtils.asString(data.getAttributeData("status")));
+            wra.setStartDate(AttributeDataUtils.asDate(data.getAttributeData("startdate")));
+            wra.setEndDate(AttributeDataUtils.asDate(data.getAttributeData("enddate")));
+            wra.setMetaTitle(AttributeDataUtils.getWithFallback(data, "metatitle"));
+            wra.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
+            wra.setMetaKeyword(AttributeDataUtils.asString(data.getAttributeData("metakeyword")));
+            wra.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
+            wra.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
+            wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
+            wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
+            return wra;
+        }
+
+    };
 
     public WebReferenceableAsset getWra(AssetData data) {
 
-        List<String> toCheck = Arrays.asList(WRA_ATTRIBUTE_NAMES);
-        for (AttributeDef d : data.getAssetTypeDef().getAttributeDefs()) {
-            toCheck.remove(d.getName());
+        return mapper.map(data);
 
-        }
-        WraBeanImpl wra = new WraBeanImpl();
-        wra.setId(data.getAssetId());
-        wra.setName(AttributeDataUtils.getWithFallback(data, "name"));
-        wra.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
-        wra.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
-        wra.setStatus(AttributeDataUtils.asString(data.getAttributeData("status")));
-        wra.setStartDate(AttributeDataUtils.asDate(data.getAttributeData("startdate")));
-        wra.setEndDate(AttributeDataUtils.asDate(data.getAttributeData("enddate")));
-        wra.setMetaTitle(AttributeDataUtils.getWithFallback(data, "metatitle"));
-        wra.setMetaDescription(AttributeDataUtils.getWithFallback(data, "metadescription"));
-        wra.setMetaKeyword(AttributeDataUtils.asString(data.getAttributeData("metakeyword")));
-        wra.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
-        wra.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
-        wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
-        wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
-        return wra;
     }
 
     private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
