@@ -337,18 +337,55 @@ public class AssetAccessTemplate {
 
         return r;
     }
+    /**
+     * Finds the assetid by the name of the asset in a particular site. The asset can not be voided.
+     * 
+     * @param ics
+     * @param assetType the type of the asset.
+     * @param name the name of the asset.
+     * @param siteid the Site id.
+     * @return the assetid, null if asset is not found.
+     */
+    public AssetId findByName(final ICS ics, final String assetType, final String name, String siteid) {
+        // TODO: name does not need to be unique, how do we handle this?
+        final AssetList x = new AssetList();
+        x.setType(assetType);
+        x.setField("name", name);
+        x.setExcludeVoided(true);
+        x.setPubid(siteid);
+        x.setList("name__");
+        x.execute(ics);
+
+        final IList list = ics.GetList("name__");
+        ics.RegisterList("name__", null);
+        if (list != null && list.hasData()) {
+            list.moveTo(1);
+            try {
+                return new AssetIdImpl(assetType, Long.parseLong(list.getValue("id")));
+            } catch (final NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return null;
+        }
+
+    }
 
     /**
+     * Finds the assetid by the name of the asset. The asset can not be voided.
+     * 
      * @param ics
-     * @param assetType
-     * @param name
-     * @return
+     * @param assetType the type of the asset.
+     * @param name the name of the asset.
+     * @return the assetid, null if asset is not found.
      */
+
     public AssetId findByName(final ICS ics, final String assetType, final String name) {
         // TODO: name does not need to be unique, how do we handle this?
         final AssetList x = new AssetList();
         x.setType(assetType);
         x.setField("name", name);
+        x.setExcludeVoided(true);
         x.setList("name__");
         x.execute(ics);
 
