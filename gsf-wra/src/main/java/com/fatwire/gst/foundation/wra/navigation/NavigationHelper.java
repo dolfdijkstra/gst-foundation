@@ -26,6 +26,7 @@ import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.assetapi.site.Site;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
@@ -40,6 +41,7 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -51,7 +53,6 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
  * <p/>
  * TODO: low priority: add multilingual support
  * <p/>
- * TODO: medium: move to navigation package
  * 
  * @author David Chesebro
  * @author Dolf Dijkstra
@@ -157,8 +158,28 @@ public class NavigationHelper {
      * @return NavNode for the Page with the name
      */
     public NavNode getSitePlanByPage(final int depth, final String name) {
+        String sitename = ics.GetVar("site");
+        if (StringUtils.isBlank(sitename))
+            throw new IllegalStateException(
+                    "site is not a ics variable. This function needs this variable to be aviable and contain the name of the site.");
+
+        return getSitePlanByPage(depth, name, ics.GetVar("site"));
+    }
+
+    /**
+     * Retrieves the NavNode for the given Page with the provided name.
+     * 
+     * @param depth the maximum depth to retrieve, -1 for no limit.
+     * @param name the name of the Page asset
+     * @param sitename the name of the site you want the navigation for.
+     * @return NavNode for the Page with the name
+     */
+    public NavNode getSitePlanByPage(final int depth, final String name, String sitename) {
         final AssetAccessTemplate assetTemplate = new AssetAccessTemplate(ics);
-        final AssetId pageid = assetTemplate.findByName(ics, "Page", name);
+        Site site = assetTemplate.readSite(sitename);
+        if (site == null)
+            throw new RuntimeException("Site with name '" + sitename + "' not found.");
+        final AssetId pageid = assetTemplate.findByName(ics, "Page", name, site.getId());
         return getSitePlan(depth, pageid);
     }
 
@@ -456,7 +477,7 @@ public class NavigationHelper {
             wrapper = "GST/Dispatcher";
         }
         return new WraUriBuilder(wra, wrapper).toURI(ics);
-        
+
     }
 
     /**
