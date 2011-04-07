@@ -63,52 +63,52 @@
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>cs</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>xcelerate</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>assetapi</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>assetapi-impl</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>cs-core</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>basic</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>framework</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>assetframework</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>gator</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>MSXML</artifactId>
-            <version>7.5.4</version>
+            <version>7.5.3</version>
         </dependency>
     </dependencies>
     <distributionManagement>

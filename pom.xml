@@ -3,7 +3,7 @@
    <parent>
       <groupId>com.fatwire.gst</groupId>
       <artifactId>gst-parent</artifactId>
-      <version>5</version>
+      <version>7-SNAPSHOT</version>
    </parent>
    <groupId>com.fatwire.gst</groupId>
    <artifactId>gsf-parent</artifactId>
@@ -30,20 +30,20 @@
    </properties>
    <modules>
       <module>gsf-cs-all</module>
-      <module>gsf-facades</module>
       <module>gsf-cs-test</module>
+      <module>gsf-facades</module>
       <module>gsf-wra</module>
-      <module>gsf-taglib</module>
       <module>gsf-tagging</module>
+      <module>gsf-taglib</module>
       <module>gsf-assembly</module>
    </modules>
    <build>
-      <plugins>
+      <plugins><!--
          <plugin>
             <inherited>true</inherited>
             <groupId>com.mycila.maven-license-plugin</groupId>
             <artifactId>maven-license-plugin</artifactId>
-            <version>1.6.0</version>
+            <version>1.9.0</version>
             <configuration>
                <header>http://www.nl.fatwire.com/dta/contrib/gst-foundation/APACHE2-HEADER.txt</header>
                <failIfMissing>true</failIfMissing>
@@ -75,6 +75,7 @@
                </execution>
             </executions>
          </plugin>
+         -->
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
@@ -85,6 +86,15 @@
          </plugin>
       </plugins>
    </build>
+   <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+        </plugins>
+    </reporting>
    <repositories>
       <repository>
          <id>nl.fatwire.com</id>
