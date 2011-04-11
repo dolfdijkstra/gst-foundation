@@ -18,10 +18,8 @@ package com.fatwire.gst.foundation.taglib;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.gst.foundation.tagging.AssetTaggingService;
 import com.fatwire.gst.foundation.tagging.TagUtils;
