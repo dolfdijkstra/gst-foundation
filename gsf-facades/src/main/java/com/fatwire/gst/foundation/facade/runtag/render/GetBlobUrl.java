@@ -56,12 +56,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
  * @author Dolf Dijkstra
  * @since Feb 15, 2011
  */
-/**
- * @author dolf
- *
- */
 public final class GetBlobUrl extends AbstractTagRunner {
-    //private static Log LOG = LogFactory.getLog(GetBlobUrl.class);
 
     public GetBlobUrl() {
         super("RENDER.GETBLOBURL");
