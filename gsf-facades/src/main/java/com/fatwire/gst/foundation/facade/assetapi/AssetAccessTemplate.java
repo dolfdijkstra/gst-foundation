@@ -17,6 +17,7 @@
 package com.fatwire.gst.foundation.facade.assetapi;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -183,6 +184,30 @@ public class AssetAccessTemplate {
     }
 
     /**
+     * Method to read an asset and provide the AssetClosure with the AssetData.
+     * Only the list of lister attributes is retrieved from the asset.
+     * 
+     * @param id
+     * @param closure
+     * @param attributes
+     * @return
+     */
+    public void readAsset(final AssetId id, final AssetClosure closure, final String... attributes) {
+        final AssetDataManager m = getAssetDataManager();
+
+        try {
+            final AssetData asset = m.readAttributes(id, Arrays.asList(attributes));
+            if (asset != null) {
+                if (!closure.work(asset)) {
+                    return;
+                }
+            }
+        } catch (final AssetAccessException e) {
+            throw new RuntimeAssetAccessException(e);
+        }
+    }
+
+    /**
      * Method to read an asset and pass the results to the closure for further
      * handling.
      * 
@@ -195,7 +220,59 @@ public class AssetAccessTemplate {
         try {
             final Iterable<AssetData> assets = m.read(Arrays.asList(id));
             for (final AssetData assetData : assets) {
-                closure.work(assetData);
+                if (!closure.work(assetData)) {
+                    return;
+                }
+
+            }
+        } catch (final AssetAccessException e) {
+            throw new RuntimeAssetAccessException(e);
+        }
+
+    }
+
+    /**
+     * Method to read an asset and pass the results to the closure for further
+     * handling.
+     * 
+     * @param ids a list of AssetIds
+     * @param closure
+     */
+    public void readAsset(final List<AssetId> ids, final AssetClosure closure) {
+        final AssetDataManager m = getAssetDataManager();
+
+        try {
+            final Iterable<AssetData> assets = m.read(ids);
+            for (final AssetData assetData : assets) {
+                if (!closure.work(assetData)) {
+                    return;
+                }
+
+            }
+        } catch (final AssetAccessException e) {
+            throw new RuntimeAssetAccessException(e);
+        }
+
+    }
+
+    /**
+     * Method to read an asset and pass the results to the closure for further
+     * handling.
+     * 
+     * @param ids a list of AssetIds
+     * @param closure
+     */
+    public void readAsset(final Iterable<AssetId> ids, final AssetClosure closure, final String... attributes) {
+        final AssetDataManager m = getAssetDataManager();
+
+        try {
+            for (final AssetId id : ids) {
+                final AssetData asset = m.readAttributes(id, Arrays.asList(attributes));
+                if (asset != null) {
+                    if (!closure.work(asset)) {
+                        return;
+                    }
+                }
 
             }
         } catch (final AssetAccessException e) {
@@ -313,8 +390,11 @@ public class AssetAccessTemplate {
         final AssetDataManager m = getAssetDataManager();
 
         try {
-            for (AssetData asset : m.read(query)) {
-                closure.work(asset);
+            for (final AssetData asset : m.read(query)) {
+                if (!closure.work(asset)) {
+                    return;
+                }
+
             }
         } catch (final AssetAccessException e) {
             throw new RuntimeAssetAccessException(e);
@@ -351,7 +431,7 @@ public class AssetAccessTemplate {
      * @param siteid the Site id.
      * @return the assetid, null if asset is not found.
      */
-    public AssetId findByName(final ICS ics, final String assetType, final String name, long siteid) {
+    public AssetId findByName(final ICS ics, final String assetType, final String name, final long siteid) {
         // TODO: name does not need to be unique, how do we handle this?
         final AssetList tag = new AssetList();
         tag.setType(assetType);
@@ -429,15 +509,58 @@ public class AssetAccessTemplate {
      * @param name the name of the site.
      * @return the Site object.
      */
-    public Site readSite(String name) {
-        SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
+    public Site readSite(final String name) {
+        final SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
         try {
-            List<Site> list = sm.read(Arrays.asList(name));
-            if (list == null || list.isEmpty())
+            final List<Site> list = sm.read(Arrays.asList(name));
+            if (list == null || list.isEmpty()) {
                 return null;
+            }
             return list.get(0);
-        } catch (SiteAccessException e) {
+        } catch (final SiteAccessException e) {
             throw new SiteAccessRuntimeException(e);
         }
+    }
+
+    /**
+     * Reads the associated assets of the asset and returns the AssetIds.
+     * 
+     * @param id
+     * @param associationType
+     * @return the assets from the associations.
+     */
+    public Collection<AssetId> readAssociatedAssetIds(final AssetId id, final String associationType) {
+        final List<AssetId> list = readAsset(id).getAssociatedAssets(associationType);
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return list;
+
+    }
+
+    /**
+     * Reads the associated assets of an asset and returns them as a
+     * ScatteredAsset. This takes care of the asset read operation of the
+     * associated assets. The returned ScatteredAssets are only loaded with the
+     * mentioned attributes.
+     * 
+     * @param id the parent asset
+     * @param associationType the name of the association or '-' for an unnamed
+     *            association
+     * @param closure the AssetClosure to work on.
+     * @param attributes the list of attributes to load
+     * 
+     */
+    public void readAssociatedAssets(final AssetId id, final String associationType, final AssetClosure closure,
+            final String... attributes) {
+        final List<AssetId> list = this.readAsset(id).getAssociatedAssets(associationType);
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+
+        for (final AssetId child : list) {
+            readAsset(child, closure, attributes);
+        }
+
     }
 }

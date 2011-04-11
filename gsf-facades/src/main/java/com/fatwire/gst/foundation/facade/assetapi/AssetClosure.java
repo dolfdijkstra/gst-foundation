@@ -29,6 +29,7 @@ public interface AssetClosure {
      * Perform work based on asset
      * 
      * @param asset asset to work with
+     * @return false if you want to iteration to stop
      */
-    void work(AssetData asset);
+    boolean work(AssetData asset);
 }

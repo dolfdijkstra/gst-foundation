@@ -107,22 +107,6 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
     }
 
     /**
-     * Reads the associated assets of the asset and returns the AssetIds.
-     * 
-     * @param id
-     * @param associationType
-     * @return the assets from the associations.
-     */
-    public Collection<AssetId> readAssociatedAssetIds(final AssetId id, final String associationType) {
-        final List<AssetId> list = this.readAsset(id).getAssociatedAssets(associationType);
-        if (list == null) {
-            return Collections.emptyList();
-        }
-        return list;
-
-    }
-
-    /**
      * Reads the list of associated assets based on the current c and cid cs
      * variables.
      * 
