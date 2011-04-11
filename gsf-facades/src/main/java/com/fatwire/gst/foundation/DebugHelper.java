@@ -107,20 +107,22 @@ public class DebugHelper {
         return human;
 
     }
+
     /**
      * 
-     * Converts an elapsed time in nano seconds to a human readable string with microseconds,
-     * seconds and milliseconds precision on larger elapsed times. Precision is dropped to microseconds precision.
+     * Converts an elapsed time in nano seconds to a human readable string with
+     * microseconds, seconds and milliseconds precision on larger elapsed times.
+     * Precision is dropped to microseconds precision.
      * 
      * @param elapsed the elapsed time in nano seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
     public static String milliToHuman(long elapsed) {
         String human = "(" + elapsed + "ms) ";
-        if (elapsed > 1000*60L) {
-            //final long e = elapsed / 60000;
+        if (elapsed > 1000 * 60L) {
+            // final long e = elapsed / 60000;
             long mins = elapsed / 60000L;
-            long secs = (elapsed - (mins*60000))/1000L;
+            long secs = (elapsed - (mins * 60000)) / 1000L;
             human += Long.toString(mins) + "m " + Long.toString(secs) + "s";
         } else if (elapsed > 1000L) {
             human += Long.toString(elapsed / 1000) + "." + Long.toString(elapsed % 1000) + "ms";
@@ -129,18 +131,18 @@ public class DebugHelper {
         }
         return human;
 
-
     }
+
     /**
      * 
-     * Converts an elapsed time in milli seconds to a human readable string with minutes and 
-     * seconds precision on larger elapsed times.
+     * Converts an elapsed time in milli seconds to a human readable string with
+     * minutes and seconds precision on larger elapsed times.
      * 
      * @param elapsed the elapsed time in nano seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
     public static String nanoToHuman(long elapsed) {
-        return microToHuman(elapsed/1000L);
+        return microToHuman(elapsed / 1000L);
 
     }
 
@@ -327,6 +329,17 @@ public class DebugHelper {
 
         out.flush();
         return sw.toString();
+    }
+
+    /**
+     * Returns the assetid in as a human readable string in the format
+     * of type:id.
+     * 
+     * @param assetId
+     * @return
+     */
+    public static String toString(AssetId assetId) {
+        return assetId.getType() + ":" + assetId.getId();
     }
 
 }
