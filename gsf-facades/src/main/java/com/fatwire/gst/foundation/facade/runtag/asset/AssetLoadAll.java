@@ -21,7 +21,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <ASSET.LOADALL
+ * &gt;ASSET.LOADALL
       TYPE="asset type"
       [LIST="list object name"]
       [IDS="asset IDs"]
@@ -30,7 +30,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
       [INITCOUNT="integer"]
       [DEPTYPE="exact|exists|none"]
       [EDITABLE="true|false"]
-      [OPTION="editable|readonly|readonly_complete"]/>
+      [OPTION="editable|readonly|readonly_complete"]/&lt;
  *
  * @author Tony Field
  * @since 2011-04-07
