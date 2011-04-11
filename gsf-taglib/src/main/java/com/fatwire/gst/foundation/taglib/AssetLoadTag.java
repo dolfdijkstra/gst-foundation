@@ -22,7 +22,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
@@ -44,7 +43,7 @@ public class AssetLoadTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        final ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
+        final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
         final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
         // todo: medium: find in page context if it's there (due to presence of
         // gsf:root
