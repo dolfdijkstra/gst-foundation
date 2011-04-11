@@ -23,7 +23,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 
 /**
- * This class represents a node is a navigation bar.
+ * This class represents a node in a navigation bar.
  * 
  * 
  * @author Dolf Dijkstra
