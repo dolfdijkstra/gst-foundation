@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -42,7 +41,7 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * @author Dolf Dijkstra
  * @since Aug 13, 2010
  */
-public final class AssetTaggedListTag extends SimpleTagSupport {
+public final class AssetTaggedListTag extends GsfSimpleTag {
     private static final long serialVersionUID = 1L;
     private String assettype = null;
     private String assetid = null;
@@ -79,7 +78,7 @@ public final class AssetTaggedListTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
+        final ICS ics = getICS();
         final AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag("asset-" + assetid + ":" + assettype));
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));

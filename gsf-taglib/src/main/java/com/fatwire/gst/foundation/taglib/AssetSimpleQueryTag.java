@@ -19,16 +19,14 @@ package com.fatwire.gst.foundation.taglib;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.JspTags.Root;
 
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 
 import org.apache.commons.lang.StringUtils;
 
-public class AssetSimpleQueryTag extends SimpleTagSupport {
+public class AssetSimpleQueryTag extends GsfSimpleTag {
 
     private String attributes;
     private String list;
@@ -44,7 +42,7 @@ public class AssetSimpleQueryTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        final ICS ics = (ICS) this.getJspContext().getAttribute(Root.sICS);
+        final ICS ics = getICS();
         final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
 
         if (StringUtils.isBlank(attributes)) {

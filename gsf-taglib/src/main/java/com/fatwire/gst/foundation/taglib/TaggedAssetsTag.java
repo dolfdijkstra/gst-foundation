@@ -35,7 +35,7 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * @since Feb 14, 2011
  * @see AssetTaggingService
  */
-public final class TaggedAssetsTag extends SimpleTagSupport {
+public final class TaggedAssetsTag extends GsfSimpleTag {
     private static final long serialVersionUID = 1L;
     private String tag = null;
     private String list = null;
@@ -48,7 +48,7 @@ public final class TaggedAssetsTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        final ICS ics = (ICS) getJspContext().getAttribute(Root.sICS);
+        final ICS ics = getICS();
         final AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         getJspContext().setAttribute(list, svc.lookupTaggedAssets(TagUtils.asTag(tag)));
         super.doTag();

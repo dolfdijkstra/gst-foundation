@@ -19,11 +19,10 @@ package com.fatwire.gst.foundation.taglib.navigation;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.taglib.GsfRootTag;
+import com.fatwire.gst.foundation.taglib.GsfSimpleTag;
 import com.fatwire.gst.foundation.wra.navigation.NavNode;
 import com.fatwire.gst.foundation.wra.navigation.NavigationHelper;
 
@@ -34,7 +33,7 @@ import com.fatwire.gst.foundation.wra.navigation.NavigationHelper;
  * @author Dolf Dijkstra
  * 
  */
-public class NavigationTag extends SimpleTagSupport {
+public class NavigationTag extends GsfSimpleTag {
 
     /**
      * 
@@ -73,7 +72,7 @@ public class NavigationTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
+        final ICS ics = (ICS) getICS();
         final NavigationHelper nh = new NavigationHelper(ics);
 
         final NavNode nav = nh.getSitePlanByPage(depth, pagename);

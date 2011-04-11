@@ -19,7 +19,6 @@ package com.fatwire.gst.foundation.taglib;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -33,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Dolf Dijkstra
  * @since Mar, 2011
  */
-public class AssetChildrenTag extends SimpleTagSupport {
+public class AssetChildrenTag extends GsfSimpleTag {
 
     private String attributes;
     private String list;
@@ -49,7 +48,7 @@ public class AssetChildrenTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
 
-        final ICS ics = (ICS) this.getJspContext().getAttribute(GsfRootTag.ICS_VARIABLE_NAME);
+        final ICS ics = getICS();
         final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
         final AssetId id = (StringUtils.isBlank(c) || cid == 0) ?  t.currentId() : new AssetIdImpl(c, cid);
 
