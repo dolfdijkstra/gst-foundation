@@ -33,7 +33,9 @@ import com.fatwire.gst.foundation.facade.runtag.asset.GetSiteNode;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
- * <SITEPLAN.LISTPAGES NAME="thePubNode" PLACEDLIST="placedPages" LEVEL="1"/>
+ * List pages in the siteplan.
+ * 
+ * &lt;SITEPLAN.LISTPAGES NAME="thePubNode" PLACEDLIST="placedPages" LEVEL="1"/&gt;
  * 
  * @author Tony Field
  * @since Jul 14, 2009
