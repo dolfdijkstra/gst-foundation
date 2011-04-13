@@ -17,6 +17,7 @@
 package com.fatwire.gst.foundation.facade.runtag.render;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.RenderUtils;
+import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
 
 import org.apache.commons.logging.Log;
@@ -55,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
  */
-public class CallTemplate extends TagRunnerWithArguments {
+public class CallTemplate extends AbstractTagRunner {
 
     private static final String ARGS = "ARGS_";
 
@@ -361,6 +363,50 @@ public class CallTemplate extends TagRunnerWithArguments {
      * @param value parameter value
      */
     public void setArgument(final String name, final String value) {
+        super.set(ARGS + name, value);
+    }
+
+    /**
+     * Call template args are prefixed with ARGS_ in order to be available in
+     * the called template
+     * 
+     * @param name parameter name
+     * @param value parameter value
+     */
+    public void setArgument(final String name, final long value) {
+        super.set(ARGS + name, value);
+    }
+
+    /**
+     * Call template args are prefixed with ARGS_ in order to be available in
+     * the called template
+     * 
+     * @param name parameter name
+     * @param value parameter value
+     */
+    public void setArgument(final String name, final Date value) {
+        super.set(ARGS + name, value);
+    }
+
+    /**
+     * Call template args are prefixed with ARGS_ in order to be available in
+     * the called template
+     * 
+     * @param name parameter name
+     * @param value parameter value
+     */
+    public void setArgument(final String name, final int value) {
+        super.set(ARGS + name, value);
+    }
+
+    /**
+     * Call template args are prefixed with ARGS_ in order to be available in
+     * the called template
+     * 
+     * @param name parameter name
+     * @param value parameter value
+     */
+    public void setArgument(final String name, final boolean value) {
         super.set(ARGS + name, value);
     }
 
