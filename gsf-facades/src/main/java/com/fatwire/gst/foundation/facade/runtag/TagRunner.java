@@ -22,7 +22,7 @@ import COM.FutureTense.Interfaces.ICS;
  * Command over ics.runTag.
  * 
  * @author Dolf Dijkstra
- * @see {@link ICS#runTag(String, COM.FutureTense.Interfaces.FTValList)}
+ * @see COM.FutureTense.Interfaces.ICS#runTag(String, COM.FutureTense.Interfaces.FTValList)
  * 
  */
 public interface TagRunner {
@@ -31,7 +31,7 @@ public interface TagRunner {
      * Invokes runTag with the tag name and FTValList populated by the class.
      * 
      * @param ics
-     * @return the returned string from {@link ICS#runTag(String, COM.FutureTense.Interfaces.FTValList)}
+     * @return the returned string from {@link COM.FutureTense.Interfaces.ICS#runTag(String, COM.FutureTense.Interfaces.FTValList)}
      */
     String execute(ICS ics);
 
