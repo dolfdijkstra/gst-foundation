@@ -320,17 +320,16 @@ public class CallTemplate extends AbstractTagRunner {
                 pc = new String[0];
             }
             final Map<String, ?> m = o;
-            // m.keySet().retainAll(Arrays.asList(pc));
             for (final Iterator<?> i = m.entrySet().iterator(); i.hasNext();) {
                 final Entry<String, ?> e = (Entry<String, ?>) i.next();
                 final String key = e.getKey();
-                boolean found = CALLTEMPLATE_EXCLUDE_VARS.contains(key);
+                // only inspect arguments that start with ARGS_
+                boolean found = !key.startsWith(ARGS);
+                if (!found)
+                    found = CALLTEMPLATE_EXCLUDE_VARS.contains(key);
                 if (!found) {
                     for (final String c : pc) {
-                        if (c.equalsIgnoreCase(key)) {
-                            found = true;
-                            break;
-                        } else if ((ARGS + c).equalsIgnoreCase(key)) {
+                        if ((ARGS + c).equalsIgnoreCase(key)) {
                             found = true;
                             break;
                         }
