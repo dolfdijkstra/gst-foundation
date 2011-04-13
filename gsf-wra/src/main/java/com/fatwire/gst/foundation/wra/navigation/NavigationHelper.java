@@ -26,11 +26,13 @@ import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.assetapi.site.Site;
+import com.fatwire.assetapi.site.SiteInfo;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
+import com.fatwire.gst.foundation.facade.assetapi.AssetClosure;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.asset.DateFilterClosure;
 import com.fatwire.gst.foundation.facade.runtag.asset.Children;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
@@ -63,6 +65,8 @@ public class NavigationHelper {
      * ICS context
      */
     protected final ICS ics;
+
+    final AssetAccessTemplate assetTemplate;
     /**
      * Local instance of the WraCoreFieldDao, pre-instantiated and ready to go
      */
@@ -92,6 +96,7 @@ public class NavigationHelper {
         this.wraDao = new WraCoreFieldDao(ics);
         aliasDao = new AliasCoreFieldDao(ics);
         this.assetEffectiveDate = null;
+        assetTemplate = new AssetAccessTemplate(ics);
     }
 
     /**
@@ -163,7 +168,7 @@ public class NavigationHelper {
             throw new IllegalStateException(
                     "site is not a ics variable. This function needs this variable to be aviable and contain the name of the site.");
 
-        return getSitePlanByPage(depth, name, ics.GetVar("site"));
+        return getSitePlanByPage(depth, name, sitename);
     }
 
     /**
@@ -175,8 +180,8 @@ public class NavigationHelper {
      * @return NavNode for the Page with the name
      */
     public NavNode getSitePlanByPage(final int depth, final String name, String sitename) {
-        final AssetAccessTemplate assetTemplate = new AssetAccessTemplate(ics);
-        Site site = assetTemplate.readSite(sitename);
+
+        SiteInfo site = assetTemplate.readSiteInfo(sitename);
         if (site == null)
             throw new RuntimeException("Site with name '" + sitename + "' not found.");
         final AssetId pageid = assetTemplate.findByName(ics, "Page", name, site.getId());
@@ -251,52 +256,49 @@ public class NavigationHelper {
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
         final NavNode node = new NavNode();
         if (isNavigationPlaceholder) {
+            // no link if it's just a placeholder
             node.setPage(pageId);
             node.setLevel(level);
             node.setPagesubtype(subtype);
             node.setPagename(name);
         } else {
-            // no link if it's just a placeholder
-            // retrieve the unnamed association(s)
-            final List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", Long.toString(pageId
-                    .getId()), "-");
-            if (ids.size() < 1) {
-                // tolerate bad data
-                LOG.warn("Page " + pageId.getId()
-                        + " has no unnamed association value so a link cannot be generated for it.  Skipping.");
-            } else {
-                final ArrayList<AssetId> wra = new ArrayList<AssetId>();
-                for (final AssetId id : ids) {
-                    if (isValidOnDate(ics, id, assetEffectiveDate)) {
-                        wra.add(id);
-                    } else if (LOG.isDebugEnabled()) {
-                        LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
-                    }
+            AssetClosure closure = new AssetClosure() {
+                boolean set = false;
 
-                }
-                if (wra.size() < 1) {
-                    LOG.debug("Page " + pageId.getId() + " does not have any valid unnamed associations for date "
-                            + assetEffectiveDate + ", so a link cannot be generated for it.  Skipping.");
-                } else if (wra.size() > 1) {
-                    LOG.warn("Page " + pageId.getId()
-                            + " has more than one unnamed association that is valid for date " + assetEffectiveDate
-                            + ", so no link can be generated for it.  Skipping.");
-                } else {
-                    // NavNode node = new NavNode();
-                    node.setPage(pageId);
-                    node.setLevel(level);
-                    node.setPagesubtype(subtype);
-                    node.setPagename(name);
-                    final AssetId id = wra.get(0);
-                    node.setId(id);
-                    if (isGstAlias(id)) {
-                        decorateAsAlias(id, node);
+                public boolean work(AssetData asset) {
+                    if (set) {
+                        // skipping
+                        node.setId(null);
+                        node.setWra(null);
+                        node.setLinktext(null);
+                        node.setUrl(null);
+                        return false;
                     } else {
-                        decorateAsWra(id, node);
+
+                        set = true;
+                        node.setPage(pageId);
+                        node.setLevel(level);
+                        node.setPagesubtype(subtype);
+                        node.setPagename(name);
+                        final AssetId id = asset.getAssetId();
+                        node.setId(id);
+                        if (isGstAlias(id)) {
+                            decorateAsAlias(id, node);
+                        } else {
+                            decorateAsWra(id, node);
+                        }
+                        return true;
                     }
                 }
 
-            }
+            };
+
+            // retrieve the unnamed association(s) based on date filter
+
+            assetTemplate.readAssociatedAssets(pageId, "-", new DateFilterClosure(ics, assetEffectiveDate, closure),
+                    "startdate", "enddate");
+
+            // oldStyle(pageId, level, subtype, name, node);
         }
 
         if (depth < 0 || depth > level) {
@@ -311,6 +313,47 @@ public class NavigationHelper {
             }
         }
         return node;
+    }
+
+    private void oldStyle(final AssetId pageId, final int level, final String subtype, final String name,
+            final NavNode node) {
+        final List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page",
+                Long.toString(pageId.getId()), "-");
+        if (ids.size() < 1) {
+            // tolerate bad data
+            LOG.warn("Page " + pageId.getId()
+                    + " has no unnamed association value so a link cannot be generated for it.  Skipping.");
+        } else {
+            final ArrayList<AssetId> wra = new ArrayList<AssetId>();
+            for (final AssetId id : ids) {
+                if (isValidOnDate(ics, id, assetEffectiveDate)) {
+                    wra.add(id);
+                } else if (LOG.isDebugEnabled()) {
+                    LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
+                }
+
+            }
+            if (wra.size() < 1) {
+                LOG.debug("Page " + pageId.getId() + " does not have any valid unnamed associations for date "
+                        + assetEffectiveDate + ", so a link cannot be generated for it.  Skipping.");
+            } else if (wra.size() > 1) {
+                LOG.warn("Page " + pageId.getId() + " has more than one unnamed association that is valid for date "
+                        + assetEffectiveDate + ", so no link can be generated for it.  Skipping.");
+            } else {
+                node.setPage(pageId);
+                node.setLevel(level);
+                node.setPagesubtype(subtype);
+                node.setPagename(name);
+                final AssetId id = wra.get(0);
+                node.setId(id);
+                if (isGstAlias(id)) {
+                    decorateAsAlias(id, node);
+                } else {
+                    decorateAsWra(id, node);
+                }
+            }
+
+        }
     }
 
     /**
