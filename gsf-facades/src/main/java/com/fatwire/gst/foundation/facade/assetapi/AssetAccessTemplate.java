@@ -36,6 +36,7 @@ import com.fatwire.assetapi.query.OpTypeEnum;
 import com.fatwire.assetapi.query.Query;
 import com.fatwire.assetapi.query.SimpleQuery;
 import com.fatwire.assetapi.site.Site;
+import com.fatwire.assetapi.site.SiteInfo;
 import com.fatwire.assetapi.site.SiteManager;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.system.Session;
@@ -512,6 +513,7 @@ public class AssetAccessTemplate {
     public Site readSite(final String name) {
         final SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
         try {
+
             final List<Site> list = sm.read(Arrays.asList(name));
             if (list == null || list.isEmpty()) {
                 return null;
@@ -520,6 +522,21 @@ public class AssetAccessTemplate {
         } catch (final SiteAccessException e) {
             throw new SiteAccessRuntimeException(e);
         }
+    }
+
+    public SiteInfo readSiteInfo(final String name) {
+        final SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
+        try {
+
+            for (SiteInfo si:sm.list()){
+                if(name.equals(si.getName())){
+                    return si;
+                }
+            }
+        } catch (final SiteAccessException e) {
+            throw new SiteAccessRuntimeException(e);
+        }
+        throw new SiteAccessRuntimeException("Site "+name +" does not exist in Content Server." );
     }
 
     /**
