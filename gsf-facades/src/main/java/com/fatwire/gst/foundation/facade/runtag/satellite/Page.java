@@ -19,8 +19,8 @@ package com.fatwire.gst.foundation.facade.runtag.satellite;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <satellite.page>
- *
+ * &lt;satellite.page&gt;
+ * 
  * @author Tony Field
  * @since Mar 31, 2011
  */
@@ -32,4 +32,5 @@ public final class Page extends AbstractTagRunner {
     public void setPagename(String s) {
         set("pagename", s);
     }
+
 }
