@@ -16,14 +16,41 @@
 
 package com.fatwire.gst.foundation.facade.runtag.render;
 
+import java.util.Locale;
+
 public class CallElement extends TagRunnerWithArguments {
 
     public static final String SCOPE_GLOBAL = "global";
     public static final String SCOPE_LOCAL = "local";
     public static final String SCOPE_STACKED = "stacked";
 
-    protected CallElement() {
+    public enum Scope {
+        GLOBAL, LOCAL, STACKED;
+        private final String v;
+
+        Scope() {
+            v = name().toLowerCase(Locale.ENGLISH);
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Enum#toString()
+         */
+        @Override
+        public String toString() {
+            return v;
+        }
+
+    }
+
+    public CallElement() {
         super("RENDER.CALLELEMENT");
+    }
+
+    public CallElement(final String element) {
+        super("RENDER.CALLELEMENT");
+        this.setElementName(element);
     }
 
     public void setElementName(final String element) {
@@ -33,4 +60,9 @@ public class CallElement extends TagRunnerWithArguments {
     public void setScope(final String scope) {
         this.set("SCOPE", scope);
     }
+
+    public void setScope(final Scope scope) {
+        this.set("SCOPE", scope.toString());
+    }
+
 }
