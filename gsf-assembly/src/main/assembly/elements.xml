@@ -27,7 +27,7 @@
       <directory>src/main/cs</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
-        <include>*</include>
+        <include>**/*</include>
       </includes>
     </fileSet>
   </fileSets>
