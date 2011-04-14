@@ -17,6 +17,7 @@
 package com.fatwire.gst.foundation.facade.runtag.render;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -59,7 +60,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CallTemplate extends AbstractTagRunner {
 
-    private static final String ARGS = "ARGS_";
+    public static final String ARGS = "ARGS_";
 
     private static Log LOG = LogFactory.getLog(ftMessage.PAGE_CACHE_DEBUG + ".calltemplate");
 
@@ -307,8 +308,8 @@ public class CallTemplate extends AbstractTagRunner {
         }
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("TNAME", "C", "CID", "EID", "SEID",
-            "PACKEDARGS", "VARIANT", "CONTEXT", "SITE", "TID", "rendermode", "ft_ss");
+    protected static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Collections.unmodifiableList(Arrays.asList("TNAME",
+            "C", "CID", "EID", "SEID", "PACKEDARGS", "VARIANT", "CONTEXT", "SITE", "TID", "rendermode", "ft_ss"));
 
     @SuppressWarnings("unchecked")
     private void checkPageCriteria(final ICS ics, final String target) {
@@ -324,29 +325,31 @@ public class CallTemplate extends AbstractTagRunner {
                 final Entry<String, ?> e = (Entry<String, ?>) i.next();
                 final String key = e.getKey();
                 // only inspect arguments that start with ARGS_
-                boolean found = !key.startsWith(ARGS);
-                if (!found)
-                    found = CALLTEMPLATE_EXCLUDE_VARS.contains(key);
-                if (!found) {
-                    for (final String c : pc) {
-                        if ((ARGS + c).equalsIgnoreCase(key)) {
-                            found = true;
-                            break;
+                if (key.startsWith(ARGS)) {
+
+                    String shortKey = key.substring(ARGS.length());
+                    boolean found = CALLTEMPLATE_EXCLUDE_VARS.contains(shortKey);
+                    if (!found) {
+                        for (final String c : pc) {
+                            if (c.equalsIgnoreCase(shortKey)) {
+                                found = true;
+                                break;
+                            }
                         }
                     }
-                }
-                if (!found) {
-                    LOG.error("Argument '" + key + "' not found as PageCriterium on " + target
-                            + ". Calling element is " + ics.ResolveVariables("CS.elementname") + ". Arguments are: "
-                            + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
-                    // we could correct this by calling as an element
-                    // or by removing the argument
-                    if (isFixPageCriteria() || config_FixPageCriteria) {
-                        i.remove();
-                        LOG.warn("Argument '" + key + "' is removed from the call to '" + target
-                                + "' as it is not a PageCriterium.");
-                    }
+                    if (!found) {
+                        LOG.error("Argument '" + key + "' not found as PageCriterium on " + target
+                                + ". Calling element is " + ics.ResolveVariables("CS.elementname")
+                                + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc), new Exception());
+                        // we could correct this by calling as an element
+                        // or by removing the argument
+                        if (isFixPageCriteria() || config_FixPageCriteria) {
+                            i.remove();
+                            LOG.warn("Argument '" + key + "' is removed from the call to '" + target
+                                    + "' as it is not a PageCriterium.");
+                        }
 
+                    }
                 }
             }
 
