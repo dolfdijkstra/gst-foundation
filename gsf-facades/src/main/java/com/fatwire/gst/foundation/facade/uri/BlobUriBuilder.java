@@ -24,14 +24,14 @@ import com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl;
 
 /**
  * Builder support for blob urls.
- * 
+ *
  * <pre>
  * new BlobUriBuilder(blob).mimeType(&quot;image/jpeg&quot;).parent(&quot;12345&quot;).toURI(ics);
  * </pre>
- * 
+ *
  * @author Dolf Dijkstra
  * @since Feb 15, 2011
- * 
+ *
  */
 public class BlobUriBuilder {
 
@@ -51,10 +51,9 @@ public class BlobUriBuilder {
     public BlobUriBuilder(final BlobAddress address) {
 
         tag.setBlobCol(address.getColumnName());
-        tag.setBlobKey(address.getIdentifier().toString());
+        tag.setBlobKey(address.getIdentifierColumnName());
         tag.setBlobTable(address.getTableName());
-        tag.setBlobWhere(address.getIdentifierColumnName());
-    }
+        tag.setBlobWhere(address.getIdentifier().toString());     }
 
     /**
      * @param ics
@@ -62,9 +61,13 @@ public class BlobUriBuilder {
      */
     public String toURI(ICS ics) {
         tag.setOutstr("foo_");
-        tag.execute(ics);
-        String ret = ics.GetVar("foo_");
-        ics.RemoveVar("foo_");
+        String ret;
+        try {
+            tag.execute(ics);
+            ret = ics.GetVar("foo_");
+        } finally {
+            ics.RemoveVar("foo_");
+        }
         return ret;
     }
 
