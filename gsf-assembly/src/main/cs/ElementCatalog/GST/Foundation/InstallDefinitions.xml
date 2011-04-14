@@ -16,7 +16,6 @@
     limitations under the License.
 
 -->
-
 <!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
 <FTCS Version="1.1">
 <!-- GST/Foundation/InstallDefinitions
@@ -99,11 +98,11 @@ Adding GSF Flex Defintions, Page subtypes and GSTAlias named assoc<br/>
 
 
 <ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="env_vwebroot"/>
-<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="2"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="2"/>
 
 
 <ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="master_vwebroot"/>
-<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="3"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="3"/>
 
 
 <LISTOBJECT.TOLIST NAME="myList" LISTVARNAME="FlexTmpls:Attributes"/>
@@ -203,12 +202,6 @@ Adding GSF Flex Defintions, Page subtypes and GSTAlias named assoc<br/>
 
 
 <LISTOBJECT.CREATE NAME="myList" COLUMNS="assetid,required,ordinal"/>
-
-h1title * 	string [S] 	 
-metadescription * 	string [S] 	 
-metakeyword * 	string [S] 	 
-metatitle * 	string [S] 
-
 
 <ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="h1title"/>
 <LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="1"/>

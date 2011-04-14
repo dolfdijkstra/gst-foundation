@@ -16,100 +16,65 @@
     limitations under the License.
 
 -->
-
 <!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
-<!--
-Copyright 2010 FatWire Corporation. All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 <FTCS Version="1.1">
-    <!-- GST/Foundation/Installer
+<!-- GST/Foundation/Installer
 
-    INPUT
+INPUT
 
-    OUTPUT
+OUTPUT
 
-    -->
-    <!-- Record dependencies for the SiteEntry and the CSElement -->
-    <IF COND="IsVariable.seid=true">
-        <THEN>
-            <RENDER.LOGDEP cid="Variables.seid" c="SiteEntry"/>
-        </THEN>
-    </IF>
-    <IF COND="IsVariable.eid=true">
-        <THEN>
-            <RENDER.LOGDEP cid="Variables.eid" c="CSElement"/>
-        </THEN>
-    </IF>
+-->
+<!-- Record dependencies for the SiteEntry and the CSElement -->
+<IF COND="IsVariable.seid=true"><THEN><RENDER.LOGDEP cid="Variables.seid" c="SiteEntry"/></THEN></IF>
+<IF COND="IsVariable.eid=true"><THEN><RENDER.LOGDEP cid="Variables.eid" c="CSElement"/></THEN></IF>
 
-    <if COND="Variables.install=true">
-        <then>
-            <h1>Running installer for the GST Foundation Site.</h1>
-            <PUBLICATION.LOAD NAME="pubtest" FIELD="name" VALUE="GST"/>
-            <!-- Errno after load: <CSVAR NAME="Variables.errno"/><br/ -->
-            <if COND="Variables.errno=-101">
-                <then>
-                    <SETVAR NAME="Publication:name" VALUE="GST"/>
-                    <SETVAR NAME="Publication:description" VALUE="GST site"/>
-                    <SETVAR NAME="Publication:cs_preview" VALUE="Variables.empty"/>
-                    <SETVAR NAME="errno" VALUE="0"/>
-                    <PUBLICATION.CREATE NAME="publication"/>
-                    <PUBLICATION.GATHER NAME="publication" PREFIX="Publication"/>
-                    <PUBLICATION.SAVE NAME="publication"/>
-                    <PUBLICATION.GET NAME="publication" FIELD="id" OUTPUT="pubid"/>
-                    <h2>Created GST site with id:
-                        <CSVAR NAME="Variables.pubid"/>
-                    </h2>
-                    <if COND="IsSessionVariable.pubid=true">
-                        <then>
-                            <SETVAR NAME="oldpubid" VALUE="SessionVariables.pubid"/>
-                        </then>
-                    </if>
-                    <SETSSVAR NAME="pubid" VALUE="Variables.pubid"/>
+<if COND="Variables.install=true"><then>
+  <h1>Running installer for the GST Foundation Site.</h1>
+  <PUBLICATION.LOAD NAME="pubtest" FIELD="name" VALUE="GST"/>
+  <!-- Errno after load: <CSVAR NAME="Variables.errno"/><br/ -->
+  <if COND="Variables.errno=-101">
+  <then>
+    <SETVAR NAME="Publication:name" VALUE="GST"/>
+     <SETVAR NAME="Publication:description" VALUE="GST site"/>
+     <SETVAR NAME="Publication:cs_preview" VALUE="Variables.empty"/>
+     <SETVAR NAME="errno" VALUE="0"/>
+     <PUBLICATION.CREATE NAME="publication"/>
+     <PUBLICATION.GATHER NAME="publication" PREFIX="Publication"/>
+     <PUBLICATION.SAVE NAME="publication"/>
+     <PUBLICATION.GET NAME="publication" FIELD="id" OUTPUT="pubid"/>
+     <h2>Created GST site with id: <CSVAR NAME="Variables.pubid"/></h2>
+     <if COND="IsSessionVariable.pubid=true"><then><SETVAR NAME="oldpubid" VALUE="SessionVariables.pubid"/></then></if>
+     <SETSSVAR NAME="pubid" VALUE="Variables.pubid"/>
 
-                    <h3>Installing tag registry</h3>
-                    <CALLELEMENT NAME="GST/Foundation/TagRegistryInstaller"/>
-                    <h3>Installing url registry</h3>
-                    <CALLELEMENT NAME="GST/Foundation/UrlRegistryInstaller"/>
-                    <h3>Installing flex family</h3>
+<h3>Installing tag registry</h3>
+     <CALLELEMENT NAME="GST/Foundation/TagRegistryInstaller"/>
+     <h3>Installing url registry</h3>
+     <CALLELEMENT NAME="GST/Foundation/UrlRegistryInstaller"/>
+     <h3>Installing flex family</h3>
 
-                    <CALLELEMENT NAME="GST/Foundation/FlexFamilyInstaller"/>
-                    <h3>Installing flex attributes</h3>
-                    <CALLELEMENT NAME="GST/Foundation/InstallAttributes"/>
-                    <h3>Installing flex definitions</h3>
-                    <CALLELEMENT NAME="GST/Foundation/InstallDefinitions"/>
-                    <if COND="IsVariable.oldpubid=true">
-                        <then>
-                            <SETSSVAR NAME="pubid" VALUE="Variables.oldpubid"/>
-                        </then>
-                    </if>
-
-                    <h2>Done</h2>
-                </then>
-                <else>
-                    <h2>To Bad, GST site already exists.</h2>
-                </else>
-            </if>
-        </then>
-        <else>
-            <h1>Install the GST Foundation Site</h1>
-            <p>Site, flex family, attributes ,page subtypes and associations.</p>
-            <form name="input" action="" method="get">
-                <input type="hidden" name="pagename" value="Variables.pagename" REPLACEALL="Variables.pagename"/>
-                <input type="hidden" name="install" value="true"/>
-                <input type="submit" value="Install"/>
-            </form>
-        </else>
+     <CALLELEMENT NAME="GST/Foundation/FlexFamilyInstaller"/>
+     <h3>Installing flex attributes</h3>
+     <CALLELEMENT NAME="GST/Foundation/InstallAttributes"/>
+     <h3>Installing flex definitions</h3>
+     <CALLELEMENT NAME="GST/Foundation/InstallDefinitions"/>
+     <if COND="IsVariable.oldpubid=true"><then><SETSSVAR NAME="pubid" VALUE="Variables.oldpubid"/></then></if>
+     
+     <h2>Done</h2>
+    </then>
+    <else>
+          <h2>To Bad, GST site already exists.</h2>
+    </else>
     </if>
+</then>
+<else>
+<h1>Install the GST Foundation Site</h1>
+<p>Site, flex family, attributes ,page subtypes and associations.</p>
+<form name="input" action="" method="get">
+<input type="hidden" name="pagename" value="Variables.pagename" REPLACEALL="Variables.pagename" />
+<input type="hidden" name="install" value="true" />
+<input type="submit" value="Install" />
+</form> 
+</else>
+</if>
 </FTCS>
