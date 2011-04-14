@@ -3,11 +3,11 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-cs-all</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>FatWire GST: Site Foundation ContentServer jars</name>
     <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-cs-all</url>
@@ -18,9 +18,9 @@
         <url>http://www.fatwire.com</url>
     </organization>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-cs-all</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-cs-all</developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-cs-all</url>
+        <connection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-cs-all</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-cs-all</developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-cs-all</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

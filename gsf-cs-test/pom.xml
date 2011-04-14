@@ -3,12 +3,12 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-cs-test</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.1</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>FatWire GST: ContentServer testing framework</name>
     <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-cs-test</url>
     <inceptionYear>2009</inceptionYear>
@@ -18,15 +18,15 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-cs-test</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-cs-test</developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-cs-test</url>
+        <connection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-cs-test</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-cs-test</developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-cs-test</url>
     </scm>
     <dependencies>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-cs-all</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2-SNAPSHOT</version>
             <type>pom</type>
         </dependency>
         <dependency>
