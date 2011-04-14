@@ -64,9 +64,9 @@ public class BlobUriBuilder {
         parent(data.getAssetId());
     }
 
-
     /**
      * Constructor accepting a BlobObject.
+     * 
      * @param blob
      */
     public BlobUriBuilder(final BlobObject blob) {
@@ -75,6 +75,7 @@ public class BlobUriBuilder {
 
     /**
      * Constructor accepting a BlobAddress.
+     * 
      * @param address
      */
     public BlobUriBuilder(final BlobAddress address) {
@@ -87,9 +88,9 @@ public class BlobUriBuilder {
      */
     private void populateTag(final BlobAddress address) {
         tag.setBlobCol(address.getColumnName());
-        tag.setBlobKey(address.getIdentifier().toString());
+        tag.setBlobKey(address.getIdentifierColumnName());
         tag.setBlobTable(address.getTableName());
-        tag.setBlobWhere(address.getIdentifierColumnName());
+        tag.setBlobWhere(address.getIdentifier().toString());
     }
 
     /**
@@ -98,9 +99,13 @@ public class BlobUriBuilder {
      */
     public String toURI(ICS ics) {
         tag.setOutstr("foo_");
-        tag.execute(ics);
-        String ret = ics.GetVar("foo_");
-        ics.RemoveVar("foo_");
+        String ret;
+        try {
+            tag.execute(ics);
+            ret = ics.GetVar("foo_");
+        } finally {
+            ics.RemoveVar("foo_");
+        }
         return ret;
     }
 
@@ -184,6 +189,7 @@ public class BlobUriBuilder {
         tag.setParentId(s);
         return this;
     }
+
     /**
      * @param assetId
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
