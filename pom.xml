@@ -7,7 +7,7 @@
    </parent>
    <groupId>com.fatwire.gst</groupId>
    <artifactId>gsf-parent</artifactId>
-   <version>1.1</version>
+   <version>1.1.1-SNAPSHOT</version>
    <packaging>pom</packaging>
    <name>FatWire GST: Site Foundation</name>
    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/</url>
@@ -21,9 +21,9 @@
       </developer>
    </developers>
    <scm>
-      <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gsf-parent-1.1</connection>
-      <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.1</developerConnection>
-      <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gsf-parent-1.1</url>
+      <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/branches/1.1.1-branch</connection>
+      <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/branches/1.1.1-branch</developerConnection>
+      <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/branches/1.1.1-branch</url>
    </scm>
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
