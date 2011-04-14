@@ -3,11 +3,11 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>1.1.1</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-taglib</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
     <name>FatWire GST: Site Foundation Taglibs</name>
     <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-taglib</url>
@@ -24,10 +24,10 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-taglib</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-taglib
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-taglib</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-taglib
         </developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/branches/1.1.1-branch/gsf-taglib</url>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gsf-parent-1.1.1/gsf-taglib</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -68,12 +68,12 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-wra</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-tagging</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
+            <version>1.1.1</version>
         </dependency>
     </dependencies>
     <distributionManagement>
