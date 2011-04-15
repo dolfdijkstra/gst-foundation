@@ -30,8 +30,10 @@ import com.fatwire.assetapi.query.SimpleQuery;
 import com.fatwire.assetapi.query.SortOrder;
 
 /**
- * @author Dolf Dijkstra
+ * Builder for a SimpleQuery object.
  * 
+ * @author Dolf Dijkstra
+ * @see SimpleQuery
  */
 
 public class QueryBuilder {
@@ -173,11 +175,11 @@ public class QueryBuilder {
     }
 
     /**
-     * @param sParser
+     * @param parser
      * @see com.fatwire.assetapi.query.QueryProperties#setParser(java.lang.String)
      */
-    public QueryBuilder setParser(String sParser) {
-        props().setParser(sParser);
+    public QueryBuilder setParser(String parser) {
+        props().setParser(parser);
         return this;
     }
 
