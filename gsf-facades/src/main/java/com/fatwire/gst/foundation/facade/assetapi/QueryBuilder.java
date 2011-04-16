@@ -16,6 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.assetapi;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +62,10 @@ public class QueryBuilder {
      * @see com.fatwire.assetapi.query.SimpleQuery#setAttributes(java.util.List)
      */
     public QueryBuilder attribute(String attributeName) {
-        query.getAttributeNames().add(attributeName);
+        List<String> old = new ArrayList<String>();
+        old.addAll(query.getAttributeNames());
+        old.add(attributeName);
+        query.setAttributes(old);
         return this;
     }
 
@@ -70,7 +74,10 @@ public class QueryBuilder {
      * @see com.fatwire.assetapi.query.SimpleQuery#setAttributes(java.util.List)
      */
     public QueryBuilder attributes(String... attributeNames) {
-        query.getAttributeNames().addAll(Arrays.asList(attributeNames));
+        List<String> old = new ArrayList<String>();
+        old.addAll(query.getAttributeNames());
+        old.addAll(Arrays.asList(attributeNames));
+        query.setAttributes(old);
         return this;
 
     }

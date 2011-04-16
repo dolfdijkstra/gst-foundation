@@ -28,6 +28,21 @@ import com.fatwire.assetapi.query.OpTypeEnum;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * Builds up a Condition from a string.
+ * <p/>
+ * Sample query strings are:
+ * <ul>
+ * <li>name='foo'</li>
+ * <li>name = 'foo'</li>
+ * <li>name = foo</li>
+ * <li>name= 'foo bar'</li>
+ * <li>size=[1,2]</li>
+ * <li>size{10,250}</li>
+ * <li>name!='foo'</li>
+ * </ul>
+ * Whitespace is not significant outside single quotes.
+ * 
+ * 
  * @author Dolf Dijkstra
  * @since Mar 29, 2011
  */

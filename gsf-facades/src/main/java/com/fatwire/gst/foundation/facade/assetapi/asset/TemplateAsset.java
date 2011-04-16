@@ -301,4 +301,43 @@ public class TemplateAsset {
         return delegate.getAttributeData(name, meta);
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((delegate == null) ? 0 : delegate.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof TemplateAsset))
+            return false;
+        TemplateAsset other = (TemplateAsset) obj;
+        if (delegate == null) {
+            if (other.delegate != null)
+                return false;
+        } else if (!delegate.equals(other.delegate))
+            return false;
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "TemplateAsset [getAssetId()=" + getAssetId() + "]";
+    }
+
 }

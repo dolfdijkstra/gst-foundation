@@ -528,15 +528,15 @@ public class AssetAccessTemplate {
         final SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
         try {
 
-            for (SiteInfo si:sm.list()){
-                if(name.equals(si.getName())){
+            for (SiteInfo si : sm.list()) {
+                if (name.equals(si.getName())) {
                     return si;
                 }
             }
         } catch (final SiteAccessException e) {
             throw new SiteAccessRuntimeException(e);
         }
-        throw new SiteAccessRuntimeException("Site "+name +" does not exist in Content Server." );
+        throw new SiteAccessRuntimeException("Site " + name + " does not exist in Content Server.");
     }
 
     /**
@@ -580,4 +580,60 @@ public class AssetAccessTemplate {
         }
 
     }
+
+    /**
+     * Queries for a list of objects as mapped by the AssetMapper.
+     * <p/>
+     * Sample queries are:
+     * <ul>
+     * <li>name='foo'</li>
+     * <li>name = 'foo'</li>
+     * <li>name = foo</li>
+     * <li>name= 'foo bar'</li>
+     * <li>size=[1,2]</li>
+     * <li>size{10,250}</li>
+     * <li>name!='foo'</li>
+     * 
+     * 
+     * @param <T>
+     * @param assetType
+     * @param subType
+     * @param query
+     * @param mapper
+     * @param attributes
+     * @return a iterable of assets.
+     * @see AssetAccessTemplate#query(String, String, String, AssetMapper, String...)
+     */
+    public <T> Iterable<T> query(final String assetType, final String subType, final String query,
+            AssetMapper<T> mapper, final String... attributes) {
+        final Query q = new QueryBuilder(assetType, subType).condition(query).attributes(attributes).toQuery();
+        return this.readAssets(q, mapper);
+    }
+
+    /**
+     * Queries for a list of objects as mapped by the AssetMapper.
+     * <p/>
+     * Sample queries are:
+     * <ul>
+     * <li>name='foo'</li>
+     * <li>name = 'foo'</li>
+     * <li>name = foo</li>
+     * <li>name= 'foo bar'</li>
+     * <li>size=[1,2]</li>
+     * <li>size{10,250}</li>
+     * <li>name!='foo'</li>
+     * 
+     * @param <T>
+     * @param assetType
+     * @param subType
+     * @param query
+     * @param mapper
+     * 
+     * @return a iterable of assets.
+     */
+    public <T> Iterable<T> query(final String assetType, final String subType, final String query, AssetMapper<T> mapper) {
+        final Query q = new QueryBuilder(assetType, subType).condition(query).setReadAll(true).toQuery();
+        return this.readAssets(q, mapper);
+    }
+
 }

@@ -28,7 +28,6 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.query.Query;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
-import com.fatwire.gst.foundation.facade.assetapi.QueryBuilder;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -204,8 +203,7 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
      * @return a list of scattered assets.
      */
     public Iterable<ScatteredAsset> query(final String assetType, final String subType, final String query) {
-        final Query q = new QueryBuilder(assetType, subType).condition(query).setReadAll(true).toQuery();
-        return this.readAssets(q, mapper);
+        return query(assetType,subType,query, mapper);
     }
 
     /**
@@ -220,9 +218,8 @@ public class ScatteredAssetAccessTemplate extends AssetAccessTemplate {
      * @return
      */
     public Iterable<ScatteredAsset> query(final String assetType, final String subType, final String query,
-            final String[] attributes) {
-        final Query q = new QueryBuilder(assetType, subType).condition(query).attributes(attributes).toQuery();
-        return this.readAssets(q, mapper);
+            final String... attributes) {
+        return query(assetType,subType,query, mapper,attributes);
     }
 
 }
