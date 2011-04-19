@@ -127,15 +127,10 @@ public class CallTemplate extends AbstractTagRunner {
             final Style newStyle = proposeStyle(ics);
             setStyle(newStyle);
         }
-
+        ics.ClearErrno();
         super.preExecute(ics);
     }
 
-    /*
-     * public String execute(ICS ics) { if (style == Style.pagelet) {LOG.debug(
-     * "Using <render.calltemplate style=\"paglet\">. Invoking workaround to use <satellite.page>"
-     * ); return executePagelet(ics); } else return super.execute(ics); }
-     */
     @Override
     protected void postExecute(ICS ics) {
         site = null;
@@ -340,7 +335,8 @@ public class CallTemplate extends AbstractTagRunner {
                     if (!found) {
                         LOG.error("Argument '" + key + "' not found as PageCriterium on " + target
                                 + ". Calling element is " + ics.ResolveVariables("CS.elementname")
-                                + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc), new Exception());
+                                + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc),
+                                new Exception());
                         // we could correct this by calling as an element
                         // or by removing the argument
                         if (isFixPageCriteria() || config_FixPageCriteria) {
@@ -415,6 +411,9 @@ public class CallTemplate extends AbstractTagRunner {
     protected void handleError(ICS ics) {
 
         int errno = ics.GetErrno();
+        if (errno != -10004) // error checking was too agressive, any error set
+                             // by an element would leak into this handler
+            return;
         FTValList arguments = list;
         ftErrors complexError = ics.getComplexError();
         String pagename = ics.GetVar("pagename");
@@ -424,7 +423,7 @@ public class CallTemplate extends AbstractTagRunner {
         if (elementname != null)
             msg += " and element:" + elementname;
         msg += ".";
-
+        ics.ClearErrno();
         throw new TagRunnerRuntimeException(msg, errno, arguments, complexError, pagename, elementname);
     }
 
