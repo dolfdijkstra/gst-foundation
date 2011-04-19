@@ -30,10 +30,12 @@ import com.fatwire.assetapi.def.AssetTypeDef;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.mda.Dimension;
 
 /**
  * 
- * This class provides easy access to AssetData, to be used in rendering code in read-only mode. It has casting accessors for values of the different
+ * This class provides easy access to AssetData, to be used in rendering code in
+ * read-only mode. It has casting accessors for values of the different
  * attribute types.
  * <p/>
  * It must be noted that naming conflicts between flex attribute names and meta
@@ -152,7 +154,8 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return attribute value as a Integer, can be null; please be careful with autoboxing.
+     * @return attribute value as a Integer, can be null; please be careful with
+     *         autoboxing.
      */
 
     public Integer asInt(final String name) {
@@ -181,7 +184,8 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return attribute value as a Float, can be null; please be careful with autoboxing.
+     * @return attribute value as a Float, can be null; please be careful with
+     *         autoboxing.
      */
     public Float asFloat(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -190,7 +194,8 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return attribute value as a Double, can be null; please be careful with autoboxing.
+     * @return attribute value as a Double, can be null; please be careful with
+     *         autoboxing.
      */
     public Double asDouble(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -199,7 +204,8 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return attribute value as a Long, can be null; please be careful with autoboxing.
+     * @return attribute value as a Long, can be null; please be careful with
+     *         autoboxing.
      */
     public Long asLong(final String name) {
         final AttributeData attr = getMetaFirst(name);
@@ -236,25 +242,28 @@ public class TemplateAsset {
 
     /**
      * Get all the attribute names.
+     * 
      * @return the name of all the attributes of the asset
      * @see com.fatwire.assetapi.data.AssetData#getAttributeNames()
      */
     public List<String> getAttributeNames() {
-        
+
         return delegate.getAttributeNames();
     }
 
     /**
      * Get the type of the attribute.
+     * 
      * @param name
      * @return
      */
-    public AttributeTypeEnum getType(String name){
+    public AttributeTypeEnum getType(String name) {
         return delegate.getAssetTypeDef().getAttributeDef(name, isMetaAttribute(name)).getType();
     }
-    
+
     /**
      * Gets all the names of the meta attributes.
+     * 
      * @return the name of all the attributes of the asset
      * @see com.fatwire.assetapi.data.AssetData#getAttributeNames()
      */
@@ -301,7 +310,16 @@ public class TemplateAsset {
         return delegate.getAttributeData(name, meta);
     }
 
-    /* (non-Javadoc)
+    public Dimension getLocale() {
+        AttributeData dim = getAttributeData("Dimension", true);
+        if (dim == null)
+            return null;
+        return AttributeDataUtils.asDimension(dim);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -312,7 +330,9 @@ public class TemplateAsset {
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -332,7 +352,9 @@ public class TemplateAsset {
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

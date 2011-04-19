@@ -29,6 +29,7 @@ import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeDefProperties;
+import com.fatwire.mda.Dimension;
 
 /**
  * Utility class for processing attribute data. Some of the data conversion
@@ -388,6 +389,30 @@ public final class AttributeDataUtils {
                 throw new IllegalArgumentException("Don't know about " + attr.getType());
 
         }
+
+    }
+
+    /**
+     * Returns the Dimension for the 
+     * 
+     * @param attr the attribute data for the 'Dimension' attribute.
+     * @return the Dimension if found.
+     */
+    public static Dimension asDimension(AttributeData attr) {
+        List<?> o = attr == null ? null : attr.getDataAsList();
+        if (o == null)
+            return null;
+
+        for (final Object o1 : o) {
+            if (o1 instanceof Collection) {
+                for (Object o2 : (Collection<?>) o1) {
+                    if (o2 instanceof Dimension) {
+                        return (Dimension) o2;
+                    }
+                }
+            }
+        }
+        return null;
 
     }
 }
