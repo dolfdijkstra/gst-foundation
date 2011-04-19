@@ -67,7 +67,20 @@ public final class DimensionUtils {
      * @return locale dimension or null
      */
     public static Dimension getLocaleAsDimension(ICS ics, AssetId id) {
-        Collection<Dimension> dims = getDAM(ics).getDimensionsForAsset(id);
+        return getLocaleAsDimension(getDAM(ics), id);
+
+    }
+
+    /**
+     * Return the dimension of the input asset that corresponds to its locale.
+     * If the asset does not have a locale set, returns null
+     * 
+     * @param ics context
+     * @param id asset
+     * @return locale dimension or null
+     */
+    public static Dimension getLocaleAsDimension(DimensionableAssetManager dam, AssetId id) {
+        Collection<Dimension> dims = dam.getDimensionsForAsset(id);
         for (Dimension dim : dims) {
             if ("locale".equalsIgnoreCase(dim.getGroup())) {
                 return dim;
@@ -84,7 +97,32 @@ public final class DimensionUtils {
      * @return dimension id
      */
     public static long getDimensionIdForName(ICS ics, String name) {
-        return getDM(ics).loadDimension(name).getId().getId();
+        AssetId id = getDimensionAssetIdForName(ics, name);
+        return id == null ? null : id.getId();
+    }
+
+    /**
+     * Get the AssetId of the dimension asset for the name specified
+     * 
+     * @param ics context
+     * @param name dimension name, or locale
+     * @return dimension id
+     */
+    public static AssetId getDimensionAssetIdForName(ICS ics, String name) {
+        Dimension dim = getDimensionForName(ics, name);
+        return dim == null ? null : dim.getId();
+    }
+
+    /**
+     * Get the AssetId of the dimension asset for the name specified
+     * 
+     * @param ics context
+     * @param name dimension name, or locale
+     * @return dimension id
+     */
+    public static Dimension getDimensionForName(ICS ics, String name) {
+        return getDM(ics).loadDimension(name);
+
     }
 
     /**

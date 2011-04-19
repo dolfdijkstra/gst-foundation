@@ -30,6 +30,7 @@ import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
+import com.fatwire.gst.foundation.facade.runtag.asset.AssetLoadByName;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.mda.Dimension;
 import com.fatwire.mda.DimensionException;
@@ -140,7 +141,6 @@ public final class LocaleUtils {
         }
         long preferredDimension = Long.valueOf(preferredLocaleDimensionIdString);
 
-        // Generate an ICS object out of "nowhere"
         long dimensionSetId = _locateDimensionSetForSite(ics, site);
 
         return findTranslation(ics, id, preferredDimension, dimensionSetId);
@@ -171,7 +171,6 @@ public final class LocaleUtils {
         }
         long preferredDimension = Long.valueOf(preferredLocaleDimensionIdString);
 
-        // Generate an ICS object out of "nowhere"
         long dimensionSetId = _locateDimensionSetForSite(ics, site);
 
         return findTranslation(ics, id, preferredDimension, dimensionSetId);
@@ -199,9 +198,8 @@ public final class LocaleUtils {
         if (id == null) {
             throw new IllegalArgumentException("Required Asset ID missing");
         }
-        Session ses = SessionFactory.getSession(ics);
-        DimensionableAssetManager mgr = (DimensionableAssetManager) ses.getManager(DimensionableAssetManager.class
-                .getName());
+
+        DimensionableAssetManager mgr = DimensionUtils.getDAM(ics);
 
         if (_isInputAssetDimensionPreferred(mgr, id, preferredDimension)) {
             _log.debug("Input dimension is already in the preferred dimension.  Not invoking dimension set filter.  Asset: "
@@ -216,6 +214,72 @@ public final class LocaleUtils {
         // The core business logic of this helper class is encapsulated in these
         // 3 lines
         DimensionSetInstance dimset = _getDimensionSet(ics, dimensionSetId);
+        return findTranslation(ics, id, preferredDimension, dimset);
+
+    }
+
+    /**
+     * Look up the translation for the asset specified, in the locale specified.
+     * <p/>
+     * If the desired translation is not available, null will be returned.
+     * <p/>
+     * If a dimension set has been configured that returns the asset other than
+     * the preferred locale, that is considered to be fine and not really the
+     * problem of the end user. In other words, a dimension set may dictate that
+     * a "backup" language can be returned to the user.
+     * <p/>
+     * Null, however, is a valid option.
+     * 
+     * @param id id of asset to look up
+     * @param preferredDimension id of locale desired
+     * @param dimensionSetName the name of the dimension set to use to find the
+     *            translation
+     * @return AssetId of translation asset, or null if none is returned by the
+     *         dimension set filter. The id parameters is returned if the asset
+     *         does not have a locale or if the locale is already of the
+     *         preferredDimension
+     */
+    public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, String dimensionSetName) {
+        if (id == null) {
+            throw new IllegalArgumentException("Required Asset ID missing");
+        }
+        Dimension locale = DimensionUtils.getLocaleAsDimension(ics, id);
+
+        if (locale == null) {
+            _log.debug("Asset is not localized.  Not invoking dimension set filter.  Asset: " + id);
+            return id;
+        }
+        if (locale.getId().getId() == preferredDimension) {
+            _log.debug("Input dimension is already in the preferred dimension.  Not invoking dimension set filter.  Asset: "
+                    + id + ", dimension: " + preferredDimension);
+            return id;
+        } else {
+            _log.debug("About to look for translations.  Input asset id: " + id + ", dimension set: "
+                    + dimensionSetName + ", preferred dimension: " + preferredDimension);
+        }
+
+        // *****************************************************************************
+        // The core business logic of this helper class is encapsulated in these
+        // 3 lines
+        DimensionSetInstance dimset = getDimensionSet(ics, dimensionSetName);
+
+        return findTranslation(ics, id, preferredDimension, dimset);
+    }
+
+    /**
+     * @param ics
+     * @param id
+     * @param preferredDimension
+     * @param dimset
+     * @return
+     * @throws IllegalStateException
+     */
+    public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, DimensionSetInstance dimset)
+            throws IllegalStateException {
+        Session ses = SessionFactory.getSession(ics);
+        DimensionableAssetManager mgr = (DimensionableAssetManager) ses.getManager(DimensionableAssetManager.class
+                .getName());
+
         DimensionFilterInstance filter = _getPopulatedDimensionFilter(ses, dimset, preferredDimension);
         // Get the relatives using the appropriate filter
         Collection<AssetId> relatives = mgr.getRelatives(id, filter, "Locale");
@@ -223,13 +287,13 @@ public final class LocaleUtils {
 
         // make the result pretty
         if (relatives == null) {
-            _log.warn("No translation found for asset " + id + " in dimension set " + dimensionSetId
+            _log.warn("No translation found for asset " + id + " in dimension set " + dimset.getId()
                     + " for dimension " + preferredDimension + ".");
             return null;
         } else {
             switch (relatives.size()) {
                 case 0: {
-                    _log.warn("No translation found for " + id + " in dimension set " + dimensionSetId
+                    _log.warn("No translation found for " + id + " in dimension set " + dimset.getId()
                             + " for dimension " + preferredDimension + ".");
                     // Note May 4, 2010 by Tony Field - this had been changed to
                     // return the input ID but that
@@ -260,14 +324,11 @@ public final class LocaleUtils {
 
     private static boolean _isInputAssetDimensionPreferred(DimensionableAssetManager mgr, AssetId id,
             long preferredDimension) {
-        Collection<Dimension> in_dims = mgr.getDimensionsForAsset(id);
-        for (Dimension dim : in_dims) {
-            long in_dim_id = dim.getId().getId();
-            if (preferredDimension == in_dim_id) {
-                return true;
-            }
-        }
-        return false;
+        Dimension dim = DimensionUtils.getLocaleAsDimension(mgr, id);
+        if (dim == null)
+            return true; // if locale not found, tell that the asset is expected
+                         // locale
+        return dim.getId().getId() == preferredDimension;
     }
 
     private static final PreparedStmt FIND_DIMSET_FOR_SITE_PREPAREDSTMT = new PreparedStmt(
@@ -319,12 +380,6 @@ public final class LocaleUtils {
 
     private static DimensionFilterInstance _getPopulatedDimensionFilter(Session ses, DimensionSetInstance dimset,
             long localeDimensionId) {
-        DimensionFilterInstance filter;
-        try {
-            filter = dimset.getFilter();
-        } catch (DimensionException e) {
-            throw new RuntimeException("Could not get Dimension Filter from DimensionSet", e);
-        }
 
         // Set the filter's preferred dimension
         // Equivalent to:
@@ -336,7 +391,19 @@ public final class LocaleUtils {
             throw new RuntimeException("Attempted to load Dimension with id " + localeDimensionId
                     + " but it came back null");
         }
-        filter.setDimensonPreference(Collections.singletonList(thePreferredDimension));
+        return _getPopulatedDimensionFilter(dimset, thePreferredDimension);
+    }
+
+    private static DimensionFilterInstance _getPopulatedDimensionFilter(DimensionSetInstance dimset,
+            Dimension preferredDimension) {
+        DimensionFilterInstance filter;
+        try {
+            filter = dimset.getFilter();
+        } catch (DimensionException e) {
+            throw new RuntimeException("Could not get Dimension Filter from DimensionSet", e);
+        }
+
+        filter.setDimensonPreference(Collections.singletonList(preferredDimension));
         return filter;
     }
 
@@ -369,4 +436,34 @@ public final class LocaleUtils {
         }
         return dimset;
     }
+
+    public static DimensionSetInstance getDimensionSet(ICS ics, String name) {
+        final String DIMSET_OBJ_NAME = "LocaleUtils:findTranslation:theDimensionSet:DimensionSet";
+        ics.SetObj(DIMSET_OBJ_NAME, null);
+        AssetLoadByName a = new AssetLoadByName();
+        a.setAssetType("DimensionSet");
+        a.setAssetName(name);
+        a.setEditable(false);
+        a.setName(DIMSET_OBJ_NAME);
+        a.execute(ics);
+
+        if (ics.GetErrno() < 0) {
+            throw new IllegalStateException("Could not load dimension set.  Errno: " + ics.GetErrno());
+        }
+
+        Object o = ics.GetObj(DIMSET_OBJ_NAME);
+        ics.SetObj(DIMSET_OBJ_NAME, null);
+        if (o == null) {
+            throw new IllegalStateException("Could not load dimension set but we got no errno... unexpected...");
+        }
+
+        DimensionSetInstance dimset;
+        if (o instanceof DimensionSetInstance) {
+            dimset = (DimensionSetInstance) o;
+        } else {
+            throw new IllegalStateException("Loaded an asset that is not a Dimension Set");
+        }
+        return dimset;
+    }
+
 }
