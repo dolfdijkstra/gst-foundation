@@ -18,12 +18,10 @@ package com.fatwire.gst.foundation;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -38,6 +36,9 @@ import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeDefProperties;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
 import com.fatwire.mda.Dimension;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * various helper classes for debugging
@@ -54,12 +55,12 @@ public class DebugHelper {
     private DebugHelper() {
     }
 
-    public static void dumpVars(ICS ics) {
+    public static void dumpVars(final ICS ics) {
         dumpVars(ics, LOG);
     }
 
     @SuppressWarnings("unchecked")
-    public static void dumpVars(ICS ics, Log log) {
+    public static void dumpVars(final ICS ics, final Log log) {
         if (log.isDebugEnabled()) {
             for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements();) {
                 final String n = e.nextElement();
@@ -75,7 +76,7 @@ public class DebugHelper {
      * @param e the exception with nested exceptions (causes)
      * @return the root cause
      */
-    public static Throwable findRootCause(Throwable e) {
+    public static Throwable findRootCause(final Throwable e) {
         Throwable p = e;
         while (p.getCause() != null) {
             p = p.getCause();
@@ -94,7 +95,7 @@ public class DebugHelper {
      * @param elapsed the elapsed time in micro seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
-    public static String microToHuman(long elapsed) {
+    public static String microToHuman(final long elapsed) {
         String human = "(" + elapsed + "us) ";
         if (elapsed > 1000000) {
             final long e = elapsed / 1000;
@@ -117,12 +118,12 @@ public class DebugHelper {
      * @param elapsed the elapsed time in nano seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
-    public static String milliToHuman(long elapsed) {
+    public static String milliToHuman(final long elapsed) {
         String human = "(" + elapsed + "ms) ";
         if (elapsed > 1000 * 60L) {
             // final long e = elapsed / 60000;
-            long mins = elapsed / 60000L;
-            long secs = (elapsed - (mins * 60000)) / 1000L;
+            final long mins = elapsed / 60000L;
+            final long secs = (elapsed - mins * 60000) / 1000L;
             human += Long.toString(mins) + "m " + Long.toString(secs) + "s";
         } else if (elapsed > 1000L) {
             human += Long.toString(elapsed / 1000) + "." + Long.toString(elapsed % 1000) + "ms";
@@ -141,7 +142,7 @@ public class DebugHelper {
      * @param elapsed the elapsed time in nano seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
-    public static String nanoToHuman(long elapsed) {
+    public static String nanoToHuman(final long elapsed) {
         return microToHuman(elapsed / 1000L);
 
     }
@@ -158,7 +159,7 @@ public class DebugHelper {
      * @see DebugHelper#microToHuman(long)
      */
 
-    public static void printTime(final Log log, String msg, long start, long end) {
+    public static void printTime(final Log log, final String msg, final long start, final long end) {
         if (start > 0) {
             final long elapsed = (end - start) / 1000;
             log.debug(msg + " took " + microToHuman(elapsed));
@@ -177,7 +178,7 @@ public class DebugHelper {
      * @see DebugHelper#microToHuman(long)
      */
 
-    public static void printTime(final Log log, String msg, long start) {
+    public static void printTime(final Log log, final String msg, final long start) {
         if (start > 0) {
             printTime(log, msg, start, System.nanoTime());
         }
@@ -194,7 +195,7 @@ public class DebugHelper {
      * @see DebugHelper#microToHuman(long)
      * 
      */
-    public static void printTime(String msg, long start) {
+    public static void printTime(final String msg, final long start) {
         if (start > 0) {
             printTime(LOG_TIME, msg, start);
         }
@@ -208,14 +209,14 @@ public class DebugHelper {
      * @throws AssetAccessException
      */
     @SuppressWarnings("unchecked")
-    public static String printAsset(AssetData ad) throws AssetAccessException {
-        StringWriter sw = new StringWriter();
-        PrintWriter out = new PrintWriter(sw);
+    public static String printAsset(final AssetData ad) throws AssetAccessException {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter out = new PrintWriter(sw);
         out.println(ad.getAssetId() + " " + ad.getAssetTypeDef().getName() + " " + ad.getAssetTypeDef().getSubtype());
 
         out.println("defs --- ");
-        for (AttributeDef def : ad.getAssetTypeDef().getAttributeDefs()) {
-            AttributeDefProperties props = def.getProperties();
+        for (final AttributeDef def : ad.getAssetTypeDef().getAttributeDefs()) {
+            final AttributeDefProperties props = def.getProperties();
             // def.getDescription();
             // def.getName();
             // def.isDataMandatory();
@@ -256,14 +257,15 @@ public class DebugHelper {
         out.println("attribute names --- ");
         out.println("\t" + ad.getAttributeNames());
         out.println("attributes --- ");
-        for (AttributeData attr : ad.getAttributeData()) {
-            AttributeDefProperties props = attr.getAttributeDef().getProperties();
+        for (final AttributeData attr : ad.getAttributeData()) {
+            final AttributeDefProperties props = attr.getAttributeDef().getProperties();
+            // props.getDataMap()
             out.print("\t" + attr.getAttributeName() + " (" + attr.getType() + " ["
                     + attr.getAttributeDef().isMetaDataAttribute() + "/" + props.getValueCount().name() + "]): ");
             if (attr.getType() == AttributeTypeEnum.URL || attr.getType() == AttributeTypeEnum.BLOB) {
-                BlobObject blob = (BlobObject) attr.getData();
+                final BlobObject blob = (BlobObject) attr.getData();
                 if (blob != null) {
-                    BlobAddress addr = blob.getBlobAddress();
+                    final BlobAddress addr = blob.getBlobAddress();
                     out.print(addr.getIdentifier());
                     out.print(" " + addr.getIdentifierColumnName());
                     out.print(" " + addr.getColumnName());
@@ -277,45 +279,51 @@ public class DebugHelper {
 
         }
         out.println("parents --- ");
-        for (AssetId parent : ad.getParents()) {
+        for (final AssetId parent : ad.getParents()) {
             out.println("\t" + parent);
         }
         out.println("associations --- ");
-        for (AssetAssociationDef adef : ad.getAssetTypeDef().getAssociations()) {
-            for (AssetId association : ad.getAssociatedAssets(adef.getName())) {
+        for (final AssetAssociationDef adef : ad.getAssetTypeDef().getAssociations()) {
+            for (final AssetId association : ad.getAssociatedAssets(adef.getName())) {
                 out.println("\t" + adef.getName() + ":" + association);
             }
         }
+        
         out.println("dimension --- ");
-        AttributeData locale = ad.getAttributeData("Dimension");
-        for (Object o2 : locale.getDataAsList()) {
-            if (o2 instanceof Dimension) {
-                Dimension dim2 = (Dimension) o2;
-                out.println("\t" + dim2.getGroup());
-                out.println("\t" + dim2.getName());
-                out.println("\t" + dim2.getId());
+        final AttributeData locale = ad.getAttributeData("Dimension");
+        for (final Object o1 : locale.getDataAsList()) {
+            if (o1 instanceof Collection) { // o1 is probably a Set
+                for (Object o2 : (Collection<?>) o1) {
+                    if (o2 instanceof Dimension) {
+                        final Dimension dim2 = (Dimension) o2;
+                        out.println("\t" + dim2.getGroup());
+                        out.println("\t" + dim2.getName());
+                        out.println("\t" + dim2.getId());
+                    } else {
+                        out.println("\t" + String.valueOf(o2));
+                    }
+                }
             }
-
         }
-        AttributeData mapping = ad.getAttributeData("Mapping");
+        final AttributeData mapping = ad.getAttributeData("Mapping");
 
         if (mapping != null) {
             // AttributeData mappingData = (AttributeData) mapping.getData();
             int i = 0;
-            List<AttributeData> mappingArray = mapping.getDataAsList(); // we
+            final List<AttributeData> mappingArray = mapping.getDataAsList(); // we
             // can
             // use
             // getDataAsList();
-            for (AttributeData s : mappingArray) {
-                List<Map<String, AttributeData>> structList = (List) s.getData(); // we
+            for (final AttributeData s : mappingArray) {
+                final List<Map<String, AttributeData>> structList = (List) s.getData(); // we
                 // can
                 // use
                 // getDataAsList();
-                for (Map<String, AttributeData> m : structList) {
-                    String key = (String) m.get("key").getData();
-                    String type = (String) m.get("type").getData();
-                    String value = (String) m.get("value").getData();
-                    String siteid = (String) m.get("siteid").getData();
+                for (final Map<String, AttributeData> m : structList) {
+                    final String key = (String) m.get("key").getData();
+                    final String type = (String) m.get("type").getData();
+                    final String value = (String) m.get("value").getData();
+                    final String siteid = (String) m.get("siteid").getData();
 
                     out.println("Mapping Entry #" + String.valueOf(i + 1));
                     out.println("Key: " + key);
@@ -332,14 +340,23 @@ public class DebugHelper {
     }
 
     /**
-     * Returns the assetid in as a human readable string in the format
-     * of type:id.
+     * Returns the assetid in as a human readable string in the format of
+     * type:id.
      * 
      * @param assetId
      * @return
      */
-    public static String toString(AssetId assetId) {
+    public static String toString(final AssetId assetId) {
         return assetId.getType() + ":" + assetId.getId();
     }
 
+    public static String toString(final Throwable t) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw);
+        pw.println(t.toString());
+        t.printStackTrace(pw);
+        pw.close();
+        return sw.toString();
+
+    }
 }
