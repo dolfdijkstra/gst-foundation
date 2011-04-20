@@ -64,7 +64,7 @@ public final class AssetIdUtils {
      * @param id
      * @return the assetid as a String in the form of assettype:id.
      */
-    public static String fromString(AssetId id) {
+    public static String toString(AssetId id) {
         if (id == null)
             throw new IllegalArgumentException("Inalid input: " + id);
         return id.getType() + ":" + Long.toString(id.getId());
