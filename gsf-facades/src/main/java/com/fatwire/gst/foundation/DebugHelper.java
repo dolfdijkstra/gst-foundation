@@ -212,56 +212,38 @@ public class DebugHelper {
     public static String printAsset(final AssetData ad) throws AssetAccessException {
         final StringWriter sw = new StringWriter();
         final PrintWriter out = new PrintWriter(sw);
-        out.println(ad.getAssetId() + " " + ad.getAssetTypeDef().getName() + " " + ad.getAssetTypeDef().getSubtype());
+        out.println(ad.getAssetId() + " '" + ad.getAssetTypeDef().getName() + "' '" + ad.getAssetTypeDef().getSubtype()
+                + "'");
 
-        out.println("defs --- ");
+        out.println("defs --- name (type [meta/value count/inherited/derived]");
         for (final AttributeDef def : ad.getAssetTypeDef().getAttributeDefs()) {
             final AttributeDefProperties props = def.getProperties();
-            // def.getDescription();
-            // def.getName();
-            // def.isDataMandatory();
-            // def.getType();
-            // def.isMetaDataAttribute();
-            // props.getMultiple()
-            // props.isDerivedFlexAttribute()
-            // BeanInfo
-            // info=java.beans.Introspector.getBeanInfo(def.getClass());
-            // for (PropertyDescriptor desc:info.getPropertyDescriptors()){
-            // desc.getName()
-            // desc.getReadMethod()
-            // desc.
-            // }
 
             out.println("\t" + def.getName() + " (" + def.getType() + " [" + def.isMetaDataAttribute() + "/"
-                    + props.getValueCount().name() + "/" + props.isInheritedFlexAttribute() + "])");
-            switch (def.getType()) {
-                case ARRAY:
-                case ASSET:
-                case INT:
-                case FLOAT:
-                case STRING:
-                case LONG:
-                case DATE:
-                case MONEY:
-                case LARGE_TEXT:
-                case ASSETREFERENCE:
-                case BLOB:
-                case URL:
-                case STRUCT:
-                case LIST:
-                case ONEOF:
-                    break;
+                    + props.getValueCount().name() + "/" + props.isInheritedFlexAttribute() + "/"
+                    + props.isDerivedFlexAttribute() + "])");
+        }
+        List<AttributeDef> parentDefs = ad.getAssetTypeDef().getParentDefs();
+        if (parentDefs != null) {
+            out.println("parent defs --- name (type [meta/value count/inherited/derived]");
+            for (final AttributeDef def : parentDefs) {
+                final AttributeDefProperties props = def.getProperties();
+
+                out.println("\t" + def.getName() + " (" + def.getType() + " [" + def.isMetaDataAttribute() + "/"
+                        + props.getValueCount().name() + "/" + props.isInheritedFlexAttribute() + "/"
+                        + props.isDerivedFlexAttribute() + "])");
             }
         }
 
         out.println("attribute names --- ");
         out.println("\t" + ad.getAttributeNames());
-        out.println("attributes --- ");
+        out.println("attributes --- name (type [meta/value count/inherited/derived]");
         for (final AttributeData attr : ad.getAttributeData()) {
             final AttributeDefProperties props = attr.getAttributeDef().getProperties();
             // props.getDataMap()
             out.print("\t" + attr.getAttributeName() + " (" + attr.getType() + " ["
-                    + attr.getAttributeDef().isMetaDataAttribute() + "/" + props.getValueCount().name() + "]): ");
+                    + attr.getAttributeDef().isMetaDataAttribute() + "/" + props.getValueCount().name() + "/"
+                    + props.isInheritedFlexAttribute() + "/" + props.isDerivedFlexAttribute() + "]): ");
             if (attr.getType() == AttributeTypeEnum.URL || attr.getType() == AttributeTypeEnum.BLOB) {
                 final BlobObject blob = (BlobObject) attr.getData();
                 if (blob != null) {
@@ -282,43 +264,45 @@ public class DebugHelper {
         for (final AssetId parent : ad.getParents()) {
             out.println("\t" + parent);
         }
+
         out.println("associations --- ");
         for (final AssetAssociationDef adef : ad.getAssetTypeDef().getAssociations()) {
             for (final AssetId association : ad.getAssociatedAssets(adef.getName())) {
                 out.println("\t" + adef.getName() + ":" + association);
             }
         }
-        
-        out.println("dimension --- ");
-        final AttributeData locale = ad.getAttributeData("Dimension");
-        for (final Object o1 : locale.getDataAsList()) {
-            if (o1 instanceof Collection) { // o1 is probably a Set
-                for (Object o2 : (Collection<?>) o1) {
-                    if (o2 instanceof Dimension) {
-                        final Dimension dim2 = (Dimension) o2;
-                        out.println("\t" + dim2.getGroup());
-                        out.println("\t" + dim2.getName());
-                        out.println("\t" + dim2.getId());
-                    } else {
-                        out.println("\t" + String.valueOf(o2));
+
+        out.println("dimension --- group/name/id");
+        try {
+            AttributeData locale = ad.getAttributeData("Dimension");
+            if (locale != null) {
+                for (final Object o1 : locale.getDataAsList()) {
+                    if (o1 instanceof Collection) { // o1 is probably a Set
+                        for (Object o2 : (Collection<?>) o1) {
+                            if (o2 instanceof Dimension) {
+                                final Dimension dim2 = (Dimension) o2;
+                                out.print("\t" + dim2.getGroup());
+                                out.print("/" + dim2.getName());
+                                out.println("/" + dim2.getId());
+                            } else {
+                                out.println("\t" + String.valueOf(o2));
+                            }
+                        }
                     }
                 }
             }
+        } catch (NullPointerException e) {
+            out.println("\tgetting the dimension attribute threw a " + e.getMessage());
+
         }
         final AttributeData mapping = ad.getAttributeData("Mapping");
 
         if (mapping != null) {
-            // AttributeData mappingData = (AttributeData) mapping.getData();
             int i = 0;
-            final List<AttributeData> mappingArray = mapping.getDataAsList(); // we
-            // can
-            // use
-            // getDataAsList();
+            final List<AttributeData> mappingArray = mapping.getDataAsList();
             for (final AttributeData s : mappingArray) {
-                final List<Map<String, AttributeData>> structList = (List) s.getData(); // we
-                // can
-                // use
-                // getDataAsList();
+                @SuppressWarnings("rawtypes")
+                final List<Map<String, AttributeData>> structList = (List) s.getData();
                 for (final Map<String, AttributeData> m : structList) {
                     final String key = (String) m.get("key").getData();
                     final String type = (String) m.get("type").getData();
