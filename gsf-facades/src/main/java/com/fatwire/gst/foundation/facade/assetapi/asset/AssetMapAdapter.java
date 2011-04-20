@@ -30,8 +30,9 @@ import com.fatwire.assetapi.def.AttributeDef;
  * <p/>
  * This class uses lazy-loading, so if used in a View layer, it might open
  * connections to the database.
- * <p/> 
- * In case of naming conflicts with flex attribute names and meta attribute names the meta attributes take precedent. 
+ * <p/>
+ * In case of naming conflicts with flex attribute names and meta attribute
+ * names the meta attributes take precedent.
  * 
  * 
  * @author Dolf.Dijkstra
@@ -46,10 +47,7 @@ public class AssetMapAdapter extends AbstractMap<String, Object> implements Map<
     public AssetMapAdapter(TemplateAsset delegate) {
         super();
         this.delegate = delegate;
-        // the code below is not 100% correct, because there might be attributes
-        // that
-        // are not part of the Definition, but it is unlikely that one of them
-        // is a meta attribute
+        // meta attributes are part of the assettype definition.
         for (AttributeDef d : delegate.getAssetTypeDef().getAttributeDefs()) {
             if (d.isMetaDataAttribute())
                 metaAttributes.add(d.getName());

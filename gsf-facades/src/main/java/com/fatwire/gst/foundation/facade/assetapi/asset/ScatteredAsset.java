@@ -18,16 +18,13 @@ package com.fatwire.gst.foundation.facade.assetapi.asset;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
@@ -35,6 +32,9 @@ import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -55,7 +55,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
  */
 
 public class ScatteredAsset extends AbstractMap<String, Object> implements Serializable {
-    private static final Log log = LogFactory.getLog(ScatteredAsset.class);
+    private static final Log log = LogFactory.getLog(ScatteredAsset.class.getPackage().getName());
 
     /**
 	 * 
@@ -123,7 +123,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                     break;
 
                 case INT: {
-                    Object obj = AttributeDataUtils.asInt(attr);
+                    Integer obj = AttributeDataUtils.asInt(attr);
                     if (obj != null)
                         attrMap.put(name, obj);
                     break;
@@ -137,13 +137,13 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                 }
                 case MONEY:
                 case FLOAT: {
-                    Object obj = AttributeDataUtils.asFloat(attr);
+                    Float obj = AttributeDataUtils.asFloat(attr);
                     if (obj != null)
                         attrMap.put(name, obj);
                     break;
                 }
                 case DATE: {
-                    Object obj = AttributeDataUtils.asDate(attr);
+                    Date obj = AttributeDataUtils.asDate(attr);
                     if (obj != null)
                         attrMap.put(name, obj);
                     break;
@@ -151,7 +151,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
 
                 case ASSET:
                 case ASSETREFERENCE: {
-                    Object obj = AttributeDataUtils.asAssetId(attr);
+                    AssetId obj = AttributeDataUtils.asAssetId(attr);
                     if (obj != null)
                         attrMap.put(name, obj);
                     break;
@@ -159,8 +159,8 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                 case BLOB:
                 case URL: {
                     BlobObject blob = AttributeDataUtils.asBlob(attr);
-                    if (Utilities.goodString(blob.getFilename()))
-                        attrMap.put(name, blob.getBlobAddress());
+                    if (blob != null)
+                        attrMap.put(name, blob);
                     break;
                 }
 
@@ -170,14 +170,13 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                 case ONEOF:
                     Object o = attr.getData();
                     int size = 0;
-                    if (o instanceof List<?>) {
+                    if (o instanceof Collection<?>) {
                         size = ((List<?>) o).size();
-                    } else if (o instanceof Set<?>) {
-                        size = ((Set<?>) o).size();
                     } else if (o instanceof Map<?, ?>) {
                         size = ((Map<?, ?>) o).size();
                     } else {
-                        log.info(name + " " + o.getClass().getName());
+                        log.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
+                                + o.getClass().getName());
                         size = 1;
                     }
                     if (size > 0)
