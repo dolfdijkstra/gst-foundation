@@ -34,7 +34,7 @@ import com.fatwire.gst.foundation.facade.FTValListFacade;
 
 public abstract class AbstractTagRunner extends FTValListFacade implements TagRunner {
 
-    private static final Log LOG = LogFactory.getLog(AbstractTagRunner.class);
+    private static final Log LOG = LogFactory.getLog(AbstractTagRunner.class.getPackage().getName());
 
     private final String tagName;
 
@@ -62,13 +62,12 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
      * <p/>
      * order is
      * <ul>
-     * <li>
-     * bind(ics);
-     * <li>preExecute();
-     * <li>ics.runTag();
-     * <li>postExceute();
+     * <li>bind(ics);</li>
+     * <li>preExecute();</li>
+     * <li>ics.runTag();</li>
+     * <li>postExceute();</li>
      * <li>handleError() if runTag or postExecute set errno to anything else
-     * then zero.
+     * then zero.</li>
      * </ul>
      * 
      * @see com.fatwire.developernet.facade.TagRunner#execute(COM.FutureTense.Interfaces
