@@ -38,7 +38,7 @@ public class GsfRootTag extends BodyTagSupport {
 	 */
     private static final long serialVersionUID = -5369419132504852400L;
 
-    private static final Log log = LogFactory.getLog(GsfRootTag.class);
+    private static final Log LOG = LogFactory.getLog(GsfRootTag.class.getPackage().getName());
 
     /*
      * (non-Javadoc)
@@ -47,7 +47,7 @@ public class GsfRootTag extends BodyTagSupport {
      */
     @Override
     public int doStartTag() throws JspException {
-        log.debug("doStartTag");
+        LOG.debug("doStartTag");
 
         super.doStartTag();
 
