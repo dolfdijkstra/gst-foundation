@@ -48,8 +48,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class DebugHelper {
 
-    public static String TIME_LOGGER = DebugHelper.class.getName() + ".time";
-    private static final Log LOG = LogFactory.getLog(DebugHelper.class);
+    public static String TIME_LOGGER = DebugHelper.class.getPackage().getName() + ".debug.time";
+    private static final Log LOG = LogFactory.getLog(DebugHelper.class.getPackage().getName() + ".debug");
     private static final Log LOG_TIME = LogFactory.getLog(TIME_LOGGER);
 
     private DebugHelper() {
