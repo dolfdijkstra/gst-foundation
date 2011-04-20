@@ -16,14 +16,14 @@
 
 package com.fatwire.gst.foundation.facade.sql;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A helper class over <tt>ICS.SQL</tt>
@@ -33,7 +33,7 @@ import com.fatwire.cs.core.db.StatementParam;
  */
 public class SqlHelper {
 
-    private static final Log log = LogFactory.getLog(SqlHelper.class);
+    private static final Log LOG = LogFactory.getLog(SqlHelper.class.getPackage().getName());
 
     private SqlHelper() {
     }
@@ -117,7 +117,7 @@ public class SqlHelper {
             if (ics.FlushCatalog(table)) {
                 ics.ClearErrno();
             } else {
-                log.warn("Flushing failed for table " + table + ". (" + ics.GetErrno() + ")");
+                LOG.warn("Flushing failed for table " + table + ". (" + ics.GetErrno() + ")");
                 ics.ClearErrno();
             }
         } else if (ics.GetErrno() == -502) { // update statements do not
@@ -127,11 +127,11 @@ public class SqlHelper {
                 ics.ClearErrno();
             } else {
                 // throw exception??
-                log.warn("Flushing failed for table " + table + ". (" + ics.GetErrno() + ")");
+                LOG.warn("Flushing failed for table " + table + ". (" + ics.GetErrno() + ")");
                 ics.ClearErrno();
             }
         } else {
-            log.warn("ics.SQL returned " + ics.GetErrno() + " and errstr: " + errstr.toString() + " for " + sql);
+            LOG.warn("ics.SQL returned " + ics.GetErrno() + " and errstr: " + errstr.toString() + " for " + sql);
         }
     }
 
