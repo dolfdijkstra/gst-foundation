@@ -62,7 +62,7 @@ public class CallTemplate extends AbstractTagRunner {
 
     public static final String ARGS = "ARGS_";
 
-    private static Log LOG = LogFactory.getLog(ftMessage.PAGE_CACHE_DEBUG + ".calltemplate");
+    private static Log LOG = LogFactory.getLog(CallTemplate.class.getPackage().getName());
 
     static private boolean configLoaded = false;
     /**
