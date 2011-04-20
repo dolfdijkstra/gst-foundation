@@ -56,6 +56,7 @@ public final class AssetDataUtils {
 
     /**
      * Read all attributes for the given asset id.
+     * 
      * @param id, must be valid or else an exception is thrown
      * @return asset data, never null.
      */
@@ -66,9 +67,9 @@ public final class AssetDataUtils {
                 return data; // first one wins
             }
         } catch (AssetAccessException e) {
-            throw new CSRuntimeException("Failed to read attribute data: "+e, ftErrors.exceptionerr, e);
+            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
         }
-        throw new CSRuntimeException("Asset not found: "+id, ftErrors.badparams);
+        throw new CSRuntimeException("Asset not found: " + id, ftErrors.badparams);
     }
 
     /**
@@ -83,7 +84,7 @@ public final class AssetDataUtils {
         try {
             return mgr.readAttributes(id, Arrays.asList(attributes));
         } catch (AssetAccessException e) {
-            throw new CSRuntimeException("Failed to read attribute data: "+e, ftErrors.exceptionerr, e);
+            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
         }
     }
 
@@ -96,7 +97,36 @@ public final class AssetDataUtils {
      * @return asset data
      */
     public static AssetData getCurrentAssetData(ICS ics, String... attributes) {
-        return getAssetData(ics.GetVar("c"), ics.GetVar("cid"), attributes);
+        AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.class.getName());
+        try {
+            AssetId id = new AssetIdImpl(ics.GetVar("c"), Long.valueOf(ics.GetVar("cid")));
+            return mgr.readAttributes(id, Arrays.asList(attributes));
+        } catch (AssetAccessException e) {
+            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
+        }
+
+    }
+
+    /**
+     * This is a convenience method to read AssetData for the current c/cid
+     * asset on the ics scope.
+     * 
+     * @param ics
+     * @param attributes
+     * @return asset data
+     */
+    public static AssetData getCurrentAssetData(ICS ics) {
+        AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.class.getName());
+        AssetId id = new AssetIdImpl(ics.GetVar("c"), Long.valueOf(ics.GetVar("cid")));
+        try {
+            for (AssetData data : mgr.read(Collections.singletonList(id))) {
+                return data; // first one wins
+            }
+        } catch (AssetAccessException e) {
+            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
+        }
+        throw new CSRuntimeException("Asset not found: " + id, ftErrors.badparams);
+
     }
 
     /**
@@ -123,4 +153,9 @@ public final class AssetDataUtils {
         }
         return ses;
     }
+
+    private static Session getSession(ICS ics) {
+        return SessionFactory.getSession(ics);
+    }
+
 }
