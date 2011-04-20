@@ -73,6 +73,25 @@ public final class AssetDataUtils {
     }
 
     /**
+     * Read all attributes for the given asset id.
+     * 
+     * @param ics ICS context
+     * @param id, must be valid or else an exception is thrown
+     * @return asset data, never null.
+     */
+    public static AssetData getAssetData(ICS ics, AssetId id) {
+        AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.class.getName());
+        try {
+            for (AssetData data : mgr.read(Collections.singletonList(id))) {
+                return data; // first one wins
+            }
+        } catch (AssetAccessException e) {
+            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
+        }
+        throw new CSRuntimeException("Asset not found: " + id, ftErrors.badparams);
+    }
+
+    /**
      * Return the AssetData for the specified asset
      * 
      * @param id
@@ -81,6 +100,22 @@ public final class AssetDataUtils {
      */
     public static AssetData getAssetData(AssetId id, String... attributes) {
         AssetDataManager mgr = (AssetDataManager) getSession().getManager(AssetDataManager.class.getName());
+        try {
+            return mgr.readAttributes(id, Arrays.asList(attributes));
+        } catch (AssetAccessException e) {
+            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
+        }
+    }
+
+    /**
+     * Return the AssetData for the specified asset
+     * 
+     * @param id
+     * @param attributes
+     * @return asset data
+     */
+    public static AssetData getAssetData(ICS ics, AssetId id, String... attributes) {
+        AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.class.getName());
         try {
             return mgr.readAttributes(id, Arrays.asList(attributes));
         } catch (AssetAccessException e) {
@@ -99,7 +134,7 @@ public final class AssetDataUtils {
     public static AssetData getCurrentAssetData(ICS ics, String... attributes) {
         AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.class.getName());
         try {
-            AssetId id = new AssetIdImpl(ics.GetVar("c"), Long.valueOf(ics.GetVar("cid")));
+            AssetId id = AssetIdUtils.currentId(ics);
             return mgr.readAttributes(id, Arrays.asList(attributes));
         } catch (AssetAccessException e) {
             throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
@@ -117,7 +152,7 @@ public final class AssetDataUtils {
      */
     public static AssetData getCurrentAssetData(ICS ics) {
         AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.class.getName());
-        AssetId id = new AssetIdImpl(ics.GetVar("c"), Long.valueOf(ics.GetVar("cid")));
+        AssetId id = AssetIdUtils.currentId(ics);
         try {
             for (AssetData data : mgr.read(Collections.singletonList(id))) {
                 return data; // first one wins
