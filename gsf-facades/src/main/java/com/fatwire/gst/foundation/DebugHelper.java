@@ -41,7 +41,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * various helper classes for debugging
+ * Various helper classes for debugging.
  * 
  * @author Dolf Dijkstra
  * 
@@ -215,7 +215,7 @@ public class DebugHelper {
         out.println(ad.getAssetId() + " '" + ad.getAssetTypeDef().getName() + "' '" + ad.getAssetTypeDef().getSubtype()
                 + "'");
 
-        out.println("defs --- name (type [meta/value count/inherited/derived]");
+        out.println("defs --- name (type [meta/value count/inherited/derived])");
         for (final AttributeDef def : ad.getAssetTypeDef().getAttributeDefs()) {
             final AttributeDefProperties props = def.getProperties();
 
@@ -225,7 +225,7 @@ public class DebugHelper {
         }
         List<AttributeDef> parentDefs = ad.getAssetTypeDef().getParentDefs();
         if (parentDefs != null) {
-            out.println("parent defs --- name (type [meta/value count/inherited/derived]");
+            out.println("parent defs --- name (type [meta/value count/inherited/derived])");
             for (final AttributeDef def : parentDefs) {
                 final AttributeDefProperties props = def.getProperties();
 
@@ -237,7 +237,7 @@ public class DebugHelper {
 
         out.println("attribute names --- ");
         out.println("\t" + ad.getAttributeNames());
-        out.println("attributes --- name (type [meta/value count/inherited/derived]");
+        out.println("attributes --- name (type [meta/value count/inherited/derived])");
         for (final AttributeData attr : ad.getAttributeData()) {
             final AttributeDefProperties props = attr.getAttributeDef().getProperties();
             // props.getDataMap()
@@ -334,6 +334,12 @@ public class DebugHelper {
         return assetId.getType() + ":" + assetId.getId();
     }
 
+    /**
+     * Creates a String from the Throwable.
+     * 
+     * @param t the throwable to print.
+     * @return a string with the message and the stacktrace.
+     */
     public static String toString(final Throwable t) {
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw);
