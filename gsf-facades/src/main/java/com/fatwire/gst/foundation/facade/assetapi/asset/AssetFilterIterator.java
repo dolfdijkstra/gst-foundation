@@ -21,41 +21,41 @@ import java.util.LinkedList;
 import java.util.List;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetClosure;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import com.openmarket.xcelerate.interfaces.IAsset;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+/**
+ * Iterable that filters a list of assetids based on a future date. It makes use of a DateFilterClosure.
+ * 
+ * @author Dolf.Dijkstra
+ * @since Apr 20, 2011
+ * @see DateFilterClosure
+ */
 public class AssetFilterIterator implements Iterable<AssetId> {
 
     final List<AssetId> list = new LinkedList<AssetId>();
 
     /**
      * @param ics
-     * @param saat
+     * @param aat
      * @param assetIds
      */
-    public AssetFilterIterator(final ICS ics, final AssetAccessTemplate saat, final Iterable<AssetId> assetIds) {
-        this(ics, saat, new Date(), assetIds);
+    public AssetFilterIterator(final ICS ics, final AssetAccessTemplate aat, final Iterable<AssetId> assetIds) {
+        this(ics, aat, new Date(), assetIds);
 
     }
 
     /**
      * @param ics
-     * @param saat
+     * @param aat
      * @param date
      * @param assetIds
      */
 
-    public AssetFilterIterator(final ICS ics, final AssetAccessTemplate saat, Date date,
+    public AssetFilterIterator(final ICS ics, final AssetAccessTemplate aat, final Date date,
             final Iterable<AssetId> assetIds) {
         super();
 
@@ -67,7 +67,7 @@ public class AssetFilterIterator implements Iterable<AssetId> {
         };
         final AssetClosure closure = new DateFilterClosure(ics, date, target);
 
-        saat.readAsset(assetIds, closure, "startdate", "enddate");
+        aat.readAsset(assetIds, closure, "startdate", "enddate");
 
     }
 
@@ -75,4 +75,3 @@ public class AssetFilterIterator implements Iterable<AssetId> {
         return list.iterator();
     }
 }
-
