@@ -16,12 +16,21 @@
 
 package com.fatwire.gst.foundation;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Interfaces.Utilities;
+import COM.FutureTense.Util.IterableIListWrapper;
 
+import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.Util;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Miscellaneous IList Utilities
@@ -83,4 +92,80 @@ public final class IListUtils {
         String s = getStringValue(list, colname);
         return !Utilities.goodString(s) ? null : Util.parseJdbcDate(s);
     }
+
+    private static final ThreadLocal<Long> counter = new ThreadLocal<Long>() {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.ThreadLocal#initialValue()
+         */
+        @Override
+        protected Long initialValue() {
+            return System.currentTimeMillis();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.ThreadLocal#get()
+         */
+        @Override
+        public Long get() {
+            long c = super.get();
+            c++;
+            set(c);
+            return c;
+
+        }
+    };
+
+    /**
+     * Generates a random String to assign to a IList name. It is optimized for
+     * performance.
+     * 
+     * @return String that can be used for an IList name.
+     */
+    public static String generateRandomListName() {
+        return generateRandomListName("rnd-");
+    }
+
+    /**
+     * Generates a random String to assign to a IList name. It is optimized for
+     * performance.
+     * 
+     * @param prefix the prefix to assign to the list name, cannot be empty or
+     *            null.
+     * @return
+     */
+    public static String generateRandomListName(String prefix) {
+        if (StringUtils.isBlank(prefix))
+            throw new IllegalArgumentException("prefix must not be blank.");
+        return prefix + counter.get();
+    }
+
+    /**
+     * Reads an IList with collumns <tt>assettype</tt> and <tt>assetid</tt> and
+     * creates a Collection of AssetId objects.
+     * 
+     * @param result
+     * @return Collection of AssetIds, never null.
+     */
+    public static Collection<AssetId> transformToAssetIds(IList result) {
+        if (result == null || !result.hasData())
+            return Collections.emptyList();
+        final List<AssetId> list = new LinkedList<AssetId>();
+        for (IList row : new IterableIListWrapper(result)) {
+            AssetId id;
+            try {
+                id = AssetIdUtils.createAssetId(row.getValue("assettype"), row.getValue("assetid"));
+                list.add(id);
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+
+        }
+        return list;
+    }
+
 }
