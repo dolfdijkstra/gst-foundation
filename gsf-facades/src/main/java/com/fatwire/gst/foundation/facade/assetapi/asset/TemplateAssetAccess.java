@@ -18,8 +18,6 @@ package com.fatwire.gst.foundation.facade.assetapi.asset;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
-
 /**
  * MappedAssetAccessTemplate for TemplateAssets.
  * 
@@ -29,7 +27,12 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 public class TemplateAssetAccess extends MappedAssetAccessTemplate<TemplateAsset> {
     private static final TemplateAssetMapper m = new TemplateAssetMapper();
 
-    public TemplateAssetAccess(ICS ics, AssetMapper<TemplateAsset> mapper) {
+    /**
+     * Constructor with ICS.
+     * 
+     * @param ics
+     */
+    public TemplateAssetAccess(ICS ics) {
         super(ics, m);
     }
 

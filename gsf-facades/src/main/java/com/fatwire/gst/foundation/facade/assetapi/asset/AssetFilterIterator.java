@@ -20,15 +20,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetClosure;
 
 /**
- * Iterable that filters a list of assetids based on a future date. It makes use of a DateFilterClosure.
+ * Iterable that filters a list of assetids based on a future date. It makes use
+ * of a DateFilterClosure.
  * 
  * @author Dolf.Dijkstra
  * @since Apr 20, 2011
@@ -36,42 +35,45 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetClosure;
  */
 public class AssetFilterIterator implements Iterable<AssetId> {
 
-    final List<AssetId> list = new LinkedList<AssetId>();
+    final Iterable<AssetId> i;
 
     /**
-     * @param ics
      * @param aat
      * @param assetIds
      */
-    public AssetFilterIterator(final ICS ics, final AssetAccessTemplate aat, final Iterable<AssetId> assetIds) {
-        this(ics, aat, new Date(), assetIds);
+    public AssetFilterIterator(final AssetAccessTemplate aat, final Iterable<AssetId> assetIds) {
+        this(aat, new Date(), assetIds);
 
     }
 
     /**
-     * @param ics
      * @param aat
      * @param date
      * @param assetIds
      */
 
-    public AssetFilterIterator(final ICS ics, final AssetAccessTemplate aat, final Date date,
-            final Iterable<AssetId> assetIds) {
+    public AssetFilterIterator(final AssetAccessTemplate aat, final Date date, final Iterable<AssetId> assetIds) {
         super();
 
+        i = date == null ? assetIds : toIterable(aat, date, assetIds);
+    }
+
+    private Iterable<AssetId> toIterable(final AssetAccessTemplate aat, final Date date,
+            final Iterable<AssetId> assetIds) {
+        final List<AssetId> list = new LinkedList<AssetId>();
         final AssetClosure target = new AssetClosure() {
             public boolean work(final AssetData asset) {
                 list.add(asset.getAssetId());
                 return true;
             }
         };
-        final AssetClosure closure = new DateFilterClosure(ics, date, target);
+        final AssetClosure closure = new DateFilterClosure(date, target);
 
         aat.readAsset(assetIds, closure, "startdate", "enddate");
-
+        return list;
     }
 
     public Iterator<AssetId> iterator() {
-        return list.iterator();
+        return i.iterator();
     }
 }

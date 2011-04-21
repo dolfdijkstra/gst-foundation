@@ -17,9 +17,6 @@ package com.fatwire.gst.foundation.facade.assetapi.asset;
 
 import java.util.Date;
 
-import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Util.ftMessage;
-
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.gst.foundation.facade.assetapi.AssetClosure;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
@@ -40,8 +37,6 @@ public class DateFilterClosure implements AssetClosure {
 
     private final AssetClosure target;
 
-    private boolean filter = true;
-
     private static Date parseDate(final String date) {
 
         return StringUtils.isNotBlank(date) ? com.fatwire.cs.core.db.Util.parseJdbcDate(date) : null;
@@ -50,61 +45,29 @@ public class DateFilterClosure implements AssetClosure {
     /**
      * 
      * 
-     * @param ics
      * @param cutoff the cutoff date in the cs date format.
      * @param target
      */
-    public DateFilterClosure(final ICS ics, final String cutoff, final AssetClosure target) {
-        this(ics, parseDate(cutoff), target);
-
-    }
-
-    public DateFilterClosure(final ICS ics, final Date cuttoff, final AssetClosure target) {
-        if (target == null) {
-            throw new IllegalArgumentException("target cannot be null");
-        }
-        this.target = target;
-        this.cutoff = calculateCutOffDate(ics, cuttoff);
+    public DateFilterClosure(final String cutoff, final AssetClosure target) {
+        this(parseDate(cutoff), target);
 
     }
 
     /**
-     * @param ics
      * @param cuttoff
+     * @param target
      */
-    private Date calculateCutOffDate(final ICS ics, final Date cuttoff) {
-        if (ics.LoadProperty("futuretense.ini;futuretense_xcel.ini")) {
-            if (ftMessage.cm.equals(ics.GetProperty(ftMessage.cssitepreview))) {
-                // We disable caching if and ONLY if cs.sitepreview is
-                // contentmanagement. Check for that property in the ini files
-                ics.DisableFragmentCache();
-
-                // Insite Editing is enabled
-                if (null == cuttoff) {
-                    return new Date();
-                } else {
-                    return cuttoff;
-                }
-
-            } else if (ftMessage.disabled.equals(ics.GetProperty(ftMessage.cssitepreview))) {
-                filter = false;
-                return null;
-            } else {
-                return new Date(); // site preview disabled or delivery,
-                // implies production install, use
-                // server date
-            }
-
-        } else {
-            // Cannot read from property file, use server date
-            // TODO: isn't ignoring cutoff a better option when prop can't be
-            // read??
-            return new Date();
+    public DateFilterClosure(final Date cuttoff, final AssetClosure target) {
+        if (target == null) {
+            throw new IllegalArgumentException("target cannot be null");
         }
+        this.target = target;
+        this.cutoff = cuttoff;
+
     }
 
     public boolean work(final AssetData assetData) {
-        if (filter && cutoff != null) {
+        if (cutoff != null) {
             final Date assetStartDate = AttributeDataUtils.asDate(assetData.getAttributeData(IAsset.STARTDATE, true));
             final Date assetEndDate = AttributeDataUtils.asDate(assetData.getAttributeData(IAsset.ENDDATE, true));
             if (LOG.isTraceEnabled())
