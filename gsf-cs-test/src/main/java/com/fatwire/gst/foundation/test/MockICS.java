@@ -208,7 +208,7 @@ public class MockICS implements ICS {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Enumeration GetSSVars() {
 
         return null;
@@ -229,9 +229,8 @@ public class MockICS implements ICS {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public ISyncHash GetSynchronizedHash(String arg0, boolean arg1, int arg2, int arg3, boolean arg4, boolean arg5,
-            Collection arg6) {
+            @SuppressWarnings("rawtypes") Collection arg6) {
 
         return null;
     }
@@ -241,7 +240,7 @@ public class MockICS implements ICS {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes" })
     public Enumeration GetVars() {
 
         return null;
@@ -308,21 +307,21 @@ public class MockICS implements ICS {
 
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, String arg1, String arg2, String arg3, String arg4, String arg5, int arg6,
             boolean arg7, boolean arg8, int arg9, StringBuffer arg10) {
 
         return 0;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, Vector arg1, String arg2, String arg3, String arg4, String arg5, String arg6,
             int arg7, boolean arg8, boolean arg9, int arg10, StringBuffer arg11) {
 
         return 0;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, String arg1, String arg2, String arg3, String arg4, String arg5, int arg6,
             boolean arg7, String arg8, String arg9, String arg10, String arg11, boolean arg12, int arg13,
             StringBuffer arg14) {
@@ -337,7 +336,7 @@ public class MockICS implements ICS {
         return 0;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, Vector arg1, String arg2, String arg3, String arg4, String arg5, String arg6,
             int arg7, boolean arg8, String arg9, String arg10, String arg11, String arg12, boolean arg13, int arg14,
             StringBuffer arg15) {
@@ -649,7 +648,7 @@ public class MockICS implements ICS {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public void decode(String arg0, Map arg1) {
 
     }
@@ -679,7 +678,7 @@ public class MockICS implements ICS {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public String encode(String arg0, Map arg1, boolean arg2) {
 
         return null;
@@ -700,7 +699,7 @@ public class MockICS implements ICS {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public Enumeration getAttributeNames() {
 
         return null;
