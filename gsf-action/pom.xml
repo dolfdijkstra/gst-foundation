@@ -7,10 +7,9 @@
         <version>1.2-SNAPSHOT</version>
     </parent>
     <artifactId>gsf-action</artifactId>
-    <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-   <name>FatWire GST: Site Foundation Actions</name>
-   <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gstf-action</url>
+    <name>FatWire GSF: Actions</name>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gstf-action</url>
     <inceptionYear>2011</inceptionYear>
     <developers>
         <developer>
@@ -20,18 +19,16 @@
             <name>Dolf Dijkstra</name>
         </developer>
     </developers>
+    <scm>
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-action
+        </connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-action
+        </developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-action</url>
+    </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.5</version>
-            </plugin>
-        </plugins>
-    </reporting>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -62,4 +59,10 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>website</id>
+            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-action</url>
+        </site>
+    </distributionManagement>
 </project>

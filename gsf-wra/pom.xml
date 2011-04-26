@@ -5,11 +5,9 @@
         <artifactId>gsf-parent</artifactId>
         <version>1.2-SNAPSHOT</version>
     </parent>
-    <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-wra</artifactId>
-    <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>FatWire GST: Site Foundation Web-Referenceable Asset Support</name>
+    <name>FatWire GSF: Web-Referenceable Asset Support</name>
     <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-wra</url>
     <inceptionYear>2010</inceptionYear>
     <developers>

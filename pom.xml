@@ -3,7 +3,7 @@
    <parent>
       <groupId>com.fatwire.gst</groupId>
       <artifactId>gst-parent</artifactId>
-      <version>7</version>
+      <version>8</version>
    </parent>
    <groupId>com.fatwire.gst</groupId>
    <artifactId>gsf-parent</artifactId>
@@ -34,6 +34,8 @@
       <module>gsf-facades</module>
       <module>gsf-wra</module>
       <module>gsf-tagging</module>
+      <module>gsf-action</module>
+      <module>gsf-groovy</module>
       <module>gsf-taglib</module>
       <module>gsf-assembly</module>
    </modules>

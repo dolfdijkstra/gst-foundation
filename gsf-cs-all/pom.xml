@@ -9,7 +9,7 @@
     <artifactId>gsf-cs-all</artifactId>
     <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>FatWire GST: Site Foundation ContentServer jars</name>
+    <name>FatWire GSF: ContentServer jars</name>
     <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-cs-all</url>
     <description>A pom that contains all the ContentServer jars for a specific version</description>
     <inceptionYear>2010</inceptionYear>
