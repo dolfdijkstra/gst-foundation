@@ -15,11 +15,8 @@
  */
 package com.fatwire.gst.foundation.wra.navigation;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
@@ -33,7 +30,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetClosure;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.asset.DateFilterClosure;
-import com.fatwire.gst.foundation.facade.runtag.asset.Children;
+import com.fatwire.gst.foundation.facade.assetapi.asset.PreviewContext;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
 import com.fatwire.gst.foundation.wra.Alias;
@@ -105,47 +102,6 @@ public class NavigationHelper {
      * site.
      */
     public static final String NAVBAR_NAME = "GSTNavName";
-
-    /**
-     * Get a Map<String,Object> object of the site plan tree containing all the
-     * attributes necessary to create a nav bar. The Map contains the following
-     * keys:
-     * <ul>
-     * <li><code>page</code>: AssetId of page asset</li>
-     * <li><code>pagesubtype</code>: String subtype of page asset</li>
-     * <li><code>pagename</code>: String name of page asset</li>
-     * <li><code>level</code>: int the number of levels down the site plan tree
-     * of the page asset (starting with the pageid you originally pass in =
-     * level 0)</li>
-     * <li><code>id</code>: AssetId of asset associated to the Page in the
-     * unnamed association field. Should be either a WRA or an alias</li>
-     * <li><code>bean</code>: WebReferenceableAsset object containing the field
-     * data of the unnamed associated asset.</li>
-     * <li><code>url</code>: String url for the nav entry</li>
-     * <li><code>linktext</code>: String linktext for the nav entry. Images are
-     * not supported.</li>
-     * <li><code>children</code>: (a List<Map<String,Object>> of the children
-     * (in the site plan tree) of the page, where each Map contains the above
-     * attributes</li>
-     * </ul>
-     * <p/>
-     * Links are not populated for Navigation Placeholders, but it is often very
-     * convenient to pass a navigation placeholder into this function in order
-     * to return all children under a specific placeholder.
-     * <p/>
-     * StartDate and EndDate are checked and invalid pages aren't added. If a
-     * Page asset is not valid, its children are not even examined.
-     * 
-     * @param pageid AssetId of (usually a page) in the site plan tree to start
-     *            with. Typically this would be a nav name. The nav name would
-     *            be included in the output object. Recursion is automatic
-     * @return Map<String,Object> of the site plan tree (see above)
-     * @deprecated replaced by {@link #getSitePlan(String)}.
-     */
-    @Deprecated
-    public Map<String, Object> getSitePlanAsMap(final String pageid) {
-        return getSitePlanAsMap(pageid, 0);
-    }
 
     /**
      * @param name the name of the Page asset
@@ -295,7 +251,8 @@ public class NavigationHelper {
 
             // retrieve the unnamed association(s) based on date filter
 
-            assetTemplate.readAssociatedAssets(pageId, "-", new DateFilterClosure(ics, assetEffectiveDate, closure),
+            assetTemplate.readAssociatedAssets(pageId, "-",
+                    new DateFilterClosure(PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure),
                     "startdate", "enddate");
 
             // oldStyle(pageId, level, subtype, name, node);
@@ -313,137 +270,6 @@ public class NavigationHelper {
             }
         }
         return node;
-    }
-
-    private void oldStyle(final AssetId pageId, final int level, final String subtype, final String name,
-            final NavNode node) {
-        final List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page",
-                Long.toString(pageId.getId()), "-");
-        if (ids.size() < 1) {
-            // tolerate bad data
-            LOG.warn("Page " + pageId.getId()
-                    + " has no unnamed association value so a link cannot be generated for it.  Skipping.");
-        } else {
-            final ArrayList<AssetId> wra = new ArrayList<AssetId>();
-            for (final AssetId id : ids) {
-                if (isValidOnDate(ics, id, assetEffectiveDate)) {
-                    wra.add(id);
-                } else if (LOG.isDebugEnabled()) {
-                    LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
-                }
-
-            }
-            if (wra.size() < 1) {
-                LOG.debug("Page " + pageId.getId() + " does not have any valid unnamed associations for date "
-                        + assetEffectiveDate + ", so a link cannot be generated for it.  Skipping.");
-            } else if (wra.size() > 1) {
-                LOG.warn("Page " + pageId.getId() + " has more than one unnamed association that is valid for date "
-                        + assetEffectiveDate + ", so no link can be generated for it.  Skipping.");
-            } else {
-                node.setPage(pageId);
-                node.setLevel(level);
-                node.setPagesubtype(subtype);
-                node.setPagename(name);
-                final AssetId id = wra.get(0);
-                node.setId(id);
-                if (isGstAlias(id)) {
-                    decorateAsAlias(id, node);
-                } else {
-                    decorateAsWra(id, node);
-                }
-            }
-
-        }
-    }
-
-    /**
-     * 
-     * @param pageid
-     * @param level
-     * @return
-     * @deprecated
-     */
-    @Deprecated
-    private Map<String, Object> getSitePlanAsMap(final String pageid, final int level) {
-        LogDep.logDep(ics, "Page", pageid);
-        // object to hold results
-        final Map<String, Object> result = new HashMap<String, Object>();
-        final AssetId pageId = new AssetIdImpl("Page", Long.parseLong(pageid));
-        if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
-            // the input object is not valid. Abort
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
-            }
-            return result;
-        }
-
-        // determine if it's a wra, a placeholder or an alias
-        final AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
-        final String subtype = pageData.getAttributeData("subtype").getData().toString();
-        final String name = pageData.getAttributeData("name").getData().toString();
-        final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
-
-        if (isNavigationPlaceholder) {
-            result.put("page", pageId);
-            result.put("level", level);
-            result.put("pagesubtype", subtype);
-            result.put("pagename", name);
-        } else {
-            // no link if it's just a placeholder
-            // retrieve the unnamed association(s)
-            final List<AssetId> ids = Children.getOptionalMultivaluedAssociation(ics, "Page", pageid, "-");
-            if (ids.size() < 1) {
-                // tolerate bad data
-                LOG.warn("Page " + pageid
-                        + " has no unnamed association value so a link cannot be generated for it.  Skipping.");
-            } else {
-                final ArrayList<AssetId> wra = new ArrayList<AssetId>();
-                for (final AssetId id : ids) {
-                    if (isValidOnDate(ics, id, assetEffectiveDate)) {
-                        wra.add(id);
-                    } else if (LOG.isDebugEnabled()) {
-                        LOG.debug("Page content " + id + " is not effective on date " + assetEffectiveDate);
-                    }
-
-                }
-                if (wra.size() < 1) {
-                    LOG.debug("Page " + pageid + " does not have any valid unnamed associations for date "
-                            + assetEffectiveDate + ", so a link cannot be generated for it.  Skipping.");
-                } else if (wra.size() > 1) {
-                    LOG.warn("Page " + pageid + " has more than one unnamed association that is valid for date "
-                            + assetEffectiveDate + ", so no link can be generated for it.  Skipping.");
-                } else {
-                    result.put("page", pageId);
-                    result.put("level", level);
-                    result.put("pagesubtype", subtype);
-                    result.put("pagename", name);
-                    final AssetId id = wra.get(0);
-                    result.put("id", id);
-                    if (isGstAlias(id)) {
-                        result.putAll(extractAttrFromAlias(id));
-                    } else {
-                        result.putAll(extractAttrFromWra(id));
-                    }
-                }
-
-            }
-        }
-
-        // get the children in the Site Plan
-        final List<AssetId> childrenIDs = ListPages.getChildPages(ics, Long.parseLong(pageid));
-        final List<Map<String, Object>> navChildren = new ArrayList<Map<String, Object>>();
-        for (final AssetId aid : childrenIDs) {
-            final String childPageID = Long.toString(aid.getId());
-            // note recursing here
-            final Map<String, Object> kidInfo = getSitePlanAsMap(childPageID, level + 1);
-            if (kidInfo.keySet().size() > 0) {
-                navChildren.add(kidInfo);
-            }
-        }
-        if (navChildren.size() > 0) {
-            result.put("children", navChildren);
-        }
-        return result;
     }
 
     /**
@@ -487,23 +313,6 @@ public class NavigationHelper {
     }
 
     /**
-     * Get the linktext for the specified alias asset. If only linkimage is
-     * specified and there is no way to locate the linktext, null is returned.
-     * <p/>
-     * If linktext is specified in the alias, it is returned. If it is not, the
-     * target linktext is returned. If no target is found and linktext is not
-     * specified, null is returned and a warning is issued.
-     * 
-     * @param alias Alias bean
-     * @return linktext or null on failure.
-     * @deprecated See {@link #getLinktext}
-     */
-    @Deprecated
-    protected String getLinktextForAlias(final Alias alias) {
-        return alias.getLinkText();
-    }
-
-    /**
      * Get the URL to use for the web-referenceable asset.
      * 
      * @param wra WebReferenceableAsset bean
@@ -523,105 +332,24 @@ public class NavigationHelper {
 
     }
 
-    /**
-     * Return the linktext to use for the web-referenceable asset
-     * 
-     * @param wra WebReferenceableAsset bean
-     * @return linktext
-     * @deprecated See {@link #getLinktext}
-     */
-    @Deprecated
-    protected String getLinktextForWra(final WebReferenceableAsset wra) {
-        if (wra.getLinkText() != null && wra.getLinkText().length() > 0) {
-            return wra.getLinkText();
-        } else if (wra.getH1Title() != null && wra.getH1Title().length() > 0) {
-            return wra.getH1Title();
-        } else {
-            LOG.warn("Could not retrieve linktext for WRA: " + wra
-                    + " (This is expected if the asset is not a web-referenceable asset).");
-            return null;
-        }
-    }
-
-    /**
-     * Return the linktext for the WRA. Note that aliases extend WRAs.
-     * 
-     * @param wra WebReferenceableAsset or Alias
-     * @return linktext
-     */
-    protected String getLinktext(final WebReferenceableAsset wra) {
-        return wra.getLinkText();
-    }
-
-    /**
-     * Extracts attributes from the provided Alias asset. Separated into its own
-     * method to facilitate overriding this method for custom Alias assets or
-     * adding additional attributes.
-     * 
-     * @param id
-     * @return map containing string-object mappings for use in things like
-     *         placing in page scope
-     * @deprecated
-     */
-    @Deprecated
-    protected Map<String, Object> extractAttrFromAlias(final AssetId id) {
-        final Map<String, Object> result = new HashMap<String, Object>();
-        final Alias alias = aliasDao.getAlias(id);
-        final String url = getUrlForAlias(alias);
-        final String linktext = getLinktextForAlias(alias);
-        result.put("bean", alias);
-        if (url != null) {
-            result.put("url", url);
-        }
-        if (linktext != null) {
-            result.put("linktext", linktext);
-        }
-        return result;
-    }
-
-    /**
-     * Extracts attributes from the provided wra asset. Separated into its own
-     * method to facilitate overriding to add additional attributes.
-     * 
-     * @param id asset
-     * @return map containing string-object mappings for use in things like
-     *         placing in page scope
-     * @deprecated
-     */
-    @Deprecated
-    protected Map<String, Object> extractAttrFromWra(final AssetId id) {
-        final Map<String, Object> result = new HashMap<String, Object>();
-        final WebReferenceableAsset wra = wraDao.getWra(id);
-        final String url = getUrlForWra(wra);
-        final String linktext = getLinktextForWra(wra);
-        result.put("bean", wra);
-        if (url != null) {
-            result.put("url", url);
-        }
-        if (linktext != null) {
-            result.put("linktext", linktext);
-        }
-        return result;
-    }
-
     protected void decorateAsWra(final AssetId id, final NavNode node) {
 
         final WebReferenceableAsset wra = wraDao.getWra(id);
         final String url = getUrlForWra(wra);
-        final String linktext = getLinktextForWra(wra);
+        final String linktext = wra.getLinkText();
         node.setWra(wra);
         if (url != null) {
-            node.setUrl(url);// result.put("url", url);
+            node.setUrl(url);
         }
         if (linktext != null) {
-            node.setLinktext(linktext);// result.put("linktext", linktext);
+            node.setLinktext(linktext);
         }
     }
 
     protected void decorateAsAlias(final AssetId id, final NavNode node) {
         final Alias alias = aliasDao.getAlias(id); // wraUtils.getAlias(id);
         final String url = getUrlForAlias(alias);
-        final String linktext = getLinktextForAlias(alias);
+        final String linktext = alias.getLinkText();
         node.setWra(alias);
         if (url != null) {
             node.setUrl(url);
