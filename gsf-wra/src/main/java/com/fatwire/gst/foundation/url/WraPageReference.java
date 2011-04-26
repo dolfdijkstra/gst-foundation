@@ -86,7 +86,7 @@ public class WraPageReference extends PageRef {
      */
 
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void setParameters(Map args, ICS ics) throws ReferenceException {
 
