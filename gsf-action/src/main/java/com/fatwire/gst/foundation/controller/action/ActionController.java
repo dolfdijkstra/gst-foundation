@@ -24,9 +24,6 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AbstractController;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
 /**
  * Dispatching controller. Relies on actionLocator to dispatch control to
  * Action classes.
