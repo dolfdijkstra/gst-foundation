@@ -40,7 +40,7 @@ public class WraUriBuilder {
      * 
      * @param id
      */
-    private WraUriBuilder(AssetId id) {
+    public WraUriBuilder(AssetId id) {
         this(id, "GST/Dispatcher");
 
     }
