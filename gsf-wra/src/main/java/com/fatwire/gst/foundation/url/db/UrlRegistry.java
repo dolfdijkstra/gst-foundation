@@ -62,7 +62,7 @@ public class UrlRegistry implements WraPathTranslationService {
 
     public UrlRegistry(ICS ics) {
         this.ics = ics;
-        wraDao = new WraCoreFieldDao();
+        wraDao = new WraCoreFieldDao(ics);
         vwDao = new VirtualWebrootDao(ics);
     }
 
