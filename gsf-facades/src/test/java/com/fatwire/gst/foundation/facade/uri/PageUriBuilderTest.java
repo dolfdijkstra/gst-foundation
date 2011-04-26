@@ -43,7 +43,7 @@ public class PageUriBuilderTest extends TestCase {
             }
 
         };
-        String uri = new PageUriBuilder("GST/Wrapper").argument("foo", "bar").toURI(ics);
+        new PageUriBuilder("GST/Wrapper").argument("foo", "bar").toURI(ics);
 
     }
 
