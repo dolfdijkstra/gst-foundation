@@ -31,7 +31,6 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
-import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.cm.AddRow;
@@ -132,12 +131,13 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Attempting to remove asset from tag registry:" + id);
         }
-        SqlHelper.execute(ics, TAGREGISTRY_TABLE, "delete from " + TAGREGISTRY_TABLE + " where assettype = '"
-                + id.getType() + "' and assetid = " + id.getId());
+        SqlHelper.execute(
+                ics,
+                TAGREGISTRY_TABLE,
+                "delete from " + TAGREGISTRY_TABLE + " where assettype = '" + id.getType() + "' and assetid = "
+                        + id.getId());
         if (LOG.isDebugEnabled()) {
-            LOG
-                    .debug("Deleted tagged asset " + id
-                            + " from tag registry (or asset was never there in the first place)");
+            LOG.debug("Deleted tagged asset " + id + " from tag registry (or asset was never there in the first place)");
         }
     }
 
@@ -158,29 +158,6 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             tags.addAll(getTags(id));
         }
         return tags;
-    }
-
-    /**
-     * Retrieve the tags for the tagged asset. This method records a
-     * compositional dependency on both the input asset AND the tags themselves.
-     * 
-     * @param id asset id
-     * @return tagged asset
-     */
-    private TaggedAsset loadTaggedAsset(AssetId id) {
-        LogDep.logDep(ics, id);
-        AssetData data = AssetDataUtils.getAssetData(id, "startdate", "enddate", "gsttag");
-        Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
-        Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
-        TaggedAsset ret = new TaggedAsset(id, startDate, endDate);
-        for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
-            Tag oTag = asTag(tag);
-            recordCacheDependency(oTag);
-            ret.addTag(oTag);
-        }
-        if (LOG.isTraceEnabled())
-            LOG.trace("Loaded tagged asset " + ret);
-        return ret;
     }
 
     private AssetMapper<TaggedAsset> mapper = new AssetMapper<TaggedAsset>() {
@@ -208,7 +185,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
      * @return tagged asset
      */
 
-    private TaggedAsset loadTaggedAssetNew(AssetId id) {
+    private TaggedAsset loadTaggedAsset(AssetId id) {
         LogDep.logDep(ics, id);
         AssetAccessTemplate aat = new AssetAccessTemplate(ics);
         TaggedAsset ret = aat.readAsset(id, mapper, "startdate", "enddate", "gsttag");
@@ -256,8 +233,9 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             }
         } catch (RuntimeException e) {
             if (LOG.isTraceEnabled()) {
-                LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: "
-                        + e.toString(), e);
+                LOG.trace(
+                        "isTagged found that " + id + " is not a tagged asset.  We found an exception: " + e.toString(),
+                        e);
             }
             return false;
         }
