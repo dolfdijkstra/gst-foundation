@@ -30,12 +30,19 @@ public class IncludeElement implements Include {
     private CallElement tag;
     private final ICS ics;
 
+    /**
+     * @param ics
+     * @param elementname
+     */
     public IncludeElement(ICS ics, String elementname) {
         tag = new CallElement(elementname);
         this.ics = ics;
 
     }
 
+    /* (non-Javadoc)
+     * @see com.fatwire.gst.foundation.include.Include#include(COM.FutureTense.Interfaces.ICS)
+     */
     public void include(ICS ics) {
         String s = tag.execute(ics);
         if (s != null)
@@ -43,8 +50,10 @@ public class IncludeElement implements Include {
     }
 
     /**
+     * Adds the name value pair as an argument to the CallElement tag.
      * @param name
      * @param value
+     * @return this
      */
     public IncludeElement argument(String name, String value) {
         tag.setArgument(name, value);
@@ -52,9 +61,10 @@ public class IncludeElement implements Include {
     }
 
     /**
+     * Adds the name value pair as an argument to the CallElement tag.
      * @param name
      * @param value
-     * @return
+     * @return this
      */
     public IncludeElement argument(String name, Date value) {
         tag.set(name, value);
@@ -62,9 +72,10 @@ public class IncludeElement implements Include {
     }
 
     /**
+     * Adds the name value pair as an argument to the CallElement tag.
      * @param name
      * @param value
-     * @return
+     * @return this
      */
     public IncludeElement argument(String name, long value) {
         tag.set(name, value);
@@ -72,9 +83,10 @@ public class IncludeElement implements Include {
     }
 
     /**
+     * Adds the name value pair as an argument to the CallElement tag.
      * @param name
      * @param value
-     * @return
+     * @return this
      */
     public IncludeElement argument(String name, int value) {
         tag.set(name, value);
@@ -82,9 +94,10 @@ public class IncludeElement implements Include {
     }
 
     /**
+     * Adds the name value pair as an argument to the CallElement tag.
      * @param name
      * @param value
-     * @return
+     * @return this
      */
     public IncludeElement argument(String name, boolean value) {
         tag.set(name, value);
@@ -92,15 +105,21 @@ public class IncludeElement implements Include {
     }
 
     /**
+     * Adds the name value pair as an argument to the CallElement tag.
      * @param name
      * @param value
-     * @return
+     * @return this
      */
     public IncludeElement argument(String name, byte[] value) {
         tag.set(name, value);
         return this;
     }
 
+    /**
+     * Copies the ics variables identified by the name array  
+     * @param name
+     * @return this
+     */
     public IncludeElement copyArguments(final String... name) {
         if (name == null) {
             return this;

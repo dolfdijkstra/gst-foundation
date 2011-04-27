@@ -70,7 +70,8 @@ public class IncludeTemplate implements Include {
         }
 
         tag.setAsset(asset);
-        tag.setFixPageCriteria(false); //for some reason the check pagecriteria code in CallTemplate is not working.
+        tag.setFixPageCriteria(false); // for some reason the check pagecriteria
+                                       // code in CallTemplate is not working.
         tag.setSlotname("foo");
         final String target = tname.startsWith("/") ? site + "/" + tname : site + "/" + asset.getType() + "/" + tname;
         final String[] keys = ics.pageCriteriaKeys(target);
@@ -130,6 +131,12 @@ public class IncludeTemplate implements Include {
         return this;
     }
 
+    /**
+     * Copies the ics variables identified by the name array
+     * 
+     * @param name
+     * @return
+     */
     public IncludeTemplate copyArguments(final String... name) {
         if (name == null) {
             return this;
@@ -141,6 +148,7 @@ public class IncludeTemplate implements Include {
     }
 
     /**
+     * Adds packedargs.
      * @param s
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)

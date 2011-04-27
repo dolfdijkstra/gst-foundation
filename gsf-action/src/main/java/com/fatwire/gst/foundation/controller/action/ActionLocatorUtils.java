@@ -41,8 +41,8 @@ public class ActionLocatorUtils {
      * Returns the ActionLocator as configured by spring framework on the
      * WebApplicationContext bean by the name of gsfActionLocator.
      * 
-     * @param servletContext
-     * @return the ActionLocator is confifured via the servletContext
+     * @param servletContext the servlet context.
+     * @return the ActionLocator that is configured via the servletContext.
      */
     public static ActionLocator getActionLocator(final ServletContext servletContext) {
 

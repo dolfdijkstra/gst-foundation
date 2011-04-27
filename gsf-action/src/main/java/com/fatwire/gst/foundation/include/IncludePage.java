@@ -31,6 +31,8 @@ import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * Class that calls render:contentserver or render:satellitepage based on style.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
@@ -47,10 +49,19 @@ public class IncludePage implements Include {
     private List<String> pc;
     private final ICS ics;
 
+    /**
+     * @param ics
+     * @param pagename
+     */
     public IncludePage(ICS ics, String pagename) {
         this(ics, pagename, Style.embedded);
     }
 
+    /**
+     * @param ics
+     * @param pagename
+     * @param style
+     */
     public IncludePage(ICS ics, String pagename, Style style) {
         this.ics = ics;
         this.style = style;
@@ -62,6 +73,13 @@ public class IncludePage implements Include {
         pc = Arrays.asList(keys);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.fatwire.gst.foundation.include.Include#include(COM.FutureTense.Interfaces
+     * .ICS)
+     */
     public void include(ICS ics) {
         switch (style) {
             case embedded: {
@@ -115,6 +133,8 @@ public class IncludePage implements Include {
     }
 
     /**
+     * Adds packedargs.
+     * 
      * @param s
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)
@@ -124,6 +144,12 @@ public class IncludePage implements Include {
         return this;
     }
 
+    /**
+     * Copies the ics variables identified by the name array
+     * 
+     * @param name
+     * @return this
+     */
     public IncludePage copyArguments(final String... name) {
         if (name == null) {
             return this;
@@ -134,4 +160,26 @@ public class IncludePage implements Include {
         return this;
     }
 
+    public IncludePage style(final Style s) {
+        style = s;
+        return this;
+    }
+
+    /**
+     * Sets Style to embedded
+     * 
+     * @return this
+     */
+    public IncludePage embedded() {
+        return style(Style.embedded);
+    }
+
+    /**
+     * Sets Style to pagelet
+     * 
+     * @return this
+     */
+    public IncludePage pagelet() {
+        return style(Style.pagelet);
+    }
 }
