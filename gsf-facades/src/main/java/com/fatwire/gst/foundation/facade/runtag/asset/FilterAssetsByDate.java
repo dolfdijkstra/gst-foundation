@@ -19,6 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag.asset;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -95,21 +96,31 @@ public final class FilterAssetsByDate {
     }
 
     /**
-     * Filter a single asset, checking to see if it's valid on the given date.
-     * If no date is specified, then the date used is the one used by the
+     * Filter a array of asset, checking to see if they're valid on the given
+     * date. If no date is specified, then the date used is the one used by the
      * FilterAssetsByDate tag when no parameter is specified
      * 
      * @param ics context
      * @param date override date
      * @param id array of assetids
-     * @return true if the asset is valid, false otherwise.
+     * @return the array of asset filtered for the date.
      */
     public static AssetId[] filter(ICS ics, Date date, AssetId... id) {
-        List<AssetId> ret = filter(ics, date, Arrays.asList(id));
+        Collection<AssetId> ret = filter(ics, date, Arrays.asList(id));
         return ret.toArray(new AssetId[ret.size()]);
     }
 
-    public static List<AssetId> filter(ICS ics, Date date, List<AssetId> list) {
+    /**
+     * Filter a collection of assets, checking to see if they're valid on the
+     * given date. If no date is specified, then the date used is the one used
+     * by the FilterAssetsByDate tag when no parameter is specified
+     * 
+     * @param ics ics context
+     * @param date override date
+     * @param list Collection of assetids.
+     * @return the Collection of asset filtered for the date.
+     */
+    public static Collection<AssetId> filter(ICS ics, Date date, Collection<AssetId> list) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Checking to see if asset " + list + " is valid on "
                     + (date == null ? "the site preview date, (assuming site preview is enabled)." : date));
