@@ -45,7 +45,7 @@ public class GroovyLoader extends WebApplicationObjectSupport {
     private GroovyScriptEngine gse;
     private File scriptPath;
     private String configPath = "/WEB-INF/gsf-groovy";
-    private int time = 0;
+    private int minimumRecompilationInterval = 0;
 
     /*
      * (non-Javadoc)
@@ -70,7 +70,7 @@ public class GroovyLoader extends WebApplicationObjectSupport {
             paths = new URL[] { u.toURL() };
             gse = new GroovyScriptEngine(paths, Thread.currentThread().getContextClassLoader());
             gse.getConfig().setRecompileGroovySource(true);
-            gse.getConfig().setMinimumRecompilationInterval(time);
+            gse.getConfig().setMinimumRecompilationInterval(minimumRecompilationInterval);
         } catch (MalformedURLException e) {
             throw new IllegalStateException("The realPath " + scriptPath + " can't be made into a URL. "
                     + e.getMessage(), e);
@@ -88,7 +88,8 @@ public class GroovyLoader extends WebApplicationObjectSupport {
         try {
             c = gse.loadScriptByName(toScriptName(name));
         } catch (Exception e) {
-            logger.warn("GroovyScriptEngine was not able to load " + name + " as a script: " + e.getMessage());
+            logger.debug("GroovyScriptEngine was not able to load " + name + " as a script: " + e.getMessage()
+                    + ". Now trying as a class.");
             c = gse.getGroovyClassLoader().loadClass(name);
         }
 
@@ -152,6 +153,24 @@ public class GroovyLoader extends WebApplicationObjectSupport {
      */
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
+    }
+
+    /**
+     * @return the minimumRecompilationInterval
+     */
+    public int getMinimumRecompilationInterval() {
+        return minimumRecompilationInterval;
+    }
+
+    /**
+     * Sets the minimumRecompilationInterval of the GroovyScriptEngine
+     * configuration.
+     * 
+     * @param minimumRecompilationInterval the minimumRecompilationInterval to
+     *            set
+     */
+    public void setMinimumRecompilationInterval(int minimumRecompilationInterval) {
+        this.minimumRecompilationInterval = minimumRecompilationInterval;
     }
 
 }
