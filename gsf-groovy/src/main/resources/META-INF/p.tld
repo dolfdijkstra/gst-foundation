@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
 
     Copyright 2011 FatWire Corporation. All Rights Reserved.
@@ -16,51 +16,48 @@
     limitations under the License.
 
 -->
-<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+<taglib xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     version="2.0">
-    <tlib-version>1.2</tlib-version>
-    <short-name>p</short-name>
-    <display-name>GST Site Foundation Pages Taglib</display-name>
-    <uri>http://gst.fatwire.com/foundation/tags/p</uri>
-
     <description>
         usage: &lt;%@ taglib
         uri="http://gst.fatwire.com/foundation/tags/p"
         prefix="p" %&gt;
     </description>
+    <display-name>GST Site Foundation Pages Taglib</display-name>
+    <tlib-version>1.2</tlib-version>
+    <short-name>p</short-name>
+    <uri>http://gst.fatwire.com/foundation/tags/p</uri>
     <tag>
+        <description>This tag executes a model at the start of the template. It is a replacement for the gsf:root tag. This tag should be placed immediately inside the cs:ftcs tag &lt;cs:ftcs&gt;p:page&gt; jsp code &lt;p:page&gt;&lt;cs:ftcs&gt;.</description>
         <name>page</name>
         <tag-class>com.fatwire.gst.foundation.include.PageTag</tag-class>
         <tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
         <body-content>JSP</body-content>
-        <description>This tag executes a model at the start of the template. It is a replacement for the gsf:root tag. This tag should be placed immediately inside the cs:ftcs tag &lt;cs:ftcs&gt;p:page&gt; jsp code &lt;p:page&gt;&lt;cs:ftcs&gt;</description>
         <attribute>
+            <description>the name of the action</description>
             <name>action</name>
             <required>false</required>
             <rtexprvalue>false</rtexprvalue>
-            <description>the name of the action</description>
         </attribute>
         
     </tag>
     <tag>
+        <description>This tag is used to include a template,element or page.</description>
         <name>include</name>
         <tag-class>com.fatwire.gst.foundation.include.IncludeTag</tag-class>
         <body-content>empty</body-content>
-        <description>This tag is used to include a template,element or page</description>
         <attribute>
+            <description>the name of include to call</description>
             <name>name</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
-            <description>the name of include to call</description>
         </attribute>
         <attribute>
+            <description>Indicated the desired behaviour if a include block can not be found. If true ignore that state silently.</description>
             <name>name</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
-            <description>Indicated the desired behaviour if a include block can not be found. If true ignore that state silently.</description>
         </attribute>
-
     </tag>
-
 </taglib>
