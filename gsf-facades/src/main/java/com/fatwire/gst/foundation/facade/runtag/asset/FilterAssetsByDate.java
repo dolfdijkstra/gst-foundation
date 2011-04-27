@@ -17,16 +17,20 @@
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
 import java.text.ParseException;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
-import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
+import com.fatwire.gst.foundation.facade.sql.IListIterable;
+import com.fatwire.gst.foundation.facade.sql.Row;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
@@ -50,7 +54,9 @@ public final class FilterAssetsByDate {
     private static final Log LOG = LogFactory.getLog(FilterAssetsByDate.class);
 
     private static String[] jdbcDateFormatStrings = { "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS" };
-    //private static Format jdbcDateFormat = FastDateFormat.getInstance(jdbcDateFormatStrings[0]);
+
+    // private static Format jdbcDateFormat =
+    // FastDateFormat.getInstance(jdbcDateFormatStrings[0]);
 
     /**
      * Filter a single asset, checking to see if it's valid on the given date.
@@ -63,21 +69,62 @@ public final class FilterAssetsByDate {
      * @return true if the asset is valid, false otherwise.
      */
     public static boolean isValidOnDate(ICS ics, AssetId id, Date date) {
+
+        AssetId[] out = filter(ics, date, id);
+
+        if (out == null)
+            throw new IllegalStateException("Tag executed successfully but no outlist was returned");
+        if (out.length == 0) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Asset " + id + " is not valid on the effective date.");
+            }
+            return false; // no matches
+        }
+        String c = out[0].getType();
+        if (!id.getType().equals(c)) {
+            throw new IllegalStateException("Output asset is not the right type: in:" + id + ", out:" + c);
+        }
+        long cid = out[0].getId();
+
+        boolean result = id.getId() == cid;
+
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Checking to see if asset " + id + " is valid on "
+            LOG.trace("Asset " + id + " is " + (result ? "" : "not ") + "valid on the effective date.");
+        }
+        return result;
+    }
+
+    /**
+     * Filter a single asset, checking to see if it's valid on the given date.
+     * If no date is specified, then the date used is the one used by the
+     * FilterAssetsByDate tag when no parameter is specified
+     * 
+     * @param ics context
+     * @param date override date
+     * @param id array of assetids
+     * @return true if the asset is valid, false otherwise.
+     */
+    public static AssetId[] filter(ICS ics, Date date, AssetId... id) {
+        List<AssetId> ret = filter(ics, date, Arrays.asList(id));
+        return ret.toArray(new AssetId[ret.size()]);
+    }
+
+    public static List<AssetId> filter(ICS ics, Date date, List<AssetId> list) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Checking to see if asset " + list + " is valid on "
                     + (date == null ? "the site preview date, (assuming site preview is enabled)." : date));
         }
         ics.ClearErrno();
 
         final String inListName = IListUtils.generateRandomListName("FilterAssetByDateInputList-");
-        IList inlist = new AssetIdIList(inListName, Collections.singletonList(id));
+        IList inlist = new AssetIdIList(inListName, list);
 
         final String outListName = IListUtils.generateRandomListName("FilterAssetsByDateOutputList-");
 
         String sdate = date == null ? null : com.fatwire.cs.core.db.Util.formatJdbcDate(date);
         int i = com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter(inlist, outListName, sdate, ics);
         if (i < 0) {
-            LOG.warn("Errno set by <asset:filterassetsbydate> JSP tag while attempting to filter asset " + id
+            LOG.warn("Errno set by <asset:filterassetsbydate> JSP tag while attempting to filter assets " + list
                     + " by date: " + sdate + "(null date is ok). Errno: " + ics.GetErrno());
             // note the above tag behaves erratically and errno is unreliable
             // throw new
@@ -90,24 +137,13 @@ public final class FilterAssetsByDate {
 
         if (out == null)
             throw new IllegalStateException("Tag executed successfully but no outlist was returned");
-        if (!out.hasData()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Asset " + id + " is not valid on the effective date.");
-            }
-            return false; // no matches
-        }
-        String c = IListUtils.getStringValue(out, "assettype");
-        if (!id.getType().equals(c)) {
-            throw new IllegalStateException("Output asset is not the right type: in:" + id + ", out:" + c);
-        }
-        String cid = IListUtils.getStringValue(out, "assetid");
 
-        boolean result = Utilities.goodString(cid) && id.getId() == Long.parseLong(cid);
-
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Asset " + id + " is " + (result ? "" : "not ") + "valid on the effective date.");
+        List<AssetId> olist = new ArrayList<AssetId>();
+        for (Row row : new IListIterable(out)) {
+            olist.add(AssetIdUtils.createAssetId(row.getString("assettype"), row.getLong("assetid")));
         }
-        return result;
+
+        return olist;
     }
 
     /**
