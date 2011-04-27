@@ -23,6 +23,14 @@ import java.util.Map;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.AnnotationInjector.Factory;
+import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
+import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
+import com.fatwire.gst.foundation.facade.mda.LocaleService;
+import com.fatwire.gst.foundation.include.IncludeService;
+import com.fatwire.gst.foundation.include.JspIncludeService;
+import com.fatwire.gst.foundation.mapping.IcsMappingService;
+import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
@@ -74,6 +82,17 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
      * @return true is object should be cached locally
      */
     public boolean shouldCache(final Class<?> c) {
+        // don't cache the model as this is bound to the jsp page context and
+        // not
+        // to ICS. It would leak variables into other elements if we allowed it
+        // to cache.
+        // TODO:medium, figure out if this should be done more elegantly. It
+        // seems that scoping logic is
+        // brough into the factory, that might be a bad thing.
+        if (Model.class.isAssignableFrom(c)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -128,4 +147,29 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
     public WraPathTranslationService createWraPathTranslationService(final ICS ics) {
         return WraPathTranslationServiceFactory.getService(ics);
     }
+
+    public IncludeService createIncludeService(final ICS ics) {
+        return new JspIncludeService(ics);
+    }
+
+    public ScatteredAssetAccessTemplate createScatteredAssetAccessTemplate(final ICS ics) {
+        return new ScatteredAssetAccessTemplate(ics);
+    }
+
+    public AssetAccessTemplate createAssetAccessTemplate(final ICS ics) {
+        return new AssetAccessTemplate(ics);
+    }
+
+    public MappingService createMappingService(final ICS ics) {
+        return new IcsMappingService(ics);
+    }
+
+    public LocaleService createLocaleService(final ICS ics) {
+        return new DefaultLocaleService(ics);
+    }
+
+    public Model createModel(final ICS ics) {
+        return new Model();
+    }
+
 }

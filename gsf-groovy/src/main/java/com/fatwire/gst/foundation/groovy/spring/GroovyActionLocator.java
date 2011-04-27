@@ -22,6 +22,7 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
+import com.fatwire.gst.foundation.controller.action.BaseActionLocator;
 
 
 /**
