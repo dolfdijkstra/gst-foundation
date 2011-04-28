@@ -21,7 +21,6 @@ import java.lang.reflect.Constructor;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
-import com.fatwire.gst.foundation.controller.action.AnnotationInjector.Factory;
 import com.fatwire.gst.foundation.mapping.MappingInjector;
 
 import org.apache.commons.logging.Log;

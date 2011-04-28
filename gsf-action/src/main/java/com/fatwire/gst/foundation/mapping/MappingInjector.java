@@ -25,7 +25,7 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.AnnotationInjector;
-import com.fatwire.gst.foundation.controller.action.AnnotationInjector.Factory;
+import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.annotation.Mapping;
 import com.fatwire.gst.foundation.controller.annotation.Mapping.Match;
 import com.fatwire.gst.foundation.mapping.MappingValue.Type;

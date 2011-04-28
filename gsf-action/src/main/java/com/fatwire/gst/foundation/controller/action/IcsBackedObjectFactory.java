@@ -18,7 +18,6 @@ package com.fatwire.gst.foundation.controller.action;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.controller.action.AnnotationInjector.Factory;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;

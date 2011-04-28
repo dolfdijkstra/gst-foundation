@@ -18,7 +18,6 @@ package com.fatwire.gst.foundation.controller.action;
 
 import junit.framework.TestCase;
 
-import com.fatwire.gst.foundation.controller.action.AnnotationInjector.Factory;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
 public class AnnotationInjectorTest extends TestCase {

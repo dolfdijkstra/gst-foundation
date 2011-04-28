@@ -43,19 +43,6 @@ public class AnnotationInjector {
     protected static final Log LOG_TIME = LogFactory.getLog(AnnotationInjector.class.getPackage().getName() + ".time");
 
     /**
-     * Interface for a object factory. This factory is used by the
-     * AnnotationInjector.
-     * 
-     * @author Dolf Dijkstra
-     * @since Mar 26, 2011
-     */
-    public interface Factory {
-
-        <T> T getObject(String name, Class<T> type);
-
-    }
-
-    /**
      * Inject ICS runtime objects into the object. Objects flagged with the
      * {@link InjectForRequest} annotation will be populated by this method by
      * retrieving the value from the {@link Factory#getObject(String,Class)}

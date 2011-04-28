@@ -22,7 +22,6 @@ import java.util.Map;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.controller.action.AnnotationInjector.Factory;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
