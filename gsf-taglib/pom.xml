@@ -31,13 +31,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/tld</directory>
-            </resource>
-        </resources>
-    </build>
     <reporting>
         <plugins>
             <plugin>
@@ -46,7 +39,6 @@
                 <version>2.4</version>
                 <configuration>
                     <parseHtml>false</parseHtml>
-                    <srcDir>src/main/tld/META-INF</srcDir>
                 </configuration>
             </plugin>
         </plugins>
