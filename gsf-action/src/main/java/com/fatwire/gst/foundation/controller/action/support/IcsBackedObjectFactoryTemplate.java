@@ -16,6 +16,7 @@
 
 package com.fatwire.gst.foundation.controller.action.support;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.include.IncludeService;
@@ -38,6 +40,8 @@ import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Factory implementation that works with a method naming convention to create
@@ -53,6 +57,7 @@ import org.apache.commons.lang.StringUtils;
  * @since Apr 20, 2011
  */
 public class IcsBackedObjectFactoryTemplate implements Factory {
+    static Log LOG = LogFactory.getLog(IcsBackedObjectFactoryTemplate.class.getPackage().getName());
     private final ICS ics;
     private final Map<String, Object> objectCache = new HashMap<String, Object>();
 
@@ -112,12 +117,23 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         }
         Object o = objectCache.get(name);
         if (o == null) {
-            Method m;
+
             try {
                 // TODO medium: check for other method signatures
+                Method m;
                 m = getClass().getMethod("create" + name, ICS.class);
                 if (m != null) {
                     o = m.invoke(this, ics);
+                }
+            } catch (NoSuchMethodException e) {
+                try {
+                    LOG.debug("Could not create  a " + c.getName() + " via a Template method, trying via constructor.");
+                    Constructor<T> constr = c.getConstructor(ICS.class);
+                    o = constr.newInstance(ics);
+                } catch (final RuntimeException e1) {
+                    throw e1;
+                } catch (final Exception e1) {
+                    throw new RuntimeException(e1);
                 }
             } catch (final RuntimeException e) {
                 throw e;
@@ -167,6 +183,10 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
 
     public LocaleService createLocaleService(final ICS ics) {
         return new DefaultLocaleService(ics);
+    }
+
+    public TemplateAssetAccess createTemplateAssetAccess(final ICS ics) {
+        return new TemplateAssetAccess(ics);
     }
 
     public Model createModel(final ICS ics) {
