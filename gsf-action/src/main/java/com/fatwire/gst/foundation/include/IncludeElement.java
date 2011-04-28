@@ -20,6 +20,7 @@ import java.util.Date;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.facade.runtag.render.CallElement;
+import com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope;
 
 /**
  * @author Dolf Dijkstra
@@ -40,8 +41,12 @@ public class IncludeElement implements Include {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.fatwire.gst.foundation.include.Include#include(COM.FutureTense.Interfaces.ICS)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.fatwire.gst.foundation.include.Include#include(COM.FutureTense.Interfaces
+     * .ICS)
      */
     public void include(ICS ics) {
         String s = tag.execute(ics);
@@ -51,6 +56,7 @@ public class IncludeElement implements Include {
 
     /**
      * Adds the name value pair as an argument to the CallElement tag.
+     * 
      * @param name
      * @param value
      * @return this
@@ -62,6 +68,7 @@ public class IncludeElement implements Include {
 
     /**
      * Adds the name value pair as an argument to the CallElement tag.
+     * 
      * @param name
      * @param value
      * @return this
@@ -73,6 +80,7 @@ public class IncludeElement implements Include {
 
     /**
      * Adds the name value pair as an argument to the CallElement tag.
+     * 
      * @param name
      * @param value
      * @return this
@@ -84,6 +92,7 @@ public class IncludeElement implements Include {
 
     /**
      * Adds the name value pair as an argument to the CallElement tag.
+     * 
      * @param name
      * @param value
      * @return this
@@ -95,6 +104,7 @@ public class IncludeElement implements Include {
 
     /**
      * Adds the name value pair as an argument to the CallElement tag.
+     * 
      * @param name
      * @param value
      * @return this
@@ -106,6 +116,7 @@ public class IncludeElement implements Include {
 
     /**
      * Adds the name value pair as an argument to the CallElement tag.
+     * 
      * @param name
      * @param value
      * @return this
@@ -116,7 +127,8 @@ public class IncludeElement implements Include {
     }
 
     /**
-     * Copies the ics variables identified by the name array  
+     * Copies the ics variables identified by the name array
+     * 
      * @param name
      * @return this
      */
@@ -127,6 +139,30 @@ public class IncludeElement implements Include {
         for (final String n : name) {
             argument(n, ics.GetVar(n));
         }
+        return this;
+    }
+
+    /**
+     * @param scope
+     * @see com.fatwire.gst.foundation.facade.runtag.render.CallElement#setScope(com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope)
+     */
+    public IncludeElement setScope(Scope scope) {
+        tag.setScope(scope);
+        return this;
+    }
+
+    public IncludeElement global() {
+        tag.setScope(Scope.GLOBAL);
+        return this;
+    }
+
+    public IncludeElement stacked() {
+        tag.setScope(Scope.STACKED);
+        return this;
+    }
+
+    public IncludeElement local() {
+        tag.setScope(Scope.LOCAL);
         return this;
     }
 

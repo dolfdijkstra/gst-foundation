@@ -91,6 +91,7 @@ public class Model {
             if (v != null)
                 l.add(v);
             l.add(value);
+            map.put(key, l);
         }
     }
 
