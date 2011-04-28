@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Dolf.Dijkstra
  * @since Apr 27, 2011
  */
-public class BaseActionLocator {
+public abstract class BaseActionLocator  implements ActionLocator{
 
     protected static final Log LOG = LogFactory.getLog(BaseActionLocator.class.getPackage().getName());
     /**

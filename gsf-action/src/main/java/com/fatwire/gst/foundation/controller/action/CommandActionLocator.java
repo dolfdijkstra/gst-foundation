@@ -16,7 +16,6 @@
 
 package com.fatwire.gst.foundation.controller.action;
 
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,17 +39,15 @@ import org.apache.commons.logging.LogFactory;
  * @author Dolf Dijkstra
  * @since 2011-03-15
  */
-public final class CommandActionLocator implements ActionLocator {
+public final class CommandActionLocator extends BaseActionLocator {
     protected static final Log LOG = LogFactory.getLog(CommandActionLocator.class.getPackage().getName());
     private static final String CMD_VAR = "cmd";
     private Map<String, Action> commandActionMap = new HashMap<String, Action>();
 
-    private Constructor<Factory> constructor;
-
-    protected String getVarName(){
+    protected String getVarName() {
         return CMD_VAR;
     }
-    
+
     public Action getAction(ICS ics) {
         return getAction(ics, ics.GetVar(getVarName()));
     }
@@ -71,30 +68,13 @@ public final class CommandActionLocator implements ActionLocator {
         }
 
         // inject the required data into the action
-        Factory factory = getFactory(ics);
-        AnnotationInjector.inject(action, factory);
+        this.injectDependencies(ics, action);
 
         return action;
     }
 
     protected Action newDefaultAction() {
         return new RenderPage();
-    }
-
-    protected Factory getFactory(ICS ics) {
-        Object o = ics.GetObj(Factory.class.getName());
-        if (o instanceof Factory)
-            return (Factory) o;
-        Factory factory = null;
-        try {
-            factory = getInjectionFactory(ics);
-        } catch (Exception e) {
-            LOG.warn(e);
-        }
-        if (factory == null)
-            factory = new IcsBackedObjectFactory(ics);
-        ics.SetObj(Factory.class.getName(), factory);
-        return factory;
     }
 
     public void setActionMap(Map<String, Action> map) {
@@ -105,36 +85,6 @@ public final class CommandActionLocator implements ActionLocator {
     public void setDefaultAction(Action action) {
         LOG.info("Setting default action mapping to " + action.getClass().getName());
         // defaultAction = action;
-    }
-
-    protected final Factory getInjectionFactory(ICS ics) throws Exception {
-        Factory factory = null;
-        if (constructor != null) {
-            factory = constructor.newInstance(new Object[] { ics });
-        }
-        return factory;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void findConstructor(String factoryClassname) throws ClassNotFoundException, NoSuchMethodException,
-            SecurityException {
-        if (factoryClassname != null) {
-            Class<Factory> c = (Class<Factory>) Class.forName(factoryClassname);
-            constructor = c.getConstructor(ICS.class);
-
-        }
-    }
-
-    /**
-     * @param factoryClassname the factoryClassname to set
-     */
-    public void setFactoryClassname(String factoryClassname) {
-        try {
-            findConstructor(factoryClassname);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("factoryClassname: " + factoryClassname + " is illegal. "
-                    + e.getMessage(), e);
-        }
     }
 
 }
