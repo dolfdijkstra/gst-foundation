@@ -22,19 +22,18 @@ import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AbstractController;
+import com.fatwire.gst.foundation.controller.action.support.CommandActionLocator;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 
 /**
- * Dispatching controller. Relies on actionLocator to dispatch control to
- * Action classes.
- *
+ * Dispatching controller. Relies on actionLocator to dispatch control to Action
+ * classes.
+ * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Mar 15, 2011
  */
 public class ActionController extends AbstractController {
-
-    
 
     protected void doExecute() {
 
@@ -44,11 +43,13 @@ public class ActionController extends AbstractController {
         // find the action locator
         LOG.trace("Dispatcher looking for action locator");
         ActionLocator locator = getActionLocator();
-        if (LOG.isTraceEnabled()) LOG.trace("Using action locator: " + locator.getClass().getName());
+        if (LOG.isTraceEnabled())
+            LOG.trace("Using action locator: " + locator.getClass().getName());
 
         // get the action
         Action action = locator.getAction(ics);
-        if (LOG.isTraceEnabled()) LOG.trace("Using action: " + action.getClass().getName());
+        if (LOG.isTraceEnabled())
+            LOG.trace("Using action: " + action.getClass().getName());
 
         // execute the command
         action.handleRequest(ics);
@@ -59,10 +60,12 @@ public class ActionController extends AbstractController {
 
         // get the servlet context
         ServletContext servletContext = getServletContext();
-        return ActionLocatorUtils.getActionLocator(servletContext);
+        ActionLocator l = ActionLocatorUtils.getActionLocator(servletContext);
+        if (l == null)
+            l = new CommandActionLocator();
+        return l;
     }
 
-    
     @SuppressWarnings("deprecation")
     private ServletContext getServletContext() {
         return ics.getIServlet().getServlet().getServletContext();
@@ -84,7 +87,7 @@ public class ActionController extends AbstractController {
      * Only some errnos are handled by this base class.
      * <p/>
      * More info coming soon
-     *
+     * 
      * @param e exception
      */
     protected void handleCSRuntimeException(final CSRuntimeException e) {

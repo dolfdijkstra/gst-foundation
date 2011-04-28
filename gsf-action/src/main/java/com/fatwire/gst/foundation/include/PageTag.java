@@ -124,29 +124,18 @@ public class PageTag extends GsfRootTag {
      * 
      * @param <T> the class of the object that is returned .
      * @param object the object containing the object to find.
-     * @param clazz the Class of the type that is searched for.
+     * @param type the Class of the type that is searched for.
      * @return the object that is present on the field with the InjectForRequest
      *         annotation.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T findService(final Object object, final Class<T> clazz) {
-        Class<?> klazz = object.getClass();
-        while (klazz != null && klazz != Object.class) {
-            for (final Field field : object.getClass().getDeclaredFields()) {
-                if (field.getAnnotation(InjectForRequest.class) != null && clazz.isAssignableFrom(field.getType())) {
-                    try {
-                        return (T) field.get(object);
-                    } catch (final IllegalArgumentException e) {
-                        throw new RuntimeException(e);
-                    } catch (final IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-            }
-            klazz = klazz.getSuperclass();
+    public static <T> T findService(final Object object, final Class<T> type) {
+        Field field = findField(object, type);
+        try {
+            return field == null ? null : (T) field.get(object);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static <T> Field findField(final Object a, final Class<T> type) {

@@ -49,8 +49,7 @@ public class ActionLocatorUtils {
         // get the spring web application context
         final WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
-        // get the bean. Note for lazy administrators, a default locator is
-        // provided
+        // get the bean.
 
         final ActionLocator locator;
         if (wac.containsBean(ACTION_LOCATOR_BEAN)) {
@@ -59,10 +58,7 @@ public class ActionLocatorUtils {
                 LOG.trace("Using actionLocatorBean as configured: " + locator.getClass().getName());
             }
         } else {
-            locator = new CommandActionLocator();
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Using default actionLocatorBean " + locator.getClass().getName());
-            }
+            locator = null;
         }
         return locator;
     }

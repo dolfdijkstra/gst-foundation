@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.controller.action;
+package com.fatwire.gst.foundation.controller.action.support;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
