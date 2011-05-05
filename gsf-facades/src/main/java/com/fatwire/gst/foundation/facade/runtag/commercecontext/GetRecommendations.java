@@ -16,13 +16,10 @@
 
 package com.fatwire.gst.foundation.facade.runtag.commercecontext;
 
-import java.util.Collection;
-
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
 
-import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
@@ -147,7 +144,9 @@ public final class GetRecommendations extends AbstractTagRunner {
      * @param max max count
      * @return IList containing recommendations
      * @see IterableIListWrapper
+     * @deprecated replaced by {@link Recommendations#getRecommendations(ICS, long, int) 
      */
+    @Deprecated
     public static IList getRecommendations(ICS ics, long recId, int max) {
         GetRecommendations gr = new GetRecommendations();
         gr.setCollectionId(recId);
@@ -158,28 +157,6 @@ public final class GetRecommendations extends AbstractTagRunner {
         IList result = ics.GetList(list);
         ics.RegisterList(list, null); // unregister
         return result;
-    }
-
-    /**
-     * Easy-to-use utility method to return recommendations for the specified
-     * asset.
-     * 
-     * @param ics context
-     * @param collection the name of the recommendation
-     * @param max max count
-     * @return Collection<AssetId> containing recommendations
-     * @see IterableIListWrapper
-     */
-    public static Collection<AssetId> getRecommendations(ICS ics, String collection, int max) {
-        GetRecommendations gr = new GetRecommendations();
-        gr.setCollection(collection);
-        gr.setMaxCount(max);
-        String list = IListUtils.generateRandomListName();
-        gr.setListVarName(list);
-        gr.execute(ics);
-        IList result = ics.GetList(list);
-        ics.RegisterList(list, null); // unregister
-        return IListUtils.transformToAssetIds(result);
     }
 
 }
