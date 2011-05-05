@@ -49,6 +49,12 @@
             <artifactId>gsf-taglib</artifactId>
             <version>1.2-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-groovy</artifactId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -64,6 +70,9 @@
                         </goals>
                         <configuration>
                             <createSourcesJar>true</createSourcesJar>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                            <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
                             <shadedArtifactAttached>false</shadedArtifactAttached>
                             <artifactSet>
                                 <includes>
