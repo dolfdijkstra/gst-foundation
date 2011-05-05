@@ -33,7 +33,7 @@ public interface IncludeService {
      * @param name
      * @param asset
      * @param tname
-     * @return
+     * @return the created IncludeTemplate 
      */
     IncludeTemplate template(String name, AssetId asset, String tname);
 
@@ -44,7 +44,7 @@ public interface IncludeService {
      * @param name
      * @param pagename
      * @param style
-     * @return
+     * @return the created IncludePage
      */
     IncludePage page(String name, String pagename, Style style);
 
@@ -54,7 +54,7 @@ public interface IncludeService {
      * 
      * @param name
      * @param elementname
-     * @return
+     * @return the created IncludeElement
      */
     IncludeElement element(String name, String elementname);
 }
