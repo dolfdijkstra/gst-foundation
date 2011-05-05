@@ -151,7 +151,7 @@ public final class IListUtils {
      * @param result
      * @return Collection of AssetIds, never null.
      */
-    public static Collection<AssetId> transformToAssetIds(IList result) {
+    public static Collection<AssetId> toAssetIdCollection(IList result) {
         if (result == null || !result.hasData())
             return Collections.emptyList();
         final List<AssetId> list = new LinkedList<AssetId>();
