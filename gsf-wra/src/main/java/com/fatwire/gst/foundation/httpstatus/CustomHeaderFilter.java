@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CustomHeaderFilter implements Filter {
 
-    private static Log log = LogFactory.getLog(CustomHeaderFilter.class);
+    private static Log log = LogFactory.getLog(CustomHeaderFilter.class.getPackage().getName());
 
     /**
      * This method is called by application server at the shutdown and destroys
