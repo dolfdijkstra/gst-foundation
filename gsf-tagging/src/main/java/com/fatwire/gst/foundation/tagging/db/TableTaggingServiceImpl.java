@@ -59,6 +59,8 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  */
 public final class TableTaggingServiceImpl implements AssetTaggingService {
 
+    private static final String GSTTAG = "gsttag";
+
     private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
     public static String TAGREGISTRY_TABLE = "GSTTagRegistry";
@@ -168,7 +170,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
             Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
             TaggedAsset ret = new TaggedAsset(data.getAssetId(), startDate, endDate);
-            for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
+            for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData(GSTTAG), ",")) {
                 Tag oTag = asTag(tag);
 
                 ret.addTag(oTag);
@@ -190,7 +192,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     private TaggedAsset loadTaggedAsset(AssetId id) {
         LogDep.logDep(ics, id);
 
-        TaggedAsset ret = aat.readAsset(id, mapper, "startdate", "enddate", "gsttag");
+        TaggedAsset ret = aat.readAsset(id, mapper, "startdate", "enddate", GSTTAG);
 
         for (Tag tag : ret.getTags()) {
             recordCacheDependency(tag);
