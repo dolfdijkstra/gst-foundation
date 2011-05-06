@@ -18,7 +18,6 @@ package com.fatwire.gst.foundation.url;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
@@ -37,7 +36,7 @@ import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
  */
 public final class WraAssetEventListener extends AbstractAssetEventListener {
 
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.url.WraAssetEventListener");
+    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.url");
 
     @Override
     public void assetAdded(AssetId assetId) {
@@ -72,9 +71,8 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
     /**
      * Install self into AssetListener_reg table
      */
-    public void install() {
-        ICS ics = ICSFactory.newICS();
-        String id = ics.genID(false);
+    public void install(ICS ics) {
+        String id = ics.genID(true);
         String listener = WraAssetEventListener.class.getName();
         String blocking = "Y";
         SqlHelper
