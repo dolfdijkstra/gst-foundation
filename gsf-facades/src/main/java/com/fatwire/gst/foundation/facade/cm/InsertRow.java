@@ -18,11 +18,12 @@ package com.fatwire.gst.foundation.facade.cm;
 
 /**
  * CatalogManager insertrow.
+ * 
  * @author Dolf Dijkstra
- * @deprecated insertrow does not seem to exists in CatalogManager.
- * @see AddRow
+ * @deprecated insertrow does not exists in CatalogManager, use {@link AddRow}
  * 
  */
+@Deprecated
 public class InsertRow extends FTCmdTemplate {
 
     public InsertRow(final String table) {
