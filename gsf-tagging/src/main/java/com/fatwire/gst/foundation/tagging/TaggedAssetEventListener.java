@@ -19,7 +19,6 @@ import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
@@ -36,7 +35,7 @@ import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
  */
 public final class TaggedAssetEventListener extends AbstractAssetEventListener {
 
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.logging.TaggedAssetEventListener");
+    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
     private final AssetTaggingService svc;
 
@@ -75,9 +74,8 @@ public final class TaggedAssetEventListener extends AbstractAssetEventListener {
     /**
      * Install self into AssetListener_reg table
      */
-    public void install() {
-        ICS ics = ICSFactory.newICS();
-        String id = ics.genID(false);
+    public void install(ICS ics) {
+        String id = ics.genID(true);
         String listener = TaggedAssetEventListener.class.getName();
         String blocking = "Y";
         SqlHelper
