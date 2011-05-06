@@ -66,9 +66,11 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     // anonymous
 
     private final ICS ics;
+    private AssetAccessTemplate aat;
 
     public TableTaggingServiceImpl(ICS ics) {
         this.ics = ics;
+        aat = new AssetAccessTemplate(ics);
     }
 
     public void install() {
@@ -187,7 +189,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
 
     private TaggedAsset loadTaggedAsset(AssetId id) {
         LogDep.logDep(ics, id);
-        AssetAccessTemplate aat = new AssetAccessTemplate(ics);
+
         TaggedAsset ret = aat.readAsset(id, mapper, "startdate", "enddate", "gsttag");
 
         for (Tag tag : ret.getTags()) {
