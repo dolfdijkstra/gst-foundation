@@ -15,12 +15,9 @@
  */
 package com.fatwire.gst.foundation.url.db;
 
-import java.util.Collections;
-
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
-
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
@@ -36,12 +33,13 @@ import com.fatwire.gst.foundation.facade.sql.table.TableCreator;
 import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
-import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebrootBackdoorDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
-import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
-
+import com.fatwire.gst.foundation.wra.WraCoreFieldBackdoorDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.util.Collections;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -54,16 +52,19 @@ public class UrlRegistry implements WraPathTranslationService {
     private static final Log LOG = LogFactory.getLog(UrlRegistry.class);
 
     private final ICS ics;
-    private final WraCoreFieldDao wraDao;
-    private final VirtualWebrootDao vwDao;
+    private final WraCoreFieldBackdoorDao wraDao;
+    private final VirtualWebrootBackdoorDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
     public static String TABLE_ACL_LIST = ""; // no ACLs because events are
     // anonymous
 
     public UrlRegistry(ICS ics) {
         this.ics = ics;
-        wraDao = new WraCoreFieldDao();
-        vwDao = new VirtualWebrootDao(ics);
+        // Temporarily disable usage of asset APIs in this use case due to a bug in which asset listeners
+        // cause a deadlock when the asset API is used.
+        wraDao = WraCoreFieldBackdoorDao.getBackdoorInstance(ics);
+        vwDao = new VirtualWebrootBackdoorDao(ics);
+        // End temporary deadlock workaround
     }
 
     public void install() {

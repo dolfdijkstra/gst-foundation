@@ -15,25 +15,17 @@
  */
 package com.fatwire.gst.foundation.tagging.db;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-
 import COM.FutureTense.Cache.CacheHelper;
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
-import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.BackdoorUtils;
 import com.fatwire.gst.foundation.facade.cm.AddRow;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
@@ -45,16 +37,18 @@ import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.tagging.AssetTaggingService;
 import com.fatwire.gst.foundation.tagging.Tag;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.util.*;
 
 import static com.fatwire.gst.foundation.tagging.TagUtils.asTag;
 import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepString;
 
 /**
  * Database-backed implementation of AsseTaggingService
- * 
+ *
  * @author Tony Field
  * @since Jul 28, 2010
  */
@@ -67,9 +61,11 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     // anonymous
 
     private final ICS ics;
+    private final BackdoorUtils backdoorUtils;
 
     public TableTaggingServiceImpl(ICS ics) {
         this.ics = ics;
+        this.backdoorUtils = new BackdoorUtils(ics);
     }
 
     public void install() {
@@ -163,21 +159,71 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     /**
      * Retrieve the tags for the tagged asset. This method records a
      * compositional dependency on both the input asset AND the tags themselves.
-     * 
+     *
      * @param id asset id
      * @return tagged asset
      */
     private TaggedAsset loadTaggedAsset(AssetId id) {
         LogDep.logDep(ics, id);
-        AssetData data = AssetDataUtils.getAssetData(id, "startdate", "enddate", "gsttag");
-        Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
-        Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
-        TaggedAsset ret = new TaggedAsset(id, startDate, endDate);
-        for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
-            Tag oTag = asTag(tag);
-            recordCacheDependency(oTag);
-            ret.addTag(oTag);
+
+        // Temporarily disable usage of asset APIs in this use case due to a bug in which asset listeners
+        // cause a deadlock when the asset API is used.
+
+//        AssetData data = AssetDataUtils.getAssetData(id, "startdate", "enddate", "gsttag");
+//        Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
+//        Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
+//        TaggedAsset ret = new TaggedAsset(id, startDate, endDate);
+//        for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
+//            Tag oTag = asTag(tag);
+//            recordCacheDependency(oTag);
+//            ret.addTag(oTag);
+//        }
+
+        final TaggedAsset ret;
+        final String gsttagAttrVal;
+        if (backdoorUtils.isFlex(id)) {
+            // todo: medium: optimize as this is very inefficient for flex assets
+            PreparedStmt basicFields = new PreparedStmt("select id,startdate,enddate,gsttag " +
+                    "from " + id.getType() +
+                    "where id = ?", Collections.singletonList(id.getType()));
+            basicFields.setElement(0, id.getType(), "id");
+
+            StatementParam param = basicFields.newParam();
+            param.setLong(0, id.getId());
+            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+
+            Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
+            Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
+            ret = new TaggedAsset(id, start, end);
+            gsttagAttrVal = row.getString("gsttag");
+
+        } else {
+            PreparedStmt basicFields = new PreparedStmt("select id,startdate,enddate " +
+                    "from " + id.getType() +
+                    "where id = ?", Collections.singletonList(id.getType()));
+            basicFields.setElement(0, id.getType(), "id");
+
+            StatementParam param = basicFields.newParam();
+            param.setLong(0, id.getId());
+            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+
+            Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
+            Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
+            ret = new TaggedAsset(id, start, end);
+            gsttagAttrVal = backdoorUtils.getFlexAttributeValue(id, "gsttag");
+
         }
+
+        if (StringUtils.isNotBlank(gsttagAttrVal)) {
+            for (String tag : gsttagAttrVal.split(",")) {
+                Tag oTag = asTag(tag);
+                recordCacheDependency(oTag);
+                ret.addTag(oTag);
+            }
+        }
+
+        // End temporary deadlock workaround
+
         if (LOG.isTraceEnabled())
             LOG.trace("Loaded tagged asset " + ret);
         return ret;
@@ -203,7 +249,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     /**
      * Retrieve the tags for the tagged asset. This method records a
      * compositional dependency on both the input asset AND the tags themselves.
-     * 
+     *
      * @param id asset id
      * @return tagged asset
      */
