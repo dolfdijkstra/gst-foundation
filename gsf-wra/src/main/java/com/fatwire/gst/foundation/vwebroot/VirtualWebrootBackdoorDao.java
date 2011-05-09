@@ -46,7 +46,7 @@ public class VirtualWebrootBackdoorDao {
                 backdoorUtils.getFlexAttributeValue(id, "env_name"));
     }
 
-    private static final PreparedStmt ALL_VW = new PreparedStmt("select id from GSTVirtualWebroot where status != 'VO'", Collections.singletonList("GSTVirtualWebroot"));
+    private static final PreparedStmt ALL_VW = new PreparedStmt("SELECT id from GSTVirtualWebroot WHERE status != 'VO'", Collections.singletonList("GSTVirtualWebroot"));
 
 
     /**

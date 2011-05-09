@@ -128,7 +128,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Attempting to remove asset from tag registry:" + id);
         }
-        SqlHelper.execute(ics, TAGREGISTRY_TABLE, "delete from " + TAGREGISTRY_TABLE + " where assettype = '"
+        SqlHelper.execute(ics, TAGREGISTRY_TABLE, "DELETE from " + TAGREGISTRY_TABLE + " WHERE assettype = '"
                 + id.getType() + "' and assetid = " + id.getId());
         if (LOG.isDebugEnabled()) {
             LOG
@@ -183,9 +183,9 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         final String gsttagAttrVal;
         if (backdoorUtils.isFlex(id)) {
             // todo: medium: optimize as this is very inefficient for flex assets
-            PreparedStmt basicFields = new PreparedStmt("select id,startdate,enddate,gsttag " +
-                    "from " + id.getType() +
-                    "where id = ?", Collections.singletonList(id.getType()));
+            PreparedStmt basicFields = new PreparedStmt("SELECT id,startdate,enddate,gsttag" +
+                    " FROM " + id.getType() +
+                    " WHERE id = ?", Collections.singletonList(id.getType()));
             basicFields.setElement(0, id.getType(), "id");
 
             StatementParam param = basicFields.newParam();
@@ -198,9 +198,9 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             gsttagAttrVal = row.getString("gsttag");
 
         } else {
-            PreparedStmt basicFields = new PreparedStmt("select id,startdate,enddate " +
-                    "from " + id.getType() +
-                    "where id = ?", Collections.singletonList(id.getType()));
+            PreparedStmt basicFields = new PreparedStmt("SELECT id,startdate,enddate" +
+                    " FROM " + id.getType() +
+                    " WHERE id = ?", Collections.singletonList(id.getType()));
             basicFields.setElement(0, id.getType(), "id");
 
             StatementParam param = basicFields.newParam();

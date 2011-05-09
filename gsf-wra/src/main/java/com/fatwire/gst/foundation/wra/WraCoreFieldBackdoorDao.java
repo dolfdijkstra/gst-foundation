@@ -98,9 +98,9 @@ public class WraCoreFieldBackdoorDao extends WraCoreFieldDao {
     public WebReferenceableAsset getWra(AssetId id) {
         if (backdoorUtils.isFlex(id)) {
             // todo: medium: optimize as this is very inefficient for flex assets
-            PreparedStmt basicFields = new PreparedStmt("select id,name,description,subtype,status,path,template,startdate,enddate " +
-                    "from " + id.getType() +
-                    "where id = ?", Collections.singletonList(id.getType()));
+            PreparedStmt basicFields = new PreparedStmt("SELECT id,name,description,subtype,status,path,template,startdate,enddate" +
+                    " FROM " + id.getType() +
+                    " WHERE id = ?", Collections.singletonList(id.getType()));
             basicFields.setElement(0, id.getType(), "id");
 
             StatementParam param = basicFields.newParam();
@@ -127,10 +127,10 @@ public class WraCoreFieldBackdoorDao extends WraCoreFieldDao {
 
             return wra;
         } else {
-            PreparedStmt basicFields = new PreparedStmt("select id,name,description,subtype,status,path,template,startdate,enddate," +
-                    "metatitle,metadescription,metakeyword,h1title,linktext " +
-                    "from " + id.getType() +
-                    "where id = ?", Collections.singletonList(id.getType()));
+            PreparedStmt basicFields = new PreparedStmt("SELECT id,name,description,subtype,status,path,template,startdate,enddate," +
+                    "metatitle,metadescription,metakeyword,h1title,linktext" +
+                    " FROM " + id.getType() +
+                    " WHERE id = ?", Collections.singletonList(id.getType()));
             basicFields.setElement(0, id.getType(), "id");
 
             StatementParam param = basicFields.newParam();
