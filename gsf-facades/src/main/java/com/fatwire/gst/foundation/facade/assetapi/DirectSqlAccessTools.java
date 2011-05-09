@@ -18,9 +18,9 @@ import java.util.Collections;
  * User: Tony Field
  * Date: 2011-05-07
  */
-public final class BackdoorUtils {
+public final class DirectSqlAccessTools {
     private final ICS ics;
-    public BackdoorUtils(ICS ics) {
+    public DirectSqlAccessTools(ICS ics) {
         this.ics = ics;
     }
 

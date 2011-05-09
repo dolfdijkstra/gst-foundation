@@ -33,9 +33,9 @@ import com.fatwire.gst.foundation.facade.sql.table.TableCreator;
 import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
-import com.fatwire.gst.foundation.vwebroot.VirtualWebrootBackdoorDao;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebrootApiBypassDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
-import com.fatwire.gst.foundation.wra.WraCoreFieldBackdoorDao;
+import com.fatwire.gst.foundation.wra.WraCoreFieldApiBypassDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -52,8 +52,8 @@ public class UrlRegistry implements WraPathTranslationService {
     private static final Log LOG = LogFactory.getLog(UrlRegistry.class);
 
     private final ICS ics;
-    private final WraCoreFieldBackdoorDao wraDao;
-    private final VirtualWebrootBackdoorDao vwDao;
+    private final WraCoreFieldApiBypassDao wraDao;
+    private final VirtualWebrootApiBypassDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
     public static String TABLE_ACL_LIST = ""; // no ACLs because events are
     // anonymous
@@ -62,8 +62,8 @@ public class UrlRegistry implements WraPathTranslationService {
         this.ics = ics;
         // Temporarily disable usage of asset APIs in this use case due to a bug in which asset listeners
         // cause a deadlock when the asset API is used.
-        wraDao = WraCoreFieldBackdoorDao.getBackdoorInstance(ics);
-        vwDao = new VirtualWebrootBackdoorDao(ics);
+        wraDao = WraCoreFieldApiBypassDao.getBackdoorInstance(ics);
+        vwDao = new VirtualWebrootApiBypassDao(ics);
         // End temporary deadlock workaround
     }
 

@@ -25,7 +25,7 @@ import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import com.fatwire.gst.foundation.facade.assetapi.BackdoorUtils;
+import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.cm.AddRow;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
@@ -61,11 +61,11 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     // anonymous
 
     private final ICS ics;
-    private final BackdoorUtils backdoorUtils;
+    private final DirectSqlAccessTools directSqlAccessTools;
 
     public TableTaggingServiceImpl(ICS ics) {
         this.ics = ics;
-        this.backdoorUtils = new BackdoorUtils(ics);
+        this.directSqlAccessTools = new DirectSqlAccessTools(ics);
     }
 
     public void install() {
@@ -181,7 +181,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
 
         final TaggedAsset ret;
         final String gsttagAttrVal;
-        if (backdoorUtils.isFlex(id)) {
+        if (directSqlAccessTools.isFlex(id)) {
             // todo: medium: optimize as this is very inefficient for flex assets
             PreparedStmt basicFields = new PreparedStmt("SELECT id,startdate,enddate,gsttag" +
                     " FROM " + id.getType() +
@@ -210,7 +210,7 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
             Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
             ret = new TaggedAsset(id, start, end);
-            gsttagAttrVal = backdoorUtils.getFlexAttributeValue(id, "gsttag");
+            gsttagAttrVal = directSqlAccessTools.getFlexAttributeValue(id, "gsttag");
 
         }
 

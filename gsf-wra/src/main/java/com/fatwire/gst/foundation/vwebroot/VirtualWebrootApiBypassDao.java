@@ -3,7 +3,7 @@ package com.fatwire.gst.foundation.vwebroot;
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
-import com.fatwire.gst.foundation.facade.assetapi.BackdoorUtils;
+import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
@@ -24,15 +24,15 @@ import java.util.TreeSet;
  * User: Tony Field
  * Date: 2011-05-06
  */
-public class VirtualWebrootBackdoorDao {
-    private static final Log LOG = LogFactory.getLog(VirtualWebrootBackdoorDao.class.getName());
+public class VirtualWebrootApiBypassDao {
+    private static final Log LOG = LogFactory.getLog(VirtualWebrootApiBypassDao.class.getName());
 
     private final ICS ics;
-    private final BackdoorUtils backdoorUtils;
+    private final DirectSqlAccessTools directSqlAccessTools;
 
-    public VirtualWebrootBackdoorDao(ICS ics) {
+    public VirtualWebrootApiBypassDao(ICS ics) {
         this.ics = ics;
-        this.backdoorUtils = new BackdoorUtils(ics);
+        this.directSqlAccessTools = new DirectSqlAccessTools(ics);
     }
 
     public VirtualWebroot getVirtualWebroot(long cid) {
@@ -41,9 +41,9 @@ public class VirtualWebrootBackdoorDao {
         if (LOG.isTraceEnabled())
             LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + sCid);
         AssetId id = new AssetIdImpl("GSTVirtualWebroot", cid);
-        return new VWebrootBeanImpl(cid, backdoorUtils.getFlexAttributeValue(id, "master_vwebroot"),
-                backdoorUtils.getFlexAttributeValue(id, "env_vwebroot"),
-                backdoorUtils.getFlexAttributeValue(id, "env_name"));
+        return new VWebrootBeanImpl(cid, directSqlAccessTools.getFlexAttributeValue(id, "master_vwebroot"),
+                directSqlAccessTools.getFlexAttributeValue(id, "env_vwebroot"),
+                directSqlAccessTools.getFlexAttributeValue(id, "env_name"));
     }
 
     private static final PreparedStmt ALL_VW = new PreparedStmt("SELECT id from GSTVirtualWebroot WHERE status != 'VO'", Collections.singletonList("GSTVirtualWebroot"));

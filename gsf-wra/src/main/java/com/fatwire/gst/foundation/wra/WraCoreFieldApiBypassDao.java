@@ -5,7 +5,7 @@ import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.assetapi.BackdoorUtils;
+import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
@@ -23,29 +23,29 @@ import java.util.Collections;
  * User: Tony Field
  * Date: 2011-05-06
  */
-public class WraCoreFieldBackdoorDao extends WraCoreFieldDao {
-    public static WraCoreFieldBackdoorDao getBackdoorInstance(ICS ics) {
+public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
+    public static WraCoreFieldApiBypassDao getBackdoorInstance(ICS ics) {
         if (ics == null) {
             ics = ICSFactory.getOrCreateICS();
         }
 
-        Object o = ics.GetObj(WraCoreFieldBackdoorDao.class.getName());
+        Object o = ics.GetObj(WraCoreFieldApiBypassDao.class.getName());
         if (o == null) {
-            o = new WraCoreFieldBackdoorDao(ics);
-            ics.SetObj(WraCoreFieldBackdoorDao.class.getName(), o);
+            o = new WraCoreFieldApiBypassDao(ics);
+            ics.SetObj(WraCoreFieldApiBypassDao.class.getName(), o);
         }
-        return (WraCoreFieldBackdoorDao) o;
+        return (WraCoreFieldApiBypassDao) o;
     }
 
     private final ICS ics;
-    private final BackdoorUtils backdoorUtils;
+    private final DirectSqlAccessTools directSqlAccessTools;
 
-    private WraCoreFieldBackdoorDao(ICS ics) {
+    private WraCoreFieldApiBypassDao(ICS ics) {
         this.ics = ics;
-        backdoorUtils = new BackdoorUtils(ics);
+        directSqlAccessTools = new DirectSqlAccessTools(ics);
     }
 
-    private static final Log LOG = LogFactory.getLog(WraCoreFieldBackdoorDao.class);
+    private static final Log LOG = LogFactory.getLog(WraCoreFieldApiBypassDao.class);
 
     /**
      * @throws UnsupportedOperationException - not possible in this implementation
@@ -96,7 +96,7 @@ public class WraCoreFieldBackdoorDao extends WraCoreFieldDao {
      * @see #isWebReferenceable(AssetId)
      */
     public WebReferenceableAsset getWra(AssetId id) {
-        if (backdoorUtils.isFlex(id)) {
+        if (directSqlAccessTools.isFlex(id)) {
             // todo: medium: optimize as this is very inefficient for flex assets
             PreparedStmt basicFields = new PreparedStmt("SELECT id,name,description,subtype,status,path,template,startdate,enddate" +
                     " FROM " + id.getType() +
@@ -119,11 +119,11 @@ public class WraCoreFieldBackdoorDao extends WraCoreFieldDao {
             if (StringUtils.isNotBlank(row.getString("enddate")))
                 wra.setEndDate(row.getDate("enddate"));
 
-            wra.setMetaTitle(backdoorUtils.getFlexAttributeValue(id, "metatitle"));
-            wra.setMetaDescription(backdoorUtils.getFlexAttributeValue(id, "metadescription"));
-            wra.setMetaKeyword(backdoorUtils.getFlexAttributeValue(id, "metakeywords"));
-            wra.setH1Title(backdoorUtils.getFlexAttributeValue(id, "h1title"));
-            wra.setLinkText(backdoorUtils.getFlexAttributeValue(id, "linktext"));
+            wra.setMetaTitle(directSqlAccessTools.getFlexAttributeValue(id, "metatitle"));
+            wra.setMetaDescription(directSqlAccessTools.getFlexAttributeValue(id, "metadescription"));
+            wra.setMetaKeyword(directSqlAccessTools.getFlexAttributeValue(id, "metakeywords"));
+            wra.setH1Title(directSqlAccessTools.getFlexAttributeValue(id, "h1title"));
+            wra.setLinkText(directSqlAccessTools.getFlexAttributeValue(id, "linktext"));
 
             return wra;
         } else {
