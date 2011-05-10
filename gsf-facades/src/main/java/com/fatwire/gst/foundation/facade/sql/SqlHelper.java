@@ -16,6 +16,8 @@
 
 package com.fatwire.gst.foundation.facade.sql;
 
+import java.util.Iterator;
+
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 
@@ -161,7 +163,7 @@ public class SqlHelper {
     }
 
     /**
-     * Executes a PreparedStatement
+     * Executes a PreparedStatement, returning a single row
      * 
      * @param ics
      * @param stmt the PreparedStatement
@@ -182,6 +184,22 @@ public class SqlHelper {
             throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for "
                     + stmt.toString());
         }
+
+    }
+
+    /**
+     * Executes an ICS.SQL operation, returning a single Row, or null if no result
+     * was returned by ICS.SQL.
+     * 
+     * @param ics
+     * @param table tablename
+     * @param sql the sql statement, needs to start with 'select'
+     * @return Row if resultset is returned, otherwise null
+     */
+    public static final Row selectSingle(final ICS ics, final String table, String sql) {
+
+        Iterator<Row> i = select(ics, table, sql, 1).iterator();
+        return i.hasNext() ? i.next() : null;
 
     }
 
