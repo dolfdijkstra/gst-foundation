@@ -182,22 +182,6 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         final TaggedAsset ret;
         final String gsttagAttrVal;
         if (directSqlAccessTools.isFlex(id)) {
-            // todo: medium: optimize as this is very inefficient for flex assets
-            PreparedStmt basicFields = new PreparedStmt("SELECT id,startdate,enddate,gsttag" +
-                    " FROM " + id.getType() +
-                    " WHERE id = ?", Collections.singletonList(id.getType()));
-            basicFields.setElement(0, id.getType(), "id");
-
-            StatementParam param = basicFields.newParam();
-            param.setLong(0, id.getId());
-            Row row = SqlHelper.selectSingle(ics, basicFields, param);
-
-            Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
-            Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
-            ret = new TaggedAsset(id, start, end);
-            gsttagAttrVal = row.getString("gsttag");
-
-        } else {
             PreparedStmt basicFields = new PreparedStmt("SELECT id,startdate,enddate" +
                     " FROM " + id.getType() +
                     " WHERE id = ?", Collections.singletonList(id.getType()));
@@ -212,6 +196,27 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             ret = new TaggedAsset(id, start, end);
             gsttagAttrVal = directSqlAccessTools.getFlexAttributeValue(id, "gsttag");
 
+        } else {
+            // todo: medium: optimize as this is very inefficient for flex assets
+            PreparedStmt basicFields = new PreparedStmt("SELECT * FROM "+id.getType()+" WHERE ID = ?",
+                                                        Collections.singletonList(id.getType()));
+            basicFields.setElement(0, id.getType(), "id");
+
+            StatementParam param = basicFields.newParam();
+            param.setLong(0, id.getId());
+            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+
+            Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
+            Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
+            ret = new TaggedAsset(id, start, end);
+            String s = "";
+            try {
+                s = row.getString("gsttag");
+            } catch (Exception e) {
+                LOG.trace("Could not get gsttag data from basic asset.  Maybe this is just because " +
+                        "there is no gsttag column - which is just fine.", e);
+            }
+            gsttagAttrVal = s;
         }
 
         if (StringUtils.isNotBlank(gsttagAttrVal)) {
