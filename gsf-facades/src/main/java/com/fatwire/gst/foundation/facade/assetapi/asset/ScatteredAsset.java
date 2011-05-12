@@ -171,7 +171,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                     Object o = attr.getData();
                     int size = 0;
                     if (o instanceof Collection<?>) {
-                        size = ((List<?>) o).size();
+                        size = ((Collection<?>) o).size();
                     } else if (o instanceof Map<?, ?>) {
                         size = ((Map<?, ?>) o).size();
                     } else {
