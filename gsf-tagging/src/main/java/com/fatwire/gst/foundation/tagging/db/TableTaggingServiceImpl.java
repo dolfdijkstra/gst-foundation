@@ -15,17 +15,9 @@
  */
 package com.fatwire.gst.foundation.tagging.db;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-
 import COM.FutureTense.Cache.CacheHelper;
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
@@ -33,6 +25,7 @@ import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.cm.AddRow;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
@@ -44,22 +37,22 @@ import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.tagging.AssetTaggingService;
 import com.fatwire.gst.foundation.tagging.Tag;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.util.*;
 
 import static com.fatwire.gst.foundation.tagging.TagUtils.asTag;
 import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepString;
 
 /**
  * Database-backed implementation of AsseTaggingService
- * 
+ *
  * @author Tony Field
  * @since Jul 28, 2010
  */
 public final class TableTaggingServiceImpl implements AssetTaggingService {
-
-    private static final String GSTTAG = "gsttag";
 
     private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
@@ -68,11 +61,11 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     // anonymous
 
     private final ICS ics;
-    private AssetAccessTemplate aat;
+    private final DirectSqlAccessTools directSqlAccessTools;
 
     public TableTaggingServiceImpl(ICS ics) {
         this.ics = ics;
-        aat = new AssetAccessTemplate(ics);
+        this.directSqlAccessTools = new DirectSqlAccessTools(ics);
     }
 
     public void install() {
@@ -135,13 +128,12 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Attempting to remove asset from tag registry:" + id);
         }
-        SqlHelper.execute(
-                ics,
-                TAGREGISTRY_TABLE,
-                "delete from " + TAGREGISTRY_TABLE + " where assettype = '" + id.getType() + "' and assetid = "
-                        + id.getId());
+        SqlHelper.execute(ics, TAGREGISTRY_TABLE, "DELETE from " + TAGREGISTRY_TABLE + " WHERE assettype = '"
+                + id.getType() + "' and assetid = " + id.getId());
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Deleted tagged asset " + id + " from tag registry (or asset was never there in the first place)");
+            LOG
+                    .debug("Deleted tagged asset " + id
+                            + " from tag registry (or asset was never there in the first place)");
         }
     }
 
@@ -164,13 +156,91 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         return tags;
     }
 
+    /**
+     * Retrieve the tags for the tagged asset. This method records a
+     * compositional dependency on both the input asset AND the tags themselves.
+     *
+     * @param id asset id
+     * @return tagged asset
+     */
+    private TaggedAsset loadTaggedAsset(AssetId id) {
+        LogDep.logDep(ics, id);
+
+        // Temporarily disable usage of asset APIs in this use case due to a bug in which asset listeners
+        // cause a deadlock when the asset API is used.
+
+//        AssetData data = AssetDataUtils.getAssetData(id, "startdate", "enddate", "gsttag");
+//        Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
+//        Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
+//        TaggedAsset ret = new TaggedAsset(id, startDate, endDate);
+//        for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
+//            Tag oTag = asTag(tag);
+//            recordCacheDependency(oTag);
+//            ret.addTag(oTag);
+//        }
+
+        final TaggedAsset ret;
+        final String gsttagAttrVal;
+        if (directSqlAccessTools.isFlex(id)) {
+            PreparedStmt basicFields = new PreparedStmt("SELECT id,startdate,enddate" +
+                    " FROM " + id.getType() +
+                    " WHERE id = ?", Collections.singletonList(id.getType()));
+            basicFields.setElement(0, id.getType(), "id");
+
+            StatementParam param = basicFields.newParam();
+            param.setLong(0, id.getId());
+            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+
+            Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
+            Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
+            ret = new TaggedAsset(id, start, end);
+            gsttagAttrVal = directSqlAccessTools.getFlexAttributeValue(id, "gsttag");
+
+        } else {
+            // todo: medium: optimize as this is very inefficient for flex assets
+            PreparedStmt basicFields = new PreparedStmt("SELECT * FROM "+id.getType()+" WHERE ID = ?",
+                                                        Collections.singletonList(id.getType()));
+            basicFields.setElement(0, id.getType(), "id");
+
+            StatementParam param = basicFields.newParam();
+            param.setLong(0, id.getId());
+            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+
+            Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
+            Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
+            ret = new TaggedAsset(id, start, end);
+            String s = "";
+            try {
+                s = row.getString("gsttag");
+            } catch (Exception e) {
+                LOG.trace("Could not get gsttag data from basic asset.  Maybe this is just because " +
+                        "there is no gsttag column - which is just fine.", e);
+            }
+            gsttagAttrVal = s;
+        }
+
+        if (StringUtils.isNotBlank(gsttagAttrVal)) {
+            for (String tag : gsttagAttrVal.split(",")) {
+                Tag oTag = asTag(tag);
+                recordCacheDependency(oTag);
+                ret.addTag(oTag);
+            }
+        }
+
+        // End temporary deadlock workaround
+
+        if (LOG.isTraceEnabled())
+            LOG.trace("Loaded tagged asset " + ret);
+        return ret;
+    }
+
     private AssetMapper<TaggedAsset> mapper = new AssetMapper<TaggedAsset>() {
 
         public TaggedAsset map(AssetData data) {
             Date startDate = AttributeDataUtils.asDate(data.getAttributeData("startdate"));
             Date endDate = AttributeDataUtils.asDate(data.getAttributeData("enddate"));
             TaggedAsset ret = new TaggedAsset(data.getAssetId(), startDate, endDate);
-            for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData(GSTTAG), ",")) {
+            for (String tag : AttributeDataUtils.getAndSplitString(data.getAttributeData("gsttag"), ",")) {
                 Tag oTag = asTag(tag);
 
                 ret.addTag(oTag);
@@ -184,15 +254,15 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
     /**
      * Retrieve the tags for the tagged asset. This method records a
      * compositional dependency on both the input asset AND the tags themselves.
-     * 
+     *
      * @param id asset id
      * @return tagged asset
      */
 
-    private TaggedAsset loadTaggedAsset(AssetId id) {
+    private TaggedAsset loadTaggedAssetNew(AssetId id) {
         LogDep.logDep(ics, id);
-
-        TaggedAsset ret = aat.readAsset(id, mapper, "startdate", "enddate", GSTTAG);
+        AssetAccessTemplate aat = new AssetAccessTemplate(ics);
+        TaggedAsset ret = aat.readAsset(id, mapper, "startdate", "enddate", "gsttag");
 
         for (Tag tag : ret.getTags()) {
             recordCacheDependency(tag);
@@ -237,9 +307,8 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
             }
         } catch (RuntimeException e) {
             if (LOG.isTraceEnabled()) {
-                LOG.trace(
-                        "isTagged found that " + id + " is not a tagged asset.  We found an exception: " + e.toString(),
-                        e);
+                LOG.trace("isTagged found that " + id + " is not a tagged asset.  We found an exception: "
+                        + e.toString(), e);
             }
             return false;
         }
