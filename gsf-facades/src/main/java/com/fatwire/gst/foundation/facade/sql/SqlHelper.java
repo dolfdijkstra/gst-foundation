@@ -175,8 +175,7 @@ public class SqlHelper {
 
         final IList i = ics.SQL(stmt, param, true);
         if (ics.GetErrno() == 0) {
-            i.moveTo(IList.first);
-            return new SingleRow(i);
+            return new IListIterable(i).iterator().next();
         } else if (ics.GetErrno() != -101) { // no rows if fine
             ics.ClearErrno();
             return null;
