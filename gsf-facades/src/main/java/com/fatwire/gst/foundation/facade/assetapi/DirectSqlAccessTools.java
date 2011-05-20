@@ -69,7 +69,7 @@ public final class DirectSqlAccessTools {
         String attrType = getFlexAttributeType(id);
         PreparedStmt flexFields = new PreparedStmt("select attr.name as name, cmungo.stringvalue as stringvalue " +
                 "from " + attrType + " attr, " + id.getType() + "_Mungo cmungo " +
-                "where cmungo.ownerid = ? " +
+                "where cmungo.cs_ownerid = ? " +
                 "and cmungo.cs_attrid = attr.id " +
                 "and attr.name = ?",
                 Arrays.asList(attrType, id.getType() + "_Mungo"));

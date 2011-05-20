@@ -195,7 +195,7 @@ public class UrlRegistry implements WraPathTranslationService {
 
     public void deleteAsset(AssetId id) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Attempting to delete asset " + id + " from url registry (it might not have been there but we must try anyway");
+            LOG.trace("Attempting to delete asset " + id + " from url registry (it might not have been there but we must try anyway)");
         }
         SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
         if (LOG.isDebugEnabled()) {

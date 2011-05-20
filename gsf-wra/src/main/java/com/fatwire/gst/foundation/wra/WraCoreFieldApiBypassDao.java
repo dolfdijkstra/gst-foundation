@@ -81,8 +81,12 @@ public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
     public boolean isWebReferenceable(AssetId id) {
         try {
             WebReferenceableAsset wra = getWra(id);
-            return StringUtils.isNotBlank(wra.getPath());
+            boolean b = StringUtils.isNotBlank(wra.getPath());
+            if (LOG.isTraceEnabled())
+                LOG.trace("Asset " + id + (b ? " is " : " is not ") + "web-referenceable, as determinted by the presence of a path attribute.");
+            return b;
         } catch (RuntimeException e) {
+            if (LOG.isTraceEnabled()) LOG.trace("Asset " + id + " is not web-referenceable: " + e, e);
             return false;
         }
     }
