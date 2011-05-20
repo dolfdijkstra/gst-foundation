@@ -138,13 +138,13 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <description>the assetid</description>
+            <description>The assetid.  Could be a String, long, or AssetId.</description>
             <name>cid</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <description>the asset attributes</description>
+            <description>the name of the association</description>
             <name>assoc</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
