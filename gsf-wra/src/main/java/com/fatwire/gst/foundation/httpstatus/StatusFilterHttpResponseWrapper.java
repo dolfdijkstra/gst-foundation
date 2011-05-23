@@ -40,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper {
 
-    private static Log log = LogFactory.getLog(CustomHeaderFilter.class.getPackage().getName());
+    private static Log log = LogFactory.getLog(StatusFilterHttpResponseWrapper.class.getPackage().getName());
 
     private int status = -1;
 
