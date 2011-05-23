@@ -56,6 +56,7 @@ public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
     private final DirectSqlAccessTools directSqlAccessTools;
 
     private WraCoreFieldApiBypassDao(ICS ics) {
+        super(ics);
         this.ics = ics;
         directSqlAccessTools = new DirectSqlAccessTools(ics);
     }
