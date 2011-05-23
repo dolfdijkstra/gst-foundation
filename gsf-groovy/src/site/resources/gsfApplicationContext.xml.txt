@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<!-- INSTALLATION: Be sure to add this to your WEB-INF/web.xml file: <context-param> 
+		<param-name>contextConfigLocation</param-name> <param-value>/WEB-INF/applicationContext.xml,/WEB-INF/gsfApplicationContext.xml</param-value> 
+		</context-param> USAGE: Be sure to set any actions that need to be sateful 
+		to have a scope="prototype" in order that they are created as new instances. -->
+	<bean id="gsfActionLocator"
+		class="com.fatwire.gst.foundation.groovy.spring.GroovyActionLocator">
+		<property name="groovyLoader" ref="groovyLoader" />
+		<property name="factoryClassname"
+			value="com.fatwire.gst.foundation.controller.action.support.IcsBackedObjectFactoryTemplate" />
+	</bean>
+	<bean id="groovyLoader" class="com.fatwire.gst.foundation.groovy.spring.GroovyLoader">
+	</bean>
+
+	<bean id="gsfRenderPage" scope="prototype"
+		class="com.fatwire.gst.foundation.controller.action.RenderPage" />
+</beans>
