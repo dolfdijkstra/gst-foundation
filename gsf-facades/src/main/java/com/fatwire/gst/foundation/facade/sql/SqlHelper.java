@@ -16,6 +16,16 @@
 
 package com.fatwire.gst.foundation.facade.sql;
 
+import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.Date;
+import java.sql.Ref;
+import java.sql.Struct;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.Iterator;
 
 import COM.FutureTense.Interfaces.ICS;
@@ -26,6 +36,7 @@ import com.fatwire.cs.core.db.StatementParam;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hsqldb.Types;
 
 /**
  * A helper class over <tt>ICS.SQL</tt>
@@ -163,6 +174,108 @@ public class SqlHelper {
     }
 
     /**
+     * Executes a PreparedStatement in a simple form. The values are simply
+     * mapped based on order and type to prepared statement parameters.
+     * 
+     * @param ics
+     * @param table tablename
+     * @param sql the sql statement
+     * @param value the values for the prepared statement parameters.
+     * @return never null, always an IListIterable
+     */
+
+    public static final IListIterable selectSimplePrepared(final ICS ics, String table, String sql, Object... value) {
+
+        final PreparedStmt stmt = new PreparedStmt(sql, Collections.singletonList(table));
+        for (int i = 0; value != null && i < value.length; i++) {
+            stmt.setElement(i, toJdbcType(value[i]));
+        }
+        final StatementParam param = stmt.newParam();
+        for (int i = 0; value != null && i < value.length; i++) {
+            Object o = value[i];
+
+            if (o instanceof String) {
+                param.setString(i, (String) o);
+            } else if (o instanceof BigDecimal) {
+                param.setBigDecimal(i, (BigDecimal) o);
+            } else if (o instanceof Boolean) {
+                param.setBoolean(i, (Boolean) o);
+            } else if (o instanceof Integer) {
+                param.setInt(i, (Integer) o);
+            } else if (o instanceof Long) {
+                param.setLong(i, (Long) o);
+            } else if (o instanceof Float) {
+                param.setFloat(i, (Float) o);
+            } else if (o instanceof Double) {
+                param.setDouble(i, (Double) o);
+            } else if (o instanceof byte[]) {
+            } else if (o instanceof java.sql.Date) {
+                param.setDate(i, (Date) o);
+            } else if (o instanceof java.sql.Time) {
+                param.setTime(i, (Time) o);
+            } else if (o instanceof java.sql.Timestamp) {
+                param.setTimeStamp(i, (Timestamp) o);
+            } else if (o instanceof Clob) {
+                throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
+            } else if (o instanceof Blob) {
+                throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
+            } else if (o instanceof Array) {
+                throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
+            } else if (o instanceof Struct) {
+                throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
+            } else if (o instanceof Ref) {
+                throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
+            } else if (o instanceof java.net.URL) {
+                throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
+            }
+        }
+        return select(ics, stmt, param);
+
+    }
+
+    private static int toJdbcType(Object o) {
+        if (o instanceof String) {
+            return Types.VARCHAR;
+        } else if (o instanceof java.math.BigDecimal) {
+            return Types.NUMERIC;
+        } else if (o instanceof Boolean) {
+            return Types.BOOLEAN;
+        } else if (o instanceof Integer) {
+            return Types.INTEGER;
+        } else if (o instanceof Long) {
+            return Types.BIGINT;
+        } else if (o instanceof Float) {
+            return Types.REAL;
+        } else if (o instanceof Double) {
+            return Types.DOUBLE;
+        } else if (o instanceof byte[]) {
+            return Types.LONGVARBINARY;
+        } else if (o instanceof java.sql.Date) {
+            return Types.DATE;
+        } else if (o instanceof java.sql.Time) {
+            return Types.TIME;
+        } else if (o instanceof java.sql.Timestamp) {
+            return Types.TIMESTAMP;
+        } else if (o instanceof Clob) {
+            return Types.CLOB;
+        } else if (o instanceof Blob) {
+            return Types.BLOB;
+        } else if (o instanceof Array) {
+            return Types.ARRAY;
+        } else if (o instanceof Struct) {
+            return Types.STRUCT;
+        } else if (o instanceof Ref) {
+            return Types.REF;
+        } else if (o instanceof java.net.URL) {
+            return Types.DATALINK;
+        } else {
+            throw new IllegalArgumentException(o == null ? "o must not be nulll" : "Can't handle type "
+                    + o.getClass().getName());
+        }
+
+    }
+
+    /**
      * Executes a PreparedStatement, returning a single row
      * 
      * @param ics
@@ -172,23 +285,22 @@ public class SqlHelper {
      */
 
     public static final Row selectSingle(final ICS ics, final PreparedStmt stmt, final StatementParam param) {
-
+        ics.ClearErrno();
         final IList i = ics.SQL(stmt, param, true);
         if (ics.GetErrno() == 0) {
             return new IListIterable(i).iterator().next();
-        } else if (ics.GetErrno() != -101) { // no rows if fine
+        } else if (ics.GetErrno() == -101) { // no rows is fine
             ics.ClearErrno();
             return null;
         } else {
-            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for "
-                    + stmt.toString());
+            throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " for " + stmt.toString());
         }
 
     }
 
     /**
-     * Executes an ICS.SQL operation, returning a single Row, or null if no result
-     * was returned by ICS.SQL.
+     * Executes an ICS.SQL operation, returning a single Row, or null if no
+     * result was returned by ICS.SQL.
      * 
      * @param ics
      * @param table tablename
