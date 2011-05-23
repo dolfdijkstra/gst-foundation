@@ -17,17 +17,15 @@ package com.fatwire.gst.foundation.tagging;
 
 import java.util.Collection;
 
-import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
+import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
  * Cache manager to be used to deal with cache updates
@@ -37,14 +35,13 @@ import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
  */
 public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventListener {
 
-    private static final Log LOG = LogFactory
-            .getLog("com.fatwire.gst.foundation.tagging");
+    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
 
     private final AssetTaggingService svc;
 
     public CacheMgrTaggedAssetEventListener() {
         try {
-            svc = AssetTaggingServiceFactory.getService(Factory.newCS());
+            svc = AssetTaggingServiceFactory.getService(ICSFactory.getOrCreateICS());
         } catch (Exception e) {
             throw new IllegalStateException("Could not create ICS", e);
         }
@@ -87,12 +84,6 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
      * Install self into AssetListener_reg table
      */
     public void install(ICS ics) {
-        String id = ics.genID(true);
-        String listener = CacheMgrTaggedAssetEventListener.class.getName();
-        String blocking = "Y";
-        SqlHelper
-                .execute(ics, "AssetListener_reg", "delete from AssetListener_reg where listener = " + quote(listener));
-        SqlHelper.execute(ics, "AssetListener_reg", "insert into AssetListener_reg (id, listener, blocking) VALUES ("
-                + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
+        AssetListenerInstall.register(ics, CacheMgrTaggedAssetEventListener.class.getName(), true);
     }
 }

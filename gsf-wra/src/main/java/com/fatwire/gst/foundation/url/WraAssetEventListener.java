@@ -18,13 +18,11 @@ package com.fatwire.gst.foundation.url;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 
 /**
  * Asset event for ensuring that a WRA is properly prepared for rendering.
@@ -66,18 +64,10 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
         return WraPathTranslationServiceFactory.getService(null);
     }
 
-    private static final String REGISTRY_TABLE = "AssetListener_reg";
-
     /**
      * Install self into AssetListener_reg table
      */
     public void install(ICS ics) {
-        String id = ics.genID(true);
-        String listener = WraAssetEventListener.class.getName();
-        String blocking = "Y";
-        SqlHelper
-                .execute(ics, REGISTRY_TABLE, "delete from " + REGISTRY_TABLE + " where listener = " + quote(listener));
-        SqlHelper.execute(ics, REGISTRY_TABLE, "insert into " + REGISTRY_TABLE + " (id, listener, blocking) VALUES ("
-                + quote(id) + "," + quote(listener) + "," + quote(blocking) + ")");
+        AssetListenerInstall.register(ics, WraAssetEventListener.class.getName(), true);
     }
 }
