@@ -134,15 +134,12 @@ public final class FilterAssetsByDate {
 
         String sdate = date == null ? null : com.fatwire.cs.core.db.Util.formatJdbcDate(date);
         int i = com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter(inlist, outListName, sdate, ics);
-        if (i < 0) {
-            LOG.warn("Errno set by <asset:filterassetsbydate> JSP tag while attempting to filter assets " + list
+        if (i < 0 && i != -500) {
+            LOG.info("Errno set by com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter() while attempting to filter assets " + list
                     + " by date: " + sdate + "(null date is ok). Errno: " + ics.GetErrno());
             // note the above tag behaves erratically and errno is unreliable
-            // throw new
-            // CSRuntimeException("Unexpected exception filtering assets by date.  Input Asset: "
-            // + id + ", date: " + null + " (null is ok)", errno);
         }
-
+        ics.ClearErrno();
         IList out = ics.GetList(outListName);
         ics.RegisterList(outListName, null); // tidy up!
 
