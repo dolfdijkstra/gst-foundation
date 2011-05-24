@@ -141,6 +141,8 @@ public class NavigationHelper {
         if (site == null)
             throw new RuntimeException("Site with name '" + sitename + "' not found.");
         final AssetId pageid = assetTemplate.findByName(ics, "Page", name, site.getId());
+        if (pageid == null)
+            return null;
         return getSitePlan(depth, pageid);
     }
 
