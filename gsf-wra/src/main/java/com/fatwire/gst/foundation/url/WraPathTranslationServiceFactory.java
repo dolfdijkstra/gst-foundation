@@ -19,6 +19,8 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.url.db.UrlRegistry;
+import com.fatwire.gst.foundation.vwebroot.AssetApiVirtualWebrootDao;
+import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 
 /**
  * Used to instantiate path translation services. Probably should get replaced
@@ -41,10 +43,11 @@ public final class WraPathTranslationServiceFactory {
         }
 
         Object o = ics.GetObj(WraPathTranslationService.class.getName());
-        if (o instanceof UrlRegistry)
-            return (UrlRegistry) o;
+        if (o instanceof WraPathTranslationService)
+            return (WraPathTranslationService) o;
 
-        UrlRegistry x = new UrlRegistry(ics);
+        UrlRegistry x = new UrlRegistry(ics, AssetApiWraCoreFieldDao.getInstance(ics), new AssetApiVirtualWebrootDao(ics));
+
         ics.SetObj(WraPathTranslationService.class.getName(), x);
         return x;
 

@@ -16,15 +16,18 @@
 
 package com.fatwire.gst.foundation.facade.assetapi;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Backdoor asset API utility that assists with retrieving asset data without
@@ -87,5 +90,40 @@ public final class DirectSqlAccessTools {
             return null;
         else
             return r.getString("stringvalue");
+    }
+
+    public Map<String, String> getFlexAttributeValues(AssetId id, String... attrName) {
+        // todo: medium: fix as this is very inefficient
+        if (attrName == null || attrName.length == 0)
+            throw new IllegalArgumentException("attrName must not be null or zero-length array.");
+        String attrType = getFlexAttributeType(id);
+        StringBuilder sql = new StringBuilder("SELECT attr.name AS name, cmungo.stringvalue AS stringvalue FROM ")
+                .append(attrType).append(" attr, ").append(id.getType())
+                .append("_Mungo cmungo WHERE cmungo.cs_ownerid = ? AND cmungo.cs_attrid = attr.id AND attr.name IN (");
+
+        for (int num = 0; num < attrName.length; num++) {
+            if (num > 0)
+                sql.append(",");
+            sql.append("?");
+        }
+
+        sql.append(")");
+
+        PreparedStmt flexFields = new PreparedStmt(sql.toString(), Arrays.asList(attrType, id.getType() + "_Mungo"));
+        flexFields.setElement(0, id.getType() + "_Mungo", "cs_ownerid");
+        for (int num = 0; num < attrName.length; num++) {
+            flexFields.setElement(num + 1, attrType, "name");
+        }
+
+        StatementParam param = flexFields.newParam();
+        param.setLong(0, id.getId());
+        for (int num = 0; num < attrName.length; num++) {
+            param.setString(num + 1, attrName[num]);
+        }
+        Map<String, String> map = new HashMap<String, String>();
+        for (Row r : SqlHelper.select(ics, flexFields, param)) {
+            map.put(r.getString("name"), r.getString("stringvalue"));
+        }
+        return map;
     }
 }

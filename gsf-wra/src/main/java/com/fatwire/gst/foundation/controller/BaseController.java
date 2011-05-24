@@ -34,6 +34,7 @@ import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
+import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraBeanImpl;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
@@ -66,7 +67,7 @@ public class BaseController extends AbstractController {
     public void SetAppLogic(IPS ips) {
         super.SetAppLogic(ips);
         pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
-        wraCoreFieldDao = new WraCoreFieldDao(ics);
+        wraCoreFieldDao = new AssetApiWraCoreFieldDao(ics);
         aliasCoreFieldDao = new AliasCoreFieldDao(ics, wraCoreFieldDao);
     }
 

@@ -18,7 +18,11 @@ package com.fatwire.gst.foundation.url;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
+import com.fatwire.gst.foundation.url.db.UrlRegistry;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebrootApiBypassDao;
+import com.fatwire.gst.foundation.wra.WraCoreFieldApiBypassDao;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
 import org.apache.commons.logging.Log;
@@ -61,7 +65,8 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
     }
 
     private WraPathTranslationService getService() {
-        return WraPathTranslationServiceFactory.getService(null);
+        ICS ics = ICSFactory.getOrCreateICS();
+        return new UrlRegistry(ics, WraCoreFieldApiBypassDao.getBackdoorInstance(ics), new VirtualWebrootApiBypassDao(ics));
     }
 
     /**

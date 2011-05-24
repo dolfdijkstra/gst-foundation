@@ -25,8 +25,9 @@ import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.uri.Definition;
+import com.fatwire.gst.foundation.vwebroot.AssetApiVirtualWebrootDao;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
-import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
+import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
@@ -93,8 +94,8 @@ public class WraPageReference extends PageRef {
         // no processing to do if not serving a page for SS
         if (getSatelliteContext() == SatelliteContext.SATELLITE_SERVER && isGetTemplateUrl(args)) {
             AssetId id = new AssetIdImpl((String) args.get("c"), Long.parseLong((String) args.get("cid")));
-            VirtualWebrootDao vwDao = new VirtualWebrootDao(ics);
-            WraCoreFieldDao wraDao = new WraCoreFieldDao(ics);
+            AssetApiVirtualWebrootDao vwDao = new AssetApiVirtualWebrootDao(ics);
+            WraCoreFieldDao wraDao = new AssetApiWraCoreFieldDao(ics);
             String currentEnvironment = vwDao.getVirtualWebrootEnvironment();
             // only look up webroots for WRAs when the environment is configured
             if (currentEnvironment != null && wraDao.isWebReferenceable(id)) {

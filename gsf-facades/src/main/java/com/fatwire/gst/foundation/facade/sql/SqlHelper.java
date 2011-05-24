@@ -25,6 +25,7 @@ import java.sql.Ref;
 import java.sql.Struct;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -36,7 +37,7 @@ import com.fatwire.cs.core.db.StatementParam;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hsqldb.Types;
+
 
 /**
  * A helper class over <tt>ICS.SQL</tt>

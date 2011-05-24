@@ -15,9 +15,12 @@
  */
 package com.fatwire.gst.foundation.url.db;
 
+import java.util.Collections;
+
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
@@ -33,13 +36,12 @@ import com.fatwire.gst.foundation.facade.sql.table.TableCreator;
 import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
-import com.fatwire.gst.foundation.vwebroot.VirtualWebrootApiBypassDao;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
-import com.fatwire.gst.foundation.wra.WraCoreFieldApiBypassDao;
+import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import java.util.Collections;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -52,18 +54,18 @@ public class UrlRegistry implements WraPathTranslationService {
     private static final Log LOG = LogFactory.getLog(UrlRegistry.class);
 
     private final ICS ics;
-    private final WraCoreFieldApiBypassDao wraDao;
-    private final VirtualWebrootApiBypassDao vwDao;
+    private final WraCoreFieldDao wraDao;
+    private final VirtualWebrootDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
     public static String TABLE_ACL_LIST = ""; // no ACLs because events are
     // anonymous
 
-    public UrlRegistry(ICS ics) {
+    public UrlRegistry(final ICS ics,final WraCoreFieldDao wraDao,final VirtualWebrootDao vwDao) {
         this.ics = ics;
         // Temporarily disable usage of asset APIs in this use case due to a bug in which asset listeners
         // cause a deadlock when the asset API is used.
-        wraDao = WraCoreFieldApiBypassDao.getBackdoorInstance(ics);
-        vwDao = new VirtualWebrootApiBypassDao(ics);
+        this.wraDao = wraDao ;//WraCoreFieldApiBypassDao.getBackdoorInstance(ics);
+        this.vwDao =vwDao;// new VirtualWebrootApiBypassDao(ics);
         // End temporary deadlock workaround
     }
 
@@ -197,7 +199,7 @@ public class UrlRegistry implements WraPathTranslationService {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Attempting to delete asset " + id + " from url registry (it might not have been there but we must try anyway)");
         }
-        SqlHelper.execute(ics, URLREG_TABLE, "delete from " + URLREG_TABLE + " where assettype = '" + id.getType() + "' and assetid = " + id.getId());
+        SqlHelper.execute(ics, URLREG_TABLE, "DELETE FROM " + URLREG_TABLE + " WHERE assettype = '" + id.getType() + "' AND assetid = " + id.getId());
         if (LOG.isDebugEnabled()) {
             LOG.debug("Asset " + id + " was either never present or is now removed from url registry");
         }

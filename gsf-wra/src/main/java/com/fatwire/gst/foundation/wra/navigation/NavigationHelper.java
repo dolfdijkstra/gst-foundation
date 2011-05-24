@@ -35,6 +35,7 @@ import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.runtag.siteplan.ListPages;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
+import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
@@ -90,8 +91,8 @@ public class NavigationHelper {
      */
     public NavigationHelper(final ICS ics) {
         this.ics = ics;
-        this.wraDao = new WraCoreFieldDao(ics);
-        aliasDao = new AliasCoreFieldDao(ics);
+        this.wraDao = new AssetApiWraCoreFieldDao(ics);
+        this.aliasDao = new AliasCoreFieldDao(ics);
         this.assetEffectiveDate = null;
         assetTemplate = new AssetAccessTemplate(ics);
     }

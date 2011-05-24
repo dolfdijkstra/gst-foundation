@@ -15,30 +15,36 @@
  */
 package com.fatwire.gst.foundation.wra;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IList;
+
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
+import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
+import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.Collections;
-
 /**
- * Backdoor implementation of WraCoreFieldDao that does not utilize
- * any Asset APIs.  This class should be used sparingly and may result
- * in some dependencies, that would ordinarily be recorded, being skipped.
+ * Backdoor implementation of WraCoreFieldDao that does not utilize any Asset
+ * APIs. This class should be used sparingly and may result in some
+ * dependencies, that would ordinarily be recorded, being skipped.
  * <p/>
- * User: Tony Field
- * Date: 2011-05-06
+ * User: Tony Field Date: 2011-05-06
  */
-public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
+public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
     public static WraCoreFieldApiBypassDao getBackdoorInstance(ICS ics) {
         if (ics == null) {
             ics = ICSFactory.getOrCreateICS();
@@ -55,7 +61,7 @@ public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
     private final ICS ics;
     private final DirectSqlAccessTools directSqlAccessTools;
 
-    private WraCoreFieldApiBypassDao(ICS ics) {
+    private WraCoreFieldApiBypassDao(final ICS ics) {
         super(ics);
         this.ics = ics;
         directSqlAccessTools = new DirectSqlAccessTools(ics);
@@ -64,80 +70,84 @@ public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
     private static final Log LOG = LogFactory.getLog(WraCoreFieldApiBypassDao.class);
 
     /**
-     * @throws UnsupportedOperationException - not possible in this implementation
-     */
-    public AssetData getAsAssetData(AssetId id) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
      * Method to test whether or not an asset is web-referenceable. todo: low
      * priority: optimize as this will be called at runtime (assest api incache
      * will mitigate the performance issue)
-     *
+     * 
      * @param id asset ID to check
      * @return true if the asset is a valid web-referenceable asset, false if it
      *         is not
      */
-    public boolean isWebReferenceable(AssetId id) {
+    @Override
+    public boolean isWebReferenceable(final AssetId id) {
+
+        if (directSqlAccessTools.isFlex(id)) {
+            if (!isWraEnabledFlexAssetType(id)) {
+                return false;
+            }
+        } else {
+            if (!isWraEnabledBasicAssetType(id)) {
+                return false;
+            }
+
+        }
+        // type is wra, now lookup the asset data
         try {
-            WebReferenceableAsset wra = getWra(id);
-            boolean b = StringUtils.isNotBlank(wra.getPath());
-            if (LOG.isTraceEnabled())
-                LOG.trace("Asset " + id + (b ? " is " : " is not ") + "web-referenceable, as determinted by the presence of a path attribute.");
+            final WebReferenceableAsset wra = getWra(id);
+            final boolean b = StringUtils.isNotBlank(wra.getPath());
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Asset " + id + (b ? " is " : " is not ")
+                        + "web-referenceable, as determinted by the presence of a path attribute.");
+            }
             return b;
-        } catch (RuntimeException e) {
-            if (LOG.isTraceEnabled()) LOG.trace("Asset " + id + " is not web-referenceable: " + e, e);
+        } catch (final RuntimeException e) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Asset " + id + " is not web-referenceable: " + e, e);
+            }
             return false;
         }
     }
 
-    /**
-     * @throws UnsupportedOperationException - not possible in this implementation
-     */
-    public boolean isWebReferenceable(WebReferenceableAsset wra) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
-    /**
-     * @throws UnsupportedOperationException - not possible in this implementation
-     */
-    public boolean hasPathAttribute(AssetData data) {
-        throw new UnsupportedOperationException("Not implemented");
-
+    private boolean isWraEnabledFlexAssetType(final AssetId id) {
+        // TODO:medium implements proper check
+        return true;
     }
 
     /**
      * Return a web referenceable asset bean given an input id. Required fields
      * must be set or an exception is thrown.
-     *
+     * 
      * @param id asset id
      * @return WebReferenceableAsset, never null
      * @see #isWebReferenceable(AssetId)
      */
-    public WebReferenceableAsset getWra(AssetId id) {
+    @Override
+    public WebReferenceableAsset getWra(final AssetId id) {
         if (directSqlAccessTools.isFlex(id)) {
-            // todo: medium: optimize as this is very inefficient for flex assets
-            PreparedStmt basicFields = new PreparedStmt("SELECT id,name,description,subtype,status,path,template,startdate,enddate" +
-                    " FROM " + id.getType() +
-                    " WHERE id = ?", Collections.singletonList(id.getType()));
+            // todo: medium: optimize as this is very inefficient for flex
+            // assets
+            final PreparedStmt basicFields = new PreparedStmt(
+                    "SELECT id,name,description,subtype,status,path,template,startdate,enddate" + " FROM "
+                            + id.getType() + " WHERE id = ?", Collections.singletonList(id.getType()));
             basicFields.setElement(0, id.getType(), "id");
 
-            StatementParam param = basicFields.newParam();
+            final StatementParam param = basicFields.newParam();
             param.setLong(0, id.getId());
-            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+            final Row row = SqlHelper.selectSingle(ics, basicFields, param);
 
-            WraBeanImpl wra = new WraBeanImpl();
+            final WraBeanImpl wra = new WraBeanImpl();
             wra.setId(id);
             wra.setName(row.getString("name"));
             wra.setDescription(row.getString("description"));
             wra.setSubtype(row.getString("subtype"));
             wra.setPath(row.getString("path"));
             wra.setTemplate(row.getString("template"));
-            if (StringUtils.isNotBlank(row.getString("startdate")))
+            if (StringUtils.isNotBlank(row.getString("startdate"))) {
                 wra.setStartDate(row.getDate("startdate"));
-            if (StringUtils.isNotBlank(row.getString("enddate")))
+            }
+            if (StringUtils.isNotBlank(row.getString("enddate"))) {
                 wra.setEndDate(row.getDate("enddate"));
+            }
 
             wra.setMetaTitle(directSqlAccessTools.getFlexAttributeValue(id, "metatitle"));
             wra.setMetaDescription(directSqlAccessTools.getFlexAttributeValue(id, "metadescription"));
@@ -147,17 +157,18 @@ public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
 
             return wra;
         } else {
-            PreparedStmt basicFields = new PreparedStmt("SELECT id,name,description,subtype,status,path,template,startdate,enddate," +
-                    "metatitle,metadescription,metakeyword,h1title,linktext" +
-                    " FROM " + id.getType() +
-                    " WHERE id = ?", Collections.singletonList(id.getType()));
+
+            final PreparedStmt basicFields = new PreparedStmt(
+                    "SELECT id,name,description,subtype,status,path,template,startdate,enddate,"
+                            + "metatitle,metadescription,metakeyword,h1title,linktext FROM " + id.getType()
+                            + " WHERE id = ?", Collections.singletonList(id.getType()));
             basicFields.setElement(0, id.getType(), "id");
 
-            StatementParam param = basicFields.newParam();
+            final StatementParam param = basicFields.newParam();
             param.setLong(0, id.getId());
-            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+            final Row row = SqlHelper.selectSingle(ics, basicFields, param);
 
-            WraBeanImpl wra = new WraBeanImpl();
+            final WraBeanImpl wra = new WraBeanImpl();
             wra.setId(id);
             wra.setName(row.getString("name"));
             wra.setDescription(row.getString("description"));
@@ -169,18 +180,48 @@ public class WraCoreFieldApiBypassDao extends WraCoreFieldDao {
             wra.setLinkText(row.getString("linktext"));
             wra.setPath(row.getString("path"));
             wra.setTemplate(row.getString("template"));
-            if (StringUtils.isNotBlank(row.getString("startdate")))
+            if (StringUtils.isNotBlank(row.getString("startdate"))) {
                 wra.setStartDate(row.getDate("startdate"));
-            if (StringUtils.isNotBlank(row.getString("enddate")))
+            }
+            if (StringUtils.isNotBlank(row.getString("enddate"))) {
                 wra.setEndDate(row.getDate("enddate"));
+            }
             return wra;
         }
     }
 
     /**
-     * @throws UnsupportedOperationException - not possible in this implementation
+     * Checks if the table definition for a basic asset has all the wra fields.
+     * @param id
      */
-    public WebReferenceableAsset getWra(AssetData data) {
+    private boolean isWraEnabledBasicAssetType(final AssetId id) {
+        boolean wraTable;
+        final String listname = IListUtils.generateRandomListName();
+        final IList list = ics.CatalogDef(id.getType(), listname, new StringBuffer());
+        ics.RegisterList(listname, null);
+        final List<String> attr = Arrays.asList(WRA_ATTRIBUTE_NAMES);
+        for (final Row row : new IListIterable(list)) {
+            /*
+             * "COLNAME" "COLTYPE" "COLSIZE" "KEY"
+             */
+            attr.remove(row.getString("COLNAME").toLowerCase());
+        }
+        wraTable = attr.isEmpty();// all wra attributes are found in the
+                                  // table def.
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Asset " + id + (wraTable ? " is " : " is not ")
+                    + "web-referenceable, as determinted by the table definition.");
+        }
+
+        return wraTable;
+    }
+
+    /**
+     * @throws UnsupportedOperationException - not possible in this
+     *             implementation
+     */
+    @Override
+    public WebReferenceableAsset getWra(final AssetData data) {
         throw new UnsupportedOperationException("Not implemented");
     }
 }

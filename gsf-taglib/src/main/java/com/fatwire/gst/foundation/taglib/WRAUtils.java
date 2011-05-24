@@ -20,6 +20,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
+import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
@@ -38,7 +39,7 @@ public class WRAUtils {
     private final AliasCoreFieldDao aliasDao;
 
     public WRAUtils(final ICS ics) {
-        wraDao = new WraCoreFieldDao(ics);
+        wraDao = new AssetApiWraCoreFieldDao(ics);
         aliasDao = new AliasCoreFieldDao(ics, wraDao);
     }
 

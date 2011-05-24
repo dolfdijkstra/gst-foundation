@@ -22,6 +22,7 @@ import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
+import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 /**
@@ -53,10 +54,10 @@ public class IcsBackedObjectFactory implements Factory {
             return ics;
         }
         if (WraCoreFieldDao.class.isAssignableFrom(fieldType)) {
-            return WraCoreFieldDao.getInstance(ics);
+            return AssetApiWraCoreFieldDao.getInstance(ics);
         }
         if (AliasCoreFieldDao.class.isAssignableFrom(fieldType)) {
-            WraCoreFieldDao wraCoreFieldDao = WraCoreFieldDao.getInstance(ics);
+            WraCoreFieldDao wraCoreFieldDao = AssetApiWraCoreFieldDao.getInstance(ics);
             return new AliasCoreFieldDao(ics, wraCoreFieldDao);
         }
         if (WraPathTranslationService.class.isAssignableFrom(fieldType)) {

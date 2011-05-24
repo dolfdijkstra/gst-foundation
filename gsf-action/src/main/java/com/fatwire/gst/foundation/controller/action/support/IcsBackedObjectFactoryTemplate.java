@@ -37,6 +37,7 @@ import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
+import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.lang.StringUtils;
@@ -153,7 +154,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
 
     // @Factory
     public WraCoreFieldDao createWraCoreFieldDao(final ICS ics) {
-        return WraCoreFieldDao.getInstance(ics);
+        return AssetApiWraCoreFieldDao.getInstance(ics);
     }
 
     public AliasCoreFieldDao createAliasCoreFieldDao(final ICS ics) {

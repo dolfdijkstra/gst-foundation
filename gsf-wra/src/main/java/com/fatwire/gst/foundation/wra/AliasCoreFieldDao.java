@@ -60,7 +60,7 @@ public class AliasCoreFieldDao {
 
     public AliasCoreFieldDao(ICS ics) {
         this.ics = ics;
-        wraCoreFieldDao = new WraCoreFieldDao(ics);
+        wraCoreFieldDao = new AssetApiWraCoreFieldDao(ics);
     }
 
     private static final Log LOG = LogFactory.getLog(AliasCoreFieldDao.class);

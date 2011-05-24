@@ -23,7 +23,8 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
  * <p/>
  * todo: low priority: for any given partial url, get next children down, and
  * "are they parents too"
- * todo: low priority: remove installation method from interface.
+ * TODO: low priority: remove installation method from interface.
+ * TODO: low priority: remove asset listener methods from interface, create seperate interface for these methods
  * 
  * @author Tony Field
  * @since Jul 21, 2010

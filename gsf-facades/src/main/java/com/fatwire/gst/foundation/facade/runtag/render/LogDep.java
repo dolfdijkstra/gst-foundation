@@ -72,6 +72,8 @@ public final class LogDep extends AbstractTagRunner {
     }
 
     public static void logDep(ICS ics, AssetId id) {
+        if(ics ==null) throw new IllegalArgumentException("ics must not be null");
+        if(id ==null) throw new IllegalArgumentException("id must not be null");
         logDep(ics, id.getType(), Long.toString(id.getId()));
     }
 }

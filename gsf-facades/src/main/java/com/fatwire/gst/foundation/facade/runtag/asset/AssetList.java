@@ -149,4 +149,18 @@ public class AssetList extends AbstractTagRunner {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#handleError
+     * (COM.FutureTense.Interfaces.ICS)
+     */
+    @Override
+    protected void handleError(ICS ics) {
+        if (ics.GetErrno() == -101)
+            return;
+        super.handleError(ics);
+    }
+
 }
