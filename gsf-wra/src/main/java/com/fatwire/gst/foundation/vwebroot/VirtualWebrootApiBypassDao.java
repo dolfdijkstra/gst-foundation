@@ -15,21 +15,21 @@
  */
 package com.fatwire.gst.foundation.vwebroot;
 
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * Backdoor implementation of VirtualWebrootDao that does not utilize
@@ -61,7 +61,7 @@ public class VirtualWebrootApiBypassDao {
                 directSqlAccessTools.getFlexAttributeValue(id, "env_name"));
     }
 
-    private static final PreparedStmt ALL_VW = new PreparedStmt("SELECT id from GSTVirtualWebroot WHERE status != 'VO'", Collections.singletonList("GSTVirtualWebroot"));
+    //private static final PreparedStmt ALL_VW = new PreparedStmt("SELECT id from GSTVirtualWebroot WHERE status != 'VO'", Collections.singletonList("GSTVirtualWebroot"));
 
 
     /**
@@ -72,7 +72,7 @@ public class VirtualWebrootApiBypassDao {
     public SortedSet<VirtualWebroot> getAllVirtualWebroots() {
 
         SortedSet<VirtualWebroot> result = new TreeSet<VirtualWebroot>(new UrlInfoComparator());
-        for (Row r : SqlHelper.select(ics, ALL_VW, ALL_VW.newParam())) {
+        for (Row r : SqlHelper.select(ics, "GSTVirtualWebroot", "SELECT id from GSTVirtualWebroot WHERE status != 'VO'")) {
             result.add(getVirtualWebroot(r.getLong("id")));
         }
         if (result.size() == 0)
