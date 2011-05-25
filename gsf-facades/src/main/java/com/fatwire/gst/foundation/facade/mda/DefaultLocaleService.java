@@ -54,8 +54,9 @@ public class DefaultLocaleService implements LocaleService {
      * @param ics
      */
     public DefaultLocaleService(final ICS ics) {
-        if (ics == null)
+        if (ics == null) {
             throw new IllegalArgumentException("ICS must not be null.");
+        }
         this.ics = ics;
     }
 
@@ -246,14 +247,14 @@ public class DefaultLocaleService implements LocaleService {
                             + "'. Cannot determine any translation unless some locales (Dimensions) are enabled for that site. Aborting operation.");
         }
         if (numRows > 1) {
-            String msg = "More than one dimension set found in site " + site
-                    + ".  Exactly one is expected.  Dimension set ids: ";
+            final StringBuilder msg = new StringBuilder("More than one dimension set found in site " + site
+                    + ".  Exactly one is expected.  Dimension set ids: ");
             for (final Row row : list) {
                 final String id = row.getString("id");
                 LogDep.logDep(ics, "DimensionSet", id);
-                msg += id + " ";
+                msg.append(id).append(" ");
             }
-            throw new IllegalStateException(msg + ".");
+            throw new IllegalStateException(msg.append(".").toString());
         }
 
         final String id = list.iterator().next().getString("id");
@@ -448,7 +449,7 @@ public class DefaultLocaleService implements LocaleService {
      */
 
     public String getNameForDimensionId(final long dimensionid) {
-        Dimension dim = getDM().loadDimension(dimensionid);
+        final Dimension dim = getDM().loadDimension(dimensionid);
         return dim == null ? null : dim.getName();
     }
 
@@ -461,7 +462,7 @@ public class DefaultLocaleService implements LocaleService {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T getManager(Class<T> c) {
+    protected <T> T getManager(final Class<T> c) {
         return (T) getSession().getManager(c.getName());
     }
 
