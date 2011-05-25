@@ -42,12 +42,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Various helper classes for debugging.
+ * Various helper methods for debugging.
  * 
  * @author Dolf Dijkstra
  * 
  */
-public class DebugHelper {
+public final class DebugHelper {
 
     public static final String TIME_LOGGER = DebugHelper.class.getPackage().getName() + ".debug.time";
     private static final Log LOG = LogFactory.getLog(DebugHelper.class.getPackage().getName() + ".debug");
