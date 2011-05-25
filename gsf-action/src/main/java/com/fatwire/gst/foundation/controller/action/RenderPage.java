@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
@@ -142,10 +143,10 @@ public class RenderPage implements Action {
         getCallTemplateArguments(id, arguments);
 
         // add them to the tag
-        for (final String name : arguments.keySet()) {
-            ct.setArgument(name, arguments.get(name));
+        for (final Entry<String,String> e : arguments.entrySet()) {
+            ct.setArgument(e.getKey(), e.getValue());
             if (LOG.isTraceEnabled()) {
-                LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+                LOG.trace("CallTemplate param added: " + e.getKey() + "=" + e.getValue());
             }
         }
 
