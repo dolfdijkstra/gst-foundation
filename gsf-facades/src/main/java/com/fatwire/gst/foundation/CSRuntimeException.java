@@ -26,42 +26,65 @@ import COM.FutureTense.Util.ftErrors;
  * @since 10-Jun-2008
  */
 public class CSRuntimeException extends RuntimeException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = 4188899178173205442L;
     private final int errno;
     private final ftErrors complexError;
 
-    public CSRuntimeException(String msg, int errno) {
+    /**
+     * @param msg the message
+     * @param errno the Content Server errno
+     */
+    public CSRuntimeException(final String msg, final int errno) {
         super(msg + " (errno=" + errno + ")");
         this.errno = errno;
         this.complexError = null;
     }
 
-    public CSRuntimeException(String msg, int errno, Throwable t) {
-        super(msg + " (errno=" + errno + ")", t);
+    /**
+     * @param msg the message
+     * @param errno the Content Server errno
+     * @param cause the Throwable as a cause
+     */
+    public CSRuntimeException(final String msg, final int errno, final Throwable cause) {
+        super(msg + " (errno=" + errno + ")", cause);
         this.errno = errno;
         this.complexError = null;
     }
 
-    public CSRuntimeException(String msg, ftErrors complexError, int errno) {
+    /**
+     * @param msg the message
+     * @param complexError the complex error
+     * @param errno the Content Server errno
+     */
+    public CSRuntimeException(final String msg, final ftErrors complexError, final int errno) {
         super(msg, complexError);
         this.errno = errno;
         this.complexError = complexError;
     }
 
+    /**
+     * @return the Content Server errno
+     */
     public int getErrno() {
         return errno;
     }
 
+    /**
+     * @return the complex error, or null if it was not set.
+     */
     public ftErrors getComplexError() {
         return complexError;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Throwable#getMessage()
+     */
+    @Override
     public String getMessage() {
         // format:
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append(super.getMessage());
         if (complexError != null) {
             if (errno != complexError.getReason()) {
@@ -71,7 +94,7 @@ public class CSRuntimeException extends RuntimeException {
             builder.append("|message:");
             builder.append(complexError.getMessage());
 
-            int details = complexError.details();
+            final int details = complexError.details();
             if (details > 0) {
                 builder.append("|details:");
             }
