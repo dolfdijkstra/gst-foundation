@@ -15,7 +15,6 @@
  */
 package com.fatwire.gst.foundation.wra;
 
-import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 
 /**
@@ -29,32 +28,13 @@ import com.fatwire.assetapi.data.AssetId;
 public interface AliasCoreFieldDao {
 
     /**
-     * Return an AssetData object containing the core fields found in an alias
-     * asset.
-     * <p/>
-     * Also includes selected metadata fields:
-     * <ul>
-     * <li>id</li>
-     * <li>name</li>
-     * <li>subtype</li>
-     * <li>startdate</li>
-     * <li>enddate</li>
-     * <li>status</li>
-     * </ul>
-     * 
-     * @param id id of alias asset
-     * @return AssetData containing core fields for Alias asset
-     */
-  //  public AssetData getAsAssetData(AssetId id);
-
-    /**
      * Method to test whether or not an asset is an Alias. todo: low priority:
      * optimize as this will be called at runtime
      * 
      * @param id asset ID to check
      * @return true if the asset is a valid Alias asset, false if it is not
      */
-//    public boolean isAlias(AssetId id);
+    public boolean isAlias(AssetId id);
 
     /**
      * Return an alias asset bean given an input id. Required fields must be set
