@@ -254,11 +254,21 @@ public class TemplateAsset {
     /**
      * Get the type of the attribute.
      * 
-     * @param name
-     * @return
+     * @param name the name of the attribute
+     * @return the attribute type
      */
     public AttributeTypeEnum getType(String name) {
         return delegate.getAssetTypeDef().getAttributeDef(name, isMetaAttribute(name)).getType();
+    }
+
+    /**
+     * Cehcks if the asset has an attribute by the provided name.
+     * 
+     * @param name the name of trhe attributes.
+     * @return true if the asset has an attribute by this name.
+     */
+    public boolean isAttribute(String name) {
+        return getAttributeNames().contains(name);
     }
 
     /**
