@@ -18,6 +18,7 @@ package com.fatwire.gst.foundation;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
@@ -48,7 +49,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class DebugHelper {
 
-    public static String TIME_LOGGER = DebugHelper.class.getPackage().getName() + ".debug.time";
+    public static final String TIME_LOGGER = DebugHelper.class.getPackage().getName() + ".debug.time";
     private static final Log LOG = LogFactory.getLog(DebugHelper.class.getPackage().getName() + ".debug");
     private static final Log LOG_TIME = LogFactory.getLog(TIME_LOGGER);
 
@@ -223,7 +224,7 @@ public class DebugHelper {
                     + props.getValueCount().name() + "/" + props.isInheritedFlexAttribute() + "/"
                     + props.isDerivedFlexAttribute() + "])");
         }
-        List<AttributeDef> parentDefs = ad.getAssetTypeDef().getParentDefs();
+        final List<AttributeDef> parentDefs = ad.getAssetTypeDef().getParentDefs();
         if (parentDefs != null) {
             out.println("parent defs --- name (type [meta/value count/inherited/derived])");
             for (final AttributeDef def : parentDefs) {
@@ -274,11 +275,11 @@ public class DebugHelper {
 
         out.println("dimension --- group/name/id");
         try {
-            AttributeData locale = ad.getAttributeData("Dimension");
+            final AttributeData locale = ad.getAttributeData("Dimension");
             if (locale != null) {
                 for (final Object o1 : locale.getDataAsList()) {
                     if (o1 instanceof Collection) { // o1 is probably a Set
-                        for (Object o2 : (Collection<?>) o1) {
+                        for (final Object o2 : (Collection<?>) o1) {
                             if (o2 instanceof Dimension) {
                                 final Dimension dim2 = (Dimension) o2;
                                 out.print("\t" + dim2.getGroup());
@@ -291,7 +292,7 @@ public class DebugHelper {
                     }
                 }
             }
-        } catch (NullPointerException e) {
+        } catch (final NullPointerException e) {
             out.println("\tgetting the dimension attribute threw a " + e.getMessage());
 
         }
@@ -348,5 +349,15 @@ public class DebugHelper {
         pw.close();
         return sw.toString();
 
+    }
+
+    /**
+     * Prints the StackTrace of the Throwable to the Writer.
+     * 
+     * @param writer writer to write to.
+     * @param t the Throwable to print the stacktrace of.
+     */
+    public static void printStackTrace(final Writer writer, final Throwable t) {
+        t.printStackTrace(new PrintWriter(writer));
     }
 }
