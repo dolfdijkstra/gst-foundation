@@ -62,7 +62,7 @@ public class DateFilterClosure implements AssetClosure {
             throw new IllegalArgumentException("target cannot be null");
         }
         this.target = target;
-        this.cutoff = cuttoff;
+        this.cutoff = new Date(cuttoff.getTime());
 
     }
 

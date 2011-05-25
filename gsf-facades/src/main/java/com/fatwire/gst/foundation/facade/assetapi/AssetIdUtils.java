@@ -43,18 +43,18 @@ public final class AssetIdUtils {
      */
     public static AssetId fromString(String s) {
         if (s == null)
-            throw new IllegalArgumentException("Inalid input: " + s);
+            throw new IllegalArgumentException("Invalid null input.");
         int colon = s.indexOf(":");
         if (colon < 1)
-            throw new IllegalArgumentException("Inalid input: " + s);
+            throw new IllegalArgumentException("Invalid input: " + s);
         if (colon == s.length())
-            throw new IllegalArgumentException("Inalid input: " + s);
+            throw new IllegalArgumentException("Invalid input: " + s);
         String type = s.substring(0, colon);
         String sId = s.substring(colon + 1);
         try {
             return new AssetIdImpl(type, Long.valueOf(sId));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("invalid input: " + s, e);
+            throw new IllegalArgumentException("Invalid input: " + s, e);
         }
     }
 
@@ -66,7 +66,7 @@ public final class AssetIdUtils {
      */
     public static String toString(AssetId id) {
         if (id == null)
-            throw new IllegalArgumentException("Inalid input: " + id);
+            throw new IllegalArgumentException("Invalid null input.");
         return id.getType() + ":" + Long.toString(id.getId());
     }
 
