@@ -91,7 +91,7 @@ public final class DebugHelper {
     /**
      * 
      * Converts an elapsed time in micro seconds to a human readable string with
-     * seconds and milliseconds precision on larger elapsed times
+     * seconds and milliseconds precision on larger elapsed times.
      * 
      * @param elapsed the elapsed time in micro seconds (us)
      * @return A human readable string for the elapsed micro seconds
@@ -150,7 +150,7 @@ public final class DebugHelper {
 
     /**
      * Print the elapsed time between the <tt>start</tt> and <tt>end</tt> to the
-     * provided logger in a human readable form
+     * provided logger in a human readable form.
      * 
      * @param log The logger where the message will be printed to.
      * @param msg The message as an indicator of the operation that was
@@ -170,7 +170,7 @@ public final class DebugHelper {
 
     /**
      * 
-     * Print the elapsed time since the <tt>start</tt> to the provided Log
+     * Print the elapsed time since the <tt>start</tt> to the provided Log.
      * 
      * @param log The logger where the message will be printed to.
      * @param msg The message as an indicator of the operation that was
@@ -187,7 +187,7 @@ public final class DebugHelper {
 
     /**
      * Print the elapsed time since the <tt>start</tt> to the default time
-     * logger {@link DebugHelper#TIME_LOGGER}
+     * logger {@link DebugHelper#TIME_LOGGER}.
      * 
      * 
      * @param msg The message as an indicator of the operation that was
@@ -203,7 +203,7 @@ public final class DebugHelper {
     }
 
     /**
-     * Print the AssetData to a string for debugging purposes
+     * Print the AssetData to a string for debugging purposes.
      * 
      * @param ad the asset date
      * @return String with asset attributes etc
