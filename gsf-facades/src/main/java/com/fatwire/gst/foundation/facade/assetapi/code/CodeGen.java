@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -38,6 +37,7 @@ import com.fatwire.assetapi.def.AssetTypeDefProperties;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeDefProperties;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
+import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
 
@@ -45,14 +45,14 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 public class CodeGen {
 
-    static Set<String> KEYWORDS = new HashSet<String>(Arrays
-            .asList(("abstract,assert,boolean,break,byte,case,catch,char,class,const,continue"
+    static Set<String> KEYWORDS = new HashSet<String>(
+            Arrays.asList(("abstract,assert,boolean,break,byte,case,catch,char,class,const,continue"
                     + ",default,do,double,else,enum,extends,final,finally,float"
                     + ",for,goto,if,implements,import,instanceof,int,interface,long,native,new,"
                     + "ackage,private,protected,public,return,short,static,strictfp,super,switch,"
                     + "synchronized,this,throw,throws,transient,try,void,volatile,while").split(",")));
-    static Set<String> USELESS_ATTRIBUTES = new HashSet<String>(Arrays
-            .asList(("urlexternaldoc,externaldoctype,urlexternaldocxml").split(",")));
+    static Set<String> USELESS_ATTRIBUTES = new HashSet<String>(
+            Arrays.asList(("urlexternaldoc,externaldoctype,urlexternaldocxml").split(",")));
 
     interface Generator {
 
@@ -232,8 +232,7 @@ public class CodeGen {
                     + "(ICS ics) throws AssetNotExistException, AssetAccessException {");
             pw.println();
             pw.println("    Session ses = SessionFactory.getSession(ics);");
-            pw
-                    .println("    AssetDataManager mgr = (AssetDataManager) ses.getManager(AssetDataManager.class.getName());");
+            pw.println("    AssetDataManager mgr = (AssetDataManager) ses.getManager(AssetDataManager.class.getName());");
             pw.println("    AssetId id = new AssetIdImpl(ics.GetVar(\"c\"), Long.parseLong(ics.GetVar(\"cid\")));");
             pw.println("    Iterable<AssetData> assets = mgr.read(Collections.singletonList(id));");
 
@@ -404,8 +403,7 @@ public class CodeGen {
                             pw.println("    String idcol = address.getIdentifierColumnName();");
                             pw.println("    String blobtable = address.getTableName();");
                             pw.println("");
-                            pw
-                                    .println("    String uri =new BlobUriBuilder(address).mimeType(\"image/jpeg\").toURI(ics);");
+                            pw.println("    String uri =new BlobUriBuilder(address).mimeType(\"image/jpeg\").toURI(ics);");
 
                             pw.println("    */");
                             pw.println("    //InputStream stream = " + name + ".getBinaryStream();");
@@ -472,8 +470,7 @@ public class CodeGen {
                     + "(ICS ics) throws AssetNotExistException, AssetAccessException {");
             out.println();
             out.println("    AssetAccessTemplate aat = new AssetAccessTemplate(ics);");
-            out
-                    .println("    TemplateAsset asset = aat.readAsset(ics.GetVar(\"c\"), ics.GetVar(\"cid\"), new TemplateAssetMapper());");
+            out.println("    TemplateAsset asset = aat.readAsset(ics.GetVar(\"c\"), ics.GetVar(\"cid\"), new TemplateAssetMapper());");
             out.println("");
             printAttributes(def.getAttributeDefs());
             out.println("}");
@@ -516,9 +513,10 @@ public class CodeGen {
         private void printAttributes(List<AttributeDef> list) {
             for (AttributeDef def : list) {
                 if (def.getType() == AttributeTypeEnum.BLOB || def.getType() == AttributeTypeEnum.URL) {
-                    PageContext x;
-                    //x.getVariableResolver().resolveVariable("asset." + def.getName());
-                    //<gsf:link assetname="asset" field="" mimetype="" var="" >
+
+                    // x.getVariableResolver().resolveVariable("asset." +
+                    // def.getName());
+                    // <gsf:link assetname="asset" field="" mimetype="" var="" >
                 } else {
                     out.println(def.getName() + ": ${asset." + def.getName() + "} <br/>");
                 }
@@ -582,7 +580,7 @@ public class CodeGen {
                 }
             } catch (Exception e) {
                 out.println(e.getMessage());
-                e.printStackTrace(new PrintWriter(out));
+                DebugHelper.printStackTrace(out, e);
             }
 
         }
