@@ -24,7 +24,7 @@ import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
 
-public class RenderUtils {
+public final class RenderUtils {
 
     private RenderUtils() {
     }
