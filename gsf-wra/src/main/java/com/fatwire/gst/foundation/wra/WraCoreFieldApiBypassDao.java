@@ -192,6 +192,7 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 
     /**
      * Checks if the table definition for a basic asset has all the wra fields.
+     * 
      * @param id
      */
     private boolean isWraEnabledBasicAssetType(final AssetId id) {
@@ -200,14 +201,17 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
         final IList list = ics.CatalogDef(id.getType(), listname, new StringBuffer());
         ics.RegisterList(listname, null);
         final List<String> attr = Arrays.asList(WRA_ATTRIBUTE_NAMES);
+        int count = 0;
         for (final Row row : new IListIterable(list)) {
             /*
              * "COLNAME" "COLTYPE" "COLSIZE" "KEY"
              */
-            attr.remove(row.getString("COLNAME").toLowerCase());
+            if (attr.contains(row.getString("COLNAME").toLowerCase())) {
+                count++;
+            }
         }
-        wraTable = attr.isEmpty();// all wra attributes are found in the
-                                  // table def.
+        wraTable = count == attr.size();// all wra attributes are found in the
+        // table def.
         if (LOG.isTraceEnabled()) {
             LOG.trace("Asset " + id + (wraTable ? " is " : " is not ")
                     + "web-referenceable, as determinted by the table definition.");
