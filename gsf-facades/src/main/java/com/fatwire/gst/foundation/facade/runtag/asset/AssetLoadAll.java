@@ -53,12 +53,12 @@ public final class AssetLoadAll extends AbstractTagRunner {
     }
 
     public void setIds(List<AssetId> ids ) {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (AssetId id : ids) {
-            if (s.length() > 0) s += ",";
-            s += Long.toString(id.getId());
+            if (s.length() > 0) s.append(",");
+            s.append(Long.toString(id.getId()));
         }
-        setIds(s);
+        setIds(s.toString());
     }
 
     public void setIdfield(String s) {
