@@ -65,14 +65,14 @@ public class CSRuntimeException extends RuntimeException {
     /**
      * @return the Content Server errno
      */
-    public int getErrno() {
+    public final int getErrno() {
         return errno;
     }
 
     /**
      * @return the complex error, or null if it was not set.
      */
-    public ftErrors getComplexError() {
+    public final ftErrors getComplexError() {
         return complexError;
     }
 

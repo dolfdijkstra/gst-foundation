@@ -328,8 +328,8 @@ public final class DebugHelper {
      * Returns the assetid in as a human readable string in the format of
      * type:id.
      * 
-     * @param assetId
-     * @return
+     * @param assetId the asset id.
+     * @return a String concatenated with type and id. 
      */
     public static String toString(final AssetId assetId) {
         return assetId.getType() + ":" + assetId.getId();
