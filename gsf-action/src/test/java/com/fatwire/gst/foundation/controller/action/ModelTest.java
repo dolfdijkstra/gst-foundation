@@ -22,28 +22,28 @@ import junit.framework.TestCase;
 public class ModelTest extends TestCase {
 
     public void testAddStringObject() {
-        Model m = new Model();
+        final Model m = new Model();
         m.add("foo", "bar");
         assertEquals(1, m.entries().size());
         assertEquals("bar", m.entries().iterator().next().getValue());
     }
 
     public void testAddStringObjectArray() {
-        Model m = new Model();
+        final Model m = new Model();
         m.add("foo", "bar", "bad");
         assertEquals(1, m.entries().size());
-        Object o = m.entries().iterator().next().getValue();
+        final Object o = m.entries().iterator().next().getValue();
         assertTrue(o instanceof Collection);
 
     }
 
     @SuppressWarnings("rawtypes")
     public void testList() {
-        Model m = new Model();
+        final Model m = new Model();
         m.list("foo", "bad");
         m.list("foo", "bad");
         assertEquals(1, m.entries().size());
-        Object o = m.entries().iterator().next().getValue();
+        final Object o = m.entries().iterator().next().getValue();
         assertTrue(o instanceof Collection);
         assertEquals(2, ((Collection) o).size());
 

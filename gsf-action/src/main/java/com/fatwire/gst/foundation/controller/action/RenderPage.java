@@ -60,7 +60,7 @@ public class RenderPage implements Action {
     @InjectForRequest
     protected WraPathTranslationService wraPathTranslationService;
 
-    public void handleRequest(ICS ics) {
+    public void handleRequest(final ICS ics) {
 
         final AssetIdWithSite id = resolveAssetId();
         if (id == null || id.getSite() == null) {
@@ -68,7 +68,7 @@ public class RenderPage implements Action {
         }
         LOG.debug("RenderPage found a valid asset and site: " + id);
 
-        WebReferenceableAsset wra = getWraAndResolveAlias(id);
+        final WebReferenceableAsset wra = getWraAndResolveAlias(id);
 
         callTemplate(new AssetIdWithSite(wra.getId(), id.getSite()), wra.getTemplate());
         LOG.debug("RenderPage execution complete");
@@ -81,34 +81,37 @@ public class RenderPage implements Action {
      * @param id asset id
      * @return WRA, never null. May be an instance of an Alias
      */
-    protected WebReferenceableAsset getWraAndResolveAlias(AssetIdWithSite id) {
+    protected WebReferenceableAsset getWraAndResolveAlias(final AssetIdWithSite id) {
         try {
             if (Alias.ALIAS_ASSET_TYPE_NAME.equals(id.getType())) {
-                if (LOG.isTraceEnabled())
+                if (LOG.isTraceEnabled()) {
                     LOG.trace("Loading alias: " + id);
-                Alias alias = aliasCoreFieldDao.getAlias(id);
-                WraBeanImpl wra = new WraBeanImpl(alias);
+                }
+                final Alias alias = aliasCoreFieldDao.getAlias(id);
+                final WraBeanImpl wra = new WraBeanImpl(alias);
                 wra.setId(alias.getTarget());
-                if (LOG.isDebugEnabled())
+                if (LOG.isDebugEnabled()) {
                     LOG.debug("Loaded alias: " + id + " which resolved to " + wra.getId());
+                }
                 return wra;
             } else {
-                if (LOG.isTraceEnabled())
+                if (LOG.isTraceEnabled()) {
                     LOG.trace("Loading wra: " + id);
+                }
                 return wraCoreFieldDao.getWra(id);
             }
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             throw new CSRuntimeException("Web-Referenceable Asset " + id + " is not valid", ftErrors.pagenotfound);
         }
     }
 
     protected void callTemplate(final AssetIdWithSite id, final String tname) {
         final CallTemplate ct = new CallTemplate();
-        //ct.setFixPageCriteria(true);
+        // ct.setFixPageCriteria(true);
         ct.setSite(id.getSite());
         ct.setSlotname("wrapper");
         ct.setTid(ics.GetVar("eid"));
-        //ct.setTtype(CallTemplate.Type.CSElement);
+        // ct.setTtype(CallTemplate.Type.CSElement);
         ct.setAsset(id);
         ct.setTname(tname);
         ct.setContext("");
@@ -120,8 +123,8 @@ public class RenderPage implements Action {
         }
 
         // typeless or not...
-        String targetPagename = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType()
-                + "/" + tname;
+        final String targetPagename = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/"
+                + id.getType() + "/" + tname;
 
         // create a list of parameters that can be specified as arguments to the
         // CallTemplate tag.
@@ -129,7 +132,7 @@ public class RenderPage implements Action {
 
         // Prime the map with the ics variable scope for the architect to make
         // the controller as transparent as possible
-        for (String pcVarName : ics.pageCriteriaKeys(targetPagename)) {
+        for (final String pcVarName : ics.pageCriteriaKeys(targetPagename)) {
             if (!CALLTEMPLATE_EXCLUDE_VARS.contains(pcVarName) && StringUtils.isNotBlank(ics.GetVar(pcVarName))) {
                 arguments.put(pcVarName, ics.GetVar(pcVarName));
             }
@@ -139,16 +142,17 @@ public class RenderPage implements Action {
         getCallTemplateArguments(id, arguments);
 
         // add them to the tag
-        for (String name : arguments.keySet()) {
+        for (final String name : arguments.keySet()) {
             ct.setArgument(name, arguments.get(name));
-            if (LOG.isTraceEnabled())
+            if (LOG.isTraceEnabled()) {
                 LOG.trace("CallTemplate param added: " + name + "=" + arguments.get(name));
+            }
         }
 
         // override calltemplate call style
         imposeCallTemplateStyle(ct, targetPagename);
 
-        String s = ct.execute(ics);
+        final String s = ct.execute(ics);
         if (s != null) {
             ics.StreamText(s);
         }
@@ -163,7 +167,7 @@ public class RenderPage implements Action {
      * @param targetPagename target pagename
      * @see CallTemplate #setStyle(CallTemplate.Style)
      */
-    protected void imposeCallTemplateStyle(CallTemplate ct, String targetPagename) {
+    protected void imposeCallTemplateStyle(final CallTemplate ct, final String targetPagename) {
     }
 
     protected AssetIdWithSite resolveAssetId() {
@@ -173,7 +177,7 @@ public class RenderPage implements Action {
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
-            String site = wraCoreFieldDao.resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
+            final String site = wraCoreFieldDao.resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
             // TODO: high, what if site can't be found
             id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
         } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
@@ -187,7 +191,7 @@ public class RenderPage implements Action {
 
     private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
             "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
-            "url-path","rendermode","ft_ss");
+            "url-path", "rendermode", "ft_ss");
 
     /**
      * This method collects additional arguments for the CallTemplate call. New
@@ -197,7 +201,7 @@ public class RenderPage implements Action {
      * @param arguments Map<String,String> containing arguments for the nested
      *            CallTemplate call
      */
-    protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {
+    protected void getCallTemplateArguments(final AssetIdWithSite id, final Map<String, String> arguments) {
         findAndSetP(id, arguments);
     }
 
@@ -209,12 +213,12 @@ public class RenderPage implements Action {
      * @param id asset id with site
      * @param arguments calltemplate arguments
      */
-    protected final void findAndSetP(AssetIdWithSite id, Map<String, String> arguments) {
-        String pVar = ics.GetVar("p");
+    protected final void findAndSetP(final AssetIdWithSite id, final Map<String, String> arguments) {
+        final String pVar = ics.GetVar("p");
         if (pVar != null && pVar.length() > 0) {
             arguments.put("p", pVar);
         } else {
-            long p = wraCoreFieldDao.findP(id);
+            final long p = wraCoreFieldDao.findP(id);
             if (p > 0L) {
                 arguments.put("p", Long.toString(p));
             }

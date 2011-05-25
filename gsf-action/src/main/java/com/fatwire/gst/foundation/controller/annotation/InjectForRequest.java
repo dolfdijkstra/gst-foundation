@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * @since 2011-03-24
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD , ElementType.METHOD})
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Documented
 public @interface InjectForRequest {
 

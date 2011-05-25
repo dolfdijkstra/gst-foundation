@@ -31,15 +31,15 @@ public class AnnotationInjectorTest extends TestCase {
     }
 
     public void testInject() {
-        Factory f = new Factory() {
+        final Factory f = new Factory() {
 
             @SuppressWarnings("unchecked")
-            public <T> T getObject(String name, Class<T> type) {
+            public <T> T getObject(final String name, final Class<T> type) {
                 return (T) name;
             }
 
         };
-        Sample object = new Sample();
+        final Sample object = new Sample();
         AnnotationInjector.inject(object, f);
         assertEquals("me", object.foo);
         assertEquals("foot", object.foot);

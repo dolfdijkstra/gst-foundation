@@ -50,7 +50,7 @@ public class Anchor extends BaseElement {
     /**
      * @param charset the charset to set
      */
-    public void setCharset(String charset) {
+    public void setCharset(final String charset) {
         this.charset = charset;
     }
 
@@ -64,7 +64,7 @@ public class Anchor extends BaseElement {
     /**
      * @param type the type to set
      */
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -78,7 +78,7 @@ public class Anchor extends BaseElement {
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -92,7 +92,7 @@ public class Anchor extends BaseElement {
     /**
      * @param href the href to set
      */
-    public void setHref(String href) {
+    public void setHref(final String href) {
         this.href = href;
     }
 
@@ -106,7 +106,7 @@ public class Anchor extends BaseElement {
     /**
      * @param hreflang the hreflang to set
      */
-    public void setHreflang(String hreflang) {
+    public void setHreflang(final String hreflang) {
         this.hreflang = hreflang;
     }
 
@@ -120,7 +120,7 @@ public class Anchor extends BaseElement {
     /**
      * @param rel the rel to set
      */
-    public void setRel(String rel) {
+    public void setRel(final String rel) {
         this.rel = rel;
     }
 
@@ -134,7 +134,7 @@ public class Anchor extends BaseElement {
     /**
      * @param rev the rev to set
      */
-    public void setRev(String rev) {
+    public void setRev(final String rev) {
         this.rev = rev;
     }
 
@@ -148,7 +148,7 @@ public class Anchor extends BaseElement {
     /**
      * @param accesskey the accesskey to set
      */
-    public void setAccesskey(String accesskey) {
+    public void setAccesskey(final String accesskey) {
         this.accesskey = accesskey;
     }
 
@@ -162,7 +162,7 @@ public class Anchor extends BaseElement {
     /**
      * @param shape the shape to set
      */
-    public void setShape(String shape) {
+    public void setShape(final String shape) {
         this.shape = shape;
     }
 
@@ -176,7 +176,7 @@ public class Anchor extends BaseElement {
     /**
      * @param coords the coords to set
      */
-    public void setCoords(String coords) {
+    public void setCoords(final String coords) {
         this.coords = coords;
     }
 
@@ -190,7 +190,7 @@ public class Anchor extends BaseElement {
     /**
      * @param tabindex the tabindex to set
      */
-    public void setTabindex(String tabindex) {
+    public void setTabindex(final String tabindex) {
         this.tabindex = tabindex;
     }
 
@@ -204,7 +204,7 @@ public class Anchor extends BaseElement {
     /**
      * @param onfocus the onfocus to set
      */
-    public void setOnfocus(String onfocus) {
+    public void setOnfocus(final String onfocus) {
         this.onfocus = onfocus;
     }
 
@@ -218,7 +218,7 @@ public class Anchor extends BaseElement {
     /**
      * @param onblur the onblur to set
      */
-    public void setOnblur(String onblur) {
+    public void setOnblur(final String onblur) {
         this.onblur = onblur;
     }
 
@@ -232,7 +232,7 @@ public class Anchor extends BaseElement {
     /**
      * @param target the target to set
      */
-    public void setTarget(String target) {
+    public void setTarget(final String target) {
         this.target = target;
     }
 

@@ -82,9 +82,9 @@ public class IncludeTemplate implements Include {
         pc = Arrays.asList(keys);
         // copy the current available arguments
         // developer can override later by calling arguments
-        for (String k : keys) {
+        for (final String k : keys) {
             if (!FORBIDDEN_VARS.contains(k)) {
-                String v = ics.GetVar(k);
+                final String v = ics.GetVar(k);
                 if (StringUtils.isNotBlank(v)) {
                     argument(k, v);
                 }
@@ -115,8 +115,9 @@ public class IncludeTemplate implements Include {
      *      java.lang.String)
      */
     public IncludeTemplate argument(final String name, final String value) {
-        if (StringUtils.isBlank(name))
+        if (StringUtils.isBlank(name)) {
             return this;
+        }
         if (FORBIDDEN_VARS.contains(name.toLowerCase(Locale.US))) {
             throw new IllegalArgumentException("Can't deal with " + name
                     + ". It is a forbidden argument to set as an argument. Forbidden arguments are: "
@@ -149,6 +150,7 @@ public class IncludeTemplate implements Include {
 
     /**
      * Adds packedargs.
+     * 
      * @param s
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)

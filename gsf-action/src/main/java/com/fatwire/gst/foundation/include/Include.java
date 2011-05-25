@@ -22,8 +22,7 @@ import COM.FutureTense.Interfaces.ICS;
  * @since Apr 13, 2011
  */
 public interface Include {
-    
-    
+
     /**
      * @param ics
      */

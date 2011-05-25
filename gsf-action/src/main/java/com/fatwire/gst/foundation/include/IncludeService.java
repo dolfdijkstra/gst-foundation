@@ -33,7 +33,7 @@ public interface IncludeService {
      * @param name
      * @param asset
      * @param tname
-     * @return the created IncludeTemplate 
+     * @return the created IncludeTemplate
      */
     IncludeTemplate template(String name, AssetId asset, String tname);
 

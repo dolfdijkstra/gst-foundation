@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * This class is a container for Model data in the Model View Controller (MVC)
@@ -50,7 +50,7 @@ public class Model {
      * 
      * @param name
      */
-    public void reset(String name) {
+    public void reset(final String name) {
         map.remove(name);
     }
 
@@ -60,7 +60,7 @@ public class Model {
      * @param key
      * @param value
      */
-    public void add(String key, Object value) {
+    public void add(final String key, final Object value) {
         map.put(key, value);
     }
 
@@ -70,7 +70,7 @@ public class Model {
      * @param key
      * @param value
      */
-    public void add(String key, Object... value) {
+    public void add(final String key, final Object... value) {
         map.put(key, Arrays.asList(value));
     }
 
@@ -81,15 +81,16 @@ public class Model {
      * @param value
      */
     @SuppressWarnings("unchecked")
-    public void list(String key, Object value) {
-        Object v = map.get(key);
+    public void list(final String key, final Object value) {
+        final Object v = map.get(key);
         if (v instanceof Collection<?>) {
-            Collection<Object> l = (Collection<Object>) v;
+            final Collection<Object> l = (Collection<Object>) v;
             l.add(value);
         } else {
-            Collection<Object> l = new LinkedList<Object>();
-            if (v != null)
+            final Collection<Object> l = new LinkedList<Object>();
+            if (v != null) {
                 l.add(v);
+            }
             l.add(value);
             map.put(key, l);
         }
@@ -113,7 +114,7 @@ public class Model {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((map == null) ? 0 : map.hashCode());
+        result = prime * result + (map == null ? 0 : map.hashCode());
         return result;
     }
 
@@ -123,19 +124,24 @@ public class Model {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof Model))
+        }
+        if (!(obj instanceof Model)) {
             return false;
-        Model other = (Model) obj;
+        }
+        final Model other = (Model) obj;
         if (map == null) {
-            if (other.map != null)
+            if (other.map != null) {
                 return false;
-        } else if (!map.equals(other.map))
+            }
+        } else if (!map.equals(other.map)) {
             return false;
+        }
         return true;
     }
 

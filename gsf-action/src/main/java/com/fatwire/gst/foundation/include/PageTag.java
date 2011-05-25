@@ -130,10 +130,10 @@ public class PageTag extends GsfRootTag {
      */
     @SuppressWarnings("unchecked")
     public static <T> T findService(final Object object, final Class<T> type) {
-        Field field = findField(object, type);
+        final Field field = findField(object, type);
         try {
             return field == null ? null : (T) field.get(object);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

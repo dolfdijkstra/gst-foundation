@@ -47,13 +47,14 @@ public abstract class AnnotationController extends AbstractController {
      * 
      * @see com.fatwire.gst.foundation.controller.AbstractController#doExecute()
      */
+    @Override
     protected void doExecute() {
 
         // record seid and eid and any other deps required
         RenderUtils.recordBaseCompositionalDependencies(ics);
-        ControllerMappingResolver resolver = new ControllerMappingResolver();
-        Object target = getTarget();
-        Method m = resolver.findControllerMethod(ics, target);
+        final ControllerMappingResolver resolver = new ControllerMappingResolver();
+        final Object target = getTarget();
+        final Method m = resolver.findControllerMethod(ics, target);
         if (m != null) {
             executeDefault();
         }
@@ -64,14 +65,14 @@ public abstract class AnnotationController extends AbstractController {
      * @param m
      * @param target
      */
-    protected void invokeControllerMethod(Method m, Object target) {
+    protected void invokeControllerMethod(final Method m, final Object target) {
         try {
             m.invoke(target, new Object[] { ics });
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             handleException(e);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             handleException(e);
-        } catch (InvocationTargetException e) {
+        } catch (final InvocationTargetException e) {
             handleException(e);
         }
 

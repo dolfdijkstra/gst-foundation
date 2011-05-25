@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Includes a template,element or page in a jsp page.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
@@ -38,7 +39,7 @@ public class IncludeTag extends GsfSimpleTag {
     static final Log LOG = LogFactory.getLog(IncludeTag.class.getPackage().getName());
 
     private String name;
-    private boolean silent=false;
+    private boolean silent = false;
 
     /*
      * (non-Javadoc)
@@ -50,7 +51,7 @@ public class IncludeTag extends GsfSimpleTag {
 
         final ICS ics = getICS();
 
-        Include inc = discover(name);
+        final Include inc = discover(name);
         if (inc != null) {
             inc.include(ics);
         } else if (!silent) {
@@ -60,15 +61,15 @@ public class IncludeTag extends GsfSimpleTag {
         super.doTag();
     }
 
-    protected Include discover(String name) {
-        JspIncludeService s = findService();
+    protected Include discover(final String name) {
+        final JspIncludeService s = findService();
         return s.find(name);
     }
 
     protected JspIncludeService findService() {
-        JspTag parent = SimpleTagSupport.findAncestorWithClass(this, PageTag.class);
+        final JspTag parent = SimpleTagSupport.findAncestorWithClass(this, PageTag.class);
         if (parent instanceof PageTag) {
-            PageTag t = (PageTag) parent;
+            final PageTag t = (PageTag) parent;
             return t.getJspIncludeService();
         }
         throw new IllegalStateException(
@@ -87,7 +88,7 @@ public class IncludeTag extends GsfSimpleTag {
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -101,7 +102,7 @@ public class IncludeTag extends GsfSimpleTag {
     /**
      * @param silent the silent to set
      */
-    public void setSilent(boolean silent) {
+    public void setSilent(final boolean silent) {
         this.silent = silent;
     }
 

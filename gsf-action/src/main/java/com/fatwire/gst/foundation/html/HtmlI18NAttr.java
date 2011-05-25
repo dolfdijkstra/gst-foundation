@@ -19,66 +19,81 @@ final class HtmlI18NAttr {
 
     private String lang;
     private String dir;
+
     /**
      * @return the lang
      */
     public String getLang() {
         return lang;
     }
+
     /**
      * @param lang the lang to set
      */
-    public void setLang(String lang) {
+    public void setLang(final String lang) {
         this.lang = lang;
     }
+
     /**
      * @return the dir
      */
     public String getDir() {
         return dir;
     }
+
     /**
      * @param dir the dir to set
      */
-    public void setDir(String dir) {
+    public void setDir(final String dir) {
         this.dir = dir;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((dir == null) ? 0 : dir.hashCode());
-        result = prime * result + ((lang == null) ? 0 : lang.hashCode());
+        result = prime * result + (dir == null ? 0 : dir.hashCode());
+        result = prime * result + (lang == null ? 0 : lang.hashCode());
         return result;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof HtmlI18NAttr))
+        }
+        if (!(obj instanceof HtmlI18NAttr)) {
             return false;
-        HtmlI18NAttr other = (HtmlI18NAttr) obj;
+        }
+        final HtmlI18NAttr other = (HtmlI18NAttr) obj;
         if (dir == null) {
-            if (other.dir != null)
+            if (other.dir != null) {
                 return false;
-        } else if (!dir.equals(other.dir))
+            }
+        } else if (!dir.equals(other.dir)) {
             return false;
+        }
         if (lang == null) {
-            if (other.lang != null)
+            if (other.lang != null) {
                 return false;
-        } else if (!lang.equals(other.lang))
+            }
+        } else if (!lang.equals(other.lang)) {
             return false;
+        }
         return true;
     }
-
-
 
 }

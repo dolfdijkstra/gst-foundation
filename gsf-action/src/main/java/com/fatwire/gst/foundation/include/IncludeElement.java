@@ -28,14 +28,14 @@ import com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope;
  */
 public class IncludeElement implements Include {
 
-    private CallElement tag;
+    private final CallElement tag;
     private final ICS ics;
 
     /**
      * @param ics
      * @param elementname
      */
-    public IncludeElement(ICS ics, String elementname) {
+    public IncludeElement(final ICS ics, final String elementname) {
         tag = new CallElement(elementname);
         this.ics = ics;
 
@@ -48,10 +48,11 @@ public class IncludeElement implements Include {
      * com.fatwire.gst.foundation.include.Include#include(COM.FutureTense.Interfaces
      * .ICS)
      */
-    public void include(ICS ics) {
-        String s = tag.execute(ics);
-        if (s != null)
+    public void include(final ICS ics) {
+        final String s = tag.execute(ics);
+        if (s != null) {
             ics.StreamText(s);
+        }
     }
 
     /**
@@ -61,7 +62,7 @@ public class IncludeElement implements Include {
      * @param value
      * @return this
      */
-    public IncludeElement argument(String name, String value) {
+    public IncludeElement argument(final String name, final String value) {
         tag.setArgument(name, value);
         return this;
     }
@@ -73,7 +74,7 @@ public class IncludeElement implements Include {
      * @param value
      * @return this
      */
-    public IncludeElement argument(String name, Date value) {
+    public IncludeElement argument(final String name, final Date value) {
         tag.set(name, value);
         return this;
     }
@@ -85,7 +86,7 @@ public class IncludeElement implements Include {
      * @param value
      * @return this
      */
-    public IncludeElement argument(String name, long value) {
+    public IncludeElement argument(final String name, final long value) {
         tag.set(name, value);
         return this;
     }
@@ -97,7 +98,7 @@ public class IncludeElement implements Include {
      * @param value
      * @return this
      */
-    public IncludeElement argument(String name, int value) {
+    public IncludeElement argument(final String name, final int value) {
         tag.set(name, value);
         return this;
     }
@@ -109,7 +110,7 @@ public class IncludeElement implements Include {
      * @param value
      * @return this
      */
-    public IncludeElement argument(String name, boolean value) {
+    public IncludeElement argument(final String name, final boolean value) {
         tag.set(name, value);
         return this;
     }
@@ -121,7 +122,7 @@ public class IncludeElement implements Include {
      * @param value
      * @return this
      */
-    public IncludeElement argument(String name, byte[] value) {
+    public IncludeElement argument(final String name, final byte[] value) {
         tag.set(name, value);
         return this;
     }
@@ -146,7 +147,7 @@ public class IncludeElement implements Include {
      * @param scope
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallElement#setScope(com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope)
      */
-    public IncludeElement setScope(Scope scope) {
+    public IncludeElement setScope(final Scope scope) {
         tag.setScope(scope);
         return this;
     }

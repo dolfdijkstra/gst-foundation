@@ -39,16 +39,17 @@ public class ControllerMappingResolver {
      * @return the method with the IcsVariable annotation that has a match for
      *         the name value pair as set in the annotation.
      */
-    public Method findControllerMethod(ICS ics, Object o) {
-        for (Method m : o.getClass().getMethods()) {
-            IcsVariable p = m.getAnnotation(IcsVariable.class);
+    public Method findControllerMethod(final ICS ics, final Object o) {
+        for (final Method m : o.getClass().getMethods()) {
+            final IcsVariable p = m.getAnnotation(IcsVariable.class);
             if (p != null) {
-                for (String param : p.var()) {
-                    String[] split = param.split("=");
+                for (final String param : p.var()) {
+                    final String[] split = param.split("=");
                     if (split[1].equals(ics.GetVar(split[0]))) {
 
-                        if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0].equals(ICS.class))
+                        if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0].equals(ICS.class)) {
                             return m;
+                        }
                         throw new UnsupportedOperationException("Method " + m.getName()
                                 + " does not have a single argument of type ICS though the method is annotated "
                                 + "with a IcsVariable annation.");

@@ -16,108 +16,129 @@
 package com.fatwire.gst.foundation.html;
 
 final class HtmlCoreAttr {
-     private String id;
-     private String className;
-     private String title;
-     private String style;
+    private String id;
+    private String className;
+    private String title;
+    private String style;
+
     /**
      * @return the id
      */
     public String getId() {
         return id;
     }
+
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
+
     /**
      * @return the className
      */
     public String getClassName() {
         return className;
     }
+
     /**
      * @param className the className to set
      */
-    public void setClassName(String className) {
+    public void setClassName(final String className) {
         this.className = className;
     }
+
     /**
      * @return the title
      */
     public String getTitle() {
         return title;
     }
+
     /**
      * @param title the title to set
      */
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
+
     /**
      * @return the style
      */
     public String getStyle() {
         return style;
     }
+
     /**
      * @param style the style to set
      */
-    public void setStyle(String style) {
+    public void setStyle(final String style) {
         this.style = style;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((className == null) ? 0 : className.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((style == null) ? 0 : style.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + (className == null ? 0 : className.hashCode());
+        result = prime * result + (id == null ? 0 : id.hashCode());
+        result = prime * result + (style == null ? 0 : style.hashCode());
+        result = prime * result + (title == null ? 0 : title.hashCode());
         return result;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof HtmlCoreAttr))
+        }
+        if (!(obj instanceof HtmlCoreAttr)) {
             return false;
-        HtmlCoreAttr other = (HtmlCoreAttr) obj;
+        }
+        final HtmlCoreAttr other = (HtmlCoreAttr) obj;
         if (className == null) {
-            if (other.className != null)
+            if (other.className != null) {
                 return false;
-        } else if (!className.equals(other.className))
+            }
+        } else if (!className.equals(other.className)) {
             return false;
+        }
         if (id == null) {
-            if (other.id != null)
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
+        }
         if (style == null) {
-            if (other.style != null)
+            if (other.style != null) {
                 return false;
-        } else if (!style.equals(other.style))
+            }
+        } else if (!style.equals(other.style)) {
             return false;
+        }
         if (title == null) {
-            if (other.title != null)
+            if (other.title != null) {
                 return false;
-        } else if (!title.equals(other.title))
+            }
+        } else if (!title.equals(other.title)) {
             return false;
+        }
         return true;
     }
-
-     
-
-
 
 }

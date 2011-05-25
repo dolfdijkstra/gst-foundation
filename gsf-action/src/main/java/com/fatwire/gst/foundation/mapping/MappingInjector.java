@@ -42,22 +42,25 @@ import org.apache.commons.logging.LogFactory;
 public class MappingInjector {
     protected static final Log LOG = LogFactory.getLog(MappingInjector.class.getPackage().getName());
 
-    public final static void inject(Object object, Factory factory, AssetIdWithSite id) {
-        if (object == null)
+    public final static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
+        if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
-        if (factory == null)
+        }
+        if (factory == null) {
             throw new IllegalArgumentException("factory cannot be null.");
-        long start = System.nanoTime();
+        }
+        final long start = System.nanoTime();
         try {
-            Field[] fields = AnnotationInjector.findFieldsWithAnnotation(object, Mapping.class);
+            final Field[] fields = AnnotationInjector.findFieldsWithAnnotation(object, Mapping.class);
 
             if (fields.length > 0) {
-                MappingService mappingService = factory.getObject("mappingService", MappingService.class);
-                if (mappingService == null)
+                final MappingService mappingService = factory.getObject("mappingService", MappingService.class);
+                if (mappingService == null) {
                     throw new IllegalStateException("MappingService can not be retrieved from "
                             + factory.getClass().getName());
-                Map<String, MappingValue> map = mappingService.readMapping(id);
-                for (Field field : fields) {
+                }
+                final Map<String, MappingValue> map = mappingService.readMapping(id);
+                for (final Field field : fields) {
                     injectIntoField(object, map, field, id);
                 }
             }
@@ -66,19 +69,21 @@ public class MappingInjector {
         }
     }
 
-    private static void injectIntoField(Object object, Map<String, MappingValue> map, Field field, AssetIdWithSite id)
-            throws SecurityException {
+    private static void injectIntoField(final Object object, final Map<String, MappingValue> map, final Field field,
+            final AssetIdWithSite id) throws SecurityException {
 
-        Mapping ifr = field.getAnnotation(Mapping.class);
+        final Mapping ifr = field.getAnnotation(Mapping.class);
 
         String name = ifr.value();
-        if (StringUtils.isBlank(name))
+        if (StringUtils.isBlank(name)) {
             name = field.getName();
+        }
 
-        MappingValue value = map.get(name);
-        if (value == null)
+        final MappingValue value = map.get(name);
+        if (value == null) {
             throw new CSRuntimeException("Can't find a value for mapping " + name + " for asset " + id,
                     ftErrors.badparams);
+        }
         Object injectionValue;
         // Handle MappingVulue and AssetId special
         if (MappingValue.class.isAssignableFrom(field.getType())) {
@@ -89,7 +94,7 @@ public class MappingInjector {
             injectionValue = new AssetName(value.getLeft(), value.getRight());
         } else {
             injectionValue = value.getValue();
-            Match what = ifr.match();
+            final Match what = ifr.match();
             switch (what) {
                 case left:
                     injectionValue = value.getLeft();
@@ -105,15 +110,16 @@ public class MappingInjector {
                     + field.getName() + "' for an action " + object.getClass().getName(), ftErrors.badparams);
         }
         field.setAccessible(true); // make private fields accessible
-        if (LOG.isDebugEnabled())
+        if (LOG.isDebugEnabled()) {
             LOG.debug("Injecting " + injectionValue.getClass().getName() + " into field " + field.getName()
                     + " of type " + field.getType().getName() + " for " + object.getClass().getName());
+        }
         try {
             field.set(object, injectionValue);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             throw new CSRuntimeException("IllegalArgumentException injecting " + injectionValue + " into field "
                     + field.getName(), ftErrors.exceptionerr, e);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             throw new CSRuntimeException("IllegalAccessException injecting " + injectionValue + " into field "
                     + field.getName(), ftErrors.exceptionerr, e);
         }

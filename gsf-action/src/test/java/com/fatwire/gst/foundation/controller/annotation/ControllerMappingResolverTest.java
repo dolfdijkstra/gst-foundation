@@ -30,7 +30,7 @@ public class ControllerMappingResolverTest extends TestCase {
         int i = 0;
 
         @IcsVariable(var = { "cmd=login", "cmd=logout" })
-        public void doSomething(ICS ics) {
+        public void doSomething(final ICS ics) {
             i++;
 
         }
@@ -38,9 +38,9 @@ public class ControllerMappingResolverTest extends TestCase {
 
     public void testFindControllerMethod() throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException {
-        ControllerMappingResolver resolver = new ControllerMappingResolver();
-        Foo foo = new Foo();
-        ICS ics = new MockICS() {
+        final ControllerMappingResolver resolver = new ControllerMappingResolver();
+        final Foo foo = new Foo();
+        final ICS ics = new MockICS() {
 
             /*
              * (non-Javadoc)
@@ -50,14 +50,15 @@ public class ControllerMappingResolverTest extends TestCase {
              * .String)
              */
             @Override
-            public String GetVar(String name) {
-                if ("cmd".equals(name))
+            public String GetVar(final String name) {
+                if ("cmd".equals(name)) {
                     return "login";
+                }
                 return null;
             }
 
         };
-        Method m = resolver.findControllerMethod(ics, foo);
+        final Method m = resolver.findControllerMethod(ics, foo);
         m.invoke(foo, new Object[] { ics });
         assertEquals(1, foo.i);
     }

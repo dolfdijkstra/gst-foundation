@@ -37,7 +37,7 @@ public class MappingValue {
      * @param type
      * @param value
      */
-    public MappingValue(Type type, String value) {
+    public MappingValue(final Type type, final String value) {
         super();
         this.type = type;
         this.value = value;
@@ -49,11 +49,12 @@ public class MappingValue {
     }
 
     /**
-     * @return  the left hand side of the value
+     * @return the left hand side of the value
      */
     public String getLeft() {
-        if (parts == null)
+        if (parts == null) {
             return value;
+        }
         return parts[0];
     }
 
@@ -61,8 +62,9 @@ public class MappingValue {
      * @return the right hand side of the value.
      */
     public String getRight() {
-        if (parts == null)
+        if (parts == null) {
             return value;
+        }
         return parts[1];
     }
 

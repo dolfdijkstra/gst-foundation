@@ -36,18 +36,19 @@ public class GsfCallTemplate {
     private Style style;
     private final FTValList arguments = new FTValList();
 
-    public GsfCallTemplate argument(String name, String value) {
+    public GsfCallTemplate argument(final String name, final String value) {
         arguments.setValString(name, value);
         return this;
     }
 
-    public String include(ICS ics, FTValList vIn) {
+    public String include(final ICS ics, final FTValList vIn) {
         // required parameters
         Assert.hasText(site, "Site must not be blank.");
         Assert.hasText(tname, "Tname must not be blank.");
         Assert.hasText(assettype, "Assettype must not be blank.");
-        if (assetid < 1)
+        if (assetid < 1) {
             throw new IllegalArgumentException("Assetid must be set.");
+        }
 
         if (StringUtils.isNotBlank(packedargs)) {
             ics.decode(packedargs, arguments);
@@ -56,7 +57,7 @@ public class GsfCallTemplate {
         try {
             arguments.setValString("c", assettype);
             arguments.setValString("cid", Long.toString(assetid));
-            String rm = ics.GetVar("rendermode");
+            final String rm = ics.GetVar("rendermode");
             if (rm != null) {
                 arguments.setValString("rendermode", rm);
             }
@@ -80,10 +81,11 @@ public class GsfCallTemplate {
                     // so remove vars that are undesireable
                     ics.RemoveVar("tid");
                     ics.RemoveVar("context");
-                    boolean ret = ics.CallElement(elementname, arguments);
+                    final boolean ret = ics.CallElement(elementname, arguments);
                     ics.PopVars();
-                    if (!ret)
+                    if (!ret) {
                         throw new RuntimeException(ics.getComplexError());
+                    }
                     return null;
                 }
                 case embedded: {
@@ -92,21 +94,22 @@ public class GsfCallTemplate {
                     // so remove vars that are undesireable
                     ics.RemoveVar("tid");
                     ics.RemoveVar("context");
-                    boolean ret = ics.InsertPage(pagename, arguments);
+                    final boolean ret = ics.InsertPage(pagename, arguments);
                     ics.PopVars();
-                    if (!ret)
+                    if (!ret) {
                         throw new RuntimeException(ics.getComplexError());
+                    }
 
                     return null;
 
                 }
                 default: {
-                    Page p = new Page();
+                    final Page p = new Page();
                     p.setPagename(pagename);
 
                     @SuppressWarnings("unchecked")
-                    Set<String> keys = arguments.keySet();
-                    for (String key : keys) {
+                    final Set<String> keys = arguments.keySet();
+                    for (final String key : keys) {
                         p.set(key, arguments.getValString(key));
                     }
 
@@ -129,7 +132,7 @@ public class GsfCallTemplate {
     /**
      * @param site the site to set
      */
-    public void setSite(String site) {
+    public void setSite(final String site) {
         this.site = site;
     }
 
@@ -143,7 +146,7 @@ public class GsfCallTemplate {
     /**
      * @param tname the tname to set
      */
-    public void setTname(String tname) {
+    public void setTname(final String tname) {
         this.tname = tname;
     }
 
@@ -157,7 +160,7 @@ public class GsfCallTemplate {
     /**
      * @param assettype the assettype to set
      */
-    public void setAssettype(String assettype) {
+    public void setAssettype(final String assettype) {
         this.assettype = assettype;
     }
 
@@ -171,14 +174,14 @@ public class GsfCallTemplate {
     /**
      * @param assetid the assetid to set
      */
-    public void setAssetid(long assetid) {
+    public void setAssetid(final long assetid) {
         this.assetid = assetid;
     }
 
     /**
      * @param id the assetid to set
      */
-    public void setAssetid(AssetId id) {
+    public void setAssetid(final AssetId id) {
         this.assetid = id.getId();
         this.assettype = id.getType();
     }
@@ -193,7 +196,7 @@ public class GsfCallTemplate {
     /**
      * @param packedargs the packedargs to set
      */
-    public void setPackedArgs(String packedargs) {
+    public void setPackedArgs(final String packedargs) {
         this.packedargs = packedargs;
     }
 
@@ -207,7 +210,7 @@ public class GsfCallTemplate {
     /**
      * @param style the style to set
      */
-    public void setStyle(Style style) {
+    public void setStyle(final Style style) {
         this.style = style;
     }
 

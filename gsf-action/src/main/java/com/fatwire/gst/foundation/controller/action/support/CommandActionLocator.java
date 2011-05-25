@@ -19,12 +19,11 @@ package com.fatwire.gst.foundation.controller.action.support;
 import java.util.HashMap;
 import java.util.Map;
 
+import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.RenderPage;
-
-import COM.FutureTense.Interfaces.ICS;
-
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -51,11 +50,11 @@ public final class CommandActionLocator extends BaseActionLocator {
         return CMD_VAR;
     }
 
-    public Action getAction(ICS ics) {
+    public Action getAction(final ICS ics) {
         return getAction(ics, ics.GetVar(getVarName()));
     }
 
-    public Action getAction(ICS ics, String name) {
+    public Action getAction(final ICS ics, final String name) {
 
         final Action action;
         if (StringUtils.isBlank(name)) {
@@ -66,8 +65,9 @@ public final class CommandActionLocator extends BaseActionLocator {
             if (action == null) {
                 throw new RuntimeException("No action configured for cmd: " + name);
             }
-            if (LOG.isTraceEnabled())
+            if (LOG.isTraceEnabled()) {
                 LOG.trace("Command '" + name + "' maps to action " + action.getClass().getName());
+            }
         }
 
         // inject the required data into the action
@@ -80,12 +80,12 @@ public final class CommandActionLocator extends BaseActionLocator {
         return new RenderPage();
     }
 
-    public void setActionMap(Map<String, Action> map) {
+    public void setActionMap(final Map<String, Action> map) {
         LOG.debug("Configured action mapping with " + (map == null ? 0 : map.size() + " entries."));
         this.commandActionMap = map;
     }
 
-    public void setDefaultAction(Action action) {
+    public void setDefaultAction(final Action action) {
         LOG.info("Setting default action mapping to " + action.getClass().getName());
         // defaultAction = action;
     }

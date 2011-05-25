@@ -38,9 +38,9 @@ final class AttributeActionLocator implements ActionLocator {
     public static final String GST_ACTION_ATTR_NAME = "gstaction";
     public static final String ACTION_TYPE_SPRING_BEAN_PREFIX = "spring-bean:";
 
-    public Action getAction(ICS ics) {
-        String attribute = getAttribute(ics);
-        Action action = getAction(ics, attribute);
+    public Action getAction(final ICS ics) {
+        final String attribute = getAttribute(ics);
+        final Action action = getAction(ics, attribute);
         if (action == null) {
             throw new CSRuntimeException("No action configured for attribute: " + attribute, ftErrors.badparams);
         }
@@ -48,18 +48,18 @@ final class AttributeActionLocator implements ActionLocator {
 
     }
 
-    public Action getAction(ICS ics, String name) {
-        Action result = getAction(name);
+    public Action getAction(final ICS ics, final String name) {
+        final Action result = getAction(name);
 
         return result;
     }
 
-    private String getAttribute(ICS ics) {
+    private String getAttribute(final ICS ics) {
         return null; // todo: high: figure out if it's even possible to access
         // the WRA yet - we haven't resolved the pretty URLs yet
     }
 
-    private Action getAction(String attribute) {
+    private Action getAction(final String attribute) {
         return null; // todo: high: implement
     }
 }

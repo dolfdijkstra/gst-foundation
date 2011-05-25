@@ -26,208 +26,256 @@ final class HtmlEventsAttr {
     private String onkeypress;
     private String onkeydown;
     private String onkeyup;
-   
+
     /**
      * @return the onclick
      */
     public String getOnclick() {
         return onclick;
     }
+
     /**
      * @param onclick the onclick to set
      */
-    public void setOnclick(String onclick) {
+    public void setOnclick(final String onclick) {
         this.onclick = onclick;
     }
+
     /**
      * @return the ondblclick
      */
     public String getOndblclick() {
         return ondblclick;
     }
+
     /**
      * @param ondblclick the ondblclick to set
      */
-    public void setOndblclick(String ondblclick) {
+    public void setOndblclick(final String ondblclick) {
         this.ondblclick = ondblclick;
     }
+
     /**
      * @return the onmousedown
      */
     public String getOnmousedown() {
         return onmousedown;
     }
+
     /**
      * @param onmousedown the onmousedown to set
      */
-    public void setOnmousedown(String onmousedown) {
+    public void setOnmousedown(final String onmousedown) {
         this.onmousedown = onmousedown;
     }
+
     /**
      * @return the onmouseup
      */
     public String getOnmouseup() {
         return onmouseup;
     }
+
     /**
      * @param onmouseup the onmouseup to set
      */
-    public void setOnmouseup(String onmouseup) {
+    public void setOnmouseup(final String onmouseup) {
         this.onmouseup = onmouseup;
     }
+
     /**
      * @return the onmouseover
      */
     public String getOnmouseover() {
         return onmouseover;
     }
+
     /**
      * @param onmouseover the onmouseover to set
      */
-    public void setOnmouseover(String onmouseover) {
+    public void setOnmouseover(final String onmouseover) {
         this.onmouseover = onmouseover;
     }
+
     /**
      * @return the onmousemove
      */
     public String getOnmousemove() {
         return onmousemove;
     }
+
     /**
      * @param onmousemove the onmousemove to set
      */
-    public void setOnmousemove(String onmousemove) {
+    public void setOnmousemove(final String onmousemove) {
         this.onmousemove = onmousemove;
     }
+
     /**
      * @return the onmouseout
      */
     public String getOnmouseout() {
         return onmouseout;
     }
+
     /**
      * @param onmouseout the onmouseout to set
      */
-    public void setOnmouseout(String onmouseout) {
+    public void setOnmouseout(final String onmouseout) {
         this.onmouseout = onmouseout;
     }
+
     /**
      * @return the onkeypress
      */
     public String getOnkeypress() {
         return onkeypress;
     }
+
     /**
      * @param onkeypress the onkeypress to set
      */
-    public void setOnkeypress(String onkeypress) {
+    public void setOnkeypress(final String onkeypress) {
         this.onkeypress = onkeypress;
     }
+
     /**
      * @return the onkeydown
      */
     public String getOnkeydown() {
         return onkeydown;
     }
+
     /**
      * @param onkeydown the onkeydown to set
      */
-    public void setOnkeydown(String onkeydown) {
+    public void setOnkeydown(final String onkeydown) {
         this.onkeydown = onkeydown;
     }
+
     /**
      * @return the onkeyup
      */
     public String getOnkeyup() {
         return onkeyup;
     }
+
     /**
      * @param onkeyup the onkeyup to set
      */
-    public void setOnkeyup(String onkeyup) {
+    public void setOnkeyup(final String onkeyup) {
         this.onkeyup = onkeyup;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((onclick == null) ? 0 : onclick.hashCode());
-        result = prime * result + ((ondblclick == null) ? 0 : ondblclick.hashCode());
-        result = prime * result + ((onkeydown == null) ? 0 : onkeydown.hashCode());
-        result = prime * result + ((onkeypress == null) ? 0 : onkeypress.hashCode());
-        result = prime * result + ((onkeyup == null) ? 0 : onkeyup.hashCode());
-        result = prime * result + ((onmousedown == null) ? 0 : onmousedown.hashCode());
-        result = prime * result + ((onmousemove == null) ? 0 : onmousemove.hashCode());
-        result = prime * result + ((onmouseout == null) ? 0 : onmouseout.hashCode());
-        result = prime * result + ((onmouseover == null) ? 0 : onmouseover.hashCode());
-        result = prime * result + ((onmouseup == null) ? 0 : onmouseup.hashCode());
+        result = prime * result + (onclick == null ? 0 : onclick.hashCode());
+        result = prime * result + (ondblclick == null ? 0 : ondblclick.hashCode());
+        result = prime * result + (onkeydown == null ? 0 : onkeydown.hashCode());
+        result = prime * result + (onkeypress == null ? 0 : onkeypress.hashCode());
+        result = prime * result + (onkeyup == null ? 0 : onkeyup.hashCode());
+        result = prime * result + (onmousedown == null ? 0 : onmousedown.hashCode());
+        result = prime * result + (onmousemove == null ? 0 : onmousemove.hashCode());
+        result = prime * result + (onmouseout == null ? 0 : onmouseout.hashCode());
+        result = prime * result + (onmouseover == null ? 0 : onmouseover.hashCode());
+        result = prime * result + (onmouseup == null ? 0 : onmouseup.hashCode());
         return result;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof HtmlEventsAttr))
+        }
+        if (!(obj instanceof HtmlEventsAttr)) {
             return false;
-        HtmlEventsAttr other = (HtmlEventsAttr) obj;
+        }
+        final HtmlEventsAttr other = (HtmlEventsAttr) obj;
         if (onclick == null) {
-            if (other.onclick != null)
+            if (other.onclick != null) {
                 return false;
-        } else if (!onclick.equals(other.onclick))
+            }
+        } else if (!onclick.equals(other.onclick)) {
             return false;
+        }
         if (ondblclick == null) {
-            if (other.ondblclick != null)
+            if (other.ondblclick != null) {
                 return false;
-        } else if (!ondblclick.equals(other.ondblclick))
+            }
+        } else if (!ondblclick.equals(other.ondblclick)) {
             return false;
+        }
         if (onkeydown == null) {
-            if (other.onkeydown != null)
+            if (other.onkeydown != null) {
                 return false;
-        } else if (!onkeydown.equals(other.onkeydown))
+            }
+        } else if (!onkeydown.equals(other.onkeydown)) {
             return false;
+        }
         if (onkeypress == null) {
-            if (other.onkeypress != null)
+            if (other.onkeypress != null) {
                 return false;
-        } else if (!onkeypress.equals(other.onkeypress))
+            }
+        } else if (!onkeypress.equals(other.onkeypress)) {
             return false;
+        }
         if (onkeyup == null) {
-            if (other.onkeyup != null)
+            if (other.onkeyup != null) {
                 return false;
-        } else if (!onkeyup.equals(other.onkeyup))
+            }
+        } else if (!onkeyup.equals(other.onkeyup)) {
             return false;
+        }
         if (onmousedown == null) {
-            if (other.onmousedown != null)
+            if (other.onmousedown != null) {
                 return false;
-        } else if (!onmousedown.equals(other.onmousedown))
+            }
+        } else if (!onmousedown.equals(other.onmousedown)) {
             return false;
+        }
         if (onmousemove == null) {
-            if (other.onmousemove != null)
+            if (other.onmousemove != null) {
                 return false;
-        } else if (!onmousemove.equals(other.onmousemove))
+            }
+        } else if (!onmousemove.equals(other.onmousemove)) {
             return false;
+        }
         if (onmouseout == null) {
-            if (other.onmouseout != null)
+            if (other.onmouseout != null) {
                 return false;
-        } else if (!onmouseout.equals(other.onmouseout))
+            }
+        } else if (!onmouseout.equals(other.onmouseout)) {
             return false;
+        }
         if (onmouseover == null) {
-            if (other.onmouseover != null)
+            if (other.onmouseover != null) {
                 return false;
-        } else if (!onmouseover.equals(other.onmouseover))
+            }
+        } else if (!onmouseover.equals(other.onmouseover)) {
             return false;
+        }
         if (onmouseup == null) {
-            if (other.onmouseup != null)
+            if (other.onmouseup != null) {
                 return false;
-        } else if (!onmouseup.equals(other.onmouseup))
+            }
+        } else if (!onmouseup.equals(other.onmouseup)) {
             return false;
+        }
         return true;
     }
 

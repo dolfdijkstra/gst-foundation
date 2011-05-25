@@ -31,7 +31,7 @@ public class AssetName {
      * @param type
      * @param name
      */
-    public AssetName(String type, String name) {
+    public AssetName(final String type, final String name) {
         super();
         this.type = type;
         this.name = name;
@@ -61,40 +61,51 @@ public class AssetName {
         return type + ":" + name;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + (name == null ? 0 : name.hashCode());
+        result = prime * result + (type == null ? 0 : type.hashCode());
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof AssetName))
+        }
+        if (!(obj instanceof AssetName)) {
             return false;
-        AssetName other = (AssetName) obj;
+        }
+        final AssetName other = (AssetName) obj;
         if (name == null) {
-            if (other.name != null)
+            if (other.name != null) {
                 return false;
-        } else if (!name.equals(other.name))
+            }
+        } else if (!name.equals(other.name)) {
             return false;
+        }
         if (type == null) {
-            if (other.type != null)
+            if (other.type != null) {
                 return false;
-        } else if (!type.equals(other.type))
+            }
+        } else if (!type.equals(other.type)) {
             return false;
+        }
         return true;
     }
 

@@ -32,40 +32,40 @@ import org.springframework.util.Assert;
 public class JspIncludeService implements IncludeService {
 
     private final ICS ics;
-    private Map<String, Include> map = new HashMap<String, Include>();
+    private final Map<String, Include> map = new HashMap<String, Include>();
 
-    public JspIncludeService(ICS ics) {
+    public JspIncludeService(final ICS ics) {
         this.ics = ics;
     }
 
-    public IncludeElement element(String name, String elementname) {
+    public IncludeElement element(final String name, final String elementname) {
         Assert.hasText(name);
         Assert.hasText(elementname);
-        IncludeElement i = new IncludeElement(ics, elementname);
+        final IncludeElement i = new IncludeElement(ics, elementname);
         map.put(name, i);
         return i;
     }
 
-    public IncludePage page(String name, String pagename, Style style) {
+    public IncludePage page(final String name, final String pagename, final Style style) {
         Assert.hasText(name);
         Assert.hasText(pagename);
-        IncludePage i = new IncludePage(ics, pagename, style == null ? Style.pagelet : style);
+        final IncludePage i = new IncludePage(ics, pagename, style == null ? Style.pagelet : style);
         map.put(name, i);
         return i;
 
     }
 
-    public IncludeTemplate template(String name, AssetId asset, String tname) {
+    public IncludeTemplate template(final String name, final AssetId asset, final String tname) {
         Assert.hasText(name);
         Assert.hasText(tname);
         Assert.notNull(asset);
-        IncludeTemplate i = new IncludeTemplate(ics, asset, tname);
+        final IncludeTemplate i = new IncludeTemplate(ics, asset, tname);
         map.put(name, i);
         return i;
 
     }
 
-    public Include find(String name) {
+    public Include find(final String name) {
         return map.get(name);
     }
 

@@ -35,6 +35,7 @@ import com.fatwire.gst.foundation.facade.RenderUtils;
  */
 public class ActionController extends AbstractController {
 
+    @Override
     protected void doExecute() {
 
         // record seid and eid
@@ -42,14 +43,16 @@ public class ActionController extends AbstractController {
 
         // find the action locator
         LOG.trace("Dispatcher looking for action locator");
-        ActionLocator locator = getActionLocator();
-        if (LOG.isTraceEnabled())
+        final ActionLocator locator = getActionLocator();
+        if (LOG.isTraceEnabled()) {
             LOG.trace("Using action locator: " + locator.getClass().getName());
+        }
 
         // get the action
-        Action action = locator.getAction(ics);
-        if (LOG.isTraceEnabled())
+        final Action action = locator.getAction(ics);
+        if (LOG.isTraceEnabled()) {
             LOG.trace("Using action: " + action.getClass().getName());
+        }
 
         // execute the command
         action.handleRequest(ics);
@@ -59,10 +62,11 @@ public class ActionController extends AbstractController {
     protected ActionLocator getActionLocator() {
 
         // get the servlet context
-        ServletContext servletContext = getServletContext();
+        final ServletContext servletContext = getServletContext();
         ActionLocator l = ActionLocatorUtils.getActionLocator(servletContext);
-        if (l == null)
+        if (l == null) {
             l = new CommandActionLocator();
+        }
         return l;
     }
 

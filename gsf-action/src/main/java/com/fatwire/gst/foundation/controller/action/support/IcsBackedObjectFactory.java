@@ -37,7 +37,7 @@ public class IcsBackedObjectFactory implements Factory {
     /**
      * @param ics
      */
-    public IcsBackedObjectFactory(ICS ics) {
+    public IcsBackedObjectFactory(final ICS ics) {
         super();
         this.ics = ics;
     }
@@ -50,7 +50,7 @@ public class IcsBackedObjectFactory implements Factory {
      * @return object to inject or null if it is not known how to do it
      */
     @SuppressWarnings("unchecked")
-    public Object getObject(String fieldName, @SuppressWarnings("rawtypes") Class fieldType) {
+    public Object getObject(final String fieldName, @SuppressWarnings("rawtypes") final Class fieldType) {
         if (ICS.class.isAssignableFrom(fieldType)) {
             return ics;
         }
@@ -58,7 +58,7 @@ public class IcsBackedObjectFactory implements Factory {
             return AssetApiWraCoreFieldDao.getInstance(ics);
         }
         if (AliasCoreFieldDao.class.isAssignableFrom(fieldType)) {
-            WraCoreFieldDao wraCoreFieldDao = AssetApiWraCoreFieldDao.getInstance(ics);
+            final WraCoreFieldDao wraCoreFieldDao = AssetApiWraCoreFieldDao.getInstance(ics);
             return new AssetApiAliasCoreFieldDao(ics, wraCoreFieldDao);
         }
         if (WraPathTranslationService.class.isAssignableFrom(fieldType)) {

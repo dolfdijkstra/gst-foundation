@@ -127,10 +127,10 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
                 if (m != null) {
                     o = m.invoke(this, ics);
                 }
-            } catch (NoSuchMethodException e) {
+            } catch (final NoSuchMethodException e) {
                 try {
                     LOG.debug("Could not create  a " + c.getName() + " via a Template method, trying via constructor.");
-                    Constructor<T> constr = c.getConstructor(ICS.class);
+                    final Constructor<T> constr = c.getConstructor(ICS.class);
                     o = constr.newInstance(ics);
                 } catch (final RuntimeException e1) {
                     throw e1;

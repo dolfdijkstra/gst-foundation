@@ -35,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Dolf.Dijkstra
  * @since Apr 27, 2011
  */
-public abstract class BaseActionLocator  implements ActionLocator{
+public abstract class BaseActionLocator implements ActionLocator {
 
     protected static final Log LOG = LogFactory.getLog(BaseActionLocator.class.getPackage().getName());
     /**
@@ -63,7 +63,7 @@ public abstract class BaseActionLocator  implements ActionLocator{
      * @param ics
      * @param action
      */
-    protected void injectDependencies(final ICS ics, Action action) {
+    protected void injectDependencies(final ICS ics, final Action action) {
         final Factory factory = getFactory(ics);
         AnnotationInjector.inject(action, factory);
         final AssetIdWithSite id = figureOutTemplateOrCSElementId(ics);

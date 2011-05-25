@@ -24,9 +24,9 @@ import java.util.Map.Entry;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.ContentServer;
 import com.fatwire.gst.foundation.facade.runtag.render.SatellitePage;
-import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -42,18 +42,18 @@ public class IncludePage implements Include {
             "packedargs", "variant", "context", "pagename", "rendermode", "ft_ss"));
 
     private Style style;
-    private Map<String, String> list = new HashMap<String, String>();
-    private String pagename;
+    private final Map<String, String> list = new HashMap<String, String>();
+    private final String pagename;
     private String packedArgs;
 
-    private List<String> pc;
+    private final List<String> pc;
     private final ICS ics;
 
     /**
      * @param ics
      * @param pagename
      */
-    public IncludePage(ICS ics, String pagename) {
+    public IncludePage(final ICS ics, final String pagename) {
         this(ics, pagename, Style.embedded);
     }
 
@@ -62,14 +62,15 @@ public class IncludePage implements Include {
      * @param pagename
      * @param style
      */
-    public IncludePage(ICS ics, String pagename, Style style) {
+    public IncludePage(final ICS ics, final String pagename, final Style style) {
         this.ics = ics;
         this.style = style;
         this.pagename = pagename;
-        String[] keys = ics.pageCriteriaKeys(pagename);
-        if (keys == null)
+        final String[] keys = ics.pageCriteriaKeys(pagename);
+        if (keys == null) {
             throw new IllegalArgumentException("Can't find page criteria for " + pagename
                     + ". Please check if pagecriteria are set for " + pagename + ".");
+        }
         pc = Arrays.asList(keys);
     }
 
@@ -80,32 +81,32 @@ public class IncludePage implements Include {
      * com.fatwire.gst.foundation.include.Include#include(COM.FutureTense.Interfaces
      * .ICS)
      */
-    public void include(ICS ics) {
+    public void include(final ICS ics) {
         switch (style) {
             case embedded: {
-                ContentServer tag = new ContentServer(pagename);
-                for (Entry<String, String> e : list.entrySet()) {
+                final ContentServer tag = new ContentServer(pagename);
+                for (final Entry<String, String> e : list.entrySet()) {
                     tag.setArgument(e.getKey(), e.getValue());
                 }
                 if (StringUtils.isNotBlank(packedArgs)) {
                     tag.setArgument("PACKEDARGS", packedArgs);
                 }
-                String s = tag.execute(ics);
+                final String s = tag.execute(ics);
                 if (s != null) {
                     ics.StreamText(s);
                 }
             }
                 break;
             case pagelet: {
-                SatellitePage tag = new SatellitePage(pagename);
-                for (Entry<String, String> e : list.entrySet()) {
+                final SatellitePage tag = new SatellitePage(pagename);
+                for (final Entry<String, String> e : list.entrySet()) {
                     tag.setArgument(e.getKey(), e.getValue());
                 }
                 if (StringUtils.isNotBlank(packedArgs)) {
                     tag.setPackedArgs(packedArgs);
                 }
 
-                String s = tag.execute(ics);
+                final String s = tag.execute(ics);
                 if (s != null) {
                     ics.StreamText(s);
                 }
@@ -124,11 +125,12 @@ public class IncludePage implements Include {
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setArgument(java.lang.String,
      *      java.lang.String)
      */
-    public IncludePage argument(String name, String value) {
-        if (pc.contains(name) && !FORBIDDEN_VARS.contains(name))
+    public IncludePage argument(final String name, final String value) {
+        if (pc.contains(name) && !FORBIDDEN_VARS.contains(name)) {
             list.put(name, value);
-        else
+        } else {
             throw new IllegalArgumentException("Can't deal with " + name);
+        }
         return this;
     }
 
@@ -139,7 +141,7 @@ public class IncludePage implements Include {
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)
      */
-    public IncludePage packedargs(String s) {
+    public IncludePage packedargs(final String s) {
         this.packedArgs = s;
         return this;
     }
