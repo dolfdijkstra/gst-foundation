@@ -130,22 +130,22 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
             o.setLinkText(goodString(linktext) ? linktext : o.getH1Title());
 
             // these fields really don't make much sense in an external link...
-            if (alias.getAttributeNames().contains("h1title"))
+            if (alias.isAttribute("h1title"))
                 o.setH1Title(alias.asString("h1title"));
-            if (alias.getAttributeNames().contains("metatitle"))
+            if (alias.isAttribute("metatitle"))
                 o.setMetaTitle(alias.asString("metatitle"));
-            if (alias.getAttributeNames().contains("metadescription"))
+            if (alias.isAttribute("metadescription"))
                 o.setMetaDescription(alias.asString("metadescription"));
-            if (alias.getAttributeNames().contains("metakeyword"))
+            if (alias.isAttribute("metakeyword"))
                 o.setMetaKeyword(alias.asString("metakeyword"));
             o.setPath(alias.asString("path"));
             o.setTemplate(alias.asString("template"));
 
             // Alias fields
             o.setTargetUrl(targetUrl);
-            if (alias.getAttributeNames().contains("popup"))
+            if (alias.isAttribute("popup"))
                 o.setPopup(alias.asString("popup"));
-            if (alias.getAttributeNames().contains("linkimage"))
+            if (alias.isAttribute("linkimage"))
                 o.setLinkImage(alias.asAssetId("linkimage"));
             return o;
 
@@ -178,31 +178,31 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
             d = alias.asDate("enddate");
             o.setEndDate(d == null ? wra.getEndDate() : d);
 
-            if (alias.getAttributeNames().contains("h1title")) {
+            if (alias.isAttribute("h1title")) {
                 String s = alias.asString("h1title");
                 o.setH1Title(s == null ? wra.getH1Title() : s);
             }
 
-            if (alias.getAttributeNames().contains("linktext")) {
+            if (alias.isAttribute("linktext")) {
                 String s = alias.asString("linktext");
                 o.setLinkText(s == null ? wra.getLinkText() : s);
             }
 
-            if (alias.getAttributeNames().contains("metatitle")) {
+            if (alias.isAttribute("metatitle")) {
                 String s = alias.asString("metatitle");
                 if (!goodString(s))
                     s = wra.getMetaTitle();
                 o.setMetaTitle(s);
             }
 
-            if (alias.getAttributeNames().contains("metadescription")) {
+            if (alias.isAttribute("metadescription")) {
                 String s = alias.asString("metadescription");
                 if (!goodString(s))
                     s = wra.getMetaDescription();
                 o.setMetaDescription(s);
             }
 
-            if (alias.getAttributeNames().contains("metakeyword")) {
+            if (alias.isAttribute("metakeyword")) {
                 String s = alias.asString("metakeyword");
                 if (!goodString(s))
                     s = wra.getMetaKeyword();
@@ -225,9 +225,9 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
 
             // Alias fields
             o.setTarget(target);
-            if (alias.getAttributeNames().contains("popup"))
+            if (alias.isAttribute("popup"))
                 o.setPopup(alias.asString("popup"));
-            if (alias.getAttributeNames().contains("linkimage"))
+            if (alias.isAttribute("linkimage"))
                 o.setLinkImage(alias.asAssetId("linkimage"));
 
             return o;
