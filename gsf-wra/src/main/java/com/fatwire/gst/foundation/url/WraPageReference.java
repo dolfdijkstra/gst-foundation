@@ -87,6 +87,8 @@ public class WraPageReference extends PageRef {
      */
 
     
+    public static final String GST_DISPATCHER = "GST/Dispatcher";
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void setParameters(Map args, ICS ics) throws ReferenceException {
@@ -110,7 +112,7 @@ public class WraPageReference extends PageRef {
                     String pagename = ics.GetProperty(WraPathAssembler.DISPATCHER_PROPNAME,
                             "ServletRequest.properties", true);
                     if (!goodString(pagename)) {
-                        pagename = "GST/Dispatcher";
+                        pagename = GST_DISPATCHER;
                     }
                     // pagename or wrapperpage depending on whether or not we're
                     // going to use a wrapper.
