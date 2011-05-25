@@ -310,7 +310,7 @@ public class CallTemplate extends AbstractTagRunner {
     private void checkPageCriteria(final ICS ics, final String target) {
         final FTValList o = getList();
 
-        if (o instanceof Map) {
+        if (o != null) {
             String[] pc = ics.pageCriteriaKeys(target);
             if (pc == null) {
                 pc = new String[0];
