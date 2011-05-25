@@ -330,7 +330,7 @@ public class CodeGen {
         }
     }
 
-    class HtmlWriter extends Writer {
+    static class HtmlWriter extends Writer {
 
         final Writer writer;
 
