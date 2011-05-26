@@ -18,13 +18,23 @@ package com.fatwire.gst.foundation.include;
 import COM.FutureTense.Interfaces.ICS;
 
 /**
+ * Interface method for including a text block into an Content Server element.
+ * This facilitates hiding of the complexities of including a piece of text from
+ * the View layer and move this into the business logic layer.
+ * <p/>
+ * Contract is that Include implementation is created in business logic layer
+ * and that it is included in the View layer. The View layer is expected to call
+ * the include(ICS) method.
+ * <p/>
+ * This interface is designed after the Command pattern.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
 public interface Include {
 
     /**
-     * @param ics
+     * @param ics the Content Server context.
      */
     void include(ICS ics);
 
