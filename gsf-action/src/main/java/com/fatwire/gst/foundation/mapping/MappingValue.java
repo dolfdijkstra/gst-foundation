@@ -16,14 +16,15 @@
 package com.fatwire.gst.foundation.mapping;
 
 /**
+ * Object to hold the CSElement or Template mapping value and mapping type.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
-public class MappingValue {
+public final class MappingValue {
 
     /**
-     * @author Dolf Dijkstra
-     * @since Apr 13, 2011
+     * Enum for the mapping type.
      */
     public enum Type {
         asset, assettype, assetname, tname
@@ -34,8 +35,8 @@ public class MappingValue {
     private String[] parts;
 
     /**
-     * @param type
-     * @param value
+     * @param type mapping type
+     * @param value mapping value
      */
     public MappingValue(final Type type, final String value) {
         super();
