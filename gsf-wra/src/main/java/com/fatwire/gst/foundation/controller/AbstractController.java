@@ -77,60 +77,63 @@ public abstract class AbstractController implements Seed2 {
     }
 
     /**
-     * Sends the http status code to the user-agent
+     * Sends the http status code to the user-agent.
+     * 
      * 
      * @param code the http response code
      * @return String to stream
      */
-    protected String sendError(final int code, final Exception e) {
+
+    protected final String sendError(final int code, final Exception e) {
         LOG.debug(code + " status code sent due to exception " + e.toString(), e);
         if (LOG.isTraceEnabled()) {
             DebugHelper.dumpVars(ics, LOG);
         }
         switch (code) { // all the http status codes, we may restrict the list
             // to error and redirect
-            case HttpServletResponse.SC_ACCEPTED :
-            case HttpServletResponse.SC_BAD_GATEWAY :
-            case HttpServletResponse.SC_BAD_REQUEST :
-            case HttpServletResponse.SC_CONFLICT :
-            case HttpServletResponse.SC_CONTINUE :
-            case HttpServletResponse.SC_CREATED :
-            case HttpServletResponse.SC_EXPECTATION_FAILED :
-            case HttpServletResponse.SC_FORBIDDEN :
-            case HttpServletResponse.SC_FOUND :
-            case HttpServletResponse.SC_GATEWAY_TIMEOUT :
-            case HttpServletResponse.SC_GONE :
-            case HttpServletResponse.SC_HTTP_VERSION_NOT_SUPPORTED :
-            case HttpServletResponse.SC_INTERNAL_SERVER_ERROR :
-            case HttpServletResponse.SC_LENGTH_REQUIRED :
-            case HttpServletResponse.SC_METHOD_NOT_ALLOWED :
-            case HttpServletResponse.SC_MOVED_PERMANENTLY :
-            //case HttpServletResponse.SC_MOVED_TEMPORARILY : //SC_FOUND is preferred
-            case HttpServletResponse.SC_MULTIPLE_CHOICES :
-            case HttpServletResponse.SC_NO_CONTENT :
-            case HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION :
-            case HttpServletResponse.SC_NOT_ACCEPTABLE :
-            case HttpServletResponse.SC_NOT_FOUND :
-            case HttpServletResponse.SC_NOT_IMPLEMENTED :
-            case HttpServletResponse.SC_NOT_MODIFIED :
-            case HttpServletResponse.SC_OK :
-            case HttpServletResponse.SC_PARTIAL_CONTENT :
-            case HttpServletResponse.SC_PAYMENT_REQUIRED :
-            case HttpServletResponse.SC_PRECONDITION_FAILED :
-            case HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED :
-            case HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE :
-            case HttpServletResponse.SC_REQUEST_TIMEOUT :
-            case HttpServletResponse.SC_REQUEST_URI_TOO_LONG :
-            case HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE :
-            case HttpServletResponse.SC_RESET_CONTENT :
-            case HttpServletResponse.SC_SEE_OTHER :
-            case HttpServletResponse.SC_SERVICE_UNAVAILABLE :
-            case HttpServletResponse.SC_SWITCHING_PROTOCOLS :
-            case HttpServletResponse.SC_TEMPORARY_REDIRECT :
-            case HttpServletResponse.SC_UNAUTHORIZED :
-            case HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE :
-            case HttpServletResponse.SC_USE_PROXY :
-                        ics.StreamHeader(STATUS_HEADER, Integer.toString(code));
+            case HttpServletResponse.SC_ACCEPTED:
+            case HttpServletResponse.SC_BAD_GATEWAY:
+            case HttpServletResponse.SC_BAD_REQUEST:
+            case HttpServletResponse.SC_CONFLICT:
+            case HttpServletResponse.SC_CONTINUE:
+            case HttpServletResponse.SC_CREATED:
+            case HttpServletResponse.SC_EXPECTATION_FAILED:
+            case HttpServletResponse.SC_FORBIDDEN:
+            case HttpServletResponse.SC_FOUND:
+            case HttpServletResponse.SC_GATEWAY_TIMEOUT:
+            case HttpServletResponse.SC_GONE:
+            case HttpServletResponse.SC_HTTP_VERSION_NOT_SUPPORTED:
+            case HttpServletResponse.SC_INTERNAL_SERVER_ERROR:
+            case HttpServletResponse.SC_LENGTH_REQUIRED:
+            case HttpServletResponse.SC_METHOD_NOT_ALLOWED:
+            case HttpServletResponse.SC_MOVED_PERMANENTLY:
+                // case HttpServletResponse.SC_MOVED_TEMPORARILY : //SC_FOUND is
+                // preferred
+            case HttpServletResponse.SC_MULTIPLE_CHOICES:
+            case HttpServletResponse.SC_NO_CONTENT:
+            case HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION:
+            case HttpServletResponse.SC_NOT_ACCEPTABLE:
+            case HttpServletResponse.SC_NOT_FOUND:
+            case HttpServletResponse.SC_NOT_IMPLEMENTED:
+            case HttpServletResponse.SC_NOT_MODIFIED:
+            case HttpServletResponse.SC_OK:
+            case HttpServletResponse.SC_PARTIAL_CONTENT:
+            case HttpServletResponse.SC_PAYMENT_REQUIRED:
+            case HttpServletResponse.SC_PRECONDITION_FAILED:
+            case HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED:
+            case HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE:
+            case HttpServletResponse.SC_REQUEST_TIMEOUT:
+            case HttpServletResponse.SC_REQUEST_URI_TOO_LONG:
+            case HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE:
+            case HttpServletResponse.SC_RESET_CONTENT:
+            case HttpServletResponse.SC_SEE_OTHER:
+            case HttpServletResponse.SC_SERVICE_UNAVAILABLE:
+            case HttpServletResponse.SC_SWITCHING_PROTOCOLS:
+            case HttpServletResponse.SC_TEMPORARY_REDIRECT:
+            case HttpServletResponse.SC_UNAUTHORIZED:
+            case HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE:
+            case HttpServletResponse.SC_USE_PROXY:
+                ics.StreamHeader(STATUS_HEADER, Integer.toString(code));
                 break;
             default:
                 ics.StreamHeader(STATUS_HEADER, "500");
