@@ -29,14 +29,16 @@ import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
 /**
+ * MappingService implementation making use to sql queries to perform fast lookup of mapping values. 
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
-public class IcsMappingService implements MappingService {
+public final class IcsMappingService implements MappingService {
 
-    static PreparedStmt template = new PreparedStmt("SELECT * FROM Template_Map WHERE cs_ownerid=? AND cs_siteid=?",
+    private final static PreparedStmt template = new PreparedStmt("SELECT * FROM Template_Map WHERE cs_ownerid=? AND cs_siteid=?",
             Arrays.asList("Template", "Template_Map"));
-    static PreparedStmt element = new PreparedStmt("SELECT * FROM CSElement_Map WHERE cs_ownerid=? AND cs_siteid=?",
+    private final static PreparedStmt element = new PreparedStmt("SELECT * FROM CSElement_Map WHERE cs_ownerid=? AND cs_siteid=?",
             Arrays.asList("CSElement", "CSElement_Map"));
 
     static {
@@ -47,8 +49,8 @@ public class IcsMappingService implements MappingService {
 
     }
 
-    final ICS ics;
-    final AssetAccessTemplate aat;
+    private final ICS ics;
+    private final AssetAccessTemplate aat;
 
     /**
      * @param ics
