@@ -32,7 +32,7 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  */
 public class IcsBackedObjectFactory implements Factory {
 
-    final protected ICS ics;
+    protected final ICS ics;
 
     /**
      * @param ics
