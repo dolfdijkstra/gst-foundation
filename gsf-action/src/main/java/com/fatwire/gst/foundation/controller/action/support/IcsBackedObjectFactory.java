@@ -27,15 +27,21 @@ import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 /**
+ * Factory for services that need access to ICS.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 15, 2011
+ * @deprecated replaced by the more flexible and extendable
+ *             {@link IcsBackedObjectFactoryTemplate}.
  */
 public class IcsBackedObjectFactory implements Factory {
 
-    protected final ICS ics;
+    private final ICS ics;
 
     /**
-     * @param ics
+     * Constructor.
+     * 
+     * @param ics the ContentServer context
      */
     public IcsBackedObjectFactory(final ICS ics) {
         super();
