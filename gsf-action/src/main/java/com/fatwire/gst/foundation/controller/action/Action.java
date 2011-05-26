@@ -24,11 +24,12 @@ import COM.FutureTense.Interfaces.ICS;
  * notion of a Struts Action or a Spring MVC Controller.
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since 2011-03-15
  */
 public interface Action {
     /**
-     * Process and handle the request. This method is responsible for invoking
+     * Process and handle the request. This method might be responsible for invoking
      * the view as well.
      * 
      * @param ics Content Server context.
