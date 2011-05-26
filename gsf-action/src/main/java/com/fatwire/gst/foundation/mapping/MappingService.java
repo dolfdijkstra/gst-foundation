@@ -20,14 +20,18 @@ import java.util.Map;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 
 /**
+ * Service the read the mappings for an asset.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
 public interface MappingService {
 
     /**
-     * @param id
-     * @return
+     * Reads the mappings for the asset and the site.
+     * 
+     * @param id the asset that holds the mapping.
+     * @return the mappings for the asset.
      */
     Map<String, MappingValue> readMapping(AssetIdWithSite id);
 

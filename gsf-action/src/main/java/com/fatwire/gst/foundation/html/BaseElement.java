@@ -26,7 +26,7 @@ abstract class BaseElement {
     private final HtmlI18NAttr i18n = new HtmlI18NAttr();
 
     /**
-     * @return
+     * @return classname
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getClassName()
      */
     public final String getClassName() {
@@ -34,7 +34,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return id
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getId()
      */
     public  final String getId() {
@@ -42,7 +42,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return style
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getStyle()
      */
     public  final String getStyle() {
@@ -50,7 +50,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return title
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getTitle()
      */
     public  final String getTitle() {
@@ -90,7 +90,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return onclick
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnclick()
      */
     public  final String getOnclick() {
@@ -98,7 +98,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return ondblclick
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOndblclick()
      */
     public  final String getOndblclick() {
@@ -106,7 +106,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return onkeydown
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnkeydown()
      */
     public  final String getOnkeydown() {
@@ -114,7 +114,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnkeypress()
      */
     public  final String getOnkeypress() {
@@ -122,7 +122,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnkeyup()
      */
     public  final String getOnkeyup() {
@@ -130,7 +130,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmousedown()
      */
     public  final String getOnmousedown() {
@@ -138,7 +138,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmousemove()
      */
     public  final String getOnmousemove() {
@@ -146,7 +146,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmouseout()
      */
     public  final String getOnmouseout() {
@@ -154,7 +154,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmouseover()
      */
     public  final String getOnmouseover() {
@@ -162,7 +162,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmouseup()
      */
     public final  String getOnmouseup() {
@@ -250,7 +250,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return dir
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#getDir()
      */
     public final String getDir() {
@@ -258,7 +258,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return
+     * @return lang
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#getLang()
      */
     public final String getLang() {

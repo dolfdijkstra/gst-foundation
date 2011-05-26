@@ -44,9 +44,9 @@ public class IncludeTemplate implements Include {
     private final ICS ics;
 
     /**
-     * @param ics
-     * @param asset
-     * @param tname
+     * @param ics Content Server context
+     * @param asset asset to render
+     * @param tname template name
      */
     public IncludeTemplate(final ICS ics, final AssetId asset, final String tname) {
         this.ics = ics;
@@ -136,7 +136,7 @@ public class IncludeTemplate implements Include {
      * Copies the ics variables identified by the name array
      * 
      * @param name
-     * @return
+     * @return this
      */
     public IncludeTemplate copyArguments(final String... name) {
         if (name == null) {
@@ -151,7 +151,7 @@ public class IncludeTemplate implements Include {
     /**
      * Adds packedargs.
      * 
-     * @param s
+     * @param s packedargs
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)
      */
@@ -161,7 +161,7 @@ public class IncludeTemplate implements Include {
     }
 
     /**
-     * @param s
+     * @param s style
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setStyle(com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style)
      */
