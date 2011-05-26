@@ -46,7 +46,7 @@ public class PageTag extends GsfRootTag {
      */
     private static final long serialVersionUID = -5979095889062674072L;
     private String action;
-    private JspIncludeService includeService;
+    private DefaultIncludeService includeService;
 
     /*
      * (non-Javadoc)
@@ -80,7 +80,7 @@ public class PageTag extends GsfRootTag {
                     DebugHelper.printTime(LOG_TIME, "Locating Action " + a.getClass().getName(), start);
                 }
 
-                includeService = (JspIncludeService) findService(a, IncludeService.class);
+                includeService = (DefaultIncludeService) findService(a, IncludeService.class);
                 if (includeService == null && LOG.isDebugEnabled()) {
                     LOG.debug("includeService is null");
                 }
@@ -101,7 +101,7 @@ public class PageTag extends GsfRootTag {
     /**
      * Copies the data from the Model to the jsp page scope
      * 
-     * @param a
+     * @param a the action to copy from.
      */
     private void copyModelData(final Action a) {
         if (a == null) {
@@ -138,6 +138,21 @@ public class PageTag extends GsfRootTag {
         }
     }
 
+    /**
+     * Searches the object for a field annotated with the InjectForRequest
+     * annotation of the provided type.
+     * <p/>
+     * 
+     * For instance <tt>@InjectForRequest Service service; </tt> is defined on
+     * the class as a field, then <tt>findField(object,Service.class);</tt> will
+     * return the Field <tt>service</tt>.
+     * 
+     * @param <T> the type of the field to look for.
+     * @param a the object to search on for the typed field.
+     * @param type
+     * @return the class field with the InjectForRequest annotation of the Class
+     *         type.
+     */
     public static <T> Field findField(final Object a, final Class<T> type) {
         Class<?> klazz = a.getClass();
         while (klazz != null && klazz != Object.class) {
@@ -184,7 +199,7 @@ public class PageTag extends GsfRootTag {
      * 
      * @return the IncludeService
      */
-    public JspIncludeService getJspIncludeService() {
+    public DefaultIncludeService getJspIncludeService() {
         return includeService;
     }
 

@@ -29,12 +29,12 @@ import org.springframework.util.Assert;
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
-public class JspIncludeService implements IncludeService {
+public class DefaultIncludeService implements IncludeService {
 
     private final ICS ics;
     private final Map<String, Include> map = new HashMap<String, Include>();
 
-    public JspIncludeService(final ICS ics) {
+    public DefaultIncludeService(final ICS ics) {
         this.ics = ics;
     }
 

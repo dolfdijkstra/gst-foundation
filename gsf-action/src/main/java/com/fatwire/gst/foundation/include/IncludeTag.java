@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
-public class IncludeTag extends GsfSimpleTag {
+public final class IncludeTag extends GsfSimpleTag {
 
     static final Log LOG = LogFactory.getLog(IncludeTag.class.getPackage().getName());
 
@@ -62,18 +62,18 @@ public class IncludeTag extends GsfSimpleTag {
     }
 
     protected Include discover(final String name) {
-        final JspIncludeService s = findService();
+        final DefaultIncludeService s = findService();
         return s.find(name);
     }
 
-    protected JspIncludeService findService() {
+    protected DefaultIncludeService findService() {
         final JspTag parent = SimpleTagSupport.findAncestorWithClass(this, PageTag.class);
         if (parent instanceof PageTag) {
             final PageTag t = (PageTag) parent;
             return t.getJspIncludeService();
         }
         throw new IllegalStateException(
-                "Can't find JspIncludeService from a parent tag. Does your Action have a @InjectForRequest field of type IncludeService."
+                "Can't find DefaultIncludeService from a parent tag. Does your Action have a @InjectForRequest field of type IncludeService."
                         + " This is required to make use of the include tag in your jsp.");
 
     }

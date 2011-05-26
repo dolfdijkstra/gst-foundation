@@ -31,7 +31,7 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.include.IncludeService;
-import com.fatwire.gst.foundation.include.JspIncludeService;
+import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
@@ -49,22 +49,27 @@ import org.apache.commons.logging.LogFactory;
  * Factory implementation that works with a method naming convention to create
  * objects. Objects are created in a delegated factory method. The delegated
  * method is found by looking for a method that is prefixed by 'create' and then
- * the the simple name of the class (classname without package prefix). </p> For
- * instance to create a object of class 'com.bar.Foo' if will look for a method
- * <tt>public Foo createFoo(ICS ics);</tt>. The method has to be public and has
- * to accept one argument of type ICS. </p>
+ * the the simple name of the class (classname without package prefix).
+ * <p>
+ * For instance to create a object of class 'com.bar.Foo' if will look for a
+ * method <tt>public Foo createFoo(ICS ics);</tt>. The method has to be public
+ * and has to accept one argument of type ICS.
+ * </p>
  * 
  * 
  * @author Dolf.Dijkstra
  * @since Apr 20, 2011
+ * 
  */
 public class IcsBackedObjectFactoryTemplate implements Factory {
-    static Log LOG = LogFactory.getLog(IcsBackedObjectFactoryTemplate.class.getPackage().getName());
+    protected static final Log LOG = LogFactory.getLog(IcsBackedObjectFactoryTemplate.class.getPackage().getName());
     private final ICS ics;
     private final Map<String, Object> objectCache = new HashMap<String, Object>();
 
     /**
-     * @param ics
+     * Constrctor.
+     * 
+     * @param ics the Content Server context
      */
     public IcsBackedObjectFactoryTemplate(final ICS ics) {
         super();
@@ -121,7 +126,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         if (o == null) {
 
             try {
-                // TODO medium: check for other method signatures
+                // TODO: medium: check for other method signatures
                 Method m;
                 m = getClass().getMethod("create" + name, ICS.class);
                 if (m != null) {
@@ -168,7 +173,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
     }
 
     public IncludeService createIncludeService(final ICS ics) {
-        return new JspIncludeService(ics);
+        return new DefaultIncludeService(ics);
     }
 
     public ScatteredAssetAccessTemplate createScatteredAssetAccessTemplate(final ICS ics) {
