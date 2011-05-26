@@ -38,7 +38,7 @@ import org.springframework.beans.BeanUtils;
  * @author Dolf Dijkstra
  * @since Mar 26, 2011
  */
-public class AnnotationInjector {
+public final class AnnotationInjector {
     protected static final Log LOG = LogFactory.getLog(AnnotationInjector.class.getPackage().getName());
     protected static final Log LOG_TIME = LogFactory.getLog(AnnotationInjector.class.getPackage().getName() + ".time");
 
