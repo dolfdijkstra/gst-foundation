@@ -29,7 +29,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getClassName()
      */
-    public String getClassName() {
+    public final String getClassName() {
         return core.getClassName();
     }
 
@@ -37,7 +37,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getId()
      */
-    public String getId() {
+    public  final String getId() {
         return core.getId();
     }
 
@@ -45,7 +45,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getStyle()
      */
-    public String getStyle() {
+    public  final String getStyle() {
         return core.getStyle();
     }
 
@@ -53,7 +53,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#getTitle()
      */
-    public String getTitle() {
+    public  final String getTitle() {
         return core.getTitle();
     }
 
@@ -61,7 +61,7 @@ abstract class BaseElement {
      * @param className
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setClassName(java.lang.String)
      */
-    public void setClassName(final String className) {
+    public  final void setClassName(final String className) {
         core.setClassName(className);
     }
 
@@ -69,7 +69,7 @@ abstract class BaseElement {
      * @param id
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setId(java.lang.String)
      */
-    public void setId(final String id) {
+    public  final void setId(final String id) {
         core.setId(id);
     }
 
@@ -77,7 +77,7 @@ abstract class BaseElement {
      * @param style
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setStyle(java.lang.String)
      */
-    public void setStyle(final String style) {
+    public  final void setStyle(final String style) {
         core.setStyle(style);
     }
 
@@ -85,7 +85,7 @@ abstract class BaseElement {
      * @param title
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setTitle(java.lang.String)
      */
-    public void setTitle(final String title) {
+    public  final void setTitle(final String title) {
         core.setTitle(title);
     }
 
@@ -93,7 +93,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnclick()
      */
-    public String getOnclick() {
+    public  final String getOnclick() {
         return events.getOnclick();
     }
 
@@ -101,7 +101,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOndblclick()
      */
-    public String getOndblclick() {
+    public  final String getOndblclick() {
         return events.getOndblclick();
     }
 
@@ -109,7 +109,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnkeydown()
      */
-    public String getOnkeydown() {
+    public  final String getOnkeydown() {
         return events.getOnkeydown();
     }
 
@@ -117,7 +117,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnkeypress()
      */
-    public String getOnkeypress() {
+    public  final String getOnkeypress() {
         return events.getOnkeypress();
     }
 
@@ -125,7 +125,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnkeyup()
      */
-    public String getOnkeyup() {
+    public  final String getOnkeyup() {
         return events.getOnkeyup();
     }
 
@@ -133,7 +133,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmousedown()
      */
-    public String getOnmousedown() {
+    public  final String getOnmousedown() {
         return events.getOnmousedown();
     }
 
@@ -141,7 +141,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmousemove()
      */
-    public String getOnmousemove() {
+    public  final String getOnmousemove() {
         return events.getOnmousemove();
     }
 
@@ -149,7 +149,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmouseout()
      */
-    public String getOnmouseout() {
+    public  final String getOnmouseout() {
         return events.getOnmouseout();
     }
 
@@ -157,7 +157,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmouseover()
      */
-    public String getOnmouseover() {
+    public  final String getOnmouseover() {
         return events.getOnmouseover();
     }
 
@@ -165,7 +165,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#getOnmouseup()
      */
-    public String getOnmouseup() {
+    public final  String getOnmouseup() {
         return events.getOnmouseup();
     }
 
@@ -173,7 +173,7 @@ abstract class BaseElement {
      * @param onclick
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnclick(java.lang.String)
      */
-    public void setOnclick(final String onclick) {
+    public  final void setOnclick(final String onclick) {
         events.setOnclick(onclick);
     }
 
@@ -181,7 +181,7 @@ abstract class BaseElement {
      * @param ondblclick
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOndblclick(java.lang.String)
      */
-    public void setOndblclick(final String ondblclick) {
+    public  final void setOndblclick(final String ondblclick) {
         events.setOndblclick(ondblclick);
     }
 
@@ -189,7 +189,7 @@ abstract class BaseElement {
      * @param onkeydown
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnkeydown(java.lang.String)
      */
-    public void setOnkeydown(final String onkeydown) {
+    public  final void setOnkeydown(final String onkeydown) {
         events.setOnkeydown(onkeydown);
     }
 
@@ -197,7 +197,7 @@ abstract class BaseElement {
      * @param onkeypress
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnkeypress(java.lang.String)
      */
-    public void setOnkeypress(final String onkeypress) {
+    public final void setOnkeypress(final String onkeypress) {
         events.setOnkeypress(onkeypress);
     }
 
@@ -205,7 +205,7 @@ abstract class BaseElement {
      * @param onkeyup
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnkeyup(java.lang.String)
      */
-    public void setOnkeyup(final String onkeyup) {
+    public final void setOnkeyup(final String onkeyup) {
         events.setOnkeyup(onkeyup);
     }
 
@@ -213,7 +213,7 @@ abstract class BaseElement {
      * @param onmousedown
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmousedown(java.lang.String)
      */
-    public void setOnmousedown(final String onmousedown) {
+    public final void setOnmousedown(final String onmousedown) {
         events.setOnmousedown(onmousedown);
     }
 
@@ -221,7 +221,7 @@ abstract class BaseElement {
      * @param onmousemove
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmousemove(java.lang.String)
      */
-    public void setOnmousemove(final String onmousemove) {
+    public final void setOnmousemove(final String onmousemove) {
         events.setOnmousemove(onmousemove);
     }
 
@@ -229,7 +229,7 @@ abstract class BaseElement {
      * @param onmouseout
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmouseout(java.lang.String)
      */
-    public void setOnmouseout(final String onmouseout) {
+    public final void setOnmouseout(final String onmouseout) {
         events.setOnmouseout(onmouseout);
     }
 
@@ -237,7 +237,7 @@ abstract class BaseElement {
      * @param onmouseover
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmouseover(java.lang.String)
      */
-    public void setOnmouseover(final String onmouseover) {
+    public final void setOnmouseover(final String onmouseover) {
         events.setOnmouseover(onmouseover);
     }
 
@@ -245,7 +245,7 @@ abstract class BaseElement {
      * @param onmouseup
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmouseup(java.lang.String)
      */
-    public void setOnmouseup(final String onmouseup) {
+    public final void setOnmouseup(final String onmouseup) {
         events.setOnmouseup(onmouseup);
     }
 
@@ -253,7 +253,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#getDir()
      */
-    public String getDir() {
+    public final String getDir() {
         return i18n.getDir();
     }
 
@@ -261,7 +261,7 @@ abstract class BaseElement {
      * @return
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#getLang()
      */
-    public String getLang() {
+    public final String getLang() {
         return i18n.getLang();
     }
 
@@ -269,7 +269,7 @@ abstract class BaseElement {
      * @param dir
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#setDir(java.lang.String)
      */
-    public void setDir(final String dir) {
+    public final void setDir(final String dir) {
         i18n.setDir(dir);
     }
 
@@ -277,7 +277,7 @@ abstract class BaseElement {
      * @param lang
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#setLang(java.lang.String)
      */
-    public void setLang(final String lang) {
+    public final void setLang(final String lang) {
         i18n.setLang(lang);
     }
 

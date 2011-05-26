@@ -15,7 +15,7 @@
  */
 package com.fatwire.gst.foundation.html;
 
-public class Img extends BaseElement {
+public final class Img extends BaseElement {
     private String src;
     private String alt;
     private String longdesc;
