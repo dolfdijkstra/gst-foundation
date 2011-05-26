@@ -23,6 +23,8 @@ import com.fatwire.gst.foundation.facade.runtag.render.CallElement;
 import com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope;
 
 /**
+ * Include implementation for CallElement.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 11, 2011
  */

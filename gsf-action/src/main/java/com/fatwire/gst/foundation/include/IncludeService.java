@@ -30,9 +30,9 @@ public interface IncludeService {
      * Creates a IncludeTemplate and registers this under the name for retrieval
      * in the View layer by that name.
      * 
-     * @param name
-     * @param asset
-     * @param tname
+     * @param name the name of the Include for reference in the View layer
+     * @param asset the asset to render.
+     * @param tname the template name.
      * @return the created IncludeTemplate
      */
     IncludeTemplate template(String name, AssetId asset, String tname);
@@ -41,8 +41,8 @@ public interface IncludeService {
      * Creates a IncludePage and registers this under the name for retrieval in
      * the View layer by that name.
      * 
-     * @param name
-     * @param pagename
+     * @param name the name of the Include for reference in the View layer.
+     * @param pagename the name of the SiteCatalog entry to call.
      * @param style
      * @return the created IncludePage
      */
@@ -52,8 +52,8 @@ public interface IncludeService {
      * Creates a IncludeElement and registers this under the name for retrieval
      * in the View layer by that name.
      * 
-     * @param name
-     * @param elementname
+     * @param name the name of the Include for reference in the View layer.
+     * @param elementname the name of the element to call.
      * @return the created IncludeElement
      */
     IncludeElement element(String name, String elementname);
