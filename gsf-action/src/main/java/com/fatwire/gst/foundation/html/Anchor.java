@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.html;
  * @author Dolf Dijkstra
  * @since Apr 16, 2011
  */
-public class Anchor extends BaseElement {
+public final class Anchor extends BaseElement {
 
     private String charset;
     private String type;
