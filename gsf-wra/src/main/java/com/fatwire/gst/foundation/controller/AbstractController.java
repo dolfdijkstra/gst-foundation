@@ -39,7 +39,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 public abstract class AbstractController implements Seed2 {
     protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller");
 
-    public static String STATUS_HEADER = "X-Fatwire-Status";
+    public static final String STATUS_HEADER = "X-Fatwire-Status";
 
     protected ICS ics;
 
@@ -142,6 +142,8 @@ public abstract class AbstractController implements Seed2 {
             element = ics.GetVar("site") + "/ErrorHandler/" + code;
         } else if (ics.IsElement("GST/ErrorHandler/" + code)) {
             element = "GST/ErrorHandler/" + code;
+        } else if (ics.IsElement("GST/ErrorHandler")) {
+            element = "GST/ErrorHandler";
         }
         if (element != null) {
             ics.SetObj("com.fatwire.gst.foundation.exception", e);
