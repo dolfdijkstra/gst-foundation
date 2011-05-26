@@ -97,7 +97,7 @@ public abstract class BaseActionLocator implements ActionLocator {
             LOG.warn(e);
         }
         if (factory == null) {
-            factory = new IcsBackedObjectFactory(ics);
+            factory = new IcsBackedObjectFactoryTemplate(ics);
         }
         ics.SetObj(Factory.class.getName(), factory);
         return factory;
