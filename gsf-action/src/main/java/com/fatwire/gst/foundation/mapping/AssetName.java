@@ -22,7 +22,7 @@ package com.fatwire.gst.foundation.mapping;
  * @since Apr 13, 2011
  * @see com.fatwire.assetapi.data.AssetId
  */
-public class AssetName {
+public final class AssetName {
 
     private final String type;
     private final String name;
