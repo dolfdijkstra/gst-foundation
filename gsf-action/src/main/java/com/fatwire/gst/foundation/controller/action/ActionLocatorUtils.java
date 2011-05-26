@@ -27,7 +27,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @author Dolf Dijkstra
  * @since Apr 11, 2011
  */
-public class ActionLocatorUtils {
+public final class ActionLocatorUtils {
     private static final Log LOG = LogFactory.getLog(ActionLocatorUtils.class.getPackage().getName());
     public static final String ACTION_LOCATOR_BEAN = "gsfActionLocator";
 
