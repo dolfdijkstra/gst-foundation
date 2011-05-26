@@ -55,10 +55,11 @@ public abstract class AnnotationController extends AbstractController {
         final ControllerMappingResolver resolver = new ControllerMappingResolver();
         final Object target = getTarget();
         final Method m = resolver.findControllerMethod(ics, target);
-        if (m != null) {
+        if (m == null) {
             executeDefault();
+        } else {
+            invokeControllerMethod(m, target);
         }
-        invokeControllerMethod(m, target);
     }
 
     /**
