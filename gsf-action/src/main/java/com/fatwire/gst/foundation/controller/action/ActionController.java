@@ -17,14 +17,11 @@
 package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
 
-import COM.FutureTense.Util.ftErrors;
+import com.fatwire.gst.foundation.controller.action.support.CommandActionNameResolver;
 
-import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.controller.AbstractController;
-import com.fatwire.gst.foundation.controller.action.support.CommandActionLocator;
-import com.fatwire.gst.foundation.facade.RenderUtils;
+
+
 
 /**
  * Dispatching controller. Relies on actionLocator to dispatch control to Action
@@ -34,84 +31,18 @@ import com.fatwire.gst.foundation.facade.RenderUtils;
  * @author Dolf Dijkstra
  * @since Mar 15, 2011
  */
-public class ActionController extends AbstractController {
-
-    @Override
-    protected final void doExecute() {
-
-        // record seid and eid
-        RenderUtils.recordBaseCompositionalDependencies(ics);
-
-        // find the action locator
-        LOG.trace("Dispatcher looking for action locator");
-        final ActionLocator locator = getActionLocator();
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Using action locator: " + locator.getClass().getName());
-        }
-
-        // get the action
-        final Action action = locator.getAction(ics);
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Using action: " + action.getClass().getName());
-        }
-
-        // execute the command
-        action.handleRequest(ics);
-        LOG.trace("Request handling complete");
-    }
-
+public class ActionController extends AbstractActionController {
     protected final ActionLocator getActionLocator() {
 
         // get the servlet context
         final ServletContext servletContext = getServletContext();
         ActionLocator l = ActionLocatorUtils.getActionLocator(servletContext);
-        if (l == null) {
-            l = new CommandActionLocator();
-        }
         return l;
     }
 
-    @SuppressWarnings("deprecation")
-    private ServletContext getServletContext() {
-        return ics.getIServlet().getServlet().getServletContext();
-    }
-
     @Override
-    protected final void handleException(final Exception e) {
-        if (e instanceof CSRuntimeException) {
-            handleCSRuntimeException((CSRuntimeException) e);
-        } else {
-            sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
-        }
+    protected ActionNameResolver getActionNameResolver() {
+        return new CommandActionNameResolver();
     }
 
-    /**
-     * This method transforms errno values into http status codes and sets them
-     * using the X-Fatwire-Status header.
-     * <p/>
-     * Only some errnos are handled by this base class.
-     * <p/>
-     * More info coming soon
-     * 
-     * @param e exception
-     */
-    protected final void handleCSRuntimeException(final CSRuntimeException e) {
-        switch (e.getErrno()) {
-            case HttpServletResponse.SC_BAD_REQUEST:
-            case ftErrors.badparams:
-                sendError(HttpServletResponse.SC_BAD_REQUEST, e);
-                break;
-            case HttpServletResponse.SC_NOT_FOUND:
-            case ftErrors.pagenotfound:
-                sendError(HttpServletResponse.SC_NOT_FOUND, e);
-                break;
-            case HttpServletResponse.SC_FORBIDDEN:
-            case ftErrors.noprivs:
-                sendError(HttpServletResponse.SC_FORBIDDEN, e);
-                break;
-            default:
-                sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
-                break;
-        }
-    }
 }

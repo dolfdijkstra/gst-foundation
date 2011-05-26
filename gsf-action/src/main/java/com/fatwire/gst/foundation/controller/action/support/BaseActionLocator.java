@@ -43,13 +43,8 @@ public abstract class BaseActionLocator implements ActionLocator {
      */
     private ActionLocator fallbackActionLocator = new ActionLocator() {
 
-        public Action getAction(final ICS ics) {
-
-            return new RenderPage();
-        }
-
         public Action getAction(final ICS ics, final String name) {
-            return null;
+            return new RenderPage();
         }
 
     };
@@ -63,7 +58,7 @@ public abstract class BaseActionLocator implements ActionLocator {
      * @param ics
      * @param action
      */
-    protected void injectDependencies(final ICS ics, final Action action) {
+    protected final void injectDependencies(final ICS ics, final Action action) {
         final Factory factory = getFactory(ics);
         AnnotationInjector.inject(action, factory);
         final AssetIdWithSite id = figureOutTemplateOrCSElementId(ics);

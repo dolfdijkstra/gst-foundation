@@ -29,19 +29,11 @@ import COM.FutureTense.Interfaces.ICS;
 public interface ActionLocator {
 
     /**
-     * Gets the action for the request specified.
-     * 
-     * @param ics Content Server context object
-     * @return action, never null
-     */
-    Action getAction(ICS ics);
-
-    /**
      * Gets the action for the name specified.
      * 
-     * @param ics ics object
+     * @param ics Content Server context object
      * @param name the name of the action
-     * @return the located Action
+     * @return the located Action, never null
      */
     Action getAction(ICS ics, String name);
 
