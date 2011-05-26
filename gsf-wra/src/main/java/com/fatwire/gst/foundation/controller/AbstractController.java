@@ -15,6 +15,8 @@
  */
 package com.fatwire.gst.foundation.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IPS;
@@ -87,48 +89,48 @@ public abstract class AbstractController implements Seed2 {
         }
         switch (code) { // all the http status codes, we may restrict the list
             // to error and redirect
-            case 100:
-            case 101:
-            case 200:
-            case 201:
-            case 202:
-            case 203:
-            case 204:
-            case 205:
-            case 206:
-            case 300:
-            case 301:
-            case 302:
-            case 303:
-            case 304:
-            case 306:
-            case 307:
-            case 400:
-            case 401:
-            case 402:
-            case 403:
-            case 404:
-            case 405:
-            case 406:
-            case 407:
-            case 408:
-            case 409:
-            case 410:
-            case 411:
-            case 412:
-            case 413:
-            case 414:
-            case 415:
-            case 416:
-            case 417:
-            case 450:
-            case 500:
-            case 501:
-            case 502:
-            case 503:
-            case 504:
-            case 505:
-                ics.StreamHeader(STATUS_HEADER, Integer.toString(code));
+            case HttpServletResponse.SC_ACCEPTED :
+            case HttpServletResponse.SC_BAD_GATEWAY :
+            case HttpServletResponse.SC_BAD_REQUEST :
+            case HttpServletResponse.SC_CONFLICT :
+            case HttpServletResponse.SC_CONTINUE :
+            case HttpServletResponse.SC_CREATED :
+            case HttpServletResponse.SC_EXPECTATION_FAILED :
+            case HttpServletResponse.SC_FORBIDDEN :
+            case HttpServletResponse.SC_FOUND :
+            case HttpServletResponse.SC_GATEWAY_TIMEOUT :
+            case HttpServletResponse.SC_GONE :
+            case HttpServletResponse.SC_HTTP_VERSION_NOT_SUPPORTED :
+            case HttpServletResponse.SC_INTERNAL_SERVER_ERROR :
+            case HttpServletResponse.SC_LENGTH_REQUIRED :
+            case HttpServletResponse.SC_METHOD_NOT_ALLOWED :
+            case HttpServletResponse.SC_MOVED_PERMANENTLY :
+            //case HttpServletResponse.SC_MOVED_TEMPORARILY : //SC_FOUND is preferred
+            case HttpServletResponse.SC_MULTIPLE_CHOICES :
+            case HttpServletResponse.SC_NO_CONTENT :
+            case HttpServletResponse.SC_NON_AUTHORITATIVE_INFORMATION :
+            case HttpServletResponse.SC_NOT_ACCEPTABLE :
+            case HttpServletResponse.SC_NOT_FOUND :
+            case HttpServletResponse.SC_NOT_IMPLEMENTED :
+            case HttpServletResponse.SC_NOT_MODIFIED :
+            case HttpServletResponse.SC_OK :
+            case HttpServletResponse.SC_PARTIAL_CONTENT :
+            case HttpServletResponse.SC_PAYMENT_REQUIRED :
+            case HttpServletResponse.SC_PRECONDITION_FAILED :
+            case HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED :
+            case HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE :
+            case HttpServletResponse.SC_REQUEST_TIMEOUT :
+            case HttpServletResponse.SC_REQUEST_URI_TOO_LONG :
+            case HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE :
+            case HttpServletResponse.SC_RESET_CONTENT :
+            case HttpServletResponse.SC_SEE_OTHER :
+            case HttpServletResponse.SC_SERVICE_UNAVAILABLE :
+            case HttpServletResponse.SC_SWITCHING_PROTOCOLS :
+            case HttpServletResponse.SC_TEMPORARY_REDIRECT :
+            case HttpServletResponse.SC_UNAUTHORIZED :
+            case HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE :
+            case HttpServletResponse.SC_USE_PROXY :
+                        ics.StreamHeader(STATUS_HEADER, Integer.toString(code));
                 break;
             default:
                 ics.StreamHeader(STATUS_HEADER, "500");
