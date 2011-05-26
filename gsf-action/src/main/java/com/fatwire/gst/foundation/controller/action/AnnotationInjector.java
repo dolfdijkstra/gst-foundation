@@ -52,7 +52,7 @@ public class AnnotationInjector {
      * @param factory the factory that created the objects that need to be
      *            injected.
      */
-    public final static void inject(final Object object, final Factory factory) {
+    public static final void inject(final Object object, final Factory factory) {
         if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
