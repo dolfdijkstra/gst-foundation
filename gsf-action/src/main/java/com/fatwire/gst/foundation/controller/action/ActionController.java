@@ -17,6 +17,7 @@
 package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import COM.FutureTense.Util.ftErrors;
 
@@ -36,7 +37,7 @@ import com.fatwire.gst.foundation.facade.RenderUtils;
 public class ActionController extends AbstractController {
 
     @Override
-    protected void doExecute() {
+    protected final void doExecute() {
 
         // record seid and eid
         RenderUtils.recordBaseCompositionalDependencies(ics);
@@ -59,7 +60,7 @@ public class ActionController extends AbstractController {
         LOG.trace("Request handling complete");
     }
 
-    protected ActionLocator getActionLocator() {
+    protected final ActionLocator getActionLocator() {
 
         // get the servlet context
         final ServletContext servletContext = getServletContext();
@@ -76,11 +77,11 @@ public class ActionController extends AbstractController {
     }
 
     @Override
-    protected void handleException(final Exception e) {
+    protected final void handleException(final Exception e) {
         if (e instanceof CSRuntimeException) {
             handleCSRuntimeException((CSRuntimeException) e);
         } else {
-            sendError(500, e);
+            sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -94,22 +95,22 @@ public class ActionController extends AbstractController {
      * 
      * @param e exception
      */
-    protected void handleCSRuntimeException(final CSRuntimeException e) {
+    protected final void handleCSRuntimeException(final CSRuntimeException e) {
         switch (e.getErrno()) {
-            case 400:
+            case HttpServletResponse.SC_BAD_REQUEST:
             case ftErrors.badparams:
-                sendError(400, e);
+                sendError(HttpServletResponse.SC_BAD_REQUEST, e);
                 break;
-            case 404:
+            case HttpServletResponse.SC_NOT_FOUND:
             case ftErrors.pagenotfound:
-                sendError(404, e);
+                sendError(HttpServletResponse.SC_NOT_FOUND, e);
                 break;
-            case 403:
+            case HttpServletResponse.SC_FORBIDDEN:
             case ftErrors.noprivs:
-                sendError(403, e);
+                sendError(HttpServletResponse.SC_FORBIDDEN, e);
                 break;
             default:
-                sendError(500, e);
+                sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e);
                 break;
         }
     }
