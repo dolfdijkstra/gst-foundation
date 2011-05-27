@@ -49,17 +49,44 @@
                <preparationGoals>clean install</preparationGoals>
             </configuration>
          </plugin>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>2.3.2</version>
+         </plugin>
+         <plugin>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>2.5</version>
+            <configuration>
+               <targetJdk>1.6</targetJdk>
+            </configuration>
+         </plugin>
       </plugins>
    </build>
    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.5</version>
-            </plugin>
-        </plugins>
-    </reporting>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+               <configLocation>http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/src/config/gsf-checkstyle.xml</configLocation>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>2.3.2</version>
+         </plugin>
+         <plugin>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>2.5</version>
+            <configuration>
+               <targetJdk>1.6</targetJdk>
+            </configuration>
+         </plugin>
+      </plugins>
+   </reporting>
    <repositories>
       <repository>
          <id>nl.fatwire.com</id>
