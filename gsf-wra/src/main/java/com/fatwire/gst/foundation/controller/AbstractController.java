@@ -17,6 +17,7 @@ package com.fatwire.gst.foundation.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
+import COM.FutureTense.Interfaces.FTVAL;
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IPS;
@@ -34,7 +35,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * @author Tony Field
- * @author Dolf.Dijkstra
+ * @author Dolf Dijkstra
  * @since Jun 16, 2010
  */
 
@@ -44,6 +45,7 @@ public abstract class AbstractController implements Seed2 {
     public static final String STATUS_HEADER = "X-Fatwire-Status";
 
     protected ICS ics;
+    private FTValList vIn;
 
     /*
      * (non-Javadoc)
@@ -67,6 +69,7 @@ public abstract class AbstractController implements Seed2 {
      */
 
     public final String Execute(final FTValList vIn, final FTValList vOut) {
+        this.vIn = vIn;
         try {
             doExecute();
         } catch (final Exception e) {
@@ -74,6 +77,14 @@ public abstract class AbstractController implements Seed2 {
         }
 
         return "";
+    }
+
+    protected final FTVAL getInputArgument(String name) {
+        return vIn == null ? null : vIn.getVal(name);
+    }
+
+    protected final String getInputArgumentAsString(String name) {
+        return vIn == null ? null : vIn.getValString(name);
     }
 
     /**
