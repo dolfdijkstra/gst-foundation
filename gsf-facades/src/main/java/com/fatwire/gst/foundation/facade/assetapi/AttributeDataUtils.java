@@ -58,7 +58,7 @@ public final class AttributeDataUtils {
     public static String getWithFallback(AssetData assetData, String... orderedAttributeNames) {
         for (String attr : orderedAttributeNames) {
             AttributeData attrData = assetData.getAttributeData(attr);
-            if (attrData.getData() != null) {
+            if (attrData !=null && attrData.getData() != null) {
                 return attrData.getData().toString();
             }
         }
@@ -112,18 +112,31 @@ public final class AttributeDataUtils {
             return Collections.emptyList();
     }
 
+    /**
+     * @param attr the attribute data
+     * @return true if valueCount ==  ValueCount.SINGLE
+     */
     static public boolean isSingleValued(AttributeData attr) {
         AttributeDef ad = attr.getAttributeDef();
         return isSingleValued(ad);
 
     }
 
+    /**
+     * Returns true if the attribute definition is defined as single valued.
+     * @param ad attribute definition
+     * @return true if valueCount ==  ValueCount.SINGLE 
+     */
     static public boolean isSingleValued(AttributeDef ad) {
         return ad.getProperties() == null ? true : ad.getProperties().getValueCount()
                 .equals(AttributeDefProperties.ValueCount.SINGLE);
 
     }
 
+    /**
+     * @param attr the attribute data
+     * @return the attribute value as a List. If attribute isSingleValued than return getData() and cast to List. 
+     */
     static public List<?> asList(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
@@ -131,26 +144,14 @@ public final class AttributeDataUtils {
             return null;
 
         if (isSingleValued(attr)) {
-            throw new RuntimeException("not a multi valued attribute");
+            return (List<?>)attr.getData();
         }
         return attr.getDataAsList();
     }
 
     /**
-     * <pre>
-     * INT Integer
-     * FLOAT Double
-     * STRING String
-     * DATE Date
-     * MONEY Double
-     * LONG Long
-     * LARGE_TEXT String
-     * ASSET AssetId
-     * BLOB BlobObject
-     * </pre>
-     * 
-     * @param value
-     * @return attribute as an integer
+     * @param attr the attribute data
+     * @return attribute value as a Integer if the attribute type is a INT. 
      */
 
     static public Integer asInt(AttributeData attr) {
@@ -182,6 +183,10 @@ public final class AttributeDataUtils {
 
     }
 
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a Date if the attribute type is a DATE 
+     */
     static public Date asDate(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
@@ -211,6 +216,10 @@ public final class AttributeDataUtils {
 
     }
 
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a BlobObject if the attribute type is a URL or BLOB 
+     */
     static public BlobObject asBlob(AttributeData attr) {
 
         Object o = attr == null ? null : attr.getData();
@@ -239,6 +248,10 @@ public final class AttributeDataUtils {
         }
 
     }
+    /**
+     * @param attr the attribute data.
+     * @return attribute value as a Float if the attribute type is a FLOAT or INT. 
+     */
 
     static public Float asFloat(AttributeData attr) {
 
@@ -268,6 +281,10 @@ public final class AttributeDataUtils {
         }
 
     }
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a Double if the attribute type is a FLOAT,INT,LONG or MONEY. 
+     */
 
     static public Double asDouble(AttributeData attr) {
 
@@ -297,6 +314,10 @@ public final class AttributeDataUtils {
         }
 
     }
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a Long if the attribute type is a INT or LONG. 
+     */
 
     static public Long asLong(AttributeData attr) {
 
@@ -326,6 +347,10 @@ public final class AttributeDataUtils {
         }
 
     }
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a AssetId if the attribute type is a ASSET. 
+     */
 
     static public AssetId asAssetId(AttributeData attr) {
 
@@ -355,6 +380,10 @@ public final class AttributeDataUtils {
                 throw new IllegalArgumentException("Don't know about " + attr.getType());
         }
     }
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a String if the attribute type is a INT,FLOAT,LONG,MONEY,DATE,STRING or LARGE_TEXT. 
+     */
 
     static public String asString(AttributeData attr) {
 
@@ -393,7 +422,7 @@ public final class AttributeDataUtils {
     }
 
     /**
-     * Returns the Dimension for the 
+     * Returns the Dimension for the attribute.
      * 
      * @param attr the attribute data for the 'Dimension' attribute.
      * @return the Dimension if found.
