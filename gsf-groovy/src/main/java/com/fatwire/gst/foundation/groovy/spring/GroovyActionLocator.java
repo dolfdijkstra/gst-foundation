@@ -16,71 +16,42 @@
 
 package com.fatwire.gst.foundation.groovy.spring;
 
-
-import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
-import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.support.BaseActionLocator;
 
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Dolf Dijkstra
  * @since Mar 28, 2011
  */
-public class GroovyActionLocator extends BaseActionLocator implements ActionLocator {
+public class GroovyActionLocator extends BaseActionLocator {
     private GroovyLoader groovyLoader;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.fatwire.gst.foundation.controller.action.ActionLocator#getAction(
-     * COM.FutureTense.Interfaces.ICS)
-     */
-    public Action getAction(final ICS ics) {
-        Action action = null;
-        final String script = getScriptName(ics);
-        action = groovyAction(script);
-        if (action == null) {
-            action = getFallbackActionLocator().getAction(ics);
-        }
-        injectDependencies(ics, action);
+    protected Action doFindAction(final ICS ics, final String name) {
 
-        return action;
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.fatwire.gst.foundation.controller.action.ActionLocator#getAction(
-     * COM.FutureTense.Interfaces.ICS, java.lang.String)
-     */
-    public Action getAction(final ICS ics, final String name) {
         Action action = null;
         action = groovyAction(name);
-        if (action == null) {
-            return null;
+        if (action != null) {
+            injectDependencies(ics, action);
         }
-        CacheManager.RecordItem(ics, "gsf-action:" + name);
-        injectDependencies(ics, action);
 
         return action;
     }
 
     /**
+     * Factory method for the Action
      * 
-     * 
-     * @param name
-     * @param action
+     * @param name the name of the action
      * @return the Action
      * @throws RuntimeException
      */
     private Action groovyAction(final String name) {
         Action action = null;
+        if (StringUtils.isBlank(name))
+            return null;
         final String script = name.endsWith(".groovy") ? name : name + ".groovy";
         try {
 
@@ -99,22 +70,17 @@ public class GroovyActionLocator extends BaseActionLocator implements ActionLoca
         return action;
     }
 
-    protected String getScriptName(final ICS ics) {
-        final String name = ics.ResolveVariables("CS.elementname") + ".groovy";
-        return name.startsWith("/") ? name.substring(1) : name;
-    }
-
     /**
      * @return the groovyLoader
      */
-    public GroovyLoader getGroovyLoader() {
+    public final GroovyLoader getGroovyLoader() {
         return groovyLoader;
     }
 
     /**
      * @param groovyLoader the groovyLoader to set
      */
-    public void setGroovyLoader(final GroovyLoader groovyLoader) {
+    public final void setGroovyLoader(final GroovyLoader groovyLoader) {
         this.groovyLoader = groovyLoader;
     }
 
