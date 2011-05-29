@@ -16,78 +16,17 @@
 
 package com.fatwire.gst.foundation.controller.action.support;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.gst.foundation.controller.action.Action;
-import com.fatwire.gst.foundation.controller.action.Factory;
-import com.fatwire.gst.foundation.controller.action.RenderPage;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
- * Spring configuration-based action mapping. The ICS variable "cmd" is mapped
- * to a class name in the configuration to a class.
+ * ActionLocator that holds a Map with the Actions. The 'name' is keyed to a map
+ * that holds the Actions in a key/value pair.
  * <p/>
- * Objects are created via a {@link Factory}, that can be configured via the
- * <tt>factoryClassname</tt>. That class needs to have a constructor accepting
- * ICS.
  * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since 2011-03-15
+ * @deprecated use {@link MapActionLocator}.
  */
-public final class CommandActionLocator extends BaseActionLocator {
-    protected static final Log LOG = LogFactory.getLog(CommandActionLocator.class.getPackage().getName());
-    private static final String CMD_VAR = "cmd";
-    private Map<String, Action> commandActionMap = new HashMap<String, Action>();
-
-    protected String getVarName() {
-        return CMD_VAR;
-    }
-
-    public Action getAction(final ICS ics) {
-        return getAction(ics, ics.GetVar(getVarName()));
-    }
-
-    public Action getAction(final ICS ics, final String name) {
-
-        final Action action;
-        if (StringUtils.isBlank(name)) {
-            action = newDefaultAction();
-            LOG.trace("No command specified. Returning default action: " + action.getClass().getName());
-        } else {
-            action = commandActionMap.get(name);
-            if (action == null) {
-                throw new RuntimeException("No action configured for cmd: " + name);
-            }
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Command '" + name + "' maps to action " + action.getClass().getName());
-            }
-        }
-
-        // inject the required data into the action
-        this.injectDependencies(ics, action);
-
-        return action;
-    }
-
-    protected Action newDefaultAction() {
-        return new RenderPage();
-    }
-
-    public void setActionMap(final Map<String, Action> map) {
-        LOG.debug("Configured action mapping with " + (map == null ? 0 : map.size() + " entries."));
-        this.commandActionMap = map;
-    }
-
-    public void setDefaultAction(final Action action) {
-        LOG.info("Setting default action mapping to " + action.getClass().getName());
-        // defaultAction = action;
-    }
+@Deprecated
+public final class CommandActionLocator extends MapActionLocator {
 
 }

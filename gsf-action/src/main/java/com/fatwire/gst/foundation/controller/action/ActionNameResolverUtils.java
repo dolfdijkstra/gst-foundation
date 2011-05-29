@@ -25,54 +25,54 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * @author Dolf Dijkstra
- * @since Apr 11, 2011
+ * @since May 27, 2011
  */
-public final class ActionLocatorUtils {
-    private static final Log LOG = LogFactory.getLog(ActionLocatorUtils.class.getPackage().getName());
-    public static final String ACTION_LOCATOR_BEAN = "gsfActionLocator";
+public final class ActionNameResolverUtils {
+    private static final Log LOG = LogFactory.getLog(ActionNameResolverUtils.class.getPackage().getName());
+    public static final String ACTION_NAME_RESOLVER_BEAN = "gsfActionNameResolver";
 
     /**
      * 
      */
-    private ActionLocatorUtils() {
+    private ActionNameResolverUtils() {
     }
 
     /**
-     * Returns the ActionLocator as configured by spring framework on the
+     * Returns the ActionNameResolver as configured by spring framework on the
      * WebApplicationContext bean by the name of gsfActionLocator.
      * 
      * @param servletContext the servlet context.
-     * @return the ActionLocator that is configured via the servletContext.
+     * @return the ActionNameResolver that is configured via the servletContext.
      */
-    public static ActionLocator getActionLocator(final ServletContext servletContext) {
-        return getActionLocator(servletContext, ACTION_LOCATOR_BEAN);
+    public static ActionNameResolver getActionNameResolver(final ServletContext servletContext) {
+        return getActionNameResolver(servletContext, ACTION_NAME_RESOLVER_BEAN);
     }
 
     /**
-     * Returns the ActionLocator as configured by spring framework on the
+     * Returns the ActionNameResolver as configured by spring framework on the
      * WebApplicationContext bean by the name 'beanName'.
      * 
      * @param servletContext the servlet context.
-     * @return the ActionLocator that is configured via the servletContext.
+     * @return the ActionNameResolver that is configured via the servletContext.
      */
 
-    public static ActionLocator getActionLocator(final ServletContext servletContext, String beanName) {
+    public static ActionNameResolver getActionNameResolver(final ServletContext servletContext, String beanName) {
 
         // get the spring web application context
         final WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
         // get the bean.
 
-        final ActionLocator locator;
+        final ActionNameResolver resolver;
         if (wac.containsBean(beanName)) {
-            locator = (ActionLocator) wac.getBean(beanName);
+            resolver = (ActionNameResolver) wac.getBean(beanName);
             if (LOG.isTraceEnabled()) {
-                LOG.trace("Using actionLocatorBean as configured: " + locator.getClass().getName());
+                LOG.trace("Using ActionNameResolver as configured: " + resolver.getClass().getName());
             }
         } else {
-            locator = null;
+            resolver = null;
         }
-        return locator;
+        return resolver;
     }
 
 }

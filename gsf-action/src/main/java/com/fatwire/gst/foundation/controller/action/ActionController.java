@@ -18,14 +18,8 @@ package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
 
-import com.fatwire.gst.foundation.controller.action.support.CommandActionNameResolver;
-
-
-
-
 /**
- * Dispatching controller. Relies on actionLocator to dispatch control to Action
- * classes.
+ * AbstractActionController that is using the spring framework to configure the ActionLocator and ActionNameResolver.
  * 
  * @author Tony Field
  * @author Dolf Dijkstra
@@ -42,7 +36,9 @@ public class ActionController extends AbstractActionController {
 
     @Override
     protected ActionNameResolver getActionNameResolver() {
-        return new CommandActionNameResolver();
+        final ServletContext servletContext = getServletContext();
+        ActionNameResolver l = ActionNameResolverUtils.getActionNameResolver(servletContext);
+        return l;
     }
 
 }

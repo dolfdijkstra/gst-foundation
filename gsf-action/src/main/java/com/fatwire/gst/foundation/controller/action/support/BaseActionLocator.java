@@ -18,6 +18,7 @@ package com.fatwire.gst.foundation.controller.action.support;
 
 import java.lang.reflect.Constructor;
 
+import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
@@ -28,23 +29,32 @@ import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.RenderPage;
 import com.fatwire.gst.foundation.mapping.MappingInjector;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * @author Dolf.Dijkstra
+ * ActionLocator with support for Factory and a fallback ActionLocator.
+ * <p/>
+ * Objects are created via a {@link Factory}, that can be configured via the
+ * <tt>factoryClassname</tt>. That class needs to have a constructor accepting
+ * ICS.
+ * 
+ * @author Dolf Dijkstra
  * @since Apr 27, 2011
  */
 public abstract class BaseActionLocator implements ActionLocator {
 
     protected static final Log LOG = LogFactory.getLog(BaseActionLocator.class.getPackage().getName());
     /**
-     * The default fallbackActionLocator in case not action is found.
+     * The default fallbackActionLocator in case no action is found.
      */
     private ActionLocator fallbackActionLocator = new ActionLocator() {
 
         public Action getAction(final ICS ics, final String name) {
-            return new RenderPage();
+            Action action = new RenderPage();
+            injectDependencies(ics, action);
+            return action;
         }
 
     };
@@ -53,6 +63,48 @@ public abstract class BaseActionLocator implements ActionLocator {
     public BaseActionLocator() {
         super();
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.fatwire.gst.foundation.controller.action.ActionLocator#getAction(
+     * COM.FutureTense.Interfaces.ICS, java.lang.String)
+     */
+    public final Action getAction(final ICS ics, final String name) {
+
+        Action action = null;
+        action = doFindAction(ics, name);
+        if (action == null) {
+            action = getFallbackActionLocator().getAction(ics, name);
+            LOG.trace("No command specified. Returning fallback action: " + action.getClass().getName());
+        } else {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Command '" + name + "' maps to action " + action.getClass().getName());
+            }
+        }
+        if (StringUtils.isNotBlank(name)) {
+            CacheManager.RecordItem(ics, "gsf-action:" + name);
+        }
+        // inject the required data into the action
+        // TODO: major, should be inject if the Action is retrieved from the
+        // fallback?
+        //injectDependencies(ics, action);
+
+        return action;
+
+    
+    }
+
+    /**
+     * Template Method for finding the Action for the custom ActionLocator.
+     * In case the Action is created throught this method, it is expected to be fully injected and ready to use.
+     * 
+     * @param ics the Content Server context
+     * @param name the name of the action
+     * @return the Action if found, null is valid.
+     */
+    protected abstract Action doFindAction(final ICS ics, final String name);
 
     /**
      * @param ics

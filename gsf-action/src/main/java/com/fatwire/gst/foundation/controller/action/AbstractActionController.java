@@ -25,7 +25,11 @@ import com.fatwire.gst.foundation.controller.AbstractController;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 
 /**
- * @author Dolf.Dijkstra
+ * Dispatching Controller. Relies on ActionLocator to dispatch control to Action
+ * classes. An ActionNameResolver is used to resolve the action name on the
+ * current request.
+ * 
+ * @author Dolf Dijkstra
  * @since May 26, 2011
  */
 public abstract class AbstractActionController extends AbstractController {
@@ -62,6 +66,11 @@ public abstract class AbstractActionController extends AbstractController {
      * @return the ActionNameResolver
      */
     protected abstract ActionNameResolver getActionNameResolver();
+
+    /**
+     * @return the ActionLocator.
+     */
+    protected abstract ActionLocator getActionLocator();
 
     @SuppressWarnings("deprecation")
     protected ServletContext getServletContext() {
@@ -107,8 +116,4 @@ public abstract class AbstractActionController extends AbstractController {
         }
     }
 
-    /**
-     * @return the ActionLocator.
-     */
-    protected abstract ActionLocator getActionLocator();
 }

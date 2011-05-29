@@ -62,18 +62,17 @@ public final class AnnotationInjector {
         final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0L;
         try {
             Class<?> c = object.getClass();
+            // first to all annotated public setter methods.
+            for (final Method method : c.getMethods()) {
+                if (method.isAnnotationPresent(InjectForRequest.class)) {
+                    injectIntoMethod(object, factory, method);
+                }
+            }
+            // and then all annotated fields.
             while (c != Object.class && c != null) {
                 for (final Field field : c.getDeclaredFields()) {
-                    // LOG.trace("Found field: "+field.getName());
                     if (field.isAnnotationPresent(InjectForRequest.class)) {
                         injectIntoField(object, factory, field);
-                    }
-
-                }
-                for (final Method method : c.getMethods()) {
-                    // LOG.trace("Found field: "+field.getName());
-                    if (method.isAnnotationPresent(InjectForRequest.class)) {
-                        injectIntoMethod(object, factory, method);
                     }
 
                 }

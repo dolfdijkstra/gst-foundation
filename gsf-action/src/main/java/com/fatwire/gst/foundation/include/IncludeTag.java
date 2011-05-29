@@ -63,6 +63,8 @@ public final class IncludeTag extends GsfSimpleTag {
 
     protected Include discover(final String name) {
         final DefaultIncludeService s = findService();
+        if (s == null)
+            throw new IllegalStateException("The DefaultIncludeService can not be found.");
         return s.find(name);
     }
 

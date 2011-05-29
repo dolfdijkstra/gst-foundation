@@ -15,7 +15,6 @@
  */
 package com.fatwire.gst.foundation.include;
 
-import java.lang.reflect.Field;
 import java.util.Map.Entry;
 
 import javax.servlet.jsp.JspException;
@@ -27,13 +26,16 @@ import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.ActionLocatorUtils;
 import com.fatwire.gst.foundation.controller.action.Model;
-import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
+import com.fatwire.gst.foundation.controller.annotation.AnnotationUtils;
 import com.fatwire.gst.foundation.taglib.GsfRootTag;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * JSP tag that replaces the GsfRoot tag and adds Action support. If the action
+ * name argument is provided, than a Action is looked up and executed.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
  */
@@ -80,15 +82,18 @@ public class PageTag extends GsfRootTag {
                     DebugHelper.printTime(LOG_TIME, "Locating Action " + a.getClass().getName(), start);
                 }
 
-                includeService = (DefaultIncludeService) findService(a, IncludeService.class);
-                if (includeService == null && LOG.isDebugEnabled()) {
+                 IncludeService o = AnnotationUtils.findService(a, IncludeService.class);
+                 if(o instanceof DefaultIncludeService){
+                     includeService=(DefaultIncludeService) o; //TODO:minor fix this ugly upcast
+                 }
+                 if (includeService == null && LOG.isDebugEnabled()) {
                     LOG.debug("includeService is null");
                 }
-                final long midway = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
+                final long beforeHandleRequest = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
                 a.handleRequest(ics);
                 copyModelData(a);
                 if (LOG_TIME.isDebugEnabled()) {
-                    DebugHelper.printTime(LOG_TIME, "Executing Action " + a.getClass().getName(), midway);
+                    DebugHelper.printTime(LOG_TIME, "Executing Action " + a.getClass().getName(), beforeHandleRequest);
                 }
             } else {
                 throw new IllegalArgumentException("Action with name '" + action + "' can't be found.");
@@ -107,7 +112,7 @@ public class PageTag extends GsfRootTag {
         if (a == null) {
             return;
         }
-        final Model model = findService(a, Model.class);
+        final Model model = AnnotationUtils.findService(a, Model.class);
         if (model == null) {
             return;
         }
@@ -120,56 +125,8 @@ public class PageTag extends GsfRootTag {
     }
 
     /**
-     * 
-     * 
-     * @param <T> the class of the object that is returned .
-     * @param object the object containing the object to find.
-     * @param type the Class of the type that is searched for.
-     * @return the object that is present on the field with the InjectForRequest
-     *         annotation.
+     * @return the ActionLocator
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T findService(final Object object, final Class<T> type) {
-        final Field field = findField(object, type);
-        try {
-            return field == null ? null : (T) field.get(object);
-        } catch (final IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Searches the object for a field annotated with the InjectForRequest
-     * annotation of the provided type.
-     * <p/>
-     * 
-     * For instance <tt>@InjectForRequest Service service; </tt> is defined on
-     * the class as a field, then <tt>findField(object,Service.class);</tt> will
-     * return the Field <tt>service</tt>.
-     * 
-     * @param <T> the type of the field to look for.
-     * @param a the object to search on for the typed field.
-     * @param type
-     * @return the class field with the InjectForRequest annotation of the Class
-     *         type.
-     */
-    public static <T> Field findField(final Object a, final Class<T> type) {
-        Class<?> klazz = a.getClass();
-        while (klazz != null && klazz != Object.class) {
-            for (final Field field : a.getClass().getDeclaredFields()) {
-                if (field.getAnnotation(InjectForRequest.class) != null && type.isAssignableFrom(field.getType())) {
-                    try {
-                        return field;
-                    } catch (final IllegalArgumentException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-            klazz = klazz.getSuperclass();
-        }
-        return null;
-    }
-
     protected ActionLocator getActionLocator() {
         return ActionLocatorUtils.getActionLocator(pageContext.getServletContext());
     }
