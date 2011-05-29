@@ -24,8 +24,8 @@
 
     <%
         new TableTaggingServiceImpl(ics).install();
-        new TaggedAssetEventListener(ics).install();
-        new CacheMgrTaggedAssetEventListener(ics).install();
+        new TaggedAssetEventListener().install(ics);
+        new CacheMgrTaggedAssetEventListener().install(ics);
     %>
 
 </cs:ftcs>
