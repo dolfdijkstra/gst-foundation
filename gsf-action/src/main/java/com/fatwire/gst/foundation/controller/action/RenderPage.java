@@ -124,18 +124,27 @@ public class RenderPage implements Action {
         }
 
         // typeless or not...
-        final String targetPagename = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/"
-                + id.getType() + "/" + tname;
+        final String targetPagename = tname.startsWith("/") ? (id.getSite() + tname) : (id.getSite() + "/"
+                + id.getType() + "/" + tname);
 
         // create a list of parameters that can be specified as arguments to the
         // CallTemplate tag.
         final Map<String, String> arguments = new HashMap<String, String>();
-
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Target pagename is " + targetPagename);
+        }
         // Prime the map with the ics variable scope for the architect to make
         // the controller as transparent as possible
-        for (final String pcVarName : ics.pageCriteriaKeys(targetPagename)) {
-            if (!CALLTEMPLATE_EXCLUDE_VARS.contains(pcVarName) && StringUtils.isNotBlank(ics.GetVar(pcVarName))) {
-                arguments.put(pcVarName, ics.GetVar(pcVarName));
+        String[] pageKeys = ics.pageCriteriaKeys(targetPagename);
+        if (pageKeys != null) {
+            for (final String pcVarName : pageKeys) {
+                if (!CALLTEMPLATE_EXCLUDE_VARS.contains(pcVarName) && StringUtils.isNotBlank(ics.GetVar(pcVarName))) {
+                    arguments.put(pcVarName, ics.GetVar(pcVarName));
+                }
+            }
+        } else {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("PageCriteria for " + targetPagename + " is null.");
             }
         }
 
@@ -143,7 +152,7 @@ public class RenderPage implements Action {
         getCallTemplateArguments(id, arguments);
 
         // add them to the tag
-        for (final Entry<String,String> e : arguments.entrySet()) {
+        for (final Entry<String, String> e : arguments.entrySet()) {
             ct.setArgument(e.getKey(), e.getValue());
             if (LOG.isTraceEnabled()) {
                 LOG.trace("CallTemplate param added: " + e.getKey() + "=" + e.getValue());
