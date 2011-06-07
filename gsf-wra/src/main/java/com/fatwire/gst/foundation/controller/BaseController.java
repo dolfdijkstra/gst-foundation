@@ -181,7 +181,7 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + "/" + tname : id.getSite() + "/" + id.getType() + "/"
+        String target = tname.startsWith("/") ? id.getSite() + tname : id.getSite() + "/" + id.getType() + "/"
                 + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
