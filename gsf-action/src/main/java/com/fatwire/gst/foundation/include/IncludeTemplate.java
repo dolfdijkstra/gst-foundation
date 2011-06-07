@@ -73,7 +73,7 @@ public class IncludeTemplate implements Include {
         tag.setFixPageCriteria(false); // for some reason the check pagecriteria
                                        // code in CallTemplate is not working.
         tag.setSlotname("foo");
-        final String target = tname.startsWith("/") ? site + "/" + tname : site + "/" + asset.getType() + "/" + tname;
+        final String target = tname.startsWith("/") ? site + tname : site + "/" + asset.getType() + "/" + tname;
         final String[] keys = ics.pageCriteriaKeys(target);
         if (keys == null) {
             throw new IllegalArgumentException("Can't find page criteria for " + target
