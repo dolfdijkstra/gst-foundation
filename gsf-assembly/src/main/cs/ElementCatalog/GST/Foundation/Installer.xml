@@ -46,7 +46,7 @@ OUTPUT
      <if COND="IsSessionVariable.pubid=true"><then><SETVAR NAME="oldpubid" VALUE="SessionVariables.pubid"/></then></if>
      <SETSSVAR NAME="pubid" VALUE="Variables.pubid"/>
 
-<h3>Installing tag registry</h3>
+     <h3>Installing tag registry</h3>
      <CALLELEMENT NAME="GST/Foundation/TagRegistryInstaller"/>
      <h3>Installing url registry</h3>
      <CALLELEMENT NAME="GST/Foundation/UrlRegistryInstaller"/>
@@ -57,6 +57,11 @@ OUTPUT
      <CALLELEMENT NAME="GST/Foundation/InstallAttributes"/>
      <h3>Installing flex definitions</h3>
      <CALLELEMENT NAME="GST/Foundation/InstallDefinitions"/>
+     <h3>Installing Assembler</h3>
+     <CALLELEMENT NAME="GST/Foundation/InstallAssembler"/>
+     <h3>Installing PageReference configuration</h3>
+     <CALLELEMENT NAME="GST/Foundation/InstallPageRef"/>
+
      <if COND="IsVariable.oldpubid=true"><then><SETSSVAR NAME="pubid" VALUE="Variables.oldpubid"/></then></if>
      
      <h2>Done</h2>
