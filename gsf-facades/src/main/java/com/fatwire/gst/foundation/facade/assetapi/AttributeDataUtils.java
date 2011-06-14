@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.fatwire.assetapi.data.AssetData;
@@ -58,7 +59,7 @@ public final class AttributeDataUtils {
     public static String getWithFallback(AssetData assetData, String... orderedAttributeNames) {
         for (String attr : orderedAttributeNames) {
             AttributeData attrData = assetData.getAttributeData(attr);
-            if (attrData !=null && attrData.getData() != null) {
+            if (attrData != null && attrData.getData() != null) {
                 return attrData.getData().toString();
             }
         }
@@ -114,7 +115,7 @@ public final class AttributeDataUtils {
 
     /**
      * @param attr the attribute data
-     * @return true if valueCount ==  ValueCount.SINGLE
+     * @return true if valueCount == ValueCount.SINGLE
      */
     static public boolean isSingleValued(AttributeData attr) {
         AttributeDef ad = attr.getAttributeDef();
@@ -124,8 +125,9 @@ public final class AttributeDataUtils {
 
     /**
      * Returns true if the attribute definition is defined as single valued.
+     * 
      * @param ad attribute definition
-     * @return true if valueCount ==  ValueCount.SINGLE 
+     * @return true if valueCount == ValueCount.SINGLE
      */
     static public boolean isSingleValued(AttributeDef ad) {
         return ad.getProperties() == null ? true : ad.getProperties().getValueCount()
@@ -135,7 +137,8 @@ public final class AttributeDataUtils {
 
     /**
      * @param attr the attribute data
-     * @return the attribute value as a List. If attribute isSingleValued than return getData() and cast to List. 
+     * @return the attribute value as a List. If attribute isSingleValued than
+     *         return getData() and cast to List.
      */
     static public List<?> asList(AttributeData attr) {
 
@@ -144,14 +147,14 @@ public final class AttributeDataUtils {
             return null;
 
         if (isSingleValued(attr)) {
-            return (List<?>)attr.getData();
+            return (List<?>) attr.getData();
         }
         return attr.getDataAsList();
     }
 
     /**
      * @param attr the attribute data
-     * @return attribute value as a Integer if the attribute type is a INT. 
+     * @return attribute value as a Integer if the attribute type is a INT.
      */
 
     static public Integer asInt(AttributeData attr) {
@@ -185,7 +188,7 @@ public final class AttributeDataUtils {
 
     /**
      * @param attr the attribute data
-     * @return attribute value as a Date if the attribute type is a DATE 
+     * @return attribute value as a Date if the attribute type is a DATE
      */
     static public Date asDate(AttributeData attr) {
 
@@ -218,7 +221,8 @@ public final class AttributeDataUtils {
 
     /**
      * @param attr the attribute data
-     * @return attribute value as a BlobObject if the attribute type is a URL or BLOB 
+     * @return attribute value as a BlobObject if the attribute type is a URL or
+     *         BLOB
      */
     static public BlobObject asBlob(AttributeData attr) {
 
@@ -248,9 +252,11 @@ public final class AttributeDataUtils {
         }
 
     }
+
     /**
      * @param attr the attribute data.
-     * @return attribute value as a Float if the attribute type is a FLOAT or INT. 
+     * @return attribute value as a Float if the attribute type is a FLOAT or
+     *         INT.
      */
 
     static public Float asFloat(AttributeData attr) {
@@ -281,9 +287,11 @@ public final class AttributeDataUtils {
         }
 
     }
+
     /**
      * @param attr the attribute data
-     * @return attribute value as a Double if the attribute type is a FLOAT,INT,LONG or MONEY. 
+     * @return attribute value as a Double if the attribute type is a
+     *         FLOAT,INT,LONG or MONEY.
      */
 
     static public Double asDouble(AttributeData attr) {
@@ -314,9 +322,10 @@ public final class AttributeDataUtils {
         }
 
     }
+
     /**
      * @param attr the attribute data
-     * @return attribute value as a Long if the attribute type is a INT or LONG. 
+     * @return attribute value as a Long if the attribute type is a INT or LONG.
      */
 
     static public Long asLong(AttributeData attr) {
@@ -347,9 +356,10 @@ public final class AttributeDataUtils {
         }
 
     }
+
     /**
      * @param attr the attribute data
-     * @return attribute value as a AssetId if the attribute type is a ASSET. 
+     * @return attribute value as a AssetId if the attribute type is a ASSET.
      */
 
     static public AssetId asAssetId(AttributeData attr) {
@@ -380,9 +390,11 @@ public final class AttributeDataUtils {
                 throw new IllegalArgumentException("Don't know about " + attr.getType());
         }
     }
+
     /**
      * @param attr the attribute data
-     * @return attribute value as a String if the attribute type is a INT,FLOAT,LONG,MONEY,DATE,STRING or LARGE_TEXT. 
+     * @return attribute value as a String if the attribute type is a
+     *         INT,FLOAT,LONG,MONEY,DATE,STRING or LARGE_TEXT.
      */
 
     static public String asString(AttributeData attr) {
@@ -402,6 +414,300 @@ public final class AttributeDataUtils {
             case STRING:
             case LARGE_TEXT:
                 return (String) o;
+
+            case ASSET:
+            case ASSETREFERENCE:
+
+            case BLOB:
+            case URL:
+
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a String");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+
+        }
+
+    }
+
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a Integer if the attribute type is a INT.
+     */
+    @SuppressWarnings("unchecked")
+    static public List<Integer> asIntList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getDataAsList();
+        if (o == null)
+            return null;
+        switch (attr.getType()) {
+            case INT:
+                return (List<Integer>) o;
+            case DATE:
+            case BLOB:
+            case FLOAT:
+            case LONG:
+            case ASSET:
+            case MONEY:
+            case STRING:
+            case LARGE_TEXT:
+            case ASSETREFERENCE:
+            case URL:
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Integer");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+        }
+
+    }
+
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a Date if the attribute type is a DATE
+     */
+    @SuppressWarnings("unchecked")
+    static public List<Date> asDateList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getData();
+        if (o == null)
+            return null;
+        switch (attr.getType()) {
+            case DATE:
+                return (List<Date>) o;
+            case BLOB:
+            case FLOAT:
+            case INT:
+            case LONG:
+            case ASSET:
+            case MONEY:
+            case STRING:
+            case LARGE_TEXT:
+            case ASSETREFERENCE:
+            case URL:
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Date");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+        }
+
+    }
+
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a BlobObject if the attribute type is a URL or
+     *         BLOB
+     */
+    @SuppressWarnings("unchecked")
+    static public List<BlobObject> asBlobList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getData();
+        if (o == null)
+            return null;
+        switch (attr.getType()) {
+            case URL:
+            case BLOB:
+                return (List<BlobObject>) o;
+            case FLOAT:
+            case INT:
+            case LONG:
+            case ASSET:
+            case MONEY:
+            case DATE:
+            case STRING:
+            case LARGE_TEXT:
+            case ASSETREFERENCE:
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a BlobObject");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+        }
+
+    }
+
+    /**
+     * @param attr the attribute data.
+     * @return attribute value as a Float if the attribute type is a FLOAT or
+     *         INT.
+     */
+    @SuppressWarnings("unchecked")
+    static public List<Float> asFloatList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getData();
+        if (o == null)
+            return null;
+        switch (attr.getType()) {
+            case FLOAT:
+            case INT:
+                return (List<Float>) o;
+            case LONG:
+            case ASSET:
+            case MONEY:
+            case DATE:
+            case STRING:
+            case LARGE_TEXT:
+            case ASSETREFERENCE:
+            case BLOB:
+            case URL:
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Float");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+        }
+
+    }
+
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a Double if the attribute type is a
+     *         FLOAT,INT,LONG or MONEY.
+     */
+    @SuppressWarnings("unchecked")
+    static public List<Double> asDoubleList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getData();
+        if (o == null)
+            return null;
+        switch (attr.getType()) {
+            case FLOAT:
+            case INT:
+            case LONG:
+            case MONEY:
+                return (List<Double>) o;
+            case ASSET:
+            case DATE:
+            case STRING:
+            case LARGE_TEXT:
+            case ASSETREFERENCE:
+            case BLOB:
+            case URL:
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Double");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+        }
+
+    }
+
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a Long if the attribute type is a INT or LONG.
+     */
+    @SuppressWarnings("unchecked")
+    static public List<Long> asLongList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getData();
+        if (o == null)
+            return null;
+        switch (attr.getType()) {
+            case INT:
+            case LONG:
+                return (List<Long>) o;
+            case ASSET:
+            case MONEY:
+            case FLOAT:
+            case DATE:
+            case STRING:
+            case LARGE_TEXT:
+            case ASSETREFERENCE:
+            case BLOB:
+            case URL:
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a Long");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+        }
+
+    }
+
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a AssetId if the attribute type is a ASSET.
+     */
+    @SuppressWarnings("unchecked")
+    static public List<AssetId> asAssetIdList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getData();
+        if (o == null)
+            return null;
+        switch (attr.getType()) {
+            case ASSET:
+                return (List<AssetId>) o;
+
+            case INT:
+            case FLOAT:
+            case LONG:
+            case MONEY:
+            case DATE:
+            case STRING:
+            case LARGE_TEXT:
+            case ASSETREFERENCE:
+            case BLOB:
+            case URL:
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                throw new IllegalArgumentException("Can't cast " + attr.getType() + " into a AssetId ");
+            default:
+                throw new IllegalArgumentException("Don't know about " + attr.getType());
+        }
+    }
+
+    /**
+     * @param attr the attribute data
+     * @return attribute value as a String if the attribute type is a
+     *         INT,FLOAT,LONG,MONEY,DATE,STRING or LARGE_TEXT.
+     */
+
+    @SuppressWarnings("unchecked")
+    static public List<String> asStringList(AttributeData attr) {
+
+        Object o = attr == null ? null : attr.getData();
+        if (o == null)
+            return null;
+        @SuppressWarnings("rawtypes")
+        List l = (List) o;
+        List<String> out = new LinkedList<String>();
+
+        switch (attr.getType()) {
+
+            case INT:
+            case FLOAT:
+            case LONG:
+            case MONEY:
+                for (Object u : l) {
+                    out.add(String.valueOf(u));
+                }
+                return out;
+            case DATE:
+                for (Object u : l) {
+                    out.add(com.fatwire.cs.core.db.Util.formatJdbcDate((Date) u));
+                }
+                return out;
+            case STRING:
+            case LARGE_TEXT:
+                return (List<String>) o;
 
             case ASSET:
             case ASSETREFERENCE:
