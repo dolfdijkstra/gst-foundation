@@ -19,6 +19,8 @@ package com.fatwire.gst.foundation.httpstatus;
 import static com.fatwire.gst.foundation.httpstatus.HttpStatusStrings.X_FATWIRE_HEADER;
 import static com.fatwire.gst.foundation.httpstatus.HttpStatusStrings.X_FATWIRE_STATUS;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
@@ -83,8 +85,16 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
                     log.debug("wanted to setStatus to  " + status + " from " + hdrName
                             + " but the response is already committed");
                 }
-
-                super.setStatus(status);
+                if (status >= 400) {
+                    try {
+                        super.sendError(status);
+                    } catch (IOException e) {
+                        log.warn("Could not send error " + status + ".", e);
+                        super.setStatus(status);
+                    }
+                } else {
+                    super.setStatus(status);
+                }
                 // ignore the header all together after the setStatus, so
                 // we are not leaking to the public
 
