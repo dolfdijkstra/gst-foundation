@@ -22,15 +22,29 @@ import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.cs.core.db.Util;
 
+/**
+ * Implements a Row.
+ * 
+ * @author Dolf Dijkstra
+ * 
+ */
 class SingleRow implements Row {
 
     private final IList list;
 
+    /**
+     * @param list
+     */
     public SingleRow(final IList list) {
         super();
         this.list = list;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.fatwire.gst.foundation.facade.sql.Row#getBytes(java.lang.String)
+     */
     public byte[] getBytes(final String key) {
         try {
             return (byte[]) list.getObject(key);
@@ -39,6 +53,11 @@ class SingleRow implements Row {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.fatwire.gst.foundation.facade.sql.Row#getChar(java.lang.String)
+     */
     public char getChar(final String key) {
         try {
             final String s = list.getValue(key);
@@ -51,6 +70,11 @@ class SingleRow implements Row {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.fatwire.gst.foundation.facade.sql.Row#getDate(java.lang.String)
+     */
     public Date getDate(final String key) {
         try {
             final String s = list.getValue(key);
@@ -63,6 +87,11 @@ class SingleRow implements Row {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.fatwire.gst.foundation.facade.sql.Row#getLong(java.lang.String)
+     */
     public long getLong(final String key) {
         try {
             final String s = list.getValue(key);
@@ -75,6 +104,12 @@ class SingleRow implements Row {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.fatwire.gst.foundation.facade.sql.Row#getString(java.lang.String)
+     */
     public String getString(final String key) {
         try {
             return list.getValue(key);
@@ -83,4 +118,17 @@ class SingleRow implements Row {
         }
     }
 
+    /**
+     * @param key
+     * @return
+     */
+    public boolean isField(String key) {
+        for (int i = 0; i < list.numColumns(); i++) {
+            if (key.equalsIgnoreCase(list.getColumnName(i))) {
+                return true;
+            }
+
+        }
+        return false;
+    }
 }
