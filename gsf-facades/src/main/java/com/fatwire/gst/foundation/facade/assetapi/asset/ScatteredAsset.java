@@ -21,6 +21,7 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -31,6 +32,7 @@ import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.mda.Dimension;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -111,76 +113,169 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
 
         for (String name : attributes) {
             AttributeData attr = delegate.getAttributeData(name, metaAttributes.contains(name) == meta);
+            if ("Dimension".equals(name)) {
+                Dimension s = AttributeDataUtils.asDimension(attr);
+                if (s != null)
+                    attrMap.put(name, s);
 
-            switch (attr.getType()) {
-
-                case STRING:
-                case LARGE_TEXT:
-                    String s = AttributeDataUtils.asString(attr);
-                    if (s != null && s.length() > 0)
-                        attrMap.put(name, s);
-                    break;
-
-                case INT: {
-                    Integer obj = AttributeDataUtils.asInt(attr);
-                    if (obj != null)
-                        attrMap.put(name, obj);
-                    break;
-                }
-
-                case LONG: {
-                    Long obj = AttributeDataUtils.asLong(attr);
-                    if (obj != null)
-                        attrMap.put(name, obj);
-                    break;
-                }
-                case MONEY:
-                case FLOAT: {
-                    Float obj = AttributeDataUtils.asFloat(attr);
-                    if (obj != null)
-                        attrMap.put(name, obj);
-                    break;
-                }
-                case DATE: {
-                    Date obj = AttributeDataUtils.asDate(attr);
-                    if (obj != null)
-                        attrMap.put(name, obj);
-                    break;
-                }
-
-                case ASSET:
-                case ASSETREFERENCE: {
-                    AssetId obj = AttributeDataUtils.asAssetId(attr);
-                    if (obj != null)
-                        attrMap.put(name, obj);
-                    break;
-                }
-                case BLOB:
-                case URL: {
-                    BlobObject blob = AttributeDataUtils.asBlob(attr);
-                    if (blob != null)
-                        attrMap.put(name, blob);
-                    break;
-                }
-
-                case ARRAY:
-                case STRUCT:
-                case LIST:
-                case ONEOF:
-                    Object o = attr.getData();
-                    int size = 0;
-                    if (o instanceof Collection<?>) {
-                        size = ((Collection<?>) o).size();
-                    } else if (o instanceof Map<?, ?>) {
-                        size = ((Map<?, ?>) o).size();
-                    } else {
-                        log.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
-                                + o.getClass().getName());
-                        size = 1;
-                    }
-                    if (size > 0)
-                        attrMap.put(name, attr.getData());
+            } else if (AttributeDataUtils.isSingleValued(attr)) {
+                extractSingleValue(name, attr);
+            } else {
+                extractMultiValue(name, attr);
             }
+
+        }
+    }
+
+    /**
+     * @param name
+     * @param attr
+     */
+    private void extractSingleValue(String name, AttributeData attr) {
+        switch (attr.getType()) {
+
+            case STRING:
+            case LARGE_TEXT:
+                String s = AttributeDataUtils.asString(attr);
+                if (s != null && s.length() > 0)
+                    attrMap.put(name, s);
+                break;
+
+            case INT: {
+                Integer obj = AttributeDataUtils.asInt(attr);
+                if (obj != null)
+                    attrMap.put(name, obj);
+                break;
+            }
+
+            case LONG: {
+                Long obj = AttributeDataUtils.asLong(attr);
+                if (obj != null)
+                    attrMap.put(name, obj);
+                break;
+            }
+            case MONEY:
+            case FLOAT: {
+                Float obj = AttributeDataUtils.asFloat(attr);
+                if (obj != null)
+                    attrMap.put(name, obj);
+                break;
+            }
+            case DATE: {
+                Date obj = AttributeDataUtils.asDate(attr);
+                if (obj != null)
+                    attrMap.put(name, obj);
+                break;
+            }
+
+            case ASSET:
+            case ASSETREFERENCE: {
+                AssetId obj = AttributeDataUtils.asAssetId(attr);
+                if (obj != null)
+                    attrMap.put(name, obj);
+                break;
+            }
+            case BLOB:
+            case URL: {
+                BlobObject blob = AttributeDataUtils.asBlob(attr);
+                if (blob != null)
+                    attrMap.put(name, blob);
+                break;
+            }
+
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                Object o = attr.getData();
+                int size = 0;
+                if (o instanceof Collection<?>) {
+                    size = ((Collection<?>) o).size();
+                } else if (o instanceof Map<?, ?>) {
+                    size = ((Map<?, ?>) o).size();
+                } else {
+                    log.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
+                            + o.getClass().getName());
+                    size = 1;
+                }
+                if (size > 0)
+                    attrMap.put(name, attr.getData());
+        }
+    }
+
+    /**
+     * @param name
+     * @param attr
+     */
+    private void extractMultiValue(String name, AttributeData attr) {
+        switch (attr.getType()) {
+
+            case STRING:
+            case LARGE_TEXT:
+                List<String> s = AttributeDataUtils.asStringList(attr);
+                if (s != null && s.size() > 0)
+                    attrMap.put(name, s);
+                break;
+
+            case INT: {
+                List<Integer> obj = AttributeDataUtils.asIntList(attr);
+                if (obj != null && obj.size() > 0)
+                    attrMap.put(name, obj);
+                break;
+            }
+
+            case LONG: {
+                List<Long> obj = AttributeDataUtils.asLongList(attr);
+                if (obj != null && obj.size() > 0)
+                    attrMap.put(name, obj);
+                break;
+            }
+            case MONEY:
+            case FLOAT: {
+                List<Float> obj = AttributeDataUtils.asFloatList(attr);
+                if (obj != null && obj.size() > 0)
+                    attrMap.put(name, obj);
+                break;
+            }
+            case DATE: {
+                List<Date> obj = AttributeDataUtils.asDateList(attr);
+                if (obj != null && obj.size() > 0)
+                    attrMap.put(name, obj);
+                break;
+            }
+
+            case ASSET:
+            case ASSETREFERENCE: {
+                List<AssetId> obj = AttributeDataUtils.asAssetIdList(attr);
+                if (obj != null && obj.size() > 0)
+                    attrMap.put(name, obj);
+                break;
+            }
+            case BLOB:
+            case URL: {
+                List<BlobObject> obj = AttributeDataUtils.asBlobList(attr);
+                if (obj != null && obj.size() > 0)
+                    attrMap.put(name, obj);
+                break;
+            }
+
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                Object o = attr.getData();
+                int size = 0;
+                if (o instanceof Collection<?>) {
+                    size = ((Collection<?>) o).size();
+                } else if (o instanceof Map<?, ?>) {
+                    size = ((Map<?, ?>) o).size();
+                } else {
+                    log.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
+                            + o.getClass().getName());
+                    size = 1;
+                }
+                if (size > 0)
+                    attrMap.put(name, attr.getData());
         }
     }
 
