@@ -119,8 +119,8 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
         }
         if (!goodString(virtualWebroot) || !goodString(urlPath)) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("WRAPathAssembler can't assemble definition due to missing core params. Definition: "
-                        + definition);
+                LOG.debug("WRAPathAssembler can't assemble definition due to missing '" + VIRTUAL_WEBROOT
+                        + "' and/or '" + URL_PATH + "' params. Definition: " + definition);
             }
             return theBackupAssembler.assemble(definition); // Can't assemble
                                                             // this URL.
