@@ -99,7 +99,8 @@ public class TemplateAsset {
      *      boolean)
      */
     public Object getAttribute(final String name) {
-        return delegate.getAttributeData(name, false).getData();
+        AttributeData o = delegate.getAttributeData(name);
+        return o == null ? null : o.getData();
     }
 
     /**
@@ -109,7 +110,8 @@ public class TemplateAsset {
      *      boolean)
      */
     public Object getMetaAttribute(final String name) {
-        return delegate.getAttributeData(name, true).getData();
+        AttributeData o = delegate.getAttributeData(name, true);
+        return o == null ? null : o.getData();
     }
 
     /**
