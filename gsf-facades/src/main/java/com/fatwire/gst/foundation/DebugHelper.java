@@ -257,7 +257,13 @@ public final class DebugHelper {
                     out.println("NULL BLOB");
                 }
             } else {
-                out.println(attr.getData());
+                Object data = attr.getData();
+                if (data != null) {
+                    out.print(" (" + data.getClass().getName() + ") ");
+                    out.println(data);
+                } else {
+                    out.println("NULL");
+                }
             }
 
         }
@@ -329,7 +335,7 @@ public final class DebugHelper {
      * type:id.
      * 
      * @param assetId the asset id.
-     * @return a String concatenated with type and id. 
+     * @return a String concatenated with type and id.
      */
     public static String toString(final AssetId assetId) {
         return assetId.getType() + ":" + assetId.getId();
