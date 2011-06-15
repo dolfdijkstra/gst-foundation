@@ -45,6 +45,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  */
 public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
 
+    public static final String TARGET_ASSOCIATION_NAME = "target";
     private final ICS ics;
     private final WraCoreFieldDao wraCoreFieldDao;
 
@@ -108,7 +109,7 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
      */
     public Alias getAlias(AssetId id) {
         TemplateAsset alias = new TemplateAsset(getAsAssetData(id));
-        AssetId target = Children.getOptionalSingleAssociation(ics, id.getType(), Long.toString(id.getId()), "target");
+        AssetId target = Children.getOptionalSingleAssociation(ics, id.getType(), Long.toString(id.getId()), TARGET_ASSOCIATION_NAME);
         if (target == null) {
             String targetUrl = alias.asString("target_url");
             if (targetUrl != null && targetUrl.length() == 0)
