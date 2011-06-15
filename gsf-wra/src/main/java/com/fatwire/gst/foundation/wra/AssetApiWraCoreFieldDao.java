@@ -104,7 +104,6 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
         }
     }
 
-
     /**
      * Return a web referenceable asset bean given an input id. Required fields
      * must be set or an exception is thrown.
@@ -140,12 +139,6 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
         }
 
     };
-
-    public WebReferenceableAsset getWra(AssetData data) {
-
-        return mapper.map(data);
-
-    }
 
     private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
             + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
@@ -229,5 +222,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
         return result;
 
     }
+
+  
 
 }
