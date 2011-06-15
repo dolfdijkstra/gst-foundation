@@ -22,7 +22,6 @@ import java.util.List;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 
-import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
@@ -220,12 +219,6 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
         return wraTable;
     }
 
-    /**
-     * @throws UnsupportedOperationException - not possible in this
-     *             implementation
-     */
-    @Override
-    public WebReferenceableAsset getWra(final AssetData data) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
+   
+
 }
