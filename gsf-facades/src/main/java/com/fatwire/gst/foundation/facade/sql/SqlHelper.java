@@ -279,7 +279,7 @@ public class SqlHelper {
     /**
      * Executes a PreparedStatement, returning a single row
      * 
-     * @param ics
+     * @param ics the Content Server context
      * @param stmt the PreparedStatement
      * @param param the statement parameters
      * @return Row if resultset is returned, otherwise null
