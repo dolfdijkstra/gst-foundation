@@ -23,6 +23,7 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
  * To work with Alias assets, see {@link AliasCoreFieldDao}.}
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jul 21, 2010
  */
 public interface WraCoreFieldDao {
@@ -73,4 +74,5 @@ public interface WraCoreFieldDao {
      * @return
      */
     public String resolveSite(String c, String cid);
+
 }
