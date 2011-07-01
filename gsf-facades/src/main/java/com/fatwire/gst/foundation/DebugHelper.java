@@ -348,9 +348,10 @@ public final class DebugHelper {
      * @return a string with the message and the stacktrace.
      */
     public static String toString(final Throwable t) {
+        if (t == null)
+            return "null";
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw);
-        pw.println(t.toString());
         t.printStackTrace(pw);
         pw.close();
         return sw.toString();
