@@ -70,7 +70,7 @@
     <distributionManagement>
         <site>
             <id>website</id>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-taglib</url>
+            <url>scp://www.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-taglib</url>
         </site>
     </distributionManagement>
 </project>

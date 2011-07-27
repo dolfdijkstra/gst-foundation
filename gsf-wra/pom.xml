@@ -56,7 +56,7 @@
     <distributionManagement>
         <site>
             <id>website</id>
-            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-wra</url>
+            <url>scp://www.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-wra</url>
         </site>
     </distributionManagement>
 </project>
