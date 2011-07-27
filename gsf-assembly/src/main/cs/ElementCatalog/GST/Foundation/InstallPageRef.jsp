@@ -41,15 +41,6 @@
         Properties prop = new Properties();
         prop.load(in);
         in.close();
-        if(true){
-                    StringWriter sw = new StringWriter();
-                    //FileOutputStream out = new FileOutputStream(orig);
-                    prop.store(sw, "Modified to GSF installer on " + new Date());
-                    out.write("<pre>");
-                    out.write(sw.toString());
-                    out.write("</pre>");
-
-        }
         int i = 1;
         boolean hasPageRef = false;
         String pageref = prop.getProperty("xcelerate.pageref");
