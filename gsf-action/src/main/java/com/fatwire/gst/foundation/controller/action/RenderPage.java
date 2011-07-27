@@ -188,7 +188,9 @@ public class RenderPage implements Action {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
             final String site = wraCoreFieldDao.resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
-            // TODO: high, what if site can't be found
+            if (site == null)
+                throw new CSRuntimeException("No site found for asset (" + ics.GetVar("c") + ":" + ics.GetVar("cid")
+                        + " ).", ftErrors.pagenotfound);
             id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
         } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
             // (but not both)

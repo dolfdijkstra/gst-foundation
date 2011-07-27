@@ -181,8 +181,7 @@ public class BaseController extends AbstractController {
         ct.setContext("");
 
         // typeless or not...
-        String target = tname.startsWith("/") ? id.getSite() + tname : id.getSite() + "/" + id.getType() + "/"
-                + tname;
+        String target = tname.startsWith("/") ? id.getSite() + tname : id.getSite() + "/" + id.getType() + "/" + tname;
         Style style = getCallTemplateCallStyle(target);
         if (LOG.isTraceEnabled())
             LOG.trace("BaseController about to call template on " + id + " with " + tname + " using style:" + style);
@@ -244,6 +243,11 @@ public class BaseController extends AbstractController {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
             String site = wraCoreFieldDao.resolveSite(ics.GetVar("c"), ics.GetVar("cid"));
+
+            if (site == null)
+                throw new CSRuntimeException("No site found for asset (" + ics.GetVar("c") + ":" + ics.GetVar("cid")
+                        + " ).", ftErrors.pagenotfound);
+
             id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
         } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
             // (but not both)
