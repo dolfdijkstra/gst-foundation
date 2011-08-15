@@ -36,6 +36,10 @@ Features
   
   Groovy was chosen because it integrates well with java, and has a java-like syntax, and it can be dynamically reloaded.
   
+Eclipse integration
+
+  The integration with eclipse is explained in the {{{eclipse integration.html}}eclipse intgration} document.
+  
   
 Action
 
@@ -269,7 +273,7 @@ IncludeService
 public void handleRequest(ICS ics){
 
 
-	//global call, include the element execution here, by invoking include(ics)
+	//global call, include the element execution right now, by invoking include(ics)
 	includeService.element ("Filter", filter.getName()).include ics
 
 	AssetId pageId = assetDao.createAssetId("Page",ics.GetVar("p"))
@@ -316,6 +320,7 @@ model.add("PoweredBy",img)
 
 BlobUriBuilder ub = new BlobUriBuilder(asset.asBlob(ImageFileAttrName));
 ub.mimeType(asset.asString(ImageMimeTypeAttrName))
+
 Img img = new Img();
 img.setSrc(ub.toURI(ics));
 img.setWidth asset.asString(ImageWidthAttrName)
