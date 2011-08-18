@@ -55,7 +55,7 @@ OUTPUT
      <CALLELEMENT NAME="GST/Foundation/FlexFamilyInstaller"/>
      <h3>Installing flex attributes</h3>
      <CALLELEMENT NAME="GST/Foundation/InstallAttributesIntoFamily">
-         <ARGUMENT NAME="AttributeType" TYPE="GSTAttribute"/>
+         <ARGUMENT NAME="AttributeType" NAME="GSTAttribute"/>
      </CALLELEMENT>
 
      <h3>Installing flex definitions</h3>
