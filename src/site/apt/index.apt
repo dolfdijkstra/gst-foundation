@@ -18,39 +18,39 @@ GST Site Foundation Overview
 
     The GST Site Foundation accomplishes the following:
 
-    [[1]]	Defines architectural and design standards for the foundation of a site
+    [[1]]    Defines architectural and design standards for the foundation of a site
 
-    [[1]]	Standardizes processes for business users
+    [[1]]    Standardizes processes for business users
 
-    [[1]]	Simplifies coding greatly, to the point where much can be provided in common libraries
+    [[1]]    Simplifies coding greatly, to the point where much can be provided in common libraries
 
-    [[1]]	Clearly defines extension points
+    [[1]]    Clearly defines extension points
 
-	[]
+    []
 
-	{{{./GST Site Foundation 1.0.3.pdf}The GST Site Foundation Document}} defines a simple URL-management and request
-	handling/request dispatching model that Content Server architects can easily extend and build upon. The initial
-	emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+    {{{./GST Site Foundation 1.0.3.pdf}The GST Site Foundation Document}} defines a simple URL-management and request
+    handling/request dispatching model that Content Server architects can easily extend and build upon. The initial
+    emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
 
-	*	Is suitable for use "out of the box" for a large number of sites
+    *    Is suitable for use "out of the box" for a large number of sites
 
-	*	Introduces the notion of a web-referenceable asset,  which is accessed via a common controller
+    *    Introduces the notion of a web-referenceable asset, which is accessed via a common controller
 
-	*	Handles and dispatches requests quickly and efficiently
+    *    Handles and dispatches requests quickly and efficiently
 
-	*	Supports easily-constructed vanity URLs for any web-referenceable asset
+    *    Supports easily-constructed vanity URLs for any web-referenceable asset
 
-	*	Standardizes usage of the Page asset for navigation
+    *    Standardizes usage of the Page asset for navigation
 
-	*	Standardizes meta attributes
+    *    Standardizes meta attributes
 
-	*	Provides infrastructure for built-in 404 responses for assets as required
+    *    Provides infrastructure for built-in 404 responses for assets as required
 
-	*	Provides for managed alias assets that can represent any other URL
+    *    Provides for managed alias assets that can represent any other URL
 
-	*	Can be cleanly extended to address custom client requirements
+    *    Can be cleanly extended to address custom client requirements
 
-	[]
+    []
 
     Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and
     acknowledgement that the URL is more important than the content.  By giving each asset its own URL at the
@@ -60,47 +60,61 @@ GST Site Foundation Overview
     would make the patterns and conventions of this approach less suitable.  A checklist is included that helps an
     architect to determine if this rendering model is the best approach for the project at hand.
 
-	Hats off to Tony Field (tony.field at fatwire dot com) for taking the lead on this project, with valuable 
-	assistance and insight from Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
-	(michael.sullivan at fatwire dot com), Suzanne Bourdeaux (suzanne.bourdeaux  at fatwire dot com), and 
-	Randall Spicher (randall.spicher at fatwire dot com).
+    The Global Site Foundation was initiated by Tony Field (tony.field at fatwire dot com),  Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
+    (michael.sullivan at fatwire dot com) and Suzanne Bourdeaux (suzanne.bourdeaux  at fatwire dot com).
 
-	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal 
-	of folding in such enhancements into future versions of the GST Site Foundation.
+    Developers and Architects are encouraged to build upon and extend this framework with the long-term goal 
+    of folding in such enhancements into future versions of the GST Site Foundation.
 
-	June, 2010, The Global Solutions Team
+    August, 2011, The Global Solutions Team
 
 Documentation
   
-	* {{{./GST Site Foundation 1.0.3.pdf}Architecture specification document}} - the core specification
+    * {{{./GST Site Foundation 1.0.3.pdf}Architecture specification document}} - the core specification.
 
-	* {{{http://img.en25.com/Web/Fatwire/TTRNG%20-%20Introducing%20GST%20Site%20Foundation.pdf} Introducing GST Site Foundation}} - Interact 2010 User Conference Presentation
+    * {{{http://img.en25.com/Web/Fatwire/TTRNG%20-%20Introducing%20GST%20Site%20Foundation.pdf} Introducing GST Site Foundation}} - Interact 2010 User Conference Presentation.
 
-	* {{{http://img.en25.com/Web/Fatwire/SEO%20Optimization%20Using%20CS%20-%20condensed.pdf} SEO with CS and the GSF}} - Interact 2010 User Conference Presentation
+    * {{{http://img.en25.com/Web/Fatwire/SEO%20Optimization%20Using%20CS%20-%20condensed.pdf} SEO with CS and the GSF}} - Interact 2010 User Conference Presentation.
 
-	* {{{./apidocs/index.html}JavaDoc API Reference}} - toolkit API
+    * {{{./apidocs/index.html}JavaDoc API Reference}} - toolkit API.
+    
+    * {{{./gsf-taglib/taglibvalidation.html}JSP Tag library}} - The JSP tag lib documentation.
 
-	* {{{./InstallGuide.html}GSF Installation ReadMe}} - Minimalistic gide for installing and configuring the GSF toolkit
+    * {{{./InstallGuide.html}GSF Installation ReadMe}} - Minimalistic gide for installing and configuring the GSF toolkit
 
-	* Functioning Microsite Sample {{./GST-Dispatcher.xml}} and {{./Microsite.jsp}}
+    * Functioning Microsite Sample {{./GST-Dispatcher.xml}} and {{./Microsite.jsp}}.
+    
+    * MVC and Action Support {{{./gsf-groovy} in the Groovy project documentation}}.
+    
+    * {{{./GSF_Beginner_Guide_v1.3.pdf} GSF Beginner Guide}} - A down-under introduction to GSF.
 
-	* {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}} - Step-by-step instructions for installing and using the GSF toolkit
+    * {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}} - (Partially outdated) Step-by-step instructions for installing and using the GSF toolkit.
 
 Download
 
-    The GSF is not yet packaged into a single, downloadable bundle.  In its current state, the core components must be
-    downloaded using {{{http://subversion.apache.org}Subversion}}, and the pre-compiled jar file can be downloaded
-     from the Maven repository.
-
-     *  Subversion repository {{http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.0}}
+    The GSF is packaged into a single, downloadable bundle.  
 
      *  Pre-compiled Jar {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/}}
 
      []
+     
 
 Installation
 
-    Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}attached minimalitic guide}}
+    Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}minimalitic guide}}
     should get you up and running quickly.
 
-    More detailed information can be found in the {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}}.
+    More detailed information can be found in the somewhat outdated {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}}.
+
+Support
+
+    The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
+    
+Building
+
+  The core components must be downloaded using {{{http://subversion.apache.org}Subversion}}, and the pre-compiled jar file can be downloaded
+       from the Maven repository.
+  
+     *  Subversion repository {{http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk}}
+     
+  []   
