@@ -54,8 +54,12 @@ OUTPUT
 
      <CALLELEMENT NAME="GST/Foundation/FlexFamilyInstaller"/>
      <h3>Installing flex attributes</h3>
+     <!-- first the attribute for the GST defined definitions -->
+     <CALLELEMENT NAME="GST/Foundation/InstallAttributes"/>
+     
+     <!-- and also the attribute that can live in any FlexFamily. Here they are also added to GSTAttribute family. -->
      <CALLELEMENT NAME="GST/Foundation/InstallAttributesIntoFamily">
-         <ARGUMENT NAME="AttributeType" NAME="GSTAttribute"/>
+         <ARGUMENT NAME="AttributeType" VALUE="GSTAttribute"/>
      </CALLELEMENT>
 
      <h3>Installing flex definitions</h3>

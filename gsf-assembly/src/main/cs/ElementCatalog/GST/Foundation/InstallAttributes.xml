@@ -88,42 +88,5 @@ OUTPUT
 <asset.save NAME="attr"/>
 
 
-<asset.create NAME="attr" TYPE="GSTAttribute"/>
-<SETVAR NAME="asset:name" VALUE="gsttag"/>
-<SETVAR NAME="asset:description" VALUE="Tag"/>
-<SETVAR NAME="asset:type" VALUE="string"/>
-<asset.gather NAME="attr" PREFIX="asset"/>
-<asset.save NAME="attr"/>
-
-<asset.create NAME="attr" TYPE="GSTAttribute"/>
-<SETVAR NAME="asset:name" VALUE="h1title"/>
-<SETVAR NAME="asset:description" VALUE="h1title"/>
-<SETVAR NAME="asset:type" VALUE="string"/>
-<asset.gather NAME="attr" PREFIX="asset"/>
-<asset.save NAME="attr"/>
-
-<!-- linktext string is already defined-->
-
-<asset.create NAME="attr" TYPE="GSTAttribute"/>
-<SETVAR NAME="asset:name" VALUE="metadescription"/>
-<SETVAR NAME="asset:description" VALUE="Metadescription"/>
-<SETVAR NAME="asset:type" VALUE="string"/>
-<asset.gather NAME="attr" PREFIX="asset"/>
-<asset.save NAME="attr"/>
-
-<asset.create NAME="attr" TYPE="GSTAttribute"/>
-<SETVAR NAME="asset:name" VALUE="metakeyword"/>
-<SETVAR NAME="asset:description" VALUE="Metakeyword"/>
-<SETVAR NAME="asset:type" VALUE="string"/>
-<asset.gather NAME="attr" PREFIX="asset"/>
-<asset.save NAME="attr"/>
-
-
-<asset.create NAME="attr" TYPE="GSTAttribute"/>
-<SETVAR NAME="asset:name" VALUE="metatitle"/>
-<SETVAR NAME="asset:description" VALUE="Metatitle"/>
-<SETVAR NAME="asset:type" VALUE="string"/>
-<asset.gather NAME="attr" PREFIX="asset"/>
-<asset.save NAME="attr"/>
 
 </FTCS>
