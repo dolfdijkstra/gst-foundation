@@ -31,14 +31,14 @@ Features
   
   * Language must be elegant and have a short learning curve.
   
-  * The lanhuage must be well suite to implement businses logic. Writing text output is of less concern as this is handled well with JSP.
+  * The language must be well suite to implement businses logic. Writing text output is of less concern as this is handled well with JSP.
   
   
   Groovy was chosen because it integrates well with java, and has a java-like syntax, and it can be dynamically reloaded.
   
 Eclipse integration
 
-  The integration with eclipse is explained in the {{{eclipse integration.html}}eclipse intgration} document.
+  The integration with eclipse is explained in the {{{./eclipse integration.html}eclipse intgration}} document.
   
   
 Action
