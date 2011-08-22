@@ -60,20 +60,6 @@ OUTPUT
 <asset.save NAME="attr"/>
 
 <asset.create NAME="attr" TYPE="GSTAttribute"/>
-<SETVAR NAME="asset:name" VALUE="linktext"/>
-<SETVAR NAME="asset:description" VALUE="Link Text"/>
-<asset.gather NAME="attr" PREFIX="asset"/>
-<asset.save NAME="attr"/>
-
-<asset.create NAME="attr" TYPE="GSTAttribute"/>
-<SETVAR NAME="asset:name" VALUE="linkimage"/>
-<SETVAR NAME="asset:description" VALUE="Link Image"/>
-<SETVAR NAME="asset:type" VALUE="string"/>
-<SETVAR NAME="asset:valuestyle" VALUE="S"/>
-<asset.gather NAME="attr" PREFIX="asset"/>
-<asset.save NAME="attr"/>
-
-<asset.create NAME="attr" TYPE="GSTAttribute"/>
 <SETVAR NAME="asset:name" VALUE="popup"/>
 <SETVAR NAME="asset:description" VALUE="Popup"/>
 <SETVAR NAME="asset:type" VALUE="int"/>
