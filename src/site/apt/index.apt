@@ -60,7 +60,7 @@ GST Site Foundation Overview
     would make the patterns and conventions of this approach less suitable.  A checklist is included that helps an
     architect to determine if this rendering model is the best approach for the project at hand.
 
-    The Global Site Foundation was initiated by Tony Field (tony.field at fatwire dot com),  Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
+    The Global Site Foundation is initiated in 2010 by Tony Field (tony.field at fatwire dot com),  Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
     (michael.sullivan at fatwire dot com) and Suzanne Bourdeaux (suzanne.bourdeaux  at fatwire dot com).
 
     Developers and Architects are encouraged to build upon and extend this framework with the long-term goal 
@@ -86,7 +86,7 @@ Documentation
     
     * MVC and Action Support {{{./gsf-groovy} in the Groovy project documentation}}.
     
-    * {{{./GSF_Beginner_Guide_v1.3.pdf} GSF Beginner Guide}} - A down-under introduction to GSF.
+    * {{{./GSF_Beginner_Guide_v1.3.pdf} GSF Beginner Guide}} - A down-under introduction to GSF, by Ram Sabnavis.
 
     * {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}} - (Partially outdated) Step-by-step instructions for installing and using the GSF toolkit.
 
@@ -101,7 +101,7 @@ Download
 
 Installation
 
-    Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}minimalitic guide}}
+    Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}minimalistic guide}}
     should get you up and running quickly.
 
     More detailed information can be found in the somewhat outdated {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}}.
@@ -112,9 +112,27 @@ Support
     
 Building
 
-  The core components must be downloaded using {{{http://subversion.apache.org}Subversion}}, and the pre-compiled jar file can be downloaded
-       from the Maven repository.
+  The core components must be downloaded using {{{http://subversion.apache.org}Subversion}}.
   
      *  Subversion repository {{http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk}}
+     
+     * {{{http://maven.apache.org/}Maven version 2.2.1}} should be used to build the GSF. Earlier and later versions of maven might not work (YMMV).
+     
+     * Before building the Content Server jars files must be addedd to your local maven repository with the {{{./build/maven-contentserver-jars.bat}windows}} or {{{./build/maven-contentserver-jars.sh}UNIX}} script.
+
+       This script is best executed from the Content Server <WEB-INF/lib> directory. 
+
+       At the top of the script is a version number stated, you will need to provide the correct version number of the version of Content Server in the WEB-INF/lib directory.
+
+       You will need to compare this to the version number  in the gsf-cs-all.pom file: <<<\<fatwire.contentserver.version\>7.6.0\</fatwire.contentserver.version\>>>>.
+
+       If the version number do no match you can build by providing the version number on the command-line:
+
+       <<<mvn install -Dfatwire.contentserver.version=7.6.0>>>.
+       
+     
+     * Execute <<<mvn install>>> to build the jars and install them in your local repository.
+     
+     * Execute <<<mvn site:stage>>> to build the site documenation. The site is generated in the <target/staging> directory.
      
   []   

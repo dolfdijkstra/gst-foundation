@@ -31,8 +31,11 @@ Installation Guide
           add <-U downloader>> to set the UserAgent header to downloader.  
           
           <<<wget -U downloader http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/1.2/gst-foundation-all-1.2.jar>>>
+          
           <<<wget -U downloader http://repo1.maven.org/maven2/org/tuckey/urlrewritefilter/3.2.0/urlrewritefilter-3.2.0.jar>>>
+          
           <<<wget -U downloader http://repo1.maven.org/maven2/javax/servlet/jstl/1.2/jstl-1.2.jar>>>
+          
           <<<wget -U downloader http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar>>>
           
 
