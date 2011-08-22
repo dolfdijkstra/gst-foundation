@@ -214,9 +214,8 @@ Adding GSF Flex Defintions, Page subtypes and GSTAlias named assoc<br/>
 <ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="metatitle"/>
 <LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="4"/>
 
-
 <ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="target_url"/>
-<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="true" ordinal="5"/>
+<LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="5"/>
 
 <ASSET.LIST TYPE="Variables.attributetype" LIST="MyAttr" FIELD1="name" VALUE1="linktext"/>
 <LISTOBJECT.ADDROW NAME="myList" assetid="MyAttr.id" required="false" ordinal="6"/>

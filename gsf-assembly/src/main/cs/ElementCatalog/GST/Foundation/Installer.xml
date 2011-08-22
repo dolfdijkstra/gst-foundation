@@ -74,7 +74,7 @@ OUTPUT
      <h2>Done</h2>
     </then>
     <else>
-          <h2>To Bad, GST site already exists.</h2>
+          <h2>GST site already exists. Installation will not be performed.</h2>
     </else>
     </if>
 </then>
