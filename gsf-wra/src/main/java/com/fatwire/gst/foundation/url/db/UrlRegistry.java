@@ -131,7 +131,7 @@ public class UrlRegistry implements WraPathTranslationService {
         }
     }
 
-    public void addAsset(WebReferenceableAsset wra) {
+    private void addAsset(WebReferenceableAsset wra) {
         AssetId asset = wra.getId();
 
         VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);

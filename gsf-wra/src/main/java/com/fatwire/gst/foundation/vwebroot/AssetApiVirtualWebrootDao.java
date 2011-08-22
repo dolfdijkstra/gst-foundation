@@ -128,6 +128,10 @@ public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
         if (LOG.isDebugEnabled())
             LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
         String wraPath = wra.getPath();
+        return lookupVirtualWebrootForUri(wraPath);
+    }
+
+    public VirtualWebroot lookupVirtualWebrootForUri(String wraPath) {
         if (wraPath == null) {
             LOG.trace("WRA does not have a path set - cannot locate virtual webroot");
             return null;

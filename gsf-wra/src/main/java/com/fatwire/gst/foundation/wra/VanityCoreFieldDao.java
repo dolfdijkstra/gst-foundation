@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.vwebroot;
+package com.fatwire.gst.foundation.wra;
 
-import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 
+/**
+ * 
+ * 
+ * @author Dolf Dijkstra
+ * @since June 2011
+ */
+public interface VanityCoreFieldDao {
 
+    public VanityCoreAssetFields getCoreAssetFields(AssetIdWithSite id);
 
-public interface VirtualWebrootDao {
-
-    VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra);
-
-    VirtualWebroot lookupVirtualWebrootForUri(String uri);
 }

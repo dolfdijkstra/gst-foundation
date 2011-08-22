@@ -125,6 +125,10 @@ public class VirtualWebrootApiBypassDao implements VirtualWebrootDao{
         if (LOG.isDebugEnabled())
             LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
         String wraPath = wra.getPath();
+        return lookupVirtualWebrootForUri(wraPath);
+    }
+
+    public VirtualWebroot lookupVirtualWebrootForUri(String wraPath) {
         if (wraPath == null) {
             LOG.trace("WRA does ont have a path set - cannot locate virtual webroot");
             return null;
