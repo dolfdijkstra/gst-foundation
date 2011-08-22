@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Copyright 2010 FatWire Corporation. All Rights Reserved.
 #
@@ -14,37 +15,35 @@
 # limitations under the License.
 #
 
-VERSION=7.6.0
-mvn -B install:install-file -Dfile=assetapi-impl.jar -DgroupId=com.fatwire.cs -DartifactId=assetapi-impl -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=assetapi.jar -DgroupId=com.fatwire.cs -DartifactId=assetapi -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=assetframework.jar -DgroupId=com.fatwire.cs -DartifactId=assetframework -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=assetmaker.jar -DgroupId=com.fatwire.cs -DartifactId=assetmaker -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=basic.jar -DgroupId=com.fatwire.cs -DartifactId=basic -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=batch.jar -DgroupId=com.fatwire.cs -DartifactId=batch -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=catalog.jar -DgroupId=com.fatwire.cs -DartifactId=catalog -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=commercedata.jar -DgroupId=com.fatwire.cs -DartifactId=commercedata -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=cs-core.jar -DgroupId=com.fatwire.cs -DartifactId=cs-core -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=cs-portlet.jar -DgroupId=com.fatwire.cs -DartifactId=cs-portlet -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=cs.jar -DgroupId=com.fatwire.cs -DartifactId=cs -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=cscommerce.jar -DgroupId=com.fatwire.cs -DartifactId=cscommerce -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=directory.jar -DgroupId=com.fatwire.cs -DartifactId=directory -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=firstsite-filter.jar -DgroupId=com.fatwire.cs -DartifactId=firstsite-filter -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=firstsite-uri.jar -DgroupId=com.fatwire.cs -DartifactId=firstsite-uri -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=flame.jar -DgroupId=com.fatwire.cs -DartifactId=flame -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=framework.jar -DgroupId=com.fatwire.cs -DartifactId=framework -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=gator.jar -DgroupId=com.fatwire.cs -DartifactId=gator -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=gatorbulk.jar -DgroupId=com.fatwire.cs -DartifactId=gatorbulk -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=ics.jar -DgroupId=com.fatwire.cs -DartifactId=ics -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=logging.jar -DgroupId=com.fatwire.cs -DartifactId=logging -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=lucene-search.jar -DgroupId=com.fatwire.cs -DartifactId=lucene-search -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=MSXML.jar -DgroupId=com.fatwire.cs -DartifactId=MSXML -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=rules.jar -DgroupId=com.fatwire.cs -DartifactId=rules -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=sampleasset.jar -DgroupId=com.fatwire.cs -DartifactId=sampleasset -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=spark.jar -DgroupId=com.fatwire.cs -DartifactId=spark -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=sparksample.jar -DgroupId=com.fatwire.cs -DartifactId=sparksample -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=sseed.jar -DgroupId=com.fatwire.cs -DartifactId=sseed -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=sserve.jar -DgroupId=com.fatwire.cs -DartifactId=sserve -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=transformer.jar -DgroupId=com.fatwire.cs -DartifactId=transformer -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=visitor.jar -DgroupId=com.fatwire.cs -DartifactId=visitor -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
-mvn -B install:install-file -Dfile=xcelerate.jar -DgroupId=com.fatwire.cs -DartifactId=xcelerate -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
+hash mvn 2>&- || { echo >&2 "The script requires 'mvn' but it's not installed.  Aborting."; exit 1; }
+
+
+if [ -f "cs.jar" ]; then
+    if [ "x$1" == "x" ]; then     
+        echo -n "Please provide the version of Content Server and press [ENTER]: "
+        read  VERSION
+    else 
+#       echo "You provided the version on the command line: $1."
+       VERSION=$1
+    fi
+
+    echo "Registering Content Server version $VERSION jar files in maven repository."
+    for jar in  assetapi-impl assetapi assetframework assetmaker basic \
+                batch catalog commercedata cs-core cs-portlet cs cscommerce \
+                directory firstsite-filter firstsite-uri flame framework gator \
+                gatorbulk ics logging lucene-search MSXML rules sampleasset spark \
+                sparksample sseed sserve transformer visitor xcelerate
+    do
+
+        mvn -B install:install-file -Dfile=${jar}.jar -DgroupId=com.fatwire.cs -DartifactId=${jar} -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
+    done
+else
+    echo "cs.jar is not found  in your current working directory, exiting."
+    echo "The Content Server jar files are NOT registered in your local maven repository."
+    exit 1
+fi
+
+
+
+
 

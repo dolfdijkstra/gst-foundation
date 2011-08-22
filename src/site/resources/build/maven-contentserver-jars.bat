@@ -14,7 +14,14 @@
 @REM limitations under the License.
 @REM
 
-set VERSION=7.6.0
+IF NOT EXIST cs.jar (
+    echo "cs.jar is not found  in your current working directory, exiting."
+    echo "The Content Server jar files are NOT registered in your local maven repository."
+    exit /B 1
+)
+
+set /p VERSION="Please provide the version of Content Server and press [ENTER]: "
+
 cmd /c mvn -B install:install-file -Dfile=assetapi-impl.jar -DgroupId=com.fatwire.cs -DartifactId=assetapi-impl -Dversion=%VERSION% -Dpackaging=jar -DgeneratePom=true
 cmd /c mvn -B install:install-file -Dfile=assetapi.jar -DgroupId=com.fatwire.cs -DartifactId=assetapi -Dversion=%VERSION% -Dpackaging=jar -DgeneratePom=true
 cmd /c mvn -B install:install-file -Dfile=assetframework.jar -DgroupId=com.fatwire.cs -DartifactId=assetframework -Dversion=%VERSION% -Dpackaging=jar -DgeneratePom=true
