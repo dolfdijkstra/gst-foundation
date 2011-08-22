@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-hash mvn 2>&- || { echo >&2 "The script requires 'mvn' but it's not installed.  Aborting."; exit 1; }
+hash mvn 2>&- || { echo >&2 "The script requires 'mvn' but it's not installed. Aborting."; exit 1; }
 
 
 if [ -f "cs.jar" ]; then
@@ -23,7 +23,7 @@ if [ -f "cs.jar" ]; then
         echo -n "Please provide the version of Content Server and press [ENTER]: "
         read  VERSION
     else 
-       VERSION=$1 "VERSION captured from the command-line
+       VERSION=$1 #VERSION captured from the command-line
     fi
     for jar in  assetapi-impl assetapi assetframework assetmaker basic \
                 batch catalog cs-core cs cscommerce \
@@ -39,7 +39,7 @@ if [ -f "cs.jar" ]; then
         fi
     done
 else
-    echo "cs.jar is not found  in your current working directory, exiting."
+    echo "cs.jar is not found  in your current working directory. Aborting."
     echo "The Content Server jar files are NOT registered in your local maven repository."
     exit 1
 fi
