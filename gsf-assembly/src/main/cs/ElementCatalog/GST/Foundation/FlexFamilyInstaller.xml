@@ -161,7 +161,7 @@ Adding GSTAlias to flex family<br/>
     <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
     <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
     <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
-    <SETVAR NAME="item:assetsubtype" VALUE="Variables.empty" />
+    <SETVAR NAME="item:assetsubtype" VALUE="AssetTypes.ITEM" />
     <SETVAR NAME="item:processinput" VALUE="notallowed" />
     <SETVAR NAME="item:participantinput" VALUE="notallowed" />
     <SETVAR NAME="item:siteinput" VALUE="notallowed" />
