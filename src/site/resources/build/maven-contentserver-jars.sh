@@ -23,19 +23,20 @@ if [ -f "cs.jar" ]; then
         echo -n "Please provide the version of Content Server and press [ENTER]: "
         read  VERSION
     else 
-#       echo "You provided the version on the command line: $1."
-       VERSION=$1
+       VERSION=$1 "VERSION captured from the command-line
     fi
-
-    echo "Registering Content Server version $VERSION jar files in maven repository."
     for jar in  assetapi-impl assetapi assetframework assetmaker basic \
-                batch catalog commercedata cs-core cs-portlet cs cscommerce \
+                batch catalog cs-core cs cscommerce \
                 directory firstsite-filter firstsite-uri flame framework gator \
-                gatorbulk ics logging lucene-search MSXML rules sampleasset spark \
+                gatorbulk ics logging lucene-search MSXML rules sampleasset \
                 sparksample sseed sserve transformer visitor xcelerate
     do
-
-        mvn -B install:install-file -Dfile=${jar}.jar -DgroupId=com.fatwire.cs -DartifactId=${jar} -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
+        if [ -f "${jar}.jar" ]; then
+            echo "Registering ${jar}.jar"
+            mvn -B --quiet install:install-file -Dfile=${jar}.jar -DgroupId=com.fatwire.cs -DartifactId=${jar} -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
+        else
+            echo "WARNING: File ${jar}.jar not found."
+        fi
     done
 else
     echo "cs.jar is not found  in your current working directory, exiting."
