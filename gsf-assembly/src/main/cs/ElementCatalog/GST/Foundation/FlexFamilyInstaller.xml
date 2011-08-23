@@ -145,11 +145,13 @@ Adding GSTAlias to flex family<br/>
     <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
     <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
     <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+    <SETVAR NAME="item:argumentsargumentTotal" VALUE="1"/>
+    <SETVAR NAME="item:argumentsargument0name" VALUE="subtype"/>
+    <SETVAR NAME="item:argumentsargument0value" VALUE="AssetTypes.ITEM"/>
     <SETVAR NAME="item:assetsubtype" VALUE="AssetTypes.ITEM" />
     <SETVAR NAME="item:processinput" VALUE="notallowed" />
     <SETVAR NAME="item:participantinput" VALUE="notallowed" />
     <SETVAR NAME="item:siteinput" VALUE="notallowed" />
-    <SETVAR NAME="item:argumentsargumentTotal" VALUE="0" />
     <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
     <STARTMENU.SAVE OBJECT="mi" />
 
@@ -161,11 +163,14 @@ Adding GSTAlias to flex family<br/>
     <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
     <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
     <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+    <SETVAR NAME="item:argumentsargumentTotal" VALUE="1"/>
+    <SETVAR NAME="item:argumentsargument0name" VALUE="subtype"/>
+    <SETVAR NAME="item:argumentsargument0value" VALUE="AssetTypes.ITEM"/>
     <SETVAR NAME="item:assetsubtype" VALUE="AssetTypes.ITEM" />
     <SETVAR NAME="item:processinput" VALUE="notallowed" />
     <SETVAR NAME="item:participantinput" VALUE="notallowed" />
     <SETVAR NAME="item:siteinput" VALUE="notallowed" />
-    <SETVAR NAME="item:argumentsargumentTotal" VALUE="0" />
+    
     <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
     <STARTMENU.SAVE OBJECT="mi" />
 
