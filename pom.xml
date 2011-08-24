@@ -7,7 +7,7 @@
    </parent>
    <groupId>com.fatwire.gst</groupId>
    <artifactId>gsf-parent</artifactId>
-   <version>1.3-SNAPSHOT</version>
+   <version>1.2-SNAPSHOT</version>
    <packaging>pom</packaging>
    <name>FatWire GST: Site Foundation</name>
    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/</url>
