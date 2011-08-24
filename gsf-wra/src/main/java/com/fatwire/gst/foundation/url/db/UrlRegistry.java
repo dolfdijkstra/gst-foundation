@@ -40,12 +40,13 @@ import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
- *
+ * 
  * @author Dolf.Dijkstra
  * @since Jun 17, 2010
  */
@@ -58,14 +59,16 @@ public class UrlRegistry implements WraPathTranslationService {
     private final VirtualWebrootDao vwDao;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
     public static String TABLE_ACL_LIST = ""; // no ACLs because events are
+
     // anonymous
 
-    public UrlRegistry(final ICS ics,final WraCoreFieldDao wraDao,final VirtualWebrootDao vwDao) {
+    public UrlRegistry(final ICS ics, final WraCoreFieldDao wraDao, final VirtualWebrootDao vwDao) {
         this.ics = ics;
-        // Temporarily disable usage of asset APIs in this use case due to a bug in which asset listeners
+        // Temporarily disable usage of asset APIs in this use case due to a bug
+        // in which asset listeners
         // cause a deadlock when the asset API is used.
-        this.wraDao = wraDao ;//WraCoreFieldApiBypassDao.getBackdoorInstance(ics);
-        this.vwDao =vwDao;// new VirtualWebrootApiBypassDao(ics);
+        this.wraDao = wraDao;// WraCoreFieldApiBypassDao.getBackdoorInstance(ics);
+        this.vwDao = vwDao;// new VirtualWebrootApiBypassDao(ics);
         // End temporary deadlock workaround
     }
 
@@ -86,8 +89,12 @@ public class UrlRegistry implements WraPathTranslationService {
         new TableCreator(ics).createTable(def);
     }
 
-    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT assettype, assetid, startdate, enddate, opt_site FROM " + URLREG_TABLE + " WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate", Collections.singletonList(URLREG_TABLE));
-    private static final PreparedStmt REGISTRY_SELECT_ID = new PreparedStmt("SELECT assettype, assetid FROM " + URLREG_TABLE + " WHERE assettype=? AND assetid=?", Collections.singletonList(URLREG_TABLE));
+    private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt(
+            "SELECT assettype, assetid, startdate, enddate, opt_site FROM " + URLREG_TABLE
+                    + " WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate",
+            Collections.singletonList(URLREG_TABLE));
+    private static final PreparedStmt REGISTRY_SELECT_ID = new PreparedStmt("SELECT assettype, assetid FROM "
+            + URLREG_TABLE + " WHERE assettype=? AND assetid=?", Collections.singletonList(URLREG_TABLE));
 
     static {
         REGISTRY_SELECT.setElement(0, URLREG_TABLE, "opt_vwebroot");
@@ -107,11 +114,14 @@ public class UrlRegistry implements WraPathTranslationService {
             AssetIdWithSite id = new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
             if (FilterAssetsByDate.isValidOnDate(ics, id, null)) {
                 if (LOG.isDebugEnabled())
-                    LOG.debug("Resolved and validated effective date for asset " + id + " from virtual-webroot:" + virtual_webroot + " and url-path:" + url_path);
+                    LOG.debug("Resolved and validated effective date for asset " + id + " from virtual-webroot:"
+                            + virtual_webroot + " and url-path:" + url_path);
                 return id;
             } else {
                 if (LOG.isDebugEnabled())
-                    LOG.debug("Resolved asset " + id + " but it is not valid on the effective date as determined by the asset.filterassetsbydate tag.");
+                    LOG.debug("Resolved asset "
+                            + id
+                            + " but it is not valid on the effective date as determined by the asset.filterassetsbydate tag.");
             }
         }
 
@@ -138,8 +148,10 @@ public class UrlRegistry implements WraPathTranslationService {
 
         if (vw != null) {
             String vwebroot = vw.getEnvironmentVirtualWebroot();
+
             String urlpath = wra.getPath().substring(vw.getMasterVirtualWebroot().length());
-            int depth = urlpath != null && urlpath.length() > 0 ? urlpath.split("/").length : 0;
+            int depth = StringUtils.countMatches(urlpath, "/");
+
             String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
 
             FTValList vl = new FTValList();
@@ -177,7 +189,8 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void updateAsset(AssetId id) {
-        // todo: low priority: optimize (assest api incache will mitigate the performance issue)
+        // todo: low priority: optimize (assest api incache will mitigate the
+        // performance issue)
 
         StatementParam param = REGISTRY_SELECT_ID.newParam();
         param.setString(0, id.getType());
@@ -188,7 +201,8 @@ public class UrlRegistry implements WraPathTranslationService {
         }
 
         if (wraDao.isWebReferenceable(id)) {
-            // asset api is throwing NPE when an attribute that is asked for does
+            // asset api is throwing NPE when an attribute that is asked for
+            // does
             // not exist
             // WebReferenceableAsset wra = wraDao.getWra(id);
             addAsset(id);
@@ -197,9 +211,11 @@ public class UrlRegistry implements WraPathTranslationService {
 
     public void deleteAsset(AssetId id) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Attempting to delete asset " + id + " from url registry (it might not have been there but we must try anyway)");
+            LOG.trace("Attempting to delete asset " + id
+                    + " from url registry (it might not have been there but we must try anyway)");
         }
-        SqlHelper.execute(ics, URLREG_TABLE, "DELETE FROM " + URLREG_TABLE + " WHERE assettype = '" + id.getType() + "' AND assetid = " + id.getId());
+        SqlHelper.execute(ics, URLREG_TABLE, "DELETE FROM " + URLREG_TABLE + " WHERE assettype = '" + id.getType()
+                + "' AND assetid = " + id.getId());
         if (LOG.isDebugEnabled()) {
             LOG.debug("Asset " + id + " was either never present or is now removed from url registry");
         }
