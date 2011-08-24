@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
     <artifactId>gsf-tagging</artifactId>
     <packaging>jar</packaging>
@@ -16,11 +16,11 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-tagging
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-tagging
         </connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-tagging
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-tagging
         </developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-tagging</url>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-tagging</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-facades</artifactId>
-            <version>2.2-SNAPSHOT</version>
+            <version>2.2</version>
         </dependency>
     </dependencies>
     <distributionManagement>

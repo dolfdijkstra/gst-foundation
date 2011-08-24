@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
     <artifactId>gsf-groovy</artifactId>
     <packaging>jar</packaging>
@@ -17,9 +16,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-groovy</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-groovy</developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-groovy</url>
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-groovy</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-groovy</developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-groovy</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,13 +32,13 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-cs-test</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-action</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
     </dependencies>
     <distributionManagement>
