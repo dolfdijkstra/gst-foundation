@@ -16,6 +16,7 @@
 package com.fatwire.gst.foundation.wra;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -57,8 +58,6 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
     }
 
     private final ICS ics;
-
-    private SqlAssetSiteService assetSiteService;
 
     public AssetApiWraCoreFieldDao(ICS ics) {
         this.ics = ics;
@@ -141,6 +140,40 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
 
     };
 
+    private static final String ASSETPUBLICATION_QRY = "SELECT p.name from Publication p, AssetPublication ap "
+            + "WHERE ap.assettype = ? " + "AND ap.assetid = ? " + "AND ap.pubid=p.id";
+    static final PreparedStmt AP_STMT = new PreparedStmt(ASSETPUBLICATION_QRY,
+            Collections.singletonList("AssetPublication")); // todo: low
+                                                            // priority:
+    // determine
+    // why publication
+    // cannot fit there.
+
+    static {
+        AP_STMT.setElement(0, "AssetPublication", "assettype");
+        AP_STMT.setElement(1, "AssetPublication", "assetid");
+    }
+
+    public String resolveSite(String c, String cid) {
+        final StatementParam param = AP_STMT.newParam();
+        param.setString(0, c);
+        param.setLong(1, Long.parseLong(cid));
+        String result = null;
+        for (Row pubid : SqlHelper.select(ics, AP_STMT, param)) {
+            if (result != null) {
+                LOG.warn("Found asset "
+                        + c
+                        + ":"
+                        + cid
+                        + " in more than one publication. It should not be shared; aliases are to be used for cross-site sharing.  Controller will use first site found: "
+                        + result);
+            } else {
+                result = pubid.getString("name");
+            }
+        }
+        return result;
+    }
+
     static final PreparedStmt FIND_P = new PreparedStmt(
             "SELECT art.oid FROM AssetRelationTree art, AssetPublication ap, Publication p WHERE ap.assetid = art.oid "
                     + "AND ap.assettype = 'Page' AND ap.pubid = p.id AND p.name = ? "
@@ -190,10 +223,6 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
 
     }
 
-    public String resolveSite(String c, String cid) {
-        if (assetSiteService == null)
-            assetSiteService = new SqlAssetSiteService(ics);
-        return assetSiteService.resolveSite(c, cid);
-    }
+  
 
 }
