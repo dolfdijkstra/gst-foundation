@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.2</version>
+        <version>1.3-SNAPSHOT</version>
     </parent>
     <artifactId>gsf-action</artifactId>
     <packaging>jar</packaging>
@@ -19,11 +19,11 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-action
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-action
         </connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-action
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-action
         </developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/tags/gst-foundation-1.2/gsf-action</url>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-action</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -61,12 +61,12 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-taglib</artifactId>
-            <version>1.2</version>
+            <version>1.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-cs-test</artifactId>
-            <version>1.2</version>
+            <version>1.3-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
