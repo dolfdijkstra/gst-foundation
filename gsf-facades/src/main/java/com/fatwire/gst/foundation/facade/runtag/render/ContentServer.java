@@ -15,7 +15,6 @@
  */
 package com.fatwire.gst.foundation.facade.runtag.render;
 
-import java.util.Date;
 
 /**
  * &lt;RENDER.CONTENTSERVER PAGENAME="nameOfPageEntry" [ARGS_var1="value"]/&gt;
@@ -24,9 +23,7 @@ import java.util.Date;
  * @author Dolf Dijkstra
  * @since Apr 11, 2011
  */
-public class ContentServer extends TagRunnerWithArguments {
-
-    private static final String ARGS = "ARGS_";
+public class ContentServer extends TagRunnerWithRenderArguments {
 
     public ContentServer() {
         super("RENDER.CONTENTSERVER");
@@ -39,61 +36,6 @@ public class ContentServer extends TagRunnerWithArguments {
 
     public void setPagename(String s) {
         set("PAGENAME", s);
-    }
-
-    /**
-     * Call template args are prefixed with ARGS_ in order to be available in
-     * the called template
-     * 
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final String value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Args are prefixed with ARGS_ in order to be available in the called
-     * template
-     * 
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final long value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Args are prefixed with ARGS_ in order to be available in the called
-     * template
-     * 
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final Date value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Args are prefixed with ARGS_ in order to be available in the called
-     * template
-     * 
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final int value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Args are prefixed with ARGS_ in order to be available in the called
-     * template
-     * 
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final boolean value) {
-        super.set(ARGS + name, value);
     }
 
 }

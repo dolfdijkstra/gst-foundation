@@ -18,9 +18,7 @@ package com.fatwire.gst.foundation.facade.runtag.render;
 
 import java.util.Locale;
 
-public class CallElement extends TagRunnerWithArguments {
-
-	public static final String ARGS = "ARGS_";
+public class CallElement extends TagRunnerWithRenderArguments {
 
     public static final String SCOPE_GLOBAL = "global";
     public static final String SCOPE_LOCAL = "local";
@@ -36,7 +34,7 @@ public class CallElement extends TagRunnerWithArguments {
 
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see java.lang.Enum#toString()
          */
         @Override
@@ -65,61 +63,6 @@ public class CallElement extends TagRunnerWithArguments {
 
     public void setScope(final Scope scope) {
         this.set("SCOPE", scope.toString());
-    }
-
-   /**
-     * Call element args are prefixed with ARGS_ in order to be available in
-     * the called element
-     *
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final String value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Call element args are prefixed with ARGS_ in order to be available in
-     * the called element
-     *
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final long value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Call element args are prefixed with ARGS_ in order to be available in
-     * the called element
-     *
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final Date value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Call element args are prefixed with ARGS_ in order to be available in
-     * the called element
-     *
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final int value) {
-        super.set(ARGS + name, value);
-    }
-
-    /**
-     * Call element args are prefixed with ARGS_ in order to be available in
-     * the called element
-     *
-     * @param name parameter name
-     * @param value parameter value
-     */
-    public void setArgument(final String name, final boolean value) {
-        super.set(ARGS + name, value);
     }
 
 }
