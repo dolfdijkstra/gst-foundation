@@ -21,7 +21,7 @@ package com.fatwire.gst.foundation.facade.runtag.render;
  * @author Dolf Dijkstra
  * @since Apr 11, 2011
  */
-public class SatellitePage extends TagRunnerWithArguments {
+public class SatellitePage extends TagRunnerWithRenderArguments {
 
     public SatellitePage() {
         super("RENDER.SATELLITEPAGE");
