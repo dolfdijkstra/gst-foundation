@@ -365,6 +365,12 @@ public final class DebugHelper {
      * @param t the Throwable to print the stacktrace of.
      */
     public static void printStackTrace(final Writer writer, final Throwable t) {
-        t.printStackTrace(new PrintWriter(writer));
+        if (writer instanceof PrintWriter) {
+            t.printStackTrace((PrintWriter) writer);
+        } else if (writer != null) {
+            t.printStackTrace(new PrintWriter(writer));
+        } else {
+            throw new IllegalArgumentException("Writer cannot be null.");
+        }
     }
 }
