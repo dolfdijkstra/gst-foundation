@@ -100,6 +100,19 @@ public class TemplateAsset {
     }
 
     /**
+     * @param name name of the association
+     * @return the single associated asset.
+     * @see com.fatwire.assetapi.data.AssetData#getAssociatedAssets(java.lang.String)
+     */
+    public AssetId getAssociatedAsset(final String name) {
+        List<AssetId> assocs = delegate.getAssociatedAssets(name);
+        if (assocs != null && !assocs.isEmpty()) {
+            return assocs.get(0);
+        }
+        return null;
+    }
+
+    /**
      * @param name
      * @return
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
