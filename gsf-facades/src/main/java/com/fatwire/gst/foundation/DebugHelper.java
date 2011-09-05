@@ -211,12 +211,14 @@ public final class DebugHelper {
      */
     @SuppressWarnings("unchecked")
     public static String printAsset(final AssetData ad) throws AssetAccessException {
+        if (ad == null)
+            return null;
         final StringWriter sw = new StringWriter();
         final PrintWriter out = new PrintWriter(sw);
         out.println(ad.getAssetId() + " '" + ad.getAssetTypeDef().getName() + "' '" + ad.getAssetTypeDef().getSubtype()
                 + "'");
 
-        out.println("defs --- name (type [meta/value count/inherited/derived])");
+        out.println("defs --- name (type [meta/valuecount/inherited/derived])");
         for (final AttributeDef def : ad.getAssetTypeDef().getAttributeDefs()) {
             final AttributeDefProperties props = def.getProperties();
 
@@ -226,7 +228,7 @@ public final class DebugHelper {
         }
         final List<AttributeDef> parentDefs = ad.getAssetTypeDef().getParentDefs();
         if (parentDefs != null) {
-            out.println("parent defs --- name (type [meta/value count/inherited/derived])");
+            out.println("parent defs --- name (type [meta/valuecount/inherited/derived])");
             for (final AttributeDef def : parentDefs) {
                 final AttributeDefProperties props = def.getProperties();
 
@@ -238,7 +240,7 @@ public final class DebugHelper {
 
         out.println("attribute names --- ");
         out.println("\t" + ad.getAttributeNames());
-        out.println("attributes --- name (type [meta/value count/inherited/derived])");
+        out.println("attributes --- name (type [meta/valuecount/inherited/derived])");
         for (final AttributeData attr : ad.getAttributeData()) {
             final AttributeDefProperties props = attr.getAttributeDef().getProperties();
             // props.getDataMap()
