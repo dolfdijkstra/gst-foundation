@@ -51,7 +51,7 @@ public class DefaultIncludeService implements IncludeService {
         Assert.hasText(pagename);
         if (Style.element == style)
             throw new IllegalArgumentException(
-                    "IncludeService#page cannot handle style 'element'. Please user IncludeService#element.");
+                    "IncludeService#page cannot handle style 'element'. Please use IncludeService#element.");
         final IncludePage i = new IncludePage(ics, pagename, style == null ? Style.pagelet : style);
         map.put(name, i);
         return i;
