@@ -76,6 +76,13 @@ public class TemplateAsset {
     }
 
     /**
+     * @return the asset subtype.
+     */
+    public String getSubtype() {
+        return delegate.getAssetTypeDef().getSubtype();
+    }
+
+    /**
      * @return
      * @see com.fatwire.assetapi.data.AssetData#getAssetTypeDef()
      */
