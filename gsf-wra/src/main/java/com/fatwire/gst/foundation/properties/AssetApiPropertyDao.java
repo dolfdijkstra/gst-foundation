@@ -15,31 +15,25 @@
  */
 package com.fatwire.gst.foundation.properties;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Util.ftErrors;
 
-import com.fatwire.assetapi.common.AssetAccessException;
-import com.fatwire.assetapi.data.AssetData;
-import com.fatwire.assetapi.data.AssetDataManager;
-import com.fatwire.assetapi.query.Condition;
-import com.fatwire.assetapi.query.ConditionFactory;
 import com.fatwire.assetapi.query.OpTypeEnum;
-import com.fatwire.assetapi.query.SimpleQuery;
-import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import com.fatwire.system.SessionFactory;
+import com.fatwire.assetapi.query.Query;
+import com.fatwire.gst.foundation.facade.assetapi.QueryBuilder;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Class representing properties stored as an asset.  Can be basic or flex but fields are specifically defined
- *
+ * Class representing properties stored as an asset. Can be basic or flex but
+ * fields are specifically defined
+ * 
  * @author Tony Field
  * @since 11-09-02
  */
@@ -48,13 +42,11 @@ public final class AssetApiPropertyDao implements PropertyDao {
 
     public static final String TYPE = "GSTProperty";
     public static final String SUBTYPE = "GSTProperty";
-    public static final String[] ATTRS = {"name", "description", "value"};
-    private static final Condition COND = ConditionFactory.createCondition("status", OpTypeEnum.NOT_EQUALS, "VO"); // not valid for flex?
-    //private static final SimpleQuery LOAD_ALL_QRY = new SimpleQuery(TYPE, SUBTYPE, COND, Arrays.asList(ATTRS));
-    private static final SimpleQuery LOAD_ALL_QRY = new SimpleQuery(TYPE, SUBTYPE, null, Arrays.asList(ATTRS));
+    private static final Query LOAD_ALL_QRY = new QueryBuilder(TYPE, SUBTYPE)
+            .attributes("name", "description", "value").and("status", OpTypeEnum.NOT_EQUALS, "VO").setBasicSearch(true)
+            .toQuery();
 
     private final Map<String, Property> _props;
-
 
     public static final PropertyDao getInstance(ICS ics) {
         if (ics == null) {
@@ -79,17 +71,15 @@ public final class AssetApiPropertyDao implements PropertyDao {
 
     private AssetApiPropertyDao(ICS ics) {
         _props = new HashMap<String, Property>();
-        AssetDataManager mgr = (AssetDataManager) SessionFactory.getSession(ics).getManager(AssetDataManager.class.getName());
-        try {
-            LOG.trace("Loading all GSTProperties");
-            for (AssetData d : mgr.read(LOAD_ALL_QRY)) {
-                String name = AttributeDataUtils.asString(d.getAttributeData("name"));
-                PropertyImpl p = new PropertyImpl(name, AttributeDataUtils.asString(d.getAttributeData("description")), AttributeDataUtils.asString(d.getAttributeData("value")));
-                _props.put(name, p);
-                if (LOG.isTraceEnabled()) LOG.trace("Loaded property: "+p);
-            }
-        } catch (AssetAccessException e) {
-            throw new CSRuntimeException("Failure loading property asset", ftErrors.exceptionerr, e);
+        TemplateAssetAccess mgr = new TemplateAssetAccess(ics);
+
+        LOG.trace("Loading all GSTProperties");
+        for (TemplateAsset d : mgr.query(LOAD_ALL_QRY)) {
+            String name = d.asString("name");
+            PropertyImpl p = new PropertyImpl(name, d.asString("description"), d.asString("value"));
+            _props.put(name, p);
+            if (LOG.isTraceEnabled())
+                LOG.trace("Loaded property: " + p);
         }
     }
 
