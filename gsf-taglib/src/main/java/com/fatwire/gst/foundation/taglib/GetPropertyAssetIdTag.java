@@ -24,20 +24,23 @@ import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
 import com.fatwire.gst.foundation.properties.Property;
 import com.fatwire.gst.foundation.properties.PropertyDao;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * extract the asset id from the asset property value
- *
+ * 
  * @author Tony Field
  * @since 11-09-02
  */
 public final class GetPropertyAssetIdTag extends GsfSimpleTag {
-
+    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.properties");
     private String name;
     private String property;
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
@@ -45,7 +48,11 @@ public final class GetPropertyAssetIdTag extends GsfSimpleTag {
         final ICS ics = getICS();
         PropertyDao propertyDao = AssetApiPropertyDao.getInstance(ics);
         Property p = propertyDao.getProperty(property);
-        getJspContext().setAttribute(name, p.asAssetId());
+        if (p != null) {
+            getJspContext().setAttribute(name, p.asAssetId());
+        } else {
+            LOG.info("Cannot find property: " + property + "'.");
+        }
         super.doTag();
     }
 
