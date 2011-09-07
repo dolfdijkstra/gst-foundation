@@ -242,7 +242,7 @@
             Property assets are of type and subtype GSTProperty  and have three fields/attributes: name, description, value.  Description is for human descriptive use only.
         </description>
         <name>get-property-assetid</name>
-        <tag-class>com.fatwire.gst.foundation.taglib.GetPropertyAssetId</tag-class>
+        <tag-class>com.fatwire.gst.foundation.taglib.GetPropertyAssetIdTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <description>the name of the output scripting variable</description>

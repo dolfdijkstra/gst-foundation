@@ -30,7 +30,7 @@ import com.fatwire.gst.foundation.properties.PropertyDao;
  * @author Tony Field
  * @since 11-09-02
  */
-public final class GetPropertyAssetId extends GsfSimpleTag {
+public final class GetPropertyAssetIdTag extends GsfSimpleTag {
 
     private String name;
     private String property;
