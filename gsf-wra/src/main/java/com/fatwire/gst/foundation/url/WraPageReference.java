@@ -131,7 +131,7 @@ public class WraPageReference extends PageRef {
                     if (currentEnvironment == null) {
                         log.debug("Not adding WraPathAssembler args because virtual webroot environment is not configured");
                     } else {
-                        log.debug("Not adding WraPathAssembler args because asset " + id + " does not have a path set.");
+                        log.debug("Not adding WraPathAssembler args because asset " + id + " is not web referenceable.");
                     }
                 }
             }
