@@ -63,7 +63,7 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
      * The assembler to use in case the input does not support the WRAPath
      * approach
      */
-    private final Assembler theBackupAssembler = new QueryAssembler();
+    private Assembler theBackupAssembler;
 
     /**
      * The pagename that is used when disassembling URLs
@@ -77,18 +77,46 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
      */
     private static List<String> EMBEDDED_PARAMS = Arrays.asList(PubConstants.PAGENAME, PubConstants.CHILDPAGENAME,
             VIRTUAL_WEBROOT, URL_PATH, PubConstants.c, PubConstants.cid);
+    /**
+     * Configuration property for overriding the default dispatcher pagename.  The default is GST/Dispatcher.
+     */
     public static final String DISPATCHER_PROPNAME = "com.fatwire.gst.foundation.url.wrapathassembler.dispatcher";
+
+    /**
+     * Configuration property for overriding the backup assembler.  URLs that can't be built using this assembler,
+     * that is, URLs for assets that are not WRAs (or for WRAs missing critical fields), are built
+     * using the backup assembler.  The default backup assembler is the standard QueryAssembler.
+     */
+    public static final String BACKUP_ASSEMBLER_PROPNAME = "com.fatwire.gst.foundation.url.wrapathassembler.backup-assembler";
 
     /**
      * Set properties, initializing the assembler
      * 
-     * @param properties
+     * @param properties configuration properties
      */
     public void setProperties(Properties properties) {
         super.setProperties(properties);
+        String backupAssemblerClass = getProperty(BACKUP_ASSEMBLER_PROPNAME, QueryAssembler.class.getName());
+        theBackupAssembler = _instantiateBackupAssembler(backupAssemblerClass);
         theBackupAssembler.setProperties(properties);
         pagename[0] = getProperty(DISPATCHER_PROPNAME, "GST/Dispatcher");
-        LOG.info("Initialized " + WraPathAssembler.class + " with properties " + properties);
+        LOG.info("Initialized " + WraPathAssembler.class + " with backup assembler "+backupAssemblerClass+" using properties " + properties);
+    }
+
+    private Assembler _instantiateBackupAssembler(String classname) {
+        try {
+            Class c = Class.forName(classname);
+            Object o = c.newInstance();
+            return (Assembler) o;
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Illegal class name for backup assembler: "+classname, e);
+        } catch (InstantiationException e) {
+            throw new IllegalStateException("Could not instantiate backup assembler: "+classname, e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException("Could not instantiate backup assembler: "+classname, e);
+        } catch (ClassCastException e ) {
+            throw new IllegalArgumentException("Backup assembler class is not an instance of Assembler: "+classname, e);
+        }
     }
 
     /**
