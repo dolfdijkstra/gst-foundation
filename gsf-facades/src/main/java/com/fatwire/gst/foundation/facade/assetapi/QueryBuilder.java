@@ -39,6 +39,8 @@ import com.fatwire.assetapi.query.SortOrder;
 
 public class QueryBuilder {
 
+    private static final String INITIALIZE_FIRST_MSG = "Condition not initialized.  Please set the condition first with QueryBuilder.condition(...).";
+            
     private SimpleQuery query;
 
     private QueryProperties props() {
@@ -325,150 +327,196 @@ public class QueryBuilder {
 
     public QueryBuilder or(String attName, OpTypeEnum opType, String value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Date value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Integer value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Float value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Long value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, List<String> value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, List<String> value, boolean containsAll) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Date value, boolean caseSensiive, boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Integer value, boolean caseSensiive, boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Float value, boolean caseSensiive, boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, Long value, boolean caseSensiive, boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder or(String attName, OpTypeEnum opType, List<String> value, boolean caseSensiive,
             boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().or(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.or(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, String value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Date value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Integer value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Float value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Long value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, List<String> value) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, List<String> value, boolean containsAll) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Date value, boolean caseSensiive, boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Integer value, boolean caseSensiive,
             boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Float value, boolean caseSensiive, boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, Long value, boolean caseSensiive, boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().and(cond);
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
     }
 
     public QueryBuilder and(String attName, OpTypeEnum opType, List<String> value, boolean caseSensiive,
             boolean immediateOnly) {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
-        query.getCondition().and(cond);
-
+        Condition qc = query.getCondition();
+        if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
+        qc.and(cond);
         return this;
-
     }
 }
