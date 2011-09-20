@@ -105,12 +105,4 @@ public class AssetChildrenTag extends GsfSimpleTag {
         this.cid = Long.parseLong(cid);
     }
 
-    /**
-     * @param id the AssetId to set
-     */
-    public void setCid(final AssetId id) {
-        this.cid = id.getId();
-        c = id.getType();
-    }
-
 }

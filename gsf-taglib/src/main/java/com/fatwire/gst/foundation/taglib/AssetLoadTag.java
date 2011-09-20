@@ -87,11 +87,6 @@ public class AssetLoadTag extends GsfSimpleTag {
         this.cid = cid;
     }
 
-    public void setCid(final AssetId cid) {
-        this.cid = cid.getId();
-        this.c = cid.getType();
-    }
-
     /**
      * @param attributes the attributes to set
      */

@@ -108,7 +108,7 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <description>the assetid</description>
+            <description>The assetid.  Could be a String or long.</description>
             <name>cid</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
@@ -138,7 +138,7 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <description>The assetid.  Could be a String, long, or AssetId.</description>
+            <description>The assetid.  Could be a String or long.</description>
             <name>cid</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
@@ -258,7 +258,7 @@
         </attribute>
     </tag>
     <tag>
-        <description>Tag to expose the asset id part of a property of any type to a JSP EL. 
+        <description>Tag to expose the asset id part of a property of any type to a JSP EL.
             Property assets are of type and subtype GSTProperty  and have three fields/attributes: name, description, value.  Description is for human descriptive use only.
         </description>
         <name>get-property</name>
