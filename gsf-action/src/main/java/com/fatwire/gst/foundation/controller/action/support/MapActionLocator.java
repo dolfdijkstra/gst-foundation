@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 2011-03-15
  */
 
-public abstract class MapActionLocator extends BaseActionLocator {
+public class MapActionLocator extends BaseActionLocator {
 
     protected static final Log LOG = LogFactory.getLog(MapActionLocator.class.getPackage().getName());
     private Map<String, Action> commandActionMap = new HashMap<String, Action>();
