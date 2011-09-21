@@ -152,15 +152,19 @@ public final class TranslateListTag extends GsfSimpleTag {
         if (localeId != -1L) {
             DimensionManager dm = DimensionUtils.getDM(ics);
             Dimension d = dm.loadDimension(localeId);
-            LOG.trace("Preferred locale explicitly set to " + localeId);
-            return Collections.singletonList(d.getId());
+            if (d != null) {
+                LOG.trace("Preferred locale explicitly set to " + localeId);
+                return Collections.singletonList(d.getId());
+            }
         }
 
         // next, check for explicitly specified by name
         if (localeName != null) {
             Dimension d = DimensionUtils.getDimensionForName(ics, localeName);
-            LOG.trace("Preferred locale explicitly set to " + localeName);
-            return Collections.singletonList(d.getId());
+            if (d != null) {
+                LOG.trace("Preferred locale explicitly set to " + localeName);
+                return Collections.singletonList(d.getId());
+            }
         }
 
         // next, check for implicitly specified by ID using locale variable
@@ -169,14 +173,18 @@ public final class TranslateListTag extends GsfSimpleTag {
             long localeIdFromVar = Long.parseLong(localeVar);
             DimensionManager dm = DimensionUtils.getDM(ics);
             Dimension d = dm.loadDimension(localeIdFromVar);
-            LOG.trace("Preferred locale detected in ICS context using 'locale' variable: " + localeIdFromVar);
-            return Collections.singletonList(d.getId());
+            if (d != null) {
+                LOG.trace("Preferred locale detected in ICS context using 'locale' variable: " + localeIdFromVar);
+                return Collections.singletonList(d.getId());
+            }
         } catch (NumberFormatException e) {
             // maybe it's a locale name...
             try {
                 Dimension d = DimensionUtils.getDimensionForName(ics, localeVar);
-                LOG.trace("Preferred locale detected in ICS context using 'locale' variable: " + localeVar);
-                return Collections.singletonList(d.getId());
+                if (d != null) {
+                    LOG.trace("Preferred locale detected in ICS context using 'locale' variable: " + localeVar);
+                    return Collections.singletonList(d.getId());
+                }
             } catch (Exception ex) {
                 // nope... don't worry, we'll find it....
             }
@@ -188,14 +196,18 @@ public final class TranslateListTag extends GsfSimpleTag {
             long localeIdFromSSVar = Long.parseLong(localeSSVar);
             DimensionManager dm = DimensionUtils.getDM(ics);
             Dimension d = dm.loadDimension(localeIdFromSSVar);
-            LOG.trace("Preferred locale detected in ICS context using 'locale' session variable: " + localeIdFromSSVar);
-            return Collections.singletonList(d.getId());
+            if (d != null) {
+                LOG.trace("Preferred locale detected in ICS context using 'locale' session variable: " + localeIdFromSSVar);
+                return Collections.singletonList(d.getId());
+            }
         } catch (NumberFormatException e) {
             // maybe it's a locale name...
             try {
                 Dimension d = DimensionUtils.getDimensionForName(ics, localeSSVar);
-                LOG.trace("Preferred locale detected in ICS context using 'locale' session variable: " + localeSSVar);
-                return Collections.singletonList(d.getId());
+                if (d != null) {
+                    LOG.trace("Preferred locale detected in ICS context using 'locale' session variable: " + localeSSVar);
+                    return Collections.singletonList(d.getId());
+                }
             } catch (Exception ex) {
                 // nope... don't worry, we'll find it....
             }
