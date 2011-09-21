@@ -19,6 +19,8 @@ package com.fatwire.gst.foundation.controller.action.support;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Factory;
+import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
+import com.fatwire.gst.foundation.properties.PropertyDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
@@ -70,6 +72,9 @@ public class IcsBackedObjectFactory implements Factory {
         if (WraPathTranslationService.class.isAssignableFrom(fieldType)) {
             return WraPathTranslationServiceFactory.getService(ics);
         }
+//        if (PropertyDao.class.isAssignableFrom(fieldType)) {
+//            return AssetApiPropertyDao.getInstance(ics);
+//        }
         return null;
     }
 
