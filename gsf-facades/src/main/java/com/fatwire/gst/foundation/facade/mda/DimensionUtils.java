@@ -17,12 +17,16 @@
 package com.fatwire.gst.foundation.facade.mda;
 
 import java.util.Collection;
+import java.util.List;
 
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.mda.Dimension;
+import com.fatwire.mda.DimensionException;
+import com.fatwire.mda.DimensionFilterInstance;
 import com.fatwire.mda.DimensionManager;
+import com.fatwire.mda.DimensionSetInstance;
 import com.fatwire.mda.DimensionableAssetManager;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
@@ -75,7 +79,6 @@ public final class DimensionUtils {
      * Return the dimension of the input asset that corresponds to its locale.
      * If the asset does not have a locale set, returns null
      * 
-     * @param ics context
      * @param id asset
      * @return locale dimension or null
      */
@@ -135,5 +138,24 @@ public final class DimensionUtils {
      */
     public static String getNameForDimensionId(ICS ics, long dimensionid) {
         return getDM(ics).loadDimension(dimensionid).getName();
+    }
+
+    /**
+     * Main dimension filtering method.  Accesses the filter in the dimension set, configures it with the preferred
+     * dimension IDs, then filters the input assets.
+     *
+     * @param dimensionManager      manager class for Dimension lookups
+     * @param toFilterList          list of input assets that need to be filtered.  Often it's just one, but a list is perfectly valid.
+     * @param preferredDimensionIds preferred dimensions to be investigated for a result. Priority preference depends on the
+     *                              configured filter
+     * @param dimSet                DimensionSet to use for filtering.
+     * @return list of assets based on the filtering rules in the dimension filter from the specified dimension set.
+     * @throws DimensionException in case something goes terribly wrong.
+     */
+    public static Collection<AssetId> filterAssets(DimensionManager dimensionManager, List<AssetId> toFilterList, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
+        List<Dimension> preferredDimensions = dimensionManager.loadDimensions(preferredDimensionIds);
+        DimensionFilterInstance filter = dimSet.getFilter();
+        filter.setDimensonPreference(preferredDimensions);
+        return filter.filterAssets(toFilterList);
     }
 }

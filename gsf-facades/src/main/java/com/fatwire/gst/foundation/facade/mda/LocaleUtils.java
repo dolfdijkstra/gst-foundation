@@ -19,15 +19,18 @@ package com.fatwire.gst.foundation.facade.mda;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
+import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetLoadByName;
@@ -213,7 +216,7 @@ public final class LocaleUtils {
         // *****************************************************************************
         // The core business logic of this helper class is encapsulated in these
         // 3 lines
-        DimensionSetInstance dimset = _getDimensionSet(ics, dimensionSetId);
+        DimensionSetInstance dimset = getDimensionSet(ics, dimensionSetId);
         return findTranslation(ics, id, preferredDimension, dimset);
 
     }
@@ -276,13 +279,9 @@ public final class LocaleUtils {
      */
     public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, DimensionSetInstance dimset)
             throws IllegalStateException {
-        Session ses = SessionFactory.getSession(ics);
-        DimensionableAssetManager mgr = (DimensionableAssetManager) ses.getManager(DimensionableAssetManager.class
-                .getName());
-
-        DimensionFilterInstance filter = _getPopulatedDimensionFilter(ses, dimset, preferredDimension);
-        // Get the relatives using the appropriate filter
-        Collection<AssetId> relatives = mgr.getRelatives(id, filter, "Locale");
+        AssetId preferredDim = new AssetIdImpl("DimensionSet", preferredDimension);
+        List<AssetId> preferredDims = Collections.singletonList(preferredDim);
+        Collection<AssetId> relatives = findTranslation(DimensionUtils.getDM(ics), Collections.singletonList(id), preferredDims, dimset );
         // *****************************************************************************
 
         // make the result pretty
@@ -316,6 +315,26 @@ public final class LocaleUtils {
                             + " and that is not supposed to be possible.");
                 }
             }
+        }
+    }
+
+
+    /**
+     * Main translation lookup method.  Accesses the filter in the dimension set, configures it with the preferred
+     * dimension IDs, then filters the input assets.
+     * @param dimensionManager manager class for Dimension lookups
+     * @param toFilterList list of input assets that need to be translated.  Often it's just one, but a list is perfectly valid.
+     * @param preferredDimensionIds preferred dimensions to be investigated for a result. Priority preference depends on the
+     * configured filter
+     * @param dimSet DimensionSet to use for filtering.
+     * @return list of assets based on the translation rules in the dimension filter from the specified dimension set.
+     *
+     */
+    public static Collection<AssetId> findTranslation(DimensionManager dimensionManager, List<AssetId> toFilterList, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) {
+        try {
+            return DimensionUtils.filterAssets(dimensionManager, toFilterList, preferredDimensionIds, dimSet);
+        } catch (DimensionException e) {
+            throw new CSRuntimeException("Failed to translate assets.  Input assets:"+toFilterList+", Preferred Dimensions: "+preferredDimensionIds+", DimensionSet:"+dimSet, ftErrors.exceptionerr, e);
         }
     }
 
@@ -407,7 +426,7 @@ public final class LocaleUtils {
         return filter;
     }
 
-    private static DimensionSetInstance _getDimensionSet(ICS ics, long theDimSetId) {
+    public static DimensionSetInstance getDimensionSet(ICS ics, long theDimSetId) {
         final String DIMSET_OBJ_NAME = "LocaleUtils:findTranslation:theDimensionSet:DimensionSet";
 
         // Load the site-specific DimensionSet asset

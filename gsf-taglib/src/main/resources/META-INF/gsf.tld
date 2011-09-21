@@ -325,4 +325,47 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+    <tag>
+        <description>Tag to translate the results of a recommendation call (or any other list containing
+            assettype,assetid columns.  If the dimensionset cannot be found, or if the locale is not found,
+           the original list is returned.  The outlist is also set into the page context for iteration, as
+           an instance of List(AssetId) with the name corresponding to outlist (or inlist if outlist is not set).
+
+        Typical usage, therefore, is [gsf:translate-list inlist="recoList", dimset="global" /] or
+            [gsf:translate-list inlist="recoList" dimset="1231243278234" locale="en_US" outlist="translatedList"/]
+            [gsf:translate-list inlist="recoList" dimset="global" locale="11123323235792"/]
+        or other similar variants.
+        </description>
+        <name>translate-list</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.TranslateListTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Name of input list in ICS context.  Must have columns assettype,assetid.  Other columns are ignored.</description>
+            <name>inlist</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Name of dimension set in String form, or ID of dimension set in String form.</description>
+            <name>dimset</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Preferred locale.  Can be either a String corresponding to the name of the dimension, or a
+                String corresponding to the ID of the dimension.  If not specified, an attempt to locate the
+                locale in the context is made.</description>
+            <name>locale</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Name of output list object in the ICS context.  Will have columns assettype,assetid.  The
+                number and contents of other columns is not specified.  If this attribute is not specified, the inlist
+                will be replaced by this list.  The name must be compatible with EL syntax.</description>
+            <name>outlist</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>
