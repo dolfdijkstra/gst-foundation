@@ -90,6 +90,54 @@
         </attribute>
     </tag>
     <tag>
+        <description>Given an asset, return the tags for that asset in list form.</description>
+        <name>get-tags</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.GetTagsTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>the name of the loaded asset as JSP page attribute</description>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>the assettype</description>
+            <name>c</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The assetid.  Could be a String or long.</description>
+            <name>cid</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <description>Given an asset, return the tags, converted to AssetIds, for that asset in list form.</description>
+        <name>get-asset-tags</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.GetAssetTagsTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>the name of the loaded asset as JSP page attribute</description>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>the assettype</description>
+            <name>c</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The assetid.  Could be a String or long.</description>
+            <name>cid</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
         <description>Loads an asset. It puts a TemplateAsset on the page scope with 
         the variable key as provided by the 'name' attribute.</description>
         <name>asset-load</name>
