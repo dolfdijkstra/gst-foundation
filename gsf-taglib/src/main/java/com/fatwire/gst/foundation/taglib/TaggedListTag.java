@@ -66,9 +66,8 @@ public final class TaggedListTag extends GsfSimpleTag {
         final ICS ics = getICS();
         final AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag(tag));
-        // todo: medium; return a collection on jsp context for use with jstl
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
-
+        getJspContext().setAttribute(outlist, ids);
         super.doTag();
     }
 }

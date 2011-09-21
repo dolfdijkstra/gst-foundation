@@ -82,7 +82,7 @@ public final class AssetTaggedListTag extends GsfSimpleTag {
         final AssetTaggingService svc = new TableTaggingServiceImpl(ics);
         final Collection<AssetId> ids = svc.lookupTaggedAssets(TagUtils.asTag("asset-" + assetid + ":" + assettype));
         ics.RegisterList(outlist, new AssetIdIList(outlist, ids));
-
+        getJspContext().setAttribute(outlist, ids);
         super.doTag();
     }
 

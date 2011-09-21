@@ -47,7 +47,7 @@
     </tag>
     <tag>
         <description>Given an input tag, returns an Collection of AssetIds for any assets 
-        found that match the specified tag.</description>
+        found that match the specified tag.  The result is also stored in the jsp context using the name outlist.</description>
         <name>tagged-assets</name>
         <tag-class>com.fatwire.gst.foundation.taglib.TaggedAssetsTag</tag-class>
         <body-content>empty</body-content>
@@ -66,7 +66,8 @@
     </tag>
     <tag>
         <description> Given an input assettype and assetid, convert it into a tag string format and return an IList with
-    ASSETTYPE,ASSETID as columns for any assets found that match the specified tag.</description>
+    ASSETTYPE,ASSETID as columns for any assets found that match the specified tag.  The result is also stored in
+        the jsp context using the name outlist.</description>
         <name>asset-tagged-list</name>
         <tag-class>com.fatwire.gst.foundation.taglib.AssetTaggedListTag</tag-class>
         <body-content>tagdependent</body-content>
