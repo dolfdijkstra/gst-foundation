@@ -73,7 +73,7 @@ public class PageTag extends GsfRootTag {
         if (action != null) {
             final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
             final ActionLocator locator = getActionLocator();
-
+            if (locator == null)  throw new IllegalStateException("The ActionLocator cannot be found.");
             final Action a = locator.getAction(ics, action);
 
             if (a != null) {
@@ -96,7 +96,7 @@ public class PageTag extends GsfRootTag {
                     DebugHelper.printTime(LOG_TIME, "Executing Action " + a.getClass().getName(), beforeHandleRequest);
                 }
             } else {
-                throw new IllegalArgumentException("Action with name '" + action + "' can't be found.");
+                throw new IllegalArgumentException("Action with name '" + action + "' cannot be found.");
             }
 
         }
