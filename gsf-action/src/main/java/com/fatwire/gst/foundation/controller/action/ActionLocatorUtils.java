@@ -70,6 +70,7 @@ public final class ActionLocatorUtils {
                 LOG.trace("Using actionLocatorBean as configured: " + locator.getClass().getName());
             }
         } else {
+            LOG.warn("Cannot find the '" + beanName + "' bean in the Spring WebApplicationContext: " + wac.toString());
             locator = null;
         }
         return locator;
