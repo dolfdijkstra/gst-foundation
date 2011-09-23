@@ -43,8 +43,8 @@ public final class AssetApiPropertyDao implements PropertyDao {
     public static final String TYPE = "GSTProperty";
     public static final String SUBTYPE = "GSTProperty";
     private static final Query LOAD_ALL_QRY = new QueryBuilder(TYPE, SUBTYPE)
-            .attributes("name", "description", "value").condition("status", OpTypeEnum.NOT_EQUALS, "VO").setBasicSearch(true)
-            .toQuery();
+            .attributes("name", "description", "value").condition("status", OpTypeEnum.NOT_EQUALS, "VO")
+            .setBasicSearch(true).toQuery();
 
     private final Map<String, Property> _props;
 
@@ -54,7 +54,7 @@ public final class AssetApiPropertyDao implements PropertyDao {
         }
 
         Object o = ics.GetObj(PropertyDao.class.getName());
-        if (o == null) {
+        if (o instanceof PropertyDao == false) {
             o = newInstance(ics);
             ics.SetObj(PropertyDao.class.getName(), o);
         }

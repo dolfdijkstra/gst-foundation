@@ -103,7 +103,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         // to cache.
         // TODO:medium, figure out if this should be done more elegantly. It
         // seems that scoping logic is
-        // brough into the factory, that might be a bad thing.
+        // brought into the factory, that might be a bad thing.
         if (Model.class.isAssignableFrom(c)) {
             return false;
         }
@@ -170,11 +170,10 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         return new AssetApiAliasCoreFieldDao(ics, wraCoreFieldDao);
     }
 
-//    public PropertyDao createPropertyDao(final ICS ics) {
-//        final PropertyDao propertyDao = locate(PropertyDao.class, ics);
-//        return AssetApiPropertyDao.getInstance(ics);
-//    }
-//
+    public PropertyDao createPropertyDao(final ICS ics) {
+        return AssetApiPropertyDao.newInstance(ics);
+    }
+
     public WraPathTranslationService createWraPathTranslationService(final ICS ics) {
         return WraPathTranslationServiceFactory.getService(ics);
     }

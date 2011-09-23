@@ -29,7 +29,6 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
-import com.fatwire.gst.foundation.properties.PropertyDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
@@ -55,8 +54,6 @@ public class RenderPage implements Action {
 
     @InjectForRequest
     protected ICS ics;
-//    @InjectForRequest
-//    protected PropertyDao propertyDao;
     @InjectForRequest
     protected WraCoreFieldDao wraCoreFieldDao;
     @InjectForRequest
