@@ -65,7 +65,7 @@ public class RenderPage implements Action {
 
         final AssetIdWithSite id = resolveAssetId();
         if (id == null || id.getSite() == null) {
-            throw new CSRuntimeException("Asset or site not found: " + id, ftErrors.pagenotfound);
+            throw new CSRuntimeException("Asset or site not found: '" + id +"' for url " + ics.pageURL(), ftErrors.pagenotfound);
         }
         LOG.debug("RenderPage found a valid asset and site: " + id);
 
