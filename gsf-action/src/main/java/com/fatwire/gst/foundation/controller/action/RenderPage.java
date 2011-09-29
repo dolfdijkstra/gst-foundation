@@ -184,6 +184,9 @@ public class RenderPage implements Action {
         final AssetIdWithSite id;
         if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
             id = wraPathTranslationService.resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
+            if (id == null) {
+                throw new CSRuntimeException("WraPathTranslationService could not find a matching asset for virtual-webroot: "+ics.GetVar("virtual-webroot")+" and url-path: "+ics.GetVar("url-path"), ftErrors.pagenotfound);
+            }
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
