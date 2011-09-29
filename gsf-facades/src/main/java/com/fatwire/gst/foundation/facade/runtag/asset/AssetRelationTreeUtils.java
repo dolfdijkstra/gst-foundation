@@ -66,7 +66,9 @@ public final class AssetRelationTreeUtils {
             if (errno < 0) {
                 switch (errno) {
                     case -111:
-                        log.trace("Node not found in AssetRelationTree for asset " + child);
+                        if (log != null && log.isTraceEnabled()) {
+                            log.trace("Node not found in AssetRelationTree for asset " + child);
+                        }
                         return Collections.emptyList();
                     default: {
                         throw new CSRuntimeException("Failed to look up asset " + child + " in AssetRelationTree.",
