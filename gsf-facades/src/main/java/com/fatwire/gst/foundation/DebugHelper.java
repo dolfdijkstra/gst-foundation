@@ -19,6 +19,8 @@ package com.fatwire.gst.foundation;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
@@ -68,6 +70,26 @@ public final class DebugHelper {
                 log.debug("ICS variable: " + n + "=" + ics.GetVar(n));
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void dumpVars(final ICS ics, final PrintWriter pw) {
+
+        for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements();) {
+            final String n = e.nextElement();
+            pw.println("ICS variable: " + n + "=" + ics.GetVar(n));
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void dumpSSVars(final ICS ics, final PrintWriter pw) {
+
+        for (final Enumeration<String> e = ics.GetSSVars(); e.hasMoreElements();) {
+            final String n = e.nextElement();
+            pw.println("session variable: " + n + "=" + ics.GetSSVar(n));
+        }
+
     }
 
     /**
@@ -211,8 +233,9 @@ public final class DebugHelper {
      */
     @SuppressWarnings("unchecked")
     public static String printAsset(final AssetData ad) throws AssetAccessException {
-        if (ad == null)
+        if (ad == null) {
             return null;
+        }
         final StringWriter sw = new StringWriter();
         final PrintWriter out = new PrintWriter(sw);
         out.println(ad.getAssetId() + " '" + ad.getAssetTypeDef().getName() + "' '" + ad.getAssetTypeDef().getSubtype()
@@ -259,7 +282,7 @@ public final class DebugHelper {
                     out.println("NULL BLOB");
                 }
             } else {
-                Object data = attr.getData();
+                final Object data = attr.getData();
                 if (data != null) {
                     out.print(" (" + data.getClass().getName() + ") ");
                     out.println(data);
@@ -350,8 +373,9 @@ public final class DebugHelper {
      * @return a string with the message and the stacktrace.
      */
     public static String toString(final Throwable t) {
-        if (t == null)
+        if (t == null) {
             return "null";
+        }
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw);
         t.printStackTrace(pw);
@@ -374,5 +398,119 @@ public final class DebugHelper {
         } else {
             throw new IllegalArgumentException("Writer cannot be null.");
         }
+    }
+
+    /**
+     * Dumps to current ICS state (Content Server variables, session
+     * variables,ICS objects,elementname,page url and stacktrace) as a String.
+     * 
+     * @param ics
+     * @return the state of ICS.
+     */
+    public static String printState(final ICS ics) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw);
+        pw.println("page url: " + ics.pageURL());
+        pw.println("elementname: " + ics.ResolveVariables("CS.elementname"));
+        pw.println();
+        dumpVars(ics, pw);
+        pw.println();
+        dumpSSVars(ics, pw);
+        pw.println();
+        dumpObjects(ics, pw);
+        pw.println();
+        dumpAttributes(ics, pw);
+        pw.println();
+        dumpHttpHeaders(ics, pw);
+        pw.println();
+        dumpCgiVars(ics, pw);
+
+        pw.println();
+        for (final StackTraceElement e : Thread.currentThread().getStackTrace()) {
+            pw.println("  at " + e.toString());
+        }
+
+        return sw.toString();
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void dumpAttributes(final ICS ics, final PrintWriter pw) {
+        for (final Enumeration<String> e = ics.getAttributeNames(); e.hasMoreElements();) {
+            final String n = e.nextElement();
+            pw.println("request attribute: " + n + "=" + ics.getAttribute(n));
+        }
+
+    }
+
+    @SuppressWarnings({ "unchecked", "deprecation" })
+    private static void dumpHttpHeaders(final ICS ics, final PrintWriter pw) {
+
+        try {
+            for (Enumeration<String> e = ics.getIServlet().getServletRequest().getHeaderNames(); e.hasMoreElements();) {
+                String n = e.nextElement();
+                pw.println("http header: " + n + "=" + ics.ResolveVariables("CS.Header." + n));
+            }
+        } catch (Exception e) {
+            LOG.warn(e.getMessage());
+        }
+    }
+
+    private static void dumpCgiVars(final ICS ics, final PrintWriter pw) {
+        String[] headers = { "CS.Browser", "CS.HTTPS", "CS.PATH_INFO", "CS.QUERY_STRING", "CS.REMOTE_ADDR",
+                "CS.REMOTE_HOST", "CS.REQUEST_METHOD", "CS.SERVER_NAME", "CS.SERVER_PORT", "CS.SERVER_PROTOCOL" };
+        for (String n : headers) {
+            pw.println("cgi var: " + n + "=" + ics.ResolveVariables(n));
+        }
+    }
+
+    private String printClassOrder(Class c) {
+        StringBuilder b = new StringBuilder();
+        b.append("class " + c.getName());
+
+        if (c.isInterface()) {
+            b.append(" is an interface");
+        }
+        Class<?>[] interfaces = c.getInterfaces();
+        if (interfaces.length > 0) {
+            for (Class<?> i : interfaces) {
+                b.append(" ");
+                b.append(i.getName());
+                b.append(",");
+            }
+        }
+        Class<?> s = c.getSuperclass();
+        while (s != null) {
+            b.append(" extends " + s.getName());
+            s = c.getSuperclass();
+        }
+        return b.toString();
+    }
+
+    private static void dumpObjects(final ICS ics, final PrintWriter pw) {
+        for (final Method m : ics.getClass().getMethods()) {
+            final Class<?> c = m.getReturnType();
+
+            if (m.getParameterTypes().length == 0 && Collection.class.isAssignableFrom(c)) {
+                Object o;
+                try {
+                    o = m.invoke(ics, new Object[0]);
+                    if (o instanceof Collection) {
+                        for (final String x : (Collection<String>) o) {
+                            Object obj = ics.GetObj(x);
+                            pw.println("object name: '" + x + "' is a "
+                                    + (obj == null ? "null" : obj.getClass().getName()));
+                        }
+                    }
+                } catch (final IllegalArgumentException e1) {
+                    LOG.warn(e1.getMessage());
+                } catch (final IllegalAccessException e1) {
+                    LOG.warn(e1.getMessage());
+                } catch (final InvocationTargetException e1) {
+                    LOG.warn(e1.getMessage());
+                }
+            }
+        }
+
     }
 }
