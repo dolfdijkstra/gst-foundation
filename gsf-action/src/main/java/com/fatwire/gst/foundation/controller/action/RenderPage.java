@@ -119,7 +119,7 @@ public class RenderPage implements Action {
         ct.setArgument("site", id.getSite());
 
         final String packedargs = ics.GetVar("packedargs");
-        if (packedargs != null && packedargs.length() > 0) {
+        if (StringUtils.isNotBlank(packedargs)) {
             ct.setPackedargs(packedargs);
         }
 
@@ -185,7 +185,7 @@ public class RenderPage implements Action {
         if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
             id = wraPathTranslationService.resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
             if (id == null) {
-                throw new CSRuntimeException("WraPathTranslationService could not find a matching asset for virtual-webroot: "+ics.GetVar("virtual-webroot")+" and url-path: "+ics.GetVar("url-path"), ftErrors.pagenotfound);
+                throw new CSRuntimeException("WraPathTranslationService could not find a matching asset for virtual-webroot: '"+ics.GetVar("virtual-webroot")+"' and url-path: '"+ics.GetVar("url-path")+"'.", ftErrors.pagenotfound);
             }
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
