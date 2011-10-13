@@ -79,6 +79,10 @@ public abstract class AbstractActionController extends AbstractController {
 
     @Override
     protected final void handleException(final Exception e) {
+        if (LOG.isTraceEnabled()) {
+            // Give developer a clue in case error pages aren't configured properly. 
+            LOG.trace("Action threw an exception and an error code will be returned.  Exception: "+e, e);
+        }
         if (e instanceof CSRuntimeException) {
             handleCSRuntimeException((CSRuntimeException) e);
         } else {
