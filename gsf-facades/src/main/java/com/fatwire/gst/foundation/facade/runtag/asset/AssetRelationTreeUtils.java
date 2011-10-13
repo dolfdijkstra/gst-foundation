@@ -17,7 +17,10 @@
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import COM.FutureTense.Interfaces.FTValList;
@@ -27,35 +30,46 @@ import COM.FutureTense.Util.IterableIListWrapper;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
+import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
+import com.fatwire.gst.foundation.facade.sql.Row;
+import com.fatwire.gst.foundation.facade.sql.TreeHelper;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+import com.openmarket.xcelerate.publish.Render;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import static com.fatwire.gst.foundation.IListUtils.getStringValue;
 
 /**
  * Utilities for working efficiently with the AssetRelationTree.
- * 
+ *
  * @author Tony Field
  * @since Jun 7, 2009
  */
 public final class AssetRelationTreeUtils {
+
+    private static final Log LOG = LogFactory.getLog(AssetRelationTreeUtils.class);
+
     /**
      * Get all of the parent assets in the AssetRelationTree for the specified
      * asset. Association name is required, but expectedParentType is an
      * optional filter argument.
-     * 
-     * @param ics ICS context
-     * @param log logger. May be null.
-     * @param child child asset id
+     * <p/>
+     * Does not record any asset dependencies
+     *
+     * @param ics                ICS context
+     * @param log                logger. May be null.
+     * @param child              child asset id
      * @param expectedParentType asset type of the parent to be returned. If
-     *            null, type of parent is irrelevant.
-     * @param associationName name of association to use while looking for
-     *            parents. may not be null
+     *                           null, type of parent is irrelevant.
+     * @param associationName    name of association to use while looking for
+     *                           parents. may not be null
      * @return list of parents, never null.
+     * @see #getParents(ICS, AssetId, String[])
      */
-    public static List<AssetId> getAssetRelationTreeParents(ICS ics, Log log, AssetId child, String expectedParentType,
-            String associationName) {
+    public static List<AssetId> getAssetRelationTreeParents(ICS ics, Log log, AssetId child, String expectedParentType, String associationName) {
         FTValList vl = new FTValList();
         vl.setValString("ftcmd", "findnode");
         vl.setValString("treename", "AssetRelationTree");
@@ -71,8 +85,7 @@ public final class AssetRelationTreeUtils {
                         }
                         return Collections.emptyList();
                     default: {
-                        throw new CSRuntimeException("Failed to look up asset " + child + " in AssetRelationTree.",
-                                errno);
+                        throw new CSRuntimeException("Failed to look up asset " + child + " in AssetRelationTree.", errno);
                     }
                 }
             }
@@ -95,8 +108,7 @@ public final class AssetRelationTreeUtils {
                         String nid = getStringValue(row, "nid");
                         String ncode = getStringValue(row, "ncode");
                         if (log != null && log.isTraceEnabled()) {
-                            log.trace("Found " + child + " in AssetRelationTree.  Node ID: " + nid + ", ncode: "
-                                    + ncode + ", expecting ncode: " + associationName);
+                            log.trace("Found " + child + " in AssetRelationTree.  Node ID: " + nid + ", ncode: " + ncode + ", expecting ncode: " + associationName);
                         }
                         if (associationName.equals(ncode)) {
                             childNodeIds.add(getStringValue(row, "nid"));
@@ -112,8 +124,7 @@ public final class AssetRelationTreeUtils {
                     if (ics.TreeManager(vl) && ics.GetErrno() >= 0) {
                         art = ics.GetList("AssetRelationTree");
                         ics.RegisterList("AssetRelationTree", null);
-                        AssetId parent = new AssetIdImpl(getStringValue(art, "otype"), Long.valueOf(getStringValue(art,
-                                "oid")));
+                        AssetId parent = new AssetIdImpl(getStringValue(art, "otype"), Long.valueOf(getStringValue(art, "oid")));
                         if (log != null && log.isTraceEnabled()) {
                             log.trace(child + " in AssetRelationTree has a parent " + parent);
                         }
@@ -124,15 +135,12 @@ public final class AssetRelationTreeUtils {
                                 parents.add(parent);
                             } else {
                                 if (log != null && log.isDebugEnabled()) {
-                                    log.debug("Parent " + parent + " is not of the expected type ("
-                                            + expectedParentType
-                                            + ") so it is being excluded from the return list for child: " + child);
+                                    log.debug("Parent " + parent + " is not of the expected type (" + expectedParentType + ") so it is being excluded from the return list for child: " + child);
                                 }
                             }
                         }
                     } else {
-                        throw new CSRuntimeException("Failed to look up parent of article " + child
-                                + " in AssetRelationTree.  TreeManager call failed unexpectedly", ics.GetErrno());
+                        throw new CSRuntimeException("Failed to look up parent of article " + child + " in AssetRelationTree.  TreeManager call failed unexpectedly", ics.GetErrno());
                     }
 
                 }
@@ -140,8 +148,62 @@ public final class AssetRelationTreeUtils {
 
             return parents;
         } else {
-            throw new CSRuntimeException("Failed to look up article " + child
-                    + " in AssetRelationTree.  TreeManager call failed unexpectedly", ics.GetErrno());
+            throw new CSRuntimeException("Failed to look up article " + child + " in AssetRelationTree.  TreeManager call failed unexpectedly", ics.GetErrno());
         }
+    }
+
+    /**
+     * Look up parents in Asset Relation Tree for the specified child.  Records asset dependencies as required (either a
+     * qualified or an unqualified unknowndeps).
+     *
+     * @param ics             context
+     * @param child           asset id that will have its parents retrieved
+     * @param associationName name of association to use for lookup.  May not ever be null.
+     * @return list of parents, never null.
+     */
+    public static Collection<AssetId> getParents(ICS ics, AssetId child, String... associationName) {
+
+        // validate input
+        if (ics == null) throw new IllegalArgumentException("ICS cannot be null");
+        if (child == null) throw new IllegalArgumentException("Child asset id is required");
+        if (associationName == null) throw new IllegalArgumentException("Association namme may not be null");
+
+        List<String> assocNames = Arrays.asList(associationName); // so lame...
+
+        Collection<AssetId> parents = new HashSet<AssetId>();
+
+        for (Row childInfo : TreeHelper.findNode(ics, "AssetRelationTree", child)) {
+
+            // right assoc name?
+            String ncode = childInfo.getString("ncode");
+            if (!assocNames.contains(ncode)) {
+                if (LOG.isTraceEnabled())
+                    LOG.trace("Asset " + child + " with node " + childInfo.getString("nid") + " is not the child of any other asset using the association name " + assocNames + ". (This node is for the name " + ncode + ".)");
+                // nope...
+                continue;
+            }
+
+            // Yup. Find its parent.
+            for (Row parentInfo : TreeHelper.findParents(ics, "AssetRelationTree", childInfo.getString("nid"))) {
+                AssetId parent = AssetIdUtils.createAssetId(parentInfo.getString("otype"), parentInfo.getString("oid"));
+                if (LOG.isTraceEnabled())
+                    LOG.trace("Found parent " + parent + " of child " + child + " with association name " + ncode);
+                parents.add(parent);
+            }
+        }
+
+        // log dep on child asset
+        LogDep.logDep(ics, child);
+
+        // log dep on context
+        // todo: inspect the specified association definitions in "associationName" and only
+        // record asset-type specific deps instead of unknowndep if possible
+        Render.UnknownDeps(ics);
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Looked up child asset " + child + " in AssetRelationTree for parents with the association names " + Arrays.asList(associationName) + " and found " + parents.size() + " results.  Details: " + (LOG.isTraceEnabled() ? parents : ""));
+        }
+
+        return parents;
     }
 }

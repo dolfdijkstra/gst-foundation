@@ -28,6 +28,7 @@ import com.fatwire.assetapi.query.Query;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
+import com.fatwire.gst.foundation.facade.runtag.asset.AssetRelationTreeUtils;
 
 /**
  * @author Dolf Dijkstra
@@ -100,6 +101,27 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     }
 
     /**
+     * Read the assets that are parents of the current asset givne the specified
+     * association name or names.  Note this can result in an unknown dependency
+     * @param id the child asset
+     * @param associationName the association name or names to be used to filter parent query.
+     * @return collection of parents; never null.
+     */
+    public Collection<AssetId> readParentAssetIds(final AssetId id, final String ... associationName) {
+        return AssetRelationTreeUtils.getParents(ics, id, associationName);
+    }
+
+    /**
+     * Read the assets that are parents of the current asset givne the specified
+     * association name or names.  Note this can result in an unknown dependency
+     * @param associationName the association name or names to be used to filter parent query.
+     * @return collection of parents; never null.
+     */
+    public Collection<AssetId> readParentAssetIds(final String ... associationName) {
+        return readParentAssetIds(currentId(), associationName);
+    }
+
+    /**
      * Reads the associated assets of an asset and returns them as a
      * ScatteredAsset. This takes care of the asset read operation of the
      * associated assets. The returned ScatteredAssets are only loaded with the
@@ -129,7 +151,6 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
      * Reads the asset attributes of the asset identified by the current c and
      * cid variables on the ics scope.
      * 
-     * @param attributes
      * @return the mapped object
      */
     public T readCurrent() {
