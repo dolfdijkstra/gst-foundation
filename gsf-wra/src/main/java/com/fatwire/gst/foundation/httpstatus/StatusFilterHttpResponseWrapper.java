@@ -79,7 +79,6 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
                 log.warn("Exception parsing  the " + hdrName + " header. " + t.getMessage());
             }
             if (status > 300) {
-                // TODO low priority: is sendError needed for codes > 400?
                 // TODO low priority: is sendRedirectNeeded for 302 or 301?
                 if (log.isDebugEnabled()) {
                     log.debug("setStatus to  " + status + " from " + hdrName);
