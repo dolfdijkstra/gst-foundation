@@ -45,6 +45,7 @@ import org.apache.commons.logging.LogFactory;
 public class HttpResponseStatusFilter implements Filter {
 
     private static Log log = LogFactory.getLog(HttpResponseStatusFilter.class.getPackage().getName());
+    private boolean sendError = false;
 
     /**
      * This method is called by application server at the shutdown and destroys
@@ -75,7 +76,7 @@ public class HttpResponseStatusFilter implements Filter {
             printRequestHeaders(request);
         }
 
-        final HttpServletResponseWrapper wrapper = new StatusFilterHttpResponseWrapper(httpResponse);
+        final HttpServletResponseWrapper wrapper = new StatusFilterHttpResponseWrapper(httpResponse, sendError);
 
         filterChain.doFilter(request, wrapper);
 
@@ -99,5 +100,6 @@ public class HttpResponseStatusFilter implements Filter {
      */
 
     public void init(final FilterConfig filterConf) throws ServletException {
+        sendError = "true".equalsIgnoreCase(filterConf.getInitParameter("sendError"));
     }
 }

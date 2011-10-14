@@ -46,11 +46,14 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
 
     private int status = -1;
 
+    private final boolean sendError;
+
     /**
-     * Class constructor instatiating the response object
+     * Class constructor instantiating the response object
      */
-    public StatusFilterHttpResponseWrapper(HttpServletResponse origResponse) {
+    public StatusFilterHttpResponseWrapper(HttpServletResponse origResponse, boolean sendError) {
         super(origResponse);
+        this.sendError = sendError;
 
     }
 
@@ -85,7 +88,7 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
                     log.debug("wanted to setStatus to  " + status + " from " + hdrName
                             + " but the response is already committed");
                 }
-                if (status >= 400) {
+                if (sendError && status >= 400) {
                     try {
                         super.sendError(status);
                     } catch (IOException e) {
