@@ -97,7 +97,7 @@ public final class TreeHelper {
     }
 
     /**
-     * Querie treemanager using the commands specified, and handles all required error checking.
+     * Query treemanager using the commands specified, and handles all required error checking.
      *
      * @param ics              context
      * @param vl               commands
