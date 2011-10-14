@@ -90,7 +90,6 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
                         super.sendError(status);
                     } catch (IOException e) {
                         log.warn("Could not send error " + status + ".", e);
-                        super.setStatus(status);
                     }
                 } else {
                     super.setStatus(status);
