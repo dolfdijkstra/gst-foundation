@@ -166,7 +166,7 @@ public final class AssetRelationTreeUtils {
         // validate input
         if (ics == null) throw new IllegalArgumentException("ICS cannot be null");
         if (child == null) throw new IllegalArgumentException("Child asset id is required");
-        if (associationName == null) throw new IllegalArgumentException("Association namme may not be null");
+        if (associationName == null) throw new IllegalArgumentException("Association name may not be null");
 
         List<String> assocNames = Arrays.asList(associationName); // so lame...
 
