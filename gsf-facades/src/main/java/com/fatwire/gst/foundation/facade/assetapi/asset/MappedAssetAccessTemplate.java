@@ -112,7 +112,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     }
 
     /**
-     * Read the assets that are parents of the current asset givne the specified
+     * Read the assets that are parents of the current asset given the specified
      * association name or names.  Note this can result in an unknown dependency
      * @param associationName the association name or names to be used to filter parent query.
      * @return collection of parents; never null.
