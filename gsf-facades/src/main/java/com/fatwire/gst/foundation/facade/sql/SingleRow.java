@@ -22,6 +22,8 @@ import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.cs.core.db.Util;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Implements a Row.
  * 
@@ -58,13 +60,13 @@ class SingleRow implements Row {
      * 
      * @see com.fatwire.gst.foundation.facade.sql.Row#getChar(java.lang.String)
      */
-    public char getChar(final String key) {
+    public Character getChar(final String key) {
         try {
             final String s = list.getValue(key);
-            if (s != null && s.length() > 0) {
+            if (StringUtils.isNotBlank(s)) {
                 return s.charAt(0);
             }
-            throw new RuntimeException("no value for " + key);
+            return null;
         } catch (final NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
@@ -78,10 +80,10 @@ class SingleRow implements Row {
     public Date getDate(final String key) {
         try {
             final String s = list.getValue(key);
-            if (s != null && s.length() > 0) {
+            if (StringUtils.isNotBlank(s)) {
                 return Util.parseJdbcDate(s);
             }
-            throw new RuntimeException("no value for " + key);
+            return null;
         } catch (final NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
@@ -92,13 +94,13 @@ class SingleRow implements Row {
      * 
      * @see com.fatwire.gst.foundation.facade.sql.Row#getLong(java.lang.String)
      */
-    public long getLong(final String key) {
+    public Long getLong(final String key) {
         try {
             final String s = list.getValue(key);
-            if (s != null && s.length() > 0) {
+            if (StringUtils.isNotBlank(s)) {
                 return Long.parseLong(s);
             }
-            throw new RuntimeException("no value for " + key);
+            throw null;
         } catch (final NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
@@ -130,5 +132,19 @@ class SingleRow implements Row {
 
         }
         return false;
+    }
+
+    @Override
+    public Integer getInt(String key) {
+        try {
+            final String s = list.getValue(key);
+            if (StringUtils.isNotBlank(s)) {
+                return Integer.parseInt(s);
+            }
+            throw null;
+        } catch (final NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

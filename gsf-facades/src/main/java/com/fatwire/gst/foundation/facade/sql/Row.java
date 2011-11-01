@@ -39,7 +39,14 @@ public interface Row {
      * @param key
      * @return the key value as a Long or null.
      */
-    long getLong(String key);
+    Long getLong(String key);
+    
+    /**
+     * @param key
+     * @return the key value as a Integer or null.
+     */
+    Integer getInt(String key);
+
 
     /**
      * @param key
@@ -51,7 +58,7 @@ public interface Row {
      * @param key
      * @return the key value as a char or null.
      */
-    char getChar(String key);
+    Character getChar(String key);
 
     /**
      * @param key
