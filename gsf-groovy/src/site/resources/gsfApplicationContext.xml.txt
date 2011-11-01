@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<!-- INSTALLATION: Be sure to add this to your WEB-INF/web.xml file: <context-param> 
 		<param-name>contextConfigLocation</param-name> <param-value>/WEB-INF/applicationContext.xml,/WEB-INF/gsfApplicationContext.xml</param-value> 
 		</context-param> USAGE: Be sure to set any actions that need to be sateful 
@@ -13,7 +15,7 @@
 	</bean>
 	<bean id="groovyLoader" class="com.fatwire.gst.foundation.groovy.spring.GroovyLoader">
 	</bean>
-
+    <bean id="gsfActionNameResolver" class="com.fatwire.gst.foundation.controller.action.support.CommandActionNameResolver"/>
 	<bean id="gsfRenderPage" scope="prototype"
 		class="com.fatwire.gst.foundation.controller.action.RenderPage" />
 </beans>
