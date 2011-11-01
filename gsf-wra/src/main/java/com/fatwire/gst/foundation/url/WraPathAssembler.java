@@ -105,7 +105,7 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
 
     private Assembler _instantiateBackupAssembler(String classname) {
         try {
-            Class c = Class.forName(classname);
+            Class<?> c = Class.forName(classname);
             Object o = c.newInstance();
             return (Assembler) o;
         } catch (ClassNotFoundException e) {
