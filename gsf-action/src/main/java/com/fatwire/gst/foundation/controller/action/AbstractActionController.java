@@ -47,15 +47,24 @@ public abstract class AbstractActionController extends AbstractController {
         // find the action locator
         LOG.trace("Dispatcher looking for action locator");
         final ActionLocator locator = getActionLocator();
+        if (locator == null)
+            throw new IllegalStateException("No ActionLocator returned by class " + getClass().getName());
         if (LOG.isTraceEnabled()) {
             LOG.trace("Using action locator: " + locator.getClass().getName());
         }
-        String actionName = getActionNameResolver().resolveActionName(ics);
+        ActionNameResolver resolver = getActionNameResolver();
+        if (resolver == null)
+            throw new IllegalStateException("No ActionNameResolver returned by class " + getClass().getName());
+        String actionName = resolver.resolveActionName(ics);
         // get the action
         final Action action = locator.getAction(ics, actionName);
         if (LOG.isTraceEnabled()) {
             LOG.trace("Using action: " + action.getClass().getName());
         }
+        if (action == null)
+            throw new IllegalStateException(
+                    "No Action found. A  ActionLocator should always return a Action. ActionLocation "
+                            + locator.getClass().getName() + " did not return an action for '" + actionName + "'.");
 
         // execute the command
         action.handleRequest(ics);
@@ -80,8 +89,9 @@ public abstract class AbstractActionController extends AbstractController {
     @Override
     protected final void handleException(final Exception e) {
         if (LOG.isTraceEnabled()) {
-            // Give developer a clue in case error pages aren't configured properly. 
-            LOG.trace("Action threw an exception and an error code will be returned.  Exception: "+e, e);
+            // Give developer a clue in case error pages aren't configured
+            // properly.
+            LOG.trace("Action threw an exception and an error code will be returned.  Exception: " + e, e);
         }
         if (e instanceof CSRuntimeException) {
             handleCSRuntimeException((CSRuntimeException) e);
