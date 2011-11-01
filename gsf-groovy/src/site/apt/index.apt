@@ -226,7 +226,7 @@ Code samples
  were shared.
   
   
-  JSP {{{./jsp/cs_deployed/GTLayout.jsp.txt}ayout template}}
+  JSP {{{./jsp/cs_deployed/GTLayout.jsp.txt}GTLayout template}}
   groovy {{{./gsf-groovy/GTLayout.groovy}GTLayout}}
   
   JSP {{{./jsp/cs_deployed/AdvCols/GTStyleSheetResolver.jsp.txt}StyleSheetResolver}}
@@ -349,8 +349,8 @@ model.add("image",img);
   
 Configuration
 
-  The Action framework and possibly also the action are configured via Spring framework. In the {{{./web.xml.txt}web.xml}}
-  file is a spring context file added, 
-   
+  The Action framework and possibly also the action are configured via Spring framework. 
+  
+  In the {{{./web.xml.txt}web.xml}} file is a spring context file added,    
    {{{./gsfApplicationContext.xml.txt}Spring context file}}
    
