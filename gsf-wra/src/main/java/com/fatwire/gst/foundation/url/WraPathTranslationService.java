@@ -23,19 +23,15 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
  * <p/>
  * todo: low priority: for any given partial url, get next children down, and
  * "are they parents too"
- * TODO: low priority: remove installation method from interface.
- * TODO: low priority: remove asset listener methods from interface, create seperate interface for these methods
+ * TODO: low priority: remove asset listener methods from interface, create separate interface for these methods
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jul 21, 2010
  */
 public interface WraPathTranslationService {
 
-    /**
-     * Installs any required components and bootstraps the service.
-     */
-    void install();
-
+  
     /**
      * Look up the asset corresponding to the input virtual-0webroot and
      * url-path
