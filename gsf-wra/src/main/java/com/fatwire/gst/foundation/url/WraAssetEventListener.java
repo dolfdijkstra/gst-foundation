@@ -18,15 +18,9 @@ package com.fatwire.gst.foundation.url;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.assetapi.listener.RunOnceAssetEventListener;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
-import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
-import com.fatwire.gst.foundation.url.db.UrlRegistry;
-import com.fatwire.gst.foundation.vwebroot.VirtualWebrootApiBypassDao;
-import com.fatwire.gst.foundation.wra.WraCoreFieldApiBypassDao;
-import com.openmarket.basic.event.AbstractAssetEventListener;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.fatwire.gst.foundation.url.db.UrlRegistry2;
 
 /**
  * Asset event for ensuring that a WRA is properly prepared for rendering.
@@ -34,14 +28,13 @@ import org.apache.commons.logging.LogFactory;
  * WraPathTranslationService, among other things.
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jul 21, 2010
  */
-public final class WraAssetEventListener extends AbstractAssetEventListener {
-
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.url");
+public final class WraAssetEventListener extends RunOnceAssetEventListener {
 
     @Override
-    public void assetAdded(AssetId assetId) {
+    protected void doAssetAdded(final AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetAdded event for " + assetId);
         }
@@ -49,7 +42,7 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
     }
 
     @Override
-    public void assetUpdated(AssetId assetId) {
+    protected void doAssetUpdated(final AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetUpdated event for " + assetId);
         }
@@ -57,7 +50,7 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
     }
 
     @Override
-    public void assetDeleted(AssetId assetId) {
+    protected void doAssetDeleted(final AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetDeleted event for " + assetId);
         }
@@ -65,14 +58,11 @@ public final class WraAssetEventListener extends AbstractAssetEventListener {
     }
 
     private WraPathTranslationService getService() {
-        ICS ics = ICSFactory.getOrCreateICS();
-        return new UrlRegistry(ics, WraCoreFieldApiBypassDao.getBackdoorInstance(ics), new VirtualWebrootApiBypassDao(ics));
+        final ICS ics = ICSFactory.getOrCreateICS();
+        // return new UrlRegistry(ics,
+        // WraCoreFieldApiBypassDao.getBackdoorInstance(ics), new
+        // VirtualWebrootApiBypassDao(ics));
+        return UrlRegistry2.lookup(ics);
     }
 
-    /**
-     * Install self into AssetListener_reg table
-     */
-    public void install(ICS ics) {
-        AssetListenerInstall.register(ics, WraAssetEventListener.class.getName(), true);
-    }
 }

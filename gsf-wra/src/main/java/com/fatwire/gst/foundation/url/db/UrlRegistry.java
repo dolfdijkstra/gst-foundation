@@ -27,6 +27,7 @@ import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
@@ -42,7 +43,6 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -52,7 +52,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class UrlRegistry implements WraPathTranslationService {
 
-    private static final Log LOG = LogFactory.getLog(UrlRegistry.class);
+    private static final Log LOG = LogUtil.getLog(UrlRegistry.class);
 
     private final ICS ics;
     private final WraCoreFieldDao wraDao;
@@ -73,7 +73,7 @@ public class UrlRegistry implements WraPathTranslationService {
     }
 
     public void install() {
-        TableDef def = new TableDef(URLREG_TABLE, TABLE_ACL_LIST, ftMessage.objecttbl);
+        final TableDef def = new TableDef(URLREG_TABLE, TABLE_ACL_LIST, ftMessage.objecttbl);
 
         def.addColumn(new TableColumn("id", Type.ccbigint, true).setNullable(false));
         def.addColumn(new TableColumn("path", Type.ccvarchar).setLength(4000).setNullable(false));
@@ -104,6 +104,7 @@ public class UrlRegistry implements WraPathTranslationService {
 
     }
 
+    @Override
     public AssetIdWithSite resolveAsset(final String virtual_webroot, final String url_path) {
         final StatementParam param = REGISTRY_SELECT.newParam();
         param.setString(0, virtual_webroot);
@@ -111,50 +112,55 @@ public class UrlRegistry implements WraPathTranslationService {
         for (final Row asset : SqlHelper.select(ics, REGISTRY_SELECT, param)) {
             final String assettype = asset.getString("assettype");
             final String assetid = asset.getString("assetid");
-            AssetIdWithSite id = new AssetIdWithSite(assettype, Long.parseLong(assetid), asset.getString("opt_site"));
+            final AssetIdWithSite id = new AssetIdWithSite(assettype, Long.parseLong(assetid),
+                    asset.getString("opt_site"));
             if (FilterAssetsByDate.isValidOnDate(ics, id, null)) {
-                if (LOG.isDebugEnabled())
+                if (LOG.isDebugEnabled()) {
                     LOG.debug("Resolved and validated effective date for asset " + id + " from virtual-webroot:"
                             + virtual_webroot + " and url-path:" + url_path);
+                }
                 return id;
             } else {
-                if (LOG.isDebugEnabled())
+                if (LOG.isDebugEnabled()) {
                     LOG.debug("Resolved asset "
                             + id
                             + " but it is not valid on the effective date as determined by the asset.filterassetsbydate tag.");
+                }
             }
         }
 
         return null;
     }
 
-    public void addAsset(AssetId asset) {
+    @Override
+    public void addAsset(final AssetId asset) {
         if (wraDao.isWebReferenceable(asset)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Attempting to add WRA " + asset + " to url registry");
             }
-            WebReferenceableAsset wra = wraDao.getWra(asset);
+            final WebReferenceableAsset wra = wraDao.getWra(asset);
             addAsset(wra);
         } else {
-            if (LOG.isTraceEnabled())
+            if (LOG.isTraceEnabled()) {
                 LOG.trace("Heard addAsset event for " + asset + " but since it is not a WRA we are ignoring it");
+            }
         }
     }
 
-    private void addAsset(WebReferenceableAsset wra) {
-        AssetId asset = wra.getId();
+    private void addAsset(final WebReferenceableAsset wra) {
+        final AssetId asset = wra.getId();
 
-        VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
+        final VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
 
         if (vw != null) {
-            String vwebroot = vw.getEnvironmentVirtualWebroot();
+            final String vwebroot = vw.getEnvironmentVirtualWebroot();
 
-            String urlpath = wra.getPath().substring(vw.getMasterVirtualWebroot().length());
-            int depth = StringUtils.countMatches(urlpath, "/");
+            final String urlpath = wra.getPath().substring(vw.getMasterVirtualWebroot().length());
+            final int depth = StringUtils.countMatches(urlpath, "/");
 
-            String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
+            final String site = wraDao.resolveSite(asset.getType(), Long.toString(asset.getId()));
 
-            FTValList vl = new FTValList();
+            final FTValList vl = new FTValList();
             vl.setValString("ftcmd", "addrow");
             vl.setValString("tablename", URLREG_TABLE);
             vl.setValString("id", ics.genID(true));
@@ -188,14 +194,15 @@ public class UrlRegistry implements WraPathTranslationService {
 
     }
 
-    public void updateAsset(AssetId id) {
+    @Override
+    public void updateAsset(final AssetId id) {
         // todo: low priority: optimize (assest api incache will mitigate the
         // performance issue)
 
-        StatementParam param = REGISTRY_SELECT_ID.newParam();
+        final StatementParam param = REGISTRY_SELECT_ID.newParam();
         param.setString(0, id.getType());
         param.setLong(1, id.getId());
-        Row row = SqlHelper.selectSingle(ics, REGISTRY_SELECT_ID, param);
+        final Row row = SqlHelper.selectSingle(ics, REGISTRY_SELECT_ID, param);
         if (row != null) {
             deleteAsset(id);
         }
@@ -209,7 +216,8 @@ public class UrlRegistry implements WraPathTranslationService {
         }
     }
 
-    public void deleteAsset(AssetId id) {
+    @Override
+    public void deleteAsset(final AssetId id) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Attempting to delete asset " + id
                     + " from url registry (it might not have been there but we must try anyway)");
