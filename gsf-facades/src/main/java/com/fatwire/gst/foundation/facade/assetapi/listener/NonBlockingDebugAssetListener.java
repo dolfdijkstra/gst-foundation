@@ -32,14 +32,14 @@ import org.apache.commons.logging.LogFactory;
 public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
     private static final Log LOG = LogFactory.getLog(NonBlockingDebugAssetListener.class.getPackage().getName());
 
-    void printAsset(AssetId id) {
+    void printAsset(final AssetId id) {
         if (LOG.isDebugEnabled()) {
-            ICS ics = ICSFactory.newICS();
-            AssetData ad = AssetDataUtils.getAssetData(ics, id);
+            final ICS ics = ICSFactory.newICS();
+            final AssetData ad = AssetDataUtils.getAssetData(ics, id);
             try {
                 LOG.debug("Print asset with new ICS " + id);
                 LOG.debug(DebugHelper.printAsset(ad));
-            } catch (AssetAccessException e) {
+            } catch (final AssetAccessException e) {
                 LOG.error(e);
             }
         }
@@ -47,26 +47,26 @@ public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
     }
 
     @Override
-    public void assetAdded(AssetId id) {
+    public void assetAdded(final AssetId id) {
         LOG.debug("Asset added " + id);
         printAsset(id);
     }
 
     @Override
-    public void assetDeleted(AssetId id) {
+    public void assetDeleted(final AssetId id) {
         LOG.debug("Asset deleted " + id);
         printAsset(id);
 
     }
 
     @Override
-    public void assetUpdated(AssetId id) {
+    public void assetUpdated(final AssetId id) {
         LOG.debug("Asset updated " + id);
         printAsset(id);
 
     }
 
-    public void install(ICS ics) {
+    public void install(final ICS ics) {
         AssetListenerInstall.register(ics, NonBlockingDebugAssetListener.class.getName(), false);
     }
 
