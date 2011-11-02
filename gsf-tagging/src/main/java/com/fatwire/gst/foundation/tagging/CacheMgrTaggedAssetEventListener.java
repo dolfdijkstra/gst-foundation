@@ -17,41 +17,32 @@ package com.fatwire.gst.foundation.tagging;
 
 import java.util.Collection;
 
-import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.assetapi.listener.RunOnceAssetEventListener;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
-import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
-import com.openmarket.basic.event.AbstractAssetEventListener;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Cache manager to be used to deal with cache updates
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jul 28, 2010
  */
-public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventListener {
+public final class CacheMgrTaggedAssetEventListener extends RunOnceAssetEventListener {
 
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
+    
 
-    private final AssetTaggingService svc;
-
-    public CacheMgrTaggedAssetEventListener() {
-        try {
-            svc = AssetTaggingServiceFactory.getService(ICSFactory.getOrCreateICS());
-        } catch (Exception e) {
-            throw new IllegalStateException("Could not create ICS", e);
-        }
+    private AssetTaggingService getService() {
+        return AssetTaggingServiceFactory.getService(ICSFactory.getOrCreateICS());
     }
 
     @Override
-    public void assetAdded(AssetId assetId) {
+    public void doAssetAdded(AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetAdded event for " + assetId);
         }
+
+        AssetTaggingService svc = getService();
         if (svc.isTagged(assetId)) {
             Collection<Tag> tags = svc.getTags(assetId);
             svc.clearCacheForTag(tags);
@@ -59,10 +50,11 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
     }
 
     @Override
-    public void assetUpdated(AssetId assetId) {
+    public void doAssetUpdated(AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetUpdated event for " + assetId);
         }
+        AssetTaggingService svc = getService();
         if (svc.isTagged(assetId)) {
             Collection<Tag> tags = svc.getTags(assetId);
             svc.clearCacheForTag(tags);
@@ -70,20 +62,16 @@ public final class CacheMgrTaggedAssetEventListener extends AbstractAssetEventLi
     }
 
     @Override
-    public void assetDeleted(AssetId assetId) {
+    public void doAssetDeleted(AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetDeleted event for " + assetId);
         }
+        AssetTaggingService svc = getService();
         if (svc.isTagged(assetId)) {
             Collection<Tag> tags = svc.getTags(assetId);
             svc.clearCacheForTag(tags);
         }
     }
 
-    /**
-     * Install self into AssetListener_reg table
-     */
-    public void install(ICS ics) {
-        AssetListenerInstall.register(ics, CacheMgrTaggedAssetEventListener.class.getName(), true);
-    }
+ 
 }

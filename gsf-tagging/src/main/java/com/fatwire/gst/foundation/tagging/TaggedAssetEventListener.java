@@ -15,65 +15,56 @@
  */
 package com.fatwire.gst.foundation.tagging;
 
-import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.assetapi.listener.RunOnceAssetEventListener;
 import com.fatwire.gst.foundation.facade.ics.ICSFactory;
-import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
-import com.openmarket.basic.event.AbstractAssetEventListener;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
- * Sends requests to the tagging service.
+ * Sends asset events to the tagging service.
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jul 28, 2010
  */
-public final class TaggedAssetEventListener extends AbstractAssetEventListener {
+public final class TaggedAssetEventListener extends RunOnceAssetEventListener {
 
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
-
-    private final AssetTaggingService svc;
-
+   
     public TaggedAssetEventListener() {
+    }
+
+    AssetTaggingService getService() {
         try {
-            svc = AssetTaggingServiceFactory.getService(ICSFactory.getOrCreateICS());
+            return AssetTaggingServiceFactory.getService(ICSFactory.getOrCreateICS());
         } catch (Exception e) {
             throw new IllegalStateException("Could not create ICS", e);
         }
+
     }
 
     @Override
-    public void assetAdded(AssetId assetId) {
+    public void doAssetAdded(AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetAdded event for " + assetId);
         }
-        svc.addAsset(assetId);
+        getService().addAsset(assetId);
     }
 
     @Override
-    public void assetUpdated(AssetId assetId) {
+    public void doAssetUpdated(AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetUpdated event for " + assetId);
         }
-        svc.updateAsset(assetId);
+        getService().updateAsset(assetId);
     }
 
     @Override
-    public void assetDeleted(AssetId assetId) {
+    public void doAssetDeleted(AssetId assetId) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Heard assetDeleted event for " + assetId);
         }
-        svc.deleteAsset(assetId);
+        getService().deleteAsset(assetId);
     }
 
-    /**
-     * Install self into AssetListener_reg table
-     */
-    public void install(ICS ics) {
-        AssetListenerInstall.register(ics, TaggedAssetEventListener.class.getName(), true);
-    }
+   
 
 }
