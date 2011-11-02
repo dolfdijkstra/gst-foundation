@@ -17,7 +17,6 @@
 package com.fatwire.gst.foundation.facade.assetapi;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,10 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
  * revision tracking, approval, and compositional dependency management
  * subsystems and should only be used with extreme caution.
  * 
- * User: Tony Field Date: 2011-05-07
+ * @author Tony Field 
+ * @author Dolf Dijkstra
+
+ * @since 2011-05-07
  */
 public final class DirectSqlAccessTools {
     private final ICS ics;
@@ -44,42 +46,41 @@ public final class DirectSqlAccessTools {
         this.ics = ics;
     }
 
-    private static final PreparedStmt IS_FLEX = new PreparedStmt(
-            "SELECT assettype,logic FROM AssetType WHERE assettype = ? AND logic = 'com.openmarket.assetframework.complexasset.ComplexAsset'",
-            Collections.singletonList("AssetType"));
-
-    static {
-        IS_FLEX.setElement(0, "AssetType", "assettype");
-    }
-
     public boolean isFlex(AssetId id) {
-        StatementParam param = IS_FLEX.newParam();
+        StatementParam param = FLEX_ATTR_TYPE.newParam();
         param.setString(0, id.getType());
-        return SqlHelper.select(ics, IS_FLEX, param).iterator().hasNext();
+        param.setString(1, id.getType());
+        return SqlHelper.selectSingle(ics, FLEX_ATTR_TYPE, param) != null;
     }
 
     private static final PreparedStmt FLEX_ATTR_TYPE = new PreparedStmt(
-            "SELECT assetattr FROM FlexAssetTypes WHERE assettype = ?", Collections.singletonList("FlexAssetTypes"));
+            "SELECT assetattr FROM FlexAssetTypes WHERE assettype = ? UNION SELECT assetattr FROM FlexGroupTypes WHERE assettype = ?",
+            Arrays.asList("FlexAssetTypes", "FlexGroupTypes"));
 
     static {
         FLEX_ATTR_TYPE.setElement(0, "FlexAssetTypes", "assettype");
+        FLEX_ATTR_TYPE.setElement(1, "FlexGroupTypes", "assettype");
     }
 
     public String getFlexAttributeType(AssetId id) {
-        if (!isFlex(id))
-            throw new IllegalArgumentException("Asset " + id + " is not a flex asset!");
         StatementParam param = FLEX_ATTR_TYPE.newParam();
         param.setString(0, id.getType());
-        return SqlHelper.selectSingle(ics, FLEX_ATTR_TYPE, param).getString("assetattr");
+        param.setString(1, id.getType());
+        Row row = SqlHelper.selectSingle(ics, FLEX_ATTR_TYPE, param);
+        if (row == null) {
+            throw new IllegalArgumentException("Asset " + id + " is not a flex asset!");
+        }
+        return row.getString("assetattr");
     }
+  
+
 
     public String getFlexAttributeValue(AssetId id, String attrName) {
         // todo: medium: fix as this is very inefficient
         String attrType = getFlexAttributeType(id);
         PreparedStmt flexFields = new PreparedStmt("SELECT attr.name AS name, cmungo.stringvalue AS stringvalue "
                 + "FROM " + attrType + " attr, " + id.getType() + "_Mungo cmungo " + "WHERE cmungo.cs_ownerid = ? "
-                + "AND cmungo.cs_attrid = attr.id " + "AND attr.name = ?", Arrays.asList(attrType, id.getType()
-                + "_Mungo"));
+                + "AND cmungo.cs_attrid = attr.id AND attr.name = ?", Arrays.asList(attrType, id.getType() + "_Mungo"));
         flexFields.setElement(0, id.getType() + "_Mungo", "cs_ownerid");
         flexFields.setElement(1, attrType, "name");
         StatementParam param = flexFields.newParam();
