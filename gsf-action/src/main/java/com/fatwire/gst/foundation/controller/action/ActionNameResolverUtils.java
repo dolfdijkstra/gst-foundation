@@ -18,8 +18,11 @@ package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
 
+import com.fatwire.gst.foundation.controller.action.support.NullActionNameResolver;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -30,6 +33,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public final class ActionNameResolverUtils {
     private static final Log LOG = LogFactory.getLog(ActionNameResolverUtils.class.getPackage().getName());
     public static final String ACTION_NAME_RESOLVER_BEAN = "gsfActionNameResolver";
+
+    private static final ActionNameResolver nullActionNameResolver = new NullActionNameResolver();
 
     /**
      * 
@@ -63,15 +68,16 @@ public final class ActionNameResolverUtils {
 
         // get the bean.
 
-        final ActionNameResolver resolver;
-        if (wac.containsBean(beanName)) {
-            resolver = (ActionNameResolver) wac.getBean(beanName);
+        ActionNameResolver resolver;
+        try {
+            resolver = (ActionNameResolver) wac.getBean(beanName, ActionNameResolver.class);
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Using ActionNameResolver as configured: " + resolver.getClass().getName());
             }
-        } else {
-            resolver = null;
+        } catch (NoSuchBeanDefinitionException e) {
+            return nullActionNameResolver;
         }
+        
         return resolver;
     }
 
