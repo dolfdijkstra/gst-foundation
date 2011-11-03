@@ -43,7 +43,7 @@ public final class RenderUtils {
     }
 
     /**
-     * Records the compositions dependancies for SiteEntry,CSElement and
+     * Records the compositions dependencies for SiteEntry,CSElement and
      * Template.
      * 
      * @param ics
