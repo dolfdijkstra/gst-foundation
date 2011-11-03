@@ -30,6 +30,7 @@ import com.fatwire.cs.core.uri.QueryAssembler;
 import com.fatwire.cs.core.uri.Simple;
 import com.openmarket.xcelerate.publish.PubConstants;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -78,14 +79,17 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
     private static List<String> EMBEDDED_PARAMS = Arrays.asList(PubConstants.PAGENAME, PubConstants.CHILDPAGENAME,
             VIRTUAL_WEBROOT, URL_PATH, PubConstants.c, PubConstants.cid);
     /**
-     * Configuration property for overriding the default dispatcher pagename.  The default is GST/Dispatcher.
+     * Configuration property for overriding the default dispatcher pagename.
+     * The default is GST/Dispatcher.
      */
     public static final String DISPATCHER_PROPNAME = "com.fatwire.gst.foundation.url.wrapathassembler.dispatcher";
 
     /**
-     * Configuration property for overriding the backup assembler.  URLs that can't be built using this assembler,
-     * that is, URLs for assets that are not WRAs (or for WRAs missing critical fields), are built
-     * using the backup assembler.  The default backup assembler is the standard QueryAssembler.
+     * Configuration property for overriding the backup assembler. URLs that
+     * can't be built using this assembler, that is, URLs for assets that are
+     * not WRAs (or for WRAs missing critical fields), are built using the
+     * backup assembler. The default backup assembler is the standard
+     * QueryAssembler.
      */
     public static final String BACKUP_ASSEMBLER_PROPNAME = "com.fatwire.gst.foundation.url.wrapathassembler.backup-assembler";
 
@@ -100,7 +104,8 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
         theBackupAssembler = _instantiateBackupAssembler(backupAssemblerClass);
         theBackupAssembler.setProperties(properties);
         pagename[0] = getProperty(DISPATCHER_PROPNAME, "GST/Dispatcher");
-        LOG.info("Initialized " + WraPathAssembler.class + " with backup assembler "+backupAssemblerClass+" using properties " + properties);
+        LOG.info("Initialized " + WraPathAssembler.class + " with backup assembler " + backupAssemblerClass
+                + " using properties " + properties);
     }
 
     private Assembler _instantiateBackupAssembler(String classname) {
@@ -109,13 +114,14 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             Object o = c.newInstance();
             return (Assembler) o;
         } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Illegal class name for backup assembler: "+classname, e);
+            throw new IllegalArgumentException("Illegal class name for backup assembler: " + classname, e);
         } catch (InstantiationException e) {
-            throw new IllegalStateException("Could not instantiate backup assembler: "+classname, e);
+            throw new IllegalStateException("Could not instantiate backup assembler: " + classname, e);
         } catch (IllegalAccessException e) {
-            throw new IllegalStateException("Could not instantiate backup assembler: "+classname, e);
-        } catch (ClassCastException e ) {
-            throw new IllegalArgumentException("Backup assembler class is not an instance of Assembler: "+classname, e);
+            throw new IllegalStateException("Could not instantiate backup assembler: " + classname, e);
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("Backup assembler class is not an instance of Assembler: " + classname,
+                    e);
         }
     }
 
@@ -261,8 +267,10 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
 
         Simple result;
         try {
-            Map<String, String[]> qryParams = parseQueryString(uri.getRawQuery());
-            qryParams.put(PubConstants.PAGENAME, pagename);
+            String[] request_pagename = params.get(PubConstants.PAGENAME);
+            if (request_pagename == null || request_pagename.length == 0 || StringUtils.isBlank(request_pagename[0])) {
+                params.put(PubConstants.PAGENAME, pagename);
+            }
             final Definition.AppType appType = Definition.AppType.CONTENT_SERVER;
             final Definition.SatelliteContext satelliteContext = Definition.SatelliteContext.SATELLITE_SERVER;
             final boolean sessionEncode = false;
@@ -271,7 +279,7 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             final String fragment = uri.getFragment();
 
             result = new Simple(sessionEncode, satelliteContext, containerType, scheme, authority, appType, fragment);
-            result.setQueryStringParameters(qryParams);
+            result.setQueryStringParameters(params);
         } catch (IllegalArgumentException e) {
             // Something bad happened
             throw new URISyntaxException(uri.toString(), e.toString());
