@@ -74,9 +74,6 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
     private String site, type, tname, cid;
     private Style style;
 
-    // private Map<String, String> attributes = new HashMap<String, String>();
-    // private Map<String, String> arguments = new HashMap<String, String>();
-
     public enum Style {
         element, pagelet, embedded
     }
@@ -300,7 +297,8 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
     }
 
     protected static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Collections.unmodifiableList(Arrays.asList("TNAME",
-            "C", "CID", "EID", "SEID", "PACKEDARGS", "VARIANT", "CONTEXT", "SITE", "TID", "rendermode", "ft_ss"));
+            "C", "CID", "EID", "SEID", "PACKEDARGS", "VARIANT", "CONTEXT", "SITE", "TID", "rendermode", "ft_ss",
+            "SystemAssetsRoot", "cshttp", "errno", "tablename", "empty", "errdetail", "null"));
 
     @SuppressWarnings("unchecked")
     private void checkPageCriteria(final ICS ics, final String target) {
