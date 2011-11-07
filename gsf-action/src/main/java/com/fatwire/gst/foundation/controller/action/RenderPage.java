@@ -65,7 +65,8 @@ public class RenderPage implements Action {
 
         final AssetIdWithSite id = resolveAssetId();
         if (id == null || id.getSite() == null) {
-            throw new CSRuntimeException("Asset or site not found: '" + id +"' for url " + ics.pageURL(), ftErrors.pagenotfound);
+            throw new CSRuntimeException("Asset or site not found: '" + id + "' for url " + ics.pageURL(),
+                    ftErrors.pagenotfound);
         }
         LOG.debug("RenderPage found a valid asset and site: " + id);
 
@@ -185,7 +186,10 @@ public class RenderPage implements Action {
         if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
             id = wraPathTranslationService.resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
             if (id == null) {
-                throw new CSRuntimeException("WraPathTranslationService could not find a matching asset for virtual-webroot: '"+ics.GetVar("virtual-webroot")+"' and url-path: '"+ics.GetVar("url-path")+"'.", ftErrors.pagenotfound);
+                throw new CSRuntimeException(
+                        "WraPathTranslationService could not find a matching asset for virtual-webroot: '"
+                                + ics.GetVar("virtual-webroot") + "' and url-path: '" + ics.GetVar("url-path") + "'.",
+                        ftErrors.pagenotfound);
             }
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
@@ -206,7 +210,8 @@ public class RenderPage implements Action {
 
     private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
             "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
-            "url-path", "rendermode", "ft_ss");
+            "url-path", "rendermode", "ft_ss", "SystemAssetsRoot", "cshttp", "errno", "tablename", "empty",
+            "errdetail", "null");
 
     /**
      * This method collects additional arguments for the CallTemplate call. New
