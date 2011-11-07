@@ -260,7 +260,8 @@ public class BaseController extends AbstractController {
 
     private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
             "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
-            "url-path");
+            "url-path", "SystemAssetsRoot", "rendermode", "cshttp", "errno", "tablename", "empty", "ft_ss",
+            "errdetail", "null");
 
     /**
      * This method collects additional arguments for the CallTemplate call. New
