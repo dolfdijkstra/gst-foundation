@@ -76,7 +76,7 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
      * @return AssetData containing core fields for Alias asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id); // load all instead of specific
+        return AssetDataUtils.getAssetData(ics,id); // load all instead of specific
                                                 // fields, because we do not
                                                 // know which fields are set.
     }

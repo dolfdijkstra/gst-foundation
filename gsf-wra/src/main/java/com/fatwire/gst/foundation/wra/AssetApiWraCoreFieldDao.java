@@ -83,7 +83,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
      * @return AssetData containing core fields for Web-Referencable asset
      */
     private AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(id, WRA_ATTRIBUTE_NAMES);
+        return AssetDataUtils.getAssetData(ics,id, WRA_ATTRIBUTE_NAMES);
     }
 
     /**
