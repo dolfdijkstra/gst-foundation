@@ -22,6 +22,7 @@ import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
@@ -114,8 +115,8 @@ public final class SitePlanUtils {
             String metaDescriptionAttribute, String titleAttribute) {
         HeadTagData result = new HeadTagData();
 
-        AssetData data = AssetDataUtils.getAssetData(c, cid, metaKeywordAttribute, metaDescriptionAttribute,
-                titleAttribute, "description", "name");
+        AssetData data = AssetDataUtils.getAssetData(ics, AssetIdUtils.createAssetId(cid, c), cid,
+                metaKeywordAttribute, metaDescriptionAttribute, titleAttribute, "description", "name");
         result.setTitle(AttributeDataUtils.getWithFallback(data, titleAttribute, "description", "name"));
         result.setDescription(AttributeDataUtils.getWithFallback(data, metaDescriptionAttribute, titleAttribute,
                 "description", "name"));
@@ -164,13 +165,14 @@ public final class SitePlanUtils {
         // Get the linktext
         final boolean isNavigationPlaceholder = PAGE_SUBTYPE_NAVIGATION_PLACEHOLDER.equals(pageLinkData.getSubtype());
         if (assocname == null) {
-            AssetData data = AssetDataUtils.getAssetData("Page", resolvePageAlias(ics, p), linktextAttr);
+            AssetData data = AssetDataUtils.getAssetData(ics,
+                    AssetIdUtils.createAssetId("Page", resolvePageAlias(ics, p)), linktextAttr);
             pageLinkData.setLinktext(AttributeDataUtils.getWithFallback(data, linktextAttr));
         } else {
             LOG.debug("About to load " + assocname + " for Page:" + p);
             try {
                 AssetId kid = Children.getSingleAssociation(ics, "Page", resolvePageAlias(ics, p), assocname);
-                AssetData data = AssetDataUtils.getAssetData(kid, linktextAttr);
+                AssetData data = AssetDataUtils.getAssetData(ics, kid, linktextAttr);
                 pageLinkData.setLinktext(AttributeDataUtils.getWithFallback(data, linktextAttr));
             } catch (TagRunnerRuntimeException e) {
                 if (e.getErrno() == -111) {
