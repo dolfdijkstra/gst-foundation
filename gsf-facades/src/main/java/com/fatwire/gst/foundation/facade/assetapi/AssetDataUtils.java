@@ -19,7 +19,6 @@ package com.fatwire.gst.foundation.facade.assetapi;
 import java.util.Arrays;
 import java.util.Collections;
 
-import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
@@ -28,14 +27,15 @@ import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetDataManager;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
-import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * Convenient shortcuts for working with AssetData objects
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Nov 17, 2009
  */
 public final class AssetDataUtils {
@@ -49,9 +49,10 @@ public final class AssetDataUtils {
      * @param cid
      * @param attributes
      * @return asset data
+     * @deprecated inconsistent method signature, replaced by {@link AssetDataUtils#getAssetData(AssetId, String...)}. 
      */
     public static AssetData getAssetData(String c, String cid, String... attributes) {
-        return getAssetData(new AssetIdImpl(c, Long.valueOf(cid)), attributes);
+        return getAssetData(AssetIdUtils.createAssetId(c, cid), attributes);
     }
 
     /**
@@ -61,15 +62,7 @@ public final class AssetDataUtils {
      * @return asset data, never null.
      */
     public static AssetData getAssetData(AssetId id) {
-        AssetDataManager mgr = (AssetDataManager) getSession().getManager(AssetDataManager.class.getName());
-        try {
-            for (AssetData data : mgr.read(Collections.singletonList(id))) {
-                return data; // first one wins
-            }
-        } catch (AssetAccessException e) {
-            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
-        }
-        throw new CSRuntimeException("Asset not found: " + id, ftErrors.badparams);
+        return getAssetData(ICSFactory.getOrCreateICS(), id);
     }
 
     /**
@@ -99,12 +92,7 @@ public final class AssetDataUtils {
      * @return asset data
      */
     public static AssetData getAssetData(AssetId id, String... attributes) {
-        AssetDataManager mgr = (AssetDataManager) getSession().getManager(AssetDataManager.class.getName());
-        try {
-            return mgr.readAttributes(id, Arrays.asList(attributes));
-        } catch (AssetAccessException e) {
-            throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
-        }
+        return getAssetData(ICSFactory.getOrCreateICS(), id, attributes);
     }
 
     /**
@@ -162,31 +150,6 @@ public final class AssetDataUtils {
         }
         throw new CSRuntimeException("Asset not found: " + id, ftErrors.badparams);
 
-    }
-
-    /**
-     * Get a session to work with the Asset API. Because this class may end up
-     * getting called in a non-Http context, we have to ensure that the session
-     * does exist. If we can't find a valid context, we create a new context.
-     * 
-     * @return session object, either backed by the existing context or a brand
-     *         new one.
-     */
-    private static Session getSession() {
-        Session ses;
-        try {
-            ses = SessionFactory.getSession();
-        } catch (IllegalStateException e) {
-            // assume there's no backing ICS anywhere. Bootstrap the context
-            final ICS ics;
-            try {
-                ics = Factory.newCS();
-            } catch (Exception ee) {
-                throw new CSRuntimeException("Could not create a new ICS object", ftErrors.exceptionerr, ee);
-            }
-            ses = SessionFactory.getSession(ics);
-        }
-        return ses;
     }
 
     private static Session getSession(ICS ics) {
