@@ -24,6 +24,7 @@ import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
@@ -53,7 +54,7 @@ public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
         String sCid = Long.toString(cid);
         if (LOG.isTraceEnabled())
             LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + sCid);
-        AssetData ad = AssetDataUtils.getAssetData("GSTVirtualWebroot", sCid, "master_vwebroot", "env_vwebroot",
+        AssetData ad = AssetDataUtils.getAssetData(ics, AssetIdUtils.createAssetId("GSTVirtualWebroot", sCid), "master_vwebroot", "env_vwebroot",
                 "env_name");
         return new VWebrootBeanImpl(cid, AttributeDataUtils.getWithFallback(ad, "master_vwebroot"),
                 AttributeDataUtils.getWithFallback(ad, "env_vwebroot"), AttributeDataUtils.getWithFallback(ad,

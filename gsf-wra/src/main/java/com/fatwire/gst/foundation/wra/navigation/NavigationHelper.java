@@ -211,7 +211,7 @@ public class NavigationHelper {
 
         // determine if it's a wra, a placeholder or an alias
 
-        final AssetData pageData = AssetDataUtils.getAssetData(pageId, "subtype", "name");
+        final AssetData pageData = AssetDataUtils.getAssetData(ics,pageId, "subtype", "name");
         final String subtype = AttributeDataUtils.asString(pageData.getAttributeData("subtype"));
         final String name = AttributeDataUtils.asString(pageData.getAttributeData("name"));
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
