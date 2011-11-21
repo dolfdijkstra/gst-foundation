@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.fatwire.gst</groupId>
+        <artifactId>gsf-parent</artifactId>
+        <version>1.3-SNAPSHOT</version>
+    </parent>
+    <groupId>com.fatwire.gst</groupId>
+    <artifactId>gsf-deprecated</artifactId>
+    <packaging>jar</packaging>
+    <name>FatWire GST: Site Foundation Deprecated</name>
+    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-deprecated</url>
+    <inceptionYear>2010</inceptionYear>
+    <developers>
+         <developer>
+            <name>Dolf Dijkstra</name>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-deprecated</connection>
+        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-deprecated</developerConnection>
+        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-deprecated</url>
+    </scm>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-wra</artifactId>
+            <version>1.3-SNAPSHOT</version>
+        </dependency>
+       </dependencies>
+    <distributionManagement>
+        <site>
+            <id>website</id>
+            <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-deprecated</url>
+        </site>
+    </distributionManagement>
+</project>
