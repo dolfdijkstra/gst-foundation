@@ -31,6 +31,9 @@ import com.fatwire.mda.DimensionableAssetManager;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Miscellaneous utilities for working with dimensions
  * 
@@ -38,6 +41,8 @@ import com.fatwire.system.SessionFactory;
  * @since Jun 8, 2009
  */
 public final class DimensionUtils {
+    private static final Log _log = LogFactory.getLog(DefaultLocaleService.class.getPackage().getName());
+
     /**
      * Shorthand function for returning the DimensionableAssetManager given an
      * ICS context.
@@ -154,8 +159,12 @@ public final class DimensionUtils {
      */
     public static Collection<AssetId> filterAssets(DimensionManager dimensionManager, List<AssetId> toFilterList, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
         List<Dimension> preferredDimensions = dimensionManager.loadDimensions(preferredDimensionIds);
+        if (_log.isTraceEnabled())_log.trace("Loaded preferred dimensions and found "+preferredDimensions.size());
         DimensionFilterInstance filter = dimSet.getFilter();
+        if (_log.isTraceEnabled())_log.trace("Loading filter. Success? "+(filter != null));
         filter.setDimensonPreference(preferredDimensions);
+        Collection<AssetId> result = filter.filterAssets(toFilterList);
+        if (_log.isDebugEnabled())_log.debug("Filtered "+toFilterList+" using "+dimSet+", looking for "+preferredDimensionIds+" and got "+result);
         return filter.filterAssets(toFilterList);
     }
 }

@@ -42,7 +42,6 @@ import com.fatwire.mda.DimensionManager;
 import com.fatwire.mda.DimensionSetInstance;
 import com.fatwire.mda.DimensionableAssetManager;
 import com.fatwire.system.Session;
-import com.fatwire.system.SessionFactory;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.logging.Log;
@@ -279,7 +278,7 @@ public final class LocaleUtils {
      */
     public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, DimensionSetInstance dimset)
             throws IllegalStateException {
-        AssetId preferredDim = new AssetIdImpl("DimensionSet", preferredDimension);
+        AssetId preferredDim = new AssetIdImpl("Dimension", preferredDimension);
         List<AssetId> preferredDims = Collections.singletonList(preferredDim);
         Collection<AssetId> relatives = findTranslation(DimensionUtils.getDM(ics), Collections.singletonList(id), preferredDims, dimset );
         // *****************************************************************************
@@ -394,6 +393,7 @@ public final class LocaleUtils {
         results.moveTo(1);
         String id = IListUtils.getStringValue(results, "id");
         LogDep.logDep(ics, "DimensionSet", id);
+        if (_log.isTraceEnabled()) _log.trace("Looked up dimset for site "+site+" and found "+id);
         return Long.valueOf(id);
     }
 
