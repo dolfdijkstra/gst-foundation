@@ -1,11 +1,5 @@
 /*
- * Copyright (c) 2011 FieldCo, Inc. All Rights Reserved.
- */
-/*
- * Copyright (c) 2011 Metastratus Web Solutions Limited.  All Rights Reserved.
- */
-/*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2010 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
