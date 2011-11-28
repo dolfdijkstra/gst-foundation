@@ -47,8 +47,6 @@ public class GsfRootTag extends BodyTagSupport {
      */
     @Override
     public int doStartTag() throws JspException {
-        LOG.debug("doStartTag");
-
         super.doStartTag();
 
         final ICS ics = getICS();
