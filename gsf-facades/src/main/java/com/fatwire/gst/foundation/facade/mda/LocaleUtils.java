@@ -143,7 +143,7 @@ public final class LocaleUtils {
         }
         long preferredDimension = Long.valueOf(preferredLocaleDimensionIdString);
 
-        long dimensionSetId = _locateDimensionSetForSite(ics, site);
+        long dimensionSetId = locateDimensionSetForSite(ics, site);
 
         return findTranslation(ics, id, preferredDimension, dimensionSetId);
     }
@@ -173,7 +173,7 @@ public final class LocaleUtils {
         }
         long preferredDimension = Long.valueOf(preferredLocaleDimensionIdString);
 
-        long dimensionSetId = _locateDimensionSetForSite(ics, site);
+        long dimensionSetId = locateDimensionSetForSite(ics, site);
 
         return findTranslation(ics, id, preferredDimension, dimensionSetId);
     }
@@ -366,7 +366,7 @@ public final class LocaleUtils {
      * @param site site containing a dimension set
      * @return DimensionSet ID
      */
-    private static long _locateDimensionSetForSite(ICS ics, String site) {
+    public static long locateDimensionSetForSite(ICS ics, String site) {
         if (site == null) {
             throw new IllegalArgumentException("Required site name missing");
         }

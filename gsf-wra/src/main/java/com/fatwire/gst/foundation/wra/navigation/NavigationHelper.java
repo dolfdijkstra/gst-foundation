@@ -15,6 +15,7 @@
  */
 package com.fatwire.gst.foundation.wra.navigation;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
+import com.fatwire.mda.DimensionFilterInstance;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.lang.StringUtils;
@@ -132,6 +134,23 @@ public class NavigationHelper {
 
     /**
      * Retrieves the NavNode for the given Page with the provided name.
+     *
+     * @param depth the maximum depth to retrieve, -1 for no limit.
+     * @param name the name of the Page asset
+     * @param dimensionFilter in order to translate the output.
+     * @return NavNode for the Page with the name
+     */
+    public NavNode getSitePlanByPage(final int depth, final String name, DimensionFilterInstance dimensionFilter) {
+        String sitename = ics.GetVar("site");
+        if (StringUtils.isBlank(sitename))
+            throw new IllegalStateException(
+                    "site is not a ics variable. This function needs this variable to be aviable and contain the name of the site.");
+
+        return getSitePlanByPage(depth, name, sitename, dimensionFilter);
+    }
+
+    /**
+     * Retrieves the NavNode for the given Page with the provided name.
      * 
      * @param depth the maximum depth to retrieve, -1 for no limit.
      * @param name the name of the Page asset
@@ -139,6 +158,19 @@ public class NavigationHelper {
      * @return NavNode for the Page with the name
      */
     public NavNode getSitePlanByPage(final int depth, final String name, String sitename) {
+        return getSitePlanByPage(depth, name, sitename, null);
+    }
+
+    /**
+     * Retrieves the NavNode for the given Page with the provided name.
+     *
+     * @param depth the maximum depth to retrieve, -1 for no limit.
+     * @param name the name of the Page asset
+     * @param sitename the name of the site you want the navigation for.
+     * @param dimensionFilter in order to translate the output.
+     * @return NavNode for the Page with the name
+     */
+    public NavNode getSitePlanByPage(final int depth, final String name, String sitename, DimensionFilterInstance dimensionFilter) {
 
         SiteInfo site = assetTemplate.readSiteInfo(sitename);
         if (site == null)
@@ -146,7 +178,7 @@ public class NavigationHelper {
         final AssetId pageid = assetTemplate.findByName(ics, "Page", name, site.getId());
         if (pageid == null)
             return null;
-        return getSitePlan(depth, pageid);
+        return getSitePlan(depth, pageid, dimensionFilter);
     }
 
     /**
@@ -176,7 +208,7 @@ public class NavigationHelper {
      * @return the NavNode associated with this pageid.
      */
     public NavNode getSitePlan(final AssetId pageid) {
-        return getSitePlan(-1, pageid, 0);
+        return getSitePlan(-1, pageid, 0, null);
     }
 
     /**
@@ -187,7 +219,20 @@ public class NavigationHelper {
      * @return the NavNode for this page
      */
     public NavNode getSitePlan(final int depth, final AssetId pageid) {
-        return getSitePlan(depth, pageid, 0);
+        return getSitePlan(depth, pageid, 0, null);
+    }
+
+    /**
+     * Retrieves the NavNode for the given Page with the provided id.
+     *
+     * @param depth the maximum depth to retrieve, -1 for no limit.
+     * @param pageid the AssetId for the page
+     * @param dimensionFilter in order to translate the output.
+     * @return the NavNode for this page
+     */
+    public NavNode getSitePlan(final int depth, final AssetId pageid, final DimensionFilterInstance dimensionFilter) {
+        LOG.debug("Dimension filter "+dimensionFilter +" provided for site plan lookup");
+        return getSitePlan(depth, pageid, 0, dimensionFilter);
     }
 
     /**
@@ -199,7 +244,7 @@ public class NavigationHelper {
      * @param level starting level number when traversing the site plan tree
      * @return NavNode of the site plan tree
      */
-    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level) {
+    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level, final DimensionFilterInstance dimensionFilter) {
         LogDep.logDep(ics, pageId);
         if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
             // the input object is not valid. Abort
@@ -254,11 +299,19 @@ public class NavigationHelper {
 
             };
 
-            // retrieve the unnamed association(s) based on date filter
+            DateFilterClosure dateFilterClosure = new DateFilterClosure(PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure);
 
-            assetTemplate.readAssociatedAssets(pageId, "-",
-                    new DateFilterClosure(PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure),
-                    "startdate", "enddate");
+            // retrieve the unnamed association(s) based on date filter
+            if (dimensionFilter == null) {
+                assetTemplate.readAssociatedAssets(pageId, "-", dateFilterClosure);
+                //assetTemplate.readAssociatedAssets(pageId, "-", dateFilterClosure, "startdate", "enddate");
+            } else {
+                Collection<AssetId> associatedWraList = assetTemplate.readAssociatedAssetIds(pageId, "-");
+                for (final AssetId child : dimensionFilter.filterAssets(associatedWraList)) {
+                    assetTemplate.readAsset(child, dateFilterClosure);
+//                    assetTemplate.readAsset(child, dateFilterClosure, "startdate, enddate");
+                }
+            }
 
             // oldStyle(pageId, level, subtype, name, node);
         }
@@ -268,7 +321,7 @@ public class NavigationHelper {
             final List<AssetId> childrenIDs = ListPages.getChildPages(ics, pageId.getId());
             for (final AssetId aid : childrenIDs) {
                 // note recursing here
-                final NavNode kidInfo = getSitePlan(depth, aid, level + 1);
+                final NavNode kidInfo = getSitePlan(depth, aid, level + 1, dimensionFilter);
                 if (kidInfo != null && kidInfo.getPage() != null) {
                     node.addChild(kidInfo);
                 }

@@ -146,6 +146,26 @@ public final class DimensionUtils {
     }
 
     /**
+     * Method to get a fully-populated dimension filter, given the specified input params.  This can be used for
+     * filtering.
+     *
+     * @param dimensionManager      manager class for Dimension lookups
+     * @param preferredDimensionIds preferred dimensions to be investigated for a result. Priority preference depends on the
+     *                              configured filter
+     * @param dimSet                DimensionSet to use for filtering.
+     * @return list of assets based on the filtering rules in the dimension filter from the specified dimension set.
+     * @throws DimensionException in case something goes terribly wrong.
+     */
+    public static DimensionFilterInstance getDimensionFilter(DimensionManager dimensionManager, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
+        List<Dimension> preferredDimensions = dimensionManager.loadDimensions(preferredDimensionIds);
+        if (_log.isTraceEnabled())_log.trace("Loaded preferred dimensions and found "+preferredDimensions.size());
+        DimensionFilterInstance filter = dimSet.getFilter();
+        if (_log.isTraceEnabled())_log.trace("Loading filter. Success? "+(filter != null));
+        filter.setDimensonPreference(preferredDimensions);
+        return filter;
+    }
+
+    /**
      * Main dimension filtering method.  Accesses the filter in the dimension set, configures it with the preferred
      * dimension IDs, then filters the input assets.
      *
@@ -158,13 +178,9 @@ public final class DimensionUtils {
      * @throws DimensionException in case something goes terribly wrong.
      */
     public static Collection<AssetId> filterAssets(DimensionManager dimensionManager, List<AssetId> toFilterList, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
-        List<Dimension> preferredDimensions = dimensionManager.loadDimensions(preferredDimensionIds);
-        if (_log.isTraceEnabled())_log.trace("Loaded preferred dimensions and found "+preferredDimensions.size());
-        DimensionFilterInstance filter = dimSet.getFilter();
-        if (_log.isTraceEnabled())_log.trace("Loading filter. Success? "+(filter != null));
-        filter.setDimensonPreference(preferredDimensions);
-        Collection<AssetId> result = filter.filterAssets(toFilterList);
+        Collection<AssetId> result = getDimensionFilter(dimensionManager, preferredDimensionIds, dimSet).filterAssets(toFilterList);
         if (_log.isDebugEnabled())_log.debug("Filtered "+toFilterList+" using "+dimSet+", looking for "+preferredDimensionIds+" and got "+result);
-        return filter.filterAssets(toFilterList);
+        return result;
     }
+
 }
