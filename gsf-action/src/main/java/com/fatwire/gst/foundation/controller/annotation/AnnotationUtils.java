@@ -64,7 +64,7 @@ public final class AnnotationUtils {
     public static <T> Field findField(final Object a, final Class<T> type) {
         Class<?> klazz = a.getClass();
         while (klazz != null && klazz != Object.class) {
-            for (final Field field : a.getClass().getDeclaredFields()) {
+            for (final Field field : klazz.getDeclaredFields()) {
                 if (field.getAnnotation(InjectForRequest.class) != null && type.isAssignableFrom(field.getType())) {
                     try {
                         return field;
