@@ -37,7 +37,7 @@ public class IncludeTemplate implements Include {
 
     public static final List<String> FORBIDDEN_VARS = Collections.unmodifiableList(Arrays.asList("c", "cid", "eid",
             "seid", "packedargs", "variant", "context", "pagename", "childpagename", "site", "sitepfx", "tid",
-            "rendermode", "ft_ss"));
+            "rendermode", "ft_ss", "SystemAssetsRoot", "cshttp", "errno", "tablename", "empty", "errdetail", "null"));
 
     private final CallTemplate tag;
     private final List<String> pc;
@@ -81,12 +81,12 @@ public class IncludeTemplate implements Include {
         }
         pc = Arrays.asList(keys);
         // copy the current available arguments
-        // developer can override later by calling arguments
-        for (final String k : keys) {
-            if (!FORBIDDEN_VARS.contains(k)) {
-                final String v = ics.GetVar(k);
-                if (StringUtils.isNotBlank(v)) {
-                    argument(k, v);
+        // developer can override later by calling method argument
+        for (final String key : keys) {
+            if (!FORBIDDEN_VARS.contains(key.toLowerCase(Locale.US))) {
+                final String value = ics.GetVar(key);
+                if (StringUtils.isNotBlank(value)) {
+                    tag.setArgument(key, value);
                 }
             }
         }
