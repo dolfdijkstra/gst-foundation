@@ -16,6 +16,8 @@
 
 package com.fatwire.gst.foundation.test.event;
 
+import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
@@ -23,9 +25,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class is a trivial asset event listener that reports that an asset event has been heard.
- * This is used to test the asset event system.
- *
+ * This class is a trivial asset event listener that reports that an asset event
+ * has been heard. This is used to test the asset event system.
+ * 
  * @author Tony Field
  * @since 2011-03-28
  */
@@ -46,5 +48,11 @@ public final class VerySimpleAssetEventListener extends AbstractAssetEventListen
     @Override
     public void assetDeleted(AssetId assetId) {
         LOG.info("Heard assetDeleted event for " + assetId);
+    }
+
+    @Override
+    public void init(ICS arg0) {
+        LOG.info("init " + (arg0 == null ? " without ICS arg." : ""));
+
     }
 }

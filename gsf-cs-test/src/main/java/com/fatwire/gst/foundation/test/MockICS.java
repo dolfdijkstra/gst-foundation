@@ -873,8 +873,22 @@ public class MockICS implements ICS {
     }
 
 	public IList CatalogIndexDef(String arg0, String arg1, StringBuffer arg2) {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public boolean BlobServer(FTValList arg0, OutputStream arg1) {
+        return false;
+    }
+
+    @Override
+    public boolean IsTrackedNewFormat(String arg0) {
+        return false;
+    }
+
+    @Override
+    public String getElementArgumentValue(String arg0, String arg1) {
+        return null;
+    }
 
 }
