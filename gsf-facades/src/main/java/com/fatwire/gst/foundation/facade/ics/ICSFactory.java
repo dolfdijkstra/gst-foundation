@@ -26,6 +26,7 @@ import COM.FutureTense.Servlet.IPSRegistry;
  * so use it sparingly.
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jul 29, 2010
  */
 public final class ICSFactory {
