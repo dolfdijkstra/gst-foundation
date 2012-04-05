@@ -95,8 +95,8 @@ public class NavigationHelper {
     public NavigationHelper(final ICS ics) {
         this.ics = ics;
         this.wraDao = new AssetApiWraCoreFieldDao(ics);
-        
-        this.aliasDao = new AssetApiAliasCoreFieldDao(ics,wraDao);
+
+        this.aliasDao = new AssetApiAliasCoreFieldDao(ics, wraDao);
         this.assetEffectiveDate = null;
         assetTemplate = new AssetAccessTemplate(ics);
     }
@@ -134,7 +134,7 @@ public class NavigationHelper {
 
     /**
      * Retrieves the NavNode for the given Page with the provided name.
-     *
+     * 
      * @param depth the maximum depth to retrieve, -1 for no limit.
      * @param name the name of the Page asset
      * @param dimensionFilter in order to translate the output.
@@ -163,14 +163,15 @@ public class NavigationHelper {
 
     /**
      * Retrieves the NavNode for the given Page with the provided name.
-     *
+     * 
      * @param depth the maximum depth to retrieve, -1 for no limit.
      * @param name the name of the Page asset
      * @param sitename the name of the site you want the navigation for.
      * @param dimensionFilter in order to translate the output.
      * @return NavNode for the Page with the name
      */
-    public NavNode getSitePlanByPage(final int depth, final String name, String sitename, DimensionFilterInstance dimensionFilter) {
+    public NavNode getSitePlanByPage(final int depth, final String name, String sitename,
+            DimensionFilterInstance dimensionFilter) {
 
         SiteInfo site = assetTemplate.readSiteInfo(sitename);
         if (site == null)
@@ -224,14 +225,14 @@ public class NavigationHelper {
 
     /**
      * Retrieves the NavNode for the given Page with the provided id.
-     *
+     * 
      * @param depth the maximum depth to retrieve, -1 for no limit.
      * @param pageid the AssetId for the page
      * @param dimensionFilter in order to translate the output.
      * @return the NavNode for this page
      */
     public NavNode getSitePlan(final int depth, final AssetId pageid, final DimensionFilterInstance dimensionFilter) {
-        LOG.debug("Dimension filter "+dimensionFilter +" provided for site plan lookup");
+        LOG.debug("Dimension filter " + dimensionFilter + " provided for site plan lookup");
         return getSitePlan(depth, pageid, 0, dimensionFilter);
     }
 
@@ -244,9 +245,10 @@ public class NavigationHelper {
      * @param level starting level number when traversing the site plan tree
      * @return NavNode of the site plan tree
      */
-    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level, final DimensionFilterInstance dimensionFilter) {
+    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level,
+            final DimensionFilterInstance dimensionFilter) {
         LogDep.logDep(ics, pageId);
-        if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
+        if (PreviewContext.isSitePreviewEnabled(ics) && !isValidOnDate(ics, pageId, assetEffectiveDate)) {
             // the input object is not valid. Abort
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
@@ -256,64 +258,37 @@ public class NavigationHelper {
 
         // determine if it's a wra, a placeholder or an alias
 
-        final AssetData pageData = AssetDataUtils.getAssetData(ics,pageId, "subtype", "name");
+        final AssetData pageData = AssetDataUtils.getAssetData(ics, pageId, "subtype", "name");
         final String subtype = AttributeDataUtils.asString(pageData.getAttributeData("subtype"));
         final String name = AttributeDataUtils.asString(pageData.getAttributeData("name"));
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
         final NavNode node = new NavNode();
+
+        // no link if it's just a placeholder
+        node.setPage(pageId);
+        node.setLevel(level);
+        node.setPagesubtype(subtype);
+        node.setPagename(name);
         if (isNavigationPlaceholder) {
-            // no link if it's just a placeholder
             node.setPage(pageId);
             node.setLevel(level);
             node.setPagesubtype(subtype);
             node.setPagename(name);
-        } else {
-            AssetClosure closure = new AssetClosure() {
-                boolean set = false;
-
-                public boolean work(AssetData asset) {
-                    if (set) {
-                        // skipping
-                        node.setId(null);
-                        node.setWra(null);
-                        node.setLinktext(null);
-                        node.setUrl(null);
-                        return false;
-                    } else {
-
-                        set = true;
-                        node.setPage(pageId);
-                        node.setLevel(level);
-                        node.setPagesubtype(subtype);
-                        node.setPagename(name);
-                        final AssetId id = asset.getAssetId();
-                        node.setId(id);
-                        if (isGstAlias(id)) {
-                            decorateAsAlias(id, node);
-                        } else {
-                            decorateAsWra(id, node);
-                        }
-                        return true;
-                    }
-                }
-
-            };
-
-            DateFilterClosure dateFilterClosure = new DateFilterClosure(PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure);
+            AssetClosure closure = new NodeAssetClosure(node);
+            AssetClosure dateFilterClosure = PreviewContext.isSitePreviewEnabled(ics) ? new DateFilterClosure(
+                    PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure) : closure;
 
             // retrieve the unnamed association(s) based on date filter
             if (dimensionFilter == null) {
                 assetTemplate.readAssociatedAssets(pageId, "-", dateFilterClosure);
-                //assetTemplate.readAssociatedAssets(pageId, "-", dateFilterClosure, "startdate", "enddate");
+
             } else {
                 Collection<AssetId> associatedWraList = assetTemplate.readAssociatedAssetIds(pageId, "-");
                 for (final AssetId child : dimensionFilter.filterAssets(associatedWraList)) {
                     assetTemplate.readAsset(child, dateFilterClosure);
-//                    assetTemplate.readAsset(child, dateFilterClosure, "startdate, enddate");
+
                 }
             }
-
-            // oldStyle(pageId, level, subtype, name, node);
         }
 
         if (depth < 0 || depth > level) {
@@ -435,4 +410,39 @@ public class NavigationHelper {
     public long findP(final String site_name, final AssetId wraAssetId) {
         return wraDao.findP(new AssetIdWithSite(wraAssetId.getType(), wraAssetId.getId(), site_name));
     }
+
+    class NodeAssetClosure implements AssetClosure {
+
+        boolean set = false;
+        private final NavNode node;
+
+        public NodeAssetClosure(NavNode node) {
+            this.node = node;
+        }
+
+        public boolean work(AssetData asset) {
+            if (set) {
+                // skipping
+                node.setId(null);
+                node.setWra(null);
+                node.setLinktext(null);
+                node.setUrl(null);
+                return false;
+            } else {
+
+                set = true;
+
+                final AssetId id = asset.getAssetId();
+                node.setId(id);
+                if (isGstAlias(id)) {
+                    decorateAsAlias(id, node);
+                } else {
+                    decorateAsWra(id, node);
+                }
+                return true;
+            }
+        }
+
+    };
+
 }
