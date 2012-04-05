@@ -93,4 +93,23 @@ public class PreviewContext {
         }
     }
 
+    /**
+     * Checks if start/enddate checking is enabled.
+     * 
+     * @param ics
+     * @return true if 'cs.sitepreview' xcelerate property is either 'contentmanagement' or 'delivery', false if set to 'disabled'.
+     */
+    public static boolean isSitePreviewEnabled(ICS ics) {
+        if (ics.LoadProperty("futuretense.ini;futuretense_xcel.ini")) {
+            
+            if (ftMessage.disabled.equals(ics.GetProperty(ftMessage.cssitepreview))) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } else {
+            return false;
+        }
+    }
 }
