@@ -46,4 +46,10 @@ public class EventPrintAssetListener extends AbstractAssetEventListener {
         AssetListenerInstall.register(ics, EventPrintAssetListener.class.getName(), true);
     }
 
+    @Override
+    public void init(ICS arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

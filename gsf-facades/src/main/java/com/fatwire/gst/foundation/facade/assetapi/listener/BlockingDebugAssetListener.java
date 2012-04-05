@@ -31,10 +31,12 @@ import org.apache.commons.logging.LogFactory;
 
 public class BlockingDebugAssetListener extends AbstractAssetEventListener {
     private static final Log LOG = LogFactory.getLog(BlockingDebugAssetListener.class.getPackage().getName());
+    private ICS ics;
 
     void printAsset(final AssetId id) {
         if (LOG.isDebugEnabled()) {
-            final ICS ics = ICSFactory.getOrCreateICS();
+
+            final ICS ics = getICS();// ;
             final AssetData ad = AssetDataUtils.getAssetData(ics, id);
             try {
                 LOG.debug("Print asset with current ICS " + id);
@@ -44,6 +46,10 @@ public class BlockingDebugAssetListener extends AbstractAssetEventListener {
             }
         }
 
+    }
+
+    protected ICS getICS() {
+        return ics != null ? ics : ICSFactory.getOrCreateICS();
     }
 
     @Override
@@ -68,6 +74,12 @@ public class BlockingDebugAssetListener extends AbstractAssetEventListener {
 
     public void install(final ICS ics) {
         AssetListenerInstall.register(ics, BlockingDebugAssetListener.class.getName(), true);
+    }
+
+    @Override
+    public void init(ICS ics) {
+        this.ics = ics;
+
     }
 
 }

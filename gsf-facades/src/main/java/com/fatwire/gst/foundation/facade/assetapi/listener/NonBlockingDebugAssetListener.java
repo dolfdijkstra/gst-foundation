@@ -31,10 +31,12 @@ import org.apache.commons.logging.LogFactory;
 
 public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
     private static final Log LOG = LogFactory.getLog(NonBlockingDebugAssetListener.class.getPackage().getName());
+    private ICS ics;
+   
 
     void printAsset(final AssetId id) {
         if (LOG.isDebugEnabled()) {
-            final ICS ics = ICSFactory.newICS();
+            final ICS ics = getICS();
             final AssetData ad = AssetDataUtils.getAssetData(ics, id);
             try {
                 LOG.debug("Print asset with new ICS " + id);
@@ -68,6 +70,15 @@ public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
 
     public void install(final ICS ics) {
         AssetListenerInstall.register(ics, NonBlockingDebugAssetListener.class.getName(), false);
+    }
+    protected ICS getICS() {
+        return ics != null ? ics : ICSFactory.getOrCreateICS();
+    }
+
+    @Override
+    public void init(ICS ics) {
+        this.ics=ics;
+        
     }
 
 }

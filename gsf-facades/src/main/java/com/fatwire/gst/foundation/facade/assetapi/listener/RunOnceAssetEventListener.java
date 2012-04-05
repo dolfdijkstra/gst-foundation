@@ -35,8 +35,10 @@ import org.apache.commons.logging.Log;
  * @author Dolf Dijkstra
  * 
  */
+
 public abstract class RunOnceAssetEventListener extends AbstractAssetEventListener {
     protected final Log LOG = LogUtil.getLog(getClass());
+    private ICS ics;
 
     private static class RunOnceList {
         private final Set<String> assets = new HashSet<String>();
@@ -68,7 +70,7 @@ public abstract class RunOnceAssetEventListener extends AbstractAssetEventListen
     }
 
     private boolean seen(final AssetId id) {
-        final boolean s = RunOnceList.find(ICSFactory.getOrCreateICS(), getClass()).seenBefore(id);
+        final boolean s = RunOnceList.find(getICS(), getClass()).seenBefore(id);
         LOG.debug("An event for asset " + id + " was " + (s ? "" : " not ") + " executed before.");
         return s;
     }
@@ -100,5 +102,18 @@ public abstract class RunOnceAssetEventListener extends AbstractAssetEventListen
      */
     public final void install(final ICS ics) {
         AssetListenerInstall.register(ics, getClass().getName(), true);
+    }
+    protected ICS getICS() {
+        return ics != null ? ics : ICSFactory.getOrCreateICS();
+    }
+
+    
+    /* (non-Javadoc)
+     * @see com.openmarket.basic.event.AbstractAssetEventListener#init(COM.FutureTense.Interfaces.ICS)
+     */
+    @Override
+    public void init(ICS ics) {
+       this.ics=ics;
+        
     }
 }
