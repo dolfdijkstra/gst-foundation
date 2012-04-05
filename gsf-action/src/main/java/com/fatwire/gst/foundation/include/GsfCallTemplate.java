@@ -21,6 +21,7 @@ import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.satellite.Page;
 
@@ -84,7 +85,8 @@ public class GsfCallTemplate {
                     final boolean ret = ics.CallElement(elementname, arguments);
                     ics.PopVars();
                     if (!ret) {
-                        throw new RuntimeException(ics.getComplexError());
+                        throw new CSRuntimeException("Calling element " + elementname + " failed",
+                                ics.getComplexError(), ics.GetErrno());
                     }
                     return null;
                 }
@@ -97,7 +99,8 @@ public class GsfCallTemplate {
                     final boolean ret = ics.InsertPage(pagename, arguments);
                     ics.PopVars();
                     if (!ret) {
-                        throw new RuntimeException(ics.getComplexError());
+                        throw new CSRuntimeException("Inserting page " + pagename + " failed", ics.getComplexError(),
+                                ics.GetErrno());
                     }
 
                     return null;
