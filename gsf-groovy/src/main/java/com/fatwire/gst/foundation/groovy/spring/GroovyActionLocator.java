@@ -19,7 +19,9 @@ package com.fatwire.gst.foundation.groovy.spring;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
-import com.fatwire.gst.foundation.controller.action.support.BaseActionLocator;
+import com.fatwire.gst.foundation.controller.action.ActionLocator;
+import com.fatwire.gst.foundation.controller.action.Injector;
+import com.fatwire.gst.foundation.controller.action.support.AbstractActionLocator;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -27,16 +29,22 @@ import org.apache.commons.lang.StringUtils;
  * @author Dolf Dijkstra
  * @since Mar 28, 2011
  */
-public class GroovyActionLocator extends BaseActionLocator {
+public class GroovyActionLocator extends AbstractActionLocator {
     private GroovyLoader groovyLoader;
+
+    public GroovyActionLocator() {
+        super();
+
+    }
+
+    public GroovyActionLocator(ActionLocator fallbackActionLocator, Injector injector) {
+        super(fallbackActionLocator, injector);
+    }
 
     protected Action doFindAction(final ICS ics, final String name) {
 
         Action action = null;
         action = groovyAction(name);
-        if (action != null) {
-            injectDependencies(ics, action);
-        }
 
         return action;
     }
@@ -49,18 +57,22 @@ public class GroovyActionLocator extends BaseActionLocator {
      * @throws RuntimeException
      */
     private Action groovyAction(final String name) {
-        Action action = null;
+
         if (StringUtils.isBlank(name))
             return null;
+        Action action = null;
         final String script = name.endsWith(".groovy") ? name : name + ".groovy";
         try {
 
-            if (groovyLoader.isValidScript(script)) {
-                final Object o = groovyLoader.load(groovyLoader.toClassName(script));
+            if (getGroovyLoader().isValidScript(script)) {
+                final Object o = getGroovyLoader().load(getGroovyLoader().toClassName(script));
 
                 if (o instanceof Action) {
                     action = (Action) o;
                 }
+            } else {
+                if (LOG.isDebugEnabled())
+                    LOG.debug(script + " is not a valid script.");
             }
         } catch (final RuntimeException e) {
             throw e;

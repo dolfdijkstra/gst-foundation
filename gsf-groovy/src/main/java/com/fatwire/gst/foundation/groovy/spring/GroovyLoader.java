@@ -47,6 +47,16 @@ public class GroovyLoader extends WebApplicationObjectSupport {
     private String configPath = "/WEB-INF/gsf-groovy";
     private int minimumRecompilationInterval = 0;
 
+    public GroovyLoader() {
+        super();
+
+    }
+
+    public GroovyLoader(ServletContext servletContext) {
+        bootEngine(servletContext.getRealPath(configPath));
+
+    }
+
     /*
      * (non-Javadoc)
      * 
