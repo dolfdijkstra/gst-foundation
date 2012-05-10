@@ -23,7 +23,8 @@ import com.fatwire.assetapi.data.AssetId;
  * Bean containing Vanity Asset fields
  * 
  * @author Dolf Dijkstra
- * @since 1.3
+ * @since 10 mei 2012
+ * 
  */
 public interface VanityAsset {
 

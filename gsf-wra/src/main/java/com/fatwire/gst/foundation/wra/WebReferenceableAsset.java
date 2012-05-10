@@ -15,31 +15,15 @@
  */
 package com.fatwire.gst.foundation.wra;
 
-import java.util.Date;
-
-import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Bean containing core WebReferenceableAsset fields
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jul 21, 2010
  */
-public interface WebReferenceableAsset {
-
-    public AssetId getId();
-
-    public String getName();
-
-    public String getDescription();
-
-    public String getSubtype();
-
-    public String getStatus();
-
-    public Date getStartDate();
-
-    public Date getEndDate();
+public interface WebReferenceableAsset extends VanityAsset {
 
     public String getMetaTitle();
 
@@ -51,7 +35,4 @@ public interface WebReferenceableAsset {
 
     public String getLinkText();
 
-    public String getPath();
-
-    public String getTemplate();
 }
