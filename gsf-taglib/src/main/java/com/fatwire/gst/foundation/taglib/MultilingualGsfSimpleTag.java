@@ -178,6 +178,7 @@ public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
 
         // finally, get the locale from the servlet request's Accept-Language header..
         List<AssetId> preferredLocales = new ArrayList<AssetId>();
+        @SuppressWarnings({ "rawtypes", "deprecation" })
         Enumeration locales = ics.getIServlet().getServletRequest().getLocales();
         while (locales.hasMoreElements()) {
             Locale locale = (Locale) locales.nextElement();
