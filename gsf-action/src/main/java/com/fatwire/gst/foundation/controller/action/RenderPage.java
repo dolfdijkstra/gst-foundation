@@ -20,12 +20,9 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.BaseRenderPage;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
-
-import org.apache.commons.logging.Log;
 
 /**
  * Generic page-rendering action.
@@ -35,10 +32,6 @@ import org.apache.commons.logging.Log;
  * @since 2011-03-15
  */
 public class RenderPage extends BaseRenderPage implements Action {
-
-    public static final String PACKEDARGS = "packedargs";
-
-    protected static final Log LOG = LogUtil.getLog(RenderPage.class);
 
     public void handleRequest(final ICS ics) {
 
