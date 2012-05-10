@@ -98,7 +98,6 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
         setSlotname(slotname);
         setTname(tname);
         setTtype(type);
-        // setStyle(Style.element);
         setContext("");
     }
 
