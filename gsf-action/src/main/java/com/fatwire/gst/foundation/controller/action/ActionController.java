@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.controller.action;
 import javax.servlet.ServletContext;
 
 /**
- * AbstractActionController that is using the spring framework to configure the ActionLocator and ActionNameResolver.
+ * AbstractActionController that is using the AppContext to configure the ActionLocator and ActionNameResolver.
  * 
  * @author Tony Field
  * @author Dolf Dijkstra

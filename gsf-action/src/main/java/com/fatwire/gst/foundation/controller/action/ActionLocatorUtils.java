@@ -18,6 +18,8 @@ package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
 
+import com.fatwire.gst.foundation.controller.support.WebContextUtil;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.WebApplicationContext;
@@ -38,8 +40,8 @@ public final class ActionLocatorUtils {
     }
 
     /**
-     * Returns the ActionLocator as configured by spring framework on the
-     * WebApplicationContext bean by the name of gsfActionLocator.
+     * Returns the ActionLocator as configured on the
+     * WebAppContext bean by the name of gsfActionLocator.
      * 
      * @param servletContext the servlet context.
      * @return the ActionLocator that is configured via the servletContext.
@@ -49,14 +51,24 @@ public final class ActionLocatorUtils {
     }
 
     /**
-     * Returns the ActionLocator as configured by spring framework on the
-     * WebApplicationContext bean by the name 'beanName'.
+     * Returns the ActionLocator as configured on the
+     * WebAppContext bean by the name 'beanName'.
      * 
      * @param servletContext the servlet context.
      * @return the ActionLocator that is configured via the servletContext.
      */
 
     public static ActionLocator getActionLocator(final ServletContext servletContext, String beanName) {
+        return WebContextUtil.getWebAppContext(servletContext).getBean(beanName, ActionLocator.class);
+    }
+    /**
+     * Returns the ActionLocator as configured by spring framework on the
+     * WebApplicationContext bean by the name 'beanName'.
+     * 
+     * @param servletContext the servlet context.
+     * @return the ActionLocator that is configured via the servletContext.
+     */
+    public static ActionLocator getActionLocatorX(final ServletContext servletContext, String beanName) {
 
         // get the spring web application context
         final WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);

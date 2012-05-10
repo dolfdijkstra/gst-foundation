@@ -28,10 +28,11 @@ import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
-import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.include.DefaultIncludeService;
+import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
@@ -45,7 +46,6 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Factory implementation that works with a method naming convention to create
@@ -64,12 +64,12 @@ import org.apache.commons.logging.LogFactory;
  * 
  */
 public class IcsBackedObjectFactoryTemplate implements Factory {
-    protected static final Log LOG = LogFactory.getLog(IcsBackedObjectFactoryTemplate.class.getPackage().getName());
+    protected static final Log LOG = LogUtil.getLog(IcsBackedObjectFactoryTemplate.class);
     private final ICS ics;
     private final Map<String, Object> objectCache = new HashMap<String, Object>();
 
     /**
-     * Constrctor.
+     * Constructor.
      * 
      * @param ics the Content Server context
      */
@@ -160,7 +160,6 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         return ics;
     }
 
-    // @Factory
     public WraCoreFieldDao createWraCoreFieldDao(final ICS ics) {
         return AssetApiWraCoreFieldDao.getInstance(ics);
     }

@@ -35,7 +35,7 @@ public class ControllerMappingResolver {
 
     /**
      * @param ics
-     * @param o object with method annations of type IcsVariable
+     * @param o object with method annotations of type IcsVariable
      * @return the method with the IcsVariable annotation that has a match for
      *         the name value pair as set in the annotation.
      */

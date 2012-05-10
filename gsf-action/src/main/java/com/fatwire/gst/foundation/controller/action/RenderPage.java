@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.Utilities;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
@@ -46,9 +47,12 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * Generic page-rendering action.
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since 2011-03-15
  */
 public class RenderPage implements Action {
+
+    public static final String PACKEDARGS = "packedargs";
 
     protected static final Log LOG = LogFactory.getLog(RenderPage.class.getPackage().getName());
 
@@ -63,6 +67,7 @@ public class RenderPage implements Action {
 
     public void handleRequest(final ICS ics) {
 
+        unpackPackedArgs();
         final AssetIdWithSite id = resolveAssetId();
         if (id == null || id.getSite() == null) {
             throw new CSRuntimeException("Asset or site not found: '" + id + "' for url " + ics.pageURL(),
@@ -74,6 +79,24 @@ public class RenderPage implements Action {
 
         callTemplate(new AssetIdWithSite(wra.getId(), id.getSite()), wra.getTemplate());
         LOG.debug("RenderPage execution complete");
+    }
+
+    protected void unpackPackedArgs() {
+        // for RenderPage unpacking and throwing away packedargs seems the correct thing to do
+        final String packedargs = ics.GetVar(PACKEDARGS);
+        if (StringUtils.isNotBlank(packedargs)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("packedargs is " + packedargs);
+            }
+            Map<String, String> map = new HashMap<String, String>();
+            ics.decode(packedargs, map);
+            for (Map.Entry<String, String> e : map.entrySet()) {
+                ics.SetVar(e.getKey(), e.getValue());
+
+            }
+            ics.RemoveVar(PACKEDARGS);
+        }
+
     }
 
     /**
@@ -119,21 +142,25 @@ public class RenderPage implements Action {
         ct.setContext("");
         ct.setArgument("site", id.getSite());
 
-        final String packedargs = ics.GetVar("packedargs");
+        final String packedargs = ics.GetVar(PACKEDARGS);
         if (StringUtils.isNotBlank(packedargs)) {
-            ct.setPackedargs(packedargs);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("packedargs is " + packedargs);
+            }
+            ct.setPackedargs(massagePackedArgs(packedargs));
         }
 
         // typeless or not...
         final String targetPagename = tname.startsWith("/") ? (id.getSite() + tname) : (id.getSite() + "/"
                 + id.getType() + "/" + tname);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Target pagename is " + targetPagename);
+        }
 
         // create a list of parameters that can be specified as arguments to the
         // CallTemplate tag.
         final Map<String, String> arguments = new HashMap<String, String>();
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Target pagename is " + targetPagename);
-        }
+
         // Prime the map with the ics variable scope for the architect to make
         // the controller as transparent as possible
         String[] pageKeys = ics.pageCriteriaKeys(targetPagename);
@@ -167,6 +194,10 @@ public class RenderPage implements Action {
         if (s != null) {
             ics.StreamText(s);
         }
+    }
+
+    protected String massagePackedArgs(String packedargs) {
+        return packedargs;
     }
 
     /**
@@ -208,10 +239,9 @@ public class RenderPage implements Action {
         return id;
     }
 
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid",
-            "packedargs", "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot",
-            "url-path", "rendermode", "ft_ss", "SystemAssetsRoot", "cshttp", "errno", "tablename", "empty",
-            "errdetail", "null");
+    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", PACKEDARGS,
+            "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path",
+            "rendermode", "ft_ss", "SystemAssetsRoot", "cshttp", "errno", "tablename", "empty", "errdetail", "null");
 
     /**
      * This method collects additional arguments for the CallTemplate call. New

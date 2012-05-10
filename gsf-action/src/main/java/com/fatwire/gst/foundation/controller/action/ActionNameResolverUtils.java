@@ -19,6 +19,7 @@ package com.fatwire.gst.foundation.controller.action;
 import javax.servlet.ServletContext;
 
 import com.fatwire.gst.foundation.controller.action.support.NullActionNameResolver;
+import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,6 +54,11 @@ public final class ActionNameResolverUtils {
         return getActionNameResolver(servletContext, ACTION_NAME_RESOLVER_BEAN);
     }
 
+    private static ActionNameResolver getActionNameResolver(ServletContext servletContext, String actionNameResolverBean) {
+        return WebContextUtil.getWebAppContext(servletContext)
+                .getBean(actionNameResolverBean, ActionNameResolver.class);
+    }
+
     /**
      * Returns the ActionNameResolver as configured by spring framework on the
      * WebApplicationContext bean by the name 'beanName'.
@@ -61,7 +67,7 @@ public final class ActionNameResolverUtils {
      * @return the ActionNameResolver that is configured via the servletContext.
      */
 
-    public static ActionNameResolver getActionNameResolver(final ServletContext servletContext, String beanName) {
+    public static ActionNameResolver getActionNameResolverX(final ServletContext servletContext, String beanName) {
 
         // get the spring web application context
         final WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -77,7 +83,7 @@ public final class ActionNameResolverUtils {
         } catch (NoSuchBeanDefinitionException e) {
             return nullActionNameResolver;
         }
-        
+
         return resolver;
     }
 

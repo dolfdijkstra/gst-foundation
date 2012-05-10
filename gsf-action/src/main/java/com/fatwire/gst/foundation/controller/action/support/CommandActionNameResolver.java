@@ -22,7 +22,7 @@ import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * ActionNameResolver that looks up variable name value from ICS scope.Default
+ * ActionNameResolver that looks up variable name value from ICS scope. Default
  * variable name is 'cmd'.
  * 
  * @author Dolf.Dijkstra
@@ -32,6 +32,14 @@ public class CommandActionNameResolver implements ActionNameResolver {
     private static final String CMD_VAR = "cmd";
 
     private String varName;
+
+    public CommandActionNameResolver() {
+        varName = "cmd";
+    }
+
+    public CommandActionNameResolver(String name) {
+        this.varName = name;
+    }
 
     public final String getVarName() {
         return StringUtils.isNotBlank(varName) ? varName : CMD_VAR;
