@@ -380,7 +380,7 @@ public class NavigationHelper {
     }
 
     protected void decorateAsAlias(final AssetId id, final NavNode node) {
-        final Alias alias = aliasDao.getAlias(id); // wraUtils.getAlias(id);
+        final Alias alias = aliasDao.getAlias(id);
         final String url = getUrlForAlias(alias);
         final String linktext = alias.getLinkText();
         node.setWra(alias);

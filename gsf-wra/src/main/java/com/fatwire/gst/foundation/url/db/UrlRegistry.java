@@ -38,7 +38,7 @@ import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
-import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.VanityAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.lang.StringUtils;
@@ -134,11 +134,11 @@ public class UrlRegistry implements WraPathTranslationService {
 
     @Override
     public void addAsset(final AssetId asset) {
-        if (wraDao.isWebReferenceable(asset)) {
+        if (wraDao.isVanityAsset(asset)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Attempting to add WRA " + asset + " to url registry");
             }
-            final WebReferenceableAsset wra = wraDao.getWra(asset);
+            final VanityAsset wra = wraDao.getVanityWra(asset);
             addAsset(wra);
         } else {
             if (LOG.isTraceEnabled()) {
@@ -147,7 +147,7 @@ public class UrlRegistry implements WraPathTranslationService {
         }
     }
 
-    private void addAsset(final WebReferenceableAsset wra) {
+    private void addAsset(final VanityAsset wra) {
         final AssetId asset = wra.getId();
 
         final VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
@@ -207,11 +207,7 @@ public class UrlRegistry implements WraPathTranslationService {
             deleteAsset(id);
         }
 
-        if (wraDao.isWebReferenceable(id)) {
-            // asset api is throwing NPE when an attribute that is asked for
-            // does
-            // not exist
-            // WebReferenceableAsset wra = wraDao.getWra(id);
+        if (wraDao.isVanityAsset(id)) {
             addAsset(id);
         }
     }

@@ -42,6 +42,8 @@ import org.apache.commons.logging.LogFactory;
  * dependencies, that would ordinarily be recorded, being skipped.
  * <p/>
  * User: Tony Field Date: 2011-05-06
+ * 
+ * @author Dolf Dijkstra
  */
 public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
     public static WraCoreFieldApiBypassDao getBackdoorInstance(ICS ics) {
@@ -219,6 +221,22 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
         return wraTable;
     }
 
-   
+    @Override
+    public boolean isVanityAsset(AssetId id) {
+        try {
+            final PreparedStmt basicFields = new PreparedStmt("SELECT path FROM " + id.getType() + " WHERE id = ?",
+                    Collections.singletonList(id.getType()));
+            basicFields.setElement(0, id.getType(), "id");
+
+            final StatementParam param = basicFields.newParam();
+            param.setLong(0, id.getId());
+            final Row row = SqlHelper.selectSingle(ics, basicFields, param);
+            if (row == null)
+                return false;
+            return StringUtils.isNotBlank(row.getString("path"));
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
 
 }

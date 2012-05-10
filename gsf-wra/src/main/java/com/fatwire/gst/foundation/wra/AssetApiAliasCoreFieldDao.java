@@ -49,12 +49,10 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
     private final ICS ics;
     private final WraCoreFieldDao wraCoreFieldDao;
 
-
     public AssetApiAliasCoreFieldDao(ICS ics, WraCoreFieldDao wraCoreFieldDao) {
         this.ics = ics;
         this.wraCoreFieldDao = wraCoreFieldDao;
     }
-
 
     private static final Log LOG = LogFactory.getLog(AssetApiAliasCoreFieldDao.class);
 
@@ -76,9 +74,10 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
      * @return AssetData containing core fields for Alias asset
      */
     public AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(ics,id); // load all instead of specific
-                                                // fields, because we do not
-                                                // know which fields are set.
+        return AssetDataUtils.getAssetData(ics, id); // load all instead of
+                                                     // specific
+        // fields, because we do not
+        // know which fields are set.
     }
 
     /**
@@ -109,7 +108,8 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
      */
     public Alias getAlias(AssetId id) {
         TemplateAsset alias = new TemplateAsset(getAsAssetData(id));
-        AssetId target = Children.getOptionalSingleAssociation(ics, id.getType(), Long.toString(id.getId()), TARGET_ASSOCIATION_NAME);
+        AssetId target = Children.getOptionalSingleAssociation(ics, id.getType(), Long.toString(id.getId()),
+                TARGET_ASSOCIATION_NAME);
         if (target == null) {
             String targetUrl = alias.asString("target_url");
             if (targetUrl != null && targetUrl.length() == 0)

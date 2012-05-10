@@ -26,7 +26,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
-import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.VanityAsset;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.logging.Log;
@@ -115,13 +115,13 @@ public class VirtualWebrootApiBypassDao implements VirtualWebrootDao{
 
     /**
      * Look up and return the VirtualWebroot corresponding to the specified
-     * WebReferenceableAsset, for the current environment. If the current
+     * VanityAsset, for the current environment. If the current
      * environment is not configured, no match can be found.
      * 
      * @param wra web-referenceable asset
      * @return matching VirtualWebroot or null if no match is found.
      */
-    public VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra) {
+    public VirtualWebroot lookupVirtualWebrootForAsset(VanityAsset wra) {
         if (LOG.isDebugEnabled())
             LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
         String wraPath = wra.getPath();

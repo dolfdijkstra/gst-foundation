@@ -30,6 +30,8 @@ public interface WraCoreFieldDao {
 
     public static String[] WRA_ATTRIBUTE_NAMES = { "metatitle", "metadescription", "metakeyword", "h1title",
             "linktext", "path", "template", "id", "name", "subtype", "startdate", "enddate", "status" };
+    public static String[] VANITY_ATTRIBUTE_NAMES = { "path", "template", "id", "name", "subtype", "startdate",
+            "enddate", "status" };
 
     /**
      * Method to test whether or not an asset is web-referenceable. todo: low
@@ -41,6 +43,14 @@ public interface WraCoreFieldDao {
      *         is not
      */
     public boolean isWebReferenceable(AssetId id);
+
+    /**
+     * Method to test if an asset has a vanity url, that is has a path field.
+     * 
+     * @param id asset ID to check
+     * @return true if the asset has a vanity url, false if it is not
+     */
+    public boolean isVanityAsset(AssetId id);
 
     /**
      * Return a web referenceable asset bean given an input id. Required fields
@@ -74,5 +84,7 @@ public interface WraCoreFieldDao {
      * @return
      */
     public String resolveSite(String c, String cid);
+
+    public VanityAsset getVanityWra(AssetId asset);
 
 }

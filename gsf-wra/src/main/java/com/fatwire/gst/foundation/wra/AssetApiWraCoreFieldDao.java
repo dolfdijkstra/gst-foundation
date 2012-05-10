@@ -83,7 +83,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
      * @return AssetData containing core fields for Web-Referencable asset
      */
     private AssetData getAsAssetData(AssetId id) {
-        return AssetDataUtils.getAssetData(ics,id, WRA_ATTRIBUTE_NAMES);
+        return AssetDataUtils.getAssetData(ics, id, WRA_ATTRIBUTE_NAMES);
     }
 
     /**
@@ -133,6 +133,23 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
             wra.setMetaKeyword(AttributeDataUtils.asString(data.getAttributeData("metakeyword")));
             wra.setH1Title(AttributeDataUtils.getWithFallback(data, "h1title"));
             wra.setLinkText(AttributeDataUtils.getWithFallback(data, "linktext", "h1title"));
+            wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
+            wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
+            return wra;
+        }
+
+    };
+    private AssetMapper<VanityAsset> vmapper = new AssetMapper<VanityAsset>() {
+
+        public VanityAsset map(AssetData data) {
+            VanityAssetBean wra = new VanityAssetBean();
+            wra.setId(data.getAssetId());
+            wra.setName(AttributeDataUtils.getWithFallback(data, "name"));
+            wra.setDescription(AttributeDataUtils.asString(data.getAttributeData("description")));
+            wra.setSubtype(AttributeDataUtils.asString(data.getAttributeData("subtype")));
+            wra.setStatus(AttributeDataUtils.asString(data.getAttributeData("status")));
+            wra.setStartDate(AttributeDataUtils.asDate(data.getAttributeData("startdate")));
+            wra.setEndDate(AttributeDataUtils.asDate(data.getAttributeData("enddate")));
             wra.setPath(AttributeDataUtils.asString(data.getAttributeData("path")));
             wra.setTemplate(AttributeDataUtils.asString(data.getAttributeData("template")));
             return wra;
@@ -223,6 +240,22 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
 
     }
 
-  
+    @Override
+    public boolean isVanityAsset(AssetId id) {
+        try {
+
+            AssetData data = AssetDataUtils.getAssetData(ics, id, "path");
+            String path = AttributeDataUtils.asString(data.getAttributeData("path"));
+            return StringUtils.isNotBlank(path);
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public VanityAsset getVanityWra(AssetId id) {
+        AssetData data = AssetDataUtils.getAssetData(ics, id, VANITY_ATTRIBUTE_NAMES);
+        return vmapper.map(data);
+    }
 
 }

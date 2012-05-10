@@ -29,7 +29,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.VanityAsset;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -125,7 +125,7 @@ public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
      * @param wra web-referenceable asset
      * @return matching VirtualWebroot or null if no match is found.
      */
-    public VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra) {
+    public VirtualWebroot lookupVirtualWebrootForAsset(VanityAsset wra) {
         if (LOG.isDebugEnabled())
             LOG.debug("Looking up virtual webroot for WRA " + wra.getId());
         String wraPath = wra.getPath();

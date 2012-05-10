@@ -28,7 +28,7 @@ import com.fatwire.cs.core.uri.Definition;
 import com.fatwire.gst.foundation.vwebroot.AssetApiVirtualWebrootDao;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
 import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
-import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.VanityAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 import com.openmarket.xcelerate.publish.PageRef;
@@ -100,8 +100,8 @@ public class WraPageReference extends PageRef {
             WraCoreFieldDao wraDao = new AssetApiWraCoreFieldDao(ics);
             String currentEnvironment = vwDao.getVirtualWebrootEnvironment();
             // only look up webroots for WRAs when the environment is configured
-            if (currentEnvironment != null && wraDao.isWebReferenceable(id)) {
-                WebReferenceableAsset wra = wraDao.getWra(id);
+            if (currentEnvironment != null && wraDao.isVanityAsset(id)) {
+                 VanityAsset wra = wraDao.getVanityWra(id);
                 // get the webroot
                 VirtualWebroot vw = vwDao.lookupVirtualWebrootForAsset(wra);
                 if (vw != null) {

@@ -15,13 +15,18 @@
  */
 package com.fatwire.gst.foundation.vwebroot;
 
-import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
+import com.fatwire.gst.foundation.wra.VanityAsset;
 
 
 
+/**
+ * DAO for Virtual Webroot table
+ * @author Dolf Dijkstra
+ *
+ */
 public interface VirtualWebrootDao {
 
-    VirtualWebroot lookupVirtualWebrootForAsset(WebReferenceableAsset wra);
+    VirtualWebroot lookupVirtualWebrootForAsset(VanityAsset wra);
 
     VirtualWebroot lookupVirtualWebrootForUri(String uri);
 }
