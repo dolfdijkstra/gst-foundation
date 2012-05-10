@@ -26,9 +26,6 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class GsfRootTag extends BodyTagSupport {
     public static final String ICS_VARIABLE_NAME = "ics";
     public static final String VARIABLE_SCOPE_NAME = "cs";
@@ -37,8 +34,6 @@ public class GsfRootTag extends BodyTagSupport {
 	 * 
 	 */
     private static final long serialVersionUID = -5369419132504852400L;
-
-    private static final Log LOG = LogFactory.getLog(GsfRootTag.class.getPackage().getName());
 
     /*
      * (non-Javadoc)
