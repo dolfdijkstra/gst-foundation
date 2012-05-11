@@ -17,29 +17,25 @@ package com.fatwire.gst.foundation.groovy.context;
 
 import javax.servlet.ServletContext;
 
-import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.gst.foundation.controller.AppContext;
-import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.Injector;
-import com.fatwire.gst.foundation.controller.action.RenderPage;
-import com.fatwire.gst.foundation.controller.action.support.AbstractActionLocator;
 import com.fatwire.gst.foundation.controller.action.support.ClassActionLocator;
 import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
+import com.fatwire.gst.foundation.controller.action.support.RenderPageActionLocator;
 import com.fatwire.gst.foundation.controller.support.WebAppContextLoader;
 import com.fatwire.gst.foundation.groovy.spring.GroovyActionLocator;
 import com.fatwire.gst.foundation.groovy.spring.GroovyLoader;
 
 public class GroovyWebContext extends DefaultWebAppContext {
     /**
-     * This constructor is needed for the {@link WebAppContextLoader}. 
+     * This constructor is needed for the {@link WebAppContextLoader}.
      * 
      * @param ctx
      * @param app
      */
     public GroovyWebContext(ServletContext context, AppContext app) {
-        super(context,app);
+        super(context, app);
     }
 
     public ActionLocator createActionLocator() {
@@ -51,7 +47,7 @@ public class GroovyWebContext extends DefaultWebAppContext {
         // at the root level (if everything else fails), return a ActionLocator
         // that returns a RenderPage
         Injector injector = getBean("injector", Injector.class);
-        ActionLocator root = getRootActionLocator();
+        ActionLocator root = getRootActionLocator(injector);
 
         GroovyLoader loader = new GroovyLoader(getServletContext());
         // next, set the groovy action loader
@@ -63,17 +59,8 @@ public class GroovyWebContext extends DefaultWebAppContext {
 
     }
 
-    protected ActionLocator getRootActionLocator() {
-        Injector injector = getBean("injector", Injector.class);
-        AbstractActionLocator a = new AbstractActionLocator(injector) {
-
-            @Override
-            protected Action doFindAction(ICS ics, String name) {
-                RenderPage rp = new RenderPage();
-                return rp;
-            }
-
-        };
-        return a;
+    protected ActionLocator getRootActionLocator(Injector injector) {
+        //Injector injector = getBean("injector", Injector.class);
+        return new RenderPageActionLocator(injector);
     }
 }
