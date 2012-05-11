@@ -67,7 +67,6 @@ public class GroovyWebContext extends DefaultWebAppContext {
     }
 
     protected ActionLocator getRootActionLocator(Injector injector) {
-        // Injector injector = getBean("injector", Injector.class);
         return new RenderPageActionLocator(injector);
     }
 }
