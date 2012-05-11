@@ -55,6 +55,8 @@ public abstract class AbstractActionLocator implements ActionLocator {
 
     public AbstractActionLocator(Injector injector) {
         super();
+        if (injector == null)
+            throw new IllegalArgumentException("injector should not be null");
         this.injector = injector;
     }
 
@@ -88,7 +90,7 @@ public abstract class AbstractActionLocator implements ActionLocator {
          * the if/else construct might be confusing here. The contract is that
          * only if doFindAction() is returning an Action (aka THIS locator)
          * Dependency Injection is happening, in other words, each locator
-         * itself is responsible for Dependency Injection. For all locators that 
+         * itself is responsible for Dependency Injection. For all locators that
          * subclass AbstractActionLocator this contract is met.
          */
         if (action == null) {

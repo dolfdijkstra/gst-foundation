@@ -15,6 +15,7 @@
  */
 package com.fatwire.gst.foundation.controller.support;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -36,8 +37,13 @@ import org.apache.commons.logging.Log;
  * 
  */
 public class WebAppContextLoader implements ServletContextListener {
+    private static final String GROOVY_WEB_CONTEXT = "com.fatwire.gst.foundation.groovy.context.GroovyWebContext";
+    private static final String GROOVY_CLASSNAME = "groovy.util.GroovyScriptEngine";
+    public static final String CONTEXTS = "gsf-contexts";
+
     protected static final Log LOG = LogUtil.getLog(WebAppContextLoader.class);
     boolean booted = false;
+    private static final Class<?>[] ARGS = new Class[] { ServletContext.class, AppContext.class };
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -47,22 +53,16 @@ public class WebAppContextLoader implements ServletContextListener {
                     "Servlet Container is configured for version 2.3 or less. This ServletContextListener does not support 2.3 and earlier as the load order of Listeners is not guaranteed.");
         }
         AppContext parent = null;
-        String init = context.getInitParameter(WebAppContext.CONTEXTS);
+        String init = context.getInitParameter(CONTEXTS);
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
         if (init != null) {
             String[] c = init.split(",");
 
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            Class<?>[] args = new Class[] { ServletContext.class, AppContext.class };
             for (int i = c.length - 1; i >= 0; i--) {
 
                 try {
-                    @SuppressWarnings("unchecked")
-                    Class<AppContext> cls = (Class<AppContext>) cl.loadClass(c[i]);
-                    Constructor<AppContext> ctr = cls.getConstructor(args);
-                    AppContext n;
-                    n = ctr.newInstance(context, parent);
+                    AppContext n = createApContext(cl, c[i], context, parent);
                     if (n != null) {
-                        n.init();
                         parent = n;
                     }
                 } catch (IllegalArgumentException e) {
@@ -87,17 +87,54 @@ public class WebAppContextLoader implements ServletContextListener {
         if (parent != null) {
             context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, parent);
         } else {
-            AppContext def = new DefaultWebAppContext(context);
-            def.init();
-            context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, def);
+            // if gsf-groovy is found and groovy classes around found, boot with
+            // groovy
+            String groovyPath = context.getRealPath("/WEB-INF/gsf-groovy");
+            AppContext def = null;
+            if (new File(groovyPath).isDirectory() && isGroovyOnClassPath(cl)) {
+                try {
+                    def = createApContext(cl, GROOVY_WEB_CONTEXT, context, null);
+                } catch (Exception e) {
+                    LOG.warn("Exception when creating the GroovyWebContext as a default option", e);
+                }
+            }
+            if (def == null) {
+                def = new DefaultWebAppContext(context);
+                def.init();
+                context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, def);
+            }
         }
         booted = true;
 
     }
 
+    private boolean isGroovyOnClassPath(ClassLoader cl) {
+        try {
+            cl.loadClass(GROOVY_CLASSNAME);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         sce.getServletContext().removeAttribute(WebAppContext.WEB_CONTEXT_NAME);
+    }
+
+    AppContext createApContext(ClassLoader cl, String c, ServletContext context, AppContext parent)
+            throws ClassNotFoundException, SecurityException, NoSuchMethodException, InstantiationException,
+            IllegalAccessException, InvocationTargetException {
+        @SuppressWarnings("unchecked")
+        Class<AppContext> cls = (Class<AppContext>) cl.loadClass(c);
+        Constructor<AppContext> ctr = cls.getConstructor(ARGS);
+        AppContext n;
+        n = ctr.newInstance(context, parent);
+        if (n != null) {
+            n.init();
+        }
+        return n;
+
     }
 
 }

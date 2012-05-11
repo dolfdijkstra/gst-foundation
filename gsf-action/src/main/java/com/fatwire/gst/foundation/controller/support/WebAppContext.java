@@ -27,11 +27,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 
 public class WebAppContext implements AppContext {
-    public static final String WEB_CONTEXT_NAME = "gsf/AppContext";
-
     protected static final Log LOG = LogUtil.getLog(WebAppContext.class);
 
-    public static final String CONTEXTS = "gsf-contexts";
+    public static final String WEB_CONTEXT_NAME = "gsf/AppContext";
 
     private final ServletContext context;
     private final AppContext parent;
@@ -39,7 +37,8 @@ public class WebAppContext implements AppContext {
     private Map<String, Object> localScope = new HashMap<String, Object>();
 
     /**
-     * This constructor is needed for the {@link WebAppContextLoader}. 
+     * This constructor is needed for the {@link WebAppContextLoader}.
+     * 
      * @param context
      * @param parent
      */
@@ -63,7 +62,7 @@ public class WebAppContext implements AppContext {
     public final <T> T getBean(String name, Class<T> c) {
         if (StringUtils.isBlank(name))
             throw new IllegalArgumentException("name cannot be null or empty");
-        
+
         if (c.isArray()) {
             throw new IllegalArgumentException("Arrays are not supported");
         }
