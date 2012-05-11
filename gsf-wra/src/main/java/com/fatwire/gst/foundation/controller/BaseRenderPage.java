@@ -27,6 +27,7 @@ import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.RenderUtils;
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.SatellitePage;
@@ -40,20 +41,36 @@ import com.openmarket.xcelerate.publish.PubConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
+/**
+ * 
+ * The BaseRenderPage class in the implementation that renders an asset. It's
+ * intended use is to be called from a Controller (outer wrapper).
+ * <p>
+ * For the passing of arguments it makes heavy use of page criteria on the
+ * calling Template
+ * 
+ * @author Tony Field
+ * @author Dolf Dijkstra
+ * @since June 2010
+ * 
+ */
 public class BaseRenderPage {
+    private static final String URL_PATH = "url-path";
+
+    private static final String VIRTUAL_WEBROOT = "virtual-webroot";
+
     public static final String PACKEDARGS = "packedargs";
 
-    protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller");
+    protected static final Log LOG = LogUtil.getLog(BaseRenderPage.class);
     protected WraPathTranslationService pathTranslationService;
     protected WraCoreFieldDao wraCoreFieldDao;
     protected AliasCoreFieldDao aliasCoreFieldDao;
     protected ICS ics;
     private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", PACKEDARGS,
-            "variant", "context", "pagename", "childpagename", "site", "tid", "virtual-webroot", "url-path",
+            "variant", "context", "pagename", "childpagename", "site", "tid", VIRTUAL_WEBROOT, URL_PATH,
             "SystemAssetsRoot", "rendermode", "cshttp", "errno", "tablename", "empty", "ft_ss", "errdetail", "null");
 
     public BaseRenderPage() {
@@ -84,11 +101,10 @@ public class BaseRenderPage {
 
     protected void callTemplate(final AssetIdWithSite id, final String tname) {
         final CallTemplate ct = new CallTemplate();
-        // ct.setFixPageCriteria(true);
         ct.setSite(id.getSite());
         ct.setSlotname("wrapper");
-        ct.setTid(ics.GetVar("eid"));
-        // ct.setTtype(CallTemplate.Type.CSElement);
+        ct.setTid(ics.GetVar("eid")); // renderpage action is intended to be
+                                      // rendered from the controller
         ct.setAsset(id);
         ct.setTname(tname);
         ct.setContext("");
@@ -247,8 +263,13 @@ public class BaseRenderPage {
         RenderUtils.recordBaseCompositionalDependencies(ics);
     }
 
+    /**
+     * This method is the entry of the class, it does the rendering of the page.
+     */
     protected void renderPage() {
-
+        // the preview code path is adding all the additional arguments in
+        // packedargs.
+        // unpack here so we can use
         String pa = ics.GetVar(PubConstants.PACKEDARGS);
         unpackPackedArgs();
         final AssetIdWithSite id = resolveAssetId();
@@ -256,25 +277,36 @@ public class BaseRenderPage {
             throw new CSRuntimeException("Asset or site not found: '" + id + "' for url " + ics.pageURL(),
                     ftErrors.pagenotfound);
         }
-        LOG.debug("RenderPage found a valid asset and site: " + id);
+        if (LOG.isDebugEnabled())
+            LOG.debug("RenderPage found a valid asset and site: " + id);
 
+        // if childpagename is passed in (preview code path) we use this and do
+        // a render:satellitepage
         if (ics.GetVar(PubConstants.CHILDPAGENAME) != null) {
             // preview UI support
             callPage(id, ics.GetVar(PubConstants.CHILDPAGENAME), pa);
         } else {
-
+            // alternatively, render the live logic.
             VanityAsset wra = getWraAndResolveAlias(id);
 
             callTemplate(new AssetIdWithSite(wra.getId().getType(), wra.getId().getId(), id.getSite()),
                     wra.getTemplate());
 
         }
+        LOG.debug("RenderPage execution complete");
     }
 
+    /**
+     * In this method the AssetId and the site are resolved. Based on either
+     * c/cid or the virtual-webroot/url-path arguments the site which this asset
+     * belongs to is discovered from the AssetPublication table.
+     * 
+     * @return the AssetId and the site that the asset belongs to.
+     */
     protected AssetIdWithSite resolveAssetId() {
         final AssetIdWithSite id;
-        if (goodString(ics.GetVar("virtual-webroot")) && goodString(ics.GetVar("url-path"))) {
-            id = pathTranslationService.resolveAsset(ics.GetVar("virtual-webroot"), ics.GetVar("url-path"));
+        if (goodString(ics.GetVar(VIRTUAL_WEBROOT)) && goodString(ics.GetVar(URL_PATH))) {
+            id = pathTranslationService.resolveAsset(ics.GetVar(VIRTUAL_WEBROOT), ics.GetVar(URL_PATH));
         } else if (goodString(ics.GetVar("c")) && goodString(ics.GetVar("cid"))) {
             // handle these to be nice
             // Look up site because we can't trust the wrapper's resarg.
@@ -285,7 +317,7 @@ public class BaseRenderPage {
                         + " ).", ftErrors.pagenotfound);
 
             id = new AssetIdWithSite(ics.GetVar("c"), Long.parseLong(ics.GetVar("cid")), site);
-        } else if (goodString(ics.GetVar("virtual-webroot")) || goodString(ics.GetVar("url-path"))) {
+        } else if (goodString(ics.GetVar(VIRTUAL_WEBROOT)) || goodString(ics.GetVar(URL_PATH))) {
             // (but not both)
             throw new CSRuntimeException("Missing required param virtual-webroot & url-path.", ftErrors.pagenotfound);
         } else {

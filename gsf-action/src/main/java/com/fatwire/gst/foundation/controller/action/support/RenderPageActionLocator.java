@@ -21,6 +21,12 @@ import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.action.RenderPage;
 
+/**
+ * ActionLocator that always returns a {@link RenderPage} action.
+ * 
+ * @author Dolf Dijkstra
+ *
+ */
 public final class RenderPageActionLocator extends AbstractActionLocator {
     public RenderPageActionLocator(Injector injector) {
         super(injector);

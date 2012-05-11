@@ -25,9 +25,9 @@ import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 /**
- * Generic page-rendering action.
+ * Generic page-rendering action. The logic is implemented in
+ * {@link BaseRenderPage}.
  * 
- * @author Tony Field
  * @author Dolf Dijkstra
  * @since 2011-03-15
  */
@@ -36,7 +36,7 @@ public class RenderPage extends BaseRenderPage implements Action {
     public void handleRequest(final ICS ics) {
 
         renderPage();
-        LOG.debug("RenderPage execution complete");
+        
     }
 
     @InjectForRequest

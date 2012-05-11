@@ -29,13 +29,13 @@ import com.fatwire.gst.foundation.controller.support.WebAppContext;
 
 public class DefaultWebAppContext extends WebAppContext implements FactoryProducer {
 
-    public DefaultWebAppContext(ServletContext context, AppContext parent) {
-        super(context, parent);
-       
+    public DefaultWebAppContext(final ServletContext context) {
+        super(context);
+
     }
 
-    public DefaultWebAppContext(ServletContext context) {
-        super(context);
+    public DefaultWebAppContext(final ServletContext context, final AppContext parent) {
+        super(context, parent);
 
     }
 
@@ -44,7 +44,7 @@ public class DefaultWebAppContext extends WebAppContext implements FactoryProduc
         // of the WebAppContext, though more often does not need to be a
         // problem per se.
         final Injector injector = createInjector();
-        ActionLocator root = new RenderPageActionLocator(injector);
+        final ActionLocator root = new RenderPageActionLocator(injector);
         final ClassActionLocator cal = new ClassActionLocator(root, injector);
         return cal;
 
@@ -59,7 +59,7 @@ public class DefaultWebAppContext extends WebAppContext implements FactoryProduc
     }
 
     @Override
-    public Factory getFactory(ICS ics) {
+    public Factory getFactory(final ICS ics) {
         // called very often; once per request/pagelet, scoped per ICS context
         return new IcsBackedObjectFactoryTemplate(ics);
     }
