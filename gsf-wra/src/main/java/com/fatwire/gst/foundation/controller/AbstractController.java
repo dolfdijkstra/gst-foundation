@@ -164,6 +164,7 @@ public abstract class AbstractController implements Seed2 {
         if (element != null) {
             ics.SetObj("com.fatwire.gst.foundation.exception", e);
             ics.CallElement(element, null);
+            ics.SetObj("com.fatwire.gst.foundation.exception", null);
         }
         ics.SetErrno(ftErrors.exceptionerr);
 
