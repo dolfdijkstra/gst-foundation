@@ -53,15 +53,52 @@ public class WebAppContextLoader implements ServletContextListener {
                     "Servlet Container is configured for version 2.3 or less. This ServletContextListener does not support 2.3 and earlier as the load order of Listeners is not guaranteed.");
         }
         AppContext parent = null;
-        String init = context.getInitParameter(CONTEXTS);
+
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
+
+        parent = configureFromInitParam(context, cl);
+        if (parent == null) {
+            // if gsf-groovy is found and groovy classes around found, boot with
+            // groovy
+            String groovyPath = context.getRealPath("/WEB-INF/gsf-groovy");
+
+            if (new File(groovyPath).isDirectory() && isGroovyOnClassPath(cl)) {
+                try {
+                    parent = createAppContext(cl, GROOVY_WEB_CONTEXT, context, null);
+                } catch (Exception e) {
+                    LOG.warn("Exception when creating the GroovyWebContext as a default option", e);
+                }
+            }
+        }
+        if (parent == null) {
+            parent = new DefaultWebAppContext(context);
+            parent.init();
+        }
+
+        if (parent != null) {
+            context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, parent);
+        }
+        booted = true;
+
+    }
+
+    /**
+     * @param context
+     * @param parent
+     * @param cl
+     * @param init
+     * @return
+     */
+    protected AppContext configureFromInitParam(ServletContext context, ClassLoader cl) {
+        AppContext parent = null;
+        String init = context.getInitParameter(CONTEXTS);
         if (init != null) {
             String[] c = init.split(",");
 
             for (int i = c.length - 1; i >= 0; i--) {
 
                 try {
-                    AppContext n = createApContext(cl, c[i], context, parent);
+                    AppContext n = createAppContext(cl, c[i], context, parent);
                     if (n != null) {
                         parent = n;
                     }
@@ -84,28 +121,7 @@ public class WebAppContextLoader implements ServletContextListener {
             }
 
         }
-        if (parent != null) {
-            context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, parent);
-        } else {
-            // if gsf-groovy is found and groovy classes around found, boot with
-            // groovy
-            String groovyPath = context.getRealPath("/WEB-INF/gsf-groovy");
-            AppContext def = null;
-            if (new File(groovyPath).isDirectory() && isGroovyOnClassPath(cl)) {
-                try {
-                    def = createApContext(cl, GROOVY_WEB_CONTEXT, context, null);
-                } catch (Exception e) {
-                    LOG.warn("Exception when creating the GroovyWebContext as a default option", e);
-                }
-            }
-            if (def == null) {
-                def = new DefaultWebAppContext(context);
-                def.init();
-                context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, def);
-            }
-        }
-        booted = true;
-
+        return parent;
     }
 
     private boolean isGroovyOnClassPath(ClassLoader cl) {
@@ -122,7 +138,7 @@ public class WebAppContextLoader implements ServletContextListener {
         sce.getServletContext().removeAttribute(WebAppContext.WEB_CONTEXT_NAME);
     }
 
-    AppContext createApContext(ClassLoader cl, String c, ServletContext context, AppContext parent)
+    AppContext createAppContext(ClassLoader cl, String c, ServletContext context, AppContext parent)
             throws ClassNotFoundException, SecurityException, NoSuchMethodException, InstantiationException,
             IllegalAccessException, InvocationTargetException {
         @SuppressWarnings("unchecked")
@@ -131,6 +147,7 @@ public class WebAppContextLoader implements ServletContextListener {
         AppContext n;
         n = ctr.newInstance(context, parent);
         if (n != null) {
+            LOG.info("Creating application context by " + c);
             n.init();
         }
         return n;
