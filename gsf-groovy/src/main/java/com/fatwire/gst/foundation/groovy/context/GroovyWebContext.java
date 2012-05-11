@@ -27,6 +27,13 @@ import com.fatwire.gst.foundation.controller.support.WebAppContextLoader;
 import com.fatwire.gst.foundation.groovy.spring.GroovyActionLocator;
 import com.fatwire.gst.foundation.groovy.spring.GroovyLoader;
 
+/**
+ * WebAppContext that is using Groovy to load Actions.
+ * 
+ * @author Dolf Dijkstra
+ * @since 11 mei 2012
+ * 
+ */
 public class GroovyWebContext extends DefaultWebAppContext {
     /**
      * This constructor is needed for the {@link WebAppContextLoader}.
@@ -60,7 +67,7 @@ public class GroovyWebContext extends DefaultWebAppContext {
     }
 
     protected ActionLocator getRootActionLocator(Injector injector) {
-        //Injector injector = getBean("injector", Injector.class);
+        // Injector injector = getBean("injector", Injector.class);
         return new RenderPageActionLocator(injector);
     }
 }
