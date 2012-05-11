@@ -41,13 +41,13 @@ public class WebAppContextLoader implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ServletContext ctx = sce.getServletContext();
-        if (ctx.getMajorVersion() == 2 && ctx.getMinorVersion() < 4) {
+        ServletContext context = sce.getServletContext();
+        if (context.getMajorVersion() == 2 && context.getMinorVersion() < 4) {
             throw new IllegalStateException(
                     "Servlet Container is configured for version 2.3 or less. This ServletContextListener does not support 2.3 and earlier as the load order of Listeners is not guaranteed.");
         }
         AppContext parent = null;
-        String init = ctx.getInitParameter(WebAppContext.CONTEXTS);
+        String init = context.getInitParameter(WebAppContext.CONTEXTS);
         if (init != null) {
             String[] c = init.split(",");
 
@@ -60,7 +60,7 @@ public class WebAppContextLoader implements ServletContextListener {
                     Class<AppContext> cls = (Class<AppContext>) cl.loadClass(c[i]);
                     Constructor<AppContext> ctr = cls.getConstructor(args);
                     AppContext n;
-                    n = ctr.newInstance(ctx, parent);
+                    n = ctr.newInstance(context, parent);
                     if (n != null) {
                         n.init();
                         parent = n;
@@ -85,11 +85,11 @@ public class WebAppContextLoader implements ServletContextListener {
 
         }
         if (parent != null) {
-            ctx.setAttribute(WebAppContext.WEB_CONTEXT_NAME, parent);
+            context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, parent);
         } else {
-            AppContext def = new DefaultWebAppContext(ctx);
+            AppContext def = new DefaultWebAppContext(context);
             def.init();
-            ctx.setAttribute(WebAppContext.WEB_CONTEXT_NAME, def);
+            context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, def);
         }
         booted = true;
 
