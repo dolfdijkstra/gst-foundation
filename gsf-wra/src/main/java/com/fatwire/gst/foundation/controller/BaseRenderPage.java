@@ -103,8 +103,15 @@ public class BaseRenderPage {
         final CallTemplate ct = new CallTemplate();
         ct.setSite(id.getSite());
         ct.setSlotname("wrapper");
-        ct.setTid(ics.GetVar("eid")); // renderpage action is intended to be
-                                      // rendered from the controller
+        String tid = ics.GetVar("eid");// renderpage action is intended to be
+                                       // rendered from the controller
+        if (StringUtils.isBlank(tid)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CSVar eid is not found, compensating with eid=1. Is this element not a CSElement");
+            }
+            tid = "1";
+        }
+        ct.setTid(tid);
         ct.setAsset(id);
         ct.setTname(tname);
         ct.setContext("");
