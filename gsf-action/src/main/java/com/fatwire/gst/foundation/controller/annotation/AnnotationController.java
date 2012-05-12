@@ -32,7 +32,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 /**
  * The Controller delegates the business logic to an annotated method. In this
  * method the special logic for the request is executed. Method selection is
- * done via the @IcsVariable annotation. This works of the premis that a special
+ * done via the {@literal @}IcsVariable annotation. This works of the premise that a special
  * name/value pair on the ics scope set before this controller is executed, is
  * enough to determine the selection for the business logic method.
  * 
