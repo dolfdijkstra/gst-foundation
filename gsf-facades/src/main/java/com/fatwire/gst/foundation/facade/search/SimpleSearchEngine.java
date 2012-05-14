@@ -44,7 +44,7 @@ public class SimpleSearchEngine {
     private final SearchEngine searchEngine;
     private final SearchEngineConfig seConfig;
 
-    private SimpleSearchEngine(String engineName) {
+    public SimpleSearchEngine(String engineName) {
         try {
             seConfig = SearchUtils.getSearchEngineConfig();
         } catch (SearchEngineException e) {
