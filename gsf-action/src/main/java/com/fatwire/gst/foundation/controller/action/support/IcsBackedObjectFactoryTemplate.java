@@ -31,6 +31,7 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
+import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
 import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
@@ -205,4 +206,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         return new Model();
     }
 
+    public SimpleSearchEngine createSimpleSearchEngine(final ICS ics) {
+        return new SimpleSearchEngine("lucene");
+    }
 }
