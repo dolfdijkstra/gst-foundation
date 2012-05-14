@@ -66,11 +66,7 @@ public final class AnnotationUtils {
         while (klazz != null && klazz != Object.class) {
             for (final Field field : klazz.getDeclaredFields()) {
                 if (field.getAnnotation(InjectForRequest.class) != null && type.isAssignableFrom(field.getType())) {
-                    try {
-                        return field;
-                    } catch (final IllegalArgumentException e) {
-                        throw new RuntimeException(e);
-                    }
+                    return field;
                 }
             }
             klazz = klazz.getSuperclass();
