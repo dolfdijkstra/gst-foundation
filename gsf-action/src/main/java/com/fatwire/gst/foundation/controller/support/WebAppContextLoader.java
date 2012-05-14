@@ -46,26 +46,26 @@ public class WebAppContextLoader implements ServletContextListener {
     private static final Class<?>[] ARGS = new Class[] { ServletContext.class, AppContext.class };
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        ServletContext context = sce.getServletContext();
+    public void contextInitialized(final ServletContextEvent sce) {
+        final ServletContext context = sce.getServletContext();
         if (context.getMajorVersion() == 2 && context.getMinorVersion() < 4) {
             throw new IllegalStateException(
                     "Servlet Container is configured for version 2.3 or less. This ServletContextListener does not support 2.3 and earlier as the load order of Listeners is not guaranteed.");
         }
         AppContext parent = null;
 
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        final ClassLoader cl = Thread.currentThread().getContextClassLoader();
 
         parent = configureFromInitParam(context, cl);
         if (parent == null) {
             // if gsf-groovy is found and groovy classes around found, boot with
             // groovy
-            String groovyPath = context.getRealPath("/WEB-INF/gsf-groovy");
+            final String groovyPath = context.getRealPath("/WEB-INF/gsf-groovy");
 
             if (new File(groovyPath).isDirectory() && isGroovyOnClassPath(cl)) {
                 try {
                     parent = createAppContext(cl, GROOVY_WEB_CONTEXT, context, null);
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     LOG.warn("Exception when creating the GroovyWebContext as a default option", e);
                 }
             }
@@ -89,32 +89,32 @@ public class WebAppContextLoader implements ServletContextListener {
      * @param init
      * @return
      */
-    protected AppContext configureFromInitParam(ServletContext context, ClassLoader cl) {
+    protected AppContext configureFromInitParam(final ServletContext context, final ClassLoader cl) {
         AppContext parent = null;
-        String init = context.getInitParameter(CONTEXTS);
+        final String init = context.getInitParameter(CONTEXTS);
         if (init != null) {
-            String[] c = init.split(",");
+            final String[] c = init.split(",");
 
             for (int i = c.length - 1; i >= 0; i--) {
 
                 try {
-                    AppContext n = createAppContext(cl, c[i], context, parent);
+                    final AppContext n = createAppContext(cl, c[i], context, parent);
                     if (n != null) {
                         parent = n;
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (final IllegalArgumentException e) {
                     LOG.warn(e);
-                } catch (InstantiationException e) {
+                } catch (final InstantiationException e) {
                     LOG.warn(e);
-                } catch (IllegalAccessException e) {
+                } catch (final IllegalAccessException e) {
                     LOG.warn(e);
-                } catch (InvocationTargetException e) {
+                } catch (final InvocationTargetException e) {
                     LOG.warn(e);
-                } catch (SecurityException e) {
+                } catch (final SecurityException e) {
                     LOG.warn(e);
-                } catch (NoSuchMethodException e) {
+                } catch (final NoSuchMethodException e) {
                     LOG.warn(e);
-                } catch (ClassNotFoundException e) {
+                } catch (final ClassNotFoundException e) {
                     LOG.warn(e);
                 }
 
@@ -124,26 +124,26 @@ public class WebAppContextLoader implements ServletContextListener {
         return parent;
     }
 
-    private boolean isGroovyOnClassPath(ClassLoader cl) {
+    private boolean isGroovyOnClassPath(final ClassLoader cl) {
         try {
             cl.loadClass(GROOVY_CLASSNAME);
-        } catch (ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             return false;
         }
         return true;
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
+    public void contextDestroyed(final ServletContextEvent sce) {
         sce.getServletContext().removeAttribute(WebAppContext.WEB_CONTEXT_NAME);
     }
 
-    AppContext createAppContext(ClassLoader cl, String c, ServletContext context, AppContext parent)
-            throws ClassNotFoundException, SecurityException, NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException {
+    AppContext createAppContext(final ClassLoader cl, final String c, final ServletContext context,
+            final AppContext parent) throws ClassNotFoundException, SecurityException, NoSuchMethodException,
+            InstantiationException, IllegalAccessException, InvocationTargetException {
         @SuppressWarnings("unchecked")
-        Class<AppContext> cls = (Class<AppContext>) cl.loadClass(c);
-        Constructor<AppContext> ctr = cls.getConstructor(ARGS);
+        final Class<AppContext> cls = (Class<AppContext>) cl.loadClass(c);
+        final Constructor<AppContext> ctr = cls.getConstructor(ARGS);
         AppContext n;
         n = ctr.newInstance(context, parent);
         if (n != null) {
