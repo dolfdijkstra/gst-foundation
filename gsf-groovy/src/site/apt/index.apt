@@ -21,7 +21,7 @@ GSF-Groovy
   
 Features
   
-  * Make use of FatWire Content Server rendering engine to deliver web pages.
+  * Make use of WebCenter Sites rendering engine to deliver web pages.
   
   * As Content Server is closed and the integration point are elements, the scripting language must to invoked from elements.
   
@@ -31,21 +31,21 @@ Features
   
   * Language must be elegant and have a short learning curve.
   
-  * The language must be well suite to implement businses logic. Writing text output is of less concern as this is handled well with JSP.
+  * The language must be well suite to implement business logic. Writing text output is of less concern as this is handled well with JSP.
   
   
   Groovy was chosen because it integrates well with java, and has a java-like syntax, and it can be dynamically reloaded.
   
 Eclipse integration
 
-  The integration with eclipse is explained in the {{{./eclipse integration.html}eclipse intgration}} document.
+  The integration with eclipse is explained in the {{{./eclipse integration.html}eclipse integration}} document.
   
   
 Action
 
   The groovy integration makes use of the Action framework. An Action is a class the implements business logic. The Action is either loaded by the Controller or the 
   \<p:page\> jsp tag. The Action framework is based on the {{{http://en.wikipedia.org/wiki/Command_pattern}command pattern}}. It's role is to provide Model data 
-  as defined in the {{{http://en.wikipedia.org/wiki/Model-view-controller}MVC deisgn pattern}}.
+  as defined in the {{{http://en.wikipedia.org/wiki/Model-view-controller}MVC design pattern}}.
  
   The Action interface defines one method: <public void handleRequest(ICS ics)>.
 
@@ -93,8 +93,8 @@ class GTLayout implements Action {
 
 -------  
 
-  Depending on how the ActionLocator is configured it might be <double dipping>; depencency injection can happen first by the spring framework and secondly with InjectForRequest. 
-  All the servcies that are not bound to the request lifecycle could be injected by spring and services that need access to ICS, like asset api calls, are injected by the InjectForRequest annotation.
+  Depending on how the ActionLocator is configured it might be <double dipping>; dependency injection can happen first by the spring framework and secondly with InjectForRequest. 
+  All the services that are not bound to the request lifecycle could be injected by spring and services that need access to ICS, like asset api calls, are injected by the InjectForRequest annotation.
   
 * ICS and Model are special.
 
@@ -110,7 +110,7 @@ class GTLayout implements Action {
 
   The is a special form of dependency injection, and this is not for services but for CSElement and Template Mapping data. Where in traditional Template code the 
   \<render:lookup/\> tag is used to retrieve  Template and CSElement Mapping values, now the @Mapping annotation can be used. The field object type can be of
-  3 classes, a String, a AssetId or an AssetName, depending on the Mapping type, or MappingValue independant of the type.
+  3 classes, a String, a AssetId or an AssetName, depending on the Mapping type, or MappingValue independent of the type.
   
 -----
 	@Mapping("Detail") public String detail
@@ -171,9 +171,9 @@ Groovy sample
    The p:page tags discovers the Action based on the <action> attribute value via the spring configured ActionLocator. The Action can be implemented in java or 
    as in this example in Groovy.
 
-   As you can see, the Grrovy files look a lot like a normal java class. It start with package declaration, imports, javadoc and then the class definition.   
+   As you can see, the Groovy files look a lot like a normal java class. It start with package declaration, imports, javadoc and then the class definition.   
    Inside the handleRequest method is the business logic defined. In this example the logic is simple, it finds the current asset based on <c/cid> ics variables,
-   and prints the AssetData  via the DebugHelper class directly to the output stream. Thsi direct writing to the stream is not a textbook example of best practise, as this should be done 
+   and prints the AssetData  via the DebugHelper class directly to the output stream. This direct writing to the stream is not a textbook example of best practice, as this should be done 
    in the jsp page, but it does show a simple example. Also the error handling is rudimentary and too simple for real applications.
    
 -------
@@ -219,6 +219,26 @@ public class AssetApi implements Action {
 }
 
 -------------
+
+
+Java example
+
+  The same Action can be coded in Java and compiled and deployed into the webapp. The action can be called by it's classname.
+  
+------------
+
+<%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
+%><%@ taglib prefix="p" uri="http://gst.fatwire.com/foundation/tags/p"
+%><cs:ftcs>
+  <p:page action="class:com.fatwire.sample.AssetApi"> 
+  Hello World.
+  </p:page>
+</cs:ftcs>
+
+------------
+  
+  To enable this, a <ClassActionLocator> must be configured. If the default groovy support is enabled (see at the configuration section), this
+  ClassActionLocator is enabled.
 
 Code samples
 
@@ -349,7 +369,28 @@ model.add("image",img);
   
 Configuration
 
-  The Action framework and possibly also the action are configured via Spring framework. 
+  The Action framework is configured a servlet context listener in web.xml. This is all that needs to be added to web.xml.
+
+---------  
+  <listener>
+	<listener-class>com.fatwire.gst.foundation.controller.support.WebAppContextLoader</listener-class>
+  </listener>
+-------  
+
+	This listener configures the WebAppContext, which is the main class for Dependency Injection of various services, such as the ActionLocator and the services Factory.
+	
+	The listener will detect if the Groovy library is available, as well as the WEB-INF/gsf-groovy folder. If both preconditions are met, the action framework is configure to use Grrovy Actions.  
+
+	By default it will configure a  IcsBackedObjectFactoryTemplate for a services factory, as well as a ActionNameResolved based on a ics variable called 'action', as well as actions in the form of 'class:<class implementing Action>'. 
+	The default action is a RenderPage Action. 
+	
+	If a servlet context init-paramater with the name <gsf-contexts> is set with a value of a comma seperated list of classname this list of classes will be used as a tree of <AppContext>s. 
+
+  Alternatively can the action framework and the action configured via Spring framework. 
+  
+* Spring framework
+
+  For this the WebAppContext needs to be configured to use <SpringWebAppContext>. 
   
   In the {{{./web.xml.txt}web.xml}} file is a spring context file added,    
    {{{./gsfApplicationContext.xml.txt}Spring context file}}
