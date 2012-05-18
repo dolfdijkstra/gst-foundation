@@ -25,11 +25,11 @@ if [ -f "cs.jar" ]; then
     else 
        VERSION=$1 #VERSION captured from the command-line
     fi
-    for jar in  assetapi-impl assetapi assetframework assetmaker basic \
-                batch catalog cs-core cs cscommerce \
-                directory firstsite-filter firstsite-uri flame framework gator \
-                gatorbulk ics logging lucene-search MSXML rules sampleasset \
-                sparksample sseed sserve transformer visitor xcelerate
+    for jar in  assetapi-impl assetapi assetframework assetmaker basic batch \
+                catalog cs-core cs cscommerce directory firstsite-filter \
+                firstsite-uri flame framework gator gatorbulk ics logging \
+                lucene-search MSXML rules sampleasset sseed sserve transformer \
+                visitor xcelerate
     do
         if [ -f "${jar}.jar" ]; then
             echo "Registering ${jar}.jar"
