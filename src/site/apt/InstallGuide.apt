@@ -25,10 +25,10 @@ Installation Guide
           
           Download {{http://repo1.maven.org/maven2/javax/servlet/jstl/1.2/jstl-1.2.jar}} if your servlet engine does not come with jstl prepackaged. Tomcat6 needs this file for instance.
           
-          Download {{http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar}} for groovy support.
+          Download {{http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar}} for groovy support. Please check that there are no other (older) groovy versions in WEB-INF/lib or the classpath.
           
-          The repo1.maven.org website has blocked traffic for wget based on their useragent string. To bypass this you can set the useragent string manually, 
-          add <-U downloader>> to set the UserAgent header to downloader.  
+          The repo1.maven.org website has blocked traffic for wget based on their useragent string. To bypass this you can set the user-agent string manually, 
+          add <-U downloader> to set the UserAgent header to downloader.  
           
           <<<wget -U downloader http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/1.2/gst-foundation-all-1.2.jar>>>
           
@@ -55,11 +55,10 @@ Installation Guide
 
     [[7]] Install and configure Tuckey URLRewrite. A complete sample urlrewrite.xml for a Content Server 7.6 JSK is avaiable for {{{./deploy/urlrewrite.xml}reference}} This sample
            assumes that two http ports are configured and that only traffic on port 8280 is rewritten. Normal editoral work is done on port 8180, GSF Preview is done on port 8280.
-    
-    [[8]] Add the GSF spring configuration to you WEB-INF directory. A sample configuration file can be found for {{{./deploy/gsfApplicationContext.xml}reference}}.
-    
-    
-    [[9]] Add the following lines to your web.xml and restart the application server. A complete sample web.xml for a Content Server 7.6 JSK is avaiable for {{{./deploy/sample-web.xml}reference}} 
+           
+           Alternatively you can configure a virtual host on Apache httpd server. This is the advised setup for production systems. A sample virtual host config file can be found here: {{./deploy/mydomain.conf}}.
+           
+    [[8]] Add the following lines to your web.xml and restart the application server.
 
 --------------    
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -68,12 +67,10 @@ Installation Guide
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 [...]
+	<listener>
+		<listener-class>com.fatwire.gst.foundation.controller.support.WebAppContextLoader</listener-class>
+	</listener>
 
-	<!-- add gsfApplicationContext -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/applicationContext.xml,/WEB-INF/gsfApplicationContext.xml</param-value>
-	</context-param>
 
 	<!-- the  HttpStatusHeaderFilter is used for http repsonse code support, it must also be deployed on Remote Satellite Server -->
 
@@ -81,6 +78,28 @@ Installation Guide
 		<filter-name>HttpStatusHeaderFilter</filter-name>
 		<filter-class>com.fatwire.gst.foundation.httpstatus.HttpResponseStatusFilter</filter-class>
 	</filter>
+
+	<filter-mapping>
+		<filter-name>HttpStatusHeaderFilter</filter-name>
+		<servlet-name>Satellite</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+[..]
+
+</web-app>
+--------------    
+
+    [[9]] If you want to use Tuckey, add these lines
+
+--------------    
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.4"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+[...]
 
         <!-- tuckey is only needed for deployment on a development, when no webserver with rewriting capabilities is available. -->
 
@@ -103,18 +122,13 @@ Installation Guide
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping> 
 
-	<filter-mapping>
-		<filter-name>HttpStatusHeaderFilter</filter-name>
-		<servlet-name>Satellite</servlet-name>
-		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-	</filter-mapping>
-
 [..]
 
 </web-app>
 --------------    
    
     [[10]] Read further instructions on how to use GSF. A good starter is the GSF Beginners Guide.
+    
+    [[11]] If you want to use Spring to congigure the Action framework, please check the {{InstallGuide - Spring.html}}..
     
     
