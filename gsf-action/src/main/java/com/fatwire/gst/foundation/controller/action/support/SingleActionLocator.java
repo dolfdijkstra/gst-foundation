@@ -18,18 +18,26 @@ package com.fatwire.gst.foundation.controller.action.support;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
+import com.fatwire.gst.foundation.controller.action.Injector;
 
-public abstract class SingleActionLocator extends BaseActionLocator {
+public class SingleActionLocator extends AbstractActionLocator {
 
     private Class<Action> actionClass;
+
+    public SingleActionLocator() {
+        super();
+    }
+
+    public SingleActionLocator(Injector injector, String actionClass ) {
+        super(injector);
+        setActionClass(actionClass);
+    }
 
     @Override
     protected Action doFindAction(ICS ics, String name) {
 
         try {
-            Action action= actionClass.newInstance();
-            injectDependencies(ics, action);
-            return action;
+            return actionClass.newInstance();
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
