@@ -29,9 +29,9 @@ import java.lang.annotation.Target;
  * {@code
  * class MyAction implements Action {
  * 
- *     {@literal @}Binding String rendermode;
- *     {@literal @}Binding("myVar") String theVariable;
- *     {@literal @}Binding(scope="session") ShoppingCart cart;
+ *     {@literal @}Bind String rendermode;
+ *     {@literal @}Bind("myVar") String theVariable;
+ *     {@literal @}Bind(scope="session") ShoppingCart cart;
  * 
  *     public void handleRequest(ICS ics){
  *         if("live".equals(rendermode){

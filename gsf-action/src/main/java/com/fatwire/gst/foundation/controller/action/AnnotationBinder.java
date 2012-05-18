@@ -175,32 +175,34 @@ public final class AnnotationBinder {
             return;
         if (field.getType().isPrimitive()) {
             putPrimitive(object, field, var);
-        }
+        } else {
 
-        Object value = null;
-        if (field.getType() == String.class) {
-            value = var;
-        } else if (field.getType() == Date.class) {
-            value = Util.parseJdbcDate(var);
-        } else if (field.getType() == Integer.class) {
-            value = new Integer(var);
-        } else if (field.getType() == Double.class) {
-            value = new Double(var);
-        } else if (field.getType() == Character.class) {
-            value = new Character(var.charAt(0));
-        } else if (field.getType() == Long.class) {
-            value = new Long(var);
-        }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Binding " + value + " to field " + field.getName() + " for " + object.getClass().getName());
-        }
-        try {
-            field.set(object, value);
-        } catch (final IllegalArgumentException e) {
-            throw new IllegalArgumentException("IllegalArgumentException binding " + value + " to field "
-                    + field.getName(), e);
-        } catch (final IllegalAccessException e) {
-            throw new IllegalAccessException("IllegalAccessException binding " + value + " to field " + field.getName());
+            Object value = null;
+            if (field.getType() == String.class) {
+                value = var;
+            } else if (field.getType() == Date.class) {
+                value = Util.parseJdbcDate(var);
+            } else if (field.getType() == Integer.class) {
+                value = new Integer(var);
+            } else if (field.getType() == Double.class) {
+                value = new Double(var);
+            } else if (field.getType() == Character.class) {
+                value = new Character(var.charAt(0));
+            } else if (field.getType() == Long.class) {
+                value = new Long(var);
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Binding " + value + " to field " + field.getName() + " for " + object.getClass().getName());
+            }
+            try {
+                field.set(object, value);
+            } catch (final IllegalArgumentException e) {
+                throw new IllegalArgumentException("IllegalArgumentException binding " + value + " to field "
+                        + field.getName(), e);
+            } catch (final IllegalAccessException e) {
+                throw new IllegalAccessException("IllegalAccessException binding " + value + " to field "
+                        + field.getName());
+            }
         }
 
     }
