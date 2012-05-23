@@ -34,17 +34,22 @@ import com.fatwire.mda.Dimension;
 
 /**
  * 
+ * 
  * This class provides easy access to AssetData, to be used in rendering code in
- * read-only mode. It has casting accessors for values of the different
+ * read-only mode. Is is called <tt>TemplateAsset</tt> because the intent is that it is to be used in Templates. 
+ * <p/>
+ * It has casting accessors for values of the different
  * attribute types.
  * <p/>
  * It must be noted that naming conflicts between flex attribute names and meta
  * attribute names are resolved by giving the meta attribute preference.
  * <p/>
- * <code>
+ * <pre>
+ * {@code
  * TemplateAsset asset = ...;
  * String name = asset.asString("name");
- * </code>
+ * }
+ * </pre>
  * 
  * @author Dolf Dijkstra
  * 
