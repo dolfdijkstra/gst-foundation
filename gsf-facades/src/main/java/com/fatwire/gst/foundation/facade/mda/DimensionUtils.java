@@ -102,11 +102,11 @@ public final class DimensionUtils {
      * 
      * @param ics context
      * @param name dimension name, or locale
-     * @return dimension id
+     * @return dimension id, -1 if not found.
      */
     public static long getDimensionIdForName(ICS ics, String name) {
         AssetId id = getDimensionAssetIdForName(ics, name);
-        return id == null ? null : id.getId();
+        return id == null ? -1 : id.getId();
     }
 
     /**
@@ -146,40 +146,52 @@ public final class DimensionUtils {
     }
 
     /**
-     * Method to get a fully-populated dimension filter, given the specified input params.  This can be used for
-     * filtering.
-     *
-     * @param dimensionManager      manager class for Dimension lookups
-     * @param preferredDimensionIds preferred dimensions to be investigated for a result. Priority preference depends on the
-     *                              configured filter
-     * @param dimSet                DimensionSet to use for filtering.
-     * @return list of assets based on the filtering rules in the dimension filter from the specified dimension set.
+     * Method to get a fully-populated dimension filter, given the specified
+     * input params. This can be used for filtering.
+     * 
+     * @param dimensionManager manager class for Dimension lookups
+     * @param preferredDimensionIds preferred dimensions to be investigated for
+     *            a result. Priority preference depends on the configured filter
+     * @param dimSet DimensionSet to use for filtering.
+     * @return list of assets based on the filtering rules in the dimension
+     *         filter from the specified dimension set.
      * @throws DimensionException in case something goes terribly wrong.
      */
-    public static DimensionFilterInstance getDimensionFilter(DimensionManager dimensionManager, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
+    public static DimensionFilterInstance getDimensionFilter(DimensionManager dimensionManager,
+            Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
         List<Dimension> preferredDimensions = dimensionManager.loadDimensions(preferredDimensionIds);
-        if (_log.isTraceEnabled())_log.trace("Loaded preferred dimensions and found "+preferredDimensions.size());
+        if (_log.isTraceEnabled())
+            _log.trace("Loaded preferred dimensions and found " + preferredDimensions.size());
         DimensionFilterInstance filter = dimSet.getFilter();
-        if (_log.isTraceEnabled())_log.trace("Loading filter. Success? "+(filter != null));
-        filter.setDimensonPreference(preferredDimensions);
+        if (_log.isTraceEnabled())
+            _log.trace("Loading filter. Success? " + (filter != null));
+        if (filter != null)
+            filter.setDimensonPreference(preferredDimensions);
         return filter;
     }
 
     /**
-     * Main dimension filtering method.  Accesses the filter in the dimension set, configures it with the preferred
-     * dimension IDs, then filters the input assets.
-     *
-     * @param dimensionManager      manager class for Dimension lookups
-     * @param toFilterList          list of input assets that need to be filtered.  Often it's just one, but a list is perfectly valid.
-     * @param preferredDimensionIds preferred dimensions to be investigated for a result. Priority preference depends on the
-     *                              configured filter
-     * @param dimSet                DimensionSet to use for filtering.
-     * @return list of assets based on the filtering rules in the dimension filter from the specified dimension set.
+     * Main dimension filtering method. Accesses the filter in the dimension
+     * set, configures it with the preferred dimension IDs, then filters the
+     * input assets.
+     * 
+     * @param dimensionManager manager class for Dimension lookups
+     * @param toFilterList list of input assets that need to be filtered. Often
+     *            it's just one, but a list is perfectly valid.
+     * @param preferredDimensionIds preferred dimensions to be investigated for
+     *            a result. Priority preference depends on the configured filter
+     * @param dimSet DimensionSet to use for filtering.
+     * @return list of assets based on the filtering rules in the dimension
+     *         filter from the specified dimension set.
      * @throws DimensionException in case something goes terribly wrong.
      */
-    public static Collection<AssetId> filterAssets(DimensionManager dimensionManager, List<AssetId> toFilterList, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
-        Collection<AssetId> result = getDimensionFilter(dimensionManager, preferredDimensionIds, dimSet).filterAssets(toFilterList);
-        if (_log.isDebugEnabled())_log.debug("Filtered "+toFilterList+" using "+dimSet+", looking for "+preferredDimensionIds+" and got "+result);
+    public static Collection<AssetId> filterAssets(DimensionManager dimensionManager, List<AssetId> toFilterList,
+            Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) throws DimensionException {
+        Collection<AssetId> result = getDimensionFilter(dimensionManager, preferredDimensionIds, dimSet).filterAssets(
+                toFilterList);
+        if (_log.isDebugEnabled())
+            _log.debug("Filtered " + toFilterList + " using " + dimSet + ", looking for " + preferredDimensionIds
+                    + " and got " + result);
         return result;
     }
 
