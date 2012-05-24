@@ -37,12 +37,6 @@ public class AssetLoadById extends AbstractAssetLoad {
         this.set("OBJECTID", id);
     }
 
-    @Override
-    protected void postExecute(ICS ics) {
-        super.postExecute(ics);
-        // TODO: low priority: Set errno properly on failed asset loads.
-    }
-
     protected void handleError(ICS ics) {
         throw new TagRunnerRuntimeException("Loading asset by ID failed for asset ID: " + list.get("OBJECTID"),
                 ics.GetErrno(), list, ics.getComplexError(), ics.GetVar("pagename"),
