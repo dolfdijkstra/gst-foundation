@@ -38,6 +38,11 @@ public class TableDef {
 
     private final List<TableColumn> columns = new LinkedList<TableColumn>();
 
+    /**
+     * @param name the name of the table
+     * @param acl the acl for the table
+     * @param type the type of the table
+     */
     public TableDef(final String name, final String acl, final String type) {
         super();
         this.name = name;
@@ -45,6 +50,10 @@ public class TableDef {
         this.type = type;
     }
 
+    /**
+     * @param col the column to add
+     * @return the current TableDef, this.
+     */
     public TableDef addColumn(TableColumn col) {
         if (col.isPrimary()) {
             for (TableColumn current : columns) {
@@ -59,10 +68,10 @@ public class TableDef {
 
     /**
      * Adds a column to this table.
-     * @param name
-     * @param type
+     * @param name the name of the column
+     * @param type the type of the column
      * @param primary
-     * @return
+     * @return the added TableColumn.
      */
     public TableColumn addColumn(final String name, final Type type, final boolean primary) {
         TableColumn col = new TableColumn(name, type, primary);
@@ -81,25 +90,34 @@ public class TableDef {
      * Adds a non primary column to this table.
      * @param name
      * @param type
-     * @return the added TableColumn
+     * @return the added TableColumn.
      */
     public TableColumn addColumn(final String name, final Type type) {
 
         return addColumn(name, type, false);
     }
 
-    Iterable<TableColumn> getColumns() {
+    public Iterable<TableColumn> getColumns() {
         return Collections.unmodifiableCollection(columns);
     }
 
+    /**
+     * @return the acl value
+     */
     public String getAcl() {
         return acl;
     }
 
+    /**
+     * @return the name value
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return the type value
+     */
     public String getType() {
         return type;
     }
