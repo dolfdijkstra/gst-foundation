@@ -33,11 +33,11 @@ public final class ICSFactory {
 
     /**
      * Create a new instance of ICS. Expensive operation. Should be used
-     * sparingly. TODO: low priority:  Document lifecycle restrictions
+     * sparingly. TODO: low priority: Document lifecycle restrictions
      * 
      * @return ICS instance, not backed by servlet.
      */
-    public static final ICS newICS() {
+    public static ICS newICS() {
         try {
             return Factory.newCS();
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public final class ICSFactory {
      * 
      * @return ICS object
      */
-    public static final ICS getOrCreateICS() {
+    public static ICS getOrCreateICS() {
         ICS ics = null;
 
         IPS ips = IPSRegistry.getInstance().get();
