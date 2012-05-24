@@ -38,7 +38,6 @@ import com.fatwire.cs.core.db.StatementParam;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * A helper class over <tt>ICS.SQL</tt>
  * 
@@ -96,10 +95,9 @@ public class SqlHelper {
         }
 
         final IList i = ics.SQL(table, sql, null, limit, true, errstr);
-        if (ics.GetErrno() == 0) {
-        } else if (ics.GetErrno() == -101) {
+        if (ics.GetErrno() == -101) {
             ics.ClearErrno();
-        } else {
+        } else if (ics.GetErrno() != 0) {
             throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: '" + errstr.toString()
                     + "' for " + sql);
         }
@@ -161,11 +159,9 @@ public class SqlHelper {
     public static final IListIterable select(final ICS ics, final PreparedStmt stmt, final StatementParam param) {
 
         final IList i = ics.SQL(stmt, param, true);
-        if (ics.GetErrno() == 0) {
-            // ok, no worries
-        } else if (ics.GetErrno() != -101) { // no rows if fine
+        if (ics.GetErrno() != -101) { // no rows if fine
             ics.ClearErrno();
-        } else {
+        } else if (ics.GetErrno() != 0) {
             throw new RuntimeException("ics.SQL returned " + ics.GetErrno() + " and errstr: " + " for "
                     + stmt.toString());
         }
@@ -209,7 +205,8 @@ public class SqlHelper {
                 param.setFloat(i, (Float) o);
             } else if (o instanceof Double) {
                 param.setDouble(i, (Double) o);
-            } else if (o instanceof byte[]) {
+            } else if (o instanceof Byte) {
+                param.setByte(i, (Byte)o);
             } else if (o instanceof java.sql.Date) {
                 param.setDate(i, (Date) o);
             } else if (o instanceof java.sql.Time) {
@@ -219,6 +216,8 @@ public class SqlHelper {
             } else if (o instanceof Clob) {
                 throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
             } else if (o instanceof Blob) {
+                throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
+            }else if (o.getClass().isArray()){
                 throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
             } else if (o instanceof Array) {
                 throw new IllegalArgumentException("Can't search for " + o.getClass().getName());
