@@ -100,7 +100,7 @@ class SingleRow implements Row {
             if (StringUtils.isNotBlank(s)) {
                 return Long.parseLong(s);
             }
-            throw null;
+            return null;
         } catch (final NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
@@ -141,7 +141,7 @@ class SingleRow implements Row {
             if (StringUtils.isNotBlank(s)) {
                 return Integer.parseInt(s);
             }
-            throw null;
+            return null;
         } catch (final NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
