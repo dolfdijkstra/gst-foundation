@@ -78,21 +78,7 @@ public class TagRunnerRuntimeException extends CSRuntimeException {
         builder.append(getPageName());
         builder.append("|");
         builder.append(getElementName());
-        if (getComplexError() != null) {
-            builder.append("|");
-            builder.append("reason: ").append(getComplexError().getReason());
-            builder.append("|message: ");
-            builder.append(getComplexError().getMessage());
 
-            int details = getComplexError().details();
-            if (details > 0) {
-                builder.append("|");
-            }
-            for (int i = 0; i < details; i++) {
-                builder.append(" ");
-                builder.append(getComplexError().detail(i));
-            }
-        }
         return builder.toString();
     }
 }
