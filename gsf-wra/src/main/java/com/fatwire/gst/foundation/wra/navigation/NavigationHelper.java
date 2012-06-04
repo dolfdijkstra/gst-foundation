@@ -245,10 +245,9 @@ public class NavigationHelper {
      * @param level starting level number when traversing the site plan tree
      * @return NavNode of the site plan tree
      */
-    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level,
-            final DimensionFilterInstance dimensionFilter) {
+    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level, final DimensionFilterInstance dimensionFilter) {
         LogDep.logDep(ics, pageId);
-        if (PreviewContext.isSitePreviewEnabled(ics) && !isValidOnDate(ics, pageId, assetEffectiveDate)) {
+        if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
             // the input object is not valid. Abort
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Input asset " + pageId + " is not effective on " + assetEffectiveDate);
@@ -258,35 +257,58 @@ public class NavigationHelper {
 
         // determine if it's a wra, a placeholder or an alias
 
-        final AssetData pageData = AssetDataUtils.getAssetData(ics, pageId, "subtype", "name");
+        final AssetData pageData = AssetDataUtils.getAssetData(ics,pageId, "subtype", "name");
         final String subtype = AttributeDataUtils.asString(pageData.getAttributeData("subtype"));
         final String name = AttributeDataUtils.asString(pageData.getAttributeData("name"));
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
         final NavNode node = new NavNode();
-
-        // no link if it's just a placeholder
-        node.setPage(pageId);
-        node.setLevel(level);
-        node.setPagesubtype(subtype);
-        node.setPagename(name);
         if (isNavigationPlaceholder) {
+            // no link if it's just a placeholder
             node.setPage(pageId);
             node.setLevel(level);
             node.setPagesubtype(subtype);
             node.setPagename(name);
-            AssetClosure closure = new NodeAssetClosure(node);
-            AssetClosure dateFilterClosure = PreviewContext.isSitePreviewEnabled(ics) ? new DateFilterClosure(
-                    PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure) : closure;
+        } else {
+            AssetClosure closure = new AssetClosure() {
+                boolean set = false;
+
+                public boolean work(AssetData asset) {
+                    if (set) {
+                        // skipping
+                        node.setId(null);
+                        node.setWra(null);
+                        node.setLinktext(null);
+                        node.setUrl(null);
+                        return false;
+                    } else {
+
+                        set = true;
+                        node.setPage(pageId);
+                        node.setLevel(level);
+                        node.setPagesubtype(subtype);
+                        node.setPagename(name);
+                        final AssetId id = asset.getAssetId();
+                        node.setId(id);
+                        if (isGstAlias(id)) {
+                            decorateAsAlias(id, node);
+                        } else {
+                            decorateAsWra(id, node);
+                        }
+                        return true;
+                    }
+                }
+
+            };
+
+            DateFilterClosure dateFilterClosure = new DateFilterClosure(PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure);
 
             // retrieve the unnamed association(s) based on date filter
             if (dimensionFilter == null) {
                 assetTemplate.readAssociatedAssets(pageId, "-", dateFilterClosure);
-
             } else {
                 Collection<AssetId> associatedWraList = assetTemplate.readAssociatedAssetIds(pageId, "-");
                 for (final AssetId child : dimensionFilter.filterAssets(associatedWraList)) {
                     assetTemplate.readAsset(child, dateFilterClosure);
-
                 }
             }
         }
