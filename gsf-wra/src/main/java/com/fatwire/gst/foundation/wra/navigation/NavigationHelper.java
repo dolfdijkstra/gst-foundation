@@ -53,9 +53,6 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
 /**
  * Used to retrieve the Navigation Bar data. See the description of
  * {@link #getSitePlan(String)} for more details.
- * <p/>
- * TODO: low priority: add multilingual support
- * <p/>
  * 
  * @author David Chesebro
  * @author Dolf Dijkstra
@@ -99,6 +96,24 @@ public class NavigationHelper {
         this.aliasDao = new AssetApiAliasCoreFieldDao(ics, wraDao);
         this.assetEffectiveDate = null;
         assetTemplate = new AssetAccessTemplate(ics);
+    }
+
+    /**
+     * Constructor with all the dependencies listed. Initializes
+     * assetEffectiveDate to null.
+     * 
+     * @param ics
+     * @param assetTemplate
+     * @param wraDao
+     * @param aliasDao
+     */
+    public NavigationHelper(final ICS ics, AssetAccessTemplate assetTemplate, WraCoreFieldDao wraDao,
+            AliasCoreFieldDao aliasDao) {
+        this.ics = ics;
+        this.wraDao = wraDao;
+        this.aliasDao = aliasDao;
+        this.assetTemplate = assetTemplate;
+        this.assetEffectiveDate = null;
     }
 
     /**
