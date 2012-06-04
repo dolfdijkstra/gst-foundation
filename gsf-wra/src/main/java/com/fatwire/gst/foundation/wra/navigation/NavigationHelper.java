@@ -124,10 +124,11 @@ public class NavigationHelper {
      * @return NavNode for the Page with the name
      */
     public NavNode getSitePlanByPage(final int depth, final String name) {
-        String sitename = ics.GetVar("site");
-        if (StringUtils.isBlank(sitename))
+        final String sitename = ics.GetVar("site");
+        if (StringUtils.isBlank(sitename)) {
             throw new IllegalStateException(
                     "site is not a ics variable. This function needs this variable to be aviable and contain the name of the site.");
+        }
 
         return getSitePlanByPage(depth, name, sitename);
     }
@@ -140,11 +141,12 @@ public class NavigationHelper {
      * @param dimensionFilter in order to translate the output.
      * @return NavNode for the Page with the name
      */
-    public NavNode getSitePlanByPage(final int depth, final String name, DimensionFilterInstance dimensionFilter) {
-        String sitename = ics.GetVar("site");
-        if (StringUtils.isBlank(sitename))
+    public NavNode getSitePlanByPage(final int depth, final String name, final DimensionFilterInstance dimensionFilter) {
+        final String sitename = ics.GetVar("site");
+        if (StringUtils.isBlank(sitename)) {
             throw new IllegalStateException(
                     "site is not a ics variable. This function needs this variable to be aviable and contain the name of the site.");
+        }
 
         return getSitePlanByPage(depth, name, sitename, dimensionFilter);
     }
@@ -157,7 +159,7 @@ public class NavigationHelper {
      * @param sitename the name of the site you want the navigation for.
      * @return NavNode for the Page with the name
      */
-    public NavNode getSitePlanByPage(final int depth, final String name, String sitename) {
+    public NavNode getSitePlanByPage(final int depth, final String name, final String sitename) {
         return getSitePlanByPage(depth, name, sitename, null);
     }
 
@@ -170,15 +172,17 @@ public class NavigationHelper {
      * @param dimensionFilter in order to translate the output.
      * @return NavNode for the Page with the name
      */
-    public NavNode getSitePlanByPage(final int depth, final String name, String sitename,
-            DimensionFilterInstance dimensionFilter) {
+    public NavNode getSitePlanByPage(final int depth, final String name, final String sitename,
+            final DimensionFilterInstance dimensionFilter) {
 
-        SiteInfo site = assetTemplate.readSiteInfo(sitename);
-        if (site == null)
+        final SiteInfo site = assetTemplate.readSiteInfo(sitename);
+        if (site == null) {
             throw new RuntimeException("Site with name '" + sitename + "' not found.");
+        }
         final AssetId pageid = assetTemplate.findByName(ics, "Page", name, site.getId());
-        if (pageid == null)
+        if (pageid == null) {
             return null;
+        }
         return getSitePlan(depth, pageid, dimensionFilter);
     }
 
@@ -245,7 +249,9 @@ public class NavigationHelper {
      * @param level starting level number when traversing the site plan tree
      * @return NavNode of the site plan tree
      */
-    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level, final DimensionFilterInstance dimensionFilter) {
+    private NavNode getSitePlan(final int depth, final AssetId pageId, final int level,
+            final DimensionFilterInstance dimensionFilter) {
+        // check the start/end date of the page asset
         LogDep.logDep(ics, pageId);
         if (!isValidOnDate(ics, pageId, assetEffectiveDate)) {
             // the input object is not valid. Abort
@@ -257,56 +263,29 @@ public class NavigationHelper {
 
         // determine if it's a wra, a placeholder or an alias
 
-        final AssetData pageData = AssetDataUtils.getAssetData(ics,pageId, "subtype", "name");
+        final AssetData pageData = AssetDataUtils.getAssetData(ics, pageId, "subtype", "name");
         final String subtype = AttributeDataUtils.asString(pageData.getAttributeData("subtype"));
         final String name = AttributeDataUtils.asString(pageData.getAttributeData("name"));
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
         final NavNode node = new NavNode();
-        if (isNavigationPlaceholder) {
-            // no link if it's just a placeholder
-            node.setPage(pageId);
-            node.setLevel(level);
-            node.setPagesubtype(subtype);
-            node.setPagename(name);
-        } else {
-            AssetClosure closure = new AssetClosure() {
-                boolean set = false;
 
-                public boolean work(AssetData asset) {
-                    if (set) {
-                        // skipping
-                        node.setId(null);
-                        node.setWra(null);
-                        node.setLinktext(null);
-                        node.setUrl(null);
-                        return false;
-                    } else {
-
-                        set = true;
-                        node.setPage(pageId);
-                        node.setLevel(level);
-                        node.setPagesubtype(subtype);
-                        node.setPagename(name);
-                        final AssetId id = asset.getAssetId();
-                        node.setId(id);
-                        if (isGstAlias(id)) {
-                            decorateAsAlias(id, node);
-                        } else {
-                            decorateAsWra(id, node);
-                        }
-                        return true;
-                    }
-                }
-
-            };
-
-            DateFilterClosure dateFilterClosure = new DateFilterClosure(PreviewContext.getPreviewDate(ics, assetEffectiveDate), closure);
+        node.setPage(pageId);
+        node.setLevel(level);
+        node.setPagesubtype(subtype);
+        node.setPagename(name);
+        // no link if it's just a placeholder
+        if (!isNavigationPlaceholder) {
+            // add the WRA asset to the node
+            final AssetClosure closure = new NodeAssetClosure(node);
+            final DateFilterClosure dateFilterClosure = new DateFilterClosure(PreviewContext.getPreviewDate(ics,
+                    assetEffectiveDate), closure);
 
             // retrieve the unnamed association(s) based on date filter
             if (dimensionFilter == null) {
                 assetTemplate.readAssociatedAssets(pageId, "-", dateFilterClosure);
             } else {
-                Collection<AssetId> associatedWraList = assetTemplate.readAssociatedAssetIds(pageId, "-");
+
+                final Collection<AssetId> associatedWraList = assetTemplate.readAssociatedAssetIds(pageId, "-");
                 for (final AssetId child : dimensionFilter.filterAssets(associatedWraList)) {
                     assetTemplate.readAsset(child, dateFilterClosure);
                 }
@@ -435,34 +414,22 @@ public class NavigationHelper {
 
     class NodeAssetClosure implements AssetClosure {
 
-        boolean set = false;
         private final NavNode node;
 
-        public NodeAssetClosure(NavNode node) {
+        public NodeAssetClosure(final NavNode node) {
             this.node = node;
         }
 
-        public boolean work(AssetData asset) {
-            if (set) {
-                // skipping
-                node.setId(null);
-                node.setWra(null);
-                node.setLinktext(null);
-                node.setUrl(null);
-                return false;
+        @Override
+        public boolean work(final AssetData asset) {
+            final AssetId id = asset.getAssetId();
+            node.setId(id);
+            if (isGstAlias(id)) {
+                decorateAsAlias(id, node);
             } else {
-
-                set = true;
-
-                final AssetId id = asset.getAssetId();
-                node.setId(id);
-                if (isGstAlias(id)) {
-                    decorateAsAlias(id, node);
-                } else {
-                    decorateAsWra(id, node);
-                }
-                return true;
+                decorateAsWra(id, node);
             }
+            return false; // needs to return only one node
         }
 
     };
