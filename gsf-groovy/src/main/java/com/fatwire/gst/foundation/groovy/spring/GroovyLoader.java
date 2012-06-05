@@ -90,7 +90,7 @@ public class GroovyLoader extends WebApplicationObjectSupport {
 
     /**
      * @param name the name of the class
-     * @return
+     * @return the Object loaded by Groovy
      * @throws Exception
      */
     public Object load(String name) throws Exception {
