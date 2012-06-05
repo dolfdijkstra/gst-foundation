@@ -72,7 +72,7 @@ public class WraUriBuilder {
      * wrapper (if provided).
      * 
      * @param ics
-     * @return
+     * @return the URI as a String for this WRA
      * @see com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#execute(COM.FutureTense.Interfaces.ICS)
      */
     public String toURI(ICS ics) {
