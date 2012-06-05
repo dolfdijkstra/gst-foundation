@@ -20,7 +20,7 @@ import COM.FutureTense.Interfaces.ICS;
 /**
  * Implementations inject services into the dependent object.
  * <p/>
- * @see <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a> for more information on Dependency Injection.
+ * See <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a> for more information on Dependency Injection.
  * 
  * @author Dolf.Dijkstra
  * 
