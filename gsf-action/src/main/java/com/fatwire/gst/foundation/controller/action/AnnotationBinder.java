@@ -48,9 +48,8 @@ public final class AnnotationBinder {
      * retrieving the value from the {@link Factory#getObject(String,Class)}
      * method.
      * 
-     * @param object the object to inject into
-     * @param factory the factory that created the objects that need to be
-     *            injected.
+     * @param object the object to inject into.
+     * @param ics the ics context.
      */
     public static final void bind(final Object object, ICS ics) {
         if (object == null) {
@@ -78,10 +77,11 @@ public final class AnnotationBinder {
         }
     }
 
+  
     /**
-     * @param object
-     * @param factory
-     * @param field
+     * @param object object to bind to
+     * @param ics the ics context
+     * @param field the field to inject to
      * @throws SecurityException
      */
     public static void bindToField(final Object object, final ICS ics, final Field field) throws SecurityException {
