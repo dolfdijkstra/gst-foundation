@@ -51,7 +51,7 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-            <description>Indicated the desired behaviour if a include block can not be found. If true ignore that state silently.</description>
+            <description>Indicated the desired behavior if a include block can not be found. If true ignore that state silently.</description>
             <name>name</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
