@@ -81,10 +81,14 @@ public interface WraCoreFieldDao {
     /**
      * @param c
      * @param cid
-     * @return
+     * @return the name of the site that this asset belongs to.
      */
     public String resolveSite(String c, String cid);
 
-    public VanityAsset getVanityWra(AssetId asset);
+    /**
+     * @param id
+     * @return the VanityAsset for the id, null is not found or not a VanityAsset
+     */
+    public VanityAsset getVanityWra(AssetId id);
 
 }
