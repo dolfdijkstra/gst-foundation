@@ -38,7 +38,7 @@ public class GroovyWebContext extends DefaultWebAppContext {
     /**
      * This constructor is needed for the {@link WebAppContextLoader}.
      * 
-     * @param ctx
+     * @param context
      * @param app
      */
     public GroovyWebContext(ServletContext context, AppContext app) {
