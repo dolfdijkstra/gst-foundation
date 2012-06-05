@@ -83,11 +83,11 @@ public class WebAppContextLoader implements ServletContextListener {
     }
 
     /**
+     * Creates a AppContext based on the init parameter {@link #CONTEXTS}.
+     * 
      * @param context
-     * @param parent
      * @param cl
-     * @param init
-     * @return
+     * @return the AppContext as configured from the web app init parameter.
      */
     protected AppContext configureFromInitParam(final ServletContext context, final ClassLoader cl) {
         AppContext parent = null;
@@ -138,6 +138,20 @@ public class WebAppContextLoader implements ServletContextListener {
         sce.getServletContext().removeAttribute(WebAppContext.WEB_CONTEXT_NAME);
     }
 
+    /**
+     * @param cl the classloader to load the class.
+     * @param c the class name, class needs to implement a constructor with a
+     *            <tt>context</tt> and a <tt>parent</tt> {@link #ARGS}.
+     * @param context the web context
+     * @param parent parent AppContext, null is none
+     * @return the created AppContext
+     * @throws ClassNotFoundException
+     * @throws SecurityException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     AppContext createAppContext(final ClassLoader cl, final String c, final ServletContext context,
             final AppContext parent) throws ClassNotFoundException, SecurityException, NoSuchMethodException,
             InstantiationException, IllegalAccessException, InvocationTargetException {
