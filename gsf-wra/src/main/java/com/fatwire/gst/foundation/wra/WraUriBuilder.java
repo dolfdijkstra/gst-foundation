@@ -59,7 +59,7 @@ public class WraUriBuilder {
 
     }
 
-    public WraUriBuilder(WebReferenceableAsset wra, String wrapper) {
+    public WraUriBuilder(VanityAsset wra, String wrapper) {
         this(wra.getId(), wrapper);
         if (StringUtils.isBlank(wra.getTemplate()))
             throw new IllegalArgumentException("The template attribute for asset " + wra.getId().getType() + ":"
