@@ -40,6 +40,19 @@
         </attribute>
     </tag>
     <tag>
+        <description>This tag calls an action.</description>
+        <name>callaction</name>
+        <tag-class>com.fatwire.gst.foundation.include.ActionTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>the name of the action</description>
+            <name>action</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
         <description>This tag is used to include a template,element or page.</description>
         <name>include</name>
         <tag-class>com.fatwire.gst.foundation.include.IncludeTag</tag-class>
