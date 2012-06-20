@@ -38,6 +38,7 @@ import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
+import com.fatwire.gst.foundation.wra.VanityAsset;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
@@ -122,6 +123,12 @@ public class NavigationHelper {
      * site.
      */
     public static final String NAVBAR_NAME = "GSTNavName";
+
+    /**
+     * Name of the page subtype indicating that this page is a Link, meaning
+     * that the content is in the unnamed association
+     */
+    public static final String NAVBAR_LINK = "GSTNavLink";
 
     /**
      * @param name the name of the Page asset
@@ -288,10 +295,12 @@ public class NavigationHelper {
         node.setLevel(level);
         node.setPagesubtype(subtype);
         node.setPagename(name);
-        // no link if it's just a placeholder
-        if (!isNavigationPlaceholder) {
-            // add the WRA asset to the node
-            final AssetClosure closure = new NodeAssetClosure(node);
+
+        if (isNavigationPlaceholder) {
+            // no link if it's just a placeholder
+        } else {
+            // not a GSTNavLink, probably 11g page
+            final AssetClosure closure = new NodeWraAssetClosure(node);
             final DateFilterClosure dateFilterClosure = new DateFilterClosure(PreviewContext.getPreviewDate(ics,
                     assetEffectiveDate), closure);
 
@@ -305,6 +314,7 @@ public class NavigationHelper {
                     assetTemplate.readAsset(child, dateFilterClosure);
                 }
             }
+
         }
 
         if (depth < 0 || depth > level) {
@@ -367,7 +377,7 @@ public class NavigationHelper {
      * @param wra WebReferenceableAsset bean
      * @return url
      */
-    protected String getUrlForWra(final WebReferenceableAsset wra) {
+    protected String getUrlForWra(final VanityAsset wra) {
         if (wra.getTemplate() == null || wra.getTemplate().length() == 0) {
             LOG.warn("Asset " + wra + " does not have a valid template set.");
             return null;
@@ -427,11 +437,11 @@ public class NavigationHelper {
         return wraDao.findP(new AssetIdWithSite(wraAssetId.getType(), wraAssetId.getId(), site_name));
     }
 
-    class NodeAssetClosure implements AssetClosure {
+    class NodeWraAssetClosure implements AssetClosure {
 
         private final NavNode node;
 
-        public NodeAssetClosure(final NavNode node) {
+        public NodeWraAssetClosure(final NavNode node) {
             this.node = node;
         }
 
@@ -447,6 +457,6 @@ public class NavigationHelper {
             return false; // needs to return only one node
         }
 
-    };
+    }
 
 }
