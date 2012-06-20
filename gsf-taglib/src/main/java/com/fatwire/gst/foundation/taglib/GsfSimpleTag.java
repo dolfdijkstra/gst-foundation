@@ -36,5 +36,9 @@ public abstract class GsfSimpleTag extends SimpleTagSupport {
         }
         throw new RuntimeException("Can't find ICS object on the page context.");
     }
+    
+    protected final PageContext getPageContext(){
+        return (PageContext) getJspContext();
+    }
 
 }
