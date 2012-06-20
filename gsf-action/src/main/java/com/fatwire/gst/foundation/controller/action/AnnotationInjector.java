@@ -133,7 +133,7 @@ public final class AnnotationInjector {
         }
         final Object injectionValue = factory.getObject(name, field.getType());
         if (injectionValue == null) {
-            throw new RuntimeException(factory.getClass().getName() + " does not know how to inject '"
+            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '"
                     + field.getType().getName() + "' into the field '" + field.getName() + "' for an action.");
         }
         field.setAccessible(true); // make private fields accessible
@@ -144,10 +144,10 @@ public final class AnnotationInjector {
         try {
             field.set(object, injectionValue);
         } catch (final IllegalArgumentException e) {
-            throw new IllegalArgumentException("IllegalArgumentException injecting " + injectionValue + " into field "
+            throw new InjectionException("IllegalArgumentException injecting " + injectionValue + " into field "
                     + field.getName(), e);
         } catch (final IllegalAccessException e) {
-            throw new RuntimeException("IllegalAccessException injecting " + injectionValue + " into field "
+            throw new InjectionException("IllegalAccessException injecting " + injectionValue + " into field "
                     + field.getName(), e);
         }
     }
@@ -171,7 +171,7 @@ public final class AnnotationInjector {
         final Class<?> type = method.getParameterTypes()[0];
         final Object injectionValue = factory.getObject(name, type);
         if (injectionValue == null) {
-            throw new RuntimeException(factory.getClass().getName() + " does not know how to inject '" + type.getName()
+            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + type.getName()
                     + "' into the field '" + method.getName() + "' for an action.");
         }
 
@@ -183,13 +183,13 @@ public final class AnnotationInjector {
         try {
             method.invoke(object, injectionValue);
         } catch (final IllegalArgumentException e) {
-            throw new IllegalArgumentException("IllegalArgumentException injecting " + injectionValue + " into method "
+            throw new InjectionException("IllegalArgumentException injecting " + injectionValue + " into method "
                     + method.getName(), e);
         } catch (final IllegalAccessException e) {
-            throw new IllegalArgumentException("IllegalAccessException injecting " + injectionValue + " into method "
+            throw new InjectionException("IllegalAccessException injecting " + injectionValue + " into method "
                     + method.getName(), e);
         } catch (final InvocationTargetException e) {
-            throw new IllegalArgumentException("InvocationTargetException injecting " + injectionValue
+            throw new InjectionException("InvocationTargetException injecting " + injectionValue
                     + " into method " + method.getName(), e);
         }
     }
