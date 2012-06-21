@@ -15,11 +15,6 @@
             <name>Dolf Dijkstra</name>
         </developer>
     </developers>
-    <scm>
-        <connection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-cs-test</connection>
-        <developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-cs-test</developerConnection>
-        <url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-cs-test</url>
-    </scm>
     <dependencies>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
