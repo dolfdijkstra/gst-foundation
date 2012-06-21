@@ -1,18 +1,18 @@
--
-- Copyright 2010 FatWire Corporation. All Rights Reserved.
--
-- Licensed under the Apache License, Version 2.0 (the "License");
-- you may not use this file except in compliance with the License.
-- You may obtain a copy of the License at
--
-- http://www.apache.org/licenses/LICENSE-2.0
--
-- Unless required by applicable law or agreed to in writing, software
-- distributed under the License is distributed on an "AS IS" BASIS,
-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-- See the License for the specific language governing permissions and
-- limitations under the License.
--
+<!--
+ Copyright 2010 FatWire Corporation. All Rights Reserved.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
 
 #GST Site Foundation Overview
 
@@ -69,7 +69,7 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
 
 ##Documentation
   
-- [Architecture specification document](./GST Site Foundation 1.0.3.pdf) - the core specification.
+- [Architecture specification document](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GST Site Foundation 1.0.3.pdf) - the core specification.
 
 - [ Introducing GST Site Foundation](http://img.en25.com/Web/Fatwire/TTRNG%20-%20Introducing%20GST%20Site%20Foundation.pdf) - Interact 2010 User Conference Presentation.
 
@@ -81,17 +81,17 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
 
 - [GSF Installation ReadMe](./InstallGuide.html) - Minimalistic gide for installing and configuring the GSF toolkit
 
-- Functioning Microsite Sample {{./GST-Dispatcher.xml}} and {{./Microsite.jsp}}.
+- Functioning Microsite Sample [Dispatcher](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GST-Dispatcher.xml)) and [microsite](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/Microsite.jsp).
     
-- MVC and Action Support [ in the Groovy project documentation](./gsf-groovy).
+- MVC and Action Support in the Groovy project documentation (./gsf-groovy).
     
-- [ GSF Beginner Guide](./GSF_Beginner_Guide_v1.3.pdf) - A down-under introduction to GSF, by Ram Sabnavis.
+- [GSF Beginner Guide](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GSF_Beginner_Guide_v1.3.pdf) - A down-under introduction to GSF, by Ram Sabnavis.
 
-- [GSF Developer's Guide](./GSF Developers Guide 1.0.docx) - (Partially outdated) Step-by-step instructions for installing and using the GSF toolkit.
+- [GSF Developer's Guide](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GSF Developers Guide 1.0.docx) - (Partially outdated) Step-by-step instructions for installing and using the GSF toolkit.
 
 ##Download
 
-    The GSF is packaged into a single, downloadable bundle.  
+The GSF is packaged into a single, downloadable bundle.  
 
 -  Pre-compiled Jar {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/}}
 
@@ -100,17 +100,18 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
 
 ##Installation
 
-    Installing the GSF is simple, but affects multiple components.  The [minimalistic guide](./InstallGuide.html)
-    should get you up and running quickly.
+Installing the GSF is simple, but affects multiple components.  The [minimalistic guide](./InstallGuide.html)
+should get you up and running quickly.
 
-    More detailed information can be found in the somewhat outdated [GSF Developer's Guide](./GSF Developers Guide 1.0.docx).
+More detailed information can be found in the somewhat outdated [GSF Developer's Guide](./GSF Developers Guide 1.0.docx).
 
 ##Support
 
-    The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
+The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
+
 ##Building
 
-  The core components must be downloaded from [GitHub](https://github.com/dolfdijkstra/gst-foundation).
+The core components must be downloaded from [GitHub](https://github.com/dolfdijkstra/gst-foundation).
 
 
 - [Maven version 2.2.1](http://maven.apache.org/) should be used to build the GSF. Earlier and later versions of maven might not work (YMMV).
@@ -131,5 +132,6 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
 - Execute `mvn install` to build the jars and install them in your local repository.
 
 ##License
+
 This project is licensed under the [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) license.
 
