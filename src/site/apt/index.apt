@@ -78,7 +78,7 @@ Documentation
 
     * {{{./apidocs/index.html}JavaDoc API Reference}} - toolkit API.
     
-    * {{{./gsf-taglib/taglibvalidation.html}JSP Tag library}} - The JSP tag lib documentation.
+    * {{{./gsf-taglib/tlddoc/index.html}JSP Tag library}} - The JSP tag lib documentation.
 
     * {{{./InstallGuide.html}GSF Installation ReadMe}} - Minimalistic gide for installing and configuring the GSF toolkit
 
