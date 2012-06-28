@@ -222,6 +222,7 @@
 					<detectOfflineLinks>false</detectOfflineLinks>
 				</configuration>
 			</plugin>
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -230,6 +231,7 @@
 					<configLocation>http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/src/config/gsf-checkstyle.xml</configLocation>
 				</configuration>
 			</plugin>
+			-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
