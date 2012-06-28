@@ -7,7 +7,7 @@
 	<version>1.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>FatWire GST: Site Foundation</name>
-	<url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/</url>
+	<url>http://dolfdijkstra.github.com/gst-foundation</url>
 	<inceptionYear>2010</inceptionYear>
 	<licenses>
 		<license>
@@ -23,12 +23,11 @@
 			<name>Tony Field</name>
 		</developer>
 	</developers>
-	<scm>
-		<connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk</connection>
-		<developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk</developerConnection>
-		<url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk</url>
-	</scm>
-
+        <scm>
+            <connection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</connection>
+            <developerConnection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</developerConnection>
+            <url>http://github.com/dolfdijkstra/gst-foundation</url>
+        </scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

@@ -16,11 +16,6 @@
 			<name>Dolf Dijkstra</name>
 		</developer>
 	</developers>
-	<scm>
-		<connection>scm:svn:http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-groovy</connection>
-		<developerConnection>scm:svn:http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/gsf-groovy</developerConnection>
-		<url>http://www.nl.fatwire.com/viewvc/dta/contrib/gst-foundation/trunk/gsf-groovy</url>
-	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
