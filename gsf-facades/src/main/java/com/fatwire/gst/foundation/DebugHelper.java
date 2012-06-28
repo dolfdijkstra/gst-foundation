@@ -487,6 +487,7 @@ public final class DebugHelper {
         return b.toString();
     }
 
+    @SuppressWarnings("unchecked")
     private static void dumpObjects(final ICS ics, final PrintWriter pw) {
         for (final Method m : ics.getClass().getMethods()) {
             final Class<?> c = m.getReturnType();
