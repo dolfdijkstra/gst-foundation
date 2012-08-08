@@ -257,6 +257,7 @@
 		</plugins>
 	</reporting>
 	<repositories>
+<!--
 		<repository>
 			<id>nl.fatwire.com</id>
 			<url>http://www.nl.fatwire.com/maven2</url>
@@ -277,20 +278,21 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
+-->
 	</repositories>
 	<distributionManagement>
-		<!-- use the following if you're not using a snapshot version. -->
+<!--
 		<repository>
 			<id>fatwire-repository</id>
 			<name>FatWire Repository</name>
 			<url>scp://www.nl.fatwire.com/var/www/html/maven2</url>
 		</repository>
-		<!-- use the following if you ARE using a snapshot version. -->
 		<snapshotRepository>
 			<id>fatwire-repository</id>
 			<name>FatWire Repository</name>
 			<url>scp://www.nl.fatwire.com/var/www/html/snapshot-repo</url>
 		</snapshotRepository>
+-->
 		<site>
 			<id>website</id>
 			<url>scp://www.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation</url>
