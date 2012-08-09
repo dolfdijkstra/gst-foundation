@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.include;
+package com.fatwire.gst.foundation.taglib;
 
 import java.io.IOException;
 
@@ -23,7 +23,8 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.taglib.GsfSimpleTag;
+import com.fatwire.gst.foundation.include.DefaultIncludeService;
+import com.fatwire.gst.foundation.include.Include;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

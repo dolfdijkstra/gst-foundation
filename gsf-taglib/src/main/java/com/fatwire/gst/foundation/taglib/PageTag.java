@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.include;
+package com.fatwire.gst.foundation.taglib;
 
 import java.util.Map.Entry;
 
@@ -27,7 +27,8 @@ import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.ActionLocatorUtils;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.AnnotationUtils;
-import com.fatwire.gst.foundation.taglib.GsfRootTag;
+import com.fatwire.gst.foundation.include.DefaultIncludeService;
+import com.fatwire.gst.foundation.include.IncludeService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
