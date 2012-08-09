@@ -18,7 +18,7 @@
 -->
 <taglib xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
     xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
-    <description>
+    <description>DEPRECATED, use the http://gst.fatwire.com/foundation/tags/gsf taglib.<br/>
         usage: &lt;%@ taglib
         uri="http://gst.fatwire.com/foundation/tags/p"
         prefix="p" %&gt; </description>
