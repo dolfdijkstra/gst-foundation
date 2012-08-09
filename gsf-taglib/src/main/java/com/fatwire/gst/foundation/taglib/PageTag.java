@@ -69,9 +69,10 @@ public class PageTag extends GsfRootTag {
     @Override
     public int doStartTag() throws JspException {
         final int r = super.doStartTag();
-        final ICS ics = getICS();
-
+        
         if (action != null) {
+            final ICS ics = getICS();
+
             final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
             final ActionLocator locator = getActionLocator();
             if (locator == null)  throw new IllegalStateException("The ActionLocator cannot be found.");
