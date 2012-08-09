@@ -149,7 +149,7 @@ public class PageTag extends GsfRootTag {
     /**
      * This is a discovery method to be used by the IncludeTag class. The
      * contract is that PageTag and IncludeTag work together and that the
-     * includeService is made availble on the PageTag jsp tag as loaded by the
+     * includeService is made available on the PageTag jsp tag as loaded by the
      * jsp page. An alternative would be to add this object to the
      * <tt>pageContext</tt>. It was chosen not to do this as maintaining it on
      * the tag reduces scope and possible intermingling by the accidental
