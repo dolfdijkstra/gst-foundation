@@ -54,7 +54,7 @@ public final class WraAssetEventListener extends RunOnceAssetEventListener {
         getService().deleteAsset(assetId);
     }
 
-    private WraPathTranslationService getService() {
+    protected WraPathTranslationService getService() {
         return UrlRegistry2.lookup(getICS());
     }
 
