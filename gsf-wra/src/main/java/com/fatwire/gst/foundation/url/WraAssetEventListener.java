@@ -28,7 +28,7 @@ import com.fatwire.gst.foundation.url.db.UrlRegistry2;
  * @author Dolf Dijkstra
  * @since Jul 21, 2010
  */
-public final class WraAssetEventListener extends RunOnceAssetEventListener {
+public class WraAssetEventListener extends RunOnceAssetEventListener {
 
     @Override
     protected void doAssetAdded(final AssetId assetId) {
