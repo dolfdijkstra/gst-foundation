@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2010 FatWire Corporation. All Rights Reserved.
+    Copyright 2009 FatWire Corporation. All Rights Reserved.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,33 +23,6 @@
     <menu name="Overview">
       <item name="Introduction" href="./index.html"/>
     </menu>
-    <menu name="Modules">
-	    <item name="Facades" href="gsf-facades/index.html"/>
-	    <item name="Groovy" href="gsf-groovy/index.html"/>
-	    <item name="Actions" href="gsf-action/index.html"/>
-	    <item name="JSP taglib" href="gsf-taglib/index.html"/>
-	    <item name="WRA" href="gsf-wra/index.html"/>
-	    <item name="Tagging" href="gsf-tagging/index.html"/>
-	    <item name="Testing" href="gsf-cs-test/index.html"/>
-    </menu>
     <menu ref="reports" />
-
-<!--
-dependencies.html
-dependency-convergence.html
-index.html
-InstallGuide.html
-integration.html
-issue-tracking.html
-license.html
-mail-lists.html
-plugin-management.html
-plugins.html
-project-info.html
-project-reports.html
-project-summary.html
-source-repository.html
-team-list.html
--->
   </body>
 </project>
