@@ -10,6 +10,7 @@ archive=`pwd`/target/gst-foundation-$VERSION.tgz
 (cd gsf-assembly/target  && tar -czf $archive gst* -C /tmp/ gsf-site )
 
 echo done packaging gst-foundation
+# to get a graphical dependency tree: http://www.summa-tech.com/blog/2011/04/12/a-visual-maven-dependency-tree-view/
 #  mvn org.apache.maven.plugins:maven-dependency-plugin:2.5:tree -DoutputType=graphml -DoutputFile=dependency.graphml
 #   yEd ./dependency.graphml 
 # find . -name dependency.graphml -exec rm {} \;
