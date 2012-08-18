@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>11.0-SNAPSHOT</version>
     </parent>
     <artifactId>gsf-taglib</artifactId>
     <packaging>jar</packaging>
@@ -52,12 +52,12 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-action</artifactId>
-            <version>1.4-SNAPSHOT</version>
+            <version>11.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-tagging</artifactId>
-            <version>1.4-SNAPSHOT</version>
+            <version>11.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <distributionManagement>

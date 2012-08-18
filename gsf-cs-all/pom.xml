@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>11.0-SNAPSHOT</version>
     </parent>
     <artifactId>gsf-cs-all</artifactId>
     <packaging>pom</packaging>
