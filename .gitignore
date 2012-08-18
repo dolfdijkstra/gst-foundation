@@ -31,6 +31,17 @@ local.properties
 # Maven
 target
 
+#################
+## IntelliJ IDEA
+#################
 
-# Mac crap
+*.iml
+*.iws
+*.ipr
+
+#################
+## Mac metadata
+#################
+
 .DS_Store
+
