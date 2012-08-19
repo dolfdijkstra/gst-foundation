@@ -418,6 +418,37 @@
 		</attribute>
 	</tag>
 	<tag>
+        <description>Tag to set a property asset.  Tags are immediately persisted to the repository.  The property
+        is automatically added to the current site, as determined by locating the session variable "pubid".</description>
+        <name>set-property</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.SetPropertyTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>the name of the output scripting variable</description>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>the property description</description>
+            <name>description</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>the property name</description>
+            <name>value</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>List of site names to add to those currently set for this property.</description>
+            <name>publist</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
 		<description>Tag to translate the results of a recommendation call (or any other list containing
             assettype,assetid columns.  If the dimensionset cannot be found, or if the locale is not found,
            the original list is returned.  The outlist is also set into the page context for iteration, as
@@ -504,4 +535,42 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+    <tag>
+        <description>Check the installation status of the GSF.  Anything non-zero means parts are missing.</description>
+        <name>install-status</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.install.InstallStatus</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Name of variable and page context attribute to store the result</description>
+            <name>output</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Comma-separated list of flex family attribute type names into which the GST attributes will be
+            installed.  If not specified, they will be installed into the GSTAttribute flex family.</description>
+            <name>families</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <description>Install the GSF components (besides the JAR and CatalogMover components, of course).</description>
+        <name>install</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.install.Install</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Name of variable and page context attribute to store the install status</description>
+            <name>output</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Comma-separated list of flex family attribute type names into which the GST attributes will be
+            installed.  If not specified, they will be installed into the GSTAttribute flex family.</description>
+            <name>families</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

@@ -20,15 +20,20 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
 
+import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.IListUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
+import com.fatwire.gst.foundation.facade.sql.IListIterable;
+import com.fatwire.gst.foundation.facade.sql.Row;
+import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
 /**
  * Exposes ASSET.LIST &lt;asset:list type="assetType" list="nameOfList"
  * [order="order"] [pubid="siteId"] [excludevoided="trueOrFalse"]
  * [field[n]="fieldName"] [value[n]="fieldValue"]> <asset:argument
  * name="fieldName" value="fieldValue"/&gt; &lt;/asset:list&gt;
- * 
+ *
  * @author Tony Field
  * @since Sep 28, 2008
  */
@@ -68,7 +73,7 @@ public class AssetList extends AbstractTagRunner {
     /**
      * Return true if the asset exists in the database, and false if it does
      * not.
-     * 
+     *
      * @param ics context
      * @param c asset type
      * @param cid asset id
@@ -91,11 +96,60 @@ public class AssetList extends AbstractTagRunner {
         return spugtfa != null && spugtfa.hasData();
     }
 
+    public static boolean assetExistsByName(ICS ics, String c, String name) {
+        if (c == null || c.length() == 0) return false;
+
+        if (!SqlHelper.tableExists(ics, c)) return false;
+
+        if (name == null || name.length() == 0) return false;
+        ics.RegisterList("spu-gtfa", null);
+        AssetList al = new AssetList();
+        al.setField("name", name);
+        al.setType(c);
+        al.setExcludeVoided(false);
+        al.setList("spu-gtfa");
+        al.execute(ics);
+        IList spugtfa = ics.GetList("spu-gtfa");
+        ics.RegisterList("spu-gtfa", null);
+        return spugtfa != null && spugtfa.hasData();
+    }
+
+    /**
+     * Look up asset id by name
+     * @param ics context
+     * @param c type
+     * @param name name field value
+     * @return asset id or null if not found.
+     */
+    public static AssetId lookupAssetId(ICS ics, String c, String name) {
+        if (c == null || c.length() == 0) throw new IllegalArgumentException("No such asset type: " + c);
+
+        if (!SqlHelper.tableExists(ics, c)) throw new IllegalArgumentException("No such asset type: " + c);
+
+        if (name == null || name.length() == 0)
+            throw new IllegalArgumentException("Cannot look up asset by name with an actual name.  Type: " + c);
+        ics.RegisterList("spu-gtfa", null);
+        AssetList al = new AssetList();
+        al.setField("name", name);
+        al.setType(c);
+        al.setExcludeVoided(false);
+        al.setList("spu-gtfa");
+        al.execute(ics);
+        IList spugtfa = ics.GetList("spu-gtfa");
+        ics.RegisterList("spu-gtfa", null);
+        if (spugtfa != null && spugtfa.hasData()) {
+            for (Row listRow : new IListIterable(spugtfa)) {
+                return AssetIdUtils.createAssetId(c, listRow.getString("id"));
+            }
+        }
+        return null;
+    }
+
     /**
      * Get a single field from a specified asset. Only one result must be
      * returned from this search or an exception will be thrown. Pubid is
      * optional.
-     * 
+     *
      * @param ics
      * @param c
      * @param cid

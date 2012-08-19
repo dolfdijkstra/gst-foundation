@@ -15,6 +15,9 @@
  */
 package com.fatwire.gst.foundation.vwebroot;
 
+import java.util.Collection;
+import java.util.SortedSet;
+
 import com.fatwire.gst.foundation.wra.VanityAsset;
 
 
@@ -29,4 +32,11 @@ public interface VirtualWebrootDao {
     VirtualWebroot lookupVirtualWebrootForAsset(VanityAsset wra);
 
     VirtualWebroot lookupVirtualWebrootForUri(String uri);
+
+    /**
+     * Get all of the virtual webroots, sorted by URL length.
+     *
+     * @return list of virtual webroots
+     */
+    public SortedSet<VirtualWebroot> getAllVirtualWebroots();
 }

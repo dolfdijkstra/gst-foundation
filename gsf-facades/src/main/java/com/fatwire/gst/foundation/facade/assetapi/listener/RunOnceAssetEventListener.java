@@ -107,13 +107,17 @@ public abstract class RunOnceAssetEventListener extends AbstractAssetEventListen
         return ics != null ? ics : ICSFactory.getOrCreateICS();
     }
 
-    
+
     /* (non-Javadoc)
      * @see com.openmarket.basic.event.AbstractAssetEventListener#init(COM.FutureTense.Interfaces.ICS)
      */
     @Override
     public void init(ICS ics) {
        this.ics=ics;
-        
+
+    }
+
+    public final boolean isInstalled(final ICS ics) {
+        return AssetListenerInstall.isRegistered(ics, getClass().getName());
     }
 }

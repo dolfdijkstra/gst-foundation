@@ -80,5 +80,4 @@ public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
         this.ics=ics;
         
     }
-
 }

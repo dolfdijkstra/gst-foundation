@@ -18,6 +18,7 @@ package com.fatwire.gst.foundation.facade.install;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
 import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
@@ -45,6 +46,13 @@ public class AssetListenerInstall {
                 .execute(ics, REGISTRY_TABLE, "DELETE FROM " + REGISTRY_TABLE + " WHERE listener = " + quote(listener));
         SqlHelper.execute(ics, REGISTRY_TABLE, "INSERT INTO " + REGISTRY_TABLE + " (id, listener, blocking) VALUES ("
                 + quote(id) + "," + quote(listener) + "," + quote(blocking ? "Y" : "N") + ")");
+    }
+
+    public static boolean isRegistered(ICS ics, String classname) {
+        for (Row row : SqlHelper.select(ics, REGISTRY_TABLE, "SELECT * FROM "+REGISTRY_TABLE+" WHERE listener = " + quote(classname))) {
+            return true;
+        }
+        return false;
     }
 
 }

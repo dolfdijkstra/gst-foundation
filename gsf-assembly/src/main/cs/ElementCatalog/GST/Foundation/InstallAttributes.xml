@@ -73,6 +73,12 @@ OUTPUT
 <asset.gather NAME="attr" PREFIX="asset"/>
 <asset.save NAME="attr"/>
 
+<asset.create NAME="attr" TYPE="GSTAttribute"/>
+<SETVAR NAME="asset:name" VALUE="value"/>
+<SETVAR NAME="asset:description" VALUE="Value"/>
+<SETVAR NAME="asset:type" VALUE="string"/>
+<asset.gather NAME="attr" PREFIX="asset"/>
+<asset.save NAME="attr"/>
 
 
 </FTCS>

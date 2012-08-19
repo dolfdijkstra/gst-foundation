@@ -38,4 +38,6 @@ public interface UrlRegistryDao {
 
     public void delete(AssetId id);
 
+    public void clear();
+
 }
