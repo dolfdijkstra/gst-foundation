@@ -327,4 +327,9 @@ public class SqlHelper {
         return "'" + s.replace("'", "''") + "'";
     }
 
+    public static boolean tableExists(final ICS ics, final String table) {
+            ics.CatalogDef(table, null, new StringBuffer());
+            return ics.GetErrno() == 0;
+    }
+
 }

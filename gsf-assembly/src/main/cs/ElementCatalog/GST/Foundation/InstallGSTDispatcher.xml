@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+<!--
+
+    Copyright 2010 FatWire Corporation. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<FTCS Version="1.1">
+    <!-- GST/Foundation/InstallGSTDispatcher
+    Enables the 'CSElement' and 'SiteEntry' asset types in the GST site and creates New/Search Start Menus for both types
+    INPUT
+
+    OUTPUT
+
+    -->
+<LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Creating and sharing CSElement 'GST/Disatpcher' in GST site." />
+<ASSET.LOAD NAME="ele" TYPE="CSElement" FIELD="name" VALUE="GST/Dispatcher" EDITABLE="true"/>
+<IF COND="IsError.Variables.errno=true">
+<THEN>
+    <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Didn't find CSElement, so we're creating one now." />
+    <asset.create NAME="ele" TYPE="CSElement"/>
+    <SETVAR NAME="asset:name" VALUE="GST/Dispatcher"/>
+    <SETVAR NAME="asset:rootelement" VALUE="GST/Dispatcher"/>
+    <asset.gather NAME="ele" PREFIX="asset"/>
+    <asset.save NAME="ele"/>
+    <asset.get NAME="ele" FIELD="id" OUTPUT="dispatcherCSElementId" />
+    <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Created CSElement 'GST/Dispatcher' with id=Variables.dispatcherCSElementId" />
+</THEN>
+<ELSE>
+    <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Found CSElement. Checking if it's shared with GST site" />
+    <asset.get NAME="ele" FIELD="id" OUTPUT="dispatcherCSElementId" />
+    <ASSET.SITES NAME="ele" LIST="isInGstSite" PUBID="SessionVariables.pubid" />
+    <IF COND="IsError.Variables.errno=true">
+    <THEN>
+        <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Sharing CSElement with GST site." />
+        <ASSET.ADDSITE NAME="ele" PUBID="SessionVariables.pubid"/>
+        <ASSET.SAVE NAME="ele" />
+    </THEN>
+    <ELSE>
+        <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="CSElement is already shared with GST site." />
+    </ELSE>
+    </IF>
+</ELSE>
+</IF>
+
+<LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Creating and sharing SiteEntry 'GST/Dispatcher' in GST site." />
+<ASSET.LOAD NAME="se" TYPE="SiteEntry" FIELD="name" VALUE="GST/Dispatcher" EDITABLE="true"/>
+<IF COND="IsError.Variables.errno=true">
+    <THEN>
+        <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Didn't find SiteEntry, so we're creating one now." />
+        <asset.create NAME="se" TYPE="SiteEntry"/>
+        <SETVAR NAME="assetse:name" VALUE="GST/Dispatcher"/>
+        <SETVAR NAME="assetse:pagename" VALUE="GST/Dispatcher"/>
+        <SETVAR NAME="assetse:cselement_id" VALUE="Variables.dispatcherCSElementId"/>
+        <SETVAR NAME="assetse:cs_wrapper" VALUE="y"/>
+        <SETVAR NAME="assetse:template" VALUE="OpenMarket/SiteEntryTemplate"/>
+        <SETVAR NAME="assetse:rootelement" VALUE="GST/Dispatcher"/>
+        <SETVAR NAME="assetse:csstatus" VALUE="live"/>
+        <SETVAR NAME="assetse:pageletonly" VALUE="F"/>
+        <SETVAR NAME="assetse:resargs1" VALUE="rendermode=live&amp;site=GST"/>
+        <SETVAR NAME="assetse:pagecriteria" VALUE="rendermode,seid,site,sitepfx,ft_ss"/>
+        <SETVAR NAME="assetse:cscacheinfo" VALUE="false"/>
+        <SETVAR NAME="assetse:sscacheinfo" VALUE="false"/>
+        <SETVAR NAME="assetse:acl" VALUE=""/>
+        <asset.gather NAME="se" PREFIX="assetse"/>
+        <asset.save NAME="se"/>
+    </THEN>
+    <ELSE>
+        <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Found SiteEntry. Checking if it's shared with GST site" />
+        <ASSET.SITES NAME="se" LIST="isInGstSite" PUBID="SessionVariables.pubid" />
+        <IF COND="IsError.Variables.errno=true">
+            <THEN>
+                <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Sharing SiteEntry with GST site." />
+                <ASSET.ADDSITE NAME="se" PUBID="SessionVariables.pubid"/>
+                <ASSET.SAVE NAME="se" />
+            </THEN>
+            <ELSE>
+                <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="SiteEntry is already shared with GST site." />
+            </ELSE>
+        </IF>
+    </ELSE>
+</IF>
+
+</FTCS>

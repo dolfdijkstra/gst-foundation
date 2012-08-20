@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.fatwire.gst</groupId>
 		<artifactId>gsf-parent</artifactId>
-		<version>1.4-SNAPSHOT</version>
+		<version>11.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>gsf-action</artifactId>
 	<packaging>jar</packaging>
@@ -22,7 +22,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -35,17 +34,15 @@
 			<artifactId>spring</artifactId>
 			<version>2.5.6</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-wra</artifactId>
-			<version>1.4-SNAPSHOT</version>
+			<version>11.0-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-cs-test</artifactId>
-			<version>1.4-SNAPSHOT</version>
+			<version>11.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

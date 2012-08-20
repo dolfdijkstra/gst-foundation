@@ -39,6 +39,7 @@ public class NavNode {
     private String url;
     private String linktext;
     private final List<NavNode> children = new LinkedList<NavNode>();
+    private boolean popup;
 
     public void addChild(final NavNode child) {
         if (child != null) {
@@ -153,4 +154,14 @@ public class NavNode {
         return linktext;
     }
 
+    /**
+     * @return the popup
+     */
+    public boolean getPopup() {
+        return popup;
+    }
+
+    public void setPopup(boolean popup) {
+        this.popup = popup;
+    }
 }

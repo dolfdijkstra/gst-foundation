@@ -45,7 +45,9 @@ public final class GetPropertyTag extends GsfSimpleTag {
         final ICS ics = getICS();
         PropertyDao propertyDao = AssetApiPropertyDao.getInstance(ics);
         Property p = propertyDao.getProperty(property);
-        getJspContext().setAttribute(name, p.asString());
+        if (p != null) {
+            getJspContext().setAttribute(name, p.asString());
+        }
         super.doTag();
     }
 

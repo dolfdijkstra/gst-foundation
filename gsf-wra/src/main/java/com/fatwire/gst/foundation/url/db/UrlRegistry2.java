@@ -15,20 +15,29 @@
  */
 package com.fatwire.gst.foundation.url.db;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
+import com.fatwire.gst.foundation.facade.sql.Row;
+import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebrootApiBypassDao;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.SimpleWRADao;
 import com.fatwire.gst.foundation.wra.SimpleWra;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -185,7 +194,52 @@ public class UrlRegistry2 implements WraPathTranslationService {
         return wra != null && StringUtils.isNotBlank(wra.getPath()) && StringUtils.isNotBlank(wra.getTemplate());
     }
 
-    public static WraPathTranslationService lookup(final ICS ics) {
+    /**
+     * Rebuild all entries in the GST URL Registry table.  Uses brute force method and can take a very long time.
+     * @param stream stream a message back to the browser to prevent timeouts
+     */
+    public void rebuild(boolean stream) {
+        if (!ics.UserIsMember("xceladmin")) { throw new CSRuntimeException("xceladmin user required to rebuild URL Registry", ftErrors.noprivs); }
+        regDao.clear();
+        if (stream) ics.StreamText("Re-creating url registry entries for ");
+        for (String type : _lookupWraAssetTypes()) {
+            LOG.debug("Re-creating all registry entries for asset type "+type);
+            if (stream) ics.StreamText("Asset type: "+type);
+            for (Row r : SqlHelper.select(ics, type, "select id,template,path,startdate,enddate from "+type+" where status!='VO'")) {
+                long id = r.getLong("id");
+                AssetId aid = new AssetIdImpl(type, id);
+                SimpleWra wra = new SimpleWra(r, aid);
+                if (isWra(wra)) {
+                    LOG.debug("Attempting to rebuild registry entry for "+aid);
+                    // stream to prevent timeouts...???? :-(
+                    if (stream) ics.StreamText(" "+id); // stream immediately (don't use StreamEvalBytes)
+                    addAsset_(wra);
+                }
+            }
+        }
+        if (stream) ics.StreamText("...completed");
+        LOG.debug("Rebuild completed");
+    }
+
+    private final Collection<String> SYSTEM_TYPES = Arrays.asList("Template", "CSElement", "SiteEntry", "Collection",
+            "Page", "Query", "Link", "Dimension", "DimensionSet", "AttrTypes", "AdvCols", "Segments", "Promotions",
+            "ScalarVals", "HistoryVals", "HFields",
+            "GSTFilter", "GSTAttribute", "GSTPDefinition", "GSTDefinition", "GSTVirtualWebroot", "GSTProperty",
+            "FW_View", "FW_Application");
+
+    private List<String> _lookupWraAssetTypes() {
+        List<String> x = new ArrayList<String>();
+        for (Row r : SqlHelper.select(ics, "AssetType", "select assettype from AssetType")) {
+            String type = r.getString("assettype");
+            if (!SYSTEM_TYPES.contains(type)) {
+                x.add(type); // TODO: be much smarter.  Exclude flex definitions, parent devs, filters.  Get fancy and exclude non-compliant definitions.
+            }
+        }
+        return x;
+    }
+
+
+    public static UrlRegistry2 lookup(final ICS ics) {
         final Object o = ics.GetObj(UrlRegistry2.class.getName());
         if (o instanceof UrlRegistry2) {
             return (UrlRegistry2) o;

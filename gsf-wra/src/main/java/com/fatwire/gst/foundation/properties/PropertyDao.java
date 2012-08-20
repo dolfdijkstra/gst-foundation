@@ -27,4 +27,26 @@ public interface PropertyDao {
     Property getProperty(String name);
 
     Collection<String> getPropertyNames();
+
+    /**
+     * Set (or re-set) a property value
+     * @param property property object with name and value
+     */
+    void setProperty(Property property);
+
+    /**
+     * Convenience method to set (or re-set) a property value
+     * @param name property name
+     * @param description description of property
+     * @param propertyValue value as a string
+     */
+    void setProperty(String name, String description, String propertyValue);
+
+    /**
+     * Add the property specified to the sites specified. The property is NOT
+     * un-shared from any other sites using this tag (it only adds additional sites)
+     * @param name property name
+     * @param sitename site names to add the property to
+     */
+    void addToSite(String name, String... sitename);
 }

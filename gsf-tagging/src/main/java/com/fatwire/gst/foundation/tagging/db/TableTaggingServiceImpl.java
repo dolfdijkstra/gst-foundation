@@ -88,6 +88,10 @@ public final class TableTaggingServiceImpl implements AssetTaggingService {
         new TableCreator(ics).createTable(def);
     }
 
+    public boolean isInstalled() {
+        return SqlHelper.tableExists(ics, TAGREGISTRY_TABLE);
+    }
+
     public void recordCacheDependency(Tag tag) {
         CacheManager.RecordItem(ics, convertTagToCacheDepString(tag));
     }

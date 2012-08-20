@@ -72,9 +72,9 @@ public final class TranslateAssetTag extends MultilingualGsfSimpleTag {
         // register the result
         ics.SetVar(output + ":c", finalOutput.getType());
         ics.SetVar(output + ":cid", Long.toString(finalOutput.getId()));
-        getJspContext().setAttribute(output, assetId);
+        getJspContext().setAttribute(output, finalOutput);
 
         super.doTag();
-        LOG.trace("gsf:translate-list end");
+        LOG.trace("gsf:translate-asset end");
     }
 }

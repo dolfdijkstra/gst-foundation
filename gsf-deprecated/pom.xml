@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gsf-parent</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>11.0-SNAPSHOT</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-deprecated</artifactId>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-wra</artifactId>
-            <version>1.4-SNAPSHOT</version>
+            <version>11.0-SNAPSHOT</version>
         </dependency>
        </dependencies>
     <distributionManagement>

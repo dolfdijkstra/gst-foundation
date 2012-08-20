@@ -95,6 +95,10 @@ public class UrlRegistryDaoImpl implements UrlRegistryDao {
         new TableCreator(ics).createTable(def);
     }
 
+    public boolean isInstalled() {
+        return SqlHelper.tableExists(ics, URLREG_TABLE);
+    }
+
     private static final PreparedStmt REGISTRY_SELECT = new PreparedStmt("SELECT * FROM " + URLREG_TABLE
             + " WHERE opt_vwebroot=? AND opt_url_path=? ORDER BY startdate,enddate",
             Collections.singletonList(URLREG_TABLE));
@@ -232,5 +236,11 @@ public class UrlRegistryDaoImpl implements UrlRegistryDao {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Asset " + id + " is now removed from " + URLREG_TABLE);
         }
+    }
+
+    public void clear() {
+        LOG.debug("Attempting to purge all rows from "+URLREG_TABLE);
+        SqlHelper.execute(ics, URLREG_TABLE, "DELETE FROM " + URLREG_TABLE);
+        LOG.info("Purged all rows from "+URLREG_TABLE);
     }
 }

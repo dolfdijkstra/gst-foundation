@@ -55,13 +55,13 @@ public class CSRuntimeException extends RuntimeException {
      * @param msg the message
      * @param complexError the complex error
      * @param errno the Content Server errno
-   */  
+     */
     public CSRuntimeException(final String msg, final ftErrors complexError, final int errno) {
-        super(msg);
+        super(msg, complexError.getCause());
         this.errno = errno;
         this.complexError = complexError;
     }
- 
+
     /**
      * @return the Content Server errno
      */

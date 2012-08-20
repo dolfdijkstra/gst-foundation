@@ -109,7 +109,11 @@ public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
         return filter;
     }
 
-    private final Collection<AssetId> getPreferredLocales() {
+    /**
+     * Get the locale that the user explicitly specified.  If not set, null is returned.
+     * @return the id of the locale that the user explicitly set.  Handles setting by name or assetid.
+     */
+    protected final AssetId getExplicitlySpecifiedLocale() {
         ICS ics = getICS();
         // first, check for explicitly specified by ID
         if (localeId != -1L) {
@@ -117,7 +121,7 @@ public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
             Dimension d = dm.loadDimension(localeId);
             if (d != null) {
                 LOG.trace("Preferred locale explicitly set to " + localeId);
-                return Collections.singletonList(d.getId());
+                return d.getId();
             }
         }
 
@@ -126,9 +130,20 @@ public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
             Dimension d = DimensionUtils.getDimensionForName(ics, localeName);
             if (d != null) {
                 LOG.trace("Preferred locale explicitly set to " + localeName);
-                return Collections.singletonList(d.getId());
+                return d.getId();
             }
         }
+        return null;
+    }
+    /**
+     * Get the ordered list of preferred locales that the user wants.  Multiple attempts are made to figure out the right locale.
+     * @return
+     */
+    protected final Collection<AssetId> getPreferredLocales() {
+        AssetId result = getExplicitlySpecifiedLocale();
+        if (result != null) return Collections.singleton(result);
+
+        ICS ics = getICS();
 
         // next, check for implicitly specified by ID using locale variable
         String localeVar = getICS().GetVar("locale");
