@@ -70,12 +70,12 @@
 <a class="jxr_linenumber" name="60" href="#60">60</a>      }
 <a class="jxr_linenumber" name="61" href="#61">61</a>  
 <a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> ICS ics;
-<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> DirectSqlAccessTools directSqlAccessTools;
+<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/DirectSqlAccessTools.html">DirectSqlAccessTools</a> directSqlAccessTools;
 <a class="jxr_linenumber" name="64" href="#64">64</a>  
 <a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../com/fatwire/gst/foundation/wra/WraCoreFieldApiBypassDao.html">WraCoreFieldApiBypassDao</a>(<strong class="jxr_keyword">final</strong> ICS ics) {
 <a class="jxr_linenumber" name="66" href="#66">66</a>          <strong class="jxr_keyword">super</strong>(ics);
 <a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">this</strong>.ics = ics;
-<a class="jxr_linenumber" name="68" href="#68">68</a>          directSqlAccessTools = <strong class="jxr_keyword">new</strong> DirectSqlAccessTools(ics);
+<a class="jxr_linenumber" name="68" href="#68">68</a>          directSqlAccessTools = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/DirectSqlAccessTools.html">DirectSqlAccessTools</a>(ics);
 <a class="jxr_linenumber" name="69" href="#69">69</a>      }
 <a class="jxr_linenumber" name="70" href="#70">70</a>  
 <a class="jxr_linenumber" name="71" href="#71">71</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Log LOG = LogFactory.getLog(WraCoreFieldApiBypassDao.<strong class="jxr_keyword">class</strong>);
@@ -144,7 +144,7 @@
 <a class="jxr_linenumber" name="134" href="#134">134</a> 
 <a class="jxr_linenumber" name="135" href="#135">135</a>             <strong class="jxr_keyword">final</strong> StatementParam param = basicFields.newParam();
 <a class="jxr_linenumber" name="136" href="#136">136</a>             param.setLong(0, id.getId());
-<a class="jxr_linenumber" name="137" href="#137">137</a>             <strong class="jxr_keyword">final</strong> Row row = SqlHelper.selectSingle(ics, basicFields, param);
+<a class="jxr_linenumber" name="137" href="#137">137</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/sql/Row.html">Row</a> row = SqlHelper.selectSingle(ics, basicFields, param);
 <a class="jxr_linenumber" name="138" href="#138">138</a> 
 <a class="jxr_linenumber" name="139" href="#139">139</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/wra/WraBeanImpl.html">WraBeanImpl</a> wra = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/wra/WraBeanImpl.html">WraBeanImpl</a>();
 <a class="jxr_linenumber" name="140" href="#140">140</a>             wra.setId(id);
@@ -177,7 +177,7 @@
 <a class="jxr_linenumber" name="167" href="#167">167</a> 
 <a class="jxr_linenumber" name="168" href="#168">168</a>             <strong class="jxr_keyword">final</strong> StatementParam param = basicFields.newParam();
 <a class="jxr_linenumber" name="169" href="#169">169</a>             param.setLong(0, id.getId());
-<a class="jxr_linenumber" name="170" href="#170">170</a>             <strong class="jxr_keyword">final</strong> Row row = SqlHelper.selectSingle(ics, basicFields, param);
+<a class="jxr_linenumber" name="170" href="#170">170</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/sql/Row.html">Row</a> row = SqlHelper.selectSingle(ics, basicFields, param);
 <a class="jxr_linenumber" name="171" href="#171">171</a> 
 <a class="jxr_linenumber" name="172" href="#172">172</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/wra/WraBeanImpl.html">WraBeanImpl</a> wra = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/wra/WraBeanImpl.html">WraBeanImpl</a>();
 <a class="jxr_linenumber" name="173" href="#173">173</a>             wra.setId(id);
@@ -240,7 +240,7 @@
 <a class="jxr_linenumber" name="230" href="#230">230</a> 
 <a class="jxr_linenumber" name="231" href="#231">231</a>             <strong class="jxr_keyword">final</strong> StatementParam param = basicFields.newParam();
 <a class="jxr_linenumber" name="232" href="#232">232</a>             param.setLong(0, id.getId());
-<a class="jxr_linenumber" name="233" href="#233">233</a>             <strong class="jxr_keyword">final</strong> Row row = SqlHelper.selectSingle(ics, basicFields, param);
+<a class="jxr_linenumber" name="233" href="#233">233</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/sql/Row.html">Row</a> row = SqlHelper.selectSingle(ics, basicFields, param);
 <a class="jxr_linenumber" name="234" href="#234">234</a>             <strong class="jxr_keyword">if</strong> (row == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="235" href="#235">235</a>                 <strong class="jxr_keyword">return</strong> false;
 <a class="jxr_linenumber" name="236" href="#236">236</a>             <strong class="jxr_keyword">return</strong> StringUtils.isNotBlank(row.getString(<span class="jxr_string">"path"</span>));

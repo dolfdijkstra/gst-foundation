@@ -1,0 +1,8 @@
+com.fatwire.gst.foundation.controller
+com.fatwire.gst.foundation.controller.action
+com.fatwire.gst.foundation.controller.action.support
+com.fatwire.gst.foundation.controller.annotation
+com.fatwire.gst.foundation.controller.support
+com.fatwire.gst.foundation.html
+com.fatwire.gst.foundation.include
+com.fatwire.gst.foundation.mapping

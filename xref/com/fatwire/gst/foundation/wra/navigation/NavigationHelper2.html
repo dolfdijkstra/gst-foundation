@@ -74,7 +74,7 @@
 <a class="jxr_linenumber" name="64" href="#64">64</a>  
 <a class="jxr_linenumber" name="65" href="#65">65</a>      }
 <a class="jxr_linenumber" name="66" href="#66">66</a>  
-<a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper2.html">NavigationHelper2</a>(ICS ics, TemplateAssetAccess assetTemplate, <a href="../../../../../../com/fatwire/gst/foundation/wra/WraCoreFieldDao.html">WraCoreFieldDao</a> wraDao,
+<a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper2.html">NavigationHelper2</a>(ICS ics, <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/TemplateAssetAccess.html">TemplateAssetAccess</a> assetTemplate, <a href="../../../../../../com/fatwire/gst/foundation/wra/WraCoreFieldDao.html">WraCoreFieldDao</a> wraDao,
 <a class="jxr_linenumber" name="68" href="#68">68</a>              <a href="../../../../../../com/fatwire/gst/foundation/wra/AliasCoreFieldDao.html">AliasCoreFieldDao</a> aliasDao) {
 <a class="jxr_linenumber" name="69" href="#69">69</a>          <strong class="jxr_keyword">super</strong>(ics, assetTemplate, wraDao, aliasDao);
 <a class="jxr_linenumber" name="70" href="#70">70</a>      }
@@ -118,8 +118,8 @@
 <a class="jxr_linenumber" name="108" href="#108">108</a>             <em class="jxr_comment">// no link if it's just a placeholder</em>
 <a class="jxr_linenumber" name="109" href="#109">109</a>         } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (NAVBAR_LINK.equals(subtype)) {
 <a class="jxr_linenumber" name="110" href="#110">110</a>             <em class="jxr_comment">// add the WRA asset to the node</em>
-<a class="jxr_linenumber" name="111" href="#111">111</a>             <strong class="jxr_keyword">final</strong> AssetClosure closure = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper.html">NodeWraAssetClosure</a>(node);
-<a class="jxr_linenumber" name="112" href="#112">112</a>             <strong class="jxr_keyword">final</strong> DateFilterClosure dateFilterClosure = <strong class="jxr_keyword">new</strong> DateFilterClosure(PreviewContext.getPreviewDate(ics,
+<a class="jxr_linenumber" name="111" href="#111">111</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper.html">NodeWraAssetClosure</a>(node);
+<a class="jxr_linenumber" name="112" href="#112">112</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/DateFilterClosure.html">DateFilterClosure</a> dateFilterClosure = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/DateFilterClosure.html">DateFilterClosure</a>(PreviewContext.getPreviewDate(ics,
 <a class="jxr_linenumber" name="113" href="#113">113</a>                     assetEffectiveDate), closure);
 <a class="jxr_linenumber" name="114" href="#114">114</a> 
 <a class="jxr_linenumber" name="115" href="#115">115</a>             <em class="jxr_comment">// retrieve the unnamed association(s) based on date filter</em>
@@ -135,8 +135,8 @@
 <a class="jxr_linenumber" name="125" href="#125">125</a> 
 <a class="jxr_linenumber" name="126" href="#126">126</a>         } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="127" href="#127">127</a>             <em class="jxr_comment">// not a GSTNavLink, probably 11g page</em>
-<a class="jxr_linenumber" name="128" href="#128">128</a>             <strong class="jxr_keyword">final</strong> AssetClosure closure = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper2.html">NodeNoneWraAssetClosure</a>(node, <span class="jxr_string">"linktext"</span>);
-<a class="jxr_linenumber" name="129" href="#129">129</a>             <strong class="jxr_keyword">final</strong> DateFilterClosure dateFilterClosure = <strong class="jxr_keyword">new</strong> DateFilterClosure(PreviewContext.getPreviewDate(ics,
+<a class="jxr_linenumber" name="128" href="#128">128</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper2.html">NodeNoneWraAssetClosure</a>(node, <span class="jxr_string">"linktext"</span>);
+<a class="jxr_linenumber" name="129" href="#129">129</a>             <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/DateFilterClosure.html">DateFilterClosure</a> dateFilterClosure = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/DateFilterClosure.html">DateFilterClosure</a>(PreviewContext.getPreviewDate(ics,
 <a class="jxr_linenumber" name="130" href="#130">130</a>                     assetEffectiveDate), closure);
 <a class="jxr_linenumber" name="131" href="#131">131</a> 
 <a class="jxr_linenumber" name="132" href="#132">132</a>             <em class="jxr_comment">// retrieve the unnamed association(s) based on date filter</em>
@@ -164,7 +164,7 @@
 <a class="jxr_linenumber" name="154" href="#154">154</a>         <strong class="jxr_keyword">return</strong> node;
 <a class="jxr_linenumber" name="155" href="#155">155</a>     }
 <a class="jxr_linenumber" name="156" href="#156">156</a> 
-<a class="jxr_linenumber" name="157" href="#157">157</a>     <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper.html">NodeWraAssetClosure</a> <strong class="jxr_keyword">implements</strong> AssetClosure {
+<a class="jxr_linenumber" name="157" href="#157">157</a>     <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper.html">NodeWraAssetClosure</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> {
 <a class="jxr_linenumber" name="158" href="#158">158</a> 
 <a class="jxr_linenumber" name="159" href="#159">159</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavNode2.html">NavNode2</a> node;
 <a class="jxr_linenumber" name="160" href="#160">160</a> 
@@ -254,7 +254,7 @@
 <a class="jxr_linenumber" name="244" href="#244">244</a> 
 <a class="jxr_linenumber" name="245" href="#245">245</a>     }
 <a class="jxr_linenumber" name="246" href="#246">246</a> 
-<a class="jxr_linenumber" name="247" href="#247">247</a>     <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper2.html">NodeNoneWraAssetClosure</a> <strong class="jxr_keyword">implements</strong> AssetClosure {
+<a class="jxr_linenumber" name="247" href="#247">247</a>     <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavigationHelper2.html">NodeNoneWraAssetClosure</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> {
 <a class="jxr_linenumber" name="248" href="#248">248</a> 
 <a class="jxr_linenumber" name="249" href="#249">249</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavNode2.html">NavNode2</a> node;
 <a class="jxr_linenumber" name="250" href="#250">250</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String linkTextAttribute;
@@ -274,7 +274,7 @@
 <a class="jxr_linenumber" name="264" href="#264">264</a>         }
 <a class="jxr_linenumber" name="265" href="#265">265</a> 
 <a class="jxr_linenumber" name="266" href="#266">266</a>         <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> decorateAsNoneWra(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/navigation/NavNode2.html">NavNode2</a> node) {
-<a class="jxr_linenumber" name="267" href="#267">267</a>             TemplateAsset asset = assetTemplate.read(id);
+<a class="jxr_linenumber" name="267" href="#267">267</a>             <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/TemplateAsset.html">TemplateAsset</a> asset = assetTemplate.read(id);
 <a class="jxr_linenumber" name="268" href="#268">268</a>             <strong class="jxr_keyword">final</strong> String url = getUrl(asset);
 <a class="jxr_linenumber" name="269" href="#269">269</a> 
 <a class="jxr_linenumber" name="270" href="#270">270</a>             <strong class="jxr_keyword">final</strong> String linktext = asset.asString(linkTextAttribute);
@@ -287,7 +287,7 @@
 <a class="jxr_linenumber" name="277" href="#277">277</a>             }
 <a class="jxr_linenumber" name="278" href="#278">278</a>         }
 <a class="jxr_linenumber" name="279" href="#279">279</a> 
-<a class="jxr_linenumber" name="280" href="#280">280</a>         <strong class="jxr_keyword">private</strong> String getUrl(TemplateAsset asset) {
+<a class="jxr_linenumber" name="280" href="#280">280</a>         <strong class="jxr_keyword">private</strong> String getUrl(<a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/TemplateAsset.html">TemplateAsset</a> asset) {
 <a class="jxr_linenumber" name="281" href="#281">281</a>             String template = asset.asString(<span class="jxr_string">"template"</span>);
 <a class="jxr_linenumber" name="282" href="#282">282</a>             <strong class="jxr_keyword">if</strong> (StringUtils.isNotBlank(template)) {
 <a class="jxr_linenumber" name="283" href="#283">283</a>                 LOG.warn(<span class="jxr_string">"Asset "</span> + asset.getAssetId() + <span class="jxr_string">" does not have a valid template set."</span>);

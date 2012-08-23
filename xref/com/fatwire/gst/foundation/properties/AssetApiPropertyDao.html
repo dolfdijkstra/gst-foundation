@@ -71,7 +71,7 @@
 <a class="jxr_linenumber" name="61" href="#61">61</a>  
 <a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String TYPE = <span class="jxr_string">"GSTProperty"</span>;
 <a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String SUBTYPE = <span class="jxr_string">"GSTProperty"</span>;
-<a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Query LOAD_ALL_QRY = <strong class="jxr_keyword">new</strong> QueryBuilder(TYPE, SUBTYPE)
+<a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Query LOAD_ALL_QRY = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/QueryBuilder.html">QueryBuilder</a>(TYPE, SUBTYPE)
 <a class="jxr_linenumber" name="65" href="#65">65</a>              .attributes(<span class="jxr_string">"name"</span>, <span class="jxr_string">"description"</span>, <span class="jxr_string">"value"</span>).condition(<span class="jxr_string">"status"</span>, OpTypeEnum.NOT_EQUALS, <span class="jxr_string">"VO"</span>)
 <a class="jxr_linenumber" name="66" href="#66">66</a>              .setBasicSearch(<strong class="jxr_keyword">true</strong>).toQuery();
 <a class="jxr_linenumber" name="67" href="#67">67</a>  
@@ -104,7 +104,7 @@
 <a class="jxr_linenumber" name="94" href="#94">94</a>          <strong class="jxr_keyword">this</strong>.ics = ics;
 <a class="jxr_linenumber" name="95" href="#95">95</a>          <strong class="jxr_keyword">this</strong>.assetDataManager = (AssetDataManager)SessionFactory.getSession(ics).getManager(AssetDataManager.<strong class="jxr_keyword">class</strong>.getName());
 <a class="jxr_linenumber" name="96" href="#96">96</a>          _props = <strong class="jxr_keyword">new</strong> HashMap&lt;String, Property&gt;();
-<a class="jxr_linenumber" name="97" href="#97">97</a>          TemplateAssetAccess mgr = <strong class="jxr_keyword">new</strong> TemplateAssetAccess(ics);
+<a class="jxr_linenumber" name="97" href="#97">97</a>          <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/TemplateAssetAccess.html">TemplateAssetAccess</a> mgr = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/asset/TemplateAssetAccess.html">TemplateAssetAccess</a>(ics);
 <a class="jxr_linenumber" name="98" href="#98">98</a>  
 <a class="jxr_linenumber" name="99" href="#99">99</a>          LOG.trace(<span class="jxr_string">"Loading all GSTProperties"</span>);
 <a class="jxr_linenumber" name="100" href="#100">100</a>         <strong class="jxr_keyword">for</strong> (TemplateAsset d : mgr.query(LOAD_ALL_QRY)) {
@@ -146,7 +146,7 @@
 <a class="jxr_linenumber" name="136" href="#136">136</a>                 }
 <a class="jxr_linenumber" name="137" href="#137">137</a>                 assetDataManager.update(sAssets);
 <a class="jxr_linenumber" name="138" href="#138">138</a>             } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="139" href="#139">139</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"Could not update property "</span> + property, ftErrors.exceptionerr, e);
+<a class="jxr_linenumber" name="139" href="#139">139</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Could not update property "</span> + property, ftErrors.exceptionerr, e);
 <a class="jxr_linenumber" name="140" href="#140">140</a>             }
 <a class="jxr_linenumber" name="141" href="#141">141</a>         } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="142" href="#142">142</a>             <em class="jxr_comment">// add asset</em>
@@ -159,7 +159,7 @@
 <a class="jxr_linenumber" name="149" href="#149">149</a>                 appendCurrentToPublist(data.getAttributeData(<span class="jxr_string">"Publist"</span>));
 <a class="jxr_linenumber" name="150" href="#150">150</a>                 assetDataManager.insert(Arrays.&lt;AssetData&gt;asList(data));
 <a class="jxr_linenumber" name="151" href="#151">151</a>             } <strong class="jxr_keyword">catch</strong> (AssetAccessException e) {
-<a class="jxr_linenumber" name="152" href="#152">152</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"Could not add new property "</span> + property, ftErrors.exceptionerr, e);
+<a class="jxr_linenumber" name="152" href="#152">152</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Could not add new property "</span> + property, ftErrors.exceptionerr, e);
 <a class="jxr_linenumber" name="153" href="#153">153</a>             }
 <a class="jxr_linenumber" name="154" href="#154">154</a>         }
 <a class="jxr_linenumber" name="155" href="#155">155</a>         _props.put(property.getName(), property); <em class="jxr_comment">// update cache</em>
@@ -185,7 +185,7 @@
 <a class="jxr_linenumber" name="175" href="#175">175</a>                     <strong class="jxr_keyword">if</strong> (si.getId() == id) <strong class="jxr_keyword">return</strong> si.getName();
 <a class="jxr_linenumber" name="176" href="#176">176</a>                 }
 <a class="jxr_linenumber" name="177" href="#177">177</a>             } <strong class="jxr_keyword">catch</strong> (SiteAccessException e) {
-<a class="jxr_linenumber" name="178" href="#178">178</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"Could not determine name of current site: "</span> + e, ftErrors.exceptionerr, e);
+<a class="jxr_linenumber" name="178" href="#178">178</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Could not determine name of current site: "</span> + e, ftErrors.exceptionerr, e);
 <a class="jxr_linenumber" name="179" href="#179">179</a>             }
 <a class="jxr_linenumber" name="180" href="#180">180</a>         }
 <a class="jxr_linenumber" name="181" href="#181">181</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
@@ -220,7 +220,7 @@
 <a class="jxr_linenumber" name="210" href="#210">210</a>             }
 <a class="jxr_linenumber" name="211" href="#211">211</a>             assetDataManager.update(sAssets);
 <a class="jxr_linenumber" name="212" href="#212">212</a>         } <strong class="jxr_keyword">catch</strong> (AssetAccessException e) {
-<a class="jxr_linenumber" name="213" href="#213">213</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"Failure adding property "</span>+name+<span class="jxr_string">" to sites "</span>+site, ftErrors.exceptionerr, e);
+<a class="jxr_linenumber" name="213" href="#213">213</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Failure adding property "</span>+name+<span class="jxr_string">" to sites "</span>+site, ftErrors.exceptionerr, e);
 <a class="jxr_linenumber" name="214" href="#214">214</a>         }
 <a class="jxr_linenumber" name="215" href="#215">215</a>     }
 <a class="jxr_linenumber" name="216" href="#216">216</a> }

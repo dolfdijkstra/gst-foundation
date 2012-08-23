@@ -40,7 +40,7 @@
 <a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludeElement.html">IncludeElement</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../com/fatwire/gst/foundation/include/Include.html">Include</a> {
 <a class="jxr_linenumber" name="32" href="#32">32</a>  
-<a class="jxr_linenumber" name="33" href="#33">33</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> CallElement tag;
+<a class="jxr_linenumber" name="33" href="#33">33</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/CallElement.html">CallElement</a> tag;
 <a class="jxr_linenumber" name="34" href="#34">34</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> ICS ics;
 <a class="jxr_linenumber" name="35" href="#35">35</a>  
 <a class="jxr_linenumber" name="36" href="#36">36</a>      <em class="jxr_javadoccomment">/**</em>
@@ -48,7 +48,7 @@
 <a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_javadoccomment">     * @param elementname</em>
 <a class="jxr_linenumber" name="39" href="#39">39</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="40" href="#40">40</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludeElement.html">IncludeElement</a>(<strong class="jxr_keyword">final</strong> ICS ics, <strong class="jxr_keyword">final</strong> String elementname) {
-<a class="jxr_linenumber" name="41" href="#41">41</a>          tag = <strong class="jxr_keyword">new</strong> CallElement(elementname);
+<a class="jxr_linenumber" name="41" href="#41">41</a>          tag = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/CallElement.html">CallElement</a>(elementname);
 <a class="jxr_linenumber" name="42" href="#42">42</a>          <strong class="jxr_keyword">this</strong>.ics = ics;
 <a class="jxr_linenumber" name="43" href="#43">43</a>  
 <a class="jxr_linenumber" name="44" href="#44">44</a>      }
@@ -159,7 +159,7 @@
 <a class="jxr_linenumber" name="149" href="#149">149</a> <em class="jxr_javadoccomment">     * @param scope</em>
 <a class="jxr_linenumber" name="150" href="#150">150</a> <em class="jxr_javadoccomment">     * @see com.fatwire.gst.foundation.facade.runtag.render.CallElement#setScope(com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope)</em>
 <a class="jxr_linenumber" name="151" href="#151">151</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="152" href="#152">152</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludeElement.html">IncludeElement</a> setScope(<strong class="jxr_keyword">final</strong> Scope scope) {
+<a class="jxr_linenumber" name="152" href="#152">152</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludeElement.html">IncludeElement</a> setScope(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/CallElement.html">Scope</a> scope) {
 <a class="jxr_linenumber" name="153" href="#153">153</a>         tag.setScope(scope);
 <a class="jxr_linenumber" name="154" href="#154">154</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="155" href="#155">155</a>     }

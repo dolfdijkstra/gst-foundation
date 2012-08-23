@@ -56,8 +56,8 @@
 <a class="jxr_linenumber" name="46" href="#46">46</a>      @Override
 <a class="jxr_linenumber" name="47" href="#47">47</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doTag() <strong class="jxr_keyword">throws</strong> JspException, IOException {
 <a class="jxr_linenumber" name="48" href="#48">48</a>          <strong class="jxr_keyword">final</strong> ICS ics = getICS();
-<a class="jxr_linenumber" name="49" href="#49">49</a>          PropertyDao propertyDao = AssetApiPropertyDao.getInstance(ics);
-<a class="jxr_linenumber" name="50" href="#50">50</a>          Property p = propertyDao.getProperty(property);
+<a class="jxr_linenumber" name="49" href="#49">49</a>          <a href="../../../../../com/fatwire/gst/foundation/properties/PropertyDao.html">PropertyDao</a> propertyDao = AssetApiPropertyDao.getInstance(ics);
+<a class="jxr_linenumber" name="50" href="#50">50</a>          <a href="../../../../../com/fatwire/gst/foundation/properties/Property.html">Property</a> p = propertyDao.getProperty(property);
 <a class="jxr_linenumber" name="51" href="#51">51</a>          <strong class="jxr_keyword">if</strong> (p != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="52" href="#52">52</a>              getJspContext().setAttribute(name, p.asAssetId());
 <a class="jxr_linenumber" name="53" href="#53">53</a>          } <strong class="jxr_keyword">else</strong> {

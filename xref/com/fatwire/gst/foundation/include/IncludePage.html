@@ -51,7 +51,7 @@
 <a class="jxr_linenumber" name="41" href="#41">41</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;String&gt; FORBIDDEN_VARS = Collections.unmodifiableList(Arrays.asList(<span class="jxr_string">"tid"</span>, <span class="jxr_string">"eid"</span>, <span class="jxr_string">"seid"</span>,
 <a class="jxr_linenumber" name="42" href="#42">42</a>              <span class="jxr_string">"packedargs"</span>, <span class="jxr_string">"variant"</span>, <span class="jxr_string">"context"</span>, <span class="jxr_string">"pagename"</span>, <span class="jxr_string">"rendermode"</span>, <span class="jxr_string">"ft_ss"</span>));
 <a class="jxr_linenumber" name="43" href="#43">43</a>  
-<a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">private</strong> Style style;
+<a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/CallTemplate.html">Style</a> style;
 <a class="jxr_linenumber" name="45" href="#45">45</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; list = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
 <a class="jxr_linenumber" name="46" href="#46">46</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String pagename;
 <a class="jxr_linenumber" name="47" href="#47">47</a>      <strong class="jxr_keyword">private</strong> String packedArgs;
@@ -72,7 +72,7 @@
 <a class="jxr_linenumber" name="62" href="#62">62</a>  <em class="jxr_javadoccomment">     * @param pagename</em>
 <a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment">     * @param style</em>
 <a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludePage.html">IncludePage</a>(<strong class="jxr_keyword">final</strong> ICS ics, <strong class="jxr_keyword">final</strong> String pagename, <strong class="jxr_keyword">final</strong> Style style) {
+<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludePage.html">IncludePage</a>(<strong class="jxr_keyword">final</strong> ICS ics, <strong class="jxr_keyword">final</strong> String pagename, <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/CallTemplate.html">Style</a> style) {
 <a class="jxr_linenumber" name="66" href="#66">66</a>          <strong class="jxr_keyword">this</strong>.ics = ics;
 <a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">this</strong>.style = style;
 <a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">this</strong>.pagename = pagename;
@@ -94,7 +94,7 @@
 <a class="jxr_linenumber" name="84" href="#84">84</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> include(<strong class="jxr_keyword">final</strong> ICS ics) {
 <a class="jxr_linenumber" name="85" href="#85">85</a>          <strong class="jxr_keyword">switch</strong> (style) {
 <a class="jxr_linenumber" name="86" href="#86">86</a>              <strong class="jxr_keyword">case</strong> embedded: {
-<a class="jxr_linenumber" name="87" href="#87">87</a>                  <strong class="jxr_keyword">final</strong> ContentServer tag = <strong class="jxr_keyword">new</strong> ContentServer(pagename);
+<a class="jxr_linenumber" name="87" href="#87">87</a>                  <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/ContentServer.html">ContentServer</a> tag = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/ContentServer.html">ContentServer</a>(pagename);
 <a class="jxr_linenumber" name="88" href="#88">88</a>                  <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Entry&lt;String, String&gt; e : list.entrySet()) {
 <a class="jxr_linenumber" name="89" href="#89">89</a>                      tag.setArgument(e.getKey(), e.getValue());
 <a class="jxr_linenumber" name="90" href="#90">90</a>                  }
@@ -108,7 +108,7 @@
 <a class="jxr_linenumber" name="98" href="#98">98</a>              }
 <a class="jxr_linenumber" name="99" href="#99">99</a>                  <strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="100" href="#100">100</a>             <strong class="jxr_keyword">case</strong> pagelet: {
-<a class="jxr_linenumber" name="101" href="#101">101</a>                 <strong class="jxr_keyword">final</strong> SatellitePage tag = <strong class="jxr_keyword">new</strong> SatellitePage(pagename);
+<a class="jxr_linenumber" name="101" href="#101">101</a>                 <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/SatellitePage.html">SatellitePage</a> tag = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/SatellitePage.html">SatellitePage</a>(pagename);
 <a class="jxr_linenumber" name="102" href="#102">102</a>                 <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> Entry&lt;String, String&gt; e : list.entrySet()) {
 <a class="jxr_linenumber" name="103" href="#103">103</a>                     tag.setArgument(e.getKey(), e.getValue());
 <a class="jxr_linenumber" name="104" href="#104">104</a>                 }
@@ -172,7 +172,7 @@
 <a class="jxr_linenumber" name="162" href="#162">162</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="163" href="#163">163</a>     }
 <a class="jxr_linenumber" name="164" href="#164">164</a> 
-<a class="jxr_linenumber" name="165" href="#165">165</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludePage.html">IncludePage</a> style(<strong class="jxr_keyword">final</strong> Style s) {
+<a class="jxr_linenumber" name="165" href="#165">165</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/include/IncludePage.html">IncludePage</a> style(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/runtag/render/CallTemplate.html">Style</a> s) {
 <a class="jxr_linenumber" name="166" href="#166">166</a>         style = s;
 <a class="jxr_linenumber" name="167" href="#167">167</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
 <a class="jxr_linenumber" name="168" href="#168">168</a>     }

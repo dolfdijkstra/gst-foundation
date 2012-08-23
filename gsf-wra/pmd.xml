@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.5" timestamp="2012-08-23T16:13:45.540">
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/controller/AbstractController.java">
+<violation beginline="27" endline="27" begincolumn="1" endcolumn="53" rule="UnusedImports" ruleset="Import Statement Rules" package="com.fatwire.gst.foundation.controller" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'com.fatwire.gst.foundation.CSRuntimeException'
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/properties/AssetApiPropertyDao.java">
+<violation beginline="43" endline="43" begincolumn="1" endcolumn="56" rule="UnusedImports" ruleset="Import Statement Rules" package="com.fatwire.gst.foundation.properties" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'com.fatwire.gst.foundation.facade.ics.ICSFactory'
+</violation>
+<violation beginline="72" endline="83" begincolumn="25" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.fatwire.gst.foundation.properties" class="AssetApiPropertyDao" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
+Unnecessary final modifier in final class
+</violation>
+<violation beginline="127" endline="127" begincolumn="25" endcolumn="27" rule="UnusedLocalVariable" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation.properties" class="AssetApiPropertyDao" method="setProperty" variable="ses" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'ses'.
+</violation>
+<violation beginline="144" endline="144" begincolumn="25" endcolumn="27" rule="UnusedLocalVariable" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation.properties" class="AssetApiPropertyDao" method="setProperty" variable="ses" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'ses'.
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/properties/PropertyImpl.java">
+<violation beginline="31" endline="34" begincolumn="5" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation.properties" class="PropertyImpl" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
+Avoid unused constructor parameters such as 'description'.
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/url/WraPagePreviewReference.java">
+<violation beginline="129" endline="131" begincolumn="14" endcolumn="9" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.url" class="WraPagePreviewReference" method="isGetTemplateUrl" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/url/WraPageReference.java">
+<violation beginline="167" endline="169" begincolumn="14" endcolumn="9" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.url" class="WraPageReference" method="isGetTemplateUrl" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/url/WraPathAssembler.java">
+<violation beginline="210" endline="244" begincolumn="26" endcolumn="5" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="com.fatwire.gst.foundation.url" class="WraPathAssembler" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
+Unnecessary final modifier in final class
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/url/WraPathPreviewAssembler.java">
+<violation beginline="123" endline="125" begincolumn="53" endcolumn="13" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.url" class="WraPathPreviewAssembler" method="assemble" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+<violation beginline="125" endline="127" begincolumn="46" endcolumn="13" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.url" class="WraPathPreviewAssembler" method="assemble" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/vwebroot/VirtualWebrootDao.java">
+<violation beginline="18" endline="18" begincolumn="1" endcolumn="28" rule="UnusedImports" ruleset="Import Statement Rules" package="com.fatwire.gst.foundation.vwebroot" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#UnusedImports" priority="4">
+Avoid unused imports such as 'java.util.Collection'
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/wra/AssetApiWraCoreFieldDao.java">
+<violation beginline="236" endline="238" begincolumn="27" endcolumn="9" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.wra" class="AssetApiWraCoreFieldDao" method="findP" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/wra/WraCoreFieldApiBypassDao.java">
+<violation beginline="112" endline="115" begincolumn="13" endcolumn="5" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation.wra" class="WraCoreFieldApiBypassDao" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
+Avoid unused method parameters such as 'id'.
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/wra/navigation/NavigationHelper.java">
+<violation beginline="299" endline="301" begincolumn="38" endcolumn="9" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.wra.navigation" class="NavigationHelper" method="getSitePlan" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-wra/src/main/java/com/fatwire/gst/foundation/wra/navigation/NavigationHelper2.java">
+<violation beginline="107" endline="109" begincolumn="38" endcolumn="9" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.wra.navigation" class="NavigationHelper2" method="getSitePlan" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+</file>
+</pmd>

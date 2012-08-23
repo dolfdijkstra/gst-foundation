@@ -62,7 +62,7 @@
 <a class="jxr_linenumber" name="52" href="#52">52</a>  
 <a class="jxr_linenumber" name="53" href="#53">53</a>          <strong class="jxr_keyword">final</strong> ICS ics = getICS();
 <a class="jxr_linenumber" name="54" href="#54">54</a>  
-<a class="jxr_linenumber" name="55" href="#55">55</a>          <strong class="jxr_keyword">final</strong> Include inc = discover(name);
+<a class="jxr_linenumber" name="55" href="#55">55</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/include/Include.html">Include</a> inc = discover(name);
 <a class="jxr_linenumber" name="56" href="#56">56</a>          <strong class="jxr_keyword">if</strong> (inc != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="57" href="#57">57</a>              inc.include(ics);
 <a class="jxr_linenumber" name="58" href="#58">58</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (!silent) {
@@ -72,14 +72,14 @@
 <a class="jxr_linenumber" name="62" href="#62">62</a>          <strong class="jxr_keyword">super</strong>.doTag();
 <a class="jxr_linenumber" name="63" href="#63">63</a>      }
 <a class="jxr_linenumber" name="64" href="#64">64</a>  
-<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">protected</strong> Include discover(<strong class="jxr_keyword">final</strong> String name) {
-<a class="jxr_linenumber" name="66" href="#66">66</a>          <strong class="jxr_keyword">final</strong> DefaultIncludeService s = findService();
+<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/fatwire/gst/foundation/include/Include.html">Include</a> discover(<strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="66" href="#66">66</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/include/DefaultIncludeService.html">DefaultIncludeService</a> s = findService();
 <a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">if</strong> (s == <strong class="jxr_keyword">null</strong>)
 <a class="jxr_linenumber" name="68" href="#68">68</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"The DefaultIncludeService can not be found."</span>);
 <a class="jxr_linenumber" name="69" href="#69">69</a>          <strong class="jxr_keyword">return</strong> s.find(name);
 <a class="jxr_linenumber" name="70" href="#70">70</a>      }
 <a class="jxr_linenumber" name="71" href="#71">71</a>  
-<a class="jxr_linenumber" name="72" href="#72">72</a>      <strong class="jxr_keyword">protected</strong> DefaultIncludeService findService() {
+<a class="jxr_linenumber" name="72" href="#72">72</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/fatwire/gst/foundation/include/DefaultIncludeService.html">DefaultIncludeService</a> findService() {
 <a class="jxr_linenumber" name="73" href="#73">73</a>          <strong class="jxr_keyword">final</strong> JspTag parent = SimpleTagSupport.findAncestorWithClass(<strong class="jxr_keyword">this</strong>, PageTag.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="74" href="#74">74</a>          <strong class="jxr_keyword">if</strong> (parent instanceof PageTag) {
 <a class="jxr_linenumber" name="75" href="#75">75</a>              <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/taglib/PageTag.html">PageTag</a> t = (PageTag) parent;

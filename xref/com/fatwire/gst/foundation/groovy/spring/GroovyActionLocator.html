@@ -39,7 +39,7 @@
 <a class="jxr_linenumber" name="29" href="#29">29</a>  <em class="jxr_javadoccomment"> * @author Dolf Dijkstra</em>
 <a class="jxr_linenumber" name="30" href="#30">30</a>  <em class="jxr_javadoccomment"> * @since Mar 28, 2011</em>
 <a class="jxr_linenumber" name="31" href="#31">31</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/fatwire/gst/foundation/groovy/spring/GroovyActionLocator.html">GroovyActionLocator</a> <strong class="jxr_keyword">extends</strong> AbstractActionLocator {
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../com/fatwire/gst/foundation/groovy/spring/GroovyActionLocator.html">GroovyActionLocator</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../com/fatwire/gst/foundation/controller/action/support/AbstractActionLocator.html">AbstractActionLocator</a> {
 <a class="jxr_linenumber" name="33" href="#33">33</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../com/fatwire/gst/foundation/groovy/spring/GroovyLoader.html">GroovyLoader</a> groovyLoader;
 <a class="jxr_linenumber" name="34" href="#34">34</a>  
 <a class="jxr_linenumber" name="35" href="#35">35</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/fatwire/gst/foundation/groovy/spring/GroovyActionLocator.html">GroovyActionLocator</a>() {
@@ -47,13 +47,13 @@
 <a class="jxr_linenumber" name="37" href="#37">37</a>  
 <a class="jxr_linenumber" name="38" href="#38">38</a>      }
 <a class="jxr_linenumber" name="39" href="#39">39</a>  
-<a class="jxr_linenumber" name="40" href="#40">40</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/fatwire/gst/foundation/groovy/spring/GroovyActionLocator.html">GroovyActionLocator</a>(ActionLocator fallbackActionLocator, Injector injector) {
+<a class="jxr_linenumber" name="40" href="#40">40</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../com/fatwire/gst/foundation/groovy/spring/GroovyActionLocator.html">GroovyActionLocator</a>(<a href="../../../../../../com/fatwire/gst/foundation/controller/action/ActionLocator.html">ActionLocator</a> fallbackActionLocator, <a href="../../../../../../com/fatwire/gst/foundation/controller/action/Injector.html">Injector</a> injector) {
 <a class="jxr_linenumber" name="41" href="#41">41</a>          <strong class="jxr_keyword">super</strong>(fallbackActionLocator, injector);
 <a class="jxr_linenumber" name="42" href="#42">42</a>      }
 <a class="jxr_linenumber" name="43" href="#43">43</a>  
-<a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">protected</strong> Action doFindAction(<strong class="jxr_keyword">final</strong> ICS ics, <strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../../../../com/fatwire/gst/foundation/controller/action/Action.html">Action</a> doFindAction(<strong class="jxr_keyword">final</strong> ICS ics, <strong class="jxr_keyword">final</strong> String name) {
 <a class="jxr_linenumber" name="45" href="#45">45</a>  
-<a class="jxr_linenumber" name="46" href="#46">46</a>          Action action = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="46" href="#46">46</a>          <a href="../../../../../../com/fatwire/gst/foundation/controller/action/Action.html">Action</a> action = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="47" href="#47">47</a>          action = groovyAction(name);
 <a class="jxr_linenumber" name="48" href="#48">48</a>  
 <a class="jxr_linenumber" name="49" href="#49">49</a>          <strong class="jxr_keyword">return</strong> action;
@@ -66,11 +66,11 @@
 <a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment">     * @return the Action</em>
 <a class="jxr_linenumber" name="57" href="#57">57</a>  <em class="jxr_javadoccomment">     * @throws RuntimeException</em>
 <a class="jxr_linenumber" name="58" href="#58">58</a>  <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">private</strong> Action groovyAction(<strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../com/fatwire/gst/foundation/controller/action/Action.html">Action</a> groovyAction(<strong class="jxr_keyword">final</strong> String name) {
 <a class="jxr_linenumber" name="60" href="#60">60</a>  
 <a class="jxr_linenumber" name="61" href="#61">61</a>          <strong class="jxr_keyword">if</strong> (StringUtils.isBlank(name))
 <a class="jxr_linenumber" name="62" href="#62">62</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="63" href="#63">63</a>          Action action = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="63" href="#63">63</a>          <a href="../../../../../../com/fatwire/gst/foundation/controller/action/Action.html">Action</a> action = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="64" href="#64">64</a>          <strong class="jxr_keyword">final</strong> String script = name.endsWith(<span class="jxr_string">".groovy"</span>) ? name : name + <span class="jxr_string">".groovy"</span>;
 <a class="jxr_linenumber" name="65" href="#65">65</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="66" href="#66">66</a>  

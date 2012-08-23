@@ -50,4 +50,5 @@ cmd /c mvn -B install:install-file -Dfile=sserve.jar -DgroupId=com.fatwire.cs -D
 cmd /c mvn -B install:install-file -Dfile=transformer.jar -DgroupId=com.fatwire.cs -DartifactId=transformer -Dversion=%VERSION% -Dpackaging=jar -DgeneratePom=true
 cmd /c mvn -B install:install-file -Dfile=visitor.jar -DgroupId=com.fatwire.cs -DartifactId=visitor -Dversion=%VERSION% -Dpackaging=jar -DgeneratePom=true
 cmd /c mvn -B install:install-file -Dfile=xcelerate.jar -DgroupId=com.fatwire.cs -DartifactId=xcelerate -Dversion=%VERSION% -Dpackaging=jar -DgeneratePom=true
+cmd /c mvn -B install:install-file -Dfile=cs-cache-1.2.jar -DgroupId=com.fatwire.cs -DartifactId=cs-cache-1.2 -Dversion=%VERSION% -Dpackaging=jar -DgeneratePom=true
 

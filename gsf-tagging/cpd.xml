@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="11" tokens="116">
+<file line="190" path="/home/dolf/code/java/gst-foundation.git/gsf-tagging/src/main/java/com/fatwire/gst/foundation/tagging/db/TableTaggingServiceImpl.java"/>
+<file line="206" path="/home/dolf/code/java/gst-foundation.git/gsf-tagging/src/main/java/com/fatwire/gst/foundation/tagging/db/TableTaggingServiceImpl.java"/>
+<codefragment>
+<![CDATA[
+            PreparedStmt basicFields = new PreparedStmt("SELECT * FROM " + id.getType() + " WHERE ID = ?",
+                    Collections.singletonList(id.getType()));
+            basicFields.setElement(0, id.getType(), "id");
+
+            StatementParam param = basicFields.newParam();
+            param.setLong(0, id.getId());
+            Row row = SqlHelper.selectSingle(ics, basicFields, param);
+
+            Date start = StringUtils.isBlank(row.getString("startdate")) ? null : row.getDate("startdate");
+            Date end = StringUtils.isBlank(row.getString("enddate")) ? null : row.getDate("enddate");
+            ret = new TaggedAsset(id, start, end);
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>

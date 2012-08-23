@@ -29,7 +29,7 @@ if [ -f "cs.jar" ]; then
                 catalog cs-core cs cscommerce directory firstsite-filter \
                 firstsite-uri flame framework gator gatorbulk ics logging \
                 lucene-search MSXML rules sampleasset sseed sserve transformer \
-                visitor xcelerate
+                visitor xcelerate cs-cache-1.2
     do
         if [ -f "${jar}.jar" ]; then
             echo "Registering ${jar}.jar"

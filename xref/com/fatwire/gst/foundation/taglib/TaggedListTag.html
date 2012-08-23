@@ -74,9 +74,9 @@
 <a class="jxr_linenumber" name="64" href="#64">64</a>      @Override
 <a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doTag() <strong class="jxr_keyword">throws</strong> JspException, IOException {
 <a class="jxr_linenumber" name="66" href="#66">66</a>          <strong class="jxr_keyword">final</strong> ICS ics = getICS();
-<a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">final</strong> AssetTaggingService svc = <strong class="jxr_keyword">new</strong> TableTaggingServiceImpl(ics);
+<a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/tagging/AssetTaggingService.html">AssetTaggingService</a> svc = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/tagging/db/TableTaggingServiceImpl.html">TableTaggingServiceImpl</a>(ics);
 <a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">final</strong> Collection&lt;AssetId&gt; ids = svc.lookupTaggedAssets(TagUtils.asTag(tag));
-<a class="jxr_linenumber" name="69" href="#69">69</a>          ics.RegisterList(outlist, <strong class="jxr_keyword">new</strong> AssetIdIList(outlist, ids));
+<a class="jxr_linenumber" name="69" href="#69">69</a>          ics.RegisterList(outlist, <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetIdIList.html">AssetIdIList</a>(outlist, ids));
 <a class="jxr_linenumber" name="70" href="#70">70</a>          getJspContext().setAttribute(outlist, ids);
 <a class="jxr_linenumber" name="71" href="#71">71</a>          <strong class="jxr_keyword">super</strong>.doTag();
 <a class="jxr_linenumber" name="72" href="#72">72</a>      }

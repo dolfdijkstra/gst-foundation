@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.5" timestamp="2012-08-23T16:13:37.922">
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/DebugHelper.java">
+<violation beginline="467" endline="467" begincolumn="20" endcolumn="43" rule="UnusedPrivateMethod" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation" class="DebugHelper" method="printClassOrder" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateMethod" priority="3">
+Avoid unused private methods such as 'printClassOrder(Class)'.
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/AssetAccessTemplate.java">
+<violation beginline="202" endline="204" begincolumn="17" endcolumn="17" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.fatwire.gst.foundation.facade.assetapi" class="AssetAccessTemplate" method="readAsset" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="273" endline="275" begincolumn="21" endcolumn="21" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.fatwire.gst.foundation.facade.assetapi" class="AssetAccessTemplate" method="readAsset" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/code/CodeGen.java">
+<violation beginline="206" endline="209" begincolumn="17" endcolumn="9" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation.facade.assetapi.code" class="CodeGen$AssetApiGen" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
+Avoid unused method parameters such as 'associations'.
+</violation>
+<violation beginline="211" endline="214" begincolumn="17" endcolumn="9" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation.facade.assetapi.code" class="CodeGen$AssetApiGen" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
+Avoid unused method parameters such as 'parentDefs'.
+</violation>
+<violation beginline="515" endline="520" begincolumn="104" endcolumn="17" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.facade.assetapi.code" class="CodeGen$GsfJspGen" method="printAttributes" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+<violation beginline="577" endline="580" begincolumn="60" endcolumn="17" rule="EmptyIfStmt" ruleset="Basic Rules" package="com.fatwire.gst.foundation.facade.assetapi.code" class="CodeGen" method="gen" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyIfStmt" priority="3">
+Avoid empty if statements
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/fsii/SitePlanUtils.java">
+<violation beginline="195" endline="205" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.fatwire.gst.foundation.facade.fsii" class="SitePlanUtils" method="getSitePlanAsLinks" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/mda/LocaleUtils.java">
+<violation beginline="400" endline="401" begincolumn="44" endcolumn="35" rule="UnusedPrivateMethod" ruleset="Unused Code Rules" package="com.fatwire.gst.foundation.facade.mda" class="LocaleUtils" method="_getPopulatedDimensionFilter" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateMethod" priority="3">
+Avoid unused private methods such as '_getPopulatedDimensionFilter(Session,DimensionSetInstance,long)'.
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/asset/AssetLoadById.java">
+<violation beginline="41" endline="44" begincolumn="15" endcolumn="5" rule="UselessOverridingMethod" ruleset="Basic Rules" package="com.fatwire.gst.foundation.facade.runtag.asset" class="AssetLoadById" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UselessOverridingMethod" priority="3">
+Overriding method merely calls super
+</violation>
+</file>
+<file name="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/sql/TreeHelper.java">
+<violation beginline="91" endline="93" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="com.fatwire.gst.foundation.facade.sql" class="TreeHelper" method="findParents" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+</file>
+</pmd>

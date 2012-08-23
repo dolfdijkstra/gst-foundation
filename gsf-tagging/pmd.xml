@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.5" timestamp="2012-08-23T16:13:50.927">
+<suppressedviolation filename="/home/dolf/code/java/gst-foundation.git/gsf-tagging/src/main/java/com/fatwire/gst/foundation/tagging/db/TableTaggingServiceImpl.java" suppressiontype="annotation" msg="Avoid unused private methods such as 'loadTaggedAssetNew(AssetId)'." usermsg=""/>
+</pmd>

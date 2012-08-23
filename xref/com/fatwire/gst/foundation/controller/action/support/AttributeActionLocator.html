@@ -52,7 +52,7 @@
 <a class="jxr_linenumber" name="42" href="#42">42</a>          <strong class="jxr_keyword">final</strong> String attribute = getAttribute(ics);
 <a class="jxr_linenumber" name="43" href="#43">43</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../../../../com/fatwire/gst/foundation/controller/action/Action.html">Action</a> action = getAction(ics, attribute);
 <a class="jxr_linenumber" name="44" href="#44">44</a>          <strong class="jxr_keyword">if</strong> (action == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="45" href="#45">45</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"No action configured for attribute: "</span> + attribute, ftErrors.badparams);
+<a class="jxr_linenumber" name="45" href="#45">45</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"No action configured for attribute: "</span> + attribute, ftErrors.badparams);
 <a class="jxr_linenumber" name="46" href="#46">46</a>          }
 <a class="jxr_linenumber" name="47" href="#47">47</a>          <strong class="jxr_keyword">return</strong> action;
 <a class="jxr_linenumber" name="48" href="#48">48</a>  

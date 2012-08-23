@@ -60,7 +60,7 @@
 <a class="jxr_linenumber" name="50" href="#50">50</a>      }
 <a class="jxr_linenumber" name="51" href="#51">51</a>  
 <a class="jxr_linenumber" name="52" href="#52">52</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> ICS ics;
-<a class="jxr_linenumber" name="53" href="#53">53</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> AssetAccessTemplate aat;
+<a class="jxr_linenumber" name="53" href="#53">53</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetAccessTemplate.html">AssetAccessTemplate</a> aat;
 <a class="jxr_linenumber" name="54" href="#54">54</a>  
 <a class="jxr_linenumber" name="55" href="#55">55</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment">     * @param ics</em>
@@ -68,7 +68,7 @@
 <a class="jxr_linenumber" name="58" href="#58">58</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../com/fatwire/gst/foundation/mapping/IcsMappingService.html">IcsMappingService</a>(<strong class="jxr_keyword">final</strong> ICS ics) {
 <a class="jxr_linenumber" name="59" href="#59">59</a>          <strong class="jxr_keyword">super</strong>();
 <a class="jxr_linenumber" name="60" href="#60">60</a>          <strong class="jxr_keyword">this</strong>.ics = ics;
-<a class="jxr_linenumber" name="61" href="#61">61</a>          aat = <strong class="jxr_keyword">new</strong> AssetAccessTemplate(ics);
+<a class="jxr_linenumber" name="61" href="#61">61</a>          aat = <strong class="jxr_keyword">new</strong> <a href="../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetAccessTemplate.html">AssetAccessTemplate</a>(ics);
 <a class="jxr_linenumber" name="62" href="#62">62</a>      }
 <a class="jxr_linenumber" name="63" href="#63">63</a>  
 <a class="jxr_linenumber" name="64" href="#64">64</a>      <em class="jxr_comment">/*</em>
@@ -78,7 +78,7 @@
 <a class="jxr_linenumber" name="68" href="#68">68</a>  <em class="jxr_comment">     * com.fatwire.gst.foundation.mapping.MappingService#readMapping(com.fatwire</em>
 <a class="jxr_linenumber" name="69" href="#69">69</a>  <em class="jxr_comment">     * .gst.foundation.controller.AssetIdWithSite)</em>
 <a class="jxr_linenumber" name="70" href="#70">70</a>  <em class="jxr_comment">     */</em>
-<a class="jxr_linenumber" name="71" href="#71">71</a>      <strong class="jxr_keyword">public</strong> Map&lt;String, MappingValue&gt; readMapping(<strong class="jxr_keyword">final</strong> AssetIdWithSite id) {
+<a class="jxr_linenumber" name="71" href="#71">71</a>      <strong class="jxr_keyword">public</strong> Map&lt;String, MappingValue&gt; readMapping(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/controller/AssetIdWithSite.html">AssetIdWithSite</a> id) {
 <a class="jxr_linenumber" name="72" href="#72">72</a>          <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"Template"</span>.equals(id.getType())) {
 <a class="jxr_linenumber" name="73" href="#73">73</a>              <strong class="jxr_keyword">return</strong> readIt(id, template);
 <a class="jxr_linenumber" name="74" href="#74">74</a>          } <strong class="jxr_keyword">else</strong> <strong class="jxr_keyword">if</strong> (<span class="jxr_string">"CSElement"</span>.equals(id.getType())) {
@@ -89,7 +89,7 @@
 <a class="jxr_linenumber" name="79" href="#79">79</a>  
 <a class="jxr_linenumber" name="80" href="#80">80</a>      }
 <a class="jxr_linenumber" name="81" href="#81">81</a>  
-<a class="jxr_linenumber" name="82" href="#82">82</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, MappingValue&gt; readIt(<strong class="jxr_keyword">final</strong> AssetIdWithSite id, <strong class="jxr_keyword">final</strong> PreparedStmt stmt) {
+<a class="jxr_linenumber" name="82" href="#82">82</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, MappingValue&gt; readIt(<strong class="jxr_keyword">final</strong> <a href="../../../../../com/fatwire/gst/foundation/controller/AssetIdWithSite.html">AssetIdWithSite</a> id, <strong class="jxr_keyword">final</strong> PreparedStmt stmt) {
 <a class="jxr_linenumber" name="83" href="#83">83</a>          <strong class="jxr_keyword">final</strong> StatementParam param = stmt.newParam();
 <a class="jxr_linenumber" name="84" href="#84">84</a>          param.setLong(0, id.getId());
 <a class="jxr_linenumber" name="85" href="#85">85</a>          param.setLong(1, aat.readSiteInfo(id.getSite()).getId());

@@ -209,7 +209,7 @@
 <a class="jxr_linenumber" name="199" href="#199">199</a> <em class="jxr_javadoccomment">     * @param stream stream a message back to the browser to prevent timeouts</em>
 <a class="jxr_linenumber" name="200" href="#200">200</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="201" href="#201">201</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> rebuild(<strong class="jxr_keyword">boolean</strong> stream) {
-<a class="jxr_linenumber" name="202" href="#202">202</a>         <strong class="jxr_keyword">if</strong> (!ics.UserIsMember(<span class="jxr_string">"xceladmin"</span>)) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"xceladmin user required to rebuild URL Registry"</span>, ftErrors.noprivs); }
+<a class="jxr_linenumber" name="202" href="#202">202</a>         <strong class="jxr_keyword">if</strong> (!ics.UserIsMember(<span class="jxr_string">"xceladmin"</span>)) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"xceladmin user required to rebuild URL Registry"</span>, ftErrors.noprivs); }
 <a class="jxr_linenumber" name="203" href="#203">203</a>         regDao.clear();
 <a class="jxr_linenumber" name="204" href="#204">204</a>         <strong class="jxr_keyword">if</strong> (stream) ics.StreamText(<span class="jxr_string">"Re-creating url registry entries for "</span>);
 <a class="jxr_linenumber" name="205" href="#205">205</a>         <strong class="jxr_keyword">for</strong> (String type : _lookupWraAssetTypes()) {

@@ -54,21 +54,21 @@
 <a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> inject(ICS ics, Object action) {
 <a class="jxr_linenumber" name="45" href="#45">45</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../../../../com/fatwire/gst/foundation/controller/action/Factory.html">Factory</a> factory = getFactory(ics);
 <a class="jxr_linenumber" name="46" href="#46">46</a>          AnnotationInjector.inject(action, factory);
-<a class="jxr_linenumber" name="47" href="#47">47</a>          <strong class="jxr_keyword">final</strong> AssetIdWithSite id = figureOutTemplateOrCSElementId(ics);
+<a class="jxr_linenumber" name="47" href="#47">47</a>          <strong class="jxr_keyword">final</strong> <a href="../../../../../../../com/fatwire/gst/foundation/controller/AssetIdWithSite.html">AssetIdWithSite</a> id = figureOutTemplateOrCSElementId(ics);
 <a class="jxr_linenumber" name="48" href="#48">48</a>          <strong class="jxr_keyword">if</strong> (id != <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="49" href="#49">49</a>              MappingInjector.inject(action, factory, id);
 <a class="jxr_linenumber" name="50" href="#50">50</a>          }
 <a class="jxr_linenumber" name="51" href="#51">51</a>  
 <a class="jxr_linenumber" name="52" href="#52">52</a>      }
 <a class="jxr_linenumber" name="53" href="#53">53</a>  
-<a class="jxr_linenumber" name="54" href="#54">54</a>      <strong class="jxr_keyword">private</strong> AssetIdWithSite figureOutTemplateOrCSElementId(<strong class="jxr_keyword">final</strong> ICS ics) {
+<a class="jxr_linenumber" name="54" href="#54">54</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../../../../com/fatwire/gst/foundation/controller/AssetIdWithSite.html">AssetIdWithSite</a> figureOutTemplateOrCSElementId(<strong class="jxr_keyword">final</strong> ICS ics) {
 <a class="jxr_linenumber" name="55" href="#55">55</a>          String eid = ics.GetVar(<span class="jxr_string">"eid"</span>);
 <a class="jxr_linenumber" name="56" href="#56">56</a>          <strong class="jxr_keyword">if</strong> (eid != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="57" href="#57">57</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> AssetIdWithSite(<span class="jxr_string">"CSElement"</span>, Long.parseLong(eid), ics.GetVar(<span class="jxr_string">"site"</span>));
+<a class="jxr_linenumber" name="57" href="#57">57</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../../com/fatwire/gst/foundation/controller/AssetIdWithSite.html">AssetIdWithSite</a>(<span class="jxr_string">"CSElement"</span>, Long.parseLong(eid), ics.GetVar(<span class="jxr_string">"site"</span>));
 <a class="jxr_linenumber" name="58" href="#58">58</a>          }
 <a class="jxr_linenumber" name="59" href="#59">59</a>          eid = ics.GetVar(<span class="jxr_string">"tid"</span>);
 <a class="jxr_linenumber" name="60" href="#60">60</a>          <strong class="jxr_keyword">if</strong> (eid != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="61" href="#61">61</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> AssetIdWithSite(<span class="jxr_string">"Template"</span>, Long.parseLong(eid), ics.GetVar(<span class="jxr_string">"site"</span>));
+<a class="jxr_linenumber" name="61" href="#61">61</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../../com/fatwire/gst/foundation/controller/AssetIdWithSite.html">AssetIdWithSite</a>(<span class="jxr_string">"Template"</span>, Long.parseLong(eid), ics.GetVar(<span class="jxr_string">"site"</span>));
 <a class="jxr_linenumber" name="62" href="#62">62</a>          }
 <a class="jxr_linenumber" name="63" href="#63">63</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="64" href="#64">64</a>      }

@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="98" tokens="433">
+<file line="61" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/xlat/Lookup.java"/>
+<file line="48" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/xlat/Stream.java"/>
+<codefragment>
+<![CDATA[
+        this.set("KEY", s);
+    }
+
+    /**
+     * Sets locale to the value of <code>s</code>
+     * 
+     * @param s The locale of the db entry
+     */
+    public void setLocale(String s) {
+        // validate first
+        if (s == null || s.length() == 0) {
+            throw new IllegalArgumentException("Invalid locale string: " + s);
+        }
+        this.set("LOCALE", s);
+    }
+
+    /**
+     * Sets encode to the value of <code>s</code>
+     * 
+     * @param s true or false (case sensitive)
+     */
+    public void setEncode(String s) {
+        // validate first
+        if (s == null || s.length() == 0 || !s.equals("true") && !s.equals("false")) {
+            throw new IllegalArgumentException("Invalid encode string: " + s);
+        }
+        this.set("ENCODE", s);
+    }
+
+    /**
+     * Sets escape to the value of <code>s</code>
+     * 
+     * @param s true or false (case sensitive)
+     */
+    public void setEscape(String s) {
+        // validate first
+        if (s == null || s.length() == 0 || !s.equals("true") && !s.equals("false")) {
+            throw new IllegalArgumentException("Invalid escape string: " + s);
+        }
+        this.set("ESCAPE", s);
+    }
+
+    /**
+     * Sets evalall to the value of <code>s</code>
+     * 
+     * @param s true or false (case sensitive)
+     */
+    public void setEvalAll(String s) {
+        // validate first
+        if (s == null || s.length() == 0 || !s.equals("true") && !s.equals("false")) {
+            throw new IllegalArgumentException("Invalid evalall string: " + s);
+        }
+        this.set("EVALALL", s);
+    }
+
+    /**
+     * Sets the name and value of a custome argument to
+     * <code>argname=argvalue</code>
+     * 
+     * @param argname The name of the argument
+     * @param argvalue The name of the value
+     */
+    public void setArgument(String argname, String argvalue) {
+        // validate first
+        if (argname == null || argname.length() == 0) {
+            throw new IllegalArgumentException("Invalid argname string: " + argname);
+        }
+        if (argvalue == null || argvalue.length() == 0) {
+            throw new IllegalArgumentException("Invalid argvalue string: " + argvalue);
+        }
+        this.set(argname, argvalue);
+    }
+
+    protected void preExecute(ICS ics) {
+        // work around a bug in the tag where a variable needs to exist for the
+        // mapping to work
+        super.preExecute(ics);
+
+        List<String> newVars = new ArrayList<String>();
+        for (Object oKey : list.keySet()) {
+            String sKey = (String) oKey;
+            if (ics.GetVar(sKey) == null) {
+                newVars.add(sKey);
+                ics.SetVar(sKey, list.getValString(sKey));
+            }
+        }
+        ics.SetObj("NewVars", newVars);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void postExecute(ICS ics) {
+        super.postExecute(ics);
+        List<String> newVars = (List<String>) ics.GetObj("NewVars");
+        for (String toRemove : newVars) {
+            ics.RemoveVar(toRemove);
+        }
+        ics.SetObj("NewVars", null);
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="22" tokens="209">
+<file line="84" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/AbstractTagRunner.java"/>
+<file line="108" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/AbstractTagRunner.java"/>
+<codefragment>
+<![CDATA[
+            StringBuffer sb = new StringBuffer("Just completed execution of runTag for tag: " + tagName + ".  ");
+            sb.append("\nInput param list:");
+            for (Object k : list.keySet()) {
+                String key = (String) k;
+                sb.append("\n\t").append(key).append("=")
+                        .append(isPW(key) ? "<password suppressed>" : list.getValString(key));
+            }
+            sb.append("\nVariables:");
+            Enumeration<?> e = ics.GetVars();
+            while (e.hasMoreElements()) {
+                String key = (String) e.nextElement();
+                sb.append("\n\t").append(key).append("=").append(isPW(key) ? "<password suppressed>" : ics.GetVar(key));
+            }
+            sb.append("\nSession Variables:");
+            e = ics.GetSSVars();
+            while (e.hasMoreElements()) {
+                String key = (String) e.nextElement();
+                sb.append("\n\t").append(key).append("=")
+                        .append(isPW(key) ? "<password suppressed>" : ics.GetSSVar(key));
+            }
+            LOG.trace(sb);
+        }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="26" tokens="166">
+<file line="75" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/siteplan/ListPages.java"/>
+<file line="101" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/siteplan/NodePath.java"/>
+<codefragment>
+<![CDATA[
+        try {
+            AssetLoadById assetLoad = new AssetLoadById();
+            assetLoad.setAssetId(p);
+            assetLoad.setAssetType("Page");
+            assetLoad.setName(LOADED_PAGE_NAME);
+            assetLoad.execute(ics);
+            if (ics.GetErrno() < 0) {
+                throw new CSRuntimeException("Failed to load page identified by Page:" + p, ics.GetErrno());
+            }
+
+            GetSiteNode getSiteNode = new GetSiteNode();
+            getSiteNode.setName(LOADED_PAGE_NAME);
+            getSiteNode.setOutput(CURRENT_PAGE_NODE_ID);
+            getSiteNode.execute(ics);
+            if (ics.GetErrno() < 0) {
+                throw new CSRuntimeException("Could not get site node for page identified by Page:" + p, ics.GetErrno());
+            }
+
+            SitePlanLoad sitePlanLoad = new SitePlanLoad();
+            sitePlanLoad.setName(LOADED_SITE_PLAN_NODE);
+            sitePlanLoad.setNodeid(ics.GetVar(CURRENT_PAGE_NODE_ID));
+            sitePlanLoad.execute(ics);
+            if (ics.GetErrno() < 0) {
+                throw new CSRuntimeException("Could not load site plan tree for page identified by Page:" + p,
+                        ics.GetErrno());
+            }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="23" tokens="138">
+<file line="182" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/asset/ScatteredAsset.java"/>
+<file line="258" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/asset/ScatteredAsset.java"/>
+<codefragment>
+<![CDATA[
+                    attrMap.put(name, obj);
+                break;
+            }
+
+            case ARRAY:
+            case STRUCT:
+            case LIST:
+            case ONEOF:
+                Object o = attr.getData();
+                int size = 0;
+                if (o instanceof Collection<?>) {
+                    size = ((Collection<?>) o).size();
+                } else if (o instanceof Map<?, ?>) {
+                    size = ((Map<?, ?>) o).size();
+                } else {
+                    log.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
+                            + o.getClass().getName());
+                    size = 1;
+                }
+                if (size > 0)
+                    attrMap.put(name, attr.getData());
+        }
+    }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="15" tokens="122">
+<file line="78" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/code/CodeGen.java"/>
+<file line="185" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/code/CodeGen.java"/>
+<codefragment>
+<![CDATA[
+            out.print(def.getName() + "/" + s + "Detail");
+            out.print("   // description: '" + def.getDescription() + "'");
+            out.print(" plural: '" + def.getPlural() + "'");
+            out.print(" canbechild: " + def.getCanBeChild() + "");
+            AssetTypeDefProperties p = def.getProperties();
+            out.print(" canAddSubtypes: " + p.getCanAddSubtypes());
+            String type = p.getIsAssetmakerAsset() ? "AssetmakerAsset" : "Unknown Type";
+            if (p.getIsCoreAsset())
+                type = "CoreAsset";
+            if (p.getIsFlexAsset())
+                type = "FlexAsset";
+            out.print(" type: '" + type + "'");
+            out.println(" nameMustUnique: " + p.getIsNameMustUnique());
+
+            printAttributes(def);
+]]>
+</codefragment>
+</duplication>
+<duplication lines="14" tokens="116">
+<file line="95" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/asset/Children.java"/>
+<file line="128" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/asset/Children.java"/>
+<codefragment>
+<![CDATA[
+    public static AssetId getOptionalSingleAssociation(ICS ics, String c, String cid, String code) {
+        ics.RegisterList("spu-kids", null);
+        Children ac = new Children();
+        ac.setType(c);
+        ac.setAssetId(cid);
+        ac.setCode(code);
+        ac.setList("spu-kids");
+        ac.execute(ics);
+        IList spukids = ics.GetList("spu-kids");
+        ics.RegisterList("spu-kids", null);
+        if (spukids != null && spukids.hasData()) {
+            if (spukids.numRows() > 1) {
+                throw new IllegalStateException("Too many kids found associated to: " + c + ":" + cid
+                        + " for association:" + code + ".  expected 0 or 1 but got " + spukids.numRows());
+]]>
+</codefragment>
+</duplication>
+<duplication lines="56" tokens="113">
+<file line="62" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/render/GetBlobUrl.java"/>
+<file line="57" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/render/GetTemplateUrl.java"/>
+<codefragment>
+<![CDATA[
+        super("RENDER.GETTEMPLATEURL");
+    }
+
+    /**
+     * @param s
+     */
+    public void setAsset(String s) {
+        set("ASSET", s);
+    }
+
+    /**
+     * @param b
+     */
+    public void setAddSession(boolean b) {
+        set("ADDSESSION", b ? "TRUE" : "FALSE");
+    }
+
+    /**
+     * @param s
+     */
+    public void setAssembler(String s) {
+        set("ASSEMBLER", s);
+    }
+
+    /**
+     * @param s
+     */
+    public void setAuthority(String s) {
+        set("AUTHORITY", s);
+    }
+
+    /**
+     * @param s
+     */
+    public void setC(String s) {
+        set("C", s);
+    }
+
+    /**
+     * @param s
+     */
+    public void setCid(String s) {
+        set("CID", s);
+    }
+
+    /**
+     * @param s
+     */
+    public void setContainer(String s) {
+        set("CONTAINER", s);
+    }
+
+    /**
+     * @param s
+     */
+    public void setContext(String s) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="15" tokens="111">
+<file line="159" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/asset/AssetList.java"/>
+<file line="185" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/runtag/asset/AssetList.java"/>
+<codefragment>
+<![CDATA[
+    public static IList listSingleAsset(ICS ics, String c, String cid) {
+        ics.RegisterList("spu-gtfa", null);
+        AssetList al = new AssetList();
+        al.setField("id", cid);
+        al.setType(c);
+        al.setExcludeVoided(true);
+        al.setList("spu-gtfa");
+        al.execute(ics);
+        IList spugtfa = ics.GetList("spu-gtfa");
+        ics.RegisterList("spu-gtfa", null);
+        if (spugtfa != null && spugtfa.hasData()) {
+            if (spugtfa.numRows() > 1) {
+                throw new IllegalStateException("ASSET.LIST failed for " + c + ":" + cid + ": multiple matches found:"
+                        + spugtfa.numRows());
+            }
+]]>
+</codefragment>
+</duplication>
+<duplication lines="21" tokens="107">
+<file line="302" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/AssetAccessTemplate.java"/>
+<file line="344" path="/home/dolf/code/java/gst-foundation.git/gsf-facades/src/main/java/com/fatwire/gst/foundation/facade/assetapi/AssetAccessTemplate.java"/>
+<codefragment>
+<![CDATA[
+            assets = m.read(Collections.singletonList(id));
+        } catch (final AssetAccessException e) {
+            throw new RuntimeAssetAccessException(e);
+        }
+        if (assets == null) {
+            return null;
+        }
+        if (assets instanceof List<?>) {
+            final List<AssetData> x = (List<AssetData>) assets;
+            if (x.isEmpty()) {
+                return null;
+            } else {
+                return x.get(0);
+            }
+        }
+        final Iterator<AssetData> i = assets.iterator();
+        if (i.hasNext()) {
+            return i.next();
+        }
+        return null;
+    }
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>
