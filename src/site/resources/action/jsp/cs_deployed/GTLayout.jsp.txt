@@ -1,23 +1,23 @@
 <%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
-%><%@ taglib  prefix="p" uri="http://gst.fatwire.com/foundation/tags/p"
+%><%@ taglib  prefix="gsf" uri="http://gst.fatwire.com/foundation/tags/gsf"
 %><cs:ftcs>
-  <p:page action="GTLayout">
+  <gsf:root action="GTLayout">
     <head>
-<p:include name="StyleSheetSlot" />
+<gsf:include name="StyleSheetSlot" />
 <%-- Display head content that is asset-specific --%>
-<p:include name="Head" />
+<gsf:include name="Head" />
     </head>
     <body>
       <div id="Container">
         <div id="HeaderContainer">
           <div id="TopNav1">
             <div id="TopNav2">
-              <p:include name="TopNav" />
+              <gsf:include name="TopNav" />
             </div>
           </div>
         </div>
         <div id="HomePageBanner">
-          <p:include name="BannerSlot" />
+          <gsf:include name="BannerSlot" />
         </div>
         <%-- Load the main body.  The main body contains a section-specific part as well as an asset-specific part.  --%>
         <div id="BodyContainer">
@@ -25,7 +25,7 @@
           <div id="SideNavContainer">
             <div id="SideNav1">
               <div id="SideNav2">
-                <p:include name="SideNav" />
+                <gsf:include name="SideNav" />
                 <div id="PoweredBy">
                   <img src="${PoweredBy.src}" alt="${PoweredBy.alt}" />
                 </div>
@@ -35,7 +35,7 @@
           <div id="MainBodyContainer">
             <div id="MainBody1">
               <div id="MainBody2">
-                <p:include name="Detail" />
+                <gsf:include name="Detail" />
               </div>
             </div>
           </div>
@@ -45,23 +45,12 @@
           <div id="BottomNavContainer">
             <div id="BottomNav1">
               <div id="BottomNav2">
-                <p:include name="BottomNav" />
-              </div>
-            </div>
-          </div>
-          <%-- for good measure, verify xhtml/css validity --%>
-          <div id="ValidityCheckerContainer">
-            <div id="ValidityChecker1">
-              <div id="ValidityChecker2">
-                Validate: <a href="http://validator.w3.org/check/referer"
-                  title="Check the validity of this site&#8217;s XHTML">xhtml</a> &nbsp; <a
-                  href="http://jigsaw.w3.org/css-validator/check/referer"
-                  title="Check the validity of this site&#8217;s CSS">css</a>
+                <gsf:include name="BottomNav" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </body>
-  </p:page>
+  </gsf:root>
 </cs:ftcs>

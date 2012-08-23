@@ -1,9 +1,9 @@
 <%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"%><%@ taglib prefix="ics" uri="futuretense_cs/ics.tld"%><%@ taglib
-  prefix="p" uri="http://gst.fatwire.com/foundation/tags/p"%><cs:ftcs>
-  <p:page action="page/GTTopNav">
-    <p:include name="TopNavJavaScript" />
-    <p:include name="TopNav" />
-    <p:include name="LocaleForm" />
+  prefix="gsf" uri="http://gst.fatwire.com/foundation/tags/gsf"%><cs:ftcs>
+  <gsf:root action="page/GTTopNav">
+    <gsf:include name="TopNavJavaScript" />
+    <gsf:include name="TopNav" />
+    <gsf:include name="LocaleForm" />
     <ics:clearerrno />
-  </p:page>
+  </gsf:root>
 </cs:ftcs>

@@ -1,12 +1,12 @@
 <%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
 %><%@ taglib prefix="ics" uri="futuretense_cs/ics.tld"%><%@ taglib
-  prefix="p" uri="http://gst.fatwire.com/foundation/tags/p"%><%@ page import="java.util.*,java.text.*"%><%@ taglib
+  prefix="gsf" uri="http://gst.fatwire.com/foundation/tags/gsf"%><%@ page import="java.util.*,java.text.*"%><%@ taglib
   prefix="c" uri="http://java.sun.com/jsp/jstl/core"
-  %><cs:ftcs><p:page action="productp/GTDetail">
+  %><cs:ftcs><gsf:root action="productp/GTDetail">
     <div id="Product_PDetail">
     <div id="ProductArea"><c:if test="${manufacturer}">
       <div id="ManufacturerInfo"><c:if test="${manufacturerLogo}">
-        <div id="ManufacturerImage"><p:include name="ManufacturerImage" /></div>
+        <div id="ManufacturerImage"><gsf:include name="ManufacturerImage" /></div>
       </c:if>
       <h3><c:out value="${ParentName}" escapeXml="true" /></h3>
       <p>${Desc}</p>
@@ -23,9 +23,9 @@
       </div>
     </c:if>
     <div id="ProductList"><c:forEach var="row" items="${ProductSummary}">
-      <p:include name="${row}" />
+      <gsf:include name="${row}" />
     </c:forEach></div>
     </div>
-    <div id="PromoArea"><p:include name="ProductDetailViewAd" /></div>
+    <div id="PromoArea"><gsf:include name="ProductDetailViewAd" /></div>
     </div>
-  </p:page></cs:ftcs>
+  </gsf:root></cs:ftcs>
