@@ -1,8 +1,10 @@
 #!/bin/bash
 VERSION=1.4-SNAPSHOT
-echo building jars and site
+echo building jars
 mvn -q clean install
+echo building site
 mvn -q site
+if [ -d /tmp/gsf-site ] ; then rm -Rf /tmp/gsf-site ;fi
 mvn site:stage -DstagingDirectory=/tmp/gsf-site
 
 archive=`pwd`/target/gst-foundation-$VERSION.tgz 
@@ -25,4 +27,4 @@ echo done packaging gst-foundation
 #versions:display-dependency-updates
 #  Displays all dependencies that have newer versions available.
 
-
+#dependency:list-repositories
