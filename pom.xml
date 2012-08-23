@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.fatwire.gst</groupId>
-  <artifactId>gsf-parent</artifactId>
+  <artifactId>gst-foundation</artifactId>
   <version>11.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>FatWire GST: Site Foundation</name>
@@ -160,12 +160,50 @@
           <downloadJavadocs>true</downloadJavadocs>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>downloads-maven-plugin</artifactId>
+        <version>0.6</version>
+        <configuration>
+          <description>Official ${project.name} build of the ${project.version} release</description>
+          <override>true</override>
+          <includeAttached>true</includeAttached>
+          <server>github</server>
+          <dryRun>true</dryRun>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>upload</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.7</version>
+        <configuration>
+          <message>Building site for ${project.version}</message>
+          <server>github</server>
+          <dryRun>true</dryRun>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.1</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -267,10 +305,10 @@
 			<name>FatWire Repository</name>
 			<url>scp://www.nl.fatwire.com/var/www/html/snapshot-repo</url>
 		</snapshotRepository>
--->
     <site>
       <id>website</id>
       <url>scp://www.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation</url>
     </site>
+-->
   </distributionManagement>
 </project>
