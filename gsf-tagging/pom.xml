@@ -8,7 +8,7 @@
     <artifactId>gsf-tagging</artifactId>
     <packaging>jar</packaging>
     <name>FatWire GSF: Tagging support</name>
-    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-tagging</url>
+    <url>http://dolfdijkstra.github.com/gst-foundation/gsf-tagging</url>
     <inceptionYear>2010</inceptionYear>
     <developers>
         <developer>

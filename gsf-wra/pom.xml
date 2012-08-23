@@ -8,7 +8,7 @@
     <artifactId>gsf-wra</artifactId>
     <packaging>jar</packaging>
     <name>FatWire GSF: Web-Referenceable Asset Support</name>
-    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-wra</url>
+    <url>http://dolfdijkstra.github.com/gst-foundation/gsf-wra</url>
     <inceptionYear>2010</inceptionYear>
     <developers>
         <developer>

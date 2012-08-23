@@ -9,7 +9,7 @@
 	<artifactId>gsf-action</artifactId>
 	<packaging>jar</packaging>
 	<name>FatWire GSF: Actions</name>
-	<url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-action</url>
+	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-action</url>
 	<inceptionYear>2011</inceptionYear>
 	<developers>
 		<developer>

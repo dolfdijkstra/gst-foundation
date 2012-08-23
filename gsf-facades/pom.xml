@@ -9,7 +9,7 @@
 	<artifactId>gsf-facades</artifactId>
 	<packaging>jar</packaging>
 	<name>FatWire GSF: ContentServer Library Facades</name>
-	<url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-facades</url>
+	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-facades</url>
 	<inceptionYear>2008</inceptionYear>
 	<organization>
 		<name>FatWire</name>
@@ -59,9 +59,8 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>clirr-maven-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.4</version>
 				<configuration>
-					<!-- Compare the current code against version 1.2 -->
 					<comparisonVersion>2.0</comparisonVersion>
 				</configuration>
 			</plugin>

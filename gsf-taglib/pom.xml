@@ -8,7 +8,7 @@
     <artifactId>gsf-taglib</artifactId>
     <packaging>jar</packaging>
     <name>FatWire GSF: Taglibs</name>
-    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-taglib</url>
+    <url>http://dolfdijkstra.github.com/gst-foundation/gsf-taglib</url>
     <inceptionYear>2010</inceptionYear>
     <developers>
         <developer>

@@ -8,7 +8,7 @@
     <artifactId>gsf-cs-all</artifactId>
     <packaging>pom</packaging>
     <name>FatWire GSF: ContentServer jars</name>
-    <url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-cs-all</url>
+    <url>http://dolfdijkstra.github.com/gst-foundation/gsf-cs-all</url>
     <description>A pom that contains all the ContentServer jars for a specific version</description>
     <inceptionYear>2010</inceptionYear>
     <organization>
@@ -97,6 +97,16 @@
         <dependency>
             <groupId>com.fatwire.cs</groupId>
             <artifactId>gator</artifactId>
+            <version>${fatwire.contentserver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fatwire.cs</groupId>
+            <artifactId>cs-cache-1.2</artifactId>
+            <version>${fatwire.contentserver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fatwire.cs</groupId>
+            <artifactId>visitor</artifactId>
             <version>${fatwire.contentserver.version}</version>
         </dependency>
         <dependency>

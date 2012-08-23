@@ -9,7 +9,7 @@
 	<artifactId>gsf-groovy</artifactId>
 	<packaging>jar</packaging>
 	<name>FatWire GSF: Groovy Support</name>
-	<url>http://www.nl.fatwire.com/dta/contrib/gst-foundation/gsf-groovy</url>
+	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-groovy</url>
 	<inceptionYear>2011</inceptionYear>
 	<developers>
 		<developer>
