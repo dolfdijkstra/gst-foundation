@@ -14,7 +14,7 @@
 ~~ limitations under the License.
 ~~
 
-GSF-Groovy
+GSF Groovy support
 
   The gsf-groovy project is a showcase of how a scripting language can be used to developer websites faster while still 
   allowing for all the features of Sites.
@@ -49,7 +49,7 @@ Action
  
   The Action interface defines one method: <public void handleRequest(ICS ics)>.
 
-  The Action is part of the <Controller>. It is invoked by the <Controller>. It's role is to provide data, and not the select a View. 
+  The Action is tightly related to  the <Controller>. It is invoked by the <Controller>. It's role is to provide data, and not the select a View. 
   
   Below is a very simple hello-world like Action implementation, it just prints 'groovy was here' to the screen. 
 
@@ -73,7 +73,7 @@ class GTLayout implements Action {
   
   The Action is discovered by an <ActionLocator> class that is responsible for instantiating and configuring up the right Action based on the current request
   or JSP page. This means that the ActionLocator discovers the ICS object in assigns the correct Action to the current request, based on whatever data is available
-  on that object. This could be a special variable name, the current element name, or a name provided by the jsp tag \<p:page\>. 
+  on that object. This could be a special variable name, the current element name, or a name provided by the jsp tag \<jsp:root\>. 
   The Action locator is also responsible for injecting the declared dependencies on the Action. This can be done via the spring framework and/or via
   @InjectForRequest and @Mapping annotations on the class.
   
@@ -103,7 +103,7 @@ class GTLayout implements Action {
   explicitly as a method parameter when the method is called from the <handleRequest> method.
 
   The Model object is an output field for the action. A Model is a name/value pairs data structure. The Action can populate the model data so it can be used by the jsp element, for instance to 
-  display the asset data, or write a link to another asset. The Model data is copied by the \<p:page\> tag to the jsp page scope, and by that means made avialable to the jsp developer.
+  display the asset data, or write a link to another asset. The Model data is copied by the \<gsf:root\> tag to the jsp page scope, and by that means made avialable to the jsp developer.
 
 
 @Mapping
@@ -157,18 +157,18 @@ Groovy sample
 ------------
 
 <%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
-%><%@ taglib prefix="p" uri="http://gst.fatwire.com/foundation/tags/p"
+%><%@ taglib prefix="gsf" uri="http://gst.fatwire.com/foundation/tags/gsf"
 %><cs:ftcs>
-  <p:page action="test/AssetApi"> 
+  <gsf:root action="test/AssetApi"> 
   Hello World.
-  </p:page>
+  </gsf:root>
 </cs:ftcs>
 
 ------------
 
-   The jsp page starts of the the traditional \<cs:ftcs\> tag, followed by the \<p:page\> tag. Inside the p:page tag should the normal jsp code placed.
+   The jsp page starts of the the traditional \<cs:ftcs\> tag, followed by the \<gsf:root\> tag. Inside the gsf:root tag should the normal jsp code placed.
    The ftcs tag sets the ics variable on the jsp page, as well as some output stream handling.
-   The p:page tags discovers the Action based on the <action> attribute value via the spring configured ActionLocator. The Action can be implemented in java or 
+   The gsf:root tags discovers the Action based on the <action> attribute value via the spring configured ActionLocator. The Action can be implemented in java or 
    as in this example in Groovy.
 
    As you can see, the Groovy files look a lot like a normal java class. It start with package declaration, imports, javadoc and then the class definition.   
@@ -228,11 +228,11 @@ Java example
 ------------
 
 <%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
-%><%@ taglib prefix="p" uri="http://gst.fatwire.com/foundation/tags/p"
+%><%@ taglib prefix="gsf" uri="http://gst.fatwire.com/foundation/tags/gsf"
 %><cs:ftcs>
-  <p:page action="class:com.fatwire.sample.AssetApi"> 
+  <gsf:root action="class:com.fatwire.sample.AssetApi"> 
   Hello World.
-  </p:page>
+  </gsf:root>
 </cs:ftcs>
 
 ------------
@@ -277,12 +277,12 @@ IncludeService
 
 ---------
 <cs:ftcs>
-  <p:page action="GTLayout">
+  <gsf:root action="GTLayout">
     <head>
     <p:include name="Head" />
     </head>
     [ rest of the page truncated for clarity]
-  </p:page>
+  </gsf:root>
 </cs:ftcs>
 
 --------
