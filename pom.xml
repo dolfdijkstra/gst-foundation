@@ -27,7 +27,7 @@
     <developerConnection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</developerConnection>
     <url>http://github.com/dolfdijkstra/gst-foundation</url>
   </scm>
- <properties>
+  <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <prerequisites>
