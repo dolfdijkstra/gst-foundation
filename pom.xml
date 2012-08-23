@@ -27,6 +27,10 @@
     <developerConnection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</developerConnection>
     <url>http://github.com/dolfdijkstra/gst-foundation</url>
   </scm>
+  <issueManagement>
+    <url>https://github.com/dolfdijkstra/gst-foundation/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -330,10 +334,6 @@
 			<name>FatWire Repository</name>
 			<url>scp://www.nl.fatwire.com/var/www/html/snapshot-repo</url>
 		</snapshotRepository>
-    <site>
-      <id>website</id>
-      <url>scp://www.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation</url>
-    </site>
 -->
     <site>
       <id>github-project-site</id>
