@@ -22,6 +22,7 @@
   <body>
     <menu name="Overview">
       <item name="Introduction" href="./index.html"/>
+      <item name="Groovy support" href="./action/index.html"/>
     </menu>
     <menu name="Modules">
 	    <item name="Facades" href="gsf-facades/index.html"/>
