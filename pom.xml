@@ -46,7 +46,7 @@
     <module>gsf-action</module>
     <module>gsf-groovy</module>
     <module>gsf-taglib</module>
-    <module>gsf-assembly</module>
+    <module>gst-foundation-all</module>
   </modules>
   <dependencies>
     <dependency>

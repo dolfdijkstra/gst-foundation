@@ -9,7 +9,7 @@ mvn site:stage -DstagingDirectory=/tmp/gsf-site
 
 archive=`pwd`/target/gst-foundation-$VERSION.tgz 
 
-(cd gsf-assembly/target  && tar -czf $archive gst* -C /tmp/ gsf-site )
+(cd gst-foundation-all/target  && tar -czf $archive gst* -C /tmp/ gsf-site )
 
 echo done packaging gst-foundation
 # to get a graphical dependency tree: http://www.summa-tech.com/blog/2011/04/12/a-visual-maven-dependency-tree-view/

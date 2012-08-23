@@ -9,7 +9,6 @@
   <artifactId>gst-foundation-all</artifactId>
   <packaging>jar</packaging>
   <name>FatWire GSF: Aggregator</name>
-  <url>http://dolfdijkstra.github.com/gst-foundation/gsf-assembly</url>
   <inceptionYear>2010</inceptionYear>
   <developers>
     <developer>
@@ -95,10 +94,4 @@
       </plugin>
     </plugins>
   </build>
-  <distributionManagement>
-    <site>
-      <id>website</id>
-      <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-assembly</url>
-    </site>
-  </distributionManagement>
 </project>
