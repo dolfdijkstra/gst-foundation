@@ -17,7 +17,7 @@
 GSF-Groovy
 
   The gsf-groovy project is a showcase of how a scripting language can be used to developer websites faster while still 
-  allowing for 
+  allowing for all the features of Sites.
   
 Features
   
@@ -44,7 +44,7 @@ Eclipse integration
 Action
 
   The groovy integration makes use of the Action framework. An Action is a class the implements business logic. The Action is either loaded by the Controller or the 
-  \<p:page\> jsp tag. The Action framework is based on the {{{http://en.wikipedia.org/wiki/Command_pattern}command pattern}}. It's role is to provide Model data 
+  \<gsf:root\> jsp tag. The Action framework is based on the {{{http://en.wikipedia.org/wiki/Command_pattern}command pattern}}. It's role is to provide Model data 
   as defined in the {{{http://en.wikipedia.org/wiki/Model-view-controller}MVC design pattern}}.
  
   The Action interface defines one method: <public void handleRequest(ICS ics)>.
