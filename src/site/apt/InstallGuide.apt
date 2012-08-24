@@ -129,6 +129,6 @@ Installation Guide
    
     [[10]] Read further instructions on how to use GSF. A good starter is the GSF Beginners Guide.
     
-    [[11]] If you want to use Spring to congigure the Action framework, please check the {{InstallGuide - Spring.html}}..
+    [[11]] If you want to use Spring to congigure the Action framework, please check the {{./InstallGuide - Spring.html}}..
     
     
