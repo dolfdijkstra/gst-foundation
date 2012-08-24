@@ -60,8 +60,8 @@ GST Site Foundation Overview
     would make the patterns and conventions of this approach less suitable.  A checklist is included that helps an
     architect to determine if this rendering model is the best approach for the project at hand.
 
-    The Global Site Foundation is initiated in 2010 by Tony Field (tony.field at fatwire dot com),  Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
-    (michael.sullivan at fatwire dot com) and Suzanne Bourdeaux (suzanne.bourdeaux  at fatwire dot com).
+    The Global Site Foundation is initiated in 2010 by Tony Field,  Dolf Dijkstra, Michael Sullivan 
+    and Suzanne Bourdeaux.
 
     Developers and Architects are encouraged to build upon and extend this framework with the long-term goal 
     of folding in such enhancements into future versions of the GST Site Foundation.
@@ -94,7 +94,7 @@ Download
 
     The GSF is packaged into a single, downloadable bundle.  
 
-     *  Pre-compiled Jar {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/}}
+     *  {{https://github.com/dolfdijkstra/gst-foundation/downloads}}
 
      []
      
