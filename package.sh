@@ -2,10 +2,8 @@
 VERSION=11.0-SNAPSHOT
 echo downloading all artifacts
 mvn dependency:go-offline
-echo building jars
-mvn -o -q clean install
-echo building site
-mvn -o -q site
+echo building jars and site
+mvn -o -q clean install site
 if [ -d /tmp/gsf-site ] ; then rm -Rf /tmp/gsf-site ;fi
 mvn -o site:stage -DstagingDirectory=/tmp/gsf-site
 
