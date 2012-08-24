@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=1.4-SNAPSHOT
+VERSION=11.0-SNAPSHOT
 echo building jars
 mvn -q clean install
 echo building site

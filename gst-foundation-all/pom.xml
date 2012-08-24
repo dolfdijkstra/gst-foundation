@@ -80,6 +80,7 @@
         <configuration>
           <descriptors>
             <descriptor>src/main/assembly/elements.xml</descriptor>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
           </descriptors>
         </configuration>
         <executions>
