@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.yourcompany.owcs.config;
+package com.yourcompany.owcs.action;
 
 import COM.FutureTense.Interfaces.ICS;
 
