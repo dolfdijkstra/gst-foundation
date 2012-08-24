@@ -31,14 +31,4 @@
       </includes>
     </fileSet>
   </fileSets>
-  <!--<files>-->
-    <!--<file>-->
-      <!--<source>src/main/web/gsf/wem/app/images/GSF.png</source>-->
-      <!--<filtered>true</filtered>-->
-    <!--</file>-->
-    <!--<file>-->
-        <!--<source>src/main/web/gsf/wem/app/images/GSFActive.png</source>-->
-      <!--<filtered>true</filtered>-->
-    <!--</file>-->
-  <!--</files>-->
 </assembly>
