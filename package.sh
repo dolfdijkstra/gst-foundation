@@ -1,11 +1,13 @@
 #!/bin/bash
 VERSION=11.0-SNAPSHOT
+echo downloading all artifacts
+mvn dependency:go-offline
 echo building jars
-mvn -q clean install
+mvn -o -q clean install
 echo building site
-mvn -q site
+mvn -o -q site
 if [ -d /tmp/gsf-site ] ; then rm -Rf /tmp/gsf-site ;fi
-mvn site:stage -DstagingDirectory=/tmp/gsf-site
+mvn -o site:stage -DstagingDirectory=/tmp/gsf-site
 
 archive=`pwd`/target/gst-foundation-$VERSION.tgz 
 
