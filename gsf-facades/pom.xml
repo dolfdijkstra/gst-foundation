@@ -4,17 +4,13 @@
 	<parent>
 		<groupId>com.fatwire.gst</groupId>
 		<artifactId>gst-foundation</artifactId>
-		<version>11.0-SNAPSHOT</version>
+		<version>11.6.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>gsf-facades</artifactId>
 	<packaging>jar</packaging>
 	<name>Sites GSF: ContentServer Library Facades</name>
 	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-facades</url>
 	<inceptionYear>2008</inceptionYear>
-	<organization>
-		<name>FatWire</name>
-		<url>http://www.fatwire.com</url>
-	</organization>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -38,13 +34,13 @@
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-cs-all</artifactId>
-			<version>11.0-SNAPSHOT</version>
+			<version>11.6.0-SNAPSHOT</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-cs-test</artifactId>
-			<version>11.0-SNAPSHOT</version>
+			<version>11.6.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

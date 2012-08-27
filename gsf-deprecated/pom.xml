@@ -3,12 +3,12 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gst-foundation</artifactId>
-        <version>11.0-SNAPSHOT</version>
+        <version>11.6.0-SNAPSHOT</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-deprecated</artifactId>
     <packaging>jar</packaging>
-    <name>FatWire GST: Site Foundation Deprecated</name>
+    <name>Sites GSF: Site Foundation Deprecated</name>
     <url>http://dolfdijkstra.github.com/gst-foundation/gsf-deprecated</url>
     <inceptionYear>2010</inceptionYear>
     <developers>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-wra</artifactId>
-            <version>11.0-SNAPSHOT</version>
+            <version>11.6.0-SNAPSHOT</version>
         </dependency>
        </dependencies>
     <distributionManagement>

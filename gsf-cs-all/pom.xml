@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gst-foundation</artifactId>
-        <version>11.0-SNAPSHOT</version>
+        <version>11.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>gsf-cs-all</artifactId>
     <packaging>pom</packaging>
@@ -11,10 +11,6 @@
     <url>http://dolfdijkstra.github.com/gst-foundation/gsf-cs-all</url>
     <description>A pom that contains all the ContentServer jars for a specific version</description>
     <inceptionYear>2010</inceptionYear>
-    <organization>
-        <name>FatWire</name>
-        <url>http://www.fatwire.com</url>
-    </organization>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fatwire.contentserver.version>11.1.1.6.0</fatwire.contentserver.version>
