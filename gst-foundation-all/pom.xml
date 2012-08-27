@@ -8,7 +8,7 @@
   </parent>
   <artifactId>gst-foundation-all</artifactId>
   <packaging>jar</packaging>
-  <name>FatWire GSF: Aggregator</name>
+  <name>Sites GSF: Aggregator</name>
   <inceptionYear>2010</inceptionYear>
   <developers>
     <developer>

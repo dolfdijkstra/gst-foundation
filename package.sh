@@ -3,6 +3,7 @@ VERSION=11.0-SNAPSHOT
 echo downloading all artifacts
 mvn -q dependency:go-offline
 echo building jars and site
+mvn -o -q -pl gsf-build-tools install 
 mvn -o -q clean install site
 if [ -d /tmp/gsf-site ] ; then rm -Rf /tmp/gsf-site ;fi
 mvn -o site:stage -DstagingDirectory=/tmp/gsf-site
@@ -28,3 +29,11 @@ echo done packaging gst-foundation
 #  Displays all dependencies that have newer versions available.
 
 #dependency:list-repositories
+
+
+# Handing license header files
+
+# The license is defined in the gsf-build-tools project. If the header needs to change it needs to be done there
+# The LicenseHeader.txt does not contain the copyright statement, as this can be different for each file. This file is used
+# to trick the license plugin and not barf over different copyright statements. 
+# you can issue mvn license:format -Dcompany="My Corporation" to add header files with a copyright statement to all files that do not have a license header.

@@ -41,6 +41,7 @@
     <maven>2.2.1</maven>
   </prerequisites>
   <modules>
+    <module>gsf-build-tools</module>
     <module>gsf-cs-all</module>
     <module>gsf-cs-test</module>
     <module>gsf-facades</module>
@@ -147,6 +148,7 @@
           <preparationGoals>clean install</preparationGoals>
         </configuration>
       </plugin>
+      <!--
       <plugin>
         <inherited>true</inherited>
         <groupId>org.codehaus.mojo</groupId>
@@ -156,6 +158,60 @@
           <licenseName>apache_v2</licenseName>
           <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
         </configuration>
+      </plugin>
+-->
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.10.b1</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.fatwire.gst</groupId>
+            <artifactId>gsf-build-tools</artifactId>
+            <version>11.0-SNAPSHOT</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <header>com/fatwire/gst/foundation/license/APACHE2-HEADER.txt</header>
+          <validHeaders>
+            <validHeader>com/fatwire/gst/foundation/license/LicenseHeader.txt</validHeader>
+          </validHeaders>
+          <failIfMissing>true</failIfMissing>
+          <strictCheck>false</strictCheck>
+          <skipExistingHeaders>true</skipExistingHeaders>
+          <aggregate>false</aggregate>
+          <properties>
+            <year>${project.inceptionYear}</year>
+            <company>${project.organization.name}</company>
+          </properties>
+          <includes>
+            <include>src/**</include>
+          </includes>
+          <excludes>
+            <exclude>LICENSE.txt</exclude>
+            <exclude>**/*.txt</exclude>
+            <exclude>**/*.pdf</exclude>
+            <exclude>**/*.pptx</exclude>
+            <exclude>**/*.docx</exclude>
+            <exclude>**/src/test/resources/**</exclude>
+            <exclude>**/src/test/data/**</exclude>
+            <exclude>**/src/main/cs/**</exclude>
+          </excludes>
+          <mapping>
+            <java>SLASHSTAR_STYLE</java>
+            <groovy>SLASHSTAR_STYLE</groovy>
+          </mapping>
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-headers</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-eclipse-plugin</artifactId>

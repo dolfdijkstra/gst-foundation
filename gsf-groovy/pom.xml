@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>gsf-groovy</artifactId>
 	<packaging>jar</packaging>
-	<name>FatWire GSF: Groovy Support</name>
+	<name>Sites GSF: Groovy Support</name>
 	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-groovy</url>
 	<inceptionYear>2011</inceptionYear>
 	<developers>

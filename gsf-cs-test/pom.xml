@@ -7,7 +7,7 @@
     </parent>
     <artifactId>gsf-cs-test</artifactId>
     <packaging>jar</packaging>
-    <name>FatWire GSF: testing</name>
+    <name>Sites GSF: testing</name>
     <url>http://dolfdijkstra.github.com/gst-foundation/gsf-cs-test</url>
     <inceptionYear>2009</inceptionYear>
     <developers>

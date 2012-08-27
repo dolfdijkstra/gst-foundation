@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>gsf-action</artifactId>
 	<packaging>jar</packaging>
-	<name>FatWire GSF: Actions</name>
+	<name>Sites GSF: Actions</name>
 	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-action</url>
 	<inceptionYear>2011</inceptionYear>
 	<developers>

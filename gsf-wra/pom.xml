@@ -7,7 +7,7 @@
     </parent>
     <artifactId>gsf-wra</artifactId>
     <packaging>jar</packaging>
-    <name>FatWire GSF: Web-Referenceable Asset Support</name>
+    <name>Sites GSF: Web-Referenceable Asset Support</name>
     <url>http://dolfdijkstra.github.com/gst-foundation/gsf-wra</url>
     <inceptionYear>2010</inceptionYear>
     <developers>

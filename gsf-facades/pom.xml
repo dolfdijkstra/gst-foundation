@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>gsf-facades</artifactId>
 	<packaging>jar</packaging>
-	<name>FatWire GSF: ContentServer Library Facades</name>
+	<name>Sites GSF: ContentServer Library Facades</name>
 	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-facades</url>
 	<inceptionYear>2008</inceptionYear>
 	<organization>

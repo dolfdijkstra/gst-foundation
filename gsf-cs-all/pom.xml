@@ -7,7 +7,7 @@
     </parent>
     <artifactId>gsf-cs-all</artifactId>
     <packaging>pom</packaging>
-    <name>FatWire GSF: ContentServer jars</name>
+    <name>Sites GSF: ContentServer jars</name>
     <url>http://dolfdijkstra.github.com/gst-foundation/gsf-cs-all</url>
     <description>A pom that contains all the ContentServer jars for a specific version</description>
     <inceptionYear>2010</inceptionYear>
