@@ -15,19 +15,28 @@
  */
 package com.fatwire.gst.foundation.controller.support;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+
 import com.fatwire.gst.foundation.controller.AppContext;
 import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
 import com.fatwire.gst.foundation.facade.logging.LogUtil;
-
-import org.apache.commons.logging.Log;
 
 /**
  * ServletContextListener that loads and configures the AppContext for this
@@ -52,11 +61,24 @@ public class WebAppContextLoader implements ServletContextListener {
             throw new IllegalStateException(
                     "Servlet Container is configured for version 2.3 or less. This ServletContextListener does not support 2.3 and earlier as the load order of Listeners is not guaranteed.");
         }
+
+        configureWebAppContext(context);
+
+    }
+
+    public AppContext configureWebAppContext(final ServletContext context) {
         AppContext parent = null;
 
         final ClassLoader cl = Thread.currentThread().getContextClassLoader();
 
         parent = configureFromInitParam(context, cl);
+        if (parent == null) {
+            try {
+                parent = configureFromServiceLocator(context, cl);
+            } catch (IOException e) {
+                LOG.debug("Exception when loadding the service descriptor for the AppContext from the classpath.", e);
+            }
+        }
         if (parent == null) {
             // if gsf-groovy is found and groovy classes around found, boot with
             // groovy
@@ -79,7 +101,53 @@ public class WebAppContextLoader implements ServletContextListener {
             context.setAttribute(WebAppContext.WEB_CONTEXT_NAME, parent);
         }
         booted = true;
+        return parent;
 
+    }
+
+    private static final String PREFIX = "META-INF/";
+
+    private AppContext configureFromServiceLocator(ServletContext context, ClassLoader cl) throws IOException {
+        String fullName = PREFIX + CONTEXTS;
+
+        int c = 0;
+        List<String> init = new LinkedList<String>();
+        Enumeration<URL> configs = cl.getResources(fullName);
+        while (configs.hasMoreElements()) {
+
+            URL u = configs.nextElement();
+            if (c++ > 0)
+                throw new IllegalStateException("Found second service locator in classpath at " + u
+                        + ". Please make sure that only one " + fullName
+                        + " file is found on the classpath or configure the AppContext through web.xml");
+            InputStream in = null;
+            BufferedReader r = null;
+
+            try {
+                in = u.openStream();
+                r = new BufferedReader(new InputStreamReader(in, "utf-8"));
+                String s = null;
+                while ((s = r.readLine()) != null) {
+                    if (StringUtils.isNotBlank(s) && !StringUtils.startsWith(s, "#")) {
+                        init.add(s);
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Error reading configuration file", e);
+            } finally {
+                try {
+                    if (r != null)
+                        r.close();
+                    if (in != null)
+                        in.close();
+                } catch (IOException e) {
+                    throw new RuntimeException("Error closing configuration file", e);
+                }
+            }
+            return this.createFromString(context, cl, init.toArray(new String[init.size()]));
+        }
+
+        return null;
     }
 
     /**
@@ -90,10 +158,19 @@ public class WebAppContextLoader implements ServletContextListener {
      * @return the AppContext as configured from the web app init parameter.
      */
     protected AppContext configureFromInitParam(final ServletContext context, final ClassLoader cl) {
-        AppContext parent = null;
         final String init = context.getInitParameter(CONTEXTS);
+        AppContext parent = null;
+
         if (init != null) {
-            final String[] c = init.split(",");
+            parent = createFromString(context, cl, init.split(","));
+        }
+        return parent;
+    }
+
+    private AppContext createFromString(final ServletContext context, final ClassLoader cl, final String[] c) {
+        AppContext parent = null;
+
+        if (c != null) {
 
             for (int i = c.length - 1; i >= 0; i--) {
 
@@ -161,7 +238,7 @@ public class WebAppContextLoader implements ServletContextListener {
         AppContext n;
         n = ctr.newInstance(context, parent);
         if (n != null) {
-            LOG.info("Creating application context by " + c);
+            LOG.info("Creating AppContext from class " + c);
             n.init();
         }
         return n;

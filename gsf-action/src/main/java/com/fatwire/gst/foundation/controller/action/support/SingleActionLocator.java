@@ -20,6 +20,13 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.Injector;
 
+/**
+ * Class that provides access to a single action, ie the name is ignored and it
+ * will always return the same new Action, from the actionClass field.
+ * 
+ * @author Dolf Dijkstra
+ * 
+ */
 public class SingleActionLocator extends AbstractActionLocator {
 
     private Class<Action> actionClass;
@@ -28,7 +35,7 @@ public class SingleActionLocator extends AbstractActionLocator {
         super();
     }
 
-    public SingleActionLocator(Injector injector, String actionClass ) {
+    public SingleActionLocator(Injector injector, String actionClass) {
         super(injector);
         setActionClass(actionClass);
     }
@@ -53,7 +60,8 @@ public class SingleActionLocator extends AbstractActionLocator {
     public void setActionClass(String actionClass) {
         try {
             this.actionClass = (Class<Action>) Thread.currentThread().getContextClassLoader().loadClass(actionClass);
-            this.actionClass.newInstance(); //test if this class can be instantiated
+            this.actionClass.newInstance(); // test if this class can be
+                                            // instantiated
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e.getMessage());
         } catch (InstantiationException e) {

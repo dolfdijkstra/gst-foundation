@@ -25,6 +25,14 @@ import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 
+/**
+ * ActionLocator that loads actions based on a naming convention; if the action name is prefixed with <tt>class:</tt>
+ * and the rest of the action name is a java class that implements the Action interface , an Action from this class will be created.
+ 
+ * 
+ * @author Dolf Dijkstra
+ *
+ */
 public class ClassActionLocator extends AbstractActionLocator {
     private static final Log LOG = LogUtil.getLog(ClassActionLocator.class);
     private static final String CLASS_PREFIX = "class:";

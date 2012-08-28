@@ -17,7 +17,10 @@ package com.fatwire.gst.foundation.controller.support;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+
 import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
  * @author Dolf.Dijkstra
@@ -25,17 +28,23 @@ import com.fatwire.gst.foundation.controller.AppContext;
  */
 public class WebContextUtil {
 
+    protected static final Log LOG = LogUtil.getLog(WebContextUtil.class);
     private WebContextUtil() {
         super();
     }
 
     public static AppContext getWebAppContext(ServletContext ctx) {
-        AppContext c = (AppContext) ctx.getAttribute(WebAppContext.WEB_CONTEXT_NAME);
-        if (c == null) {
-            throw new IncompleteConfigurationException("There was no " + WebAppContext.WEB_CONTEXT_NAME
-                    + " object in the ServletContext found. Is the WebAppContextLoader listener configured?");
+        Object o = ctx.getAttribute(WebAppContext.WEB_CONTEXT_NAME);
+        if (o == null) {
+            LOG.trace("Configuring WebAppContext from WebContextUtil, it is not explicitly configured in web.xml. Using default setup!");
+            return new WebAppContextLoader().configureWebAppContext(ctx);
         }
-        return c;
+        if (o instanceof AppContext) {
+            return (AppContext) o;
+        }
+
+        throw new IncompleteConfigurationException("There was no " + WebAppContext.WEB_CONTEXT_NAME
+                + " object in the ServletContext found. Is the WebAppContextLoader listener configured in web.xml?");
     }
 
 }
