@@ -137,7 +137,7 @@ public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
     }
     /**
      * Get the ordered list of preferred locales that the user wants.  Multiple attempts are made to figure out the right locale.
-     * @return
+     * @return collection of asset identifiers of the preferred locales 
      */
     protected final Collection<AssetId> getPreferredLocales() {
         AssetId result = getExplicitlySpecifiedLocale();
