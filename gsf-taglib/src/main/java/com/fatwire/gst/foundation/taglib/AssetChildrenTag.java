@@ -50,7 +50,7 @@ public class AssetChildrenTag extends GsfSimpleTag {
 
         final ICS ics = getICS();
         final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
-        final AssetId id = (StringUtils.isBlank(c) || cid == 0) ?  t.currentId() : new AssetIdImpl(c, cid);
+        final AssetId id = (StringUtils.isBlank(c) || cid == 0) ? t.currentId() : new AssetIdImpl(c, cid);
 
         if (StringUtils.isBlank(attributes)) {
             getJspContext().setAttribute(list, t.readAssociatedAssetIds(id, assoc));
@@ -96,13 +96,6 @@ public class AssetChildrenTag extends GsfSimpleTag {
      */
     public void setCid(final long cid) {
         this.cid = cid;
-    }
-
-    /**
-     * @param cid the cid to set
-     */
-    public void setCid(final String cid) {
-        this.cid = Long.parseLong(cid);
     }
 
 }

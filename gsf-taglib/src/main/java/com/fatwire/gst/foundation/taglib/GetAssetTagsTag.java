@@ -29,7 +29,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 import org.apache.commons.lang.StringUtils;
 
 /**
- *
+ * 
  * @author Tony Field
  * @since 2011-09-20
  */
@@ -41,7 +41,7 @@ public final class GetAssetTagsTag extends GsfSimpleTag {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag()
      */
     @Override
@@ -51,7 +51,6 @@ public final class GetAssetTagsTag extends GsfSimpleTag {
         final ScatteredAssetAccessTemplate t = new ScatteredAssetAccessTemplate(ics);
         // todo: medium: find in page context if it's there (due to presence of
         // gsf:root
-
 
         if (StringUtils.isBlank(c) || cid == 0) {
             String tag = (String) t.readCurrent("gsttag").get("gsttag");
@@ -76,7 +75,8 @@ public final class GetAssetTagsTag extends GsfSimpleTag {
             int indexEnd = assetEntry.indexOf(":");
             String assetId = assetEntry.substring(indexStart + 1, indexEnd);
             String assetType = assetEntry.substring(indexEnd + 1, assetEntry.length());
-            // we have the asset type and asset id, load it, if successful add it
+            // we have the asset type and asset id, load it, if successful add
+            // it
             AssetId aId = new AssetIdImpl(assetType, Long.parseLong(assetId));
             tags.add(aId);
         }
@@ -88,13 +88,6 @@ public final class GetAssetTagsTag extends GsfSimpleTag {
      */
     public void setC(final String c) {
         this.c = c;
-    }
-
-    /**
-     * @param cid the cid to set
-     */
-    public void setCid(final String cid) {
-        this.cid = Long.parseLong(cid);
     }
 
     /**

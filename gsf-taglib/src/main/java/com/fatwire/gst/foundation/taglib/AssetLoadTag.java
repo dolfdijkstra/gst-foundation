@@ -69,15 +69,8 @@ public class AssetLoadTag extends GsfSimpleTag {
     /**
      * @param c the c to set
      */
-    public void setC(final String c) {
+    public void setC(String c) {
         this.c = c;
-    }
-
-    /**
-     * @param cid the cid to set
-     */
-    public void setCid(final String cid) {
-        this.cid = Long.parseLong(cid);
     }
 
     /**

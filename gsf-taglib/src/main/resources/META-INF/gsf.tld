@@ -118,10 +118,11 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<description>The assetid.  Could be a String or long.</description>
+			<description>The assetid.</description>
 			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
 		</attribute>
 	</tag>
 	<tag>
@@ -142,10 +143,11 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<description>The assetid.  Could be a String or long.</description>
+			<description>The assetid.</description>
 			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
 		</attribute>
 	</tag>
 	<tag>
@@ -167,10 +169,11 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<description>The assetid.  Could be a String or long.</description>
+			<description>The assetid.</description>
 			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
 		</attribute>
 		<attribute>
 			<description>the asset attributes</description>
@@ -197,10 +200,11 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<description>The assetid.  Could be a String or long.</description>
+			<description>The assetid.</description>
 			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
 		</attribute>
 		<attribute>
 			<description>the name of the association</description>
@@ -509,6 +513,7 @@
 			<name>id</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
+			<type>com.fatwire.assetapi.data.AssetId</type>
 		</attribute>
 		<attribute>
 			<description>Name of dimension set in String form, or ID of dimension set in String form.  If not
