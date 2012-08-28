@@ -19,19 +19,20 @@ Installation Guide
   The minimal installation guide exists of these steps:
 
 
-    [[1]] Download .<<<gst-foundation-all-XXX.jar>>> from the {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/}}.
+    [[1]] Download <<<gst-foundation-\<version\>.tgz>>> from  {{https://github.com/dolfdijkstra/gst-foundation/downloads/}}.
+
+          Execute <<<tar xfz gst-foundation-*.tgz>>> or <<<unzip gst-foundation-*.zip>>> to explode the kit.
           
-          Download {{http://repo1.maven.org/maven2/org/tuckey/urlrewritefilter/3.2.0/urlrewritefilter-3.2.0.jar}} if you are not using webserver rewriting rules
+          Optionally download {{http://repo1.maven.org/maven2/org/tuckey/urlrewritefilter/3.2.0/urlrewritefilter-3.2.0.jar}} if you are not using webserver rewriting rules
           
           Download {{http://repo1.maven.org/maven2/javax/servlet/jstl/1.2/jstl-1.2.jar}} if your servlet engine does not come with jstl prepackaged. Tomcat6 needs this file for instance.
           
-          Download {{http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar}} for groovy support. Please check that there are no other (older) groovy versions in WEB-INF/lib or the classpath.
+          Download {{http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar}} for groovy support. Please check that there are no other (older) groovy versions in WEB-INF/lib or the classpath. Sites 11g comes with a groovy jar that does not work! It has class incompalibility issues with asm.
           
           The repo1.maven.org website has blocked traffic for wget based on their useragent string. To bypass this you can set the user-agent string manually, 
           add <-U downloader> to set the UserAgent header to downloader.  
           
-          <<<wget -U downloader http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/1.2/gst-foundation-all-1.2.jar>>>
-          
+         
           <<<wget -U downloader http://repo1.maven.org/maven2/org/tuckey/urlrewritefilter/3.2.0/urlrewritefilter-3.2.0.jar>>>
           
           <<<wget -U downloader http://repo1.maven.org/maven2/javax/servlet/jstl/1.2/jstl-1.2.jar>>>
@@ -39,25 +40,14 @@ Installation Guide
           <<<wget -U downloader http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar>>>
           
 
-    [[2]] Deploy these downloaded jars to cs/WEB-INF/lib.
+    [[2]] Deploy these downloaded jars and the gst-foundation-all-\<version\>.jar from the zip or tgz archive to cs/WEB-INF/lib.
 
-    [[3]] Import the ElementCatalog and SiteCatalog with CatalogManager from {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/}http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/<XXX>/gst-foundation-all-<XXX>-elements.zip}}:
+    [[3]] Import the ElementCatalog and SiteCatalog with CatalogManager from gst-foundation-all-<XXX>-elements.zip}}:
 
-    [[4]] Login into Advanced UI with an xceladmin ACL enabled user. Change to {{http://localhost:8080/cs/ContentServer?pagename=GST/Foundation/Installer}}. Follow the instructions on the page.
-
-    [[5]] For each CS environment, set the java startup system property <com.fatwire.gst.foundation.env-name> (i.e. in the  application server startup script). For example,
+    [[4]] For each CS environment, set the java startup system property <com.fatwire.gst.foundation.env-name> (i.e. in the  application server startup script). For example,
 
       <<<-Dcom.fatwire.gst.foundation.env-name=fatwire-dev>>>
-    
-    [[6]] In ContentServer, create a Virtual Webroot (GSTVirtualWebroot) asset for each site. 
 
-    The 'Environment Name' attribute must match the com.fatwire.gst.foundation.env-name property from step #5.
-
-    [[7]] Install and configure Tuckey URLRewrite. A complete sample urlrewrite.xml for a Content Server 7.6 JSK is avaiable for {{{./deploy/urlrewrite.xml}reference}} This sample
-           assumes that two http ports are configured and that only traffic on port 8280 is rewritten. Normal editoral work is done on port 8180, GSF Preview is done on port 8280.
-           
-           Alternatively you can configure a virtual host on Apache httpd server. This is the advised setup for production systems. A sample virtual host config file can be found here: {{./deploy/mydomain.conf}}.
-           
     [[8]] Add the following lines to your web.xml and restart the application server.
 
 --------------    
@@ -67,10 +57,6 @@ Installation Guide
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 [...]
-	<listener>
-		<listener-class>com.fatwire.gst.foundation.controller.support.WebAppContextLoader</listener-class>
-	</listener>
-
 
 	<!-- the  HttpStatusHeaderFilter is used for http repsonse code support, it must also be deployed on Remote Satellite Server -->
 
@@ -91,7 +77,21 @@ Installation Guide
 </web-app>
 --------------    
 
-    [[9]] If you want to use Tuckey, add these lines
+
+    [[4]] Login into Advanced UI with an xceladmin ACL enabled use, for instance fwadmin. Change to {{http://localhost:8080/cs/ContentServer?pagename=GST/Foundation/Installer}}. Follow the instructions on the page.
+
+    
+    [[6]] In ContentServer, create a Virtual Webroot (GSTVirtualWebroot) asset for each site. 
+
+    The 'Environment Name' attribute must match the com.fatwire.gst.foundation.env-name property from step #5.
+
+    [[7]] Configure a virtual host on Apache httpd server. This is the advised setup for production systems. A sample virtual host config file can be found here: {{./deploy/mydomain.conf.txt}}.
+
+          Alternatively you can install and configure Tuckey URLRewrite. A complete sample urlrewrite.xml for a Content Server 7.6 JSK is avaiable for {{{./deploy/urlrewrite.xml}reference}} This sample
+           assumes that two http ports are configured and that only traffic on port 8280 is rewritten. Normal editoral work is done on port 8180, GSF Preview is done on port 8280.
+           
+
+    [[9]] If you want to use Tuckey, add these lines to web.xml and restart the application server.
 
 --------------    
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>

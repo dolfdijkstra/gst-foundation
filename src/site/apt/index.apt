@@ -112,9 +112,9 @@ Support
     
 Building
 
-  The core components must be downloaded using {{{http://subversion.apache.org}Subversion}}.
+  The source components must be downloaded using {{{http://git-scm.com/}Git}}.
   
-     *  Subversion repository {{http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk}}
+     *  Source repository {{https://github.com/dolfdijkstra/gst-foundation}}
      
      * {{{http://maven.apache.org/}Maven version 2.2.1}} should be used to build the GSF. Earlier and later versions of maven might not work (YMMV).
      
@@ -124,15 +124,15 @@ Building
 
        At the top of the script is a version number stated, you will need to provide the correct version number of the version of Content Server in the WEB-INF/lib directory.
 
-       You will need to compare this to the version number  in the gsf-cs-all.pom file: <<<\<fatwire.contentserver.version\>7.6.0\</fatwire.contentserver.version\>>>>.
+       You will need to compare this to the version number  in the gsf-cs-all.pom file: <<<\<fatwire.contentserver.version\>11.0.0.6.0\</fatwire.contentserver.version\>>>>.
 
        If the version number do no match you can build by providing the version number on the command-line:
 
-       <<<mvn install -Dfatwire.contentserver.version=7.6.0>>>.
+       <<<mvn install -Dfatwire.contentserver.version=11.0.0.6.0>>>.
        
      
      * Execute <<<mvn install>>> to build the jars and install them in your local repository.
      
-     * Execute <<<mvn site:stage>>> to build the site documenation. The site is generated in the <target/staging> directory.
+     * Execute <<<mvn site:stage>>> to build the site documenation. The site is generated in the <target/site> directory.
      
   []   
