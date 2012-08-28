@@ -144,7 +144,7 @@ public final class GetRecommendations extends AbstractTagRunner {
      * @param max max count
      * @return IList containing recommendations
      * @see IterableIListWrapper
-     * @deprecated replaced by {@link Recommendations#getRecommendations(ICS, long, int) 
+     * @deprecated replaced by {@link Recommendations#getRecommendations(ICS, String, int)}. 
      */
     @Deprecated
     public static IList getRecommendations(ICS ics, long recId, int max) {

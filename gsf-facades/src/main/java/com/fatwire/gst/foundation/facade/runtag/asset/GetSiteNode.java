@@ -19,7 +19,8 @@ package com.fatwire.gst.foundation.facade.runtag.asset;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * {@code<asset:getsitenode name="pageAssetName" output="nodeIDVariableName"/>}
+ * 
+ * <pre>{@code <asset:getsitenode name="pageAssetName" output="nodeIDVariableName"/> }</pre>
  * 
  * @author Tony Field
  * @since Sep 28, 2008

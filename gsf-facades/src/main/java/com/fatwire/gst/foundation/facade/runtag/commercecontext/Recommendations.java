@@ -93,7 +93,7 @@ public final class Recommendations {
      * @param ics
      * @param collection
      * @param input
-     * @return
+     * @return the collection with recommended assets
      */
     public static Collection<AssetId> getRecommendations(ICS ics, String collection, Collection<AssetId> input) {
         GetRecommendations gr = new GetRecommendations();

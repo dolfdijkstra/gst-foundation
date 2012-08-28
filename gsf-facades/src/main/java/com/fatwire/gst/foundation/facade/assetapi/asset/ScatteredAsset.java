@@ -280,7 +280,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
     }
 
     /**
-     * @return
+     * @return the id of this asset
      * @see com.fatwire.assetapi.data.AssetData#getAssetId()
      */
     public AssetId getAssetId() {

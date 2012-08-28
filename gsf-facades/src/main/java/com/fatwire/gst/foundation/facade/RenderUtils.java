@@ -35,7 +35,7 @@ public final class RenderUtils {
      * 
      * @param ics
      * @param pname the pagename
-     * @return
+     * @return true if this pagename is cacheable for the current render context (Satellite or ContentServer).
      */
     public static boolean isCacheable(final ICS ics, final String pname) {
         return CacheManager.clientIsSS(ics) ? ics.getPageData(pname).getSSCacheInfo().shouldCache() : ics.getPageData(

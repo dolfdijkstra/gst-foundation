@@ -32,7 +32,7 @@ public class LogUtil {
      * class.
      * 
      * @param clazz
-     * @return
+     * @return the logger with the name of the package of the clazz.
      */
     public static Log getLog(Class<?> clazz) {
         return LogFactory.getLog(clazz.getPackage().getName());

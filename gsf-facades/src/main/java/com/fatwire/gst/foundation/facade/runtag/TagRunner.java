@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag;
 import COM.FutureTense.Interfaces.ICS;
 
 /**
- * Command over ics.runTag.
+ * Facade over ics.runTag.
  * 
  * @author Dolf Dijkstra
  * @see COM.FutureTense.Interfaces.ICS#runTag(String, COM.FutureTense.Interfaces.FTValList)

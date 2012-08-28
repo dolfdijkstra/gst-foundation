@@ -136,7 +136,7 @@ public final class IListUtils {
      * 
      * @param prefix the prefix to assign to the list name, cannot be empty or
      *            null.
-     * @return
+     * @return String for list name
      */
     public static String generateRandomListName(String prefix) {
         if (StringUtils.isBlank(prefix))

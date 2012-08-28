@@ -91,7 +91,7 @@ public class AssetAccessTemplate {
      * 
      * @param c
      * @param cid
-     * @return
+     * @return the assetId for c/cid.
      */
     public AssetId createAssetId(final String c, final String cid) {
         return new AssetIdImpl(c, Long.parseLong(cid));
@@ -102,7 +102,7 @@ public class AssetAccessTemplate {
      * 
      * @param c
      * @param cid
-     * @return
+     * @return the assetId for c/cid.
      */
     public AssetId createAssetId(final String c, final long cid) {
         return new AssetIdImpl(c, cid);
@@ -115,7 +115,7 @@ public class AssetAccessTemplate {
      * @param <T>
      * @param id
      * @param mapper
-     * @return
+     * @return the Object created by the mapper.
      */
     public <T> T readAsset(final AssetId id, final AssetMapper<T> mapper) {
         final AssetDataManager m = getAssetDataManager();
@@ -140,7 +140,7 @@ public class AssetAccessTemplate {
      * @param c the assetType
      * @param cid the asset id
      * @param mapper
-     * @return
+     * @return the object created by the mapper.
      */
     public <T> T readAsset(final String c, final String cid, final AssetMapper<T> mapper) {
         return readAsset(this.createAssetId(c, cid), mapper);
@@ -154,7 +154,7 @@ public class AssetAccessTemplate {
      * @param c the assetType
      * @param cid the asset id
      * @param mapper
-     * @return
+     * @return the object created by the mapper.
      */
     public <T> T readAsset(final String c, final long cid, final AssetMapper<T> mapper) {
         return readAsset(new AssetIdImpl(c, cid), mapper);
@@ -169,7 +169,7 @@ public class AssetAccessTemplate {
      * @param id
      * @param mapper
      * @param attributes
-     * @return
+     * @return the object created by the mapper.
      */
     public <T> T readAsset(final AssetId id, final AssetMapper<T> mapper, final String... attributes) {
         final AssetDataManager m = getAssetDataManager();
@@ -191,7 +191,7 @@ public class AssetAccessTemplate {
      * @param id
      * @param closure
      * @param attributes
-     * @return
+     * 
      */
     public void readAsset(final AssetId id, final AssetClosure closure, final String... attributes) {
         final AssetDataManager m = getAssetDataManager();
@@ -212,8 +212,8 @@ public class AssetAccessTemplate {
      * Method to read an asset and pass the results to the closure for further
      * handling.
      * 
-     * @param id
-     * @param closure
+     * @param id the assetid to read
+     * @param closure the closure
      */
     public void readAsset(final AssetId id, final AssetClosure closure) {
         final AssetDataManager m = getAssetDataManager();
@@ -237,7 +237,7 @@ public class AssetAccessTemplate {
      * handling.
      * 
      * @param ids a list of AssetIds
-     * @param closure
+     * @param closure the closure
      */
     public void readAsset(final List<AssetId> ids, final AssetClosure closure) {
         final AssetDataManager m = getAssetDataManager();
@@ -261,7 +261,7 @@ public class AssetAccessTemplate {
      * handling.
      * 
      * @param ids a list of AssetIds
-     * @param closure
+     * @param closure the closure
      */
     public void readAsset(final Iterable<AssetId> ids, final AssetClosure closure, final String... attributes) {
         final AssetDataManager m = getAssetDataManager();
@@ -322,7 +322,7 @@ public class AssetAccessTemplate {
     }
 
     /**
-     * @return
+     * @return the manager
      */
     protected AssetDataManager getAssetDataManager() {
         if (assetDataManager == null) {
@@ -332,8 +332,8 @@ public class AssetAccessTemplate {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id the assetid to read
+     * @return the assetdata for this id
      */
     public AssetData readAsset(final AssetId id) {
 
@@ -365,7 +365,7 @@ public class AssetAccessTemplate {
 
     /**
      * @param query
-     * @return
+     * @return iterable with AssetData from the query result.
      */
     public Iterable<AssetData> readAssets(final Query query) {
         final AssetDataManager m = getAssetDataManager();
@@ -384,8 +384,8 @@ public class AssetAccessTemplate {
      * Invokes the work(asset) method on the provided Closure for assets
      * returned by the Query.
      * 
-     * @param query
-     * @param closure
+     * @param query the query
+     * @param closure the closure
      */
     public void readAssets(final Query query, final AssetClosure closure) {
         final AssetDataManager m = getAssetDataManager();
@@ -409,7 +409,7 @@ public class AssetAccessTemplate {
      * @param <T>
      * @param query
      * @param mapper
-     * @return
+     * @return the objects created by the mapper.
      */
     public <T> Iterable<T> readAssets(final Query query, final AssetMapper<T> mapper) {
 
@@ -495,7 +495,7 @@ public class AssetAccessTemplate {
      * 
      * @param assetType
      * @param assetName
-     * @return
+     * @return the simple query
      */
     public SimpleQuery createNameQuery(final String assetType, final String assetName) {
         final SimpleQuery q = new SimpleQuery(assetType, null, ConditionFactory.createCondition("name",
@@ -524,6 +524,10 @@ public class AssetAccessTemplate {
         }
     }
 
+    /**
+     * @param name
+     * @return the site info object
+     */
     public SiteInfo readSiteInfo(final String name) {
         final SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
         try {
@@ -602,7 +606,8 @@ public class AssetAccessTemplate {
      * @param mapper
      * @param attributes
      * @return a iterable of assets.
-     * @see AssetAccessTemplate#query(String, String, String, AssetMapper, String...)
+     * @see AssetAccessTemplate#query(String, String, String, AssetMapper,
+     *      String...)
      */
     public <T> Iterable<T> query(final String assetType, final String subType, final String query,
             AssetMapper<T> mapper, final String... attributes) {

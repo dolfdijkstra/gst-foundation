@@ -73,7 +73,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @return
+     * @return the assetid
      * @see com.fatwire.assetapi.data.AssetData#getAssetId()
      */
     public AssetId getAssetId() {
@@ -88,7 +88,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @return
+     * @return the asset type definition
      * @see com.fatwire.assetapi.data.AssetData#getAssetTypeDef()
      */
     public AssetTypeDef getAssetTypeDef() {
@@ -97,7 +97,7 @@ public class TemplateAsset {
 
     /**
      * @param name name of the association
-     * @return
+     * @return list of assetids
      * @see com.fatwire.assetapi.data.AssetData#getAssociatedAssets(java.lang.String)
      */
     public List<AssetId> getAssociatedAssets(final String name) {
@@ -119,7 +119,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return the attribute value
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
      *      boolean)
      */
@@ -289,7 +289,7 @@ public class TemplateAsset {
     }
 
     /**
-     * Cehcks if the asset has an attribute by the provided name.
+     * Checks if the asset has an attribute by the provided name.
      * 
      * @param name the name of trhe attributes.
      * @return true if the asset has an attribute by this name.
@@ -319,7 +319,7 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @return
+     * @return list of assetids
      * @throws AssetAccessException
      * @see com.fatwire.assetapi.data.AssetData#getImmediateParents(java.lang.String)
      */
@@ -338,8 +338,8 @@ public class TemplateAsset {
 
     /**
      * @param name
-     * @param meta
-     * @return
+     * @param meta the asset attributes
+     * @return asset attributes
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
      *      boolean)
      */
@@ -347,6 +347,9 @@ public class TemplateAsset {
         return delegate.getAttributeData(name, meta);
     }
 
+    /**
+     * @return the Dimension holding the locale
+     */
     public Dimension getLocale() {
         AttributeData dim = getAttributeData("Dimension", true);
         if (dim == null)

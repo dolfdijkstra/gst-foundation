@@ -26,7 +26,7 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
  * Helper class to access the ICS based services through the {@link Factory}.
  * 
  * @author Dolf Dijkstra
- * @since 28 August 2012 (for some history: {@link http://en.wikipedia.org/wiki/Siege_of_Groningen}.
+ * @since 28 August 2012 (for some history: <a href="http://en.wikipedia.org/wiki/Siege_of_Groningen">28 August</a>.)
  *
  */
 public class IcsFactoryUtil {

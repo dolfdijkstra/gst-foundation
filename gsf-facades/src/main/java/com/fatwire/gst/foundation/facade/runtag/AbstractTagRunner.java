@@ -70,8 +70,7 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
      * then zero.</li>
      * </ul>
      * 
-     * @see com.fatwire.developernet.facade.TagRunner#execute(COM.FutureTense.Interfaces
-     *      .ICS)
+     * @see TagRunner#execute(ICS)
      */
     public String execute(ICS ics) {
         bind(ics);

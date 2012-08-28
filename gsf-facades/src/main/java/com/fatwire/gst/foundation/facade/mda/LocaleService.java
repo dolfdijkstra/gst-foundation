@@ -117,7 +117,7 @@ public interface LocaleService {
      * @param id
      * @param preferredDimension
      * @param dimset
-     * @return
+     * @return assetif of translated asset.
      * @throws IllegalStateException
      */
 

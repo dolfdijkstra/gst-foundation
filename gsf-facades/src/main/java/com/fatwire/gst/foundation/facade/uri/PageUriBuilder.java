@@ -83,7 +83,7 @@ public class PageUriBuilder {
      * Constructor with AssetId and wrapper.
      * 
      * @param id
-     * @param tname
+     * @param pagename
      * @param wrapper
      */
     public PageUriBuilder(AssetId id, String pagename, String wrapper) {
@@ -94,8 +94,7 @@ public class PageUriBuilder {
      * Constructor with AssetId, without a wrapper.
      * 
      * @param id
-     * @param tname
-     * @param wrapper
+     * @param pagename
      */
     public PageUriBuilder(AssetId id, String pagename) {
         this(id.getType(), Long.toString(id.getId()), pagename);

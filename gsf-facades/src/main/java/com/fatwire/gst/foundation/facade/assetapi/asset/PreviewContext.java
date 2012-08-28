@@ -48,7 +48,7 @@ public class PreviewContext {
      * 
      * @param ics
      * @param varName
-     * @return
+     * @return the date to preview
      */
     public static Date getPreviewDateFromCSVar(ICS ics, String varName) {
         Date cutoff = ics.GetVar(varName) != null ? Util.parseJdbcDate(ics.GetVar(varName)) : null;
@@ -61,7 +61,7 @@ public class PreviewContext {
      * 
      * @param ics
      * @param cutoff
-     * @return
+     * @return the date to preview
      */
     public static Date getPreviewDate(ICS ics, Date cutoff) {
         if (ics.LoadProperty("futuretense.ini;futuretense_xcel.ini")) {

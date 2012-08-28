@@ -58,7 +58,7 @@ public final class AssetDataUtils {
     /**
      * Read all attributes for the given asset id.
      * 
-     * @param id, must be valid or else an exception is thrown
+     * @param id must be valid or else an exception is thrown
      * @return asset data, never null.
      */
     public static AssetData getAssetData(AssetId id) {
@@ -69,7 +69,7 @@ public final class AssetDataUtils {
      * Read all attributes for the given asset id.
      * 
      * @param ics ICS context
-     * @param id, must be valid or else an exception is thrown
+     * @param id must be valid or else an exception is thrown
      * @return asset data, never null.
      */
     public static AssetData getAssetData(ICS ics, AssetId id) {
@@ -135,7 +135,6 @@ public final class AssetDataUtils {
      * asset on the ics scope.
      * 
      * @param ics
-     * @param attributes
      * @return asset data
      */
     public static AssetData getCurrentAssetData(ICS ics) {

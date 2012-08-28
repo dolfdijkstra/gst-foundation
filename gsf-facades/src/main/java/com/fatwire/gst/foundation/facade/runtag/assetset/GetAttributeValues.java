@@ -128,7 +128,7 @@ public final class GetAttributeValues extends AbstractTagRunner {
      * @param attr
      * @param attrType
      * @param ordering
-     * @return
+     * @return IList with the attribute values.
      */
     public static IList getAttributeValues(ICS ics, AssetId id, String deptype, String locale, String attr,
             String attrType, String ordering) {

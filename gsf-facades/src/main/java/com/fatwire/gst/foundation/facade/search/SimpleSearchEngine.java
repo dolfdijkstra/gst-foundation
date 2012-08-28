@@ -80,6 +80,11 @@ public class SimpleSearchEngine {
         return new SearchResultIterable(sr);
     }
 
+    /**
+     * @param query
+     * @param indexNames
+     * @return search results based on query and indexes provided.
+     */
     public SearchResultIterable search(QueryExpression query, String... indexNames) {
         return search(query, Arrays.asList(indexNames));
     }
@@ -87,13 +92,19 @@ public class SimpleSearchEngine {
 
     /**
      * @param stringValue
-     * @return
+     * @return a new query based on the passed in string.
      * @see SearchUtils#newQuery(String)
      */
     public QueryExpression newQuery(String stringValue) {
         return SearchUtils.newQuery(stringValue);
     }
 
+    /**
+     * @param fieldName
+     * @param op
+     * @param values
+     * @return a query based on the fields, operation and values.
+     */
     public QueryExpression newQuery(String fieldName, Operation op, Object... values) {
         return SearchUtils.newQuery(fieldName, op, Arrays.asList(values));
     }

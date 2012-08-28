@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag.siteplan;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * {@code<siteplan:get name="node" field="ncode" output="ncode" />}
+ * <pre>{@code <siteplan:get name="node" field="ncode" output="ncode" />}</pre>
  * 
  * @author Dolf Dijkstra
  * @since 6 jun. 2012

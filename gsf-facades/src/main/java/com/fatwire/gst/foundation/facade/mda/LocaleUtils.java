@@ -21,6 +21,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
@@ -43,9 +46,6 @@ import com.fatwire.mda.DimensionSetInstance;
 import com.fatwire.mda.DimensionableAssetManager;
 import com.fatwire.system.Session;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Handles Locale-specific functions efficiently in Java.
@@ -273,7 +273,7 @@ public final class LocaleUtils {
      * @param id
      * @param preferredDimension
      * @param dimset
-     * @return
+     * @return assetid of translated asset.
      * @throws IllegalStateException
      */
     public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, DimensionSetInstance dimset)
