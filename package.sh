@@ -19,11 +19,11 @@ tmpLocation=/tmp/gsf-$VERSION
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 mvn -o site:stage -DstagingDirectory="$tmpLocation/site"
 
-archive=`pwd`/target/gst-foundation-$VERSION.tgz 
+archive=`pwd`/target/gst-foundation-$VERSION
  
 cp -R gst-foundation-all/target/gst* "$tmpLocation"
 cp LICENSE "$tmpLocation"
-(cd /tmp && tar -czf $archive gsf-* ) 
+(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -r ${archive}.zip gsf-*) 
 
 echo done packaging gst-foundation
 # to get a graphical dependency tree: http://www.summa-tech.com/blog/2011/04/12/a-visual-maven-dependency-tree-view/
