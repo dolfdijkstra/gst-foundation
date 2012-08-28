@@ -65,7 +65,10 @@ public final class IncludeTag extends GsfSimpleTag {
     protected Include discover(final String name) {
         final DefaultIncludeService s = findService();
         if (s == null)
-            throw new IllegalStateException("The DefaultIncludeService can not be found.");
+            throw new IllegalStateException(
+                    "Can't find DefaultIncludeService from a parent tag. Does your Action have a @InjectForRequest field of type IncludeService."
+                            + " This is required to make use of the include tag in your jsp.");
+            
         return s.find(name);
     }
 
@@ -75,9 +78,7 @@ public final class IncludeTag extends GsfSimpleTag {
             final PageTag t = (PageTag) parent;
             return t.getJspIncludeService();
         }
-        throw new IllegalStateException(
-                "Can't find DefaultIncludeService from a parent tag. Does your Action have a @InjectForRequest field of type IncludeService."
-                        + " This is required to make use of the include tag in your jsp.");
+        throw new IllegalStateException("Cannot find a parent JSP tag of type PageTag. Is the include tag nested in a gsf:root tag?");
 
     }
 
