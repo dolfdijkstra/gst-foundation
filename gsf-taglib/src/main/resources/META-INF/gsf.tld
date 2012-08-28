@@ -327,7 +327,7 @@
     If the optional parameter action is provided, the action with that name will be executed by this tag.</description>
 
 		<name>root</name>
-		<tag-class>com.fatwire.gst.foundation.include.PageTag</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.PageTag</tag-class>
 		<tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
 		<body-content>JSP</body-content>
 		<attribute>
@@ -341,7 +341,7 @@
 	<tag>
 		<description>This tag calls an action.</description>
 		<name>callaction</name>
-		<tag-class>com.fatwire.gst.foundation.include.ActionTag</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.ActionTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<description>the name of the action</description>
@@ -354,7 +354,7 @@
 	<tag>
 		<description>This tag is used to include a template,element or page.</description>
 		<name>include</name>
-		<tag-class>com.fatwire.gst.foundation.include.IncludeTag</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.IncludeTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<description>the name of include to call</description>

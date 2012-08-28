@@ -29,7 +29,7 @@
     <tag>
         <description>This tag executes a model at the start of the template. It is a replacement for the gsf:root tag. This tag should be placed immediately inside the cs:ftcs tag &lt;cs:ftcs&gt;p:page&gt; jsp code &lt;p:page&gt;&lt;cs:ftcs&gt;.</description>
         <name>page</name>
-        <tag-class>com.fatwire.gst.foundation.include.PageTag</tag-class>
+        <tag-class>com.fatwire.gst.foundation.taglib.PageTag</tag-class>
         <tei-class>com.fatwire.gst.foundation.taglib.GsfRootTei</tei-class>
         <body-content>JSP</body-content>
         <attribute>
@@ -42,7 +42,7 @@
     <tag>
         <description>This tag calls an action.</description>
         <name>callaction</name>
-        <tag-class>com.fatwire.gst.foundation.include.ActionTag</tag-class>
+        <tag-class>com.fatwire.gst.foundation.taglib.ActionTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <description>the name of the action</description>
@@ -55,7 +55,7 @@
     <tag>
         <description>This tag is used to include a template,element or page.</description>
         <name>include</name>
-        <tag-class>com.fatwire.gst.foundation.include.IncludeTag</tag-class>
+        <tag-class>com.fatwire.gst.foundation.taglib.IncludeTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <description>the name of include to call</description>
