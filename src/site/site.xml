@@ -22,7 +22,7 @@
   <body>
     <menu name="Overview">
       <item name="Introduction" href="./index.html"/>
-      <item name="Groovy support" href="./action/index.html"/>
+      <item name="MVC/Groovy support" href="./action/index.html"/>
       <item name="Groovy code samples" href="./action/index.html#Code_samples"/>
       <item name="JavaDocs" href="./apidocs/index.html"/>
       <item name="JSP tags" href="./gsf-taglib/tagreference.html"/>

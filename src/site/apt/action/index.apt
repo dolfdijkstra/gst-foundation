@@ -49,7 +49,8 @@ Action
  
   The Action interface defines one method: <public void handleRequest(ICS ics)>.
 
-  The Action is tightly related to  the <Controller>. It is invoked by the <Controller>. It's role is to provide data, and not the select a View. 
+  The Action is tightly related to  the <Controller>. If it is invoked by the <Controller>, it's role is to provide data, and select a View. A View is in most cases a (Layout) Template that will be rendered.
+  If the Action is called from a Template, itś role is only to execute business logic for this specific template, not not to select the View. The Template is the View and needs to render the model data provided by the Action.
   
   Below is a very simple hello-world like Action implementation, it just prints 'groovy was here' to the screen. 
 
@@ -237,8 +238,36 @@ Java example
 
 ------------
   
-  To enable this, a <ClassActionLocator> must be configured. If the default groovy support is enabled (see at the configuration section), this
-  ClassActionLocator is enabled.
+  To enable this, a <ClassActionLocator> must be configured. If the default groovy support is enabled (see at the {{Configuration}} section), this
+  ClassActionLocator is enabled also.
+
+
+Access to Actions
+
+  In case you as a site developer want to access Actions, you will need to do so by name. There are several ways to specify a name, and the methods differ on the place where the action is used.
+
+* Actions in Templates
+  
+  The first use case is the one where the Action is used in a Template or CSElement. In this case the <action> parameter in the <<gsf:root>> tag is letting the framework know 
+  what action to use. There are several ways to map an action name to an actual implementation. 
+  
+  * The prefix <<class:>>.
+     This prefix lets the framework know to load an Action based on class name. For instance <class:com.fatwire.sample.AssetApi> will load the action from the class <com.fatwire.sample.AssetApi>.
+
+  * In case of Groovy, the action name maps to a file on the file system, in the gsf-groovy directory.
+
+  * In case of a configured <com.fatwire.gst.foundation.controller.action.support.MapActionLocator>, in most case done through Spring, the action name is mapped to a class as defined in configured map.
+
+
+* Actions in the Controller
+
+  In case the action is called from the Controller, tby default the <GST/Dispatcher> element, the same lookup mechanisme is used, but this method is 
+  topped with a configurable way to extract a action name from the runtime environement, ie the servlet request. 
+  By default a request parameter with the name <<action>> is used, for instance <action=login>. 
+  If no argument is provided, a fall-back action is used, by default is that the <<com.fatwire.gst.foundation.controller.action.RenderPage>> Action.
+
+
+
 
 Code samples
 
@@ -366,27 +395,78 @@ model.add("image",img);
 </c:if>
 
 ------
-  
-Configuration
 
-  The Action framework is configured a servlet context listener in web.xml. This is all that needs to be added to web.xml.
+Extending the Action framework: AppContext and Factories
+
+  In case as a developer you have the requirement to add additional services to the injection framework, or when you want to change the default service factories you will need to extend the <<com.fatwire.gst.foundation.controller.support.WebAppContext>> class on configure.
+
+  The Action framework needs a couple of services to work: 
+
+  * ActionLocator, defaults to a combination of ClassActionLocator, GrooyvActionLocator and RenderPageActionLocator as the root.
+
+  * ActionNameResolver, defaults to CommandActionNameResolver with the <"action"> variable as the argument lookup in the controller.
+
+  * Injector, defaults to DefaultAnnotationInjector.
+
+  * FactoryProducer and the Factory to access ICS baked services like the Asset api, this defaults to IcsBackedObjectFactoryTemplate.
+
+  []
+
+  If you want to change any of the services you will need to subclass and configure. How configuration is done is shown in the next section.
+
+  For implementing your own AppContext it is important to understand that the WebAppContext makes use of reflection to find the service you ask for. 
+  If a developer would ask for getBean("foo", com.x.foo.Bar), the WebAppContext looks for a method called createBar() 
+  that returns a com.x.foo.Bar class or interface. If such a method does not exist, it will check in the parent AppContext 
+  if it can load a bean by calling getBean() on the parent. 
+  If the parent does not return a bean, reflection is use to see if a the class can be contructed with a default constructor. This is only possible for concrete classes.
+
+  In the <create...> methods the developer has precise control over how the classes are created and initialized.
+
+  This construct is choosen because it gives the exact programmatic control over the class construction when that is needed, and it also provides access to classes that depend on ICS and are bound to the ICS lifecycle. Alternatives as Spring or Guice have been found not to function (easily) in this context, mainly due to scoping issues around the ICS based services. We believe that the direct programmatic control of the factories over an XML based configuration tool is preferred.
+
+  
+{Configuration}
+
+  If the gst-foundation-all jar is deployed into the WEB-INF/lib directory the default Action support is enabled.
+
+
+
+  If you want to change the default behaviour you will need to configure the Action framework. This can be done explicitly through a servlet context listener in web.xml or through a file that is loaded from the class path. 
+  
+  * web.xml method. 
+
+  To web.xml you will need to add.
 
 ---------  
-  <listener>
-	<listener-class>com.fatwire.gst.foundation.controller.support.WebAppContextLoader</listener-class>
-  </listener>
+<listener>
+    <listener-class>com.fatwire.gst.foundation.controller.support.WebAppContextLoader</listener-class>
+</listener>
 -------  
 
 	This listener configures the WebAppContext, which is the main class for Dependency Injection of various services, such as the ActionLocator and the services Factory.
 	
 	The listener will detect if the Groovy library is available, as well as the WEB-INF/gsf-groovy folder. If both preconditions are met, the action framework is configure to use Grrovy Actions.  
 
-	By default it will configure a  IcsBackedObjectFactoryTemplate for a services factory, as well as a ActionNameResolved based on a ics variable called 'action', as well as actions in the form of 'class:<class implementing Action>'. 
+	By default it will configure a  <<com.fatwire.gst.foundation.controller.action.support.IcsBackedObjectFactoryTemplate>> for a services factory, as well as a <<ActionNameResolver>> based on a ics variable called 'action', as well as actions in the form of 'class:<class implementing Action>'. 
 	The default action is a RenderPage Action. 
+
 	
 	If a servlet context init-paramater with the name <gsf-contexts> is set with a value of a comma seperated list of classname this list of classes will be used as a tree of <AppContext>s. 
 
-  Alternatively can the action framework and the action configured via Spring framework. 
+-----
+<context-param>
+    <param-name>gsf-contexts</param-name>
+    <param-value>com.foo.x.MyAppContext</param-value>
+</context-param>
+-----
+
+  * service lookup from META-INF/gsf-contexts
+
+    If a file on the classpath at the location META-INF/gsf-contexts is found this will be used to configure the AppContexts. This file shold contain a list of classes. Each of these classes need to implement the AppContext interface and needs to have a constructor with the arguments <ServletContext.class, AppContext.class>. The last line contains the root, and the first line the youngest generation child.
+
+  []
+
+  Alternatively can the action framework and the actions configured via Spring framework. 
   
 * Spring framework
 
@@ -395,3 +475,5 @@ Configuration
   In the {{{./web.xml.txt}web.xml}} file is a spring context file added,    
    {{{./gsfApplicationContext.xml.txt}Spring context file}}
    
+
+
