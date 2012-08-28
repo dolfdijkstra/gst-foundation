@@ -34,7 +34,6 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * @see AssetTaggingService
  */
 public final class TaggedAssetsTag extends GsfSimpleTag {
-    private static final long serialVersionUID = 1L;
     private String tag = null;
     private String list = null;
 

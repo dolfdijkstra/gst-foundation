@@ -24,13 +24,13 @@ import com.fatwire.gst.foundation.wra.navigation.NavigationHelper;
 import com.fatwire.mda.DimensionFilterInstance;
 
 /**
- * jsp tag to generate the navigation data structure for multilingual site plans.
- *
+ * jsp tag to generate the navigation data structure for multilingual site
+ * plans.
+ * 
  * @author Tony Field
  */
 public final class MultilingualNavigationTag extends MultilingualGsfSimpleTag {
 
-    private static final long serialVersionUID = 1L;
     private String name;
     private int depth = 1;
     private String pagename;

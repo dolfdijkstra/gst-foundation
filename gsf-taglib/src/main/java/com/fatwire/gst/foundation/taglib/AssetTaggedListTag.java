@@ -42,7 +42,7 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * @since Aug 13, 2010
  */
 public final class AssetTaggedListTag extends GsfSimpleTag {
-    private static final long serialVersionUID = 1L;
+
     private String assettype = null;
     private String assetid = null;
     private String outlist = null;

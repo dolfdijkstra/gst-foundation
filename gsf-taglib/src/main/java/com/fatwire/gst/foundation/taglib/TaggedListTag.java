@@ -41,7 +41,7 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * @since Aug 13, 2010
  */
 public final class TaggedListTag extends GsfSimpleTag {
-    private static final long serialVersionUID = 1L;
+
     private String tag = null;
     private String outlist = null;
 
