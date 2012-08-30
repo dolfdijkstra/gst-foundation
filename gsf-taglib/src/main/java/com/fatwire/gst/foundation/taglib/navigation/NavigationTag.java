@@ -35,10 +35,6 @@ import com.fatwire.gst.foundation.wra.navigation.NavigationHelper;
  */
 public class NavigationTag extends GsfSimpleTag {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
     private String name;
     private int depth = 1;
     private String pagename;
