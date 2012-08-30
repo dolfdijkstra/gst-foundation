@@ -98,7 +98,9 @@ public abstract class AbstractActionLocator implements ActionLocator {
             if (fabal == null)
                 throw new IllegalStateException(
                         "The doFindAction() method returned null and there is no fallback ActionLocator defined. This is an incorrect setup.");
-            LOG.trace("No Action found. Trying with fallback action locator: " + fabal.getClass().getName());
+            if (LOG.isTraceEnabled())
+                LOG.trace("No Action found in action locator " + getClass().getName()
+                        + ". Trying with fallback action locator: " + fabal.getClass().getName());
             action = fabal.getAction(ics, name);
         } else {
             if (LOG.isTraceEnabled()) {
