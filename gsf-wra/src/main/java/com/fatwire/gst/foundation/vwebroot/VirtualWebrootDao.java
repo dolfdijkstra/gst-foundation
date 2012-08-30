@@ -15,7 +15,6 @@
  */
 package com.fatwire.gst.foundation.vwebroot;
 
-import java.util.Collection;
 import java.util.SortedSet;
 
 import com.fatwire.gst.foundation.wra.VanityAsset;

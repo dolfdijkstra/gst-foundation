@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
@@ -40,13 +43,9 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.assetapi.QueryBuilder;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Class representing properties stored as an asset. Can be basic or flex but
