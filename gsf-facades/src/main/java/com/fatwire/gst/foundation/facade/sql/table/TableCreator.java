@@ -87,10 +87,14 @@ public class TableCreator {
                             case ccdouble:
                                 val.append(",").append(Integer.toString(col.getDecimal()));
                                 break;
+                            default:
+                                break;
                         }
 
                         val.append(")");
                     }
+                    break;
+                default:
                     break;
 
             }

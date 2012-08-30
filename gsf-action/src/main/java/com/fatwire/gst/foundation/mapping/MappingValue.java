@@ -46,6 +46,9 @@ public final class MappingValue {
             case asset:
             case assetname:
                 parts = value.split(":");
+                break;
+            default:
+                break;
         }
     }
 

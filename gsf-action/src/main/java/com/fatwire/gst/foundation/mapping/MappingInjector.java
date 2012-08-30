@@ -102,6 +102,10 @@ public class MappingInjector {
                 case right:
                     injectionValue = value.getRight();
                     break;
+                case all:
+                    break;
+                default:
+                    break;
 
             }
         }
