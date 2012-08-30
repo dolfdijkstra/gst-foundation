@@ -65,7 +65,7 @@ public class GsfRootTag extends BodyTagSupport {
                 LogDep.logDep(ics, "CSElement", ics.GetVar("eid"));
             }
         } else {
-            throw new JspException("ics is not found on the page context");
+            throw new JspException("ics is not found on the page context. This tags needs to be nested in the <cs:ftcs> tag.");
         }
         return EVAL_BODY_INCLUDE;
     }

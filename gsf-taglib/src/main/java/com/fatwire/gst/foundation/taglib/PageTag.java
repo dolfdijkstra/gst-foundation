@@ -54,16 +54,6 @@ public class PageTag extends GsfRootTag {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.taglib.GsfRootTag#doEndTag()
-     */
-    @Override
-    public int doEndTag() throws JspException {
-        return super.doEndTag();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.fatwire.gst.foundation.taglib.GsfRootTag#doStartTag()
      */
     @Override

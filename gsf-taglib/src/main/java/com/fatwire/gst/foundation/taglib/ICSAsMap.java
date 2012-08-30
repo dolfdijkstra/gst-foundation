@@ -91,7 +91,7 @@ public class ICSAsMap implements Map<String, Object> {
             // TODO: medium transform into List/Map like
             return i;
         }
-
+        ics.ClearErrno();// GetList sets -4 when list is not found.
         // FTVAL mungo jungo
         final FTVAL val = ics.GetCgi((String) key);
         if (val != null) {
@@ -110,6 +110,7 @@ public class ICSAsMap implements Map<String, Object> {
 
             }
         }
+        ics.ClearErrno();// GetList sets -4 when list is not found.
         return null;
     }
 
