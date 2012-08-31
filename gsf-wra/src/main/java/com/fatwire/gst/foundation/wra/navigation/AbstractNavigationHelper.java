@@ -125,7 +125,7 @@ public abstract class AbstractNavigationHelper {
         final String sitename = ics.GetVar("site");
         if (StringUtils.isBlank(sitename)) {
             throw new IllegalStateException(
-                    "site is not a ics variable. This function needs this variable to be aviable and contain the name of the site.");
+                    "site is not a ics variable. This function needs this variable to be avaible and contain the name of the site.");
         }
 
         return getSitePlanByPage(depth, name, sitename);
