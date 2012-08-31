@@ -26,6 +26,11 @@ cp LICENSE "$tmpLocation"
 (cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -r ${archive}.zip gsf-*) 
 
 echo done packaging gst-foundation
+
+
+
+
+
 # to get a graphical dependency tree: http://www.summa-tech.com/blog/2011/04/12/a-visual-maven-dependency-tree-view/
 #  mvn org.apache.maven.plugins:maven-dependency-plugin:2.5:tree -DoutputType=graphml -DoutputFile=dependency.graphml
 #   yEd ./dependency.graphml 
@@ -53,3 +58,15 @@ echo done packaging gst-foundation
 
 # quick check if a copyright statement is present
 # find . -name '*.java'  ! -exec egrep -q 'Copyright .* All Rights Reserved' {} \; -ls
+
+
+#interacting with the webdav server
+
+#downlaod
+#wget --user=someone@oracle.com --ask-password https://stbeehive.oracle.com/content/dav/st/WebCenter%20Sites%20GSF/Documents/gst-foundation-11.6.0-SNAPSHOT.tgz
+
+
+# upload
+#curl -T target/gst-foundation-11.6.0-SNAPSHOT.tgz  --user someone@oracle.com https://stbeehive.oracle.com/content/dav/st/WebCenter%20Sites%20GSF/Documents/gst-foundation-11.6.0-SNAPSHOT.tgz
+
+
