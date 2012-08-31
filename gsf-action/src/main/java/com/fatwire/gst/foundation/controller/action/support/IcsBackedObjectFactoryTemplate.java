@@ -44,6 +44,8 @@ import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
+import com.fatwire.gst.foundation.wra.navigation.NavigationService;
+import com.fatwire.gst.foundation.wra.navigation.SimpleNavigationHelper;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -208,5 +210,9 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
 
     public SimpleSearchEngine createSimpleSearchEngine(final ICS ics) {
         return new SimpleSearchEngine("lucene");
+    }
+
+    public NavigationService createNavigationService(final ICS ics) {
+        return new SimpleNavigationHelper(ics, locate(TemplateAssetAccess.class, ics), "linktext", "path");
     }
 }

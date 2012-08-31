@@ -28,7 +28,7 @@ import com.fatwire.assetapi.data.AssetId;
  * @author Dolf Dijkstra
  * @since June 8, 2012
  */
-public class NavNode2 {
+public class NavigationNode {
     private AssetId page;
     private int level;
     private String pagesubtype;
@@ -36,9 +36,9 @@ public class NavNode2 {
     private AssetId id;
     private String url;
     private String linktext;
-    private final List<NavNode2> children = new LinkedList<NavNode2>();
+    private final List<NavigationNode> children = new LinkedList<NavigationNode>();
 
-    public void addChild(final NavNode2 child) {
+    public void addChild(final NavigationNode child) {
         if (child != null) {
             children.add(child);
         }
@@ -117,7 +117,7 @@ public class NavNode2 {
     /**
      * @return the children
      */
-    public List<NavNode2> getChildren() {
+    public List<NavigationNode> getChildren() {
         return children;
     }
 

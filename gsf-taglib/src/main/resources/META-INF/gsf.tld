@@ -260,7 +260,7 @@
 	<tag>
 		<description>Given an input pagename for the name of the Page asset return the NavNodes for that page.</description>
 		<name>navigation</name>
-		<tag-class>com.fatwire.gst.foundation.taglib.navigation.NavigationTag</tag-class>
+		<tag-class>com.fatwire.gst.foundation.taglib.navigation.PluggableNavigationTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<description>the name of jsp page attribute holding the NavNode</description>
@@ -276,9 +276,9 @@
 			<type>int</type>
 		</attribute>
 		<attribute>
-			<description>the name of the Page asset</description>
+			<description>the name of the Page asset. This attribute is optional and if omitted the root nodes of the current site are returned.</description>
 			<name>pagename</name>
-			<required>true</required>
+			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
