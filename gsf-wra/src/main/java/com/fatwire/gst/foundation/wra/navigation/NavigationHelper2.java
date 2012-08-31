@@ -79,7 +79,7 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
      * @return NavNode of the site plan tree
      */
     @Override
-    protected NavNode2 getSitePlan(final int depth, final AssetId pageId, final int level,
+    protected NavigationNode getSitePlan(final int depth, final AssetId pageId, final int level,
             final DimensionFilterInstance dimensionFilter) {
         // check the start/end date of the page asset
         LogDep.logDep(ics, pageId);
@@ -97,7 +97,7 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
         final String subtype = AttributeDataUtils.asString(pageData.getAttributeData("subtype"));
         final String name = AttributeDataUtils.asString(pageData.getAttributeData("name"));
         final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(subtype);
-        final NavNode2 node = new NavNode2();
+        final NavigationNode node = new NavigationNode();
 
         node.setPage(pageId);
         node.setLevel(level);
@@ -145,7 +145,7 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
             final List<AssetId> childrenIDs = ListPages.getChildPages(ics, pageId.getId());
             for (final AssetId aid : childrenIDs) {
                 // note recursing here
-                final NavNode2 kidInfo = getSitePlan(depth, aid, level + 1, dimensionFilter);
+                final NavigationNode kidInfo = getSitePlan(depth, aid, level + 1, dimensionFilter);
                 if (kidInfo != null && kidInfo.getPage() != null) {
                     node.addChild(kidInfo);
                 }
@@ -156,9 +156,9 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
 
     class NodeWraAssetClosure implements AssetClosure {
 
-        private final NavNode2 node;
+        private final NavigationNode node;
 
-        public NodeWraAssetClosure(final NavNode2 node) {
+        public NodeWraAssetClosure(final NavigationNode node) {
             this.node = node;
         }
 
@@ -174,7 +174,7 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
             return false; // needs to return only one node
         }
 
-        protected void decorateAsAlias(final AssetId id, final NavNode2 node) {
+        protected void decorateAsAlias(final AssetId id, final NavigationNode node) {
             final Alias alias = aliasDao.getAlias(id);
             final String url = getUrlForAlias(alias);
             final String linktext = alias.getLinkText();
@@ -187,7 +187,7 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
 
         }
 
-        protected void decorateAsWra(final AssetId id, final NavNode2 node) {
+        protected void decorateAsWra(final AssetId id, final NavigationNode node) {
 
             final WebReferenceableAsset wra = wraDao.getWra(id);
             final String url = getUrlForWra(wra);
@@ -246,10 +246,10 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
 
     class NodeNoneWraAssetClosure implements AssetClosure {
 
-        private final NavNode2 node;
+        private final NavigationNode node;
         private final String linkTextAttribute;
 
-        public NodeNoneWraAssetClosure(final NavNode2 node, String linkTextAttribute) {
+        public NodeNoneWraAssetClosure(final NavigationNode node, String linkTextAttribute) {
             this.node = node;
             this.linkTextAttribute = linkTextAttribute;
 
@@ -263,7 +263,7 @@ public class NavigationHelper2 extends AbstractNavigationHelper {
             return false; // needs to return only one node
         }
 
-        protected void decorateAsNoneWra(final AssetId id, final NavNode2 node) {
+        protected void decorateAsNoneWra(final AssetId id, final NavigationNode node) {
             TemplateAsset asset = assetTemplate.read(id);
             final String url = getUrl(asset);
 

@@ -42,7 +42,7 @@ public abstract class AbstractNavigationHelper {
      */
     protected final ICS ics;
 
-    protected abstract NavNode2 getSitePlan(final int depth, final AssetId pageId, final int level,
+    protected abstract NavigationNode getSitePlan(final int depth, final AssetId pageId, final int level,
             final DimensionFilterInstance dimensionFilter);
 
     protected final TemplateAssetAccess assetTemplate;
@@ -57,7 +57,7 @@ public abstract class AbstractNavigationHelper {
     /**
      * Log file
      */
-    protected final Log LOG = LogFactory.getLog(NavigationHelper2.class);
+    protected static final Log LOG = LogFactory.getLog(NavigationHelper2.class);
     /**
      * Effective date for the purposes of startdate/enddate comparisons for an
      * asset.
@@ -110,7 +110,7 @@ public abstract class AbstractNavigationHelper {
      * @param name the name of the Page asset
      * @return NavNode for the Page with the name
      */
-    public NavNode2 getSitePlanByPage(final String name) {
+    public NavigationNode getSitePlanByPage(final String name) {
         return getSitePlanByPage(1, name);
     }
 
@@ -121,7 +121,7 @@ public abstract class AbstractNavigationHelper {
      * @param name the name of the Page asset
      * @return NavNode for the Page with the name
      */
-    public NavNode2 getSitePlanByPage(final int depth, final String name) {
+    public NavigationNode getSitePlanByPage(final int depth, final String name) {
         final String sitename = ics.GetVar("site");
         if (StringUtils.isBlank(sitename)) {
             throw new IllegalStateException(
@@ -139,7 +139,7 @@ public abstract class AbstractNavigationHelper {
      * @param dimensionFilter in order to translate the output.
      * @return NavNode for the Page with the name
      */
-    public NavNode2 getSitePlanByPage(final int depth, final String name, final DimensionFilterInstance dimensionFilter) {
+    public NavigationNode getSitePlanByPage(final int depth, final String name, final DimensionFilterInstance dimensionFilter) {
         final String sitename = ics.GetVar("site");
         if (StringUtils.isBlank(sitename)) {
             throw new IllegalStateException(
@@ -157,7 +157,7 @@ public abstract class AbstractNavigationHelper {
      * @param sitename the name of the site you want the navigation for.
      * @return NavNode for the Page with the name
      */
-    public NavNode2 getSitePlanByPage(final int depth, final String name, final String sitename) {
+    public NavigationNode getSitePlanByPage(final int depth, final String name, final String sitename) {
         return getSitePlanByPage(depth, name, sitename, null);
     }
 
@@ -170,7 +170,7 @@ public abstract class AbstractNavigationHelper {
      * @param dimensionFilter in order to translate the output.
      * @return NavNode for the Page with the name
      */
-    public NavNode2 getSitePlanByPage(final int depth, final String name, final String sitename,
+    public NavigationNode getSitePlanByPage(final int depth, final String name, final String sitename,
             final DimensionFilterInstance dimensionFilter) {
 
         final SiteInfo site = assetTemplate.readSiteInfo(sitename);
@@ -200,7 +200,7 @@ public abstract class AbstractNavigationHelper {
      * @param pageid the assetid of the Page asset.
      * @return the NavNode for this page
      */
-    public NavNode2 getSitePlan(final String pageid) {
+    public NavigationNode getSitePlan(final String pageid) {
         return getSitePlan(new AssetIdImpl("Page", Long.parseLong(pageid)));
     }
 
@@ -210,7 +210,7 @@ public abstract class AbstractNavigationHelper {
      * @param pageid
      * @return the NavNode associated with this pageid.
      */
-    public NavNode2 getSitePlan(final AssetId pageid) {
+    public NavigationNode getSitePlan(final AssetId pageid) {
         return getSitePlan(-1, pageid, 0, null);
     }
 
@@ -221,7 +221,7 @@ public abstract class AbstractNavigationHelper {
      * @param pageid the AssetId for the page
      * @return the NavNode for this page
      */
-    public NavNode2 getSitePlan(final int depth, final AssetId pageid) {
+    public NavigationNode getSitePlan(final int depth, final AssetId pageid) {
         return getSitePlan(depth, pageid, 0, null);
     }
 
@@ -233,7 +233,7 @@ public abstract class AbstractNavigationHelper {
      * @param dimensionFilter in order to translate the output.
      * @return the NavNode for this page
      */
-    public NavNode2 getSitePlan(final int depth, final AssetId pageid, final DimensionFilterInstance dimensionFilter) {
+    public NavigationNode getSitePlan(final int depth, final AssetId pageid, final DimensionFilterInstance dimensionFilter) {
         LOG.debug("Dimension filter " + dimensionFilter + " provided for site plan lookup");
         return getSitePlan(depth, pageid, 0, dimensionFilter);
     }
