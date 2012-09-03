@@ -81,8 +81,8 @@ public class PageTag extends GsfRootTag {
                                                                 // fix this ugly
                                                                 // upcast
                 }
-                if (includeService == null && LOG.isDebugEnabled()) {
-                    LOG.debug("includeService is null");
+                if (includeService == null && LOG.isTraceEnabled()) {
+                    LOG.trace("includeService is null");
                 }
                 final long beforeHandleRequest = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
                 a.handleRequest(ics);
