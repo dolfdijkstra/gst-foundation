@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.wra.navigation;
+package com.fatwire.gst.foundation.navigation;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.wra.navigation;
+package com.fatwire.gst.foundation.navigation;
 
 import java.util.Collection;
 
@@ -28,7 +28,28 @@ public interface NavigationService {
      * @param depth
      * @return the NavigationNodes for the page by this name.
      */
+    Collection<NavigationNode> getRootNodesForSite(int depth);
+
+    /**
+     * @param site
+     * @param depth
+     * @return the NavigationNodes for the page by this name.
+     */
     Collection<NavigationNode> getRootNodesForSite(String site, int depth);
+
+    /**
+     * @param site
+     * @param depth
+     * @param linkAttribute
+     * @return
+     */
+    Collection<NavigationNode> getRootNodesForSite(String site, int depth, String linkAttribute);
+
+    /**
+     * @param pagename
+     * @return the NavigationNode for the page by this name.
+     */
+    NavigationNode getNodeByName(String pagename, int depth);
 
     /**
      * @param pagename
@@ -36,5 +57,12 @@ public interface NavigationService {
      * @return the NavigationNode for the page by this name.
      */
     NavigationNode getNodeByName(String pagename, String site, int depth);
+
+    /**
+     * @param pagename
+     * @param site
+     * @return the NavigationNode for the page by this name.
+     */
+    NavigationNode getNodeByName(String pagename, String site, int depth, String linkAttribute);
 
 }

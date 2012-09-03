@@ -36,6 +36,8 @@ import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
+import com.fatwire.gst.foundation.navigation.NavigationService;
+import com.fatwire.gst.foundation.navigation.support.SimpleNavigationHelper;
 import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
 import com.fatwire.gst.foundation.properties.PropertyDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
@@ -44,8 +46,6 @@ import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
-import com.fatwire.gst.foundation.wra.navigation.NavigationService;
-import com.fatwire.gst.foundation.wra.navigation.SimpleNavigationHelper;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;

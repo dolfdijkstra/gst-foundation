@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.wra.navigation;
+package com.fatwire.gst.foundation.navigation.support;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,6 +38,8 @@ import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.facade.uri.TemplateUriBuilder;
+import com.fatwire.gst.foundation.navigation.NavigationNode;
+import com.fatwire.gst.foundation.navigation.NavigationService;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
 
 /**
@@ -56,6 +58,26 @@ public class SimpleNavigationHelper implements NavigationService {
     private String linkLabelAttribute = "linktext";
 
     private String pathAttribute = "path";
+
+    private static final String NAME_SQL = "SELECT nid FROM SitePlanTree WHERE EXISTS( SELECT 1 FROM Page p ,AssetPublication ap , Publication pub WHERE p.name=? AND pub.name=? AND ap.assetid=p.id AND pub.id = ap.pubid  AND SitePlanTree.oid = p.id) AND ncode='Placed' ORDER BY nrank)";
+
+    private static final PreparedStmt NAME_STMT = new PreparedStmt(NAME_SQL, Arrays.asList("SitePlanTree", "Page",
+            "AssetPublication", "Publication"));
+    private static final String NODE_SQL = "SELECT nid FROM SitePlanTree WHERE otype='Publication' AND exists (SELECT 1 FROM Publication WHERE name=? AND id=SitePlanTree.oid)";
+
+    private static final PreparedStmt NODE_STMT = new PreparedStmt(NODE_SQL, Arrays.asList("SitePlanTree",
+            "Publication"));
+
+    private static final String CHILD_SQL = "SELECT otype,oid,nrank,nid from SitePlanTree where nparentid=? and ncode='Placed' order by nrank";
+    private static final PreparedStmt CHILD_STMT = new PreparedStmt(CHILD_SQL, Arrays.asList("SitePlanTree"));
+
+    static {
+        NAME_STMT.setElement(0, "Page", "name");
+        NAME_STMT.setElement(1, "Publication", "name");
+        NODE_STMT.setElement(0, "Publication", "name");
+        CHILD_STMT.setElement(0, "SitePlanTree", "nparentid");
+
+    }
 
     /**
      * Constructor.
@@ -102,19 +124,22 @@ public class SimpleNavigationHelper implements NavigationService {
 
     }
 
-    public Collection<NavigationNode> getRootNodesForSite(String site, int depth) {
+    /**
+     * @param site
+     * @param depth
+     * @param linkAttribute
+     * @return
+     */
+    @Override
+    public Collection<NavigationNode> getRootNodesForSite(String site, int depth, String linkAttribute) {
 
-        String rootSql = "SELECT nid FROM SitePlanTree WHERE otype='Publication' AND exists (SELECT 1 FROM Publication WHERE name=? AND id=SitePlanTree.oid)";
-
-        PreparedStmt stmt = new PreparedStmt(rootSql, Arrays.asList("SitePlanTree", "Publication"));
-        stmt.setElement(0, "Publication", "name");
-        StatementParam param = stmt.newParam();
+        StatementParam param = NODE_STMT.newParam();
         param.setString(0, site);
-        Row root = SqlHelper.selectSingle(ics, stmt, param);
+        Row root = SqlHelper.selectSingle(ics, NODE_STMT, param);
         if (root != null) {
 
             Long nid = root.getLong("nid");
-            return getNodeChildren(nid, 0, depth);
+            return getNodeChildren(nid, 0, depth, linkAttribute);
         } else {
             LOG.debug("No root SitePlanTree nodes found for site " + site);
         }
@@ -124,22 +149,20 @@ public class SimpleNavigationHelper implements NavigationService {
 
     @Override
     public NavigationNode getNodeByName(String pagename, String site, int depth) {
+        return getNodeByName(pagename, site, depth, this.linkLabelAttribute);
+    }
 
-        String rootSql = "SELECT nid FROM SitePlanTree WHERE EXISTS( SELECT 1 FROM Page p ,AssetPublication ap , Publication pub WHERE p.name=? AND pub.name=? AND ap.assetid=p.id AND pub.id = ap.pubid  AND SitePlanTree.oid = p.id) AND ncode='Placed' ORDER BY nrank)";
+    @Override
+    public NavigationNode getNodeByName(String pagename, String site, int depth, String linkAttribute) {
 
-        PreparedStmt stmt = new PreparedStmt(rootSql, Arrays.asList("SitePlanTree", "Page", "AssetPublication",
-                "Publication"));
-        stmt.setElement(0, "Page", "name");
-        stmt.setElement(1, "Publication", "name");
-
-        StatementParam param = stmt.newParam();
+        StatementParam param = NAME_STMT.newParam();
         param.setString(1, pagename);
         param.setString(0, site);
 
-        Row root = SqlHelper.selectSingle(ics, stmt, param);
+        Row root = SqlHelper.selectSingle(ics, NAME_STMT, param);
         if (root != null) {
             Long nid = root.getLong("nid");
-            Collection<NavigationNode> children = getNodeChildren(nid, 0, depth);
+            Collection<NavigationNode> children = getNodeChildren(nid, 0, depth, linkAttribute);
             if (!children.isEmpty())
                 return children.iterator().next();
         } else {
@@ -147,6 +170,24 @@ public class SimpleNavigationHelper implements NavigationService {
         }
         return null;
 
+    }
+
+    @Override
+    public NavigationNode getNodeByName(String pagename, int depth) {
+
+        return getNodeByName(pagename, ics.GetVar("site"), depth);
+    }
+
+    @Override
+    public Collection<NavigationNode> getRootNodesForSite(int depth) {
+
+        return getRootNodesForSite(ics.GetVar("site"));
+    }
+
+    @Override
+    public Collection<NavigationNode> getRootNodesForSite(String site, int depth) {
+
+        return getRootNodesForSite(site, depth, linkLabelAttribute);
     }
 
     /**
@@ -158,14 +199,12 @@ public class SimpleNavigationHelper implements NavigationService {
      * @return
      */
 
-    protected Collection<NavigationNode> getNodeChildren(final long nodeId, final int level, final int depth) {
-        String sql = "SELECT otype,oid,nrank,nid from SitePlanTree where nparentid=? and ncode='Placed' order by nrank";
-        PreparedStmt stmt = new PreparedStmt(sql, Arrays.asList("SitePlanTree"));
-        stmt.setElement(0, "SitePlanTree", "nparentid");
-        StatementParam param = stmt.newParam();
+    protected Collection<NavigationNode> getNodeChildren(final long nodeId, final int level, final int depth,
+            String linkAttribute) {
+        StatementParam param = CHILD_STMT.newParam();
         param.setLong(0, nodeId);
 
-        IListIterable root = SqlHelper.select(ics, stmt, param);
+        IListIterable root = SqlHelper.select(ics, CHILD_STMT, param);
         List<NavigationNode> collection = new LinkedList<NavigationNode>();
         for (Row row : root) {
 
@@ -174,8 +213,7 @@ public class SimpleNavigationHelper implements NavigationService {
 
             AssetId pid = assetTemplate.createAssetId(row.getString("otype"), pageId);
             LogDep.logDep(ics, pid);
-            TemplateAsset asset = assetTemplate.read(pid, "name", "subtype", "template", pathAttribute,
-                    linkLabelAttribute);
+            TemplateAsset asset = assetTemplate.read(pid, "name", "subtype", "template", pathAttribute, linkAttribute);
 
             final NavigationNode node = new NavigationNode();
 
@@ -190,7 +228,7 @@ public class SimpleNavigationHelper implements NavigationService {
                 node.setUrl(url);
             }
 
-            final String linktext = asset.asString(linkLabelAttribute);
+            final String linktext = asset.asString(linkAttribute);
 
             if (linktext != null) {
                 node.setLinktext(linktext);
@@ -199,7 +237,7 @@ public class SimpleNavigationHelper implements NavigationService {
             }
             if (depth < 0 || depth > level) {
                 // get the children in the Site Plan, note recursing here
-                Collection<NavigationNode> children = getNodeChildren(nid, level + 1, depth);
+                Collection<NavigationNode> children = getNodeChildren(nid, level + 1, depth, linkAttribute);
                 for (final NavigationNode kid : children) {
                     if (kid != null && kid.getPage() != null) {
                         node.addChild(kid);
@@ -258,4 +296,5 @@ public class SimpleNavigationHelper implements NavigationService {
     public void setPathAttribute(String pathAttribute) {
         this.pathAttribute = pathAttribute;
     }
+
 }
