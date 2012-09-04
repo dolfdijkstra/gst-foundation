@@ -68,66 +68,14 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
     August, 2011, The Global Solutions Team
 
 ##Documentation
+
+C
+Documentation for the GST Foundation project is found on [Gitpub Pages](http://dolfdijkstra.github.com/gst-foundation).
   
-- [Architecture specification document](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GST Site Foundation 1.0.3.pdf) - the core specification.
-
-- [Introducing GST Site Foundation](http://img.en25.com/Web/Fatwire/TTRNG%20-%20Introducing%20GST%20Site%20Foundation.pdf) - Interact 2010 User Conference Presentation.
-
-- [SEO with CS and the GSF](http://img.en25.com/Web/Fatwire/SEO%20Optimization%20Using%20CS%20-%20condensed.pdf) - Interact 2010 User Conference Presentation.
-
-- [JavaDoc API Reference](./apidocs/index.html) - toolkit API.
-    
-- [JSP Tag library](./gsf-taglib/taglibvalidation.html) - The JSP tag lib documentation.
-
-- [GSF Installation ReadMe](./InstallGuide.html) - Minimalistic guide for installing and configuring the GSF toolkit
-
-- Functioning Microsite Sample: [Dispatcher](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GST-Dispatcher.xml) and [microsite](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/Microsite.jsp).
-    
-- MVC and Action Support in the groovy sub-project documentation.
-    
-- [GSF Beginner Guide](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GSF_Beginner_Guide_v1.3.pdf) - A down-under introduction to GSF, by Ram Sabnavis.
-
-- [GSF Developer's Guide](https://github.com/dolfdijkstra/gst-foundation/tree/master/src/site/resources/GSF Developers Guide 1.0.docx) - (Partially outdated) Step-by-step instructions for installing and using the GSF toolkit.
-
-##Download
-
-The GSF is packaged into a single, downloadable bundle.  
-
--  Pre-compiled Jar {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/}}
-
-
-##Installation
-
-Installing the GSF is simple, but affects multiple components.  The [minimalistic guide](./InstallGuide.html)
-should get you up and running quickly.
-
-More detailed information can be found in the somewhat outdated [GSF Developer's Guide](./GSF Developers Guide 1.0.docx).
 
 ##Support
 
 The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
-
-##Building
-
-The core components must be downloaded from [GitHub](https://github.com/dolfdijkstra/gst-foundation).
-
-
-- [Maven version 2.2.1](http://maven.apache.org/) should be used to build the GSF. Earlier and later versions of maven might not work (YMMV).
-
-- Before building the Content Server jars files must be addedd to your local maven repository with the [windows](./build/maven-contentserver-jars.bat) or [UNIX](./build/maven-contentserver-jars.sh) script.
-
-       This script is best executed from the Content Server <WEB-INF/lib> directory.
-
-       At the top of the script is a version number stated, you will need to provide the correct version number of the version of Content Server in the WEB-INF/lib directory.
-
-       You will need to compare this to the version number  in the gsf-cs-all.pom file: `<fatwire.contentserver.version>7.6.0</fatwire.contentserver.version\>`.
-
-       If the version number do no match you can build by providing the version number on the command-line:
-
-       `mvn install -Dfatwire.contentserver.version=7.6.2`.
-
-
-- Execute `mvn install` to build the jars and install them in your local repository.
 
 ##License
 
