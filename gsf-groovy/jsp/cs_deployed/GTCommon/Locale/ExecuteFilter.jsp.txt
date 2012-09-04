@@ -1,5 +1,0 @@
-<%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"%><%@ taglib prefix="ics" uri="futuretense_cs/ics.tld"%><%@ taglib
-  prefix="p" uri="http://gst.fatwire.com/foundation/tags/p"%><cs:ftcs>
-  <p:page action="gtcommon/locale/ExecuteFilter">
-  </p:page>
-</cs:ftcs>

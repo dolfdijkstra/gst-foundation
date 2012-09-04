@@ -101,7 +101,7 @@
 <a class="jxr_linenumber" name="91" href="#91">91</a>  <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="92" href="#92">92</a>  <em class="jxr_javadoccomment">     * @param c</em>
 <a class="jxr_linenumber" name="93" href="#93">93</a>  <em class="jxr_javadoccomment">     * @param cid</em>
-<a class="jxr_linenumber" name="94" href="#94">94</a>  <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="94" href="#94">94</a>  <em class="jxr_javadoccomment">     * @return the assetId for c/cid.</em>
 <a class="jxr_linenumber" name="95" href="#95">95</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="96" href="#96">96</a>      <strong class="jxr_keyword">public</strong> AssetId createAssetId(<strong class="jxr_keyword">final</strong> String c, <strong class="jxr_keyword">final</strong> String cid) {
 <a class="jxr_linenumber" name="97" href="#97">97</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> AssetIdImpl(c, Long.parseLong(cid));
@@ -112,7 +112,7 @@
 <a class="jxr_linenumber" name="102" href="#102">102</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="103" href="#103">103</a> <em class="jxr_javadoccomment">     * @param c</em>
 <a class="jxr_linenumber" name="104" href="#104">104</a> <em class="jxr_javadoccomment">     * @param cid</em>
-<a class="jxr_linenumber" name="105" href="#105">105</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="105" href="#105">105</a> <em class="jxr_javadoccomment">     * @return the assetId for c/cid.</em>
 <a class="jxr_linenumber" name="106" href="#106">106</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="107" href="#107">107</a>     <strong class="jxr_keyword">public</strong> AssetId createAssetId(<strong class="jxr_keyword">final</strong> String c, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> cid) {
 <a class="jxr_linenumber" name="108" href="#108">108</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> AssetIdImpl(c, cid);
@@ -125,7 +125,7 @@
 <a class="jxr_linenumber" name="115" href="#115">115</a> <em class="jxr_javadoccomment">     * @param &lt;T&gt;</em>
 <a class="jxr_linenumber" name="116" href="#116">116</a> <em class="jxr_javadoccomment">     * @param id</em>
 <a class="jxr_linenumber" name="117" href="#117">117</a> <em class="jxr_javadoccomment">     * @param mapper</em>
-<a class="jxr_linenumber" name="118" href="#118">118</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="118" href="#118">118</a> <em class="jxr_javadoccomment">     * @return the Object created by the mapper.</em>
 <a class="jxr_linenumber" name="119" href="#119">119</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="120" href="#120">120</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; T readAsset(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> AssetMapper&lt;T&gt; mapper) {
 <a class="jxr_linenumber" name="121" href="#121">121</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -150,7 +150,7 @@
 <a class="jxr_linenumber" name="140" href="#140">140</a> <em class="jxr_javadoccomment">     * @param c the assetType</em>
 <a class="jxr_linenumber" name="141" href="#141">141</a> <em class="jxr_javadoccomment">     * @param cid the asset id</em>
 <a class="jxr_linenumber" name="142" href="#142">142</a> <em class="jxr_javadoccomment">     * @param mapper</em>
-<a class="jxr_linenumber" name="143" href="#143">143</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="143" href="#143">143</a> <em class="jxr_javadoccomment">     * @return the object created by the mapper.</em>
 <a class="jxr_linenumber" name="144" href="#144">144</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="145" href="#145">145</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; T readAsset(<strong class="jxr_keyword">final</strong> String c, <strong class="jxr_keyword">final</strong> String cid, <strong class="jxr_keyword">final</strong> AssetMapper&lt;T&gt; mapper) {
 <a class="jxr_linenumber" name="146" href="#146">146</a>         <strong class="jxr_keyword">return</strong> readAsset(<strong class="jxr_keyword">this</strong>.createAssetId(c, cid), mapper);
@@ -164,7 +164,7 @@
 <a class="jxr_linenumber" name="154" href="#154">154</a> <em class="jxr_javadoccomment">     * @param c the assetType</em>
 <a class="jxr_linenumber" name="155" href="#155">155</a> <em class="jxr_javadoccomment">     * @param cid the asset id</em>
 <a class="jxr_linenumber" name="156" href="#156">156</a> <em class="jxr_javadoccomment">     * @param mapper</em>
-<a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">     * @return the object created by the mapper.</em>
 <a class="jxr_linenumber" name="158" href="#158">158</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="159" href="#159">159</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; T readAsset(<strong class="jxr_keyword">final</strong> String c, <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> cid, <strong class="jxr_keyword">final</strong> AssetMapper&lt;T&gt; mapper) {
 <a class="jxr_linenumber" name="160" href="#160">160</a>         <strong class="jxr_keyword">return</strong> readAsset(<strong class="jxr_keyword">new</strong> AssetIdImpl(c, cid), mapper);
@@ -179,7 +179,7 @@
 <a class="jxr_linenumber" name="169" href="#169">169</a> <em class="jxr_javadoccomment">     * @param id</em>
 <a class="jxr_linenumber" name="170" href="#170">170</a> <em class="jxr_javadoccomment">     * @param mapper</em>
 <a class="jxr_linenumber" name="171" href="#171">171</a> <em class="jxr_javadoccomment">     * @param attributes</em>
-<a class="jxr_linenumber" name="172" href="#172">172</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="172" href="#172">172</a> <em class="jxr_javadoccomment">     * @return the object created by the mapper.</em>
 <a class="jxr_linenumber" name="173" href="#173">173</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="174" href="#174">174</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; T readAsset(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> AssetMapper&lt;T&gt; mapper, <strong class="jxr_keyword">final</strong> String... attributes) {
 <a class="jxr_linenumber" name="175" href="#175">175</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -201,7 +201,7 @@
 <a class="jxr_linenumber" name="191" href="#191">191</a> <em class="jxr_javadoccomment">     * @param id</em>
 <a class="jxr_linenumber" name="192" href="#192">192</a> <em class="jxr_javadoccomment">     * @param closure</em>
 <a class="jxr_linenumber" name="193" href="#193">193</a> <em class="jxr_javadoccomment">     * @param attributes</em>
-<a class="jxr_linenumber" name="194" href="#194">194</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="194" href="#194">194</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="195" href="#195">195</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="196" href="#196">196</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAsset(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure, <strong class="jxr_keyword">final</strong> String... attributes) {
 <a class="jxr_linenumber" name="197" href="#197">197</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -222,8 +222,8 @@
 <a class="jxr_linenumber" name="212" href="#212">212</a> <em class="jxr_javadoccomment">     * Method to read an asset and pass the results to the closure for further</em>
 <a class="jxr_linenumber" name="213" href="#213">213</a> <em class="jxr_javadoccomment">     * handling.</em>
 <a class="jxr_linenumber" name="214" href="#214">214</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="215" href="#215">215</a> <em class="jxr_javadoccomment">     * @param id</em>
-<a class="jxr_linenumber" name="216" href="#216">216</a> <em class="jxr_javadoccomment">     * @param closure</em>
+<a class="jxr_linenumber" name="215" href="#215">215</a> <em class="jxr_javadoccomment">     * @param id the assetid to read</em>
+<a class="jxr_linenumber" name="216" href="#216">216</a> <em class="jxr_javadoccomment">     * @param closure the closure</em>
 <a class="jxr_linenumber" name="217" href="#217">217</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="218" href="#218">218</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAsset(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure) {
 <a class="jxr_linenumber" name="219" href="#219">219</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -247,7 +247,7 @@
 <a class="jxr_linenumber" name="237" href="#237">237</a> <em class="jxr_javadoccomment">     * handling.</em>
 <a class="jxr_linenumber" name="238" href="#238">238</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="239" href="#239">239</a> <em class="jxr_javadoccomment">     * @param ids a list of AssetIds</em>
-<a class="jxr_linenumber" name="240" href="#240">240</a> <em class="jxr_javadoccomment">     * @param closure</em>
+<a class="jxr_linenumber" name="240" href="#240">240</a> <em class="jxr_javadoccomment">     * @param closure the closure</em>
 <a class="jxr_linenumber" name="241" href="#241">241</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="242" href="#242">242</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAsset(<strong class="jxr_keyword">final</strong> List&lt;AssetId&gt; ids, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure) {
 <a class="jxr_linenumber" name="243" href="#243">243</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -271,7 +271,7 @@
 <a class="jxr_linenumber" name="261" href="#261">261</a> <em class="jxr_javadoccomment">     * handling.</em>
 <a class="jxr_linenumber" name="262" href="#262">262</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="263" href="#263">263</a> <em class="jxr_javadoccomment">     * @param ids a list of AssetIds</em>
-<a class="jxr_linenumber" name="264" href="#264">264</a> <em class="jxr_javadoccomment">     * @param closure</em>
+<a class="jxr_linenumber" name="264" href="#264">264</a> <em class="jxr_javadoccomment">     * @param closure the closure</em>
 <a class="jxr_linenumber" name="265" href="#265">265</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="266" href="#266">266</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAsset(<strong class="jxr_keyword">final</strong> Iterable&lt;AssetId&gt; ids, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure, <strong class="jxr_keyword">final</strong> String... attributes) {
 <a class="jxr_linenumber" name="267" href="#267">267</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -332,7 +332,7 @@
 <a class="jxr_linenumber" name="322" href="#322">322</a>     }
 <a class="jxr_linenumber" name="323" href="#323">323</a> 
 <a class="jxr_linenumber" name="324" href="#324">324</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="325" href="#325">325</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="325" href="#325">325</a> <em class="jxr_javadoccomment">     * @return the manager</em>
 <a class="jxr_linenumber" name="326" href="#326">326</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="327" href="#327">327</a>     <strong class="jxr_keyword">protected</strong> AssetDataManager getAssetDataManager() {
 <a class="jxr_linenumber" name="328" href="#328">328</a>         <strong class="jxr_keyword">if</strong> (assetDataManager == <strong class="jxr_keyword">null</strong>) {
@@ -342,8 +342,8 @@
 <a class="jxr_linenumber" name="332" href="#332">332</a>     }
 <a class="jxr_linenumber" name="333" href="#333">333</a> 
 <a class="jxr_linenumber" name="334" href="#334">334</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="335" href="#335">335</a> <em class="jxr_javadoccomment">     * @param id</em>
-<a class="jxr_linenumber" name="336" href="#336">336</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="335" href="#335">335</a> <em class="jxr_javadoccomment">     * @param id the assetid to read</em>
+<a class="jxr_linenumber" name="336" href="#336">336</a> <em class="jxr_javadoccomment">     * @return the assetdata for this id</em>
 <a class="jxr_linenumber" name="337" href="#337">337</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="338" href="#338">338</a>     <strong class="jxr_keyword">public</strong> AssetData readAsset(<strong class="jxr_keyword">final</strong> AssetId id) {
 <a class="jxr_linenumber" name="339" href="#339">339</a> 
@@ -375,7 +375,7 @@
 <a class="jxr_linenumber" name="365" href="#365">365</a> 
 <a class="jxr_linenumber" name="366" href="#366">366</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="367" href="#367">367</a> <em class="jxr_javadoccomment">     * @param query</em>
-<a class="jxr_linenumber" name="368" href="#368">368</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="368" href="#368">368</a> <em class="jxr_javadoccomment">     * @return iterable with AssetData from the query result.</em>
 <a class="jxr_linenumber" name="369" href="#369">369</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="370" href="#370">370</a>     <strong class="jxr_keyword">public</strong> Iterable&lt;AssetData&gt; readAssets(<strong class="jxr_keyword">final</strong> Query query) {
 <a class="jxr_linenumber" name="371" href="#371">371</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -394,8 +394,8 @@
 <a class="jxr_linenumber" name="384" href="#384">384</a> <em class="jxr_javadoccomment">     * Invokes the work(asset) method on the provided Closure for assets</em>
 <a class="jxr_linenumber" name="385" href="#385">385</a> <em class="jxr_javadoccomment">     * returned by the Query.</em>
 <a class="jxr_linenumber" name="386" href="#386">386</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="387" href="#387">387</a> <em class="jxr_javadoccomment">     * @param query</em>
-<a class="jxr_linenumber" name="388" href="#388">388</a> <em class="jxr_javadoccomment">     * @param closure</em>
+<a class="jxr_linenumber" name="387" href="#387">387</a> <em class="jxr_javadoccomment">     * @param query the query</em>
+<a class="jxr_linenumber" name="388" href="#388">388</a> <em class="jxr_javadoccomment">     * @param closure the closure</em>
 <a class="jxr_linenumber" name="389" href="#389">389</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="390" href="#390">390</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAssets(<strong class="jxr_keyword">final</strong> Query query, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure) {
 <a class="jxr_linenumber" name="391" href="#391">391</a>         <strong class="jxr_keyword">final</strong> AssetDataManager m = getAssetDataManager();
@@ -419,7 +419,7 @@
 <a class="jxr_linenumber" name="409" href="#409">409</a> <em class="jxr_javadoccomment">     * @param &lt;T&gt;</em>
 <a class="jxr_linenumber" name="410" href="#410">410</a> <em class="jxr_javadoccomment">     * @param query</em>
 <a class="jxr_linenumber" name="411" href="#411">411</a> <em class="jxr_javadoccomment">     * @param mapper</em>
-<a class="jxr_linenumber" name="412" href="#412">412</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="412" href="#412">412</a> <em class="jxr_javadoccomment">     * @return the objects created by the mapper.</em>
 <a class="jxr_linenumber" name="413" href="#413">413</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="414" href="#414">414</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; Iterable&lt;T&gt; readAssets(<strong class="jxr_keyword">final</strong> Query query, <strong class="jxr_keyword">final</strong> AssetMapper&lt;T&gt; mapper) {
 <a class="jxr_linenumber" name="415" href="#415">415</a> 
@@ -505,7 +505,7 @@
 <a class="jxr_linenumber" name="495" href="#495">495</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="496" href="#496">496</a> <em class="jxr_javadoccomment">     * @param assetType</em>
 <a class="jxr_linenumber" name="497" href="#497">497</a> <em class="jxr_javadoccomment">     * @param assetName</em>
-<a class="jxr_linenumber" name="498" href="#498">498</a> <em class="jxr_javadoccomment">     * @return</em>
+<a class="jxr_linenumber" name="498" href="#498">498</a> <em class="jxr_javadoccomment">     * @return the simple query</em>
 <a class="jxr_linenumber" name="499" href="#499">499</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="500" href="#500">500</a>     <strong class="jxr_keyword">public</strong> SimpleQuery createNameQuery(<strong class="jxr_keyword">final</strong> String assetType, <strong class="jxr_keyword">final</strong> String assetName) {
 <a class="jxr_linenumber" name="501" href="#501">501</a>         <strong class="jxr_keyword">final</strong> SimpleQuery q = <strong class="jxr_keyword">new</strong> SimpleQuery(assetType, <strong class="jxr_keyword">null</strong>, ConditionFactory.createCondition(<span class="jxr_string">"name"</span>,
@@ -534,119 +534,124 @@
 <a class="jxr_linenumber" name="524" href="#524">524</a>         }
 <a class="jxr_linenumber" name="525" href="#525">525</a>     }
 <a class="jxr_linenumber" name="526" href="#526">526</a> 
-<a class="jxr_linenumber" name="527" href="#527">527</a>     <strong class="jxr_keyword">public</strong> SiteInfo readSiteInfo(<strong class="jxr_keyword">final</strong> String name) {
-<a class="jxr_linenumber" name="528" href="#528">528</a>         <strong class="jxr_keyword">final</strong> SiteManager sm = (SiteManager) session.getManager(SiteManager.<strong class="jxr_keyword">class</strong>.getName());
-<a class="jxr_linenumber" name="529" href="#529">529</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="530" href="#530">530</a> 
-<a class="jxr_linenumber" name="531" href="#531">531</a>             <strong class="jxr_keyword">for</strong> (SiteInfo si : sm.list()) {
-<a class="jxr_linenumber" name="532" href="#532">532</a>                 <strong class="jxr_keyword">if</strong> (name.equals(si.getName())) {
-<a class="jxr_linenumber" name="533" href="#533">533</a>                     <strong class="jxr_keyword">return</strong> si;
-<a class="jxr_linenumber" name="534" href="#534">534</a>                 }
-<a class="jxr_linenumber" name="535" href="#535">535</a>             }
-<a class="jxr_linenumber" name="536" href="#536">536</a>         } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> SiteAccessException e) {
-<a class="jxr_linenumber" name="537" href="#537">537</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/SiteAccessRuntimeException.html">SiteAccessRuntimeException</a>(e);
-<a class="jxr_linenumber" name="538" href="#538">538</a>         }
-<a class="jxr_linenumber" name="539" href="#539">539</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/SiteAccessRuntimeException.html">SiteAccessRuntimeException</a>(<span class="jxr_string">"Site "</span> + name + <span class="jxr_string">" does not exist in Content Server."</span>);
-<a class="jxr_linenumber" name="540" href="#540">540</a>     }
-<a class="jxr_linenumber" name="541" href="#541">541</a> 
-<a class="jxr_linenumber" name="542" href="#542">542</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="543" href="#543">543</a> <em class="jxr_javadoccomment">     * Reads the associated assets of the asset and returns the AssetIds.</em>
-<a class="jxr_linenumber" name="544" href="#544">544</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="545" href="#545">545</a> <em class="jxr_javadoccomment">     * @param id</em>
-<a class="jxr_linenumber" name="546" href="#546">546</a> <em class="jxr_javadoccomment">     * @param associationType</em>
-<a class="jxr_linenumber" name="547" href="#547">547</a> <em class="jxr_javadoccomment">     * @return the assets from the associations.</em>
-<a class="jxr_linenumber" name="548" href="#548">548</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="549" href="#549">549</a>     <strong class="jxr_keyword">public</strong> Collection&lt;AssetId&gt; readAssociatedAssetIds(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> String associationType) {
-<a class="jxr_linenumber" name="550" href="#550">550</a>         <strong class="jxr_keyword">final</strong> List&lt;AssetId&gt; list = readAsset(id).getAssociatedAssets(associationType);
-<a class="jxr_linenumber" name="551" href="#551">551</a>         <strong class="jxr_keyword">if</strong> (list == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="552" href="#552">552</a>             <strong class="jxr_keyword">return</strong> Collections.emptyList();
-<a class="jxr_linenumber" name="553" href="#553">553</a>         }
-<a class="jxr_linenumber" name="554" href="#554">554</a>         <strong class="jxr_keyword">return</strong> list;
-<a class="jxr_linenumber" name="555" href="#555">555</a> 
-<a class="jxr_linenumber" name="556" href="#556">556</a>     }
-<a class="jxr_linenumber" name="557" href="#557">557</a> 
-<a class="jxr_linenumber" name="558" href="#558">558</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="559" href="#559">559</a> <em class="jxr_javadoccomment">     * Reads the associated assets of an asset and returns them as a</em>
-<a class="jxr_linenumber" name="560" href="#560">560</a> <em class="jxr_javadoccomment">     * ScatteredAsset. This takes care of the asset read operation of the</em>
-<a class="jxr_linenumber" name="561" href="#561">561</a> <em class="jxr_javadoccomment">     * associated assets. The returned ScatteredAssets are only loaded with the</em>
-<a class="jxr_linenumber" name="562" href="#562">562</a> <em class="jxr_javadoccomment">     * mentioned attributes.</em>
-<a class="jxr_linenumber" name="563" href="#563">563</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="564" href="#564">564</a> <em class="jxr_javadoccomment">     * @param id the parent asset</em>
-<a class="jxr_linenumber" name="565" href="#565">565</a> <em class="jxr_javadoccomment">     * @param associationType the name of the association or '-' for an unnamed</em>
-<a class="jxr_linenumber" name="566" href="#566">566</a> <em class="jxr_javadoccomment">     *            association</em>
-<a class="jxr_linenumber" name="567" href="#567">567</a> <em class="jxr_javadoccomment">     * @param closure the AssetClosure to work on.</em>
-<a class="jxr_linenumber" name="568" href="#568">568</a> <em class="jxr_javadoccomment">     * @param attributes the list of attributes to load</em>
-<a class="jxr_linenumber" name="569" href="#569">569</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="570" href="#570">570</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="571" href="#571">571</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAssociatedAssets(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> String associationType, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure,
-<a class="jxr_linenumber" name="572" href="#572">572</a>             <strong class="jxr_keyword">final</strong> String... attributes) {
-<a class="jxr_linenumber" name="573" href="#573">573</a>         <strong class="jxr_keyword">final</strong> List&lt;AssetId&gt; list = <strong class="jxr_keyword">this</strong>.readAsset(id).getAssociatedAssets(associationType);
-<a class="jxr_linenumber" name="574" href="#574">574</a>         <strong class="jxr_keyword">if</strong> (list == <strong class="jxr_keyword">null</strong> || list.isEmpty()) {
-<a class="jxr_linenumber" name="575" href="#575">575</a>             <strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="576" href="#576">576</a>         }
-<a class="jxr_linenumber" name="577" href="#577">577</a> 
-<a class="jxr_linenumber" name="578" href="#578">578</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> AssetId child : list) {
-<a class="jxr_linenumber" name="579" href="#579">579</a>             readAsset(child, closure, attributes);
+<a class="jxr_linenumber" name="527" href="#527">527</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="528" href="#528">528</a> <em class="jxr_javadoccomment">     * @param name</em>
+<a class="jxr_linenumber" name="529" href="#529">529</a> <em class="jxr_javadoccomment">     * @return the site info object</em>
+<a class="jxr_linenumber" name="530" href="#530">530</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="531" href="#531">531</a>     <strong class="jxr_keyword">public</strong> SiteInfo readSiteInfo(<strong class="jxr_keyword">final</strong> String name) {
+<a class="jxr_linenumber" name="532" href="#532">532</a>         <strong class="jxr_keyword">final</strong> SiteManager sm = (SiteManager) session.getManager(SiteManager.<strong class="jxr_keyword">class</strong>.getName());
+<a class="jxr_linenumber" name="533" href="#533">533</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="534" href="#534">534</a> 
+<a class="jxr_linenumber" name="535" href="#535">535</a>             <strong class="jxr_keyword">for</strong> (SiteInfo si : sm.list()) {
+<a class="jxr_linenumber" name="536" href="#536">536</a>                 <strong class="jxr_keyword">if</strong> (name.equals(si.getName())) {
+<a class="jxr_linenumber" name="537" href="#537">537</a>                     <strong class="jxr_keyword">return</strong> si;
+<a class="jxr_linenumber" name="538" href="#538">538</a>                 }
+<a class="jxr_linenumber" name="539" href="#539">539</a>             }
+<a class="jxr_linenumber" name="540" href="#540">540</a>         } <strong class="jxr_keyword">catch</strong> (<strong class="jxr_keyword">final</strong> SiteAccessException e) {
+<a class="jxr_linenumber" name="541" href="#541">541</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/SiteAccessRuntimeException.html">SiteAccessRuntimeException</a>(e);
+<a class="jxr_linenumber" name="542" href="#542">542</a>         }
+<a class="jxr_linenumber" name="543" href="#543">543</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/SiteAccessRuntimeException.html">SiteAccessRuntimeException</a>(<span class="jxr_string">"Site "</span> + name + <span class="jxr_string">" does not exist in Content Server."</span>);
+<a class="jxr_linenumber" name="544" href="#544">544</a>     }
+<a class="jxr_linenumber" name="545" href="#545">545</a> 
+<a class="jxr_linenumber" name="546" href="#546">546</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="547" href="#547">547</a> <em class="jxr_javadoccomment">     * Reads the associated assets of the asset and returns the AssetIds.</em>
+<a class="jxr_linenumber" name="548" href="#548">548</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="549" href="#549">549</a> <em class="jxr_javadoccomment">     * @param id</em>
+<a class="jxr_linenumber" name="550" href="#550">550</a> <em class="jxr_javadoccomment">     * @param associationType</em>
+<a class="jxr_linenumber" name="551" href="#551">551</a> <em class="jxr_javadoccomment">     * @return the assets from the associations.</em>
+<a class="jxr_linenumber" name="552" href="#552">552</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="553" href="#553">553</a>     <strong class="jxr_keyword">public</strong> Collection&lt;AssetId&gt; readAssociatedAssetIds(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> String associationType) {
+<a class="jxr_linenumber" name="554" href="#554">554</a>         <strong class="jxr_keyword">final</strong> List&lt;AssetId&gt; list = readAsset(id).getAssociatedAssets(associationType);
+<a class="jxr_linenumber" name="555" href="#555">555</a>         <strong class="jxr_keyword">if</strong> (list == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="556" href="#556">556</a>             <strong class="jxr_keyword">return</strong> Collections.emptyList();
+<a class="jxr_linenumber" name="557" href="#557">557</a>         }
+<a class="jxr_linenumber" name="558" href="#558">558</a>         <strong class="jxr_keyword">return</strong> list;
+<a class="jxr_linenumber" name="559" href="#559">559</a> 
+<a class="jxr_linenumber" name="560" href="#560">560</a>     }
+<a class="jxr_linenumber" name="561" href="#561">561</a> 
+<a class="jxr_linenumber" name="562" href="#562">562</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="563" href="#563">563</a> <em class="jxr_javadoccomment">     * Reads the associated assets of an asset and returns them as a</em>
+<a class="jxr_linenumber" name="564" href="#564">564</a> <em class="jxr_javadoccomment">     * ScatteredAsset. This takes care of the asset read operation of the</em>
+<a class="jxr_linenumber" name="565" href="#565">565</a> <em class="jxr_javadoccomment">     * associated assets. The returned ScatteredAssets are only loaded with the</em>
+<a class="jxr_linenumber" name="566" href="#566">566</a> <em class="jxr_javadoccomment">     * mentioned attributes.</em>
+<a class="jxr_linenumber" name="567" href="#567">567</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="568" href="#568">568</a> <em class="jxr_javadoccomment">     * @param id the parent asset</em>
+<a class="jxr_linenumber" name="569" href="#569">569</a> <em class="jxr_javadoccomment">     * @param associationType the name of the association or '-' for an unnamed</em>
+<a class="jxr_linenumber" name="570" href="#570">570</a> <em class="jxr_javadoccomment">     *            association</em>
+<a class="jxr_linenumber" name="571" href="#571">571</a> <em class="jxr_javadoccomment">     * @param closure the AssetClosure to work on.</em>
+<a class="jxr_linenumber" name="572" href="#572">572</a> <em class="jxr_javadoccomment">     * @param attributes the list of attributes to load</em>
+<a class="jxr_linenumber" name="573" href="#573">573</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="574" href="#574">574</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="575" href="#575">575</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> readAssociatedAssets(<strong class="jxr_keyword">final</strong> AssetId id, <strong class="jxr_keyword">final</strong> String associationType, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/AssetClosure.html">AssetClosure</a> closure,
+<a class="jxr_linenumber" name="576" href="#576">576</a>             <strong class="jxr_keyword">final</strong> String... attributes) {
+<a class="jxr_linenumber" name="577" href="#577">577</a>         <strong class="jxr_keyword">final</strong> List&lt;AssetId&gt; list = <strong class="jxr_keyword">this</strong>.readAsset(id).getAssociatedAssets(associationType);
+<a class="jxr_linenumber" name="578" href="#578">578</a>         <strong class="jxr_keyword">if</strong> (list == <strong class="jxr_keyword">null</strong> || list.isEmpty()) {
+<a class="jxr_linenumber" name="579" href="#579">579</a>             <strong class="jxr_keyword">return</strong>;
 <a class="jxr_linenumber" name="580" href="#580">580</a>         }
 <a class="jxr_linenumber" name="581" href="#581">581</a> 
-<a class="jxr_linenumber" name="582" href="#582">582</a>     }
-<a class="jxr_linenumber" name="583" href="#583">583</a> 
-<a class="jxr_linenumber" name="584" href="#584">584</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="585" href="#585">585</a> <em class="jxr_javadoccomment">     * Queries for a list of objects as mapped by the AssetMapper.</em>
-<a class="jxr_linenumber" name="586" href="#586">586</a> <em class="jxr_javadoccomment">     * &lt;p/&gt;</em>
-<a class="jxr_linenumber" name="587" href="#587">587</a> <em class="jxr_javadoccomment">     * Sample queries are:</em>
-<a class="jxr_linenumber" name="588" href="#588">588</a> <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
-<a class="jxr_linenumber" name="589" href="#589">589</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name='foo'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="590" href="#590">590</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = 'foo'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="591" href="#591">591</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = foo&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="592" href="#592">592</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name= 'foo bar'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="593" href="#593">593</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size=[1,2]&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="594" href="#594">594</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size{10,250}&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="595" href="#595">595</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name!='foo'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="596" href="#596">596</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="597" href="#597">597</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="598" href="#598">598</a> <em class="jxr_javadoccomment">     * @param &lt;T&gt;</em>
-<a class="jxr_linenumber" name="599" href="#599">599</a> <em class="jxr_javadoccomment">     * @param assetType</em>
-<a class="jxr_linenumber" name="600" href="#600">600</a> <em class="jxr_javadoccomment">     * @param subType</em>
-<a class="jxr_linenumber" name="601" href="#601">601</a> <em class="jxr_javadoccomment">     * @param query</em>
-<a class="jxr_linenumber" name="602" href="#602">602</a> <em class="jxr_javadoccomment">     * @param mapper</em>
-<a class="jxr_linenumber" name="603" href="#603">603</a> <em class="jxr_javadoccomment">     * @param attributes</em>
-<a class="jxr_linenumber" name="604" href="#604">604</a> <em class="jxr_javadoccomment">     * @return a iterable of assets.</em>
-<a class="jxr_linenumber" name="605" href="#605">605</a> <em class="jxr_javadoccomment">     * @see AssetAccessTemplate#query(String, String, String, AssetMapper, String...)</em>
-<a class="jxr_linenumber" name="606" href="#606">606</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="607" href="#607">607</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; Iterable&lt;T&gt; query(<strong class="jxr_keyword">final</strong> String assetType, <strong class="jxr_keyword">final</strong> String subType, <strong class="jxr_keyword">final</strong> String query,
-<a class="jxr_linenumber" name="608" href="#608">608</a>             AssetMapper&lt;T&gt; mapper, <strong class="jxr_keyword">final</strong> String... attributes) {
-<a class="jxr_linenumber" name="609" href="#609">609</a>         <strong class="jxr_keyword">final</strong> Query q = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/QueryBuilder.html">QueryBuilder</a>(assetType, subType).condition(query).attributes(attributes).toQuery();
-<a class="jxr_linenumber" name="610" href="#610">610</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.readAssets(q, mapper);
-<a class="jxr_linenumber" name="611" href="#611">611</a>     }
-<a class="jxr_linenumber" name="612" href="#612">612</a> 
-<a class="jxr_linenumber" name="613" href="#613">613</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="614" href="#614">614</a> <em class="jxr_javadoccomment">     * Queries for a list of objects as mapped by the AssetMapper.</em>
-<a class="jxr_linenumber" name="615" href="#615">615</a> <em class="jxr_javadoccomment">     * &lt;p/&gt;</em>
-<a class="jxr_linenumber" name="616" href="#616">616</a> <em class="jxr_javadoccomment">     * Sample queries are:</em>
-<a class="jxr_linenumber" name="617" href="#617">617</a> <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
-<a class="jxr_linenumber" name="618" href="#618">618</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name='foo'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="619" href="#619">619</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = 'foo'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="620" href="#620">620</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = foo&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="621" href="#621">621</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name= 'foo bar'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="622" href="#622">622</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size=[1,2]&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="623" href="#623">623</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size{10,250}&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="624" href="#624">624</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name!='foo'&lt;/li&gt;</em>
-<a class="jxr_linenumber" name="625" href="#625">625</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="626" href="#626">626</a> <em class="jxr_javadoccomment">     * @param &lt;T&gt;</em>
-<a class="jxr_linenumber" name="627" href="#627">627</a> <em class="jxr_javadoccomment">     * @param assetType</em>
-<a class="jxr_linenumber" name="628" href="#628">628</a> <em class="jxr_javadoccomment">     * @param subType</em>
-<a class="jxr_linenumber" name="629" href="#629">629</a> <em class="jxr_javadoccomment">     * @param query</em>
-<a class="jxr_linenumber" name="630" href="#630">630</a> <em class="jxr_javadoccomment">     * @param mapper</em>
-<a class="jxr_linenumber" name="631" href="#631">631</a> <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="632" href="#632">632</a> <em class="jxr_javadoccomment">     * @return a iterable of assets.</em>
-<a class="jxr_linenumber" name="633" href="#633">633</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="634" href="#634">634</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; Iterable&lt;T&gt; query(<strong class="jxr_keyword">final</strong> String assetType, <strong class="jxr_keyword">final</strong> String subType, <strong class="jxr_keyword">final</strong> String query, AssetMapper&lt;T&gt; mapper) {
-<a class="jxr_linenumber" name="635" href="#635">635</a>         <strong class="jxr_keyword">final</strong> Query q = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/QueryBuilder.html">QueryBuilder</a>(assetType, subType).condition(query).setReadAll(<strong class="jxr_keyword">true</strong>).toQuery();
-<a class="jxr_linenumber" name="636" href="#636">636</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.readAssets(q, mapper);
-<a class="jxr_linenumber" name="637" href="#637">637</a>     }
-<a class="jxr_linenumber" name="638" href="#638">638</a> 
-<a class="jxr_linenumber" name="639" href="#639">639</a> }
+<a class="jxr_linenumber" name="582" href="#582">582</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">final</strong> AssetId child : list) {
+<a class="jxr_linenumber" name="583" href="#583">583</a>             readAsset(child, closure, attributes);
+<a class="jxr_linenumber" name="584" href="#584">584</a>         }
+<a class="jxr_linenumber" name="585" href="#585">585</a> 
+<a class="jxr_linenumber" name="586" href="#586">586</a>     }
+<a class="jxr_linenumber" name="587" href="#587">587</a> 
+<a class="jxr_linenumber" name="588" href="#588">588</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="589" href="#589">589</a> <em class="jxr_javadoccomment">     * Queries for a list of objects as mapped by the AssetMapper.</em>
+<a class="jxr_linenumber" name="590" href="#590">590</a> <em class="jxr_javadoccomment">     * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="591" href="#591">591</a> <em class="jxr_javadoccomment">     * Sample queries are:</em>
+<a class="jxr_linenumber" name="592" href="#592">592</a> <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
+<a class="jxr_linenumber" name="593" href="#593">593</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name='foo'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="594" href="#594">594</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = 'foo'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="595" href="#595">595</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = foo&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="596" href="#596">596</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name= 'foo bar'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="597" href="#597">597</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size=[1,2]&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="598" href="#598">598</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size{10,250}&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="599" href="#599">599</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name!='foo'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="600" href="#600">600</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="601" href="#601">601</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="602" href="#602">602</a> <em class="jxr_javadoccomment">     * @param &lt;T&gt;</em>
+<a class="jxr_linenumber" name="603" href="#603">603</a> <em class="jxr_javadoccomment">     * @param assetType</em>
+<a class="jxr_linenumber" name="604" href="#604">604</a> <em class="jxr_javadoccomment">     * @param subType</em>
+<a class="jxr_linenumber" name="605" href="#605">605</a> <em class="jxr_javadoccomment">     * @param query</em>
+<a class="jxr_linenumber" name="606" href="#606">606</a> <em class="jxr_javadoccomment">     * @param mapper</em>
+<a class="jxr_linenumber" name="607" href="#607">607</a> <em class="jxr_javadoccomment">     * @param attributes</em>
+<a class="jxr_linenumber" name="608" href="#608">608</a> <em class="jxr_javadoccomment">     * @return a iterable of assets.</em>
+<a class="jxr_linenumber" name="609" href="#609">609</a> <em class="jxr_javadoccomment">     * @see AssetAccessTemplate#query(String, String, String, AssetMapper,</em>
+<a class="jxr_linenumber" name="610" href="#610">610</a> <em class="jxr_javadoccomment">     *      String...)</em>
+<a class="jxr_linenumber" name="611" href="#611">611</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="612" href="#612">612</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; Iterable&lt;T&gt; query(<strong class="jxr_keyword">final</strong> String assetType, <strong class="jxr_keyword">final</strong> String subType, <strong class="jxr_keyword">final</strong> String query,
+<a class="jxr_linenumber" name="613" href="#613">613</a>             AssetMapper&lt;T&gt; mapper, <strong class="jxr_keyword">final</strong> String... attributes) {
+<a class="jxr_linenumber" name="614" href="#614">614</a>         <strong class="jxr_keyword">final</strong> Query q = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/QueryBuilder.html">QueryBuilder</a>(assetType, subType).condition(query).attributes(attributes).toQuery();
+<a class="jxr_linenumber" name="615" href="#615">615</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.readAssets(q, mapper);
+<a class="jxr_linenumber" name="616" href="#616">616</a>     }
+<a class="jxr_linenumber" name="617" href="#617">617</a> 
+<a class="jxr_linenumber" name="618" href="#618">618</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="619" href="#619">619</a> <em class="jxr_javadoccomment">     * Queries for a list of objects as mapped by the AssetMapper.</em>
+<a class="jxr_linenumber" name="620" href="#620">620</a> <em class="jxr_javadoccomment">     * &lt;p/&gt;</em>
+<a class="jxr_linenumber" name="621" href="#621">621</a> <em class="jxr_javadoccomment">     * Sample queries are:</em>
+<a class="jxr_linenumber" name="622" href="#622">622</a> <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
+<a class="jxr_linenumber" name="623" href="#623">623</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name='foo'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="624" href="#624">624</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = 'foo'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="625" href="#625">625</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name = foo&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="626" href="#626">626</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name= 'foo bar'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="627" href="#627">627</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size=[1,2]&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="628" href="#628">628</a> <em class="jxr_javadoccomment">     * &lt;li&gt;size{10,250}&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="629" href="#629">629</a> <em class="jxr_javadoccomment">     * &lt;li&gt;name!='foo'&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="630" href="#630">630</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="631" href="#631">631</a> <em class="jxr_javadoccomment">     * @param &lt;T&gt;</em>
+<a class="jxr_linenumber" name="632" href="#632">632</a> <em class="jxr_javadoccomment">     * @param assetType</em>
+<a class="jxr_linenumber" name="633" href="#633">633</a> <em class="jxr_javadoccomment">     * @param subType</em>
+<a class="jxr_linenumber" name="634" href="#634">634</a> <em class="jxr_javadoccomment">     * @param query</em>
+<a class="jxr_linenumber" name="635" href="#635">635</a> <em class="jxr_javadoccomment">     * @param mapper</em>
+<a class="jxr_linenumber" name="636" href="#636">636</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="637" href="#637">637</a> <em class="jxr_javadoccomment">     * @return a iterable of assets.</em>
+<a class="jxr_linenumber" name="638" href="#638">638</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="639" href="#639">639</a>     <strong class="jxr_keyword">public</strong> &lt;T&gt; Iterable&lt;T&gt; query(<strong class="jxr_keyword">final</strong> String assetType, <strong class="jxr_keyword">final</strong> String subType, <strong class="jxr_keyword">final</strong> String query, AssetMapper&lt;T&gt; mapper) {
+<a class="jxr_linenumber" name="640" href="#640">640</a>         <strong class="jxr_keyword">final</strong> Query q = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/facade/assetapi/QueryBuilder.html">QueryBuilder</a>(assetType, subType).condition(query).setReadAll(<strong class="jxr_keyword">true</strong>).toQuery();
+<a class="jxr_linenumber" name="641" href="#641">641</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.readAssets(q, mapper);
+<a class="jxr_linenumber" name="642" href="#642">642</a>     }
+<a class="jxr_linenumber" name="643" href="#643">643</a> 
+<a class="jxr_linenumber" name="644" href="#644">644</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

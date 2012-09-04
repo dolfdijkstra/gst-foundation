@@ -40,6 +40,8 @@ com.fatwire.gst.foundation.html
 com.fatwire.gst.foundation.httpstatus
 com.fatwire.gst.foundation.include
 com.fatwire.gst.foundation.mapping
+com.fatwire.gst.foundation.navigation
+com.fatwire.gst.foundation.navigation.support
 com.fatwire.gst.foundation.properties
 com.fatwire.gst.foundation.tagging
 com.fatwire.gst.foundation.tagging.db

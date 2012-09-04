@@ -68,7 +68,7 @@
 <a class="jxr_linenumber" name="58" href="#58">58</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">     * Read all attributes for the given asset id.</em>
 <a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment">     * </em>
-<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment">     * @param id, must be valid or else an exception is thrown</em>
+<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment">     * @param id must be valid or else an exception is thrown</em>
 <a class="jxr_linenumber" name="62" href="#62">62</a>  <em class="jxr_javadoccomment">     * @return asset data, never null.</em>
 <a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> AssetData getAssetData(AssetId id) {
@@ -79,7 +79,7 @@
 <a class="jxr_linenumber" name="69" href="#69">69</a>  <em class="jxr_javadoccomment">     * Read all attributes for the given asset id.</em>
 <a class="jxr_linenumber" name="70" href="#70">70</a>  <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="71" href="#71">71</a>  <em class="jxr_javadoccomment">     * @param ics ICS context</em>
-<a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">     * @param id, must be valid or else an exception is thrown</em>
+<a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">     * @param id must be valid or else an exception is thrown</em>
 <a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment">     * @return asset data, never null.</em>
 <a class="jxr_linenumber" name="74" href="#74">74</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="75" href="#75">75</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> AssetData getAssetData(ICS ics, AssetId id) {
@@ -145,28 +145,27 @@
 <a class="jxr_linenumber" name="135" href="#135">135</a> <em class="jxr_javadoccomment">     * asset on the ics scope.</em>
 <a class="jxr_linenumber" name="136" href="#136">136</a> <em class="jxr_javadoccomment">     * </em>
 <a class="jxr_linenumber" name="137" href="#137">137</a> <em class="jxr_javadoccomment">     * @param ics</em>
-<a class="jxr_linenumber" name="138" href="#138">138</a> <em class="jxr_javadoccomment">     * @param attributes</em>
-<a class="jxr_linenumber" name="139" href="#139">139</a> <em class="jxr_javadoccomment">     * @return asset data</em>
-<a class="jxr_linenumber" name="140" href="#140">140</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="141" href="#141">141</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> AssetData getCurrentAssetData(ICS ics) {
-<a class="jxr_linenumber" name="142" href="#142">142</a>         AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.<strong class="jxr_keyword">class</strong>.getName());
-<a class="jxr_linenumber" name="143" href="#143">143</a>         AssetId id = AssetIdUtils.currentId(ics);
-<a class="jxr_linenumber" name="144" href="#144">144</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="145" href="#145">145</a>             <strong class="jxr_keyword">for</strong> (AssetData data : mgr.read(Collections.singletonList(id))) {
-<a class="jxr_linenumber" name="146" href="#146">146</a>                 <strong class="jxr_keyword">return</strong> data; <em class="jxr_comment">// first one wins</em>
-<a class="jxr_linenumber" name="147" href="#147">147</a>             }
-<a class="jxr_linenumber" name="148" href="#148">148</a>         } <strong class="jxr_keyword">catch</strong> (AssetAccessException e) {
-<a class="jxr_linenumber" name="149" href="#149">149</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Failed to read attribute data: "</span> + e, ftErrors.exceptionerr, e);
-<a class="jxr_linenumber" name="150" href="#150">150</a>         }
-<a class="jxr_linenumber" name="151" href="#151">151</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Asset not found: "</span> + id, ftErrors.badparams);
-<a class="jxr_linenumber" name="152" href="#152">152</a> 
-<a class="jxr_linenumber" name="153" href="#153">153</a>     }
-<a class="jxr_linenumber" name="154" href="#154">154</a> 
-<a class="jxr_linenumber" name="155" href="#155">155</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Session getSession(ICS ics) {
-<a class="jxr_linenumber" name="156" href="#156">156</a>         <strong class="jxr_keyword">return</strong> SessionFactory.getSession(ics);
-<a class="jxr_linenumber" name="157" href="#157">157</a>     }
-<a class="jxr_linenumber" name="158" href="#158">158</a> 
-<a class="jxr_linenumber" name="159" href="#159">159</a> }
+<a class="jxr_linenumber" name="138" href="#138">138</a> <em class="jxr_javadoccomment">     * @return asset data</em>
+<a class="jxr_linenumber" name="139" href="#139">139</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="140" href="#140">140</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> AssetData getCurrentAssetData(ICS ics) {
+<a class="jxr_linenumber" name="141" href="#141">141</a>         AssetDataManager mgr = (AssetDataManager) getSession(ics).getManager(AssetDataManager.<strong class="jxr_keyword">class</strong>.getName());
+<a class="jxr_linenumber" name="142" href="#142">142</a>         AssetId id = AssetIdUtils.currentId(ics);
+<a class="jxr_linenumber" name="143" href="#143">143</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="144" href="#144">144</a>             <strong class="jxr_keyword">for</strong> (AssetData data : mgr.read(Collections.singletonList(id))) {
+<a class="jxr_linenumber" name="145" href="#145">145</a>                 <strong class="jxr_keyword">return</strong> data; <em class="jxr_comment">// first one wins</em>
+<a class="jxr_linenumber" name="146" href="#146">146</a>             }
+<a class="jxr_linenumber" name="147" href="#147">147</a>         } <strong class="jxr_keyword">catch</strong> (AssetAccessException e) {
+<a class="jxr_linenumber" name="148" href="#148">148</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Failed to read attribute data: "</span> + e, ftErrors.exceptionerr, e);
+<a class="jxr_linenumber" name="149" href="#149">149</a>         }
+<a class="jxr_linenumber" name="150" href="#150">150</a>         <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/CSRuntimeException.html">CSRuntimeException</a>(<span class="jxr_string">"Asset not found: "</span> + id, ftErrors.badparams);
+<a class="jxr_linenumber" name="151" href="#151">151</a> 
+<a class="jxr_linenumber" name="152" href="#152">152</a>     }
+<a class="jxr_linenumber" name="153" href="#153">153</a> 
+<a class="jxr_linenumber" name="154" href="#154">154</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> Session getSession(ICS ics) {
+<a class="jxr_linenumber" name="155" href="#155">155</a>         <strong class="jxr_keyword">return</strong> SessionFactory.getSession(ics);
+<a class="jxr_linenumber" name="156" href="#156">156</a>     }
+<a class="jxr_linenumber" name="157" href="#157">157</a> 
+<a class="jxr_linenumber" name="158" href="#158">158</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

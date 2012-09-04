@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="65" href="#65">65</a>                  LogDep.logDep(ics, <span class="jxr_string">"CSElement"</span>, ics.GetVar(<span class="jxr_string">"eid"</span>));
 <a class="jxr_linenumber" name="66" href="#66">66</a>              }
 <a class="jxr_linenumber" name="67" href="#67">67</a>          } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="68" href="#68">68</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> JspException(<span class="jxr_string">"ics is not found on the page context"</span>);
+<a class="jxr_linenumber" name="68" href="#68">68</a>              <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> JspException(<span class="jxr_string">"ics is not found on the page context. This tags needs to be nested in the &lt;cs:ftcs&gt; tag."</span>);
 <a class="jxr_linenumber" name="69" href="#69">69</a>          }
 <a class="jxr_linenumber" name="70" href="#70">70</a>          <strong class="jxr_keyword">return</strong> EVAL_BODY_INCLUDE;
 <a class="jxr_linenumber" name="71" href="#71">71</a>      }
