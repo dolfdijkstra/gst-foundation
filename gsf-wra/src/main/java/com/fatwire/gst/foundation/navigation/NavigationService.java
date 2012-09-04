@@ -17,6 +17,8 @@ package com.fatwire.gst.foundation.navigation;
 
 import java.util.Collection;
 
+import com.fatwire.assetapi.query.Query;
+
 /**
  * @author Dolf Dijkstra
  * 
@@ -24,45 +26,67 @@ import java.util.Collection;
 public interface NavigationService {
 
     /**
-     * @param site
-     * @param depth
+     * @param site the site name
+     * @param depth the maximum number of levels to retrieve
      * @return the NavigationNodes for the page by this name.
      */
     Collection<NavigationNode> getRootNodesForSite(int depth);
 
     /**
      * @param site
-     * @param depth
+     * @param depth the maximum number of levels to retrieve
      * @return the NavigationNodes for the page by this name.
      */
     Collection<NavigationNode> getRootNodesForSite(String site, int depth);
 
     /**
      * @param site
-     * @param depth
+     * @param depth the maximum number of levels to retrieve
      * @param linkAttribute
      * @return
      */
     Collection<NavigationNode> getRootNodesForSite(String site, int depth, String linkAttribute);
 
     /**
-     * @param pagename
+     * @param pagename the name of the Page asset
      * @return the NavigationNode for the page by this name.
      */
     NavigationNode getNodeByName(String pagename, int depth);
 
     /**
-     * @param pagename
      * @param site
+     * @param pagename the name of the Page asset
+     * @param depth the maximum number of levels to retrieve
      * @return the NavigationNode for the page by this name.
      */
-    NavigationNode getNodeByName(String pagename, String site, int depth);
+    NavigationNode getNodeByName(String site, String pagename, int depth);
 
     /**
-     * @param pagename
      * @param site
+     * @param pagename the name of the Page asset
+     * @param depth the maximum number of levels to retrieve
+     * @param linkAttribute
+     * 
      * @return the NavigationNode for the page by this name.
      */
-    NavigationNode getNodeByName(String pagename, String site, int depth, String linkAttribute);
+    NavigationNode getNodeByName(String site, String pagename, int depth, String linkAttribute);
+
+    /**
+     * Retrieves the NavigationNodes for the Page with the name <tt>pagename</tt> and in the current site. 
+     * @param pagename the name of the Page asset
+     * @param depth the maximum number of levels to retrieve
+     * @param linkAttribute
+     * 
+     * @return the NavigationNode for the page by this name.
+     */
+    NavigationNode getNodeByName(String pagename, int depth, String linkAttribute);
+
+    /**
+     * @param query the asset query, needs to return Page assets
+     * @param depth the maximum number of levels to retrieve
+     * @param linkAttribute
+     * @return the NavigationNode for the page by this name.
+     */
+    NavigationNode getNodeByQuery(Query query, int depth, String linkAttribute);
 
 }
