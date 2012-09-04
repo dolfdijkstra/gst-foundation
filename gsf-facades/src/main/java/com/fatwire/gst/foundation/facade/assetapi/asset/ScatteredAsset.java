@@ -26,16 +26,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.commons.logging.Log;
+
+import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.mda.Dimension;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -56,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  */
 
 public class ScatteredAsset extends AbstractMap<String, Object> implements Serializable {
-    private static final Log log = LogFactory.getLog(ScatteredAsset.class.getPackage().getName());
+    private static final Log LOG = LogUtil.getLog(ScatteredAsset.class);
 
     /**
 	 * 
@@ -110,7 +111,6 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
             if (d.isMetaDataAttribute() == meta)
                 metaAttributes.add(d.getName());
         }
-
         for (String name : attributes) {
             AttributeData attr = delegate.getAttributeData(name, metaAttributes.contains(name) == meta);
             if ("Dimension".equals(name)) {
@@ -123,8 +123,28 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
             } else {
                 extractMultiValue(name, attr);
             }
+        }
+        extractParents(delegate);
+    }
+
+    private void extractParents(AssetData delegate) {
+
+        List<AttributeDef> parentDefs = delegate.getAssetTypeDef().getParentDefs();
+
+        if (parentDefs != null) {
+            for (AttributeDef p : parentDefs) {
+                String name = p.getName();
+                try {
+                    List<AssetId> parentIds = delegate.getImmediateParents(name);
+
+                    attrMap.put("Group_" + name, parentIds);
+                } catch (AssetAccessException e) {
+                    LOG.debug(e.getMessage() + " when collecting parent " + name + " on " + delegate.getAssetId());
+                }
+            }
 
         }
+
     }
 
     /**
@@ -194,7 +214,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                 } else if (o instanceof Map<?, ?>) {
                     size = ((Map<?, ?>) o).size();
                 } else {
-                    log.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
+                    LOG.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
                             + o.getClass().getName());
                     size = 1;
                 }
@@ -270,7 +290,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
                 } else if (o instanceof Map<?, ?>) {
                     size = ((Map<?, ?>) o).size();
                 } else {
-                    log.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
+                    LOG.debug("Attribute '" + name + "' of type  " + attr.getType() + " returned a "
                             + o.getClass().getName());
                     size = 1;
                 }
