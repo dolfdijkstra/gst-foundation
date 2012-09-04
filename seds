@@ -1,0 +1,4 @@
+s/prefix="p"/prefix="gsf"/
+s_uri="http://gst.fatwire.com/foundation/tags/p_uri="http://gst.fatwire.com/foundation/tags/gsf_
+s/p:page/gsf:root/
+s/p:include/gsf:include/
