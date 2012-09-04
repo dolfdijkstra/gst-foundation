@@ -15,6 +15,8 @@
  */
 package com.fatwire.gst.foundation.controller.action.support;
 
+import org.apache.commons.lang.StringUtils;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
@@ -22,10 +24,10 @@ import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.action.RenderPage;
 
 /**
- * ActionLocator that always returns a {@link RenderPage} action.
+ * ActionLocator that always returns a {@link RenderPage} action as long as the name parameter is blank.
  * 
  * @author Dolf Dijkstra
- *
+ * 
  */
 public final class RenderPageActionLocator extends AbstractActionLocator {
     public RenderPageActionLocator(Injector injector) {
@@ -34,6 +36,11 @@ public final class RenderPageActionLocator extends AbstractActionLocator {
 
     @Override
     protected Action doFindAction(ICS ics, String name) {
+        if (StringUtils.isNotBlank(name))
+            throw new IllegalArgumentException(
+                    "The "
+                            + getClass().getName()
+                            + " was called with a named Action. This is not intended as this means that a Action should have been found by a previous ActionLocator.");
         return new RenderPage();
     }
 }
