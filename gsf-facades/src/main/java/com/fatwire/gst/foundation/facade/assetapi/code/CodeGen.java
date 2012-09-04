@@ -280,6 +280,8 @@ public class CodeGen {
                             pw.println("           String blobtable = address.getTableName();");
                             pw.println("           //InputStream stream = " + name + ".getBinaryStream();");
                             break;
+                        default:
+                            break;
 
                     }
 
