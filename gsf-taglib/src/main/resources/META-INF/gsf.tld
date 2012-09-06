@@ -327,7 +327,7 @@
 		<description>Tag to expose ics variables as page attributes for JSP EL. Content Server variables, lists, and objects are
     exposed with the prefix "cs". Also exposes an instance of ScatteredAssetAccessTemplate under the name assetDao which is very
     useful for accessing asset data. Lastly, this tag records dependencies for tid, seid, eid which means it is not necessary to
-    do this within a JSP. This tag should be placed immediately inside the cs:ftcs tag &lt;cs:ftcs&gt;gsf:root&gt; jsp code &lt;/gsf:root&gt;&lt;cs:/ftcs&gt;<br />
+    do this within a JSP. This tag should be placed immediately inside the cs:ftcs tag &lt;cs:ftcs&gt;gsf:root&gt; jsp code &lt;/gsf:root&gt;&lt;cs:/ftcs&gt;
     If the optional parameter action is provided, the action with that name will be executed by this tag.</description>
 
 		<name>root</name>
