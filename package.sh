@@ -14,15 +14,21 @@ fi
 echo downloading all artifacts
 mvn -q dependency:go-offline
 echo building jars and site
-mvn -o -q clean install site
+#mvn -o -q clean install site
+mvn -o -q clean install
 tmpLocation=/tmp/gsf-$VERSION
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
-mvn -o site:stage -DstagingDirectory="$tmpLocation/site"
+mkdir "$tmpLocation"
+#mvn -o site:stage -DstagingDirectory="$tmpLocation/site"
 
+if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 archive=`pwd`/target/gst-foundation-$VERSION
  
+echo adding primary artifacts to kit
 cp -R gst-foundation-all/target/gst* "$tmpLocation"
+echo copying license to kit
 cp LICENSE "$tmpLocation"
+echo compressing
 (cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -r ${archive}.zip gsf-*) 
 
 echo done packaging gst-foundation
