@@ -31,6 +31,7 @@ import com.fatwire.gst.foundation.wra.navigation.NavigationHelper;
  * jsp tag to generate the navigation data structure.
  * 
  * @author Dolf Dijkstra
+ * @deprecated
  * 
  */
 public class NavigationTag extends GsfSimpleTag {
