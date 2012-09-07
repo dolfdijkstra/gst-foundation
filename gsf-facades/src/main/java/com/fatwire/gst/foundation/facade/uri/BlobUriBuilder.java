@@ -16,6 +16,8 @@
 
 package com.fatwire.gst.foundation.facade.uri;
 
+import org.apache.commons.lang.StringUtils;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetData;
@@ -135,6 +137,8 @@ public class BlobUriBuilder {
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBobHeader(java.lang.String)
      */
     public BlobUriBuilder mimeType(String s) {
+        if (StringUtils.isBlank(s))
+            throw new IllegalArgumentException("Value cannot be blank.");
         tag.setBobHeader(s);
         return this;
     }
@@ -145,6 +149,8 @@ public class BlobUriBuilder {
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobNoCache(java.lang.String)
      */
     public BlobUriBuilder blobNoCache(String s) {
+        if (StringUtils.isBlank(s))
+            throw new IllegalArgumentException("Value cannot be blank.");
         tag.setBlobNoCache(s);
         return this;
     }
@@ -157,6 +163,10 @@ public class BlobUriBuilder {
      *      java.lang.String)
      */
     public BlobUriBuilder header(String name, String value) {
+        if (StringUtils.isBlank(name))
+            throw new IllegalArgumentException("Name cannot be blank.");
+        if (StringUtils.isBlank(value))
+            throw new IllegalArgumentException("Value cannot be blank.");
         tag.setBlobHeaderName(n, name);
         tag.setBlobHeaderValue(n, value);
         n++;
@@ -186,6 +196,8 @@ public class BlobUriBuilder {
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
      */
     public BlobUriBuilder parent(String s) {
+        if (StringUtils.isBlank(s))
+            throw new IllegalArgumentException("Value cannot be blank.");
         tag.setParentId(s);
         return this;
     }
