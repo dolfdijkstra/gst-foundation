@@ -289,7 +289,7 @@ public class SimpleNavigationHelper implements NavigationService {
         final String url = getUrl(asset);
 
         if (url != null) {
-            node.setUrl(StringEscapeUtils.escapeXml(url)); //escape by default.
+            node.setUrl(url); // escape by default.
         }
 
         final String linktext = asset.asString(linkAttribute);
@@ -311,6 +311,13 @@ public class SimpleNavigationHelper implements NavigationService {
         return node;
     }
 
+    /**
+     * Builds up a URI for this asset, using the pathAttribute and the template
+     * field of the asset
+     * 
+     * @param asset
+     * @return the uri, xml escaped
+     */
     protected String getUrl(TemplateAsset asset) {
         String template = asset.asString("template");
         String path = asset.asString(pathAttribute);
@@ -319,7 +326,8 @@ public class SimpleNavigationHelper implements NavigationService {
             return null;
         }
         if (StringUtils.isBlank(path)) {
-            LOG.debug("Asset " + asset.getAssetId() + " does not have a valid path set. Defaulting to a non Vanity Url.");
+            LOG.debug("Asset " + asset.getAssetId()
+                    + " does not have a valid path set. Defaulting to a non Vanity Url.");
             return new TemplateUriBuilder(asset.getAssetId(), template).toURI(ics);
         }
 
@@ -328,8 +336,8 @@ public class SimpleNavigationHelper implements NavigationService {
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GST/Dispatcher";
         }
-        return new WraUriBuilder(asset.getAssetId()).wrapper(wrapper).template(template).toURI(ics);
-
+        String uri = new WraUriBuilder(asset.getAssetId()).wrapper(wrapper).template(template).toURI(ics);
+        return StringEscapeUtils.escapeXml(uri);
     }
 
     /**
