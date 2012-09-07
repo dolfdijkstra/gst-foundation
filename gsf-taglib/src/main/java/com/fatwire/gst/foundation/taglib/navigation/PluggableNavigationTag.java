@@ -71,12 +71,13 @@ public class PluggableNavigationTag extends GsfSimpleTag {
      */
     @Override
     public void doTag() throws JspException, IOException {
-
+        super.doTag();
         final ICS ics = (ICS) getICS();
 
         final NavigationService nh = getService("navigationService", NavigationService.class);
         String site = ics.GetVar("site");
-
+        if (StringUtils.isBlank(site))
+            throw new IllegalStateException("site is not a valid 'ics' variable.");
         if (StringUtils.isBlank(pagename)) {
 
             Collection<NavigationNode> nav = nh.getRootNodesForSite(site, depth);
@@ -88,7 +89,6 @@ public class PluggableNavigationTag extends GsfSimpleTag {
         }
         depth = 1;
         pagename = null;
-        super.doTag();
-    }
 
+    }
 }
