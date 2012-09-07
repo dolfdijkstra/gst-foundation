@@ -29,7 +29,7 @@ cp -R gst-foundation-all/target/gst* "$tmpLocation"
 echo copying license to kit
 cp LICENSE "$tmpLocation"
 echo compressing
-(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -r ${archive}.zip gsf-*) 
+(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
 
 echo done packaging gst-foundation
 
