@@ -5,7 +5,7 @@ set -o errexit
 VERSION=11.6.0-SNAPSHOT
 if [ ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation-all ] ;
 then 
-   echo The GSF artifacts seem not the be present in your maven  maven repository, this is expected if you are building for the first time on this computer
+   echo The GSF artifacts are  not present in your maven  maven repository. This is expected if you are building for the first time on this computer.
    echo Starting initial build
    echo
    (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true install && cd .. && mvn install)
@@ -14,12 +14,11 @@ fi
 echo downloading all artifacts
 mvn -q dependency:go-offline
 echo building jars and site
-#mvn -o -q clean install site
-mvn -o -q clean install
+mvn -o -q clean install site
 tmpLocation=/tmp/gsf-$VERSION
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 mkdir "$tmpLocation"
-#mvn -o site:stage -DstagingDirectory="$tmpLocation/site"
+mvn -o site:stage -DstagingDirectory="$tmpLocation/site"
 
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 archive=`pwd`/target/gst-foundation-$VERSION
@@ -29,7 +28,7 @@ cp -R gst-foundation-all/target/gst* "$tmpLocation"
 echo copying license to kit
 cp LICENSE "$tmpLocation"
 echo compressing
-(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
+(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
 
 echo done packaging gst-foundation
 
