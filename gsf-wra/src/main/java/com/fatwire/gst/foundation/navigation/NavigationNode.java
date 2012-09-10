@@ -29,6 +29,7 @@ import com.fatwire.assetapi.data.AssetId;
  * @since June 8, 2012
  */
 public class NavigationNode {
+
     private AssetId page;
     private int level;
     private String pagesubtype;
@@ -36,6 +37,7 @@ public class NavigationNode {
     private AssetId id;
     private String url;
     private String linktext;
+    private boolean active;
     private final List<NavigationNode> children = new LinkedList<NavigationNode>();
 
     public void addChild(final NavigationNode child) {
@@ -137,4 +139,11 @@ public class NavigationNode {
         return linktext;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
