@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 FatWire Corporation. All Rights Reserved.
+ * Copyright 2012 Oracle Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,13 @@ import com.fatwire.assetapi.query.Query;
 
 /**
  * @author Dolf Dijkstra
+ * @since August 2012
  * 
  */
 public interface NavigationService {
 
     /**
-     * @param site the site name
+     * 
      * @param depth the maximum number of levels to retrieve
      * @return the NavigationNodes for the page by this name.
      */
@@ -72,7 +73,9 @@ public interface NavigationService {
     NavigationNode getNodeByName(String site, String pagename, int depth, String linkAttribute);
 
     /**
-     * Retrieves the NavigationNodes for the Page with the name <tt>pagename</tt> and in the current site. 
+     * Retrieves the NavigationNodes for the Page with the name
+     * <tt>pagename</tt> and in the current site.
+     * 
      * @param pagename the name of the Page asset
      * @param depth the maximum number of levels to retrieve
      * @param linkAttribute

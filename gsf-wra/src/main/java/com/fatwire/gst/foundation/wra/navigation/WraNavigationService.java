@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.navigation.support;
+
+package com.fatwire.gst.foundation.wra.navigation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,18 +41,34 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.facade.uri.TemplateUriBuilder;
 import com.fatwire.gst.foundation.navigation.NavigationNode;
 import com.fatwire.gst.foundation.navigation.NavigationService;
+import com.fatwire.gst.foundation.navigation.support.AbstractNavigationService;
+import com.fatwire.gst.foundation.wra.Alias;
+import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
 
 /**
- * To retrieve the Navigation Bar data.
- * 
- * 
  * @author Dolf Dijkstra
- * @since August 31,2012
+ * 
  */
-public class SimpleNavigationHelper extends AbstractNavigationService implements NavigationService {
+public class WraNavigationService extends AbstractNavigationService implements NavigationService {
 
-    protected static final Log LOG = LogFactory.getLog(SimpleNavigationHelper.class);
+    private static final Log LOG = LogFactory.getLog(WraNavigationService.class);
+    /**
+     * Name of the page subtype indicating that this page is NOT rendered on the
+     * site but is instead merely used to group navigation components on the
+     * site.
+     */
+    public static final String NAVBAR_NAME = "GSTNavName";
+    /**
+     * Name of the page subtype indicating that this page is a Link, meaning
+     * that the content is in the unnamed association
+     */
+    public static final String NAVBAR_LINK = "GSTNavLink";
+
+    /**
+     * Constant containing the asset type of the GST Alias asset.
+     */
+    public final String GST_ALIAS_TYPE = Alias.ALIAS_ASSET_TYPE_NAME;
 
     private static final String CHILD_SQL = "SELECT otype,oid,nrank,nid from SitePlanTree where nparentid=? and ncode='Placed' order by nrank";
     private static final PreparedStmt CHILD_STMT = new PreparedStmt(CHILD_SQL, Arrays.asList("SitePlanTree"));
@@ -63,27 +80,26 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
     }
 
     /**
-     * Constructor.
-     * 
-     * @param ics object
+     * Local instance of the AliasCoreFieldDao.
      */
-    public SimpleNavigationHelper(final ICS ics) {
-        super(ics);
+    protected final AliasCoreFieldDao aliasDao;
+
+    protected WraNavigationService(ICS ics, TemplateAssetAccess assetTemplate, AliasCoreFieldDao aliasDao) {
+        super(ics, assetTemplate, "path", "linktext");
+        this.aliasDao = aliasDao;
 
     }
 
-    /**
-     * 
-     * 
-     * @param ics
-     * @param assetTemplate
-     */
-    public SimpleNavigationHelper(ICS ics, TemplateAssetAccess assetTemplate) {
-        super(ics, assetTemplate);
+    protected WraNavigationService(ICS ics, AliasCoreFieldDao aliasDao) {
+        super(ics);
+        setPathAttribute("path");
+        setLinkLabelAttribute("linktext");
+        this.aliasDao = aliasDao;
+
     }
 
     @Override
-    protected NavigationNode getNode(Row row, final int level, final int depth, String linkAttribute) {
+    protected NavigationNode getNode(Row row, int level, int depth, String linkAttribute) {
         long nid = row.getLong("nid");
         long pageId = row.getLong("oid");
 
@@ -97,20 +113,62 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
         node.setLevel(level);
         node.setPagesubtype(asset.getSubtype());
         node.setPagename(asset.asString("name"));
-        node.setId(asset.getAssetId());
-        final String url = getUrl(asset);
+        final boolean isNavigationPlaceholder = NAVBAR_NAME.equals(asset.asString("subtype"));
+        final boolean isNavigationLink = NAVBAR_LINK.equals(asset.asString("subtype"));
+        if (isNavigationPlaceholder) {
+            // return node without an associated asset
+        } else if (isNavigationLink) {
+            Collection<TemplateAsset> assocs = assetTemplate.readAssociatedAssets(pid, "-", pathAttribute,
+                    linkAttribute);
+            for (TemplateAsset assoc : assocs) {
+                if (isGstAlias(assoc.getAssetId())) {
+                    final Alias alias = aliasDao.getAlias(assoc.getAssetId());
 
-        if (url != null) {
-            node.setUrl(url); // escape by default.
-        }
+                    final String url = alias.getTargetUrl() != null ? alias.getTargetUrl() : getUrl(assoc);
+                    final String linktext = alias.getLinkText();
+                    node.setId(alias.getId());
+                    if (url != null) {
+                        node.setUrl(url);
+                    }
+                    if (linktext != null) {
+                        node.setLinktext(linktext);
+                    }
+                } else {
+                    node.setId(assoc.getAssetId());
+                    final String url = getUrl(asset);
 
-        final String linktext = asset.asString(linkAttribute);
+                    if (url != null) {
+                        node.setUrl(url); // escape by default.
+                    }
 
-        if (linktext != null) {
-            node.setLinktext(linktext);
+                    final String linktext = asset.asString(linkAttribute);
+
+                    if (linktext != null) {
+                        node.setLinktext(linktext);
+                    } else {
+                        node.setLinktext(asset.asString("name"));
+                    }
+                }
+            }
+
         } else {
-            node.setLinktext(asset.asString("name"));
+            // other subtype
+            final String url = getUrl(asset);
+
+            if (url != null) {
+                node.setUrl(url); // escape by default.
+            }
+
+            final String linktext = asset.asString(linkAttribute);
+
+            if (linktext != null) {
+                node.setLinktext(linktext);
+            } else {
+                node.setLinktext(asset.asString("name"));
+            }
+
         }
+
         if (depth < 0 || depth > level) {
             // get the children in the Site Plan, note recursing here
             Collection<NavigationNode> children = getNodeChildren(nid, level + 1, depth, linkAttribute);
@@ -121,6 +179,7 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
             }
         }
         return node;
+
     }
 
     @Override
@@ -167,6 +226,19 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
         }
         String uri = new WraUriBuilder(asset.getAssetId()).wrapper(wrapper).template(template).toURI(ics);
         return StringEscapeUtils.escapeXml(uri);
+    }
+
+    /**
+     * Return true if the asset type is a GSTAlias asset type. May be overridden
+     * if customers are attempting to retrofit this class for alias-like
+     * functionality that is not implemented by the GSTAlias asset type.
+     * 
+     * @param id asset for which a link is required
+     * @return true if the asset is an alias, false if it is a web-referenceable
+     *         asset
+     */
+    protected boolean isGstAlias(final AssetId id) {
+        return GST_ALIAS_TYPE.equals(id.getType());
     }
 
 }
