@@ -82,6 +82,18 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
         super(ics, assetTemplate);
     }
 
+    /**
+     * @param ics
+     * @param assetTemplate
+     * @param linkLabelAttribute
+     * @param pathAttribute
+     */
+    public SimpleNavigationHelper(ICS ics, TemplateAssetAccess assetTemplate, String linkLabelAttribute,
+            String pathAttribute) {
+        super(ics, assetTemplate, linkLabelAttribute, pathAttribute);
+       
+    }
+
     @Override
     protected NavigationNode getNode(Row row, final int level, final int depth, String linkAttribute) {
         long nid = row.getLong("nid");
