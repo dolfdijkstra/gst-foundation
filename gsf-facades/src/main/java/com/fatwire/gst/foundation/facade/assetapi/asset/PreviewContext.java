@@ -37,8 +37,8 @@ public class PreviewContext {
      * @param ssvarName
      * @return the preview date
      */
-    public static Date getPreviewDateFromSession(ICS ics, String ssvarName) {
-        Date cutoff = ics.GetSSVar(ssvarName) != null ? Util.parseJdbcDate(ics.GetSSVar(ssvarName)) : null;
+    public static Date getPreviewDateFromSession(final ICS ics, final String ssvarName) {
+        final Date cutoff = ics.GetSSVar(ssvarName) != null ? Util.parseJdbcDate(ics.GetSSVar(ssvarName)) : null;
         return getPreviewDate(ics, cutoff);
     }
 
@@ -50,8 +50,8 @@ public class PreviewContext {
      * @param varName
      * @return the date to preview
      */
-    public static Date getPreviewDateFromCSVar(ICS ics, String varName) {
-        Date cutoff = ics.GetVar(varName) != null ? Util.parseJdbcDate(ics.GetVar(varName)) : null;
+    public static Date getPreviewDateFromCSVar(final ICS ics, final String varName) {
+        final Date cutoff = ics.GetVar(varName) != null ? Util.parseJdbcDate(ics.GetVar(varName)) : null;
         return getPreviewDate(ics, cutoff);
     }
 
@@ -63,7 +63,7 @@ public class PreviewContext {
      * @param cutoff
      * @return the date to preview
      */
-    public static Date getPreviewDate(ICS ics, Date cutoff) {
+    public static Date getPreviewDate(final ICS ics, final Date cutoff) {
         if (ics.LoadProperty("futuretense.ini;futuretense_xcel.ini")) {
             if (ftMessage.cm.equals(ics.GetProperty(ftMessage.cssitepreview))) {
                 // We disable caching if and ONLY if cs.sitepreview is
@@ -71,45 +71,59 @@ public class PreviewContext {
                 ics.DisableFragmentCache();
 
                 // Insite Editing is enabled
-                if (null == cutoff) {
+                if (null == cutoff)
                     return new Date();
-                } else {
+                else
                     return cutoff;
-                }
 
-            } else if (ftMessage.disabled.equals(ics.GetProperty(ftMessage.cssitepreview))) {
+            } else if (ftMessage.disabled.equals(ics.GetProperty(ftMessage.cssitepreview)))
                 return null;
-            } else {
+            else
                 return new Date(); // site preview disabled or delivery,
-                // implies production install, use
-                // server date
-            }
+            // implies production install, use
+            // server date
 
-        } else {
+        } else
             // Cannot read from property file, use server date
             // TODO: isn't ignoring cutoff a better option when prop can't be
             // read??
             return new Date();
-        }
     }
 
     /**
      * Checks if start/enddate checking is enabled.
      * 
      * @param ics
-     * @return true if 'cs.sitepreview' xcelerate property is either 'contentmanagement' or 'delivery', false if set to 'disabled'.
+     * @return true if 'cs.sitepreview' xcelerate property is either
+     *         'contentmanagement' or 'delivery', false if set to 'disabled'.
      */
-    public static boolean isSitePreviewEnabled(ICS ics) {
+    public static boolean isSitePreviewEnabled(final ICS ics) {
+        boolean ret = false;
         if (ics.LoadProperty("futuretense.ini;futuretense_xcel.ini")) {
-            
-            if (ftMessage.disabled.equals(ics.GetProperty(ftMessage.cssitepreview))) {
-                return false;
-            } else {
-                return true;
+
+            if (!ftMessage.disabled.equals(ics.GetProperty(ftMessage.cssitepreview))) {
+                ret = true;
             }
 
-        } else {
-            return false;
         }
+        return ret;
+
+    }
+
+    /**
+     * @param ics
+     * @return true if 'cs.sitepreview' xcelerate property is set to delivery
+     */
+    public static boolean isSitePreviewDelivery(final ICS ics) {
+        boolean ret = false;
+
+        if (ics.LoadProperty("futuretense.ini;futuretense_xcel.ini")) {
+
+            if (ftMessage.delivery.equals(ics.GetProperty(ftMessage.cssitepreview))) {
+                ret = true;
+            }
+        }
+        return ret;
+
     }
 }
