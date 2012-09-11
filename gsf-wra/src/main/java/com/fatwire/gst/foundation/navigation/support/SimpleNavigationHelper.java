@@ -78,7 +78,7 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
      * @param ics
      * @param assetTemplate
      */
-    public SimpleNavigationHelper(ICS ics, TemplateAssetAccess assetTemplate) {
+    public SimpleNavigationHelper(final ICS ics, final TemplateAssetAccess assetTemplate) {
         super(ics, assetTemplate);
     }
 
@@ -88,24 +88,25 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
      * @param linkLabelAttribute
      * @param pathAttribute
      */
-    public SimpleNavigationHelper(ICS ics, TemplateAssetAccess assetTemplate, String linkLabelAttribute,
-            String pathAttribute) {
+    public SimpleNavigationHelper(final ICS ics, final TemplateAssetAccess assetTemplate,
+            final String linkLabelAttribute, final String pathAttribute) {
         super(ics, assetTemplate, linkLabelAttribute, pathAttribute);
 
     }
 
     @Override
-    protected NavigationNode getNode(Row row, final int level, final int depth, String linkAttribute) {
-        long nid = row.getLong("nid");
-        long pageId = row.getLong("oid");
+    protected NavigationNode getNode(final Row row, final int level, final int depth, final String linkAttribute) {
+        final long nid = row.getLong("nid");
+        final long pageId = row.getLong("oid");
 
-        AssetId pid = assetTemplate.createAssetId(row.getString("otype"), pageId);
+        final AssetId pid = assetTemplate.createAssetId(row.getString("otype"), pageId);
         LogDep.logDep(ics, pid);
-        TemplateAsset asset = assetTemplate.read(pid, "name", "subtype", "template", pathAttribute, linkAttribute);
+        final TemplateAsset asset = assetTemplate
+                .read(pid, "name", "subtype", "template", pathAttribute, linkAttribute);
 
         final NavigationNode node = new NavigationNode();
 
-        String p = ics.GetVar("p");
+        final String p = ics.GetVar("p");
         if (StringUtils.isNotBlank(p)) {
             if (pid.getId() == Long.parseLong(p)) {
                 node.setActive(true);
@@ -132,7 +133,7 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
         }
         if (depth < 0 || depth > level) {
             // get the children in the Site Plan, note recursing here
-            Collection<NavigationNode> children = getNodeChildren(nid, level + 1, depth, linkAttribute);
+            final Collection<NavigationNode> children = getNodeChildren(nid, level + 1, depth, linkAttribute);
             for (final NavigationNode kid : children) {
                 if (kid != null && kid.getPage() != null) {
                     node.addChild(kid);
@@ -144,16 +145,17 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
 
     @Override
     protected Collection<NavigationNode> getNodeChildren(final long nodeId, final int level, final int depth,
-            String linkAttribute) {
-        StatementParam param = CHILD_STMT.newParam();
+            final String linkAttribute) {
+        final StatementParam param = CHILD_STMT.newParam();
         param.setLong(0, nodeId);
 
-        IListIterable root = SqlHelper.select(ics, CHILD_STMT, param);
-        List<NavigationNode> collection = new LinkedList<NavigationNode>();
-        for (Row row : root) {
+        final IListIterable root = SqlHelper.select(ics, CHILD_STMT, param);
+        final List<NavigationNode> collection = new LinkedList<NavigationNode>();
+        for (final Row row : root) {
             final NavigationNode node = getNode(row, level, depth, linkAttribute);
-            if (node != null)
+            if (node != null) {
                 collection.add(node);
+            }
 
         }
         return collection;
@@ -166,9 +168,9 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
      * @param asset
      * @return the uri, xml escaped
      */
-    protected String getUrl(TemplateAsset asset) {
-        String template = asset.asString("template");
-        String path = asset.asString(pathAttribute);
+    protected String getUrl(final TemplateAsset asset) {
+        final String template = asset.asString("template");
+        final String path = asset.asString(pathAttribute);
         if (StringUtils.isBlank(template)) {
             LOG.debug("Asset " + asset.getAssetId() + " does not have a valid template set.");
             return null;
@@ -184,7 +186,7 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
         if (!Utilities.goodString(wrapper)) {
             wrapper = "GST/Dispatcher";
         }
-        String uri = new WraUriBuilder(asset.getAssetId()).wrapper(wrapper).template(template).toURI(ics);
+        final String uri = new WraUriBuilder(asset.getAssetId()).wrapper(wrapper).template(template).toURI(ics);
         return StringEscapeUtils.escapeXml(uri);
     }
 
