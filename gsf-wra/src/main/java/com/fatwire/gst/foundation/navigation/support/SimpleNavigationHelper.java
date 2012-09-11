@@ -91,7 +91,7 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
     public SimpleNavigationHelper(ICS ics, TemplateAssetAccess assetTemplate, String linkLabelAttribute,
             String pathAttribute) {
         super(ics, assetTemplate, linkLabelAttribute, pathAttribute);
-       
+
     }
 
     @Override
@@ -104,6 +104,13 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
         TemplateAsset asset = assetTemplate.read(pid, "name", "subtype", "template", pathAttribute, linkAttribute);
 
         final NavigationNode node = new NavigationNode();
+
+        String p = ics.GetVar("p");
+        if (StringUtils.isNotBlank(p)) {
+            if (pid.getId() == Long.parseLong(p)) {
+                node.setActive(true);
+            }
+        }
 
         node.setPage(pid);
         node.setLevel(level);
