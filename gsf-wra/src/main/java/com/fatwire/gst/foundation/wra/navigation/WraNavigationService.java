@@ -16,6 +16,8 @@
 
 package com.fatwire.gst.foundation.wra.navigation;
 
+import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -45,6 +47,7 @@ import com.fatwire.gst.foundation.navigation.support.AbstractNavigationService;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
+import com.fatwire.mda.DimensionFilterInstance;
 
 /**
  * @author Dolf Dijkstra
@@ -84,17 +87,13 @@ public class WraNavigationService extends AbstractNavigationService implements N
      */
     protected final AliasCoreFieldDao aliasDao;
 
-    protected WraNavigationService(ICS ics, TemplateAssetAccess assetTemplate, AliasCoreFieldDao aliasDao) {
-        super(ics, assetTemplate, "path", "linktext");
-        this.aliasDao = aliasDao;
+    protected final DimensionFilterInstance dimensionFilter;
 
-    }
-
-    protected WraNavigationService(ICS ics, AliasCoreFieldDao aliasDao) {
-        super(ics);
-        setPathAttribute("path");
-        setLinkLabelAttribute("linktext");
+    public WraNavigationService(ICS ics, TemplateAssetAccess assetTemplate, AliasCoreFieldDao aliasDao,
+            final DimensionFilterInstance dimensionFilter) {
+        super(ics, assetTemplate, "linktext", "path");
         this.aliasDao = aliasDao;
+        this.dimensionFilter = dimensionFilter;
 
     }
 
@@ -104,7 +103,14 @@ public class WraNavigationService extends AbstractNavigationService implements N
         long pageId = row.getLong("oid");
 
         AssetId pid = assetTemplate.createAssetId(row.getString("otype"), pageId);
-        LogDep.logDep(ics, pid);
+        if (!isValidOnDate(ics, pid, null)) {
+            // the input object is not valid. Abort
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Input asset " + pid + " is not effective.");
+            }
+            return null;
+        }
+        LogDep.logDep(ics, pid); // probably redundant call
         TemplateAsset asset = assetTemplate.read(pid, "name", "subtype", "template", pathAttribute, linkAttribute);
 
         final NavigationNode node = new NavigationNode();
@@ -118,35 +124,42 @@ public class WraNavigationService extends AbstractNavigationService implements N
         if (isNavigationPlaceholder) {
             // return node without an associated asset
         } else if (isNavigationLink) {
-            Collection<TemplateAsset> assocs = assetTemplate.readAssociatedAssets(pid, "-", pathAttribute,
-                    linkAttribute);
-            for (TemplateAsset assoc : assocs) {
-                if (isGstAlias(assoc.getAssetId())) {
-                    final Alias alias = aliasDao.getAlias(assoc.getAssetId());
 
-                    final String url = alias.getTargetUrl() != null ? alias.getTargetUrl() : getUrl(assoc);
-                    final String linktext = alias.getLinkText();
-                    node.setId(alias.getId());
-                    if (url != null) {
-                        node.setUrl(url);
-                    }
-                    if (linktext != null) {
-                        node.setLinktext(linktext);
-                    }
-                } else {
-                    node.setId(assoc.getAssetId());
-                    final String url = getUrl(asset);
+            Collection<AssetId> assocs;
+            assocs = assetTemplate.readAssociatedAssetIds(pid, "-");
+            if (dimensionFilter != null)
+                assocs = dimensionFilter.filterAssets(assocs);
+            for (AssetId assoc : assocs) {
+                if (isValidOnDate(ics, assoc, null)) {
+                    if (isGstAlias(assoc)) {
+                        final Alias alias = aliasDao.getAlias(assoc);
+                        node.setId(alias.getId());
 
-                    if (url != null) {
-                        node.setUrl(url); // escape by default.
-                    }
+                        final String url = alias.getTargetUrl() != null ? alias.getTargetUrl() : getUrl(assoc);
+                        final String linktext = alias.getLinkText();
 
-                    final String linktext = asset.asString(linkAttribute);
-
-                    if (linktext != null) {
-                        node.setLinktext(linktext);
+                        if (url != null) {
+                            node.setUrl(url);
+                        }
+                        if (linktext != null) {
+                            node.setLinktext(linktext);
+                        }
                     } else {
-                        node.setLinktext(asset.asString("name"));
+                        node.setId(assoc);
+                        asset = assetTemplate.read(assoc, "name", "subtype", "template", pathAttribute, linkAttribute);
+                        final String url = getUrl(asset);
+
+                        if (url != null) {
+                            node.setUrl(url); // escape by default.
+                        }
+
+                        final String linktext = asset.asString(linkAttribute);
+
+                        if (linktext != null) {
+                            node.setLinktext(linktext);
+                        } else {
+                            node.setLinktext(asset.asString("name"));
+                        }
                     }
                 }
             }
@@ -180,6 +193,11 @@ public class WraNavigationService extends AbstractNavigationService implements N
         }
         return node;
 
+    }
+
+    private String getUrl(AssetId assoc) {
+        TemplateAsset asset = assetTemplate.read(assoc, "name", "subtype", "template", pathAttribute);
+        return getUrl(asset);
     }
 
     @Override
