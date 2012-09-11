@@ -349,13 +349,13 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
     protected void handleError(ICS ics) {
 
         int errno = ics.GetErrno();
-        if (errno != -10004) // error checking was too agressive, any error set
+        if (errno != -10004) // error checking was too aggressive, any error set
                              // by an element would leak into this handler
             return;
         FTValList arguments = list;
         ftErrors complexError = ics.getComplexError();
         String pagename = ics.GetVar("pagename");
-        String elementname = ics.GetVar("CS.elementname");
+        String elementname = ics.ResolveVariables("CS.elementname");
         String msg = "ics.runTag(RENDER.CALLTEMPLATE) failed for tname: " + list.getValString("TNAME") + " for asset: "
                 + list.getValString("C") + ":" + list.getValString("CID") + " within pagename:" + pagename;
         if (elementname != null)
