@@ -16,6 +16,8 @@
 
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
+import static COM.FutureTense.Interfaces.Utilities.goodString;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,21 +25,26 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Interfaces.IList;
-
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.IListUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
-import com.fatwire.gst.foundation.facade.sql.IListIterable;
-import com.fatwire.gst.foundation.facade.sql.Row;
-
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import static COM.FutureTense.Interfaces.Utilities.goodString;
+import COM.FutureTense.Cache.CacheManager;
+import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IList;
+
+import com.fatwire.assetapi.data.AssetData;
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.IListUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
+import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.asset.PreviewContext;
+import com.fatwire.gst.foundation.facade.sql.IListIterable;
+import com.fatwire.gst.foundation.facade.sql.Row;
+import com.openmarket.xcelerate.publish.PubConstants;
 
 /**
  * Filters assets via startdate/enddate.
@@ -49,15 +56,13 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * <p/>
  * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Jun 23, 2010
  */
 public final class FilterAssetsByDate {
     private static final Log LOG = LogFactory.getLog(FilterAssetsByDate.class);
 
     private static String[] jdbcDateFormatStrings = { "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS" };
-
-    // private static Format jdbcDateFormat =
-    // FastDateFormat.getInstance(jdbcDateFormatStrings[0]);
 
     /**
      * Filter a single asset, checking to see if it's valid on the given date.
@@ -135,8 +140,8 @@ public final class FilterAssetsByDate {
         String sdate = date == null ? null : com.fatwire.cs.core.db.Util.formatJdbcDate(date);
         int i = com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter(inlist, outListName, sdate, ics);
         if (i < 0 && i != -500) {
-            LOG.info("Errno set by com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter() while attempting to filter assets " + list
-                    + " by date: " + sdate + "(null date is ok). Errno: " + ics.GetErrno());
+            LOG.info("Errno set by com.openmarket.xcelerate.jsp.asset.FilterAssetsByDate.filter() while attempting to filter assets "
+                    + list + " by date: " + sdate + "(null date is ok). Errno: " + ics.GetErrno());
             // note the above tag behaves erratically and errno is unreliable
         }
         ics.ClearErrno();
@@ -147,11 +152,42 @@ public final class FilterAssetsByDate {
             throw new IllegalStateException("Tag executed successfully but no outlist was returned");
 
         List<AssetId> olist = new ArrayList<AssetId>();
+
+        boolean previewEnabled = PreviewContext.isSitePreviewEnabled(ics);
+
         for (Row row : new IListIterable(out)) {
-            olist.add(AssetIdUtils.createAssetId(row.getString("assettype"), row.getLong("assetid")));
+            AssetId id = AssetIdUtils.createAssetId(row.getString("assettype"), row.getLong("assetid"));
+            olist.add(id);
+            if (previewEnabled)
+                logDependancy(ics, id);
         }
 
         return olist;
+    }
+
+    static private void logDependancy(ICS ics, AssetId id) {
+
+        if (PreviewContext.isSitePreviewDelivery(ics)) {
+            final AssetData pageData = AssetDataUtils.getAssetData(ics, id, "startdate", "enddate");
+
+            if (pageData != null) {
+                String sdate = AttributeDataUtils.asString(pageData.getAttributeData("startdate"));
+                String edate = AttributeDataUtils.asString(pageData.getAttributeData("enddate"));
+
+                if (StringUtils.isNotBlank(sdate) || StringUtils.isNotBlank(edate)) {
+                    CacheManager.RecordItem(ics,
+                            PubConstants.CACHE_PREFIX + id.getId() + PubConstants.SEPARATOR + id.getType(), null,
+                            sdate, edate);
+                } else
+                    CacheManager.RecordItem(ics,
+                            PubConstants.CACHE_PREFIX + id.getId() + PubConstants.SEPARATOR + id.getType());
+            }
+        } else {
+            CacheManager
+                    .RecordItem(ics, PubConstants.CACHE_PREFIX + id.getId() + PubConstants.SEPARATOR + id.getType());
+        }
+        ics.ClearErrno();
+
     }
 
     /**
