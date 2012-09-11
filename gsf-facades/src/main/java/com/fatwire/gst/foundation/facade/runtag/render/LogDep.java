@@ -16,9 +16,14 @@
 
 package com.fatwire.gst.foundation.facade.runtag.render;
 
+import org.apache.commons.lang.StringUtils;
+
+import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
+import com.openmarket.xcelerate.publish.PubConstants;
 
 /**
  * Wraps the <RENDER.LOGDEP> xml tag.
@@ -65,15 +70,23 @@ public final class LogDep extends AbstractTagRunner {
     }
 
     public static void logDep(ICS ics, String c, String cid) {
-        LogDep ld = new LogDep();
-        ld.setC(c);
-        ld.setCid(cid);
-        ld.execute(ics);
+
+        String rm = StringUtils.defaultString(ics.GetVar(PubConstants.RENDERMODE), PubConstants.LIVE);
+        if (rm.startsWith(PubConstants.DEPS) || rm.startsWith(PubConstants.EXPORT)) {
+            LogDep ld = new LogDep();
+            ld.setC(c);
+            ld.setCid(cid);
+            ld.execute(ics);
+        } else {
+            CacheManager.RecordItem(ics, PubConstants.CACHE_PREFIX + cid + PubConstants.SEPARATOR + c);
+        }
     }
 
     public static void logDep(ICS ics, AssetId id) {
-        if(ics ==null) throw new IllegalArgumentException("ics must not be null");
-        if(id ==null) throw new IllegalArgumentException("id must not be null");
+        if (ics == null)
+            throw new IllegalArgumentException("ics must not be null");
+        if (id == null)
+            throw new IllegalArgumentException("id must not be null");
         logDep(ics, id.getType(), Long.toString(id.getId()));
     }
 }
