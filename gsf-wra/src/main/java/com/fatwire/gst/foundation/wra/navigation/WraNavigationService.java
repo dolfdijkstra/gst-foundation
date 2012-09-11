@@ -20,6 +20,7 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -88,12 +89,14 @@ public class WraNavigationService extends AbstractNavigationService implements N
     protected final AliasCoreFieldDao aliasDao;
 
     protected final DimensionFilterInstance dimensionFilter;
+    private final Date date;
 
     public WraNavigationService(ICS ics, TemplateAssetAccess assetTemplate, AliasCoreFieldDao aliasDao,
-            final DimensionFilterInstance dimensionFilter) {
+            final DimensionFilterInstance dimensionFilter, Date previewDate) {
         super(ics, assetTemplate, "linktext", "path");
         this.aliasDao = aliasDao;
         this.dimensionFilter = dimensionFilter;
+        this.date = previewDate;
 
     }
 
@@ -103,7 +106,7 @@ public class WraNavigationService extends AbstractNavigationService implements N
         long pageId = row.getLong("oid");
 
         AssetId pid = assetTemplate.createAssetId(row.getString("otype"), pageId);
-        if (!isValidOnDate(ics, pid, null)) {
+        if (!isValidOnDate(ics, pid, date)) {
             // the input object is not valid. Abort
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Input asset " + pid + " is not effective.");
@@ -130,7 +133,7 @@ public class WraNavigationService extends AbstractNavigationService implements N
             if (dimensionFilter != null)
                 assocs = dimensionFilter.filterAssets(assocs);
             for (AssetId assoc : assocs) {
-                if (isValidOnDate(ics, assoc, null)) {
+                if (isValidOnDate(ics, assoc, date)) {
                     if (isGstAlias(assoc)) {
                         final Alias alias = aliasDao.getAlias(assoc);
                         node.setId(alias.getId());
