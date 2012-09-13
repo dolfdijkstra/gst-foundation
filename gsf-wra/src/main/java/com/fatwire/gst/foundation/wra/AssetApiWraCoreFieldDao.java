@@ -28,6 +28,7 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
@@ -87,9 +88,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
     }
 
     /**
-     * Method to test whether or not an asset is web-referenceable. todo: low
-     * priority: optimize as this will be called at runtime (assest api incache
-     * will mitigate the performance issue)
+     * Method to test whether or not an asset is web-referenceable.
      * 
      * @param id asset ID to check
      * @return true if the asset is a valid web-referenceable asset, false if it
@@ -98,10 +97,25 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
     public boolean isWebReferenceable(AssetId id) {
         try {
             WebReferenceableAsset wra = getWra(id);
-            return StringUtils.isNotBlank(wra.getPath());
+            return isWebReferenceable(wra);
         } catch (RuntimeException e) {
             return false;
         }
+    }
+
+    public boolean isWebReferenceable(TemplateAsset candidate) {
+        return isWebReferenceable(new WraBeanImpl(candidate));
+    }
+
+    /**
+     * Method to test whether or not an asset is web-referenceable. 
+     *
+     * @param candidate asset to test
+     * @return true if the asset is a valid web-referenceable asset, false if it
+     *         is not
+     */
+    public boolean isWebReferenceable(WebReferenceableAsset candidate) {
+        return StringUtils.isNotBlank(candidate.getPath());
     }
 
     /**
