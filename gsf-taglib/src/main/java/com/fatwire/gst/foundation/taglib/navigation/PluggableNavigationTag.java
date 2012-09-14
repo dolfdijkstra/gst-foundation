@@ -75,7 +75,8 @@ public class PluggableNavigationTag extends GsfSimpleTag {
         final ICS ics = (ICS) getICS();
 
         final NavigationService nh = getService("navigationService", NavigationService.class);
-        if(nh == null) throw new IllegalStateException("No NavigationService found, cannot retrieve navigation node.");
+        if (nh == null)
+            throw new IllegalStateException("No NavigationService found, cannot retrieve navigation node.");
         String site = ics.GetVar("site");
         if (StringUtils.isBlank(site))
             throw new IllegalStateException("site is not a valid 'ics' variable.");
@@ -84,7 +85,7 @@ public class PluggableNavigationTag extends GsfSimpleTag {
             Collection<NavigationNode> nav = nh.getRootNodesForSite(site, depth);
             getJspContext().setAttribute(name, nav);
         } else {
-            NavigationNode nav = nh.getNodeByName(pagename, site, depth);
+            NavigationNode nav = nh.getNodeByName(site, pagename, depth);
             getJspContext().setAttribute(name, nav);
 
         }
