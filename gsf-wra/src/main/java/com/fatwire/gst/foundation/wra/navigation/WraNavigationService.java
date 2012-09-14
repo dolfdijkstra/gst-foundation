@@ -168,6 +168,8 @@ public class WraNavigationService extends AbstractNavigationService implements N
             }
 
         } else {
+            //TODO Add support for locale (date checking is already done at start of this function).
+            
             // other subtype
             final String url = getUrl(asset);
 

@@ -235,7 +235,16 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
 
         boolean wraNavigationSupport = true;
         if (wraNavigationSupport) {
+            //BE AWARE that the NavigationService is cached per request and that the DimensionFilter is also reused per all the NavigationService calls per request.
+            // Depending on the outcome of the getDimensionFilter this may or maynot what you want. 
             DimensionFilterInstance filter = getDimensionFilter(ics);
+            if (filter == null) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("No DimensionFilterInstance returned from getDimensionFilter(). Disabling Locale support for NavigationService.");
+                }
+                return null;
+            }
+
             AliasCoreFieldDao aliasDao = locate(AliasCoreFieldDao.class, ics);
             Date date = PreviewContext.getPreviewDateFromCSVar(ics, "previewDate");
             return new WraNavigationService(ics, locate(TemplateAssetAccess.class, ics), aliasDao, filter, date);
@@ -274,15 +283,22 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
      * </ol>
      * 
      * @return a dimension filter, configured with the set preferred locales, or
-     *         null, if either the dimenion set or the preferred dimensions
+     *         null, if either the dimension set or the preferred dimensions
      *         could not be found (with extensive errors)
      */
     protected final DimensionFilterInstance getDimensionFilter(ICS ics) {
 
         DimensionFilterInstance filter;
         try {
-            Collection<AssetId> preferredLocales = getPreferredLocales(ics);
             DimensionSetInstance dimSet = getDimensionSet(ics);
+            if (dimSet == null) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("no DimensionSet returned from getDimensionSet().");
+                }
+                return null;
+            }
+            Collection<AssetId> preferredLocales = getPreferredLocales(ics);
+
             filter = DimensionUtils.getDimensionFilter(DimensionUtils.getDM(ics), preferredLocales, dimSet);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Located dimension filter: " + filter + " in dimensionSet " + dimSet
@@ -408,7 +424,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         return preferredLocales;
     }
 
-    private final DimensionSetInstance getDimensionSet(ICS ics) {
+    protected final DimensionSetInstance getDimensionSet(ICS ics) {
 
         try {
             String site = ics.GetVar("site");
@@ -421,7 +437,8 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         } catch (RuntimeException e) {
             LOG.trace("Could not auto-discovered dimensionset: " + e);
         }
-        throw new IllegalArgumentException("DimensionSet not found");
+        return null;
+        // throw new IllegalArgumentException("DimensionSet not found");
     }
 
 }
