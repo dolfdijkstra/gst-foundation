@@ -75,6 +75,7 @@ public class PluggableNavigationTag extends GsfSimpleTag {
         final ICS ics = (ICS) getICS();
 
         final NavigationService nh = getService("navigationService", NavigationService.class);
+        if(nh == null) throw new IllegalStateException("No NavigationService found, cannot retrieve navigation node.");
         String site = ics.GetVar("site");
         if (StringUtils.isBlank(site))
             throw new IllegalStateException("site is not a valid 'ics' variable.");

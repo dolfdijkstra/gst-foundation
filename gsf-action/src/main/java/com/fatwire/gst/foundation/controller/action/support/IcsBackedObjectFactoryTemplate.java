@@ -131,6 +131,13 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         return true;
     }
 
+    /**
+     * Internal method to check for Services or create Services.
+     * 
+     * @param c
+     * @param ics
+     * @return the found service, null if no T can be created.
+     */
     @SuppressWarnings("unchecked")
     protected <T> T locate(final Class<T> c, final ICS ics) {
         if (ICS.class.isAssignableFrom(c)) {
@@ -152,6 +159,8 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
                 Method m;
                 m = getClass().getMethod("create" + name, ICS.class);
                 if (m != null) {
+                    if (LOG.isTraceEnabled())
+                        LOG.trace("creating " + name + " from " + m.getName());
                     o = m.invoke(this, ics);
                 }
             } catch (final NoSuchMethodException e) {
@@ -235,14 +244,14 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
 
         boolean wraNavigationSupport = true;
         if (wraNavigationSupport) {
-            //BE AWARE that the NavigationService is cached per request and that the DimensionFilter is also reused per all the NavigationService calls per request.
-            // Depending on the outcome of the getDimensionFilter this may or maynot what you want. 
+            // BE AWARE that the NavigationService is cached per request and
+            // that the DimensionFilter is also reused per all the
+            // NavigationService calls per request.
+            // Depending on the outcome of the getDimensionFilter this may or
+            // maynot what you want.
             DimensionFilterInstance filter = getDimensionFilter(ics);
-            if (filter == null) {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("No DimensionFilterInstance returned from getDimensionFilter(). Disabling Locale support for NavigationService.");
-                }
-                return null;
+            if (filter == null && LOG.isTraceEnabled()) {
+                LOG.trace("No DimensionFilterInstance returned from getDimensionFilter(). Disabling Locale support for NavigationService.");
             }
 
             AliasCoreFieldDao aliasDao = locate(AliasCoreFieldDao.class, ics);
@@ -435,7 +444,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
                 return LocaleUtils.getDimensionSet(ics, discoveredId);
             }
         } catch (RuntimeException e) {
-            LOG.trace("Could not auto-discovered dimensionset: " + e);
+            LOG.trace("Could not auto-discover dimensionset: " + e);
         }
         return null;
         // throw new IllegalArgumentException("DimensionSet not found");
