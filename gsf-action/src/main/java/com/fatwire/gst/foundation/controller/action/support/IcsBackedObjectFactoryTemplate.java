@@ -243,7 +243,10 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         // assettype and create NavigationService based on that.
 
         boolean wraNavigationSupport = true;
-        if (wraNavigationSupport) {
+        //TODO come up with a generalized Strategy for per-site dispatching
+        if ("avisports".equalsIgnoreCase(ics.GetVar("site"))) {
+            return new SimpleNavigationHelper(ics, locate(TemplateAssetAccess.class, ics), "title", "path");
+        } else if (wraNavigationSupport) {
             // BE AWARE that the NavigationService is cached per request and
             // that the DimensionFilter is also reused per all the
             // NavigationService calls per request.
