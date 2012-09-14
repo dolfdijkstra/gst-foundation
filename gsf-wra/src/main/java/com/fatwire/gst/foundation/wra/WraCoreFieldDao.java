@@ -17,6 +17,7 @@ package com.fatwire.gst.foundation.wra;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 
 /**
  * Dao for dealing with core fields in a WRA This DAO is not aware of Aliases.
@@ -34,15 +35,31 @@ public interface WraCoreFieldDao {
             "enddate", "status" };
 
     /**
-     * Method to test whether or not an asset is web-referenceable. todo: low
-     * priority: optimize as this will be called at runtime (assest api incache
-     * will mitigate the performance issue)
+     * Method to test whether or not an asset is web-referenceable.
      * 
      * @param id asset ID to check
      * @return true if the asset is a valid web-referenceable asset, false if it
      *         is not
      */
     public boolean isWebReferenceable(AssetId id);
+
+    /**
+     * Method to test whether or not an asset is web-referenceable.
+     *
+     * @param candidate asset to check for web-referenceable support.
+     * @return true if the asset is a valid web-referenceable asset, false if it
+     *         is not
+     */
+    public boolean isWebReferenceable(TemplateAsset candidate);
+
+    /**
+     * Method to test whether or not an asset is web-referenceable. 
+     *
+     * @param candidate asset to check for web-referenceable support.
+     * @return true if the asset is a valid web-referenceable asset, false if it
+     *         is not
+     */
+    public boolean isWebReferenceable(WebReferenceableAsset candidate);
 
     /**
      * Method to test if an asset has a vanity url, that is has a path field.

@@ -18,6 +18,7 @@ package com.fatwire.gst.foundation.wra;
 import java.util.Date;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 
 /**
  * Simple WRA bean
@@ -42,6 +43,23 @@ public class WraBeanImpl implements WebReferenceableAsset {
     private Date endDate;
 
     public WraBeanImpl() {
+    }
+
+    public WraBeanImpl(TemplateAsset asset) {
+        id = asset.getAssetId();
+        name = asset.asString("name");
+        description = asset.asString("description");
+        subtype = asset.asString("subtype");
+        status = asset.asString("status");
+        metaTitle = asset.asString("metatitle");
+        metaDescription = asset.asString("metadescription");
+        metaKeyword = asset.asString("metakeyword");
+        h1Title = asset.asString("h1title");
+        linkText = asset.asString("linktext");
+        path = asset.asString("path");
+        template = asset.asString("template");
+        startDate = asset.asDate("startdate");
+        endDate = asset.asDate("enddate");
     }
 
     public WraBeanImpl(WebReferenceableAsset wra) {
