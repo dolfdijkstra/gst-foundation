@@ -17,14 +17,8 @@
 package com.fatwire.gst.foundation.groovy;
 
 import groovy.util.GroovyScriptEngine;
-import groovy.util.ResourceConnector;
-import groovy.util.ResourceException;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,81 +50,6 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
  * http://groovy.codehaus.org/Alternate+Spring-Groovy-Integration
  */
 public class GroovyElementCatalogLoader extends DiskGroovyLoader {
-    private static final class ElementCatalogResourceConnector implements ResourceConnector {
-        private final String path;
-        private PreparedStmt stmt;
-        private Log logger = LogUtil.getLog(getClass());
-        private String elementCatalogDefDir = null;
-
-        private ElementCatalogResourceConnector(String path) {
-            this.path = path;
-            stmt = new PreparedStmt("SELECT * FROM ElementCatalog WHERE elementname=?",
-                    Collections.singletonList("ElementCatalog"));
-            stmt.setElement(0, java.sql.Types.VARCHAR);
-
-        }
-
-        @Override
-        public URLConnection getResourceConnection(final String resourceName) throws ResourceException {
-            ICS ics = ICSFactory.getOrCreateICS();
-
-            logger.info("Loading groovy script " + resourceName, new Exception());
-            if (ics.IsElement(resourceName)) {
-                if (elementCatalogDefDir == null) {
-                    elementCatalogDefDir = ics.ResolveVariables("CS.CatalogDir.ElementCatalog");
-                }
-
-                final StatementParam param = stmt.newParam();
-                param.setString(0, resourceName);
-                Row row = SqlHelper.selectSingle(ics, stmt, param);
-
-                // ELEMENTNAME DESCRIPTION URL RESDETAILS1
-                // RESDETAILS2
-
-                String url = row.getString("url");
-                String res1 = row.getString("resdetails1");
-                String res2 = row.getString("resdetails2");
-                // TODO: set comp dep for eid,tid
-                // Utilities.getParams(res1);
-                // Utilities.getParams(res2);
-                return toURLConnection(elementCatalogDefDir, url);
-
-            } else {
-                return toURLConnection(path, toScriptName(resourceName));
-            }
-        }
-
-        protected String toScriptName(String name) {
-            if (name.endsWith(".groovy")) {
-                return StringUtils.removeEnd(name, ".groovy").replace('.', '/') + ".groovy";
-            } else
-                return name.replace('.', '/') + ".groovy";
-        }
-
-        protected URLConnection toURLConnection(final String dir, final String resourceName) throws ResourceException {
-            logger.info("toURLConnection " + dir + ", " + resourceName);
-            File file = new File(dir, resourceName);
-
-            if (file.exists()) {
-                try {
-                    URL url = file.toURI().toURL();
-                    logger.info(url.toString());
-                    return url.openConnection();
-                } catch (MalformedURLException e) {
-                    String message = "Malformed URL: " + dir + ", " + resourceName;
-                    throw new ResourceException(message);
-
-                } catch (IOException e) {
-                    String message = "IOException URL: " + dir + ", " + resourceName + ": " + e.getMessage();
-                    throw new ResourceException(message);
-                }
-            }
-            logger.info(file.toString() + " does not exists.");
-            throw new ResourceException("No resource for " + dir + ", " + resourceName + " was found");
-
-        }
-    }
-
     private PreparedStmt stmt;
     private Log logger = LogUtil.getLog(getClass());
 
@@ -139,17 +58,6 @@ public class GroovyElementCatalogLoader extends DiskGroovyLoader {
         stmt = new PreparedStmt("SELECT * FROM ElementCatalog WHERE elementname=?",
                 Collections.singletonList("ElementCatalog"));
         stmt.setElement(0, java.sql.Types.VARCHAR);
-
-    }
-
-    public void bootEngine_old(final String path) {
-        ResourceConnector rc = new ElementCatalogResourceConnector(path);
-
-        GroovyScriptEngine gse = new GroovyScriptEngine(rc, Thread.currentThread().getContextClassLoader());
-
-        gse.getConfig().setRecompileGroovySource(true);
-        gse.getConfig().setMinimumRecompilationInterval(getMinimumRecompilationInterval());
-        setGroovyScriptEngine(gse);
 
     }
 
