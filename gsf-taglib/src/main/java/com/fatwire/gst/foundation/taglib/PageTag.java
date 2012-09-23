@@ -67,6 +67,9 @@ public class PageTag extends GsfRootTag {
             final ActionLocator locator = getActionLocator();
             if (locator == null)
                 throw new IllegalStateException("The ActionLocator cannot be found.");
+            if("+".equals(action)){
+                action = ics.ResolveVariables("CS.elementname") + "_action";
+            }
             final Action a = locator.getAction(ics, action);
 
             if (a != null) {
