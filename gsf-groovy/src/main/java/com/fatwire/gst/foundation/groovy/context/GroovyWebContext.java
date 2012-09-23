@@ -24,8 +24,9 @@ import com.fatwire.gst.foundation.controller.action.support.ClassActionLocator;
 import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
 import com.fatwire.gst.foundation.controller.action.support.RenderPageActionLocator;
 import com.fatwire.gst.foundation.controller.support.WebAppContextLoader;
-import com.fatwire.gst.foundation.groovy.spring.GroovyActionLocator;
-import com.fatwire.gst.foundation.groovy.spring.GroovyLoader;
+import com.fatwire.gst.foundation.groovy.GroovyElementCatalogLoader;
+import com.fatwire.gst.foundation.groovy.GroovyLoader;
+import com.fatwire.gst.foundation.groovy.action.GroovyActionLocator;
 
 /**
  * WebAppContext that is using Groovy to load Actions.
@@ -56,14 +57,18 @@ public class GroovyWebContext extends DefaultWebAppContext {
         Injector injector = getBean("injector", Injector.class);
         ActionLocator root = getRootActionLocator(injector);
 
-        GroovyLoader loader = new GroovyLoader(getServletContext());
+        GroovyLoader loader = getGroovyLoader();
         // next, set the groovy action loader
-        GroovyActionLocator l = new GroovyActionLocator(root, injector);
-        l.setGroovyLoader(loader);
+        GroovyActionLocator groovyLocator = new GroovyActionLocator(root, injector);
+        groovyLocator.setGroovyLoader(loader);
         // and at last the class:<classname> loader
-        final ClassActionLocator cal = new ClassActionLocator(l, injector);
+        final ClassActionLocator cal = new ClassActionLocator(groovyLocator, injector);
         return cal;
 
+    }
+
+    protected GroovyLoader getGroovyLoader() {
+        return new GroovyElementCatalogLoader(getServletContext());
     }
 
     protected ActionLocator getRootActionLocator(Injector injector) {

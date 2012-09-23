@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.groovy.spring;
+package com.fatwire.gst.foundation.groovy;
 
 import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
@@ -28,11 +28,14 @@ import java.net.URL;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
 import org.codehaus.groovy.control.CompilationFailedException;
-import org.springframework.web.context.support.WebApplicationObjectSupport;
+
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
- * Loader for groovy script classes, configured via spring and ServletContext
+ * Loader for groovy script classes, configured via the ServletContext
  * 
  * @author Dolf Dijkstra
  * @since Mar 28, 2011
@@ -41,35 +44,26 @@ import org.springframework.web.context.support.WebApplicationObjectSupport;
  * alternative method:
  * http://groovy.codehaus.org/Alternate+Spring-Groovy-Integration
  */
-public class GroovyLoader extends WebApplicationObjectSupport {
-    private GroovyScriptEngine gse;
+public class DiskGroovyLoader implements GroovyLoader {
+
+    private Log logger = LogUtil.getLog(getClass());
+    private GroovyScriptEngine groovyScriptEngine;
+
     private File scriptPath;
     private String configPath = "/WEB-INF/gsf-groovy";
     private int minimumRecompilationInterval = 0;
 
-    public GroovyLoader() {
+    public DiskGroovyLoader() {
         super();
 
     }
 
-    public GroovyLoader(ServletContext servletContext) {
+    public DiskGroovyLoader(ServletContext servletContext) {
         bootEngine(servletContext.getRealPath(configPath));
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @seeorg.springframework.web.context.support.WebApplicationObjectSupport#
-     * initServletContext(javax.servlet.ServletContext)
-     */
-    @Override
-    protected void initServletContext(ServletContext servletContext) {
-        bootEngine(servletContext.getRealPath(configPath));
-
-    }
-
-    void bootEngine(String path) {
+    public void bootEngine(String path) {
         scriptPath = new File(path).getAbsoluteFile();
         scriptPath.mkdirs();
         if (!scriptPath.exists() || !scriptPath.isDirectory())
@@ -78,9 +72,9 @@ public class GroovyLoader extends WebApplicationObjectSupport {
         URL[] paths;
         try {
             paths = new URL[] { u.toURL() };
-            gse = new GroovyScriptEngine(paths, Thread.currentThread().getContextClassLoader());
-            gse.getConfig().setRecompileGroovySource(true);
-            gse.getConfig().setMinimumRecompilationInterval(minimumRecompilationInterval);
+            groovyScriptEngine = new GroovyScriptEngine(paths, Thread.currentThread().getContextClassLoader());
+            groovyScriptEngine.getConfig().setRecompileGroovySource(true);
+            groovyScriptEngine.getConfig().setMinimumRecompilationInterval(minimumRecompilationInterval);
         } catch (MalformedURLException e) {
             throw new IllegalStateException("The realPath " + scriptPath + " can't be made into a URL. "
                     + e.getMessage(), e);
@@ -88,35 +82,32 @@ public class GroovyLoader extends WebApplicationObjectSupport {
 
     }
 
-    /**
-     * @param name the name of the class
-     * @return the Object loaded by Groovy
-     * @throws Exception
-     */
-    public Object load(String name) throws Exception {
+    @Override
+    public Object load(final String name) throws Exception {
+
         Class<?> c;
         try {
-            c = gse.loadScriptByName(toScriptName(name));
-        } catch (Exception e) {
+            c = groovyScriptEngine.loadScriptByName(toScriptName(name));
+        } catch (ResourceException e) {
             logger.debug("GroovyScriptEngine was not able to load " + name + " as a script: " + e.getMessage()
                     + ". Now trying as a class.");
-            c = gse.getGroovyClassLoader().loadClass(name);
+            String className = name.replace('/', '.');
+            c = groovyScriptEngine.getGroovyClassLoader().loadClass(className);
         }
 
         return c.newInstance();
     }
 
     protected String toScriptName(String name) {
-        return name.replace('.', '/') + ".groovy";
+        if (name.endsWith(".groovy")) {
+            return StringUtils.removeEnd(name, ".groovy").replace('.', '/') + ".groovy";
+        } else
+            return name.replace('.', '/') + ".groovy";
     }
 
     protected String toClassName(String name) {
 
         return name.replace('/', '.').replace('\\', '.').substring(0, name.length() - 7);
-    }
-
-    public boolean isValidScript(String script) {
-        return new File(scriptPath, script).exists();
     }
 
     public void precompile() {
@@ -127,6 +118,7 @@ public class GroovyLoader extends WebApplicationObjectSupport {
     protected void doDir(File dir) {
         File[] listFiles = dir.listFiles(new FileFilter() {
 
+            @Override
             public boolean accept(File pathname) {
                 return pathname.isDirectory() || pathname.getName().endsWith(".groovy");
             }
@@ -139,7 +131,7 @@ public class GroovyLoader extends WebApplicationObjectSupport {
                 String name = file.getAbsolutePath().substring(scriptPath.getAbsolutePath().length() + 1);
                 try {
 
-                    gse.loadScriptByName(name);
+                    groovyScriptEngine.loadScriptByName(name);
                 } catch (CompilationFailedException e) {
                     logger.warn(e.getMessage() + " on " + name + " during precompilation.");
                 } catch (ResourceException e) {
@@ -181,6 +173,18 @@ public class GroovyLoader extends WebApplicationObjectSupport {
      */
     public void setMinimumRecompilationInterval(int minimumRecompilationInterval) {
         this.minimumRecompilationInterval = minimumRecompilationInterval;
+        GroovyScriptEngine g = getGroovyScriptEngine();
+        if (g != null) {
+            g.getConfig().setMinimumRecompilationInterval(minimumRecompilationInterval);
+        }
+    }
+
+    public GroovyScriptEngine getGroovyScriptEngine() {
+        return groovyScriptEngine;
+    }
+
+    public void setGroovyScriptEngine(GroovyScriptEngine groovyScrptEngine) {
+        this.groovyScriptEngine = groovyScrptEngine;
     }
 
 }

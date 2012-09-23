@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.groovy.spring;
+package com.fatwire.gst.foundation.groovy;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -28,13 +28,13 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 public class GroovyLoaderTest extends TestCase {
 
     public void testLoad() {
-        GroovyLoader loader = new GroovyLoader();
+        DiskGroovyLoader loader = new DiskGroovyLoader();
         loader.bootEngine("./src/test/groovy");
         loader.precompile();
         Object a;
         try {
             long t = System.nanoTime();
-            a = loader.load("test.MyAction");
+            a = loader.load("test/MyAction");
             System.out.println(DebugHelper.microToHuman((System.nanoTime() - t) / 1000L));
             // System.out.println(a.getClass());
             if (a instanceof Action) {
@@ -63,11 +63,11 @@ public class GroovyLoaderTest extends TestCase {
 
     public void testJavaClass() {
         //
-        GroovyLoader loader = new GroovyLoader();
+        DiskGroovyLoader loader = new DiskGroovyLoader();
         loader.bootEngine("./src/test/groovy");
         Object a;
         try {
-            a = loader.load("com.fatwire.gst.foundation.groovy.spring.GroovyActionLocator");
+            a = loader.load("com.fatwire.gst.foundation.groovy.action.GroovyActionLocator");
             assertNotNull(a);
 
         } catch (Exception e) {

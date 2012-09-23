@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.groovy.spring;
+package com.fatwire.gst.foundation.groovy.action;
+
+import org.apache.commons.lang.StringUtils;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -22,8 +24,7 @@ import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.action.support.AbstractActionLocator;
-
-import org.apache.commons.lang.StringUtils;
+import com.fatwire.gst.foundation.groovy.GroovyLoader;
 
 /**
  * @author Dolf Dijkstra
@@ -61,18 +62,15 @@ public class GroovyActionLocator extends AbstractActionLocator {
         if (StringUtils.isBlank(name))
             return null;
         Action action = null;
-        final String script = name.endsWith(".groovy") ? name : name + ".groovy";
         try {
 
-            if (getGroovyLoader().isValidScript(script)) {
-                final Object o = getGroovyLoader().load(getGroovyLoader().toClassName(script));
+            final Object o = getGroovyLoader().load(name);
 
-                if (o instanceof Action) {
-                    action = (Action) o;
-                }
+            if (o instanceof Action) {
+                action = (Action) o;
             } else {
                 if (LOG.isDebugEnabled())
-                    LOG.debug(script + " is not a valid script.");
+                    LOG.debug(name + " is not a valid script.");
             }
         } catch (final RuntimeException e) {
             throw e;
