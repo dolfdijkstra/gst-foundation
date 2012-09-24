@@ -16,20 +16,15 @@
 
 package com.fatwire.gst.foundation.controller.action.support;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -40,7 +35,6 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.PreviewContext;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
 import com.fatwire.gst.foundation.facade.mda.DimensionUtils;
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
@@ -83,31 +77,22 @@ import com.fatwire.mda.DimensionSetInstance;
  * @since Apr 20, 2011
  * 
  */
-public class IcsBackedObjectFactoryTemplate implements Factory {
-    protected static final Log LOG = LogUtil.getLog(IcsBackedObjectFactoryTemplate.class);
-    private final ICS ics;
-    private final Map<String, Object> objectCache = new HashMap<String, Object>();
-
+public class IcsBackedObjectFactoryTemplate extends BaseFactory {
     /**
      * Constructor.
      * 
      * @param ics the Content Server context
      */
     public IcsBackedObjectFactoryTemplate(final ICS ics) {
-        super();
-        this.ics = ics;
+        super(ics);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.fatwire.gst.foundation.controller.action.AnnotationInjector.Factory
-     * #getObject(java.lang.String, java.lang.Class)
+    /**
+     * @param ics
+     * @param roots
      */
-    public final <T> T getObject(final String name, final Class<T> fieldType) {
-
-        return locate(fieldType, ics);
+    public IcsBackedObjectFactoryTemplate(ICS ics, Factory[] roots) {
+        super(ics,roots);
     }
 
     /**
@@ -116,6 +101,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
      * @param c
      * @return true is object should be cached locally
      */
+    @Override
     public boolean shouldCache(final Class<?> c) {
         // don't cache the model as this is bound to the jsp page context and
         // not
@@ -131,60 +117,6 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         return true;
     }
 
-    /**
-     * Internal method to check for Services or create Services.
-     * 
-     * @param c
-     * @param ics
-     * @return the found service, null if no T can be created.
-     */
-    @SuppressWarnings("unchecked")
-    protected <T> T locate(final Class<T> c, final ICS ics) {
-        if (ICS.class.isAssignableFrom(c)) {
-            return (T) ics;
-        }
-        if (c.isArray()) {
-            throw new IllegalArgumentException("Arrays are not supported");
-        }
-        final String name = c.getSimpleName();
-
-        if (StringUtils.isBlank(name)) {
-            return null;
-        }
-        Object o = objectCache.get(name);
-        if (o == null) {
-
-            try {
-                // TODO: medium: check for other method signatures
-                Method m;
-                m = getClass().getMethod("create" + name, ICS.class);
-                if (m != null) {
-                    if (LOG.isTraceEnabled())
-                        LOG.trace("creating " + name + " from " + m.getName());
-                    o = m.invoke(this, ics);
-                }
-            } catch (final NoSuchMethodException e) {
-                try {
-                    LOG.debug("Could not create  a " + c.getName() + " via a Template method, trying via constructor.");
-                    final Constructor<T> constr = c.getConstructor(ICS.class);
-                    o = constr.newInstance(ics);
-                } catch (final RuntimeException e1) {
-                    throw e1;
-                } catch (final Exception e1) {
-                    throw new RuntimeException(e1);
-                }
-            } catch (final RuntimeException e) {
-                throw e;
-            } catch (final Exception e) {
-                throw new RuntimeException(e);
-            }
-            if (shouldCache(c)) {
-                objectCache.put(c.getName(), o);
-            }
-        }
-        return (T) o;
-    }
-
     public ICS createICS(final ICS ics) {
         return ics;
     }
@@ -194,7 +126,7 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
     }
 
     public AliasCoreFieldDao createAliasCoreFieldDao(final ICS ics) {
-        final WraCoreFieldDao wraCoreFieldDao = locate(WraCoreFieldDao.class, ics);
+        final WraCoreFieldDao wraCoreFieldDao = getObject("wraCoreFieldDao", WraCoreFieldDao.class);
         return new AssetApiAliasCoreFieldDao(ics, wraCoreFieldDao);
     }
 
@@ -243,9 +175,10 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
         // assettype and create NavigationService based on that.
 
         boolean wraNavigationSupport = true;
-        //TODO come up with a generalized Strategy for per-site dispatching
+        // TODO come up with a generalized Strategy for per-site dispatching
         if ("avisports".equalsIgnoreCase(ics.GetVar("site"))) {
-            return new SimpleNavigationHelper(ics, locate(TemplateAssetAccess.class, ics), "title", "path");
+            return new SimpleNavigationHelper(ics, getObject("templateAssetAccess", TemplateAssetAccess.class),
+                    "title", "path");
         } else if (wraNavigationSupport) {
             // BE AWARE that the NavigationService is cached per request and
             // that the DimensionFilter is also reused per all the
@@ -257,11 +190,13 @@ public class IcsBackedObjectFactoryTemplate implements Factory {
                 LOG.trace("No DimensionFilterInstance returned from getDimensionFilter(). Disabling Locale support for NavigationService.");
             }
 
-            AliasCoreFieldDao aliasDao = locate(AliasCoreFieldDao.class, ics);
+            AliasCoreFieldDao aliasDao = getObject("aliasCoreFieldDao", AliasCoreFieldDao.class);
             Date date = PreviewContext.getPreviewDateFromCSVar(ics, "previewDate");
-            return new WraNavigationService(ics, locate(TemplateAssetAccess.class, ics), aliasDao, filter, date);
+            return new WraNavigationService(ics, getObject("templateAssetAccess", TemplateAssetAccess.class), aliasDao,
+                    filter, date);
         } else {
-            return new SimpleNavigationHelper(ics, locate(TemplateAssetAccess.class, ics), "linktext", "path");
+            return new SimpleNavigationHelper(ics, getObject("templateAssetAccess", TemplateAssetAccess.class),
+                    "linktext", "path");
 
         }
     }

@@ -18,6 +18,7 @@ package com.yourcompany.owcs.config;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.support.IcsBackedObjectFactoryTemplate;
 import com.yourcompany.owcs.search.SolrSearchService;
 import com.yourcompany.owcs.search.solr.DefaultSolrSearchService;
@@ -25,13 +26,17 @@ import com.yourcompany.owcs.search.solr.DefaultSolrSearchService;
 /**
  * @author Dolf Dijkstra
  * @since 6 sep. 2012
- *
+ * 
  */
 public class MyExtendedObjectFactory extends IcsBackedObjectFactoryTemplate {
 
     public MyExtendedObjectFactory(ICS ics) {
         super(ics);
 
+    }
+
+    public MyExtendedObjectFactory(ICS ics, Factory[] roots) {
+        super(ics, roots);
     }
 
     public SolrSearchService createSolrSearchService(ICS ics) {

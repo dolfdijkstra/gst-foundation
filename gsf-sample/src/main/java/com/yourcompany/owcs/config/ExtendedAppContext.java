@@ -18,30 +18,43 @@ package com.yourcompany.owcs.config;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.AppContext;
 import com.fatwire.gst.foundation.controller.action.Factory;
+import com.fatwire.gst.foundation.controller.action.support.SpringObjectFactory;
 import com.fatwire.gst.foundation.groovy.context.GroovyWebContext;
 
 /**
- * A sample on how to extend the service factory in GSF. This class is an extention of the groovy app context, giving access to another ObjectFactory.
+ * A sample on how to extend the service factory in GSF. This class is an
+ * extension of the groovy app context, giving access to another ObjectFactory.
  * This class needs to be registered to the file META-INF/gsf-contexts.
+ * </p>
+ * 
+ * This class is also a show case on how services from Spring can be injected
  * 
  * @author Dolf Dijkstra
  * @since 6 sep. 2012
- *
+ * 
  */
 public class ExtendedAppContext extends GroovyWebContext {
+    private Factory[] roots = new Factory[1];
 
     public ExtendedAppContext(ServletContext context, AppContext app) {
         super(context, app);
-
+        WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+        roots[0] = new SpringObjectFactory(wac);
     }
 
+    /* (non-Javadoc)
+     * @see com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext#getFactory(COM.FutureTense.Interfaces.ICS)
+     */
     @Override
     public Factory getFactory(ICS ics) {
-        return new MyExtendedObjectFactory(ics);// super.getFactory(ics);
+        return new MyExtendedObjectFactory(ics,roots);
     }
 
 }
