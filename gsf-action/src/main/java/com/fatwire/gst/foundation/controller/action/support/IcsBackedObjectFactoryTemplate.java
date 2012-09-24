@@ -92,33 +92,7 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
      * @param roots
      */
     public IcsBackedObjectFactoryTemplate(ICS ics, Factory[] roots) {
-        super(ics,roots);
-    }
-
-    /**
-     * Should the created object be cached on the ICS scope.
-     * 
-     * @param c
-     * @return true is object should be cached locally
-     */
-    @Override
-    public boolean shouldCache(final Class<?> c) {
-        // don't cache the model as this is bound to the jsp page context and
-        // not
-        // to ICS. It would leak variables into other elements if we allowed it
-        // to cache.
-        // TODO:medium, figure out if this should be done more elegantly. It
-        // seems that scoping logic is
-        // brought into the factory, that might be a bad thing.
-        if (Model.class.isAssignableFrom(c)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public ICS createICS(final ICS ics) {
-        return ics;
+        super(ics, roots);
     }
 
     public WraCoreFieldDao createWraCoreFieldDao(final ICS ics) {
