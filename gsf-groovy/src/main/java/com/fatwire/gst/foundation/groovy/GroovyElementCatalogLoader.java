@@ -55,8 +55,9 @@ public class GroovyElementCatalogLoader extends DiskGroovyLoader {
 
     public GroovyElementCatalogLoader(ServletContext servletContext) {
         super(servletContext);
+        /*ElementCatalog does not have Browser ACL, assumption here is that elements are updated as assets */
         stmt = new PreparedStmt("SELECT * FROM ElementCatalog WHERE elementname=?",
-                Collections.singletonList("ElementCatalog"));
+                Collections.singletonList("CSElement"));  
         stmt.setElement(0, java.sql.Types.VARCHAR);
 
     }
