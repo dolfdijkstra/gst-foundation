@@ -56,6 +56,11 @@ public class ObjectFactory {
         //use factory.getObject() to access other services to compose the service if needed. Not shown here.
         return new DefaultSolrIndexService(ics)
     }
+    @ServiceProducer(cache=false)
+    NavigationService createNavigationService(final ICS ics) {
+            return new SimpleNavigationHelper(ics, factory.getObject("templateAssetAccess", TemplateAssetAccess.class),
+                    "title", "path")
+    }
 
 }
 
