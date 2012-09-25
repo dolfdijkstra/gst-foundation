@@ -36,7 +36,7 @@ public class WebContextUtil {
     public static AppContext getWebAppContext(ServletContext ctx) {
         Object o = ctx.getAttribute(WebAppContext.WEB_CONTEXT_NAME);
         if (o == null) {
-            LOG.trace("Configuring WebAppContext from WebContextUtil, it is not explicitly configured in web.xml. Using default setup!");
+            LOG.trace("Configuring WebAppContext from WebContextUtil; it is not explicitly configured in web.xml. Using default setup!");
             return new WebAppContextLoader().configureWebAppContext(ctx);
         }
         if (o instanceof AppContext) {

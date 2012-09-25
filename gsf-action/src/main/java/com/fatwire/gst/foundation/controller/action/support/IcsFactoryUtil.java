@@ -26,8 +26,9 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
  * Helper class to access the ICS based services through the {@link Factory}.
  * 
  * @author Dolf Dijkstra
- * @since 28 August 2012 (for some history: <a href="http://en.wikipedia.org/wiki/Siege_of_Groningen">28 August</a>.)
- *
+ * @since 28 August 2012 (for some history: <a
+ *        href="http://en.wikipedia.org/wiki/Siege_of_Groningen">28 August</a>.)
+ * 
  */
 public class IcsFactoryUtil {
 
@@ -46,8 +47,8 @@ public class IcsFactoryUtil {
         @SuppressWarnings("deprecation")
         AppContext ctx = WebContextUtil.getWebAppContext(ics.getIServlet().getServlet().getServletContext());
 
-        if (ctx instanceof FactoryProducer) {
-            FactoryProducer fp = (FactoryProducer) ctx;
+        FactoryProducer fp = ctx.getBean("factoryProducder", FactoryProducer.class);
+        if (fp != null) {
             factory = fp.getFactory(ics);
             ics.SetObj(Factory.class.getName(), factory);
         }

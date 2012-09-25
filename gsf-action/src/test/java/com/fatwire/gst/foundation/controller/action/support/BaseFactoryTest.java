@@ -123,7 +123,6 @@ public class BaseFactoryTest {
             super(ics, roots);
         }
 
-        @SuppressWarnings("unused")
         public List<?> createList(ICS ics) {
             return Collections.emptyList();
         }
@@ -136,7 +135,6 @@ public class BaseFactoryTest {
             super(ics, roots);
         }
 
-        @SuppressWarnings("unused")
         public Collection<?> createCollection(ICS ics) {
             return Collections.emptyList();
         }
@@ -160,7 +158,6 @@ public class BaseFactoryTest {
             super(ics, roots);
         }
 
-        @SuppressWarnings("unused")
         public List<?> createList(ICS ics) {
             return Collections.emptyList();
         }

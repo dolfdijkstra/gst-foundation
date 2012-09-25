@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2012 Oracle Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller.action;
+package com.fatwire.gst.foundation.controller.annotation;
 
-import COM.FutureTense.Interfaces.ICS;
-
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * A factory for a Factory to provide access to services that need access to ICS.
- * <p/>
+ * Annotation to tag a method that this is a producer method.
+ * The cache flag indicates if this should be cached.
  * 
+ * @author Dolf Dijkstra
  * 
- * @author Dolf.Dijkstra
- *
  */
-public interface FactoryProducer {
-    
-    /**
-     * Method to produce a {@link Factory} to access services that need access to ICS
-     * @param ics
-     * @return the Factory to create services that need access to ics.
-     */
-    Factory getFactory(final ICS ics);
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ServiceProducer {
+
+    boolean cache() default false;
+
 }

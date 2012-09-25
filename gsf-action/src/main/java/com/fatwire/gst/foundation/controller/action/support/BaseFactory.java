@@ -28,10 +28,16 @@ import org.apache.commons.logging.Log;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Factory;
-import com.fatwire.gst.foundation.controller.action.Model;
+import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
 import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
+ * Factory making use to reflection ({@link #reflectionStrategy(String, Class)}
+ * and {@link #ctorStrategy(String, Class)}) to produce objects.
+ * <p/>
+ * This class caches the produced objects for the lifetime of this object.
+ * Effectively this means the lifetime of the ICS object.
+ * 
  * @author Dolf Dijkstra
  * 
  */
@@ -40,6 +46,7 @@ public abstract class BaseFactory implements Factory {
     protected static final Log LOG = LogUtil.getLog(IcsBackedObjectFactoryTemplate.class);
 
     protected final ICS ics;
+
     private final Map<String, Object> objectCache = new HashMap<String, Object>();
     private Factory[] roots = new Factory[0];;
 
@@ -68,10 +75,11 @@ public abstract class BaseFactory implements Factory {
                         return o;
 
                 }
+                // only try ctor at the root level, otherwise
+                // it will be invoked on each BaseFactory
+                if (roots.length == 0)
+                    o = ctorStrategy(name, fieldType);
             }
-            if (roots.length == 0) // only try ctor at the root level, otherwise
-                                   // it will be invoked on each BaseFactory
-                o = ctorStrategy(name, fieldType);
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e.getTargetException());
         }
@@ -101,42 +109,141 @@ public abstract class BaseFactory implements Factory {
         }
         Object o = objectCache.get(name);
         if (o == null) {
-
             o = reflectionStrategy(name, c);
-            if (shouldCache(c)) {
-                objectCache.put(c.getName(), o);
-            }
         }
         return (T) o;
     }
 
     /**
-     * @param name
-     * @param c
-     * @return
+     * Method to find classes to use for the producer methods. This
+     * implementation returns {@link #getClass()}.</p> Subclasses can return and
+     * are encouraged to return other classes.
+     * 
+     * @param ics
+     * @return array of classes to use for reflection
+     */
+    protected Class<?>[] findClasses(ICS ics) {
+        return new Class[] { getClass() };
+    }
+
+    /**
+     * Reflection based producer method.
+     * <p/>
+     * This method uses reflection to find producer methods to the following
+     * rules:
+     * <ul>
+     * <li>public <b>static</b> Foo createFoo(ICS ics, Factory factory){}</li>
+     * <li>public Foo createFoo(ICS ics){}</li>
+     * </ul>
+     * If the non-static version is used the implementing class needs to have a
+     * public constructor that takes {@see ICS} and {@see Factory} as arguments.
+     * To this class the current ICS and this object will be passed.
+     * 
+     * 
+     * @param name the simple name of the object to produce
+     * @param c the class with the type information of the object to produce
+     * @return the created object, null if no producer method was found or when
+     *         that method returned null.
+     * @throws InvocationTargetException when the create&lt;Type&gt; method
+     *             throws an exception.
      */
     @SuppressWarnings("unchecked")
-    protected <T> T reflectionStrategy(final String name, final Class<T> c) throws InvocationTargetException {
+    protected <T> T reflectionStrategy(String name, Class<T> c) throws InvocationTargetException {
+
         T o = null;
-        try {
-            // TODO: medium: check for other method signatures
-            Method m;
-            m = getClass().getMethod("create" + name, ICS.class);
-            if (m != null) {
-                if (LOG.isTraceEnabled())
-                    LOG.trace("creating " + name + " from " + m.getName());
-                o = (T) m.invoke(this, ics);
+        for (Class<?> reflectionClass : findClasses(ics)) {
+
+            for (Method m : reflectionClass.getMethods()) {
+                if (m.getName().equals("create" + name)) {
+                    if (m.getReturnType().isAssignableFrom(c)) {
+                        if (m.getParameterTypes().length == 2 && Modifier.isStatic(m.getModifiers())
+                                && m.getParameterTypes()[0].isAssignableFrom(ICS.class)
+                                && m.getParameterTypes()[1].isAssignableFrom(Factory.class)) {
+                            try {
+                                o = (T) m.invoke(null, ics, this);
+                                if (shouldCache(m))
+                                    objectCache.put(c.getName(), o);
+
+                            } catch (IllegalArgumentException e) {
+                                LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", "
+                                        + e.getMessage());
+                            } catch (IllegalAccessException e) {
+                                LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString()
+                                        + ", " + e.getMessage());
+                            }
+                            return o;
+                        } else if (m.getParameterTypes().length == 1
+                                && m.getParameterTypes()[0].isAssignableFrom(ICS.class)) {
+                            try {
+                                Object factory = null;
+                                if (reflectionClass.equals(getClass())) {
+                                    factory = this;
+                                } else {
+                                    Constructor<?> ctor;
+
+                                    ctor = reflectionClass.getConstructor(ICS.class, Factory.class);
+                                    if (Modifier.isPublic(ctor.getModifiers())) {
+                                        factory = ctor.newInstance(ics, this);
+
+                                    } else {
+                                        LOG.warn(reflectionClass.getName()
+                                                + " does not have a public (ICS,Factory) constructor.");
+                                    }
+                                }
+                                if (factory != null) {
+                                    if (LOG.isTraceEnabled())
+                                        LOG.trace("creating " + name + " from " + m.getName());
+                                    o = (T) m.invoke(factory, ics);
+                                    if (shouldCache(m))
+                                        objectCache.put(c.getName(), o);
+                                }
+                                return o;
+
+                            } catch (SecurityException e) {
+                                LOG.debug("Huh, : " + m.toString());
+
+                            } catch (NoSuchMethodException e) {
+                                throw new NoSuchMethodExceptionRuntimeException(reflectionClass.getName()
+                                        + " should have a public constructor accepting a ICS and Factory.");
+                            } catch (IllegalArgumentException e) {
+                                LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", "
+                                        + e.getMessage());
+                            } catch (InstantiationException e) {
+                                LOG.error(e.getMessage());
+                            } catch (IllegalAccessException e) {
+                                LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString()
+                                        + ", " + e.getMessage());
+                            }
+                        }
+                    }
+
+                }
             }
-        } catch (IllegalArgumentException e) {
-            LOG.debug("Could not create  a " + c.getName() + " via a reflection method: " + e.getMessage());
-        } catch (IllegalAccessException e) {
-            LOG.debug("Could not create  a " + c.getName() + " via a reflection method: " + e.getMessage());
-        } catch (SecurityException e) {
-            LOG.debug("Could not create  a " + c.getName() + " via a reflection method: " + e.getMessage());
-        } catch (NoSuchMethodException e) {
-            LOG.debug("Could not create  a " + c.getName() + " via a reflection method: " + e.getMessage());
         }
         return o;
+    }
+
+    protected boolean shouldCache(Method m) {
+        boolean r = false;
+        if (m.isAnnotationPresent(ServiceProducer.class)) {
+            ServiceProducer annon = m.getAnnotation(ServiceProducer.class);
+            r = annon.cache();
+        }
+        return r;
+    }
+
+    /**
+     * @param e
+     */
+    protected void throwRuntimeException(InvocationTargetException e) {
+        Throwable t = e.getTargetException();
+        if (t == null) {
+            throw new RuntimeException(e);
+        } else if (t instanceof RuntimeException) {
+            throw (RuntimeException) t;
+        } else {
+            throw new RuntimeException(t);
+        }
     }
 
     /**
@@ -175,28 +282,7 @@ public abstract class BaseFactory implements Factory {
         return o;
     }
 
-    /**
-     * Should the created object be cached on the ICS scope.
-     * 
-     * @param c
-     * @return true is object should be cached locally
-     */
-
-    public boolean shouldCache(final Class<?> c) {
-        // don't cache the model as this is bound to the jsp page context and
-        // not
-        // to ICS. It would leak variables into other elements if we allowed it
-        // to cache.
-        // TODO:medium, figure out if this should be done more elegantly. It
-        // seems that scoping logic is
-        // brought into the factory, that might be a bad thing.
-        if (Model.class.isAssignableFrom(c)) {
-            return false;
-        }
-
-        return true;
-    }
-
+    @ServiceProducer(cache = false)
     public ICS createICS(final ICS ics) {
         return ics;
     }

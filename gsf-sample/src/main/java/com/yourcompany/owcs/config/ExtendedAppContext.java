@@ -31,8 +31,7 @@ import com.fatwire.gst.foundation.groovy.context.GroovyWebContext;
 /**
  * A sample on how to extend the service factory in GSF. This class is an
  * extension of the groovy app context, giving access to another ObjectFactory.
- * This class needs to be registered to the file META-INF/gsf-contexts.
- * </p>
+ * This class needs to be registered to the file META-INF/gsf-contexts. </p>
  * 
  * This class is also a show case on how services from Spring can be injected
  * 
@@ -41,20 +40,39 @@ import com.fatwire.gst.foundation.groovy.context.GroovyWebContext;
  * 
  */
 public class ExtendedAppContext extends GroovyWebContext {
-    private Factory[] roots = new Factory[1];
+    private Factory spring;
 
     public ExtendedAppContext(ServletContext context, AppContext app) {
         super(context, app);
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-        roots[0] = new SpringObjectFactory(wac);
+        spring = new SpringObjectFactory(wac);
     }
 
-    /* (non-Javadoc)
-     * @see com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext#getFactory(COM.FutureTense.Interfaces.ICS)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext
+     * #getFactory(COM.FutureTense.Interfaces.ICS)
      */
     @Override
     public Factory getFactory(ICS ics) {
-        return new MyExtendedObjectFactory(ics,roots);
+        /*
+         * This FactoryProducer is stacked with the Groovy, Spring and
+         * MyExtended. The order to find objects is first the MyExtended factory, then Groovy
+         * and thus IcsBackedObjectFactoryTemplate  and at last spring.
+         * 
+         * The GroovyFactory makes it possible to create factory methods 
+         * in /WEB-INF/gsf-groovy/gsf/ObjectFactory.groovy 
+         * and in /WEB-INF/gsf-groovy/gsf/<mysite>/ObjectFactory.groovy
+         * 
+         * This allows for factories per site. <mysite> is replaced with ics.GetVar("site").
+         * If gsf/<mysite>/ObjectFactory.groovy is not found or if that file does not contain the right 
+         * producer method, fallback is to the generic gsf/ObjectFactory.groovy.
+         * 
+         */
+        Factory root = super.getFactory(ics);
+        return new MyExtendedObjectFactory(ics, root, spring);
     }
 
 }

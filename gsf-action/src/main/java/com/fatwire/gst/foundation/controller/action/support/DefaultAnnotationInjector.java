@@ -24,8 +24,6 @@ import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.mapping.MappingInjector;
 
-import org.springframework.util.Assert;
-
 public class DefaultAnnotationInjector implements Injector {
 
     private FactoryProducer factoryFactory;
@@ -81,8 +79,8 @@ public class DefaultAnnotationInjector implements Injector {
         return factoryFactory;
     }
 
-    public void setFactoryFactory(FactoryProducer factoryFactory) {
-        Assert.notNull(factoryFactory);
-        this.factoryFactory = factoryFactory;
-    }
+//    public void setFactoryFactory(FactoryProducer factoryFactory) {
+//        Assert.notNull(factoryFactory);
+//        this.factoryFactory = factoryFactory;
+//    }
 }

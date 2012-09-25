@@ -31,6 +31,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Model;
+import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.PreviewContext;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
@@ -91,59 +92,60 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
      * @param ics
      * @param roots
      */
-    public IcsBackedObjectFactoryTemplate(ICS ics, Factory[] roots) {
+    public IcsBackedObjectFactoryTemplate(ICS ics, Factory... roots) {
         super(ics, roots);
     }
 
+    @ServiceProducer(cache=true)
     public WraCoreFieldDao createWraCoreFieldDao(final ICS ics) {
         return AssetApiWraCoreFieldDao.getInstance(ics);
     }
-
+    @ServiceProducer(cache=true)
     public AliasCoreFieldDao createAliasCoreFieldDao(final ICS ics) {
         final WraCoreFieldDao wraCoreFieldDao = getObject("wraCoreFieldDao", WraCoreFieldDao.class);
         return new AssetApiAliasCoreFieldDao(ics, wraCoreFieldDao);
     }
-
+    @ServiceProducer(cache=true)
     public PropertyDao createPropertyDao(final ICS ics) {
         return AssetApiPropertyDao.newInstance(ics);
     }
-
+    @ServiceProducer(cache=true)
     public WraPathTranslationService createWraPathTranslationService(final ICS ics) {
         return WraPathTranslationServiceFactory.getService(ics);
     }
-
+    @ServiceProducer(cache=true)
     public IncludeService createIncludeService(final ICS ics) {
         return new DefaultIncludeService(ics);
     }
-
+    @ServiceProducer(cache=true)
     public ScatteredAssetAccessTemplate createScatteredAssetAccessTemplate(final ICS ics) {
         return new ScatteredAssetAccessTemplate(ics);
     }
-
+    @ServiceProducer(cache=true)
     public AssetAccessTemplate createAssetAccessTemplate(final ICS ics) {
         return new AssetAccessTemplate(ics);
     }
-
+    @ServiceProducer(cache=true)
     public MappingService createMappingService(final ICS ics) {
         return new IcsMappingService(ics);
     }
-
+    @ServiceProducer(cache=true)
     public LocaleService createLocaleService(final ICS ics) {
         return new DefaultLocaleService(ics);
     }
-
+    @ServiceProducer(cache=true)
     public TemplateAssetAccess createTemplateAssetAccess(final ICS ics) {
         return new TemplateAssetAccess(ics);
     }
-
+    @ServiceProducer(cache=false)
     public Model createModel(final ICS ics) {
         return new Model();
     }
-
+    @ServiceProducer(cache=true)
     public SimpleSearchEngine createSimpleSearchEngine(final ICS ics) {
         return new SimpleSearchEngine("lucene");
     }
-
+    @ServiceProducer(cache=false)
     public NavigationService createNavigationService(final ICS ics) {
         // TODO: check if unnamed association is a valid association for a Page
         // assettype and create NavigationService based on that.
