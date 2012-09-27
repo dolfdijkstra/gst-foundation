@@ -75,7 +75,7 @@
   <distributionManagement>
     <site>
       <id>github-project-site</id>
-      <url>gitsite:git@github.com/dolfdijkstra/gst-foundation</url>
+      <url>gitsite:git@github.com/dolfdijkstra/gsf-sample</url>
     </site>
   </distributionManagement>
 
