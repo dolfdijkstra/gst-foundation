@@ -58,9 +58,9 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * 
  */
 public class BaseRenderPage {
-    private static final String URL_PATH = "url-path";
+    public static final String URL_PATH = "url-path";
 
-    private static final String VIRTUAL_WEBROOT = "virtual-webroot";
+    public static final String VIRTUAL_WEBROOT = "virtual-webroot";
 
     public static final String PACKEDARGS = "packedargs";
 
