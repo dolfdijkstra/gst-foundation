@@ -19,9 +19,11 @@ package gsf;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Factory;
+import com.fatwire.gst.foundation.controller.annotation.ServiceProducer
 
 public class ObjectFactory {
 
+  @ServiceProducer(cache = false)
   static List createList(ICS ics, Factory f){
       	return new ArrayList();
     }
