@@ -47,6 +47,7 @@
     <module>gsf-wra</module>
     <module>gsf-tagging</module>
     <module>gsf-action</module>
+    <module>gsf-mobile</module>   
     <module>gsf-groovy</module>
     <module>gsf-taglib</module>
     <module>gst-foundation-all</module>
