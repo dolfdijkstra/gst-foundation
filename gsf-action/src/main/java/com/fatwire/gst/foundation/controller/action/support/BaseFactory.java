@@ -136,7 +136,7 @@ public abstract class BaseFactory implements Factory {
      * <li>public Foo createFoo(ICS ics){}</li>
      * </ul>
      * If the non-static version is used the implementing class needs to have a
-     * public constructor that takes {@see ICS} and {@see Factory} as arguments.
+     * public constructor that takes {@link ICS} and {@link Factory} as arguments.
      * To this class the current ICS and this object will be passed.
      * 
      * 
