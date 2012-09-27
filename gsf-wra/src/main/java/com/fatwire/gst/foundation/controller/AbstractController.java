@@ -15,7 +15,15 @@
  */
 package com.fatwire.gst.foundation.controller;
 
+import static COM.FutureTense.Interfaces.Utilities.goodString;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.FTVAL;
 import COM.FutureTense.Interfaces.FTValList;
@@ -27,11 +35,6 @@ import COM.FutureTense.XML.Template.Seed2;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.runtag.render.Unknowndeps;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * @author Tony Field
@@ -101,7 +104,7 @@ public abstract class AbstractController implements Seed2 {
             DebugHelper.dumpVars(ics, LOG);
         }
         switch (code) { // all the http status codes, we may restrict the list
-            // to error and redirect
+        // to error and redirect
             case HttpServletResponse.SC_ACCEPTED:
             case HttpServletResponse.SC_BAD_GATEWAY:
             case HttpServletResponse.SC_BAD_REQUEST:
@@ -165,6 +168,15 @@ public abstract class AbstractController implements Seed2 {
             ics.SetObj("com.fatwire.gst.foundation.exception", e);
             ics.CallElement(element, null);
             ics.SetObj("com.fatwire.gst.foundation.exception", null);
+        } else {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            pw.flush();
+
+            ics.StreamText("<h1>ERROR "+ code +"</h1><p>An error has been raised. <br/>Please add an element at GST/ErrorHandler to handle the display of this message differently.<br/></br><pre>"
+                    + sw.toString()
+                    + "</pre></p>");
         }
         ics.SetErrno(ftErrors.exceptionerr);
 
