@@ -89,10 +89,20 @@ public class DiskGroovyLoader implements GroovyLoader {
         try {
             c = groovyScriptEngine.loadScriptByName(toScriptName(name));
         } catch (ResourceException e) {
-            logger.debug("GroovyScriptEngine was not able to load " + name + " as a script: " + e.getMessage()
-                    + ". Now trying as a class.");
+
+            if (logger.isDebugEnabled())
+                logger.debug("GroovyScriptEngine was not able to load " + name + " as a script: " + e.getMessage()
+                        + ". Now trying as a class.");
             String className = name.replace('/', '.');
-            c = groovyScriptEngine.getGroovyClassLoader().loadClass(className);
+            try {
+                c = groovyScriptEngine.getGroovyClassLoader().loadClass(className);
+            } catch (ClassNotFoundException cnfe) {
+                if (logger.isDebugEnabled())
+                    logger.debug("GroovyClassLoader was not able to load " + className + ": " + cnfe.getMessage()
+                            + ". Aborting.");
+                return null;
+
+            }
         }
 
         return c.newInstance();
