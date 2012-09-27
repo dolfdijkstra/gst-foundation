@@ -17,13 +17,43 @@ package com.fatwire.gst.foundation.facade.mda;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.mda.Dimension;
+import com.fatwire.mda.DimensionFilterInstance;
 import com.fatwire.mda.DimensionSetInstance;
 
 /**
+ * Service to find translated assets and work with Dimensions, DimensionSets and DimensionFilters.
+ * 
  * @author Dolf Dijkstra
  * @since Apr 19, 2011
  */
 public interface LocaleService {
+    
+    
+    
+    /**
+     * Returns the DimensionSetInstance for the site
+     * @param site the name of the site
+     * @return the DimensionSetInstance for the site
+     */
+    public DimensionSetInstance locateDimensionSetInstanceForSite(String site);
+    
+    /**
+     * Looks up the DimensionFilter based on the current browser settings and site configuration, as well as request parameters.
+     * @param site
+     * @return the DimensionFilterInstance
+     */
+    public DimensionFilterInstance getDimensionFilter(String site);
+
+
+    /**
+     * Look up the translation for the asset specified, with the dimension filter.
+     * <p/>
+     * 
+     * @param id asset id of asset to look up
+     * @param filter the dimensionset to use
+     * @return AssetId of translation asset.
+     */
+    public AssetId findTranslation(final AssetId id, DimensionFilterInstance filter);
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
@@ -114,10 +144,12 @@ public interface LocaleService {
     public AssetId findTranslation(final AssetId id, final long preferredDimension, final String dimensionSetName);
 
     /**
+     * Finds the translation for the preferred dimension and dimensionset.
+     * 
      * @param id
      * @param preferredDimension
      * @param dimset
-     * @return assetif of translated asset.
+     * @return assetid of translated asset.
      * @throws IllegalStateException
      */
 
