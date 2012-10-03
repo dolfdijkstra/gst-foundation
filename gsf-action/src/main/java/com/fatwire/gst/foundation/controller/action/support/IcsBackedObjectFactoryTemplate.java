@@ -39,10 +39,16 @@ import com.fatwire.gst.foundation.navigation.support.SimpleNavigationHelper;
 import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
 import com.fatwire.gst.foundation.properties.PropertyDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
-import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
+import com.fatwire.gst.foundation.url.db.DbSimpleWRADao;
+import com.fatwire.gst.foundation.url.db.UrlRegistry2;
+import com.fatwire.gst.foundation.url.db.UrlRegistryDao;
+import com.fatwire.gst.foundation.url.db.UrlRegistryDaoImpl;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebrootApiBypassDao;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
+import com.fatwire.gst.foundation.wra.SimpleWRADao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.navigation.WraNavigationService;
 import com.fatwire.mda.DimensionFilterInstance;
@@ -99,7 +105,11 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
 
     @ServiceProducer(cache = true)
     public WraPathTranslationService createWraPathTranslationService(final ICS ics) {
-        return WraPathTranslationServiceFactory.getService(ics);
+        final SimpleWRADao wraDao = new DbSimpleWRADao(ics);
+        final VirtualWebrootDao vwDao = new VirtualWebrootApiBypassDao(ics);
+        final UrlRegistryDao regDao = new UrlRegistryDaoImpl(ics);
+        final UrlRegistry2 x = new UrlRegistry2(ics, wraDao, vwDao, regDao);
+        return x;
     }
 
     @ServiceProducer(cache = true)
