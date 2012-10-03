@@ -29,6 +29,7 @@ import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
  * @author Tony Field
  * @since Jul 21, 2010
  */
+@Deprecated
 public final class WraPathTranslationServiceFactory {
 
     /**

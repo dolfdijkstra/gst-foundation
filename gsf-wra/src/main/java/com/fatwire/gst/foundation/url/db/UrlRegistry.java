@@ -49,7 +49,9 @@ import org.apache.commons.logging.Log;
  * 
  * @author Dolf.Dijkstra
  * @since Jun 17, 2010
+ * @Deprecated use {@link UrlRegistry2}
  */
+ @Deprecated
 public class UrlRegistry implements WraPathTranslationService {
 
     private static final Log LOG = LogUtil.getLog(UrlRegistry.class);
@@ -62,6 +64,14 @@ public class UrlRegistry implements WraPathTranslationService {
 
     // anonymous
 
+    /**
+     * 
+     * @param ics
+     * @param wraDao
+     * @param vwDao
+     * @deprecated
+     */
+   @Deprecated
     public UrlRegistry(final ICS ics, final WraCoreFieldDao wraDao, final VirtualWebrootDao vwDao) {
         this.ics = ics;
         // Temporarily disable usage of asset APIs in this use case due to a bug
