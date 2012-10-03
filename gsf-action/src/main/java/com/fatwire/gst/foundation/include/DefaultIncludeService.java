@@ -18,12 +18,12 @@ package com.fatwire.gst.foundation.include;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.util.Assert;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
-
-import org.springframework.util.Assert;
 
 /**
  * @author Dolf Dijkstra
@@ -49,9 +49,9 @@ public class DefaultIncludeService implements IncludeService {
     public IncludePage page(final String name, final String pagename, final Style style) {
         Assert.hasText(name);
         Assert.hasText(pagename);
-        if (Style.element == style)
-            throw new IllegalArgumentException(
-                    "IncludeService#page cannot handle style 'element'. Please use IncludeService#element.");
+//        if (Style.element == style)
+//            throw new IllegalArgumentException(
+//                    "IncludeService#page cannot handle style 'element'. Please use IncludeService#element.");
         final IncludePage i = new IncludePage(ics, pagename, style == null ? Style.pagelet : style);
         map.put(name, i);
         return i;
