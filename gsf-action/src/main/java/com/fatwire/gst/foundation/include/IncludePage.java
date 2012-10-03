@@ -22,13 +22,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
+
+import COM.FutureTense.ContentServer.PageData;
+import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.ContentServer;
 import com.fatwire.gst.foundation.facade.runtag.render.SatellitePage;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Class that calls render:contentserver or render:satellitepage based on style.
@@ -112,10 +114,28 @@ public class IncludePage implements Include {
                 }
             }
                 break;
+            case element: {
+                PageData data = ics.getPageData(pagename);
+                if (!data.isRegistered())
+                    throw new IllegalArgumentException(pagename + " is not a registered page.");
+                String element = data.getRootElement();
+                FTValList ftv = argsToFTValList();
+                ics.CallElement(element, ftv);
+            }
             default:
                 throw new IllegalStateException("Can't handle style " + style);
         }
 
+    }
+
+    /**
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private FTValList argsToFTValList() {
+        FTValList ftv = new FTValList();
+        ftv.putAll(list);
+        return ftv;
     }
 
     /**
@@ -126,10 +146,14 @@ public class IncludePage implements Include {
      *      java.lang.String)
      */
     public IncludePage argument(final String name, final String value) {
-        if (pc.contains(name) && !FORBIDDEN_VARS.contains(name)) {
+        if (FORBIDDEN_VARS.contains(name)) {
+            throw new IllegalArgumentException("Can't deal with " + name);
+        }
+
+        if (pc.contains(name)) {
             list.put(name, value);
         } else {
-            throw new IllegalArgumentException("Can't deal with " + name);
+            throw new IllegalArgumentException( name + " is not part of the page criteria: " + pc.toString());
         }
         return this;
     }
