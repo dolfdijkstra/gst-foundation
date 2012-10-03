@@ -16,6 +16,7 @@
 package com.fatwire.gst.foundation.controller;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,9 +70,10 @@ public class BaseRenderPage {
     protected WraCoreFieldDao wraCoreFieldDao;
     protected AliasCoreFieldDao aliasCoreFieldDao;
     protected ICS ics;
-    private static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Arrays.asList("c", "cid", "eid", "seid", PACKEDARGS,
-            "variant", "context", "pagename", "childpagename", "site", "tid", VIRTUAL_WEBROOT, URL_PATH,
-            "SystemAssetsRoot", "rendermode", "cshttp", "errno", "tablename", "empty", "ft_ss", "errdetail", "null");
+    public static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Collections.unmodifiableList(Arrays.asList("c", "cid",
+            "eid", "seid", PACKEDARGS, "variant", "context", "pagename", "childpagename", "site", "tid",
+            VIRTUAL_WEBROOT, URL_PATH, "SystemAssetsRoot", "rendermode", "cshttp", "errno", "tablename", "empty",
+            "ft_ss", "errdetail", "null"));
 
     public BaseRenderPage() {
         super();
@@ -277,8 +279,8 @@ public class BaseRenderPage {
         // the preview code path is adding all the additional arguments in
         // packedargs.
         // unpack here so we can use
-        String pa = ics.GetVar(PubConstants.PACKEDARGS);
-        unpackPackedArgs();
+        String pa = unpackPackedArgs();//ics.GetVar(PubConstants.PACKEDARGS);
+        
         final AssetIdWithSite id = resolveAssetId();
         if (id == null || id.getSite() == null) {
             throw new CSRuntimeException("Asset or site not found: '" + id + "' for url " + ics.pageURL(),
@@ -333,7 +335,7 @@ public class BaseRenderPage {
         return id;
     }
 
-    protected void unpackPackedArgs() {
+    protected String unpackPackedArgs() {
         // for RenderPage unpacking and throwing away packedargs seems the
         // correct thing to do
         final String packedargs = ics.GetVar(PACKEDARGS);
@@ -349,6 +351,7 @@ public class BaseRenderPage {
             }
             ics.RemoveVar(PACKEDARGS);
         }
+        return packedargs;
 
     }
 
