@@ -20,11 +20,11 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import com.fatwire.gst.foundation.controller.AppContext;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
+
+import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 public class WebAppContext implements AppContext {
     protected static final Log LOG = LogUtil.getLog(WebAppContext.class);

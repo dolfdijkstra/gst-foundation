@@ -195,49 +195,59 @@ public class UrlRegistry2 implements WraPathTranslationService {
     }
 
     /**
-     * Rebuild all entries in the GST URL Registry table.  Uses brute force method and can take a very long time.
+     * Rebuild all entries in the GST URL Registry table. Uses brute force
+     * method and can take a very long time.
+     * 
      * @param stream stream a message back to the browser to prevent timeouts
      */
     public void rebuild(boolean stream) {
-        if (!ics.UserIsMember("xceladmin")) { throw new CSRuntimeException("xceladmin user required to rebuild URL Registry", ftErrors.noprivs); }
+        if (!ics.UserIsMember("xceladmin")) {
+            throw new CSRuntimeException("xceladmin user required to rebuild URL Registry", ftErrors.noprivs);
+        }
         regDao.clear();
-        if (stream) ics.StreamText("Re-creating url registry entries for ");
+        if (stream)
+            ics.StreamText("Re-creating url registry entries for ");
         for (String type : _lookupWraAssetTypes()) {
-            LOG.debug("Re-creating all registry entries for asset type "+type);
-            if (stream) ics.StreamText("Asset type: "+type);
-            for (Row r : SqlHelper.select(ics, type, "select id,template,path,startdate,enddate from "+type+" where status!='VO'")) {
+            LOG.debug("Re-creating all registry entries for asset type " + type);
+            if (stream)
+                ics.StreamText("Asset type: " + type);
+            for (Row r : SqlHelper.select(ics, type, "SELECT id,template,path,startdate,enddate FROM " + type
+                    + " WHERE status!='VO' AND path NOT NULL and template NOT NULL")) {
                 long id = r.getLong("id");
                 AssetId aid = new AssetIdImpl(type, id);
                 SimpleWra wra = new SimpleWra(r, aid);
                 if (isWra(wra)) {
-                    LOG.debug("Attempting to rebuild registry entry for "+aid);
+                    LOG.debug("Attempting to rebuild registry entry for " + aid);
                     // stream to prevent timeouts...???? :-(
-                    if (stream) ics.StreamText(" "+id); // stream immediately (don't use StreamEvalBytes)
+                    if (stream)
+                        ics.StreamText(" " + id); // stream immediately (don't
+                                                  // use StreamEvalBytes)
                     addAsset_(wra);
                 }
             }
         }
-        if (stream) ics.StreamText("...completed");
+        if (stream)
+            ics.StreamText("...completed");
         LOG.debug("Rebuild completed");
     }
 
     private final Collection<String> SYSTEM_TYPES = Arrays.asList("Template", "CSElement", "SiteEntry", "Collection",
             "Page", "Query", "Link", "Dimension", "DimensionSet", "AttrTypes", "AdvCols", "Segments", "Promotions",
-            "ScalarVals", "HistoryVals", "HFields",
-            "GSTFilter", "GSTAttribute", "GSTPDefinition", "GSTDefinition", "GSTVirtualWebroot", "GSTProperty",
-            "FW_View", "FW_Application");
+            "ScalarVals", "HistoryVals", "HFields", "GSTFilter", "GSTAttribute", "GSTPDefinition", "GSTDefinition",
+            "GSTVirtualWebroot", "GSTProperty", "FW_View", "FW_Application");
 
     private List<String> _lookupWraAssetTypes() {
         List<String> x = new ArrayList<String>();
         for (Row r : SqlHelper.select(ics, "AssetType", "select assettype from AssetType")) {
             String type = r.getString("assettype");
             if (!SYSTEM_TYPES.contains(type)) {
-                x.add(type); // TODO: be much smarter.  Exclude flex definitions, parent devs, filters.  Get fancy and exclude non-compliant definitions.
+                x.add(type); // TODO: be much smarter. Exclude flex definitions,
+                             // parent devs, filters. Get fancy and exclude
+                             // non-compliant definitions.
             }
         }
         return x;
     }
-
 
     public static UrlRegistry2 lookup(final ICS ics) {
         final Object o = ics.GetObj(UrlRegistry2.class.getName());

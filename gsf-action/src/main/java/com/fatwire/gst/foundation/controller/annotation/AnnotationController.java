@@ -16,6 +16,8 @@
 
 package com.fatwire.gst.foundation.controller.annotation;
 
+import static COM.FutureTense.Interfaces.Utilities.goodString;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -26,8 +28,6 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AbstractController;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
-
-import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * The Controller delegates the business logic to an annotated method. In this

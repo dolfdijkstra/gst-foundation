@@ -33,7 +33,7 @@ public interface WraPathTranslationService {
 
   
     /**
-     * Look up the asset corresponding to the input virtual-0webroot and
+     * Look up the asset corresponding to the input virtual-webroot and
      * url-path
      * 
      * @param virtual_webroot

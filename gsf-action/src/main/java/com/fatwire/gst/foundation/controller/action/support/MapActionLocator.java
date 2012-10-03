@@ -19,12 +19,12 @@ package com.fatwire.gst.foundation.controller.action.support;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * ActionLocator that holds a Map with the Actions. The 'name' is keyed to a map

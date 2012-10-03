@@ -20,14 +20,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Type;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Dolf Dijkstra

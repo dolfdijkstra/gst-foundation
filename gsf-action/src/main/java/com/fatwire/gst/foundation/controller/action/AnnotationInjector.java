@@ -23,13 +23,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fatwire.gst.foundation.DebugHelper;
-import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
+
+import com.fatwire.gst.foundation.DebugHelper;
+import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
 /**
  * Helper to inject dependencies into Object based on annotated fields and

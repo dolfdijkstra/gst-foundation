@@ -16,6 +16,8 @@
 package com.fatwire.gst.foundation.controller;
 
 
+import static COM.FutureTense.Interfaces.Utilities.goodString;
+
 import javax.servlet.http.HttpServletResponse;
 
 import COM.FutureTense.Interfaces.ICS;
@@ -25,14 +27,11 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.runtag.render.Unknowndeps;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
-import com.fatwire.gst.foundation.url.WraPathTranslationServiceFactory;
+import com.fatwire.gst.foundation.url.db.UrlRegistry2;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
-
-
-import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * <p>
@@ -51,7 +50,7 @@ public class RenderPageAdapter extends BaseRenderPage {
     public static final String STATUS_HEADER = "X-Fatwire-Status";
     public RenderPageAdapter(ICS ics) {
         this.ics = ics;
-        pathTranslationService = WraPathTranslationServiceFactory.getService(ics);
+        pathTranslationService = UrlRegistry2.lookup(ics);
         wraCoreFieldDao = new AssetApiWraCoreFieldDao(ics);
         aliasCoreFieldDao = new AssetApiAliasCoreFieldDao(ics, wraCoreFieldDao);
     }

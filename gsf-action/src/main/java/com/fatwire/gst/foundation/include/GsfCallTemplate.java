@@ -17,6 +17,9 @@ package com.fatwire.gst.foundation.include;
 
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.util.Assert;
+
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 
@@ -24,9 +27,6 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.satellite.Page;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.util.Assert;
 
 public class GsfCallTemplate {
     private String site;

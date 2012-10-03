@@ -17,15 +17,15 @@ package com.fatwire.gst.foundation.controller.support;
 
 import javax.servlet.ServletContext;
 
-import com.fatwire.gst.foundation.controller.AppContext;
-import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
-import com.fatwire.gst.foundation.controller.action.support.NullActionNameResolver;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
-
 import org.apache.commons.logging.Log;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
+import com.fatwire.gst.foundation.controller.action.support.NullActionNameResolver;
+import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 public class SpringWebAppContext implements AppContext {
     protected static final Log LOG = LogUtil.getLog(SpringWebAppContext.class);

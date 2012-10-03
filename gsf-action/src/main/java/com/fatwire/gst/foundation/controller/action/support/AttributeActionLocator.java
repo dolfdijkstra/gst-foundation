@@ -16,15 +16,15 @@
 
 package com.fatwire.gst.foundation.controller.action.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * ActionLocator that looks at an attribute of a WRA and retrieves the

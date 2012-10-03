@@ -18,6 +18,10 @@ package com.fatwire.gst.foundation.mapping;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.assetapi.data.AssetId;
@@ -30,10 +34,6 @@ import com.fatwire.gst.foundation.controller.annotation.Mapping;
 import com.fatwire.gst.foundation.controller.annotation.Mapping.Match;
 import com.fatwire.gst.foundation.mapping.MappingValue.Type;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Dolf Dijkstra

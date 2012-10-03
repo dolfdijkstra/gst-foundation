@@ -16,6 +16,9 @@
 
 package com.fatwire.gst.foundation.controller.action.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
@@ -23,9 +26,6 @@ import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.action.RenderPage;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * ActionLocator with support for Factory and a fall back ActionLocator.

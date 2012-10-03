@@ -17,9 +17,15 @@
 package com.fatwire.gst.foundation.controller.action;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -27,10 +33,6 @@ import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.annotation.Bind;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Helper to bind variables to an Object based on annotated fields.
@@ -77,7 +79,6 @@ public final class AnnotationBinder {
         }
     }
 
-  
     /**
      * @param object object to bind to
      * @param ics the ics context
@@ -115,13 +116,25 @@ public final class AnnotationBinder {
 
                     break;
                 case session:
-                    // if (!ics.isCacheable(ics.GetVar(ftMessage.PageName))) {
                     @SuppressWarnings("deprecation")
                     HttpSession s = ics.getIServlet().getServletRequest().getSession(false);
                     if (s != null) {
-                        put(object, field, s.getAttribute(name));
+                        Object obj = s.getAttribute(name);
+                        if (obj == null) {
+                            try {
+                                Method m = object.getClass().getMethod("create" + field.getType().getSimpleName(),
+                                        ICS.class);
+                                obj = m.invoke(object, ics);
+                            } catch (NoSuchMethodException e) {
+                                // ignore
+                            } catch (IllegalArgumentException e) {
+                                LOG.debug(e);
+                            } catch (InvocationTargetException e) {
+                                LOG.warn(e.getMessage());
+                            }
+                        }
+                        put(object, field, obj);
                     }
-                    // }
                     break;
 
             }

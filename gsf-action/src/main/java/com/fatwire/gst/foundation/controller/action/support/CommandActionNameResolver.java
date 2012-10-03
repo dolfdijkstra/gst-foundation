@@ -15,11 +15,11 @@
  */
 package com.fatwire.gst.foundation.controller.action.support;
 
+import org.apache.commons.lang.StringUtils;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * ActionNameResolver that looks up variable name value from ICS scope. Default
