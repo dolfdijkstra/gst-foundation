@@ -49,7 +49,7 @@ GST Site Foundation Variables
 
     [[1]]  <site>   The name of the site that the asset is currently rendered on.
 
-    [[1]]  <tid> Id for the Template assey
+    [[1]]  <tid> Id for the Template asset.
 
     [[1]]  <tname>  the name of the Template to render. Will be concatenated with the site name and the assettype to the pagename.
 
@@ -57,5 +57,11 @@ GST Site Foundation Variables
 
     [[1]]  <virtual_webroot> Variable holding the virtual webroot part of the vanity url.
 
+    [[1]]  <d> Variable holding the device type for which you want to render the site, can be desktop, mobile or tablet.
+
+    [[1]]  <lang> Variable holding the language that the user want to use for see the page, is in the form of en_US.
+
+
+    [[1]]  <locale> Variable holding the id of the Dimension with the locale that the user want to use for see the page, is in the form of en_US.
 
     []

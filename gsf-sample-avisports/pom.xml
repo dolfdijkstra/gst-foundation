@@ -5,7 +5,7 @@
   <groupId>com.yourcompany.owcs</groupId>
   <artifactId>gsf-sample-avisports</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <name>GSF example on top of avisports</name>
   <description>A rewrite of avisports with GSF as an example on how code is simplified and how easy it is to bold more features on top.</description>
   <inceptionYear>2012</inceptionYear>
