@@ -125,6 +125,7 @@ public final class AnnotationBinder {
                                 Method m = object.getClass().getMethod("create" + field.getType().getSimpleName(),
                                         ICS.class);
                                 obj = m.invoke(object, ics);
+                                s.setAttribute(name, obj);
                             } catch (NoSuchMethodException e) {
                                 // ignore
                             } catch (IllegalArgumentException e) {
