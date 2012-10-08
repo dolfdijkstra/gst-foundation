@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.mobile.mobiforce;
+package com.fatwire.gst.foundation.mobile.mobiforge;
 
 import java.util.Enumeration;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import COM.FutureTense.Interfaces.ICS;
-
 import org.apache.commons.lang.StringUtils;
+
+import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.mobile.DeviceDetector;
 import com.fatwire.gst.foundation.mobile.DeviceType;
@@ -37,7 +37,7 @@ import com.fatwire.gst.foundation.mobile.DeviceType;
  * @author Dolf Dijkstra
  * @since 25 jun. 2012
  */
-public class MobiForceDeviceDetector implements DeviceDetector {
+public class MobiForgeDeviceDetector implements DeviceDetector {
     public static String DEVICE_VAR = "d";
 
     /*

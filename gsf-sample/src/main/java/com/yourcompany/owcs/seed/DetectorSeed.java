@@ -12,7 +12,7 @@ import COM.FutureTense.XML.Template.Seed2;
 
 import com.fatwire.gst.foundation.mobile.DeviceDetector;
 import com.fatwire.gst.foundation.mobile.DeviceType;
-import com.fatwire.gst.foundation.mobile.mobiforce.MobiForceDeviceDetector;
+import com.fatwire.gst.foundation.mobile.mobiforge.MobiForgeDeviceDetector;
 
 /**
  * A sample on how to manipulate the childpagename in an Seed, to be used in an XML Wrapper element.
@@ -24,7 +24,7 @@ public class DetectorSeed implements Seed2 {
 
     private static final String CHILDPAGENAME = "childpagename";
 
-    static DeviceDetector detector = new MobiForceDeviceDetector();
+    static DeviceDetector detector = new MobiForgeDeviceDetector();
 
     private ICS ics;
 

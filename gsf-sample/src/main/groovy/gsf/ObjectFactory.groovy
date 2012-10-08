@@ -20,7 +20,7 @@ import COM.FutureTense.Interfaces.ICS
 
 import com.fatwire.gst.foundation.controller.action.Factory
 import com.fatwire.gst.foundation.mobile.DeviceDetector
-import com.fatwire.gst.foundation.mobile.mobiforce.MobiForceDeviceDetector
+import com.fatwire.gst.foundation.mobile.mobiforge.MobiForceDeviceDetector
 import com.fatwire.gst.foundation.controller.annotation.ServiceProducer
 
 /**
@@ -44,6 +44,6 @@ public class ObjectFactory {
 
   @ServiceProducer(cache = true)
   static DeviceDetector createDeviceDetector(ICS ics, Factory f){
-     return new MobiForceDeviceDetector()
+     return new MobiForgeDeviceDetector()
   }
 }

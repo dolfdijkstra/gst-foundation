@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.mobile.mobiforce;
+package com.fatwire.gst.foundation.mobile.mobiforge;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import com.fatwire.gst.foundation.mobile.DeviceType;
-import com.fatwire.gst.foundation.mobile.mobiforce.MobiForceDeviceDetector;
+import com.fatwire.gst.foundation.mobile.mobiforge.MobiForgeDeviceDetector;
 
 public class MobiForceDeviceDetectorTest {
 
@@ -28,7 +28,7 @@ public class MobiForceDeviceDetectorTest {
 	public void testDetectDeviceTypeString_iphone() {
 		String ua = "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3";
 
-		DeviceType type = new MobiForceDeviceDetector().detectDeviceType(ua);
+		DeviceType type = new MobiForgeDeviceDetector().detectDeviceType(ua);
 		assertEquals(DeviceType.MOBILE, type);
 
 	}
@@ -37,7 +37,7 @@ public class MobiForceDeviceDetectorTest {
 	public void testDetectDeviceTypeString_ipad() {
 		String ua = "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10";
 
-		DeviceType type = new MobiForceDeviceDetector().detectDeviceType(ua);
+		DeviceType type = new MobiForgeDeviceDetector().detectDeviceType(ua);
 		assertEquals(DeviceType.TABLET, type);
 
 	}
@@ -46,7 +46,7 @@ public class MobiForceDeviceDetectorTest {
 	public void testDetectDeviceTypeString_desktop() {
 		String ua = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:13.0) Gecko/20100101 Firefox/13.0.1";
 
-		DeviceType type = new MobiForceDeviceDetector().detectDeviceType(ua);
+		DeviceType type = new MobiForgeDeviceDetector().detectDeviceType(ua);
 		assertEquals(DeviceType.DESKTOP, type);
 
 	}
