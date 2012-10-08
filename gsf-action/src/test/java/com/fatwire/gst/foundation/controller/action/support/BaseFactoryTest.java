@@ -26,6 +26,7 @@ import org.junit.Test;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Factory;
+import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
 import com.fatwire.gst.foundation.test.MockICS;
 
 /**
@@ -36,6 +37,13 @@ public class BaseFactoryTest {
 
     public static class Foo {
         public Foo(ICS ics) {
+
+        }
+
+    }
+
+    public static class SBar {
+        public SBar() {
 
         }
 
@@ -103,7 +111,7 @@ public class BaseFactoryTest {
     public void testGetObject_bar_ctor() {
         MockICS ics = new MockICS();
 
-        BaseFactory bf = new FooFactory(ics,new FooBarFactory(ics));
+        BaseFactory bf = new FooFactory(ics, new FooBarFactory(ics));
         Bar foo = bf.getObject("foo", Bar.class);
         Assert.assertNotNull(foo);
     }
@@ -115,6 +123,35 @@ public class BaseFactoryTest {
         BaseFactory bf = new FooFactory(ics, new FooBarFactory(ics));
         FooBar foo = bf.getObject("foo", FooBar.class);
         Assert.assertNotNull(foo);
+    }
+
+    @Test
+    public void testGetObject_abar() {
+        MockICS ics = new MockICS();
+
+        BaseFactory bf = new CBarFactory(ics, new FooBarFactory(ics));
+        FooBar foo = bf.getObject("foo", FooBar.class);
+        Assert.assertNotNull(foo);
+        List list = bf.getObject("list", List.class);
+        Assert.assertNotNull(list);
+    }
+
+    @Test
+    public void testGetObject_sbar() {
+        MockICS ics = new MockICS();
+        Factory root = new CBarFactory(ics);
+        BaseFactory bf = new BaseFactory(ics, root) {
+
+            @Override
+            protected Class<?>[] factoryClasses(ICS ics) {
+                return new Class[] { SBarFactory.class };
+            }
+
+        };
+        SBar foo = bf.getObject("foobar2", SBar.class);
+        Assert.assertNotNull(foo);
+        List<?> list = bf.getObject("list", List.class);
+        Assert.assertNotNull(list);
     }
 
     class ListFactory extends BaseFactory {
@@ -164,6 +201,44 @@ public class BaseFactoryTest {
 
         public FooBar createFooBar(ICS ics) {
             return new FooBar(ics);
+        }
+
+    }
+
+    abstract class ABarFactory extends BaseFactory {
+
+        public ABarFactory(MockICS ics, Factory... roots) {
+            super(ics, roots);
+        }
+
+        public List<?> createList(ICS ics) {
+            return Collections.emptyList();
+        }
+
+        public FooBar createFooBar(ICS ics) {
+            return new FooBar(ics);
+        }
+
+    }
+
+    class CBarFactory extends ABarFactory {
+
+        public CBarFactory(MockICS ics, Factory... roots) {
+            super(ics, roots);
+        }
+
+        @ServiceProducer(name = "foobar")
+        public FooBar createFooBar(ICS ics) {
+            return new FooBar(ics);
+        }
+
+    }
+
+    static class SBarFactory {
+
+        @ServiceProducer(name = "foobar2")
+        public static SBar createFooBar(ICS ics) {
+            return new SBar();
         }
 
     }

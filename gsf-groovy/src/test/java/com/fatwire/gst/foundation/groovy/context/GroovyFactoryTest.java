@@ -59,9 +59,9 @@ public class GroovyFactoryTest {
         GroovyClassLoader gcl = new GroovyClassLoader();
 
         gcl.addClasspath("./src/test/bad-groovy");
-
-        GroovyFactory factory = new GroovyFactory(ics, gcl);
         try {
+
+            GroovyFactory factory = new GroovyFactory(ics, gcl);
             factory.getObject("foo", List.class);
         } catch (MultipleCompilationErrorsException e) {
 
@@ -99,7 +99,6 @@ public class GroovyFactoryTest {
             }
 
         };
-
 
         GroovyClassLoader gcl = new GroovyClassLoader();
 

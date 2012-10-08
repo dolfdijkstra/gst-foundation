@@ -24,48 +24,52 @@ import com.fatwire.gst.foundation.controller.action.support.BaseFactory;
 
 /**
  * 
- * Factory that dynamically loads other classes that provide producer methods.  
+ * Factory that dynamically loads other classes that provide producer methods.
+ * 
  * @author Dolf Dijkstra
  * @since September 23, 2012
- *
+ * 
  */
 public class GroovyFactory extends BaseFactory {
 
     private final ClassLoader classLoader;
+    private Class<?> generalFactoryClass;
 
     public GroovyFactory(ICS ics, ClassLoader gcl, Factory... roots) {
         super(ics, roots);
         this.classLoader = gcl;
+        try {
+            this.generalFactoryClass = classLoader.loadClass("gsf.ObjectFactory");
+        } catch (ClassNotFoundException e) {
+            // ignore
+            this.generalFactoryClass = null;
+        }
+
     }
 
-    protected Class<?>[] findClasses(ICS ics) {
+    @Override
+    protected Class<?>[] factoryClasses(ICS ics) {
         String site = ics.GetVar("site");
-        Class<?> cs = null;
-        Class<?> gc = null;
+        Class<?> siteClass = null;
 
         if (StringUtils.isNotBlank(site)) {
             try {
-                cs = classLoader.loadClass("gsf." + site.toLowerCase() + ".ObjectFactory");
+                siteClass = classLoader.loadClass("gsf." + site.toLowerCase() + ".ObjectFactory");
             } catch (ClassNotFoundException e) {
                 // ignore
             }
         }
-        try {
-            gc = classLoader.loadClass("gsf.ObjectFactory");
-        } catch (ClassNotFoundException e) {
-            // ignore
-        }
-        if (cs == null) {
-            if (gc == null) {
+        if (siteClass == null) {
+            if (generalFactoryClass == null) {
                 return new Class[0];
             } else {
-                return new Class[] { gc };
+                return new Class[] { generalFactoryClass };
             }
         } else {
-            if (gc == null) {
-                return new Class[] { cs };
+            if (generalFactoryClass == null) {
+                return new Class[] { siteClass };
             } else {
-                return new Class[] { cs, gc };
+                return new Class[] { siteClass, generalFactoryClass };
             }
 
         }

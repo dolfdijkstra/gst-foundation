@@ -19,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,11 +64,12 @@ public abstract class BaseFactory implements Factory {
             this.roots = roots;
     }
 
+    @Override
     public final <T> T getObject(final String name, final Class<T> fieldType) {
 
         T o;
         try {
-            o = locate(fieldType);
+            o = locate(name, fieldType);
             if (o == null) {
                 for (Factory root : roots) {
                     o = root.getObject(name, fieldType);
@@ -89,28 +91,41 @@ public abstract class BaseFactory implements Factory {
     /**
      * Internal method to check for Services or create Services.
      * 
+     * @param name
      * @param c
-     * @param ics
      * @return the found service, null if no T can be created.
      * @throws InvocationTargetException
      */
     @SuppressWarnings("unchecked")
-    protected <T> T locate(final Class<T> c) throws InvocationTargetException {
+    protected <T> T locate(final String askedName, final Class<T> c) throws InvocationTargetException {
         if (ICS.class.isAssignableFrom(c)) {
             return (T) ics;
         }
         if (c.isArray()) {
             throw new IllegalArgumentException("Arrays are not supported");
         }
-        final String name = c.getSimpleName();
+        final String name = StringUtils.isNotBlank(askedName) ? askedName : c.getSimpleName();
 
         if (StringUtils.isBlank(name)) {
             return null;
         }
+
         Object o = objectCache.get(name);
+        if (o != null && !o.getClass().isAssignableFrom(c))
+            throw new IllegalStateException("Name conflict: '" + name + "' is in cache and is of type  '"
+                    + o.getClass() + "' but a '" + c.getName()
+                    + "' was asked for. Please check your factories for naming conflicts.");
+        if (o == null) {
+            o = namedAnnotationStrategy(name, c);
+        }
+        if (o == null) {
+            o = unnamedAnnotationStrategy(name, c);
+        }
+
         if (o == null) {
             o = reflectionStrategy(name, c);
         }
+
         return (T) o;
     }
 
@@ -122,8 +137,62 @@ public abstract class BaseFactory implements Factory {
      * @param ics
      * @return array of classes to use for reflection
      */
-    protected Class<?>[] findClasses(ICS ics) {
+    protected Class<?>[] factoryClasses(ICS ics) {
         return new Class[] { getClass() };
+    }
+
+    /**
+     * Tries to create the object based on the {@link ServiceProducer}
+     * annotation where the names match.
+     * 
+     * @param name
+     * @param c
+     * @return
+     * @throws InvocationTargetException
+     */
+    protected <T> T namedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
+
+        for (Class<?> reflectionClass : factoryClasses(ics)) {
+            for (Method m : reflectionClass.getMethods()) {
+                if (m.isAnnotationPresent(ServiceProducer.class)) {
+                    if (m.getReturnType().isAssignableFrom(c)) {
+                        String n = m.getAnnotation(ServiceProducer.class).name();
+                        if (name.equals(n)) {
+                            return createFromMethod(name, c, m);
+                        }
+                    }
+                }
+
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Tries to create the object based on the {@link ServiceProducer}
+     * annotation without a name.
+     * 
+     * @param name
+     * @param c
+     * @return
+     * @throws InvocationTargetException
+     */
+    protected <T> T unnamedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
+
+        for (Class<?> reflectionClass : factoryClasses(ics)) {
+            for (Method m : reflectionClass.getMethods()) {
+                if (m.isAnnotationPresent(ServiceProducer.class)) {
+                    if (m.getReturnType().isAssignableFrom(c)) {
+                        String n = m.getAnnotation(ServiceProducer.class).name();
+                        if (StringUtils.isBlank(n)) {
+                            return createFromMethod(name, c, m);
+                        }
+                    }
+                }
+
+            }
+        }
+        return null;
     }
 
     /**
@@ -136,8 +205,8 @@ public abstract class BaseFactory implements Factory {
      * <li>public Foo createFoo(ICS ics){}</li>
      * </ul>
      * If the non-static version is used the implementing class needs to have a
-     * public constructor that takes {@link ICS} and {@link Factory} as arguments.
-     * To this class the current ICS and this object will be passed.
+     * public constructor that takes {@link ICS} and {@link Factory} as
+     * arguments. To this class the current ICS and this object will be passed.
      * 
      * 
      * @param name the simple name of the object to produce
@@ -147,80 +216,104 @@ public abstract class BaseFactory implements Factory {
      * @throws InvocationTargetException when the create&lt;Type&gt; method
      *             throws an exception.
      */
-    @SuppressWarnings("unchecked")
     protected <T> T reflectionStrategy(String name, Class<T> c) throws InvocationTargetException {
 
-        T o = null;
-        for (Class<?> reflectionClass : findClasses(ics)) {
+        for (Class<?> reflectionClass : factoryClasses(ics)) {
 
             for (Method m : reflectionClass.getMethods()) {
-                if (m.getName().equals("create" + name)) {
+                if (m.getName().equals("create" + c.getSimpleName())) {
                     if (m.getReturnType().isAssignableFrom(c)) {
-                        if (m.getParameterTypes().length == 2 && Modifier.isStatic(m.getModifiers())
-                                && m.getParameterTypes()[0].isAssignableFrom(ICS.class)
-                                && m.getParameterTypes()[1].isAssignableFrom(Factory.class)) {
-                            try {
-                                o = (T) m.invoke(null, ics, this);
-                                if (shouldCache(m))
-                                    objectCache.put(c.getName(), o);
-
-                            } catch (IllegalArgumentException e) {
-                                LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", "
-                                        + e.getMessage());
-                            } catch (IllegalAccessException e) {
-                                LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString()
-                                        + ", " + e.getMessage());
-                            }
-                            return o;
-                        } else if (m.getParameterTypes().length == 1
-                                && m.getParameterTypes()[0].isAssignableFrom(ICS.class)) {
-                            try {
-                                Object factory = null;
-                                if (reflectionClass.equals(getClass())) {
-                                    factory = this;
-                                } else {
-                                    Constructor<?> ctor;
-
-                                    ctor = reflectionClass.getConstructor(ICS.class, Factory.class);
-                                    if (Modifier.isPublic(ctor.getModifiers())) {
-                                        factory = ctor.newInstance(ics, this);
-
-                                    } else {
-                                        LOG.warn(reflectionClass.getName()
-                                                + " does not have a public (ICS,Factory) constructor.");
-                                    }
-                                }
-                                if (factory != null) {
-                                    if (LOG.isTraceEnabled())
-                                        LOG.trace("creating " + name + " from " + m.getName());
-                                    o = (T) m.invoke(factory, ics);
-                                    if (shouldCache(m))
-                                        objectCache.put(c.getName(), o);
-                                }
-                                return o;
-
-                            } catch (SecurityException e) {
-                                LOG.debug("Huh, : " + m.toString());
-
-                            } catch (NoSuchMethodException e) {
-                                throw new NoSuchMethodExceptionRuntimeException(reflectionClass.getName()
-                                        + " should have a public constructor accepting a ICS and Factory.");
-                            } catch (IllegalArgumentException e) {
-                                LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", "
-                                        + e.getMessage());
-                            } catch (InstantiationException e) {
-                                LOG.error(e.getMessage());
-                            } catch (IllegalAccessException e) {
-                                LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString()
-                                        + ", " + e.getMessage());
-                            }
-                        }
+                        return createFromMethod(name, c, m);
                     }
-
                 }
             }
         }
-        return o;
+        return null;
+    }
+
+    /**
+     * @param name name of the object
+     * @param c the type of the object to create
+     * @param m the method to use to create the object
+     * @return
+     * @throws InvocationTargetException
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> T createFromMethod(String name, Class<T> c, Method m) throws InvocationTargetException {
+        Object o = null;
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("trying to create a " + c.getName() + " object with name " + name + "  from method "
+                    + m.toGenericString());
+        }
+
+        if (m.getReturnType().isAssignableFrom(c)) {
+            Object from = null;
+
+            if (!Modifier.isStatic(m.getModifiers())) {
+                Class<?> reflectionClass = m.getDeclaringClass();
+
+                if (reflectionClass.isAssignableFrom(getClass())) {
+                    from = this; // TODO will this clash if this class and
+                                 // declared class have same parent class?
+                } else {
+                    Constructor<?> ctor;
+
+                    try {
+                        ctor = reflectionClass.getConstructor(ICS.class, Factory.class);
+                        if (Modifier.isPublic(ctor.getModifiers())) {
+                            from = ctor.newInstance(ics, this);
+                        } else {
+                            throw new NoSuchMethodExceptionRuntimeException(reflectionClass.getName()
+                                    + " does not have a public (ICS,Factory) constructor.");
+                        }
+                    } catch (NoSuchMethodException e) {
+                        throw new NoSuchMethodExceptionRuntimeException(reflectionClass.getName()
+                                + " should have a public constructor accepting a ICS and Factory.");
+                    } catch (InstantiationException e) {
+                        LOG.error(e.getMessage());
+                    } catch (IllegalArgumentException e) {
+                        LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", "
+                                + e.getMessage());
+                    } catch (IllegalAccessException e) {
+                        LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString() + ", "
+                                + e.getMessage());
+                    }
+                }
+
+            }
+            if (m.getParameterTypes().length == 2 && m.getParameterTypes()[0].isAssignableFrom(ICS.class)
+                    && m.getParameterTypes()[1].isAssignableFrom(Factory.class)) {
+                o = invokeCreateMethod(m, from, name, ics, this);
+            } else if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0].isAssignableFrom(ICS.class)) {
+                o = invokeCreateMethod(m, from, name, ics);
+            } else if (m.getParameterTypes().length == 0) {
+                o = invokeCreateMethod(m, from, name);
+            }
+            if (shouldCache(m))
+                objectCache.put(name, o);
+
+        }
+        return (T) o;
+    }
+
+    /**
+     * @param m method in invoke
+     * @param from object to invoke from
+     * @param name the name of the object
+     * @param arguments the arguments to pass to the method
+     * @return
+     * @throws InvocationTargetException
+     */
+    protected Object invokeCreateMethod(Method m, Object from, String name, Object... arguments)
+            throws InvocationTargetException {
+        try {
+            return m.invoke(from, arguments);
+        } catch (IllegalArgumentException e) {
+            LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", " + e.getMessage());
+        } catch (IllegalAccessException e) {
+            LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString() + ", " + e.getMessage());
+        }
+        return null;
     }
 
     protected boolean shouldCache(Method m) {
@@ -255,19 +348,16 @@ public abstract class BaseFactory implements Factory {
     protected <T> T ctorStrategy(final String name, final Class<T> c) throws InvocationTargetException {
         T o = null;
         try {
-            // System.out.println("factory: " + getClass().getName());
-            // System.out.println("class: " + c.getName());
-            // System.out.println("class: " + c.getSimpleName());
-            // System.out.println(" interface: " + c.isInterface());
-            // System.out.println(" abstract: " +
-            // Modifier.isAbstract(c.getModifiers()));
             if (c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
-                LOG.debug("Could not create  a " + c.getName() + " via a Template method. The class '" + c.getName()
-                        + "' is an interface or abstract class, giving up as a class cannot be constructed.");
+                if (LOG.isDebugEnabled())
+                    LOG.debug("Could not create  a " + c.getName() + " via a Template method. The class '"
+                            + c.getName()
+                            + "' is an interface or abstract class, giving up as a class cannot be constructed.");
                 return null;
             }
 
-            LOG.debug("Could not create  a " + c.getName() + " via a Template method, trying via constructor.");
+            if (LOG.isDebugEnabled())
+                LOG.debug("Could not create  a " + c.getName() + " via a Template method, trying via constructor.");
             final Constructor<T> constr = c.getConstructor(ICS.class);
             o = constr.newInstance(ics);
         } catch (final NoSuchMethodException e1) {
@@ -285,6 +375,11 @@ public abstract class BaseFactory implements Factory {
     @ServiceProducer(cache = false)
     public ICS createICS(final ICS ics) {
         return ics;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseFactory [roots=" + Arrays.toString(roots) + "]";
     }
 
 }

@@ -32,5 +32,7 @@ import java.lang.annotation.Target;
 public @interface ServiceProducer {
 
     boolean cache() default false;
+    
+    String name() default "";
 
 }
