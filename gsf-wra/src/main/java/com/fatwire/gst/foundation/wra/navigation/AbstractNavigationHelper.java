@@ -36,6 +36,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
+/**
+ * 
+ * @author Dolf Dijkstra
+ * @deprecated replaced with {@ NavigationService}
+ */
 public abstract class AbstractNavigationHelper {
 
     /**
@@ -58,7 +64,7 @@ public abstract class AbstractNavigationHelper {
     /**
      * Log file
      */
-    protected static final Log LOG = LogFactory.getLog(NavigationHelper2.class);
+    protected static final Log LOG = LogFactory.getLog(AbstractNavigationHelper.class);
     /**
      * Effective date for the purposes of startdate/enddate comparisons for an
      * asset.

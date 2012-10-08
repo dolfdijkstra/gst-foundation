@@ -15,9 +15,13 @@
  */
 package com.fatwire.gst.foundation.wra.navigation;
 
+import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
@@ -42,10 +46,6 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
 import com.fatwire.mda.DimensionFilterInstance;
 
-import org.apache.commons.lang.StringUtils;
-
-import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
-
 /**
  * Used to retrieve the Navigation Bar data. See the description of
  * {@link #getSitePlan(String)} for more details.
@@ -53,6 +53,7 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
  * 
  * @author Dolf Dijkstra
  * @since Jun 8, 2012
+ * @deprecated replaced with {@ NavigationService}
  */
 public class NavigationHelper2 extends AbstractNavigationHelper {
     /**
