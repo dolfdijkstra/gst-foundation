@@ -15,14 +15,18 @@
  */
 package com.fatwire.gst.foundation.controller.action;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
+
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.controller.annotation.Bind;
 import com.fatwire.gst.foundation.test.MockICS;
 
-public class AnnotationBinderTest extends TestCase {
+public class AnnotationBinderTest {
 
     class MyObject {
         @Bind
@@ -38,6 +42,7 @@ public class AnnotationBinderTest extends TestCase {
 
     }
 
+    @Test
     public void testBind_csvar() {
         MyObject o = new MyObject();
         ICS ics = new MockICS() {

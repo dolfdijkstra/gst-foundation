@@ -16,11 +16,14 @@
 
 package com.fatwire.gst.foundation.controller.action;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
-public class AnnotationInjectorTest extends TestCase {
+
+public class AnnotationInjectorTest  {
 
     class Sample {
         @InjectForRequest("me")
@@ -30,6 +33,7 @@ public class AnnotationInjectorTest extends TestCase {
 
     }
 
+    @Test
     public void testInject() {
         final Factory f = new Factory() {
 

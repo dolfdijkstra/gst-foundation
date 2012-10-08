@@ -132,7 +132,7 @@ public class BaseFactoryTest {
         BaseFactory bf = new CBarFactory(ics, new FooBarFactory(ics));
         FooBar foo = bf.getObject("foo", FooBar.class);
         Assert.assertNotNull(foo);
-        List list = bf.getObject("list", List.class);
+        List<?> list = bf.getObject("list", List.class);
         Assert.assertNotNull(list);
     }
 
