@@ -1,0 +1,219 @@
+ ~~
+~~ Copyright 2012 Oracle Corporation. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+GST Site Foundation new feature for 11.6 release
+ 
+*   Features
+
+    The 11g version of GSF (11.6) has the following major features.
+
+    * Using ContentServer 11g jars. 
+
+    * Web Referenceable Assets no longer require the meta and h1title attributes; path and template are enough. 
+
+    * Support for 11g flex Pages, to also have pages hold content, not just use them as navigation placeholders as in the 1.x releases.
+
+    * Considerably reduced configuration, just drop in the jar to start, some features require minimal configuration.
+
+    * Improved Dependancy Injection support: creater flexibility, no dependancy on Spring, adding support for Groovy factories.
+
+    * Groovy Actions can now be managed as CSElements.
+
+
+    * Improved installer
+
+    * Various new services
+
+    * Improved localization support
+
+    * Improved navigation bar support
+
+    * Adding support for service Factories per site.
+
+    * Adding support for (mobile) device detection, allowing for device specific template dispatching.
+
+    * Improved documenation and sample code, provided a rewrite of avisports.
+
+
+  A full list of changes are documented in the {{{./changes-11g.html} changes document}} for a more detailed and date ordered overview.
+
+*  New services
+
+    * Added a LocaleService 
+      Can also be used in the root Action to find a translation of the primary asset.
+      Now all the translation stuff is pluggable.
+
+
+    * Added a default error page in case an ErrorHandler element is not provided
+
+    * Adding NavigationService and relocating the navigation service to its own package.
+
+    * Adding support for Navigation bars with 11g Pages. The navigation tag
+    looks up for the NavigationService so it can be easily customizable in case different
+    behaviour is needed.
+
+    * Also introduced the NavigationService interface and a single implementation.
+      This (first) implementation is making use of direct sql to look for the nav nodes in SitePlanTree, Page, Publication and AssetPublication tables.
+      This is done for performance and code clarity reasons.
+
+    * Adding lucene search engine as a service
+
+
+
+
+*  Factories/Actions/MVC/DI
+
+
+    * Adding support for Factory for services defined in groovy scripts
+
+    * Adding variants to factory methods. Besides the create\<Classname\>(ICS) method, there is now @ServiceProducer annotation, and static factory methods that can optionally accept ICS and a Factory.
+
+    * Adding support for service Factories per site.
+
+    * A chain of factories can be be used for composition of factories, as opposed to object inheritance.
+
+    * Adding feature: Using a plus sign as the name for action in the <gsf:root> postfixes "_action" to the current elementname to get to the action name. In this way it is easy to build upon a naming convention.
+    
+    For instance in the element Page/Detail the action name would be Page/Detail_action
+
+
+
+    * Adding support for loading groovy scripts from element catalog. Element file names need to end with .groovy
+
+    * Refactoring groovy framework for configuration without Spring.
+
+
+    * Refactoring action framework for configuration without Spring.
+
+
+    * Adding isActive() support if current Navigation node is same as icsVar 'p'.
+
+
+    * Adding support to get parents with the Group_<parentname> syntax in JSP EL. Returns an List of AssetIds.
+
+
+    * Adding variable binding support. @Bind can be used in action to read ics and session vars.
+
+
+    * Refactored ContextLoader to make sure that AppContext is registered on the servlet context after initialization, even if no ServletContextListener is defined.
+
+
+    * Adding groovy as a default configuration option, if WEB-INF/gsf-groovy and the groovy library is found
+
+
+    * Reworked WRA url and controller etc to work with path & template only. This is called a VanityAsset
+
+
+
+*  Misc Improvements
+
+    * Deprecating the p tag, merging p:page, p:include and p:action into
+    gsf:root, gsf:action and gsf:include.
+
+
+    * Improved Assembler and PageReference implementation to work around preview issues.
+
+
+    * Changing exceptions to CSRuntimeExceptions as ftErrors is no longer a Exception, as off 7.6.2
+
+
+    * Added logic that if sitepreview is disabled, the start/enddate logic is not run.
+
+
+    * Refactored the asset event listeners for tagging to extend RunOnceAssetEventListener.
+
+
+    * Implemented a RunOnce event listener, that will prevent business logic execution if that business logic has already fired for this event listener during this ICS scope (request). 
+
+    * Adding script for building and packaging
+
+    * Rudimentary script to change the jsps from 1.2 to 11.6 release, due to deprecated jsp tags.
+    
+	    You can invoke the script through find for instance:
+
+-------
+	    find . -type f -name '*.jsp' -exec sed -f ../seds -i {} \;
+
+-------
+
+      The seds script: 
+
+---------
+
+s/prefix="p"/prefix="gsf"/
+s_uri="http://gst.fatwire.com/foundation/tags/p_uri="http://gst.fatwire.com/foundation/tags/gsf_
+s/p:page/gsf:root/
+s/p:include/gsf:include/
+
+--------
+	    The above line expects that the current working directory is the root of the jsp folder and that the seds script is in the parent folder.
+
+
+
+    * Made the switch between setResponse() and sendError() configurable via the servlet filter config.
+
+
+    * Exposed reverse-lookups of named associations through AssetRelationTreeUtils and MappedAssetAccessTemplate. 
+
+    * Added a handy tag to do translation lookups based on a dimensionset after commercecontext.getrecommendation tag calls.  A companion tag that takes a single asset as input is probably warranted.  Typical syntax for this new tag is:
+    
+----------
+
+	<commercecontext:getrecommendations collectionid='${tag.id}' listvarname="reclist"/>
+	<gsf:translate-list inlist="reclist" dimset="EEGlobal" />
+---------
+    
+    *  Added "property" support.  Asset type called GSTProperty, having name, description, value attributes, can now be loaded into memory and accessed by name inside a JSP via EL.  Useful for constants, hard-coded values, etc. that need to be accessed in a web page.
+    
+
+*   Documentation 
+
+    * Improved the documentation for the groovy integration.
+
+    * Improved documenation for MVC and DI frameworks
+
+    * Changing website deployment descriptor to github.
+
+    * Integrating action/groovy documentation into the main documentation.
+
+    * Adding a page on standard variables used throughout the framework.
+
+
+*  Samples
+
+   * Adding documentation for the sample projects.
+
+   * Adding sample avisports gsf rewrite
+
+   * Adding some more samples for mobile aware sites
+
+   * Adding the gsf-mobile project. This holds features for mobile devices. For now it adds device detection.
+    
+   * Adding sample for NavigationService
+     
+   * Also added a show case on how to access Spring beans from a factory.
+   * Adding some more samples, on
+
+	    * how to use a Mapper to create a bean from AssetData
+
+	    * how to a create your own service
+
+	    * how to register you own context/service factory
+
+
+
+
+

@@ -22,8 +22,10 @@
   <body>
     <menu name="Overview">
       <item name="Introduction" href="./index.html"/>
+      <item name="What is new in 11g" href="./new-features-11g.html"/>
       <item name="Installation" href="./InstallGuide.html"/>
       <item name="MVC/Groovy support" href="./action/index.html"/>
+      <item name="Mobile" href="./mobile.html"/>
       <item name="Groovy code samples" href="./action/index.html#Code_samples"/>
       <item name="Sample projects" href="./samples.html"/>
       <item name="Standard Variables" href="./variables.html"/>
