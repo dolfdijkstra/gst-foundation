@@ -31,10 +31,9 @@ GST Site Foundation: new features for the 11.6 release
 
     * Considerably reduced configuration, just drop in the jar to start, some features require minimal configuration.
 
-    * Improved Dependancy Injection support: creater flexibility, no dependancy on Spring, adding support for Groovy factories.
+    * Improved Dependency Injection support: greater flexibility, no dependency on Spring, adding support for Groovy factories.
 
     * Groovy Actions can now be managed as CSElements.
-
 
     * Improved installer
 
@@ -48,7 +47,7 @@ GST Site Foundation: new features for the 11.6 release
 
     * Adding support for (mobile) device detection, allowing for device specific template dispatching.
 
-    * Improved documenation and sample code, provided a rewrite of avisports.
+    * Improved documentation and sample code, including a rewrite of avisports.
 
 
   A full list of changes are documented in the {{{./changes-11g.html} changes document}} for a more detailed and date ordered overview.
