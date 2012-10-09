@@ -17,6 +17,10 @@ package com.fatwire.gst.foundation.wra.navigation;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
@@ -24,6 +28,7 @@ import com.fatwire.assetapi.site.SiteInfo;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 import com.fatwire.gst.foundation.navigation.NavigationNode;
+import com.fatwire.gst.foundation.navigation.NavigationService;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
@@ -32,15 +37,11 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.mda.DimensionFilterInstance;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 
 /**
  * 
  * @author Dolf Dijkstra
- * @deprecated replaced with {@ NavigationService}
+ * @deprecated replaced with {@link NavigationService}
  */
 public abstract class AbstractNavigationHelper {
 
