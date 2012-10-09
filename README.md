@@ -1,5 +1,5 @@
 <!--
- Copyright 2010 FatWire Corporation. All Rights Reserved.
+ Copyright 2012 Oracle Corporation. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ The GST Site Foundation accomplishes the following:
 
 4. Clearly defines extension points
 
+Documentation for the GST Foundation project is found on [Gitpub Pages](http://dolfdijkstra.github.com/gst-foundation).
 
 
 [The GST Site Foundation Document](./GST Site Foundation 1.0.3.pdf) defines a simple URL-management and request
@@ -69,13 +70,14 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
 
 ##Documentation
 
-C
 Documentation for the GST Foundation project is found on [Gitpub Pages](http://dolfdijkstra.github.com/gst-foundation).
   
 
 ##Support
 
 The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
+
+Oracle Support does NOT provide support on GSF.
 
 ##License
 
