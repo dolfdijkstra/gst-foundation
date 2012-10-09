@@ -46,7 +46,7 @@
 <a class="jxr_linenumber" name="36" href="#36">36</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../../com/fatwire/gst/foundation/controller/AppContext.html">AppContext</a> getWebAppContext(ServletContext ctx) {
 <a class="jxr_linenumber" name="37" href="#37">37</a>          Object o = ctx.getAttribute(WebAppContext.WEB_CONTEXT_NAME);
 <a class="jxr_linenumber" name="38" href="#38">38</a>          <strong class="jxr_keyword">if</strong> (o == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="39" href="#39">39</a>              LOG.trace(<span class="jxr_string">"Configuring WebAppContext from WebContextUtil, it is not explicitly configured in web.xml. Using default setup!"</span>);
+<a class="jxr_linenumber" name="39" href="#39">39</a>              LOG.trace(<span class="jxr_string">"Configuring WebAppContext from WebContextUtil; it is not explicitly configured in web.xml. Using default setup!"</span>);
 <a class="jxr_linenumber" name="40" href="#40">40</a>              <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/controller/support/WebAppContextLoader.html">WebAppContextLoader</a>().configureWebAppContext(ctx);
 <a class="jxr_linenumber" name="41" href="#41">41</a>          }
 <a class="jxr_linenumber" name="42" href="#42">42</a>          <strong class="jxr_keyword">if</strong> (o instanceof AppContext) {

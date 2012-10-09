@@ -205,64 +205,74 @@
 <a class="jxr_linenumber" name="195" href="#195">195</a>     }
 <a class="jxr_linenumber" name="196" href="#196">196</a> 
 <a class="jxr_linenumber" name="197" href="#197">197</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="198" href="#198">198</a> <em class="jxr_javadoccomment">     * Rebuild all entries in the GST URL Registry table.  Uses brute force method and can take a very long time.</em>
-<a class="jxr_linenumber" name="199" href="#199">199</a> <em class="jxr_javadoccomment">     * @param stream stream a message back to the browser to prevent timeouts</em>
-<a class="jxr_linenumber" name="200" href="#200">200</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="201" href="#201">201</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> rebuild(<strong class="jxr_keyword">boolean</strong> stream) {
-<a class="jxr_linenumber" name="202" href="#202">202</a>         <strong class="jxr_keyword">if</strong> (!ics.UserIsMember(<span class="jxr_string">"xceladmin"</span>)) { <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"xceladmin user required to rebuild URL Registry"</span>, ftErrors.noprivs); }
-<a class="jxr_linenumber" name="203" href="#203">203</a>         regDao.clear();
-<a class="jxr_linenumber" name="204" href="#204">204</a>         <strong class="jxr_keyword">if</strong> (stream) ics.StreamText(<span class="jxr_string">"Re-creating url registry entries for "</span>);
-<a class="jxr_linenumber" name="205" href="#205">205</a>         <strong class="jxr_keyword">for</strong> (String type : _lookupWraAssetTypes()) {
-<a class="jxr_linenumber" name="206" href="#206">206</a>             LOG.debug(<span class="jxr_string">"Re-creating all registry entries for asset type "</span>+type);
-<a class="jxr_linenumber" name="207" href="#207">207</a>             <strong class="jxr_keyword">if</strong> (stream) ics.StreamText(<span class="jxr_string">"Asset type: "</span>+type);
-<a class="jxr_linenumber" name="208" href="#208">208</a>             <strong class="jxr_keyword">for</strong> (Row r : SqlHelper.select(ics, type, <span class="jxr_string">"select id,template,path,startdate,enddate from "</span>+type+<span class="jxr_string">" where status!='VO'"</span>)) {
-<a class="jxr_linenumber" name="209" href="#209">209</a>                 <strong class="jxr_keyword">long</strong> id = r.getLong(<span class="jxr_string">"id"</span>);
-<a class="jxr_linenumber" name="210" href="#210">210</a>                 AssetId aid = <strong class="jxr_keyword">new</strong> AssetIdImpl(type, id);
-<a class="jxr_linenumber" name="211" href="#211">211</a>                 <a href="../../../../../../com/fatwire/gst/foundation/wra/SimpleWra.html">SimpleWra</a> wra = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/SimpleWra.html">SimpleWra</a>(r, aid);
-<a class="jxr_linenumber" name="212" href="#212">212</a>                 <strong class="jxr_keyword">if</strong> (isWra(wra)) {
-<a class="jxr_linenumber" name="213" href="#213">213</a>                     LOG.debug(<span class="jxr_string">"Attempting to rebuild registry entry for "</span>+aid);
-<a class="jxr_linenumber" name="214" href="#214">214</a>                     <em class="jxr_comment">// stream to prevent timeouts...???? :-(</em>
-<a class="jxr_linenumber" name="215" href="#215">215</a>                     <strong class="jxr_keyword">if</strong> (stream) ics.StreamText(<span class="jxr_string">" "</span>+id); <em class="jxr_comment">// stream immediately (don't use StreamEvalBytes)</em>
-<a class="jxr_linenumber" name="216" href="#216">216</a>                     addAsset_(wra);
-<a class="jxr_linenumber" name="217" href="#217">217</a>                 }
-<a class="jxr_linenumber" name="218" href="#218">218</a>             }
-<a class="jxr_linenumber" name="219" href="#219">219</a>         }
-<a class="jxr_linenumber" name="220" href="#220">220</a>         <strong class="jxr_keyword">if</strong> (stream) ics.StreamText(<span class="jxr_string">"...completed"</span>);
-<a class="jxr_linenumber" name="221" href="#221">221</a>         LOG.debug(<span class="jxr_string">"Rebuild completed"</span>);
-<a class="jxr_linenumber" name="222" href="#222">222</a>     }
-<a class="jxr_linenumber" name="223" href="#223">223</a> 
-<a class="jxr_linenumber" name="224" href="#224">224</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Collection&lt;String&gt; SYSTEM_TYPES = Arrays.asList(<span class="jxr_string">"Template"</span>, <span class="jxr_string">"CSElement"</span>, <span class="jxr_string">"SiteEntry"</span>, <span class="jxr_string">"Collection"</span>,
-<a class="jxr_linenumber" name="225" href="#225">225</a>             <span class="jxr_string">"Page"</span>, <span class="jxr_string">"Query"</span>, <span class="jxr_string">"Link"</span>, <span class="jxr_string">"Dimension"</span>, <span class="jxr_string">"DimensionSet"</span>, <span class="jxr_string">"AttrTypes"</span>, <span class="jxr_string">"AdvCols"</span>, <span class="jxr_string">"Segments"</span>, <span class="jxr_string">"Promotions"</span>,
-<a class="jxr_linenumber" name="226" href="#226">226</a>             <span class="jxr_string">"ScalarVals"</span>, <span class="jxr_string">"HistoryVals"</span>, <span class="jxr_string">"HFields"</span>,
-<a class="jxr_linenumber" name="227" href="#227">227</a>             <span class="jxr_string">"GSTFilter"</span>, <span class="jxr_string">"GSTAttribute"</span>, <span class="jxr_string">"GSTPDefinition"</span>, <span class="jxr_string">"GSTDefinition"</span>, <span class="jxr_string">"GSTVirtualWebroot"</span>, <span class="jxr_string">"GSTProperty"</span>,
-<a class="jxr_linenumber" name="228" href="#228">228</a>             <span class="jxr_string">"FW_View"</span>, <span class="jxr_string">"FW_Application"</span>);
-<a class="jxr_linenumber" name="229" href="#229">229</a> 
-<a class="jxr_linenumber" name="230" href="#230">230</a>     <strong class="jxr_keyword">private</strong> List&lt;String&gt; _lookupWraAssetTypes() {
-<a class="jxr_linenumber" name="231" href="#231">231</a>         List&lt;String&gt; x = <strong class="jxr_keyword">new</strong> ArrayList&lt;String&gt;();
-<a class="jxr_linenumber" name="232" href="#232">232</a>         <strong class="jxr_keyword">for</strong> (Row r : SqlHelper.select(ics, <span class="jxr_string">"AssetType"</span>, <span class="jxr_string">"select assettype from AssetType"</span>)) {
-<a class="jxr_linenumber" name="233" href="#233">233</a>             String type = r.getString(<span class="jxr_string">"assettype"</span>);
-<a class="jxr_linenumber" name="234" href="#234">234</a>             <strong class="jxr_keyword">if</strong> (!SYSTEM_TYPES.contains(type)) {
-<a class="jxr_linenumber" name="235" href="#235">235</a>                 x.add(type); <em class="jxr_comment">// TODO: be much smarter.  Exclude flex definitions, parent devs, filters.  Get fancy and exclude non-compliant definitions.</em>
-<a class="jxr_linenumber" name="236" href="#236">236</a>             }
-<a class="jxr_linenumber" name="237" href="#237">237</a>         }
-<a class="jxr_linenumber" name="238" href="#238">238</a>         <strong class="jxr_keyword">return</strong> x;
-<a class="jxr_linenumber" name="239" href="#239">239</a>     }
-<a class="jxr_linenumber" name="240" href="#240">240</a> 
-<a class="jxr_linenumber" name="241" href="#241">241</a> 
-<a class="jxr_linenumber" name="242" href="#242">242</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistry2.html">UrlRegistry2</a> lookup(<strong class="jxr_keyword">final</strong> ICS ics) {
-<a class="jxr_linenumber" name="243" href="#243">243</a>         <strong class="jxr_keyword">final</strong> Object o = ics.GetObj(UrlRegistry2.<strong class="jxr_keyword">class</strong>.getName());
-<a class="jxr_linenumber" name="244" href="#244">244</a>         <strong class="jxr_keyword">if</strong> (o instanceof UrlRegistry2) {
-<a class="jxr_linenumber" name="245" href="#245">245</a>             <strong class="jxr_keyword">return</strong> (UrlRegistry2) o;
-<a class="jxr_linenumber" name="246" href="#246">246</a>         }
-<a class="jxr_linenumber" name="247" href="#247">247</a> 
-<a class="jxr_linenumber" name="248" href="#248">248</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistry2.html">UrlRegistry2</a> x = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistry2.html">UrlRegistry2</a>(ics, <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/DbSimpleWRADao.html">DbSimpleWRADao</a>(ics), <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/vwebroot/VirtualWebrootApiBypassDao.html">VirtualWebrootApiBypassDao</a>(ics),
-<a class="jxr_linenumber" name="249" href="#249">249</a>                 <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistryDaoImpl.html">UrlRegistryDaoImpl</a>(ics));
-<a class="jxr_linenumber" name="250" href="#250">250</a> 
-<a class="jxr_linenumber" name="251" href="#251">251</a>         ics.SetObj(UrlRegistry2.<strong class="jxr_keyword">class</strong>.getName(), x);
-<a class="jxr_linenumber" name="252" href="#252">252</a>         <strong class="jxr_keyword">return</strong> x;
-<a class="jxr_linenumber" name="253" href="#253">253</a>     }
-<a class="jxr_linenumber" name="254" href="#254">254</a> 
-<a class="jxr_linenumber" name="255" href="#255">255</a> }
+<a class="jxr_linenumber" name="198" href="#198">198</a> <em class="jxr_javadoccomment">     * Rebuild all entries in the GST URL Registry table. Uses brute force</em>
+<a class="jxr_linenumber" name="199" href="#199">199</a> <em class="jxr_javadoccomment">     * method and can take a very long time.</em>
+<a class="jxr_linenumber" name="200" href="#200">200</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="201" href="#201">201</a> <em class="jxr_javadoccomment">     * @param stream stream a message back to the browser to prevent timeouts</em>
+<a class="jxr_linenumber" name="202" href="#202">202</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="203" href="#203">203</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> rebuild(<strong class="jxr_keyword">boolean</strong> stream) {
+<a class="jxr_linenumber" name="204" href="#204">204</a>         <strong class="jxr_keyword">if</strong> (!ics.UserIsMember(<span class="jxr_string">"xceladmin"</span>)) {
+<a class="jxr_linenumber" name="205" href="#205">205</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> CSRuntimeException(<span class="jxr_string">"xceladmin user required to rebuild URL Registry"</span>, ftErrors.noprivs);
+<a class="jxr_linenumber" name="206" href="#206">206</a>         }
+<a class="jxr_linenumber" name="207" href="#207">207</a>         regDao.clear();
+<a class="jxr_linenumber" name="208" href="#208">208</a>         <strong class="jxr_keyword">if</strong> (stream)
+<a class="jxr_linenumber" name="209" href="#209">209</a>             ics.StreamText(<span class="jxr_string">"Re-creating url registry entries for "</span>);
+<a class="jxr_linenumber" name="210" href="#210">210</a>         <strong class="jxr_keyword">for</strong> (String type : _lookupWraAssetTypes()) {
+<a class="jxr_linenumber" name="211" href="#211">211</a>             LOG.debug(<span class="jxr_string">"Re-creating all registry entries for asset type "</span> + type);
+<a class="jxr_linenumber" name="212" href="#212">212</a>             <strong class="jxr_keyword">if</strong> (stream)
+<a class="jxr_linenumber" name="213" href="#213">213</a>                 ics.StreamText(<span class="jxr_string">"Asset type: "</span> + type);
+<a class="jxr_linenumber" name="214" href="#214">214</a>             <strong class="jxr_keyword">for</strong> (Row r : SqlHelper.select(ics, type, <span class="jxr_string">"SELECT id,template,path,startdate,enddate FROM "</span> + type
+<a class="jxr_linenumber" name="215" href="#215">215</a>                     + <span class="jxr_string">" WHERE status!='VO' AND path NOT NULL and template NOT NULL"</span>)) {
+<a class="jxr_linenumber" name="216" href="#216">216</a>                 <strong class="jxr_keyword">long</strong> id = r.getLong(<span class="jxr_string">"id"</span>);
+<a class="jxr_linenumber" name="217" href="#217">217</a>                 AssetId aid = <strong class="jxr_keyword">new</strong> AssetIdImpl(type, id);
+<a class="jxr_linenumber" name="218" href="#218">218</a>                 <a href="../../../../../../com/fatwire/gst/foundation/wra/SimpleWra.html">SimpleWra</a> wra = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/wra/SimpleWra.html">SimpleWra</a>(r, aid);
+<a class="jxr_linenumber" name="219" href="#219">219</a>                 <strong class="jxr_keyword">if</strong> (isWra(wra)) {
+<a class="jxr_linenumber" name="220" href="#220">220</a>                     LOG.debug(<span class="jxr_string">"Attempting to rebuild registry entry for "</span> + aid);
+<a class="jxr_linenumber" name="221" href="#221">221</a>                     <em class="jxr_comment">// stream to prevent timeouts...???? :-(</em>
+<a class="jxr_linenumber" name="222" href="#222">222</a>                     <strong class="jxr_keyword">if</strong> (stream)
+<a class="jxr_linenumber" name="223" href="#223">223</a>                         ics.StreamText(<span class="jxr_string">" "</span> + id); <em class="jxr_comment">// stream immediately (don't</em>
+<a class="jxr_linenumber" name="224" href="#224">224</a>                                                   <em class="jxr_comment">// use StreamEvalBytes)</em>
+<a class="jxr_linenumber" name="225" href="#225">225</a>                     addAsset_(wra);
+<a class="jxr_linenumber" name="226" href="#226">226</a>                 }
+<a class="jxr_linenumber" name="227" href="#227">227</a>             }
+<a class="jxr_linenumber" name="228" href="#228">228</a>         }
+<a class="jxr_linenumber" name="229" href="#229">229</a>         <strong class="jxr_keyword">if</strong> (stream)
+<a class="jxr_linenumber" name="230" href="#230">230</a>             ics.StreamText(<span class="jxr_string">"...completed"</span>);
+<a class="jxr_linenumber" name="231" href="#231">231</a>         LOG.debug(<span class="jxr_string">"Rebuild completed"</span>);
+<a class="jxr_linenumber" name="232" href="#232">232</a>     }
+<a class="jxr_linenumber" name="233" href="#233">233</a> 
+<a class="jxr_linenumber" name="234" href="#234">234</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Collection&lt;String&gt; SYSTEM_TYPES = Arrays.asList(<span class="jxr_string">"Template"</span>, <span class="jxr_string">"CSElement"</span>, <span class="jxr_string">"SiteEntry"</span>, <span class="jxr_string">"Collection"</span>,
+<a class="jxr_linenumber" name="235" href="#235">235</a>             <span class="jxr_string">"Page"</span>, <span class="jxr_string">"Query"</span>, <span class="jxr_string">"Link"</span>, <span class="jxr_string">"Dimension"</span>, <span class="jxr_string">"DimensionSet"</span>, <span class="jxr_string">"AttrTypes"</span>, <span class="jxr_string">"AdvCols"</span>, <span class="jxr_string">"Segments"</span>, <span class="jxr_string">"Promotions"</span>,
+<a class="jxr_linenumber" name="236" href="#236">236</a>             <span class="jxr_string">"ScalarVals"</span>, <span class="jxr_string">"HistoryVals"</span>, <span class="jxr_string">"HFields"</span>, <span class="jxr_string">"GSTFilter"</span>, <span class="jxr_string">"GSTAttribute"</span>, <span class="jxr_string">"GSTPDefinition"</span>, <span class="jxr_string">"GSTDefinition"</span>,
+<a class="jxr_linenumber" name="237" href="#237">237</a>             <span class="jxr_string">"GSTVirtualWebroot"</span>, <span class="jxr_string">"GSTProperty"</span>, <span class="jxr_string">"FW_View"</span>, <span class="jxr_string">"FW_Application"</span>);
+<a class="jxr_linenumber" name="238" href="#238">238</a> 
+<a class="jxr_linenumber" name="239" href="#239">239</a>     <strong class="jxr_keyword">private</strong> List&lt;String&gt; _lookupWraAssetTypes() {
+<a class="jxr_linenumber" name="240" href="#240">240</a>         List&lt;String&gt; x = <strong class="jxr_keyword">new</strong> ArrayList&lt;String&gt;();
+<a class="jxr_linenumber" name="241" href="#241">241</a>         <strong class="jxr_keyword">for</strong> (Row r : SqlHelper.select(ics, <span class="jxr_string">"AssetType"</span>, <span class="jxr_string">"select assettype from AssetType"</span>)) {
+<a class="jxr_linenumber" name="242" href="#242">242</a>             String type = r.getString(<span class="jxr_string">"assettype"</span>);
+<a class="jxr_linenumber" name="243" href="#243">243</a>             <strong class="jxr_keyword">if</strong> (!SYSTEM_TYPES.contains(type)) {
+<a class="jxr_linenumber" name="244" href="#244">244</a>                 x.add(type); <em class="jxr_comment">// TODO: be much smarter. Exclude flex definitions,</em>
+<a class="jxr_linenumber" name="245" href="#245">245</a>                              <em class="jxr_comment">// parent devs, filters. Get fancy and exclude</em>
+<a class="jxr_linenumber" name="246" href="#246">246</a>                              <em class="jxr_comment">// non-compliant definitions.</em>
+<a class="jxr_linenumber" name="247" href="#247">247</a>             }
+<a class="jxr_linenumber" name="248" href="#248">248</a>         }
+<a class="jxr_linenumber" name="249" href="#249">249</a>         <strong class="jxr_keyword">return</strong> x;
+<a class="jxr_linenumber" name="250" href="#250">250</a>     }
+<a class="jxr_linenumber" name="251" href="#251">251</a> 
+<a class="jxr_linenumber" name="252" href="#252">252</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistry2.html">UrlRegistry2</a> lookup(<strong class="jxr_keyword">final</strong> ICS ics) {
+<a class="jxr_linenumber" name="253" href="#253">253</a>         <strong class="jxr_keyword">final</strong> Object o = ics.GetObj(UrlRegistry2.<strong class="jxr_keyword">class</strong>.getName());
+<a class="jxr_linenumber" name="254" href="#254">254</a>         <strong class="jxr_keyword">if</strong> (o instanceof UrlRegistry2) {
+<a class="jxr_linenumber" name="255" href="#255">255</a>             <strong class="jxr_keyword">return</strong> (UrlRegistry2) o;
+<a class="jxr_linenumber" name="256" href="#256">256</a>         }
+<a class="jxr_linenumber" name="257" href="#257">257</a> 
+<a class="jxr_linenumber" name="258" href="#258">258</a>         <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistry2.html">UrlRegistry2</a> x = <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistry2.html">UrlRegistry2</a>(ics, <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/DbSimpleWRADao.html">DbSimpleWRADao</a>(ics), <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/vwebroot/VirtualWebrootApiBypassDao.html">VirtualWebrootApiBypassDao</a>(ics),
+<a class="jxr_linenumber" name="259" href="#259">259</a>                 <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/fatwire/gst/foundation/url/db/UrlRegistryDaoImpl.html">UrlRegistryDaoImpl</a>(ics));
+<a class="jxr_linenumber" name="260" href="#260">260</a> 
+<a class="jxr_linenumber" name="261" href="#261">261</a>         ics.SetObj(UrlRegistry2.<strong class="jxr_keyword">class</strong>.getName(), x);
+<a class="jxr_linenumber" name="262" href="#262">262</a>         <strong class="jxr_keyword">return</strong> x;
+<a class="jxr_linenumber" name="263" href="#263">263</a>     }
+<a class="jxr_linenumber" name="264" href="#264">264</a> 
+<a class="jxr_linenumber" name="265" href="#265">265</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

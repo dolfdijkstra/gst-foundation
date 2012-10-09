@@ -359,13 +359,13 @@
 <a class="jxr_linenumber" name="349" href="#349">349</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">void</strong> handleError(ICS ics) {
 <a class="jxr_linenumber" name="350" href="#350">350</a> 
 <a class="jxr_linenumber" name="351" href="#351">351</a>         <strong class="jxr_keyword">int</strong> errno = ics.GetErrno();
-<a class="jxr_linenumber" name="352" href="#352">352</a>         <strong class="jxr_keyword">if</strong> (errno != -10004) <em class="jxr_comment">// error checking was too agressive, any error set</em>
+<a class="jxr_linenumber" name="352" href="#352">352</a>         <strong class="jxr_keyword">if</strong> (errno != -10004) <em class="jxr_comment">// error checking was too aggressive, any error set</em>
 <a class="jxr_linenumber" name="353" href="#353">353</a>                              <em class="jxr_comment">// by an element would leak into this handler</em>
 <a class="jxr_linenumber" name="354" href="#354">354</a>             <strong class="jxr_keyword">return</strong>;
 <a class="jxr_linenumber" name="355" href="#355">355</a>         FTValList arguments = list;
 <a class="jxr_linenumber" name="356" href="#356">356</a>         ftErrors complexError = ics.getComplexError();
 <a class="jxr_linenumber" name="357" href="#357">357</a>         String pagename = ics.GetVar(<span class="jxr_string">"pagename"</span>);
-<a class="jxr_linenumber" name="358" href="#358">358</a>         String elementname = ics.GetVar(<span class="jxr_string">"CS.elementname"</span>);
+<a class="jxr_linenumber" name="358" href="#358">358</a>         String elementname = ics.ResolveVariables(<span class="jxr_string">"CS.elementname"</span>);
 <a class="jxr_linenumber" name="359" href="#359">359</a>         String msg = <span class="jxr_string">"ics.runTag(RENDER.CALLTEMPLATE) failed for tname: "</span> + list.getValString(<span class="jxr_string">"TNAME"</span>) + <span class="jxr_string">" for asset: "</span>
 <a class="jxr_linenumber" name="360" href="#360">360</a>                 + list.getValString(<span class="jxr_string">"C"</span>) + <span class="jxr_string">":"</span> + list.getValString(<span class="jxr_string">"CID"</span>) + <span class="jxr_string">" within pagename:"</span> + pagename;
 <a class="jxr_linenumber" name="361" href="#361">361</a>         <strong class="jxr_keyword">if</strong> (elementname != <strong class="jxr_keyword">null</strong>)

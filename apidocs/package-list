@@ -34,12 +34,17 @@ com.fatwire.gst.foundation.facade.search
 com.fatwire.gst.foundation.facade.sql
 com.fatwire.gst.foundation.facade.sql.table
 com.fatwire.gst.foundation.facade.uri
+com.fatwire.gst.foundation.groovy
+com.fatwire.gst.foundation.groovy.action
 com.fatwire.gst.foundation.groovy.context
 com.fatwire.gst.foundation.groovy.spring
 com.fatwire.gst.foundation.html
 com.fatwire.gst.foundation.httpstatus
 com.fatwire.gst.foundation.include
 com.fatwire.gst.foundation.mapping
+com.fatwire.gst.foundation.mobile
+com.fatwire.gst.foundation.mobile.action
+com.fatwire.gst.foundation.mobile.mobiforge
 com.fatwire.gst.foundation.navigation
 com.fatwire.gst.foundation.navigation.support
 com.fatwire.gst.foundation.properties
@@ -56,3 +61,9 @@ com.fatwire.gst.foundation.url.db
 com.fatwire.gst.foundation.vwebroot
 com.fatwire.gst.foundation.wra
 com.fatwire.gst.foundation.wra.navigation
+com.yourcompany.owcs.action
+com.yourcompany.owcs.config
+com.yourcompany.owcs.products
+com.yourcompany.owcs.search
+com.yourcompany.owcs.search.solr
+com.yourcompany.owcs.seed
