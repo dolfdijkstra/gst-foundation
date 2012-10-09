@@ -23,7 +23,7 @@ import COM.FutureTense.Interfaces.ICS;
  * Accessor to ICS
  * 
  * @author Dolf Dijkstra
- * 
+ * @deprecated is of no use
  */
 public interface ICSLocator {
 
