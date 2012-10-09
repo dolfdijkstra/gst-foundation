@@ -1,55 +1,55 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.fatwire.gst</groupId>
-		<artifactId>gst-foundation</artifactId>
-		<version>11.6.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>gsf-action</artifactId>
-	<packaging>jar</packaging>
-	<name>Sites GSF: Actions</name>
-	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-action</url>
-	<inceptionYear>2011</inceptionYear>
-	<developers>
-		<developer>
-			<name>Tony Field</name>
-		</developer>
-		<developer>
-			<name>Dolf Dijkstra</name>
-		</developer>
-	</developers>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>2.5.6</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-wra</artifactId>
-			<version>11.6.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-cs-test</artifactId>
-			<version>11.6.0-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	<distributionManagement>
-		<site>
-			<id>website</id>
-			<url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-action</url>
-		</site>
-	</distributionManagement>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.fatwire.gst</groupId>
+    <artifactId>gst-foundation</artifactId>
+    <version>11.6.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>gsf-action</artifactId>
+  <packaging>jar</packaging>
+  <name>Sites GSF: Actions</name>
+  <url>http://dolfdijkstra.github.com/gst-foundation/gsf-action</url>
+  <inceptionYear>2011</inceptionYear>
+  <developers>
+    <developer>
+      <name>Tony Field</name>
+    </developer>
+    <developer>
+      <name>Dolf Dijkstra</name>
+    </developer>
+  </developers>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring</artifactId>
+      <version>2.5.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fatwire.gst</groupId>
+      <artifactId>gsf-wra</artifactId>
+      <version>11.6.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fatwire.gst</groupId>
+      <artifactId>gsf-cs-test</artifactId>
+      <version>11.6.0-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-action</url>
+    </site>
+  </distributionManagement>
 </project>

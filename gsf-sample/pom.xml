@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.yourcompany.owcs</groupId>
   <artifactId>gsf-sample</artifactId>
@@ -8,7 +7,7 @@
   <packaging>jar</packaging>
   <name>GSF Example</name>
   <description>A sample project that can be used as an example for an implementation that uses the GSF.</description>
-  <url>http://www.gst-foundation.org</url>
+  <url>http://dolfdijkstra.github.com/gst-foundation/gsf-sample</url>
   <inceptionYear>2012</inceptionYear>
   <developers>
     <developer>
@@ -74,9 +73,8 @@
   </build>
   <distributionManagement>
     <site>
-      <id>github-project-site</id>
-      <url>gitsite:git@github.com/dolfdijkstra/gsf-sample</url>
+      <id>website</id>
+      <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-sample</url>
     </site>
   </distributionManagement>
-
 </project>
