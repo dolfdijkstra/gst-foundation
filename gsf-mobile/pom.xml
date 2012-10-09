@@ -42,7 +42,7 @@
   </dependencies>
   <distributionManagement>
     <site>
-      <id>website</id>
+      <id>github-project-site</id>
       <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-mobile</url>
     </site>
   </distributionManagement>

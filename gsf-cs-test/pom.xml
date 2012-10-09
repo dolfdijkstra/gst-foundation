@@ -66,7 +66,7 @@
     </properties>
     <distributionManagement>
         <site>
-            <id>website</id>
+            <id>github-project-site</id>
             <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-cs-test</url>
         </site>
     </distributionManagement>

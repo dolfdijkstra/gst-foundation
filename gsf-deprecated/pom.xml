@@ -40,7 +40,7 @@
        </dependencies>
     <distributionManagement>
         <site>
-            <id>website</id>
+            <id>github-project-site</id>
             <url>scp://d670-1.nl.fatwire.com/var/www/html/dta/contrib/gst-foundation/gsf-deprecated</url>
         </site>
     </distributionManagement>
