@@ -1,9 +1,0 @@
-<%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"%><%@ taglib prefix="gsf"
-  uri="http://gst.fatwire.com/foundation/tags/gsf"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><cs:ftcs>
-  <gsf:root action="advcol/GTStyleSheetResolver">
-    <c:forEach var="url" items="${stylesheet}">
-      <link rel="stylesheet" media="all" href="${url}" type="text/css" />
-    </c:forEach>
-  </gsf:root>
-</cs:ftcs>
-
