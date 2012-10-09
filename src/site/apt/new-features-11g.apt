@@ -35,13 +35,13 @@ GST Site Foundation: new features for the 11.6 release
 
     * Groovy Actions can now be managed as CSElements.
 
-    * Improved installer
+    * Improved installer.
 
-    * Various new services
+    * Various new services.
 
-    * Improved localization support
+    * Improved localization support.
 
-    * Improved navigation bar support
+    * Improved navigation bar support, also improved performance.
 
     * Adding support for service Factories per site.
 
