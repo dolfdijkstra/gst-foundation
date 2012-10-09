@@ -14,17 +14,20 @@
 ~~ limitations under the License.
 ~~
 
-GST Site Foundation new feature for 11.6 release
+GST Site Foundation: new features for the 11.6 release
+
+
+   The next version of GSF will be 11.6. This jump from version 1.2 is done to align the version numbers a bit more with Sites 11g PS6.
  
 *   Features
 
     The 11g version of GSF (11.6) has the following major features.
 
-    * Using ContentServer 11g jars. 
+    * Using ContentServer 11g jars for compilation. 
 
-    * Web Referenceable Assets no longer require the meta and h1title attributes; path and template are enough. 
+    * Web Referenceable Assets no longer requires the meta and h1title attributes; path and template are enough. 
 
-    * Support for 11g flex Pages, to also have pages hold content, not just use them as navigation placeholders as in the 1.x releases.
+    * Support for 11g flex Pages.  In 11g Pages have changed and are now flexible enough to also hold content. For GSF this is a change as Page assets are now not only used them as navigation placeholders as in the 1.x releases. The 11g navigation model can still be used.
 
     * Considerably reduced configuration, just drop in the jar to start, some features require minimal configuration.
 
