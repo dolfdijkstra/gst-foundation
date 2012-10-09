@@ -14,11 +14,12 @@ fi
 echo downloading all artifacts
 mvn -q dependency:go-offline
 echo building jars and site
-mvn -o -q clean install site
+mvn -o -q clean install 
+mvn -o -q -P '!samples' site
 tmpLocation=/tmp/gsf-$VERSION
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 mkdir "$tmpLocation"
-mvn -o site:stage -DstagingDirectory="$tmpLocation/site"
+mvn -o site:stage -P '!samples' -DstagingDirectory="$tmpLocation/site"
 
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 archive=`pwd`/target/gst-foundation-$VERSION
@@ -33,7 +34,8 @@ cp -R gsf-sample-avisports/src/main/* "$tmpLocation/gsf-sample-avisports/"
 echo copying license to kit
 cp LICENSE "$tmpLocation"
 echo compressing
-(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
+#(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
+(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-*) 
 
 echo done packaging gst-foundation
 

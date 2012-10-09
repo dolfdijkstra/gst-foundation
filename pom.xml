@@ -6,6 +6,7 @@
   <version>11.6.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Sites GST: Site Foundation</name>
+  <description>The GST Site Foundation parent project</description>
   <url>http://dolfdijkstra.github.com/gst-foundation</url>
   <inceptionYear>2010</inceptionYear>
   <organization>
@@ -47,11 +48,11 @@
     <module>gsf-wra</module>
     <module>gsf-tagging</module>
     <module>gsf-action</module>
-    <module>gsf-mobile</module>   
+    <module>gsf-mobile</module>
     <module>gsf-groovy</module>
     <module>gsf-taglib</module>
     <module>gst-foundation-all</module>
-    <module>gsf-sample</module>
+    <!--module>gsf-sample</module-->
   </modules>
   <dependencies>
     <dependency>
@@ -302,13 +303,6 @@
           <detectOfflineLinks>true</detectOfflineLinks>
         </configuration>
         <reportSets>
-          <!--        <reportSet>
-            <id>non-aggregate</id>
-            <reports>
-              <report>javadoc</report>
-            </reports>
-          </reportSet>
-          -->
           <reportSet>
             <id>aggregate</id>
             <reports>
@@ -358,8 +352,17 @@
         </plugins>
       </reporting>
     </profile>
+    <profile>
+      <id>samples</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>gsf-sample</module>
+        <module>gsf-sample-avisports</module>
+      </modules>
+    </profile>
   </profiles>
-
   <distributionManagement>
     <site>
       <id>github-project-site</id>
