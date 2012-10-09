@@ -44,11 +44,8 @@ RewriteLog logs/mydomain-rewrite
 
 # set to level 9 for more debug output
 
-RewriteLogLevel 9
+#RewriteLogLevel 9
 RewriteEngine on
-
-RewriteRule ^/dev$ /cs/ContentServer?pagename=DevTools/Home [R,L]
-RewriteRule ^/home.html$ - [L]
 
 RewriteRule ^/cs/Satellite.* - [L]
 RewriteRule ^/cs/CookieServer.* - [L]
