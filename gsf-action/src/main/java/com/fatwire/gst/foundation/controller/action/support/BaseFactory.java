@@ -111,7 +111,7 @@ public abstract class BaseFactory implements Factory {
         }
 
         Object o = objectCache.get(name);
-        if (o != null && !o.getClass().isAssignableFrom(c))
+        if (o != null && !c.isAssignableFrom(o.getClass()))
             throw new IllegalStateException("Name conflict: '" + name + "' is in cache and is of type  '"
                     + o.getClass() + "' but a '" + c.getName()
                     + "' was asked for. Please check your factories for naming conflicts.");
