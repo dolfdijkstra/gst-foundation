@@ -21,6 +21,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
@@ -38,9 +41,6 @@ import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.SimpleWRADao;
 import com.fatwire.gst.foundation.wra.SimpleWra;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -249,6 +249,7 @@ public class UrlRegistry2 implements WraPathTranslationService {
         return x;
     }
 
+    @Deprecated
     public static UrlRegistry2 lookup(final ICS ics) {
         final Object o = ics.GetObj(UrlRegistry2.class.getName());
         if (o instanceof UrlRegistry2) {
@@ -261,5 +262,7 @@ public class UrlRegistry2 implements WraPathTranslationService {
         ics.SetObj(UrlRegistry2.class.getName(), x);
         return x;
     }
+
+   
 
 }
