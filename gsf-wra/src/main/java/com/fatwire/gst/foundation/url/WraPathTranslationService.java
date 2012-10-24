@@ -22,8 +22,8 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
  * Path translation service for going from assetid to WRA path and back
  * <p/>
  * todo: low priority: for any given partial url, get next children down, and
- * "are they parents too"
- * TODO: low priority: remove asset listener methods from interface, create separate interface for these methods
+ * "are they parents too" TODO: low priority: remove asset listener methods from
+ * interface, create separate interface for these methods
  * 
  * @author Tony Field
  * @author Dolf Dijkstra
@@ -31,10 +31,8 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
  */
 public interface WraPathTranslationService {
 
-  
     /**
-     * Look up the asset corresponding to the input virtual-webroot and
-     * url-path
+     * Look up the asset corresponding to the input virtual-webroot and url-path
      * 
      * @param virtual_webroot
      * @param url_path
