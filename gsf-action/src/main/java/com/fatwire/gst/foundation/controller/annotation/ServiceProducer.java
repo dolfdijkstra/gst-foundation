@@ -21,8 +21,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to tag a method that this is a producer method.
- * The cache flag indicates if this should be cached.
+ * Annotation to tag a method that this is a producer method. The cache flag
+ * indicates if this should be cached.
  * 
  * @author Dolf Dijkstra
  * 
@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 public @interface ServiceProducer {
 
     boolean cache() default false;
-    
+
     String name() default "";
 
 }
