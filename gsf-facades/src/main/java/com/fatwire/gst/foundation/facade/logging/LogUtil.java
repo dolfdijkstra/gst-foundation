@@ -16,7 +16,6 @@
 
 package com.fatwire.gst.foundation.facade.logging;
 
-import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
@@ -35,7 +34,10 @@ public class LogUtil {
      * @return the logger with the name of the package of the clazz.
      */
     public static Log getLog(Class<?> clazz) {
-        return LogFactory.getLog(clazz.getPackage().getName());
+        org.apache.commons.logging.Log f = LogFactory.getLog(clazz.getPackage().getName());
+        return new LogEnhancer(f);
     }
+
+   
 
 }
