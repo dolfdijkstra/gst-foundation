@@ -21,9 +21,9 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
 
 import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.facade.logging.Log;
 import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 public class WebAppContext implements AppContext {
@@ -68,12 +68,11 @@ public class WebAppContext implements AppContext {
         }
 
         Object o = null;
-        if (o == null) {
-            o = localScope.get(name);
-        }
+
+        o = localScope.get(name);
 
         if (o == null) {
-            LOG.debug("Asking for bean by name " + name + " of type " + c.getName());
+            LOG.debug("Asking for bean by name %s of type %s.",name,  c.getName());
             try {
                 // TODO: medium: check for other method signatures
 
@@ -90,8 +89,7 @@ public class WebAppContext implements AppContext {
                         o = parent.getBean(name, c); // don't register locally
                                                      // if found
                     else {
-                        LOG.debug("Could not create  a " + c.getName()
-                                + " via a Template method, trying via constructor.");
+                        LOG.debug("Could not create  a %s via a Template method, trying via constructor.",c.getName());
                         o = TemplateMethodFactory.createByConstructor(c);
                         if (o != null && c.isAssignableFrom(o.getClass())) {
                             localScope.put(name, o);
