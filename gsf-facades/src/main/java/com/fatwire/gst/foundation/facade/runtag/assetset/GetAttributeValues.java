@@ -157,7 +157,7 @@ public final class GetAttributeValues extends AbstractTagRunner {
             gav.setOrdering(ordering);
         }
         String listname = ics.genID(true);
-        gav.setAttribute(listname);
+        gav.setListvarname(listname);
         gav.execute(ics);
 
         IList result = ics.GetList(listname);
