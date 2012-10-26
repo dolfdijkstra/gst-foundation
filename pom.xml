@@ -162,7 +162,6 @@
         </configuration>
       </plugin>
 -->
-<!-- Tony comment
       <plugin>
         <inherited>true</inherited>
         <groupId>com.mycila.maven-license-plugin</groupId>
@@ -216,7 +215,6 @@
           </execution>
         </executions>
       </plugin>
--->
       <plugin>
         <artifactId>maven-eclipse-plugin</artifactId>
         <version>2.9</version>
