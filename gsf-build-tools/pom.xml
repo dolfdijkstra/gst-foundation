@@ -2,17 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-build-tools</artifactId>
-    <version>11.6.0-SNAPSHOT</version>
+    <version>11.6.0</version>
     <packaging>jar</packaging>
     <name>Sites GSF: Build Tools</name>
     <inceptionYear>2012</inceptionYear>
     <developers>
-        <developer>
-            <name>David Chesebro</name>
-        </developer>
-        <developer>
-            <name>Tony Field</name>
-        </developer>
         <developer>
             <name>Dolf Dijkstra</name>
         </developer>

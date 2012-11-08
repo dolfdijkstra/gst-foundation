@@ -1,25 +1,44 @@
 #!/bin/bash
 set -o nounset
 set -o errexit
+VERSION=`python -c "from xml.dom.minidom import parse;dom = parse('pom.xml');print [n.firstChild for n in dom.getElementsByTagName('version') if n.parentNode == dom.childNodes[0]][0].toxml()"`
+echo $VERSION
 
-VERSION=11.6.0-SNAPSHOT
+#VERSION=11.6.0-RC2-SNAPSHOT
+tmpLocation=/tmp/gsf-deploy/gsf-$VERSION
+trap onexit ERR
+
+
+function onexit() {
+    local exit_status=${1:-$?}
+    echo
+    echo
+    echo An error occured. In many case this is caused by missing artifacts from the local maven repository.
+    echo Try running 
+    echo '(cd gsf-build-tools && mvn -q -Dmaven.test.skip=true install && cd .. && mvn install && mvn -P '\''!samples'\'' site)'
+    echo "mvn -o site:stage -P '!samples'" -DstagingDirectory=""$tmpLocation/site""
+    echo and then try to run package.sh again.
+    echo the output of the failed build is propably in /tmp/mvn-gsf.out.
+    exit $exit_status
+}
 if [ ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation-all ] ;
 then 
    echo The GSF artifacts are  not present in your maven  maven repository. This is expected if you are building for the first time on this computer.
    echo Starting initial build
    echo
-   (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true install && cd .. && mvn install)
+   (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd .. && mvn -q install) 
    echo  finished initial build
 fi
 echo downloading all artifacts
-mvn -q dependency:go-offline
-echo building jars and site
-mvn -o -q clean install 
-mvn -o -q -P '!samples' site
-tmpLocation=/tmp/gsf-$VERSION
+mvn -q dependency:go-offline >/tmp/mvn-gsf.out
+echo building jars 
+mvn -o clean install >/tmp/mvn-gsf.out
+echo building site
+mvn -P '!samples' site >/tmp/mvn-gsf.out
+
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
-mkdir "$tmpLocation"
-mvn -o site:stage -P '!samples' -DstagingDirectory="$tmpLocation/site"
+mkdir --parents "$tmpLocation"
+mvn -q site:stage -P '!samples' -DstagingDirectory="$tmpLocation/site" > /dev/null
 
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 archive=`pwd`/target/gst-foundation-$VERSION
@@ -34,8 +53,8 @@ cp -R gsf-sample-avisports/src/main/* "$tmpLocation/gsf-sample-avisports/"
 echo copying license to kit
 cp LICENSE "$tmpLocation"
 echo compressing
-#(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
-(cd /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-*) 
+#(cd    /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
+(cd `dirname "$tmpLocation"` && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-*) 
 
 echo done packaging gst-foundation
 
