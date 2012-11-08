@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.fatwire.gst</groupId>
   <artifactId>gst-foundation</artifactId>
-  <version>11.6.0-RC2-SNAPSHOT</version>
+  <version>11.6.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Sites GST: Site Foundation</name>
   <description>The GST Site Foundation parent project</description>
@@ -30,7 +30,6 @@
     <connection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</connection>
     <developerConnection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</developerConnection>
     <url>https://github.com/dolfdijkstra/gst-foundation.git</url>
-    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <url>https://github.com/dolfdijkstra/gst-foundation/issues</url>
