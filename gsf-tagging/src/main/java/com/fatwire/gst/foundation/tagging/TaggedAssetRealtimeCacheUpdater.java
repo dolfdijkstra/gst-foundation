@@ -67,7 +67,6 @@ public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl 
                         + ". Adding this to the list of compositional dependencies to be flushed.");
             String sTag = convertTagToCacheDepString(tag);
             invalKeys.add(sTag);
-            regenKeys.add(sTag);
         }
         super.beforeSelect(ics, invalKeys, regenKeys, assetIds);
     }
