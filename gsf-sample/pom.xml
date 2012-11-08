@@ -79,5 +79,9 @@
       <id>github-project-site</id>
       <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-sample</url>
     </site>
+   <repository>
+      <id>repo</id>
+      <url>file://${user.home}/.m2/deploy-repository</url>
+    </repository>
   </distributionManagement>
 </project>
