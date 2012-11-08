@@ -47,7 +47,7 @@
 	<distributionManagement>
 		<site>
 			<id>github-project-site</id>
-			<url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-facades</url>
+			<url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-facades</url>
 		</site>
 	</distributionManagement>
 	<build>

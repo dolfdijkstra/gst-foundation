@@ -67,7 +67,7 @@
     <distributionManagement>
         <site>
             <id>github-project-site</id>
-            <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-cs-test</url>
+            <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-cs-test</url>
         </site>
     </distributionManagement>
 </project>

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.yourcompany.owcs</groupId>
   <artifactId>gsf-sample-avisports</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>11.6.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>GSF example on top of avisports</name>
   <description>A rewrite of avisports with GSF as an example on how code is simplified and how easy it is to bold more features on top.</description>
@@ -17,6 +17,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <prerequisites>
+    <maven>2.2.1</maven>
+  </prerequisites>
   <dependencies>
     <dependency>
       <groupId>com.fatwire.gst</groupId>
@@ -71,7 +74,7 @@
   <distributionManagement>
     <site>
       <id>github-project-site</id>
-      <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-sample-avisports</url>
+      <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-sample-avisports</url>
     </site>
   </distributionManagement>
 </project>

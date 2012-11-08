@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.yourcompany.owcs</groupId>
   <artifactId>gsf-sample</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>11.6.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>GSF Example</name>
   <description>A sample project that can be used as an example for an implementation that uses the GSF.</description>
@@ -20,6 +20,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <prerequisites>
+    <maven>2.2.1</maven>
+  </prerequisites>
   <dependencies>
     <dependency>
       <groupId>com.fatwire.gst</groupId>
@@ -74,7 +77,7 @@
   <distributionManagement>
     <site>
       <id>github-project-site</id>
-      <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-sample</url>
+      <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-sample</url>
     </site>
   </distributionManagement>
 </project>

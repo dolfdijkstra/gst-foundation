@@ -40,7 +40,7 @@
   <distributionManagement>
     <site>
       <id>github-project-site</id>
-      <url>gitsite:git@github.com/dolfdijkstra/gst-foundation/gsf-groovy</url>
+      <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-groovy</url>
     </site>
   </distributionManagement>
 </project>
