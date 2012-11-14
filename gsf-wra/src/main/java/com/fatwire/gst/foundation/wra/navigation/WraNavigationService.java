@@ -138,7 +138,8 @@ public class WraNavigationService extends AbstractNavigationService implements N
                         final Alias alias = aliasDao.getAlias(assoc);
                         node.setId(alias.getId());
 
-                        final String url = alias.getTargetUrl() != null ? alias.getTargetUrl() : getUrl(assoc);
+                        final String url = alias.getTargetUrl() != null ? alias.getTargetUrl() : getUrl(alias
+                                .getTarget());
                         final String linktext = alias.getLinkText();
 
                         if (url != null) {
@@ -168,8 +169,9 @@ public class WraNavigationService extends AbstractNavigationService implements N
             }
 
         } else {
-            //TODO Add support for locale (date checking is already done at start of this function).
-            
+            // TODO Add support for locale (date checking is already done at
+            // start of this function).
+
             // other subtype
             final String url = getUrl(asset);
 
