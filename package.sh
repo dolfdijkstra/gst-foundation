@@ -37,7 +37,7 @@ echo building site
 mvn -P '!samples' site >/tmp/mvn-gsf.out
 
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
-mkdir --parents "$tmpLocation"
+mkdir -p "$tmpLocation"
 mvn -q site:stage -P '!samples' -DstagingDirectory="$tmpLocation/site" > /dev/null
 
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
