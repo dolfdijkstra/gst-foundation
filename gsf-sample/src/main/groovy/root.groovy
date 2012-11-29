@@ -18,7 +18,7 @@ import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.mobile.action.DeviceAwareRenderPageAction 
 
 /*
- * Action that just extendeds the DeviceAwareRenderPageAction. TYhe DeviceAwareRenderPageAction also handles translation of the requested asset.
+ * Action that just extends the DeviceAwareRenderPageAction. TYhe DeviceAwareRenderPageAction also handles translation of the requested asset.
  * The action is defined in root.groovy. To make this the default action it is easiest to set a default argument action=root at the GSF/Dispatcher SiteCatalog entry.
  * 
  */
