@@ -140,9 +140,12 @@
             <satellite:link pagename="GST/Foundation/Dashboard" satellite="false"/><a href="${cs.referURL}">Refresh GSF Dashboard</a>
         </li>
         <li>
-            <satellite:link pagename="GST/Foundation/Dashboard" satellite="false">
-                <satellite:parameter name="cmd" value="install"/> </satellite:link>
-            <a href="${cs.referURL}">Install/reinstall GSF components</a>
+           <satellite:form satellite="false" method="post">
+           <input type="hidden" name="pagename" value="GST/Foundation/Dashboard"/>
+           <input type="hidden" name="cmd" value="install"/>
+           <input type="submit" value="Install/reinstall GSF components">
+           </satellite:form>
+
         </li>
         <li>
             <satellite:form satellite="false">
