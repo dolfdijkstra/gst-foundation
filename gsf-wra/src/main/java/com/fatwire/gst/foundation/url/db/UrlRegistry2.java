@@ -212,7 +212,7 @@ public class UrlRegistry2 implements WraPathTranslationService {
             if (stream)
                 ics.StreamText("Asset type: " + type);
             for (Row r : SqlHelper.select(ics, type, "SELECT id,template,path,startdate,enddate FROM " + type
-                    + " WHERE status!='VO' AND path NOT NULL and template NOT NULL")) {
+                    + " WHERE status!='VO' AND path IS NOT NULL and template IS NOT NULL")) {
                 long id = r.getLong("id");
                 AssetId aid = new AssetIdImpl(type, id);
                 SimpleWra wra = new SimpleWra(r, aid);
