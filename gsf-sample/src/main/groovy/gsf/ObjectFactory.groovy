@@ -20,7 +20,7 @@ import COM.FutureTense.Interfaces.ICS
 
 import com.fatwire.gst.foundation.controller.action.Factory
 import com.fatwire.gst.foundation.mobile.DeviceDetector
-import com.fatwire.gst.foundation.mobile.mobiforge.MobiForceDeviceDetector
+import com.fatwire.gst.foundation.mobile.mobiforge.MobiForgeDeviceDetector
 import com.fatwire.gst.foundation.controller.annotation.ServiceProducer
 
 /**
