@@ -245,6 +245,7 @@ public class UrlRegistry2 implements WraPathTranslationService {
                              // parent devs, filters. Get fancy and exclude
                              // non-compliant definitions.
             }
+            x.add("Page"); // yes, I know it's listed as a system asset type, but it's both system and WRA in 11g.
         }
         return x;
     }
