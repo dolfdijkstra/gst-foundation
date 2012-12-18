@@ -17,22 +17,55 @@
 package com.fatwire.gst.foundation.taglib.install;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.jsp.JspException;
 
 /**
- * Perform all installation tasks that remain un-done so far.
- * Once completed, return the installation status.
- *
+ * Perform all installation tasks that remain un-done so far. Once completed,
+ * return the installation status.
+ * 
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Mar, 2012
  */
 public class Install extends InstallStatus {
 
+    private String[] components;
+
     public void doTag() throws JspException, IOException {
-        InstallerEngine ie = new InstallerEngine(getICS(), getTargetFlexFamilies());
-        int bInstallStatus = ie.getInstallStatus();
-        ie.doInstall(bInstallStatus);
+        InstallerEngine ie = new InstallerEngine(getICS(), getPageContext().getServletContext(),
+                getTargetFlexFamilies());
+        Map<GSFComponent, Boolean> bInstallStatus = ie.getInstallStatus();
+        List<String> toInstall = new ArrayList<String>();
+        List<String> todo = new ArrayList<String>();
+        todo.addAll(Arrays.asList(components));
+        for (Map.Entry<GSFComponent, Boolean> e : bInstallStatus.entrySet()) {
+            String n = e.getKey().getClass().getSimpleName();
+            if (e.getValue() == false && todo.contains(n)) {
+                toInstall.add(n);
+            }
+
+        }
+        ie.doInstall(toInstall);
         super.doTag();
+    }
+
+    /**
+     * @return the components
+     */
+    public String[] getComponents() {
+        return components;
+    }
+
+    /**
+     * @param components the components to set
+     */
+    public void setComponents(String[] components) {
+        this.components = components;
     }
 
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+    Copyright 2010 FatWire Corporation. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- Copyright 2010 FatWire Corporation. All Rights Reserved. Licensed under 
+	the Apache License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<taglib
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.0">
+	<description>
+        usage: &lt;%@ taglib
+        uri="http://gst.fatwire.com/foundation/tags/gsf-install"
+        prefix="gsf-install" %&gt; </description>
+	<display-name>GST Site Foundation Taglib</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>gsf-install</short-name>
+	<uri>http://gst.fatwire.com/foundation/tags/gsf-install</uri>
+    <tag>
+        <description>Check the installation status of the GSF.  Anything non-zero means parts are missing.</description>
+        <name>install-status</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.install.InstallStatus</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Name of variable and page context attribute to store the result</description>
+            <name>output</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Comma-separated list of flex family attribute type names into which the GST attributes will be
+            installed.  If not specified, they will be installed into the GSTAttribute flex family.</description>
+            <name>families</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <description>Install the GSF components (besides the JAR and CatalogMover components, of course).</description>
+        <name>install</name>
+        <tag-class>com.fatwire.gst.foundation.taglib.install.Install</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Name of variable and page context attribute to store the install status</description>
+            <name>output</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Comma-separated list of flex family attribute type names into which the GST attributes will be
+            installed.  If not specified, they will be installed into the GSTAttribute flex family.</description>
+            <name>families</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Comma-separated list components to be installed.</description>
+            <name>components</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+    </tag>
+</taglib>

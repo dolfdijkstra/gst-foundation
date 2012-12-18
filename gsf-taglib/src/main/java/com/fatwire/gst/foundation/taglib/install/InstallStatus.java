@@ -19,27 +19,45 @@ package com.fatwire.gst.foundation.taglib.install;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.jsp.JspException;
 
 import com.fatwire.gst.foundation.taglib.GsfSimpleTag;
 
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  * @author Tony Field
+ * @author Dolf Dijkstra
  * @since Mar 23, 2012
  */
 public class InstallStatus extends GsfSimpleTag {
 
-
     private String output;
+    private String families = null;
+
+    public void doTag() throws JspException, IOException {
+
+        InstallerEngine ie = new InstallerEngine(getICS(), getPageContext().getServletContext(),
+                getTargetFlexFamilies());
+        Map<GSFComponent, Boolean> installStatus = ie.getInstallStatus();
+        
+        boolean complete = true;
+        for (Boolean b : installStatus.values()) {
+            if (!b) {
+                complete = false;
+                break;
+            }
+        }
+        getJspContext().setAttribute(output, installStatus);
+        getJspContext().setAttribute(output + "Complete", complete);
+        super.doTag();
+    }
 
     public final void setOutput(String output) {
         this.output = output;
     }
-
-    private String families = null;
 
     public void setFamilies(String families) {
         this.families = families;
@@ -52,12 +70,4 @@ public class InstallStatus extends GsfSimpleTag {
         return Arrays.asList(families.split(","));
     }
 
-    public void doTag() throws JspException, IOException {
-
-        InstallerEngine ie = new InstallerEngine(getICS(), getTargetFlexFamilies());
-        int bInstallStatus = ie.getInstallStatus();
-        getJspContext().setAttribute(output, bInstallStatus);
-        getICS().SetVar(output, Integer.toString(bInstallStatus));
-        super.doTag();
-    }
 }

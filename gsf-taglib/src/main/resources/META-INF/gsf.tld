@@ -540,42 +540,4 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
-    <tag>
-        <description>Check the installation status of the GSF.  Anything non-zero means parts are missing.</description>
-        <name>install-status</name>
-        <tag-class>com.fatwire.gst.foundation.taglib.install.InstallStatus</tag-class>
-        <body-content>empty</body-content>
-        <attribute>
-            <description>Name of variable and page context attribute to store the result</description>
-            <name>output</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <description>Comma-separated list of flex family attribute type names into which the GST attributes will be
-            installed.  If not specified, they will be installed into the GSTAttribute flex family.</description>
-            <name>families</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
-    <tag>
-        <description>Install the GSF components (besides the JAR and CatalogMover components, of course).</description>
-        <name>install</name>
-        <tag-class>com.fatwire.gst.foundation.taglib.install.Install</tag-class>
-        <body-content>empty</body-content>
-        <attribute>
-            <description>Name of variable and page context attribute to store the install status</description>
-            <name>output</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <description>Comma-separated list of flex family attribute type names into which the GST attributes will be
-            installed.  If not specified, they will be installed into the GSTAttribute flex family.</description>
-            <name>families</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
 </taglib>
