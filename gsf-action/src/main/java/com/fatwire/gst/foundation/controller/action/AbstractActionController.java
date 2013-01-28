@@ -63,7 +63,7 @@ public abstract class AbstractActionController extends AbstractController {
         }
         if (action == null)
             throw new IllegalStateException(
-                    "No Action found. A  ActionLocator should always return a Action. ActionLocation "
+                    "No Action found. An ActionLocator should always return a Action. ActionLocation "
                             + locator.getClass().getName() + " did not return an action for '" + actionName + "'.");
 
         // execute the command
