@@ -18,7 +18,10 @@ package com.fatwire.gst.foundation.mobile.action;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 
+import COM.FutureTense.Util.ftErrors;
+
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.RenderPage;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
@@ -52,7 +55,12 @@ public class DeviceAwareRenderPageAction extends RenderPage {
 
     @Override
     protected AssetIdWithSite resolveAssetId() {
-        return findTranslation(super.resolveAssetId());
+        final AssetIdWithSite id = super.resolveAssetId();
+        if (id == null || id.getSite() == null) {
+            throw new CSRuntimeException("Asset or site not found: '" + id + "' for url " + ics.pageURL(),
+                    ftErrors.pagenotfound);
+        }
+        return findTranslation(id);
     }
 
     @Override
@@ -75,8 +83,10 @@ public class DeviceAwareRenderPageAction extends RenderPage {
     }
 
     protected AssetIdWithSite findTranslation(AssetIdWithSite id) {
+        
+        if (localeService == null)
+            return id;
         AssetIdWithSite n = id;
-
         DimensionFilterInstance df = localeService.getDimensionFilter(id.getSite());
         if (df != null) {
             AssetId translated = localeService.findTranslation(id, df);
