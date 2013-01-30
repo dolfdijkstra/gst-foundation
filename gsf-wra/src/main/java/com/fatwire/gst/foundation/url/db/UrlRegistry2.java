@@ -15,11 +15,11 @@
  */
 package com.fatwire.gst.foundation.url.db;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -236,8 +236,8 @@ public class UrlRegistry2 implements WraPathTranslationService {
             "ScalarVals", "HistoryVals", "HFields", "GSTFilter", "GSTAttribute", "GSTPDefinition", "GSTDefinition",
             "GSTVirtualWebroot", "GSTProperty", "FW_View", "FW_Application");
 
-    private List<String> _lookupWraAssetTypes() {
-        List<String> x = new ArrayList<String>();
+    private Collection<String> _lookupWraAssetTypes() {
+        Set<String> x = new HashSet<String>();
         for (Row r : SqlHelper.select(ics, "AssetType", "select assettype from AssetType")) {
             String type = r.getString("assettype");
             if (!SYSTEM_TYPES.contains(type)) {
@@ -245,8 +245,9 @@ public class UrlRegistry2 implements WraPathTranslationService {
                              // parent devs, filters. Get fancy and exclude
                              // non-compliant definitions.
             }
-            x.add("Page"); // yes, I know it's listed as a system asset type, but it's both system and WRA in 11g.
+            
         }
+        x.add("Page"); // yes, I know it's listed as a system asset type, but it's both system and WRA in 11g.
         return x;
     }
 
