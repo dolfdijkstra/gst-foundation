@@ -166,7 +166,7 @@ table.inner {
 									src="/cs/Xcelerate/graphics/common/msg/warning.gif" width="25"
 									height="22"></td>
 								<td>
-									<H3>Pretty URL Environment Not Identified</H3>
+									<h3>Pretty URL Environment Not Identified</h3>
 
 									<p>
 										The pretty URL environment property name has not been set. In
@@ -193,6 +193,10 @@ table.inner {
 				</tr>
 			</table>
 		</ics:then>
+	        <ics:else>
+		  <h3>Pretty URL Environment Identified</h3>
+		  <p>System property <tt>com.fatwire.gst.foundation.env-name</tt>:  <%= System.getProperty("com.fatwire.gst.foundation.env-name") %></p>
+	        </ics:else>
 	</ics:if>
 
 	<h2>GSF Control Panel</h2>
