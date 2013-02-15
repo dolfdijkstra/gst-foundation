@@ -96,7 +96,7 @@
                     out.println("<p>VirtualHost: <em>" + uri.getAuthority() + "</em></p>");
                     out.println("<pre>");
                     out.println("# GST Site Foundation rewrite conditions blocking rewriting of URLs matching standard servlet paths");
-                    out.println("RewriteCond %{REQUEST_URI} !^/cs/*");
+                    out.println("RewriteCond %{REQUEST_URI} !^" + ics.GetProperty("ft.cgipath") + "*");
                     out.println("RewriteCond %{REQUEST_URI} !^/cas/*");
                     out.println("# GST Site Foundation rew rite rules mapping this environment's VirtualWebroot assets to Satellite Server");
                     addHeader = false;
