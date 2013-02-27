@@ -48,6 +48,7 @@ public class GetPageUrl extends TagRunnerWithArguments {
      */
     public void setAssembler(String s) {
         set("ASSEMBLER", s);
+        set("assembler", s);
     }
 
     /**
