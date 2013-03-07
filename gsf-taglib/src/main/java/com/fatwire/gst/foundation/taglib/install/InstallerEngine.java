@@ -106,7 +106,6 @@ public final class InstallerEngine {
      * already properly installed, and this determination is made based on the
      * install status.
      * 
-     * @param status current install status code
      */
     protected void doInstall(List<String> toInstall) {
         savePubid();
@@ -126,6 +125,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "GST Site";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -181,6 +182,8 @@ public final class InstallerEngine {
             return "Tag component listener";
         }
 
+        public String getName() { return getClass().getSimpleName(); }
+
         @Override
         public boolean isInstalled() {
             if (!new TableTaggingServiceImpl(ics).isInstalled())
@@ -209,6 +212,8 @@ public final class InstallerEngine {
             return "URL Registry component";
         }
 
+        public String getName() { return getClass().getSimpleName(); }
+
         @Override
         public boolean isInstalled() {
             if (!new UrlRegistryDaoImpl(ics).isInstalled())
@@ -233,6 +238,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "Flex Family";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -260,6 +267,8 @@ public final class InstallerEngine {
             return "Flex Attributes";
         }
 
+        public String getName() { return getClass().getSimpleName(); }
+
         @Override
         public boolean isInstalled() {
             for (String name : Arrays.asList("env_name", "env_vwebroot", "master_vwebroot", "popup", "target_url",
@@ -285,6 +294,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "Attributes";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -323,6 +334,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "Flex Definitions";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -436,6 +449,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "URL Assembler";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
     }
 
     class PageRefComponent implements GSFComponent {
@@ -443,6 +458,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "IPageReference component to build vanity urls";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -501,6 +518,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "User in site";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -564,6 +583,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "TreeTabs";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -638,6 +659,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "Startmenus and assettype enablement for CSElement and SiteEntry";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {
@@ -724,6 +747,8 @@ public final class InstallerEngine {
         public String getDescription() {
             return "Dispatcher element";
         }
+
+        public String getName() { return getClass().getSimpleName(); }
 
         @Override
         public boolean isInstalled() {

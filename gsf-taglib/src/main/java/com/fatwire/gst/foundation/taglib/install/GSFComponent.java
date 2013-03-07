@@ -25,6 +25,8 @@ public interface GSFComponent {
     boolean isInstalled();
 
     boolean install();
+
+    String getName();
     
     String getDescription();
 

@@ -35,8 +35,8 @@
     <html>
     <head>
         <title>GSF Rewrite Generator</title>
-        <link href="/cs/Xcelerate/data/css/en_US/common.css" rel="styleSheet" type="text/css">
-        <link href="/cs/Xcelerate/data/css/en_US/content.css" rel="styleSheet" type="text/css">
+        <link href="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/data/css/en_US/common.css" rel="styleSheet" type="text/css">
+        <link href="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/data/css/en_US/content.css" rel="styleSheet" type="text/css">
     </head>
     <body>
     <h1>GSF Rewrite Generator</h1>
