@@ -135,12 +135,12 @@ public class WraPageReference extends PageRef {
             return false;
         }
 
-        VanityUrlCalculationContext ctx = getVanityUrlCalculationContext(args, ics);
-
         if (!VanityUrlCalculationContext.isGetTemplateUrl(args, ics)) {
             log.debug("not applying vanity URL because API usage was not found to be the gettemplateurl tag");
             return false;
         }
+
+        VanityUrlCalculationContext ctx = getVanityUrlCalculationContext(args, ics);
 
         if (!ctx.isGsfEnvironmentSet(args, ics)) {
             log.debug("not applying vanity URL because virtual webroot environment is not set");
