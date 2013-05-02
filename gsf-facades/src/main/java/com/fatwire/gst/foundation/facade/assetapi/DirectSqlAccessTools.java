@@ -110,7 +110,7 @@ public final class DirectSqlAccessTools {
 
         sql.append(")");
 
-        PreparedStmt flexFields = new PreparedStmt(sql.toString(), Arrays.asList(attrType, id.getType() + "_Mungo"));
+        PreparedStmt flexFields = new PreparedStmt(sql.toString(), Arrays.asList(id.getType(),attrType, id.getType() + "_Mungo"));
         flexFields.setElement(0, id.getType() + "_Mungo", "cs_ownerid");
         for (int num = 0; num < attrName.length; num++) {
             flexFields.setElement(num + 1, attrType, "name");
