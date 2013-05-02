@@ -39,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
  * <p/>
  * User: Tony Field Date: 2011-05-06
  */
-public class VirtualWebrootApiBypassDao implements VirtualWebrootDao{
+public class VirtualWebrootApiBypassDao implements VirtualWebrootDao {
     private static final Log LOG = LogFactory.getLog(VirtualWebrootApiBypassDao.class.getName());
 
     private final ICS ics;
@@ -51,10 +51,8 @@ public class VirtualWebrootApiBypassDao implements VirtualWebrootDao{
     }
 
     public VirtualWebroot getVirtualWebroot(long cid) {
-        // todo: medium: extremely inefficient
-        String sCid = Long.toString(cid);
         if (LOG.isTraceEnabled())
-            LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + sCid);
+            LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + cid);
         AssetId id = new AssetIdImpl("GSTVirtualWebroot", cid);
         Map<String, String> m = directSqlAccessTools.getFlexAttributeValues(id, "master_vwebroot", "env_vwebroot",
                 "env_name");
@@ -115,8 +113,8 @@ public class VirtualWebrootApiBypassDao implements VirtualWebrootDao{
 
     /**
      * Look up and return the VirtualWebroot corresponding to the specified
-     * VanityAsset, for the current environment. If the current
-     * environment is not configured, no match can be found.
+     * VanityAsset, for the current environment. If the current environment is
+     * not configured, no match can be found.
      * 
      * @param wra web-referenceable asset
      * @return matching VirtualWebroot or null if no match is found.
