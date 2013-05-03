@@ -58,7 +58,7 @@ public class CallElement extends TagRunnerWithRenderArguments {
     }
 
     public void setScope(final String scope) {
-        this.set("SCOPE", scope);
+        this.set("SCOPED", scope);
     }
 
     public void setScope(final Scope scope) {

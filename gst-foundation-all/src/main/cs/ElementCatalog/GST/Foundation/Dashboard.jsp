@@ -32,13 +32,13 @@
 <meta name="description"
 	content="GST Site Foundation dashboard and control panel, showing the status of the application." />
 <meta http-equiv="Pragma" content="No-cache">
-<link href="/cs/Xcelerate/data/css/en_US/common.css" rel="styleSheet"
+<link href="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/data/css/en_US/common.css" rel="styleSheet"
 	type="text/css">
-<link href="/cs/Xcelerate/data/css/en_US/content.css" rel="styleSheet"
+<link href="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/data/css/en_US/content.css" rel="styleSheet"
 	type="text/css">
-<link href="/cs/Xcelerate/data/css/en_US/wemAdvancedUI.css"
+<link href="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/data/css/en_US/wemAdvancedUI.css"
 	rel="stylesheet" type="text/css">
-<link href="/cs/Xcelerate/data/css/en_US/toolbar.css" rel="styleSheet"
+<link href="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/data/css/en_US/toolbar.css" rel="styleSheet"
 	type="text/css">
 <style type="text/css">
 .logoGSF {
@@ -111,7 +111,7 @@ table.inner {
 					<table class="inner">
 						<tr>
 							<td valign="top"><img
-								src="/cs/Xcelerate/graphics/common/msg/error.gif" width="25"
+								src="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/graphics/common/msg/error.gif" width="25"
 								height="22"></td>
 							<td>
 								<h3>GSF Installation Incomplete</h3>
@@ -131,7 +131,7 @@ table.inner {
 												</c:when>
 												<c:when test="${not c.value}">
 													<li><input type="checkbox" name="component"
-														value="${c.key.class.simpleName}" /> <c:out
+														value="${c.key.name}" /> <c:out
 															value="${c.key.description}" /></li>
 												</c:when>
 
@@ -163,7 +163,7 @@ table.inner {
 						<table class="inner">
 							<tr>
 								<td valign="top"><img
-									src="/cs/Xcelerate/graphics/common/msg/warning.gif" width="25"
+									src="<%=ics.GetProperty("ft.cgipath")%>Xcelerate/graphics/common/msg/warning.gif" width="25"
 									height="22"></td>
 								<td>
 									<h3>Pretty URL Environment Not Identified</h3>

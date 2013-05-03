@@ -76,6 +76,7 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
      */
     public void setAssembler(String s) {
         set("ASSEMBLER", s);
+        set("assembler", s);
     }
 
     /**
