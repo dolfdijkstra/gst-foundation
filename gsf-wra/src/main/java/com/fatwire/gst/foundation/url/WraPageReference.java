@@ -100,7 +100,7 @@ public class WraPageReference extends PageRef {
     public void setParameters(Map args, ICS ics) throws ReferenceException {
 
         if (doVanityUrl(args, ics)) {
-            VanityUrlCalculationContext ctx = getVanityUrlCalculationContext(args, ics);
+            VanityUrlCalculationContext ctx = getVanityUrlCalculationContext(args, ics, requireWraForVanityUrls());
 
             VirtualWebroot vw = ctx.getVirtualWebrootForAsset(args, ics);
 
@@ -122,6 +122,17 @@ public class WraPageReference extends PageRef {
     }
 
     /**
+     * Method specifying whether or not vanity URLs are allowed for assets that are just Vanity assets or that have to
+     * be full WRA assets.  This is provided for backward compatibility.  Previously, only WRA assets could have
+     * vanity URLs, but the requirement has been loosened substantially.
+     * @return true for backward-compatibility - meaning that only WRA assets can have vanity URLs.  False if vanity
+     * URLs can be assigned to non-WRAs.
+     */
+    protected boolean requireWraForVanityUrls() {
+        return true;
+    }
+
+    /**
      * Determine if we should look up the virtual webroot and url path or not
      */
     private boolean doVanityUrl(Map args, ICS ics) {
@@ -140,7 +151,7 @@ public class WraPageReference extends PageRef {
             return false;
         }
 
-        VanityUrlCalculationContext ctx = getVanityUrlCalculationContext(args, ics);
+        VanityUrlCalculationContext ctx = getVanityUrlCalculationContext(args, ics, requireWraForVanityUrls());
 
         if (!ctx.isGsfEnvironmentSet(args, ics)) {
             log.debug("not applying vanity URL because virtual webroot environment is not set");
@@ -148,7 +159,10 @@ public class WraPageReference extends PageRef {
         }
 
         if (!ctx.isVanityAsset(args, ics)) {
-            log.debug("not applying vanityURL because asset is not a WRA");
+            if (requireWraForVanityUrls())
+                log.debug("not applying vanityURL because asset is not a WRA");
+            else
+                log.debug("not applying vanityURL because asset is not a Vanity Asset");
             return false;
         }
 
@@ -167,15 +181,16 @@ public class WraPageReference extends PageRef {
      * as possible
      * @param args input params
      * @param ics ics context
+     * @param requireWraForVanity true to enforce having a WRA for a vanity URL, false to allow just a vanity asset.
      * @return calcualtion context, containing pointers to heavy objects
      */
-    private VanityUrlCalculationContext getVanityUrlCalculationContext(Map args, ICS ics) {
+    private VanityUrlCalculationContext getVanityUrlCalculationContext(Map args, ICS ics, boolean requireWraForVanity) {
         String c = (String) args.get("c");
         String cid = (String) args.get("cid");
         String key = "gsf:vanityUrlCalculationContext:"+c+":"+cid;
         Object o = ics.GetObj(key);
         if (o == null) {
-            o = new VanityUrlCalculationContext(c, cid);
+            o = new VanityUrlCalculationContext(c, cid, requireWraForVanity);
             ics.SetObj(key, o);
         }
         return (VanityUrlCalculationContext) o;
@@ -187,7 +202,8 @@ public class WraPageReference extends PageRef {
      */
     private static class VanityUrlCalculationContext {
 
-        final AssetId assetId;
+        private final boolean requireWraFields;
+        private final AssetId assetId;
         private AssetApiVirtualWebrootDao assetApiVirtualWebrootDao;
         private WraCoreFieldDao wraCoreFieldDao;
 
@@ -197,10 +213,11 @@ public class WraPageReference extends PageRef {
         boolean checkedForWebroot = false;
         VirtualWebroot virtualWebrootForAsset;
 
-        boolean checkedForWra = false;
+        boolean checkedForVanitySupport = false;
         VanityAsset vanityAsset;
 
-        VanityUrlCalculationContext(String c, String cid) {
+        VanityUrlCalculationContext(String c, String cid, boolean requireWraFields) {
+            this.requireWraFields = requireWraFields;
             assetId = new AssetIdImpl(c, Long.parseLong(cid));
         }
 
@@ -220,7 +237,8 @@ public class WraPageReference extends PageRef {
 
 
         private boolean isVanityAsset(Map args, ICS ics) {
-           return getWraCoreFieldDao(args, ics).isWebReferenceable(assetId);
+           WraCoreFieldDao dao = getWraCoreFieldDao(args, ics);
+           return requireWraFields ? dao.isWebReferenceable(assetId) : dao.isVanityAsset(assetId);
         }
 
         private boolean isGsfEnvironmentSet(Map args, ICS ics) {
@@ -236,9 +254,10 @@ public class WraPageReference extends PageRef {
         }
 
         private VanityAsset getVanityAsset(Map args, ICS ics) {
-            if (vanityAsset == null && checkedForWra == false) {
-                vanityAsset = getWraCoreFieldDao(args, ics).getWra(assetId);
-                checkedForWra = true;
+            if (vanityAsset == null && checkedForVanitySupport == false) {
+                WraCoreFieldDao dao = getWraCoreFieldDao(args, ics);
+                vanityAsset = requireWraFields ? dao.getWra(assetId) : dao.getVanityWra(assetId);
+                checkedForVanitySupport = true;
             }
             return vanityAsset;
         }
