@@ -100,4 +100,12 @@ echo done packaging gst-foundation
 # upload
 #curl -T target/gst-foundation-11.6.0-SNAPSHOT.tgz  --user someone@oracle.com https://stbeehive.oracle.com/content/dav/st/WebCenter%20Sites%20GSF/Documents/gst-foundation-11.6.0-SNAPSHOT.tgz
 
+# Instruction to add to change log
+# git log e7c4aab67d0185c4872e53b75835642cd5bedb51..HEAD > /tmp/git-log
+# sed -i  /^commit/d /tmp/git-log 
+# sed -i  '/<dolf.dijkstra@xs4all.nl>//g' /tmp/git-log 
+# sed -i  's/<dolf.dijkstra@xs4all.nl>//g' /tmp/git-log 
+# sed -i  's/<tony.field@metastratus.com>//g' /tmp/git-log 
+# sed -i  's/<david.chesebro@metastratus.com>//g' /tmp/git-log 
+# vi src/site/apt/changes-11g.apt 
 
