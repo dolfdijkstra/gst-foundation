@@ -22,6 +22,58 @@ GST Site Foundation changes for 11.6 release
 
 ---------------------
 
+Author: Tony Field 
+Date:   Mon Jun 3 15:27:08 2013 -0400
+
+    Added support for generation of Vanity URLs using Vanity assets and not just WRAs.  To activate, use VanityPageReference instead of WraPageReference.
+
+Author: Dolf Dijkstra 
+Date:   Thu May 2 10:20:10 2013 +0200
+
+    Debugging optimization
+
+Author: David Chesebro 
+Date:   Wed May 1 15:35:42 2013 -0400
+
+    CallElement: Fixed "SCOPED" attribute.
+
+Author: Tony Field 
+Date:   Mon Mar 18 13:29:11 2013 -0400
+
+    Defer context creation until after gettemplateurl check.
+
+Author: David Chesebro 
+Date:   Wed Feb 27 15:10:24 2013 -0500
+
+    WraUriBuilder and PageUriBuilder was ignoring the "assembler" arg for WRAs. For example, when you want to force assembler="query" when building a URL.
+
+Author: David Chesebro 
+Date:   Fri Feb 15 17:09:39 2013 -0500
+
+    Replaced /cs/ with ics.GetProperty("ft.cgipath") in GST/Foundation/RewriteGenerator element.
+
+
+Author: Dolf Dijkstra 
+Date:   Tue Dec 18 12:10:48 2012 +0100
+
+    Improving installer to install individual components
+
+Author: Tony Field 
+Date:   Mon Dec 17 21:51:33 2012 -0500
+
+    Fix for Issue #7 - URL registry not rebuilding pages.
+
+Author: Dolf Dijkstra 
+Date:   Thu Nov 29 16:24:07 2012 +0100
+
+    Fix for BP1, all changes through CatalogManager must be done through a POST, all forms must be written with <satellite:form>
+
+Author: Dolf Dijkstra 
+Date:   Wed Nov 14 21:01:19 2012 +0100
+
+    Fixed a bug that produced a null url for a associated alias target.
+
+
 Author: Dolf Dijkstra 
 Date:   Wed Oct 3 14:35:43 2012 +0200
 
