@@ -121,7 +121,7 @@
 <a class="jxr_linenumber" name="111" href="#111">111</a>         }
 <a class="jxr_linenumber" name="112" href="#112">112</a> 
 <a class="jxr_linenumber" name="113" href="#113">113</a>         Object o = objectCache.get(name);
-<a class="jxr_linenumber" name="114" href="#114">114</a>         <strong class="jxr_keyword">if</strong> (o != <strong class="jxr_keyword">null</strong> &amp;&amp; !o.getClass().isAssignableFrom(c))
+<a class="jxr_linenumber" name="114" href="#114">114</a>         <strong class="jxr_keyword">if</strong> (o != <strong class="jxr_keyword">null</strong> &amp;&amp; !c.isAssignableFrom(o.getClass()))
 <a class="jxr_linenumber" name="115" href="#115">115</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Name conflict: '"</span> + name + <span class="jxr_string">"' is in cache and is of type  '"</span>
 <a class="jxr_linenumber" name="116" href="#116">116</a>                     + o.getClass() + <span class="jxr_string">"' but a '"</span> + c.getName()
 <a class="jxr_linenumber" name="117" href="#117">117</a>                     + <span class="jxr_string">"' was asked for. Please check your factories for naming conflicts."</span>);

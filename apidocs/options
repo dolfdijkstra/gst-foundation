@@ -1,0 +1,27 @@
+-classpath
+'/home/dolf/code/java/gst-foundation.git/target/checkout/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-cs-all/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-cs-test/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-facades/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-wra/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-tagging/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-action/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-mobile/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-groovy/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-taglib/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gst-foundation-all/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-sample/target/classes:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-sample-avisports/target/classes:/home/dolf/.m2/repository/log4j/log4j/1.2.15/log4j-1.2.15.jar:/home/dolf/.m2/repository/com/fatwire/cs/visitor/11.1.1.6.0/visitor-11.1.1.6.0.jar:/home/dolf/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar:/home/dolf/.m2/repository/asm/asm-commons/3.2/asm-commons-3.2.jar:/home/dolf/.m2/repository/com/fatwire/cs/cs-cache-1.2/11.1.1.6.0/cs-cache-1.2-11.1.1.6.0.jar:/home/dolf/.m2/repository/com/fatwire/gst/gsf-mobile/11.6.0/gsf-mobile-11.6.0.jar:/home/dolf/.m2/repository/com/fatwire/cs/cs/11.1.1.6.0/cs-11.1.1.6.0.jar:/home/dolf/.m2/repository/com/fatwire/gst/gsf-tagging/11.6.0/gsf-tagging-11.6.0.jar:/home/dolf/.m2/repository/asm/asm-tree/3.2/asm-tree-3.2.jar:/home/dolf/.m2/repository/junit/junit/4.10/junit-4.10.jar:/home/dolf/.m2/repository/com/fatwire/gst/gsf-taglib/11.6.0/gsf-taglib-11.6.0.jar:/home/dolf/.m2/repository/org/springframework/spring/2.5.6/spring-2.5.6.jar:/home/dolf/.m2/repository/com/fatwire/cs/gator/11.1.1.6.0/gator-11.1.1.6.0.jar:/home/dolf/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/home/dolf/.m2/repository/com/fatwire/cs/cs-core/11.1.1.6.0/cs-core-11.1.1.6.0.jar:/home/dolf/.m2/repository/com/fatwire/cs/assetapi/11.1.1.6.0/assetapi-11.1.1.6.0.jar:/home/dolf/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/home/dolf/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar:/home/dolf/.m2/repository/asm/asm-analysis/3.2/asm-analysis-3.2.jar:/home/dolf/.m2/repository/com/fatwire/gst/gsf-facades/11.6.0/gsf-facades-11.6.0.jar:/home/dolf/.m2/repository/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4.jar:/home/dolf/.m2/repository/javax/servlet/jsp-api/2.0/jsp-api-2.0.jar:/home/dolf/.m2/repository/com/fatwire/cs/basic/11.1.1.6.0/basic-11.1.1.6.0.jar:/home/dolf/.m2/repository/hsqldb/hsqldb/1.8.0.10/hsqldb-1.8.0.10.jar:/home/dolf/.m2/repository/com/fatwire/cs/assetapi-impl/11.1.1.6.0/assetapi-impl-11.1.1.6.0.jar:/home/dolf/.m2/repository/com/fatwire/gst/gsf-wra/11.6.0/gsf-wra-11.6.0.jar:/home/dolf/.m2/repository/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar:/home/dolf/.m2/repository/org/codehaus/groovy/groovy/1.7.10/groovy-1.7.10.jar:/home/dolf/.m2/repository/com/fatwire/cs/xcelerate/11.1.1.6.0/xcelerate-11.1.1.6.0.jar:/home/dolf/.m2/repository/com/fatwire/gst/gst-foundation-all/11.6.0/gst-foundation-all-11.6.0.jar:/home/dolf/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar:/home/dolf/.m2/repository/asm/asm/3.2/asm-3.2.jar:/home/dolf/.m2/repository/com/fatwire/cs/assetframework/11.1.1.6.0/assetframework-11.1.1.6.0.jar:/home/dolf/.m2/repository/com/fatwire/gst/gsf-action/11.6.0/gsf-action-11.6.0.jar:/home/dolf/.m2/repository/com/fatwire/cs/MSXML/11.1.1.6.0/MSXML-11.1.1.6.0.jar:/home/dolf/.m2/repository/com/fatwire/gst/gsf-groovy/11.6.0/gsf-groovy-11.6.0.jar:/home/dolf/.m2/repository/com/fatwire/cs/framework/11.1.1.6.0/framework-11.1.1.6.0.jar:/home/dolf/.m2/repository/asm/asm-util/3.2/asm-util-3.2.jar'
+-encoding
+'UTF-8'
+-protected
+-quiet
+-source
+'1.6'
+-sourcepath
+'/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-cs-test/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-facades/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-wra/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-tagging/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-action/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-mobile/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-groovy/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-taglib/src/main/java:/home/dolf/code/java/gst-foundation.git/target/checkout/gsf-sample/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2010-2013 Oracle Corporation. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/dolf/code/java/gst-foundation.git/target/checkout/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Sites GST: Site Foundation 11.6.0 API'
+-linkoffline
+'http://download.oracle.com/javase/6/docs/api' '/home/dolf/code/java/gst-foundation.git/target/checkout/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Sites GST: Site Foundation 11.6.0 API'

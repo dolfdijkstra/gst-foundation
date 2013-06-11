@@ -61,3 +61,9 @@ com.fatwire.gst.foundation.url.db
 com.fatwire.gst.foundation.vwebroot
 com.fatwire.gst.foundation.wra
 com.fatwire.gst.foundation.wra.navigation
+com.yourcompany.owcs.action
+com.yourcompany.owcs.config
+com.yourcompany.owcs.products
+com.yourcompany.owcs.search
+com.yourcompany.owcs.search.solr
+com.yourcompany.owcs.seed
