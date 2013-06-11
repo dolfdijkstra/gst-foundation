@@ -71,7 +71,11 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
 ##Documentation
 
 Documentation for the GST Foundation project is found on [Gitpub Pages](http://dolfdijkstra.github.com/gst-foundation).
-  
+
+##Download
+
+The 11.6.0 version of GSF that works with Sites 11gr1 BP1 is on [this repository](https://github.com/dolfdijkstra/mvn-repository/blob/master/releases/com/com/fatwire/gst/gst-foundation-all).
+ 
 
 ##Support
 
