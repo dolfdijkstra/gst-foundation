@@ -176,7 +176,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
             }
             case MONEY:
             case FLOAT: {
-                Float obj = AttributeDataUtils.asFloat(attr);
+                Double obj = AttributeDataUtils.asDouble(attr);
                 if (obj != null)
                     attrMap.put(name, obj);
                 break;
@@ -252,7 +252,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
             }
             case MONEY:
             case FLOAT: {
-                List<Float> obj = AttributeDataUtils.asFloatList(attr);
+                List<Double> obj = AttributeDataUtils.asDoubleList(attr);
                 if (obj != null && obj.size() > 0)
                     attrMap.put(name, obj);
                 break;
