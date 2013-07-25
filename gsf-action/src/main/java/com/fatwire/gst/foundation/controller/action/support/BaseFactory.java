@@ -155,7 +155,7 @@ public abstract class BaseFactory implements Factory {
         for (Class<?> reflectionClass : factoryClasses(ics)) {
             for (Method m : reflectionClass.getMethods()) {
                 if (m.isAnnotationPresent(ServiceProducer.class)) {
-                    if (m.getReturnType().isAssignableFrom(c)) {
+                    if (c.isAssignableFrom(m.getReturnType())) {
                         String n = m.getAnnotation(ServiceProducer.class).name();
                         if (name.equals(n)) {
                             return createFromMethod(name, c, m);
@@ -182,7 +182,7 @@ public abstract class BaseFactory implements Factory {
         for (Class<?> reflectionClass : factoryClasses(ics)) {
             for (Method m : reflectionClass.getMethods()) {
                 if (m.isAnnotationPresent(ServiceProducer.class)) {
-                    if (m.getReturnType().isAssignableFrom(c)) {
+                    if (c.isAssignableFrom(m.getReturnType())) {
                         String n = m.getAnnotation(ServiceProducer.class).name();
                         if (StringUtils.isBlank(n)) {
                             return createFromMethod(name, c, m);
@@ -222,7 +222,7 @@ public abstract class BaseFactory implements Factory {
 
             for (Method m : reflectionClass.getMethods()) {
                 if (m.getName().equals("create" + c.getSimpleName())) {
-                    if (m.getReturnType().isAssignableFrom(c)) {
+                    if (c.isAssignableFrom(m.getReturnType())) {
                         return createFromMethod(name, c, m);
                     }
                 }
@@ -246,7 +246,7 @@ public abstract class BaseFactory implements Factory {
                     + m.toGenericString());
         }
 
-        if (m.getReturnType().isAssignableFrom(c)) {
+        if (c.isAssignableFrom(m.getReturnType())) {
             Object from = null;
 
             if (!Modifier.isStatic(m.getModifiers())) {
