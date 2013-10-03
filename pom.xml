@@ -188,7 +188,9 @@
           <aggregate>false</aggregate>
           <properties>
             <year>${project.inceptionYear}</year>
-            <company>${project.organization.name}</company>
+              <company>${project.organization.name}</company>
+              <company>Metastratus Web Solutions</company>
+              <company>FatWire Corporation</company>
           </properties>
           <includes>
             <include>src/**</include>
