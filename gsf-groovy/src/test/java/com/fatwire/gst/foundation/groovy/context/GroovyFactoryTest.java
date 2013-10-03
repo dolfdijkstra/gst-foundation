@@ -100,7 +100,7 @@ public class GroovyFactoryTest {
                 ArrayList al = new ArrayList();
                 al.add("tomato");
                 al.add("salad");
-                return (T) ((List.class.isAssignableFrom(c)) ? al: null);
+                return (T) ((al.getClass().isAssignableFrom(c)) ? al: null);
 
             }
 
