@@ -17,9 +17,12 @@ package com.fatwire.gst.foundation.groovy.context;
 
 import groovy.lang.GroovyClassLoader;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.groovy.control.MultipleCompilationErrorsException;
 import org.junit.Test;
@@ -80,8 +83,8 @@ public class GroovyFactoryTest {
         gcl.addClasspath("./src/test/groovy");
 
         GroovyFactory factory = new GroovyFactory(ics, gcl);
-        Collection<?> list = factory.getObject("foo", Collection.class);
-        org.junit.Assert.assertNull(list);
+        Map map = factory.getObject("foo", Map.class);
+        org.junit.Assert.assertNull(map);
 
     }
 
@@ -93,8 +96,11 @@ public class GroovyFactoryTest {
 
             @SuppressWarnings("unchecked")
             @Override
-            public <T> T getObject(String name, Class<T> type) {
-                return (T) ((Collection.class.isAssignableFrom(type)) ? Arrays.asList("tomato", "salad") : null);
+            public <T> T getObject(String name, Class<T> c) {
+                ArrayList al = new ArrayList();
+                al.add("tomato");
+                al.add("salad");
+                return (T) ((List.class.isAssignableFrom(c)) ? al: null);
 
             }
 
@@ -105,9 +111,26 @@ public class GroovyFactoryTest {
         gcl.addClasspath("./src/test/groovy");
 
         GroovyFactory factory = new GroovyFactory(ics, gcl, root);
-        Collection<?> list = factory.getObject("foobar", Collection.class);
-        org.junit.Assert.assertNotNull(list);
-        org.junit.Assert.assertEquals(2, list.size());
+        Collection<?> list;
 
+        // first check to see if we get the item back from the ObjectFactory classloader.
+        list = factory.getObject("foobar1", List.class);
+        org.junit.Assert.assertNotNull("Getting object from the ObjectFactory", list);
+        org.junit.Assert.assertEquals("Getting object from the ObjectFactory", 0, list.size());
+
+        // now request a Set, which won't be returned from ObjectFactory, and it can't be returned from the local factory
+        list = factory.getObject("foobar2", Set.class);
+        org.junit.Assert.assertNull("Request a Set, which neither factory can return", list);
+
+        // requesting the collection will return the entry in the ObjectFactory because the returned List is a Collection
+        // so instead request a Set, which won't be returned by ObjectFactory.
+        list = factory.getObject("foobar3", Collection.class);
+        org.junit.Assert.assertNotNull("Request a collection, which both factories can return - we expect the ObjectFactory one to take precedence", list);
+        org.junit.Assert.assertEquals(0, list.size());
+
+        // request an array list, which ObjectFactory can't return but the root factory can return
+        list = factory.getObject("foobar4", ArrayList.class);
+        org.junit.Assert.assertNotNull("Request an ArrayList which only the root can return.", list);
+        org.junit.Assert.assertEquals(2, list.size());
     }
 }
