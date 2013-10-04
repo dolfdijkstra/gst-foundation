@@ -8,7 +8,7 @@
 		</context-param> USAGE: Be sure to set any actions that need to be sateful 
 		to have a scope="prototype" in order that they are created as new instances. -->
 	<bean id="gsfActionLocator"
-		class="com.fatwire.gst.foundation.groovy.spring.GroovyActionLocator">
+		class="com.fatwire.gst.foundation.groovy.action.GroovyActionLocator">
 		<property name="groovyLoader" ref="groovyLoader" />
 		<property name="factoryClassname"
 			value="com.fatwire.gst.foundation.controller.action.support.IcsBackedObjectFactoryTemplate" />

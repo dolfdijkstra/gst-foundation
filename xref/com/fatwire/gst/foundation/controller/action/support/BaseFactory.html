@@ -165,7 +165,7 @@
 <a class="jxr_linenumber" name="155" href="#155">155</a>         <strong class="jxr_keyword">for</strong> (Class&lt;?&gt; reflectionClass : factoryClasses(ics)) {
 <a class="jxr_linenumber" name="156" href="#156">156</a>             <strong class="jxr_keyword">for</strong> (Method m : reflectionClass.getMethods()) {
 <a class="jxr_linenumber" name="157" href="#157">157</a>                 <strong class="jxr_keyword">if</strong> (m.isAnnotationPresent(ServiceProducer.<strong class="jxr_keyword">class</strong>)) {
-<a class="jxr_linenumber" name="158" href="#158">158</a>                     <strong class="jxr_keyword">if</strong> (m.getReturnType().isAssignableFrom(c)) {
+<a class="jxr_linenumber" name="158" href="#158">158</a>                     <strong class="jxr_keyword">if</strong> (c.isAssignableFrom(m.getReturnType())) {
 <a class="jxr_linenumber" name="159" href="#159">159</a>                         String n = m.getAnnotation(ServiceProducer.<strong class="jxr_keyword">class</strong>).name();
 <a class="jxr_linenumber" name="160" href="#160">160</a>                         <strong class="jxr_keyword">if</strong> (name.equals(n)) {
 <a class="jxr_linenumber" name="161" href="#161">161</a>                             <strong class="jxr_keyword">return</strong> createFromMethod(name, c, m);
@@ -192,7 +192,7 @@
 <a class="jxr_linenumber" name="182" href="#182">182</a>         <strong class="jxr_keyword">for</strong> (Class&lt;?&gt; reflectionClass : factoryClasses(ics)) {
 <a class="jxr_linenumber" name="183" href="#183">183</a>             <strong class="jxr_keyword">for</strong> (Method m : reflectionClass.getMethods()) {
 <a class="jxr_linenumber" name="184" href="#184">184</a>                 <strong class="jxr_keyword">if</strong> (m.isAnnotationPresent(ServiceProducer.<strong class="jxr_keyword">class</strong>)) {
-<a class="jxr_linenumber" name="185" href="#185">185</a>                     <strong class="jxr_keyword">if</strong> (m.getReturnType().isAssignableFrom(c)) {
+<a class="jxr_linenumber" name="185" href="#185">185</a>                     <strong class="jxr_keyword">if</strong> (c.isAssignableFrom(m.getReturnType())) {
 <a class="jxr_linenumber" name="186" href="#186">186</a>                         String n = m.getAnnotation(ServiceProducer.<strong class="jxr_keyword">class</strong>).name();
 <a class="jxr_linenumber" name="187" href="#187">187</a>                         <strong class="jxr_keyword">if</strong> (StringUtils.isBlank(n)) {
 <a class="jxr_linenumber" name="188" href="#188">188</a>                             <strong class="jxr_keyword">return</strong> createFromMethod(name, c, m);
@@ -232,7 +232,7 @@
 <a class="jxr_linenumber" name="222" href="#222">222</a> 
 <a class="jxr_linenumber" name="223" href="#223">223</a>             <strong class="jxr_keyword">for</strong> (Method m : reflectionClass.getMethods()) {
 <a class="jxr_linenumber" name="224" href="#224">224</a>                 <strong class="jxr_keyword">if</strong> (m.getName().equals(<span class="jxr_string">"create"</span> + c.getSimpleName())) {
-<a class="jxr_linenumber" name="225" href="#225">225</a>                     <strong class="jxr_keyword">if</strong> (m.getReturnType().isAssignableFrom(c)) {
+<a class="jxr_linenumber" name="225" href="#225">225</a>                     <strong class="jxr_keyword">if</strong> (c.isAssignableFrom(m.getReturnType())) {
 <a class="jxr_linenumber" name="226" href="#226">226</a>                         <strong class="jxr_keyword">return</strong> createFromMethod(name, c, m);
 <a class="jxr_linenumber" name="227" href="#227">227</a>                     }
 <a class="jxr_linenumber" name="228" href="#228">228</a>                 }
@@ -256,7 +256,7 @@
 <a class="jxr_linenumber" name="246" href="#246">246</a>                     + m.toGenericString());
 <a class="jxr_linenumber" name="247" href="#247">247</a>         }
 <a class="jxr_linenumber" name="248" href="#248">248</a> 
-<a class="jxr_linenumber" name="249" href="#249">249</a>         <strong class="jxr_keyword">if</strong> (m.getReturnType().isAssignableFrom(c)) {
+<a class="jxr_linenumber" name="249" href="#249">249</a>         <strong class="jxr_keyword">if</strong> (c.isAssignableFrom(m.getReturnType())) {
 <a class="jxr_linenumber" name="250" href="#250">250</a>             Object from = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="251" href="#251">251</a> 
 <a class="jxr_linenumber" name="252" href="#252">252</a>             <strong class="jxr_keyword">if</strong> (!Modifier.isStatic(m.getModifiers())) {
