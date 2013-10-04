@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.fatwire.gst</groupId>
   <artifactId>gst-foundation</artifactId>
-  <version>11.6.1</version>
+  <version>11.6.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Sites GST: Site Foundation</name>
   <description>The GST Site Foundation parent project</description>
@@ -30,7 +30,7 @@
     <connection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</connection>
     <developerConnection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</developerConnection>
     <url>https://github.com/dolfdijkstra/gst-foundation.git</url>
-    <tag>gst-foundation-11.6.1</tag>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <url>https://github.com/dolfdijkstra/gst-foundation/issues</url>
