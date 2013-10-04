@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gst-foundation</artifactId>
-    <version>11.6.1-SNAPSHOT</version>
+    <version>11.6.1</version>
   </parent>
   <artifactId>gsf-mobile</artifactId>
   <packaging>jar</packaging>
@@ -30,7 +30,7 @@
     <dependency>
       <groupId>com.fatwire.gst</groupId>
       <artifactId>gsf-action</artifactId>
-      <version>11.6.1-SNAPSHOT</version>
+      <version>11.6.1</version>
     </dependency>
 <!--
     <dependency>
