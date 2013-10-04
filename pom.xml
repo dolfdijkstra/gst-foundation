@@ -136,7 +136,7 @@
             <![CDATA[
               <script type="text/javascript">
                 var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', 'UA-30024219-1']);
+                _gaq.push(['_setAccount', 'UA-41996736-1']);
                 _gaq.push(['_trackPageview']);
                 (function() {
                   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -269,7 +269,7 @@
             <![CDATA[
               <script type="text/javascript">
                 var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', 'UA-30024219-1']);
+                _gaq.push(['_setAccount', 'UA-41996736-1']);
                 _gaq.push(['_trackPageview']);
                 (function() {
                   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -348,7 +348,7 @@
     </site>
     <repository>
       <id>repo</id>
-      <url>file://${user.home}/.m2/deploy-repository</url>
+      <url>file://${user.home}/.m2/deploy-repository/mvn-repository/releases</url>
     </repository>
   </distributionManagement>
 </project>
