@@ -15,7 +15,10 @@
  */
 package com.fatwire.gst.foundation.controller;
 
+import COM.FutureTense.Interfaces.FTVAL;
+import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.IPS;
+import COM.FutureTense.XML.Template.Seed2;
 
 /**
  * <p>
@@ -33,14 +36,44 @@ import COM.FutureTense.Interfaces.IPS;
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
  */
-public class BaseController extends AbstractController {
+public class BaseController extends AbstractController implements Seed2 {
 
     private RenderPageAdapter delegate;
+    private FTValList vIn;
 
+    /* (non-Javadoc)
+     * @see COM.FutureTense.XML.Template.Seed2#SetAppLogic(COM.FutureTense.Interfaces.IPS)
+     */
     @Override
     public void SetAppLogic(IPS ips) {
-        super.SetAppLogic(ips);
         delegate = new RenderPageAdapter(ics);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * COM.FutureTense.XML.Template.Seed#Execute(COM.FutureTense.Interfaces.
+     * FTValList, COM.FutureTense.Interfaces.FTValList)
+     */
+
+    public final String Execute(final FTValList vIn, final FTValList vOut) {
+        this.vIn = vIn;
+        try {
+            doExecute();
+        } catch (final Exception e) {
+            handleException(e);
+        }
+
+        return "";
+    }
+
+    protected final FTVAL getInputArgument(String name) {
+        return vIn == null ? null : vIn.getVal(name);
+    }
+
+    protected final String getInputArgumentAsString(String name) {
+        return vIn == null ? null : vIn.getValString(name);
     }
 
     @Override

@@ -21,6 +21,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftMessage;
 
@@ -41,6 +42,10 @@ import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
  * @see IcsVariable
  */
 public abstract class AnnotationController extends AbstractController {
+
+    public AnnotationController(ICS ics) {
+        super(ics);
+    }
 
     /*
      * (non-Javadoc)

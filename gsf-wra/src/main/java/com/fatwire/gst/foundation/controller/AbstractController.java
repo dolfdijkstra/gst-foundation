@@ -25,12 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import COM.FutureTense.Interfaces.FTVAL;
-import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Interfaces.IPS;
 import COM.FutureTense.Util.ftErrors;
-import COM.FutureTense.XML.Template.Seed2;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.DebugHelper;
@@ -43,52 +39,20 @@ import com.fatwire.gst.foundation.httpstatus.HttpStatusStrings;
  * @since Jun 16, 2010
  */
 
-public abstract class AbstractController implements Seed2 {
+public abstract class AbstractController  {
     protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller");
 
     public static final String STATUS_HEADER = HttpStatusStrings.X_FATWIRE_STATUS;
 
-    protected ICS ics;
-    private FTValList vIn;
+    protected final ICS ics;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * COM.FutureTense.XML.Template.Seed2#SetAppLogic(COM.FutureTense.Interfaces
-     * .IPS)
+
+    /**
+     * @param ics
      */
-
-    public void SetAppLogic(final IPS ips) {
-        ics = ips.GetICSObject();
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * COM.FutureTense.XML.Template.Seed#Execute(COM.FutureTense.Interfaces.
-     * FTValList, COM.FutureTense.Interfaces.FTValList)
-     */
-
-    public final String Execute(final FTValList vIn, final FTValList vOut) {
-        this.vIn = vIn;
-        try {
-            doExecute();
-        } catch (final Exception e) {
-            handleException(e);
-        }
-
-        return "";
-    }
-
-    protected final FTVAL getInputArgument(String name) {
-        return vIn == null ? null : vIn.getVal(name);
-    }
-
-    protected final String getInputArgumentAsString(String name) {
-        return vIn == null ? null : vIn.getValString(name);
+    public AbstractController(ICS ics) {
+        super();
+        this.ics = ics;
     }
 
     /**

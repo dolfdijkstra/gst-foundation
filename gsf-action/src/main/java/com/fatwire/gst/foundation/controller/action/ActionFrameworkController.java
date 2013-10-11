@@ -18,14 +18,22 @@ package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
 
+import COM.FutureTense.Interfaces.ICS;
+
 /**
- * AbstractActionController that is using the AppContext to configure the ActionLocator and ActionNameResolver.
+ * AbstractActionController that is using the AppContext to configure the
+ * ActionLocator and ActionNameResolver.
  * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Mar 15, 2011
  */
-public class ActionController extends AbstractActionController {
+public class ActionFrameworkController extends AbstractActionController {
+    public ActionFrameworkController(ICS ics) {
+        super(ics);
+
+    }
+
     protected final ActionLocator getActionLocator() {
 
         // get the servlet context

@@ -18,6 +18,7 @@ package com.fatwire.gst.foundation.controller.action;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
@@ -34,12 +35,12 @@ import com.fatwire.gst.foundation.facade.RenderUtils;
  */
 public abstract class AbstractActionController extends AbstractController {
 
-    public AbstractActionController() {
-        super();
+    public AbstractActionController(ICS ics) {
+        super(ics);
     }
 
     @Override
-    protected final void doExecute() {
+    public final void doExecute() {
 
         // record seid and eid
         RenderUtils.recordBaseCompositionalDependencies(ics);
@@ -87,7 +88,7 @@ public abstract class AbstractActionController extends AbstractController {
     }
 
     @Override
-    protected final void handleException(final Exception e) {
+    public final void handleException(final Exception e) {
         if (LOG.isTraceEnabled()) {
             // Give developer a clue in case error pages aren't configured
             // properly.
