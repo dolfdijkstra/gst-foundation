@@ -36,7 +36,7 @@ import COM.FutureTense.XML.Template.Seed2;
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
  */
-public class BaseController extends AbstractController implements Seed2 {
+public class BaseController implements Seed2 {
 
     private RenderPageAdapter delegate;
     private FTValList vIn;
@@ -46,7 +46,7 @@ public class BaseController extends AbstractController implements Seed2 {
      */
     @Override
     public void SetAppLogic(IPS ips) {
-        delegate = new RenderPageAdapter(ics);
+        delegate = new RenderPageAdapter(ips.GetICSObject());
     }
 
     /*
@@ -76,12 +76,11 @@ public class BaseController extends AbstractController implements Seed2 {
         return vIn == null ? null : vIn.getValString(name);
     }
 
-    @Override
+
     protected void doExecute() {
         delegate.doExecute();
     }
 
-    @Override
     protected void handleException(final Exception e) {
         delegate.handleException(e);
     }
