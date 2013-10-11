@@ -46,7 +46,7 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
  */
-public class RenderPageAdapter extends BaseRenderPage {
+public class RenderPageAdapter extends WraRenderPage {
 
     public static final String STATUS_HEADER = HttpStatusStrings.X_FATWIRE_STATUS;
 

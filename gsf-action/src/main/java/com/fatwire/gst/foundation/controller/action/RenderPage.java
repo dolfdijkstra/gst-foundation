@@ -18,7 +18,7 @@ package com.fatwire.gst.foundation.controller.action;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.controller.BaseRenderPage;
+import com.fatwire.gst.foundation.controller.WraRenderPage;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
@@ -26,12 +26,12 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 /**
  * Generic page-rendering action. The logic is implemented in
- * {@link BaseRenderPage}.
+ * {@link WraRenderPage}.
  * 
  * @author Dolf Dijkstra
  * @since 2011-03-15
  */
-public class RenderPage extends BaseRenderPage implements Action {
+public class RenderPage extends WraRenderPage implements Action {
 
     public void handleRequest(final ICS ics) {
 
