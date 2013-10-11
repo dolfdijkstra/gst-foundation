@@ -65,9 +65,10 @@ public class RenderPageAdapter extends BaseRenderPage {
     }
 
     public void doExecute() {
+        LOG.trace("RenderPageAdapter execution started");
         recordCompositionalDependencies();
         renderPage();
-        LOG.trace("BaseController execution complete");
+        LOG.trace("RenderPageAdapter execution complete");
     }
 
     protected void handleException(final Exception e) {
