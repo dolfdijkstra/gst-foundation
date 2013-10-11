@@ -35,6 +35,7 @@ import COM.FutureTense.XML.Template.Seed2;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.runtag.render.Unknowndeps;
+import com.fatwire.gst.foundation.httpstatus.HttpStatusStrings;
 
 /**
  * @author Tony Field
@@ -45,7 +46,7 @@ import com.fatwire.gst.foundation.facade.runtag.render.Unknowndeps;
 public abstract class AbstractController implements Seed2 {
     protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller");
 
-    public static final String STATUS_HEADER = "X-Fatwire-Status";
+    public static final String STATUS_HEADER = HttpStatusStrings.X_FATWIRE_STATUS;
 
     protected ICS ics;
     private FTValList vIn;
@@ -150,7 +151,7 @@ public abstract class AbstractController implements Seed2 {
                 ics.StreamHeader(STATUS_HEADER, Integer.toString(code));
                 break;
             default:
-                ics.StreamHeader(STATUS_HEADER, "500");
+                ics.StreamHeader(STATUS_HEADER, Integer.toString(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
                 break;
         }
         Unknowndeps.unknonwDeps(ics);// failure case might be corrected on next
@@ -174,9 +175,10 @@ public abstract class AbstractController implements Seed2 {
             e.printStackTrace(pw);
             pw.flush();
 
-            ics.StreamText("<h1>ERROR "+ code +"</h1><p>An error has been raised. <br/>Please add an element at GST/ErrorHandler to handle the display of this message differently.<br/></br><pre>"
-                    + sw.toString()
-                    + "</pre></p>");
+            ics.StreamText("<h1>ERROR "
+                    + code
+                    + "</h1><p>An error has been raised. <br/>Please add an element at GST/ErrorHandler to handle the display of this message differently.<br/></br><pre>"
+                    + sw.toString() + "</pre></p>");
         }
         ics.SetErrno(ftErrors.exceptionerr);
 
