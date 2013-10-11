@@ -15,7 +15,6 @@
  */
 package com.fatwire.gst.foundation.controller;
 
-
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +25,7 @@ import COM.FutureTense.Util.ftErrors;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.runtag.render.Unknowndeps;
+import com.fatwire.gst.foundation.httpstatus.HttpStatusStrings;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
 import com.fatwire.gst.foundation.url.db.UrlRegistry2;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
@@ -35,9 +35,10 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 /**
  * <p>
- * This an adapter so that Controllers and Actions can call the RenderPage logic. The RenderPage logic dispatches the request to the
- * correct asset/template combination based on the path field for a Web
- * Referenceable Asset.
+ * This an adapter so that Controllers and Actions can call the RenderPage
+ * logic. The RenderPage logic dispatches the request to the correct
+ * asset/template combination based on the path field for a Web Referenceable
+ * Asset.
  * <p/>
  * 
  * 
@@ -47,7 +48,8 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  */
 public class RenderPageAdapter extends BaseRenderPage {
 
-    public static final String STATUS_HEADER = "X-Fatwire-Status";
+    public static final String STATUS_HEADER = HttpStatusStrings.X_FATWIRE_STATUS;
+
     public RenderPageAdapter(ICS ics) {
         this.ics = ics;
         pathTranslationService = UrlRegistry2.lookup(ics);
@@ -85,7 +87,7 @@ public class RenderPageAdapter extends BaseRenderPage {
             DebugHelper.dumpVars(ics, LOG);
         }
         switch (code) { // all the http status codes, we may restrict the list
-            // to error and redirect
+        // to error and redirect
             case HttpServletResponse.SC_ACCEPTED:
             case HttpServletResponse.SC_BAD_GATEWAY:
             case HttpServletResponse.SC_BAD_REQUEST:
