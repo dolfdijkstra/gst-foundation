@@ -74,7 +74,7 @@ Documentation for the GST Foundation project is found on [Gitpub Pages](http://d
 
 ##Download
 
-The 11.6.0 version of GSF that works with Sites 11gr1 BP1 is on [this repository](https://github.com/dolfdijkstra/mvn-repository/blob/master/releases/com/com/fatwire/gst/gst-foundation-all).
+The 11.6.0 version of GSF that works with Sites 11gr1 BP1 is on [this repository](https://github.com/dolfdijkstra/mvn-repository/tree/master/releases/com/fatwire/gst/gst-foundation-all).
  
 
 ##Support
