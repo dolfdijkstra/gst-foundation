@@ -33,7 +33,7 @@ if [ -f "cs.jar" ]; then
     do
         if [ -f "${jar}.jar" ]; then
             echo "Registering ${jar}.jar"
-            mvn -B --quiet install:install-file -Dfile=${jar}.jar -DgroupId=com.fatwire.cs -DartifactId=${jar} -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
+            mvn -B --quiet install:install-file -Dfile=${jar}.jar -DgroupId=com.fatwire.cs -DartifactId=${jar/-$VERSION} -Dversion=$VERSION -Dpackaging=jar -DgeneratePom=true
         else
             echo "WARNING: File ${jar}.jar not found."
         fi
