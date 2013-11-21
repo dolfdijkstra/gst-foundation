@@ -15,6 +15,8 @@
  */
 package com.fatwire.gst.foundation.properties;
 
+import java.io.Serializable;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 
@@ -24,7 +26,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
  * @author Tony Field
  * @since 11-09-02
  */
-final class PropertyImpl implements Property {
+final class PropertyImpl implements Property, Serializable {
     String name;
     String description;
     String value;

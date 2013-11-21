@@ -18,14 +18,13 @@ package com.fatwire.gst.foundation.properties;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.ISyncHash;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.assetapi.common.AssetAccessException;
@@ -64,7 +63,11 @@ public final class AssetApiPropertyDao implements PropertyDao {
             .attributes("name", "description", "value").condition("status", OpTypeEnum.NOT_EQUALS, "VO")
             .setBasicSearch(true).toQuery();
 
-    private final Map<String, Property> _props;
+    private static final int TIMEOUT_MINUTES = 60 * 24; // one day
+    private static final int MAX_SIZE = 1000000; // a million
+    private static final Collection<String> LINKED = Arrays.asList(TYPE);
+    private final ISyncHash _props;
+
     private final ICS ics;
     private AssetDataManager assetDataManager = null;
 
@@ -92,7 +95,7 @@ public final class AssetApiPropertyDao implements PropertyDao {
     private AssetApiPropertyDao(ICS ics) {
         this.ics = ics;
         this.assetDataManager = (AssetDataManager)SessionFactory.getSession(ics).getManager(AssetDataManager.class.getName());
-        _props = new HashMap<String, Property>();
+        _props = ics.GetSynchronizedHash(AssetApiPropertyDao.class.getName(), true, TIMEOUT_MINUTES, TIMEOUT_MINUTES, true, true, LINKED);
         TemplateAssetAccess mgr = new TemplateAssetAccess(ics);
 
         LOG.trace("Loading all GSTProperties");
@@ -106,7 +109,7 @@ public final class AssetApiPropertyDao implements PropertyDao {
     }
 
     public Property getProperty(String name) {
-        return _props.get(name);
+        return (Property)_props.get(name);
     }
 
     public Collection<String> getPropertyNames() {
@@ -120,7 +123,7 @@ public final class AssetApiPropertyDao implements PropertyDao {
      */
     public void setProperty(Property property) {
         if (property == null) throw new IllegalArgumentException("Can't set a null property object");
-        if (_props.containsKey(property.getName())) {
+        if (_props.keySet().contains(property.getName())) {
             // replace asset
             try {
                 Session ses = SessionFactory.getSession();
