@@ -21,6 +21,9 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IPS;
 import COM.FutureTense.Servlet.IPSRegistry;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Factory class for creating new ICS instances. This process is very expensive
  * so use it sparingly.
@@ -31,6 +34,8 @@ import COM.FutureTense.Servlet.IPSRegistry;
  */
 public final class ICSFactory {
 
+    private static final Log LOG = LogFactory.getLog(ICSFactory.class.getName());
+
     /**
      * Create a new instance of ICS. Expensive operation. Should be used
      * sparingly. TODO: low priority: Document lifecycle restrictions
@@ -39,6 +44,7 @@ public final class ICSFactory {
      */
     public static ICS newICS() {
         try {
+            LOG.debug("Creating new ICS object");
             return Factory.newCS();
         } catch (Exception e) {
             throw new RuntimeException("Could not create new ICS instance: " + e, e);
