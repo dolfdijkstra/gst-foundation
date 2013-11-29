@@ -16,6 +16,9 @@
 
 package com.fatwire.gst.foundation.facade.ics;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IPS;
@@ -50,7 +53,9 @@ public final class ICSFactory {
     public static ICS newICS() {
         try {
             LOG.debug("Creating new ICS object");
-            return Factory.newCS();
+            ICS ics = Factory.newCS();
+            LOG.debug("A new ICS object has just been created.  This activity is deprecated.", new Exception());
+            return ics;
         } catch (Exception e) {
             throw new RuntimeException("Could not create new ICS instance: " + e, e);
         }
