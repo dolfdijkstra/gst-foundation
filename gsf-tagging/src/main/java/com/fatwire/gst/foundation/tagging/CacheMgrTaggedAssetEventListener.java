@@ -19,7 +19,6 @@ import java.util.Collection;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.listener.RunOnceAssetEventListener;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 
 /**
  * Cache manager to be used to deal with cache updates
@@ -33,7 +32,7 @@ public final class CacheMgrTaggedAssetEventListener extends RunOnceAssetEventLis
     
 
     private AssetTaggingService getService() {
-        return AssetTaggingServiceFactory.getService(ICSFactory.getOrCreateICS());
+        return AssetTaggingServiceFactory.getService(getICS());
     }
 
     @Override

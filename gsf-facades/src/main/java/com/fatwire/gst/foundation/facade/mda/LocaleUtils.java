@@ -84,6 +84,7 @@ public final class LocaleUtils {
      *             flushing pages when the dimension set is altered (for
      *             example, to change the filter, or change enabled dimensions).
      */
+    @Deprecated
     public static AssetId findTranslation(String c, String cid, String preferredLocaleDimensionId, String site) {
         return findTranslation(ICSFactory.getOrCreateICS(), new AssetIdImpl(c, Long.valueOf(cid)),
                 preferredLocaleDimensionId, site);
@@ -136,16 +137,10 @@ public final class LocaleUtils {
      *             when the dimension set is altered (for example, to change the
      *             filter, or change enabled dimensions).
      */
+    @Deprecated
     public static AssetId findTranslation(AssetId id, String preferredLocaleDimensionIdString, String site) {
         ICS ics = ICSFactory.getOrCreateICS();
-        if (preferredLocaleDimensionIdString == null) {
-            throw new IllegalArgumentException("Required preferred locale dimension ID not provided");
-        }
-        long preferredDimension = Long.valueOf(preferredLocaleDimensionIdString);
-
-        long dimensionSetId = locateDimensionSetForSite(ics, site);
-
-        return findTranslation(ics, id, preferredDimension, dimensionSetId);
+        return findTranslation(ics, id, preferredLocaleDimensionIdString, site);
     }
 
     /**

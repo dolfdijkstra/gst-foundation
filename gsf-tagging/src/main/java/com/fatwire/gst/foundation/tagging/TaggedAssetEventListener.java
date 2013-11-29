@@ -17,7 +17,6 @@ package com.fatwire.gst.foundation.tagging;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.listener.RunOnceAssetEventListener;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 
 /**
  * Sends asset events to the tagging service.
@@ -33,12 +32,7 @@ public final class TaggedAssetEventListener extends RunOnceAssetEventListener {
     }
 
     AssetTaggingService getService() {
-        try {
-            return AssetTaggingServiceFactory.getService(ICSFactory.getOrCreateICS());
-        } catch (Exception e) {
-            throw new IllegalStateException("Could not create ICS", e);
-        }
-
+        return AssetTaggingServiceFactory.getService(getICS());
     }
 
     @Override

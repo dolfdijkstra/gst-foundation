@@ -46,6 +46,13 @@ import org.apache.commons.logging.LogFactory;
  * @author Dolf Dijkstra
  */
 public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
+
+    /**
+     * @deprecated makes unsafe calls and refrences to unsupported ICS objects
+     * @param ics
+     * @return
+     */
+    @Deprecated
     public static WraCoreFieldApiBypassDao getBackdoorInstance(ICS ics) {
         if (ics == null) {
             ics = ICSFactory.getOrCreateICS();

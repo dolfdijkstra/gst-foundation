@@ -28,6 +28,8 @@ import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
  * 
  * @author Tony Field
  * @since Jul 21, 2010
+ * @deprecated Use the standard ObjectFactory instead.  This variation uses an unsafe mechanism to access the ICS
+ * object.
  */
 @Deprecated
 public final class WraPathTranslationServiceFactory {
@@ -37,7 +39,10 @@ public final class WraPathTranslationServiceFactory {
      * 
      * @param ics context, if available. Null is allowed
      * @return service
+     * @deprecated Use the standard ObjectFactory instead.  This method uses an unsafe mechanism to access the ICS
+     * object
      */
+    @Deprecated
     public static WraPathTranslationService getService(ICS ics) {
         if (ics == null) {
             ics = ICSFactory.getOrCreateICS();

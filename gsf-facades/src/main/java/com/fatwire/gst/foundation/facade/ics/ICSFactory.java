@@ -31,7 +31,10 @@ import org.apache.commons.logging.LogFactory;
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jul 29, 2010
+ * @deprecated ICS usage and access should be managed by the calling classes.  Specifically, creating a new ICS
+ * object should be avoided.
  */
+@Deprecated
 public final class ICSFactory {
 
     private static final Log LOG = LogFactory.getLog(ICSFactory.class.getName());
@@ -39,9 +42,11 @@ public final class ICSFactory {
     /**
      * Create a new instance of ICS. Expensive operation. Should be used
      * sparingly. TODO: low priority: Document lifecycle restrictions
-     * 
+     *
+     * @deprecated Createds a new un-backed ICS instance, which can very easily be mistaken for a regular ICS object
      * @return ICS instance, not backed by servlet.
      */
+    @Deprecated
     public static ICS newICS() {
         try {
             LOG.debug("Creating new ICS object");
@@ -54,9 +59,12 @@ public final class ICSFactory {
     /**
      * Returns the ICS object from current IPSRegistry or creates a new one if
      * non is found on the IPSRegistry.
-     * 
+     *
+     * @deprecated returns an ICS object using an undocumented API, and creates a new one that is only partially-formed
+     * if none is found.  Misuse of this ICS object can result in very tricky bugs.
      * @return ICS object
      */
+    @Deprecated
     public static ICS getOrCreateICS() {
         ICS ics = null;
 

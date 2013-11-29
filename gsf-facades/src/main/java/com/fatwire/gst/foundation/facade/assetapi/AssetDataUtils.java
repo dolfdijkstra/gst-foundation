@@ -51,6 +51,7 @@ public final class AssetDataUtils {
      * @return asset data
      * @deprecated inconsistent method signature, replaced by {@link AssetDataUtils#getAssetData(AssetId, String...)}. 
      */
+    @Deprecated
     public static AssetData getAssetData(String c, String cid, String... attributes) {
         return getAssetData(AssetIdUtils.createAssetId(c, cid), attributes);
     }
@@ -60,7 +61,9 @@ public final class AssetDataUtils {
      * 
      * @param id must be valid or else an exception is thrown
      * @return asset data, never null.
+     * @deprecated use #getAssetData(ICS, AssetId) instead
      */
+    @Deprecated
     public static AssetData getAssetData(AssetId id) {
         return getAssetData(ICSFactory.getOrCreateICS(), id);
     }
@@ -90,7 +93,9 @@ public final class AssetDataUtils {
      * @param id
      * @param attributes
      * @return asset data
+     * @deprecated use #getAssetData(ICS, AssetId, String...) instead
      */
+    @Deprecated
     public static AssetData getAssetData(AssetId id, String... attributes) {
         return getAssetData(ICSFactory.getOrCreateICS(), id, attributes);
     }

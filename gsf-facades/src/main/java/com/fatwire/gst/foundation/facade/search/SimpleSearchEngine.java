@@ -30,7 +30,6 @@ import com.fatwire.cs.core.search.engine.SearchResult;
 import com.fatwire.cs.core.search.query.Operation;
 import com.fatwire.cs.core.search.query.QueryExpression;
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.search.util.SearchUtils;
 
 /**
@@ -61,13 +60,7 @@ public class SimpleSearchEngine {
      * @return SimpleSearchEngine instance
      */
     public static SimpleSearchEngine getInstance(String engineName) {
-        ICS ics = ICSFactory.getOrCreateICS();
-        SimpleSearchEngine sse = (SimpleSearchEngine) ics.GetObj(SimpleSearchEngine.class.getName());
-        if (sse == null) {
-            sse = new SimpleSearchEngine(engineName);
-            ics.SetObj(SimpleSearchEngine.class.getName(), sse);
-        }
-        return sse;
+        return new SimpleSearchEngine(engineName);
     }
 
     public SearchResultIterable search(QueryExpression query, List<String> indexNames) {
