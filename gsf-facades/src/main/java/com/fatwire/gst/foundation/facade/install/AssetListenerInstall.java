@@ -16,43 +16,43 @@
 
 package com.fatwire.gst.foundation.facade.install;
 
+import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
-import static com.fatwire.gst.foundation.facade.sql.SqlHelper.quote;
-
 /**
- * Helper for registring AssetEventListener in the database.
+ * Helper for registering AssetEventListener in the database.
  * 
  * @author Dolf.Dijkstra
  * @since May 23, 2011
  */
 public class AssetListenerInstall {
-    public static final String REGISTRY_TABLE = "AssetListener_reg";
+	public static final String REGISTRY_TABLE = "AssetListener_reg";
 
-    /**
-     * Regsisters the AssetEventListener in the AssetListener table
-     * 
-     * @param ics
-     * @param classname
-     * @param blocking
-     */
-    public static void register(ICS ics, String classname, boolean blocking) {
-        String id = ics.genID(true);
-        String listener = classname;
-        SqlHelper
-                .execute(ics, REGISTRY_TABLE, "DELETE FROM " + REGISTRY_TABLE + " WHERE listener = " + quote(listener));
-        SqlHelper.execute(ics, REGISTRY_TABLE, "INSERT INTO " + REGISTRY_TABLE + " (id, listener, blocking) VALUES ("
-                + quote(id) + "," + quote(listener) + "," + quote(blocking ? "Y" : "N") + ")");
-    }
+	/**
+	 * Regsisters the AssetEventListener in the AssetListener table
+	 * 
+	 * @param ics
+	 * @param classname
+	 * @param blocking
+	 */
+	public static void register(ICS ics, String classname, boolean blocking) {
+		String id = ics.genID(true);
+		String listener = classname;
+		SqlHelper.execute(ics, REGISTRY_TABLE, "DELETE FROM " + REGISTRY_TABLE
+				+ " WHERE listener = " + quote(listener));
+		SqlHelper.execute(ics, REGISTRY_TABLE, "INSERT INTO " + REGISTRY_TABLE
+				+ " (id, listener, blocking) VALUES (" + quote(id) + ","
+				+ quote(listener) + "," + quote(blocking ? "Y" : "N") + ")");
+	}
 
-    public static boolean isRegistered(ICS ics, String classname) {
-        for (Row row : SqlHelper.select(ics, REGISTRY_TABLE, "SELECT * FROM "+REGISTRY_TABLE+" WHERE listener = " + quote(classname))) {
-            return true;
-        }
-        return false;
-    }
+	public static boolean isRegistered(ICS ics, String classname) {
+		return SqlHelper.select(
+				ics,
+				REGISTRY_TABLE,
+				"SELECT * FROM " + REGISTRY_TABLE + " WHERE listener = "
+						+ quote(classname)).size() > 0;
+	}
 
 }
