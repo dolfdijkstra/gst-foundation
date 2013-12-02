@@ -15,6 +15,8 @@
  */
 package com.fatwire.gst.foundation.groovy;
 
+import COM.FutureTense.Interfaces.ICS;
+
 /**
  * Interface to load Groovy scripts and classes
  * 
@@ -28,6 +30,6 @@ public interface GroovyLoader {
      * @return the Object loaded by Groovy
      * @throws Exception
      */
-    Object load(String name) throws Exception;
+    Object load(ICS ics,String name) throws Exception;
 
 }

@@ -21,7 +21,6 @@ import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
@@ -33,15 +32,11 @@ public class GroovyLoaderTest extends TestCase {
         loader.precompile();
         Object a;
         try {
-            long t = System.nanoTime();
-            a = loader.load("test/MyAction");
-            System.out.println(DebugHelper.microToHuman((System.nanoTime() - t) / 1000L));
-            // System.out.println(a.getClass());
+            a = loader.load(null,"test/MyAction");
             if (a instanceof Action) {
                 Action action = (Action) a;
                 action.handleRequest(null);
                 for (Field field : action.getClass().getFields()) {
-                    // System.out.println(field.getName());
                     InjectForRequest anno = field.getAnnotation(InjectForRequest.class);
                     if ("foo".equals(field.getName()))
                         assertNotNull(anno);
@@ -67,7 +62,7 @@ public class GroovyLoaderTest extends TestCase {
         loader.bootEngine("./src/test/groovy");
         Object a;
         try {
-            a = loader.load("com.fatwire.gst.foundation.groovy.action.GroovyActionLocator");
+            a = loader.load(null,"com.fatwire.gst.foundation.groovy.action.GroovyActionLocator");
             assertNotNull(a);
 
         } catch (Exception e) {

@@ -20,6 +20,8 @@ import javax.servlet.ServletContext;
 
 import org.springframework.web.context.support.WebApplicationObjectSupport;
 
+import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.gst.foundation.groovy.DiskGroovyLoader;
 import com.fatwire.gst.foundation.groovy.GroovyLoader;
 
@@ -66,9 +68,9 @@ public class SpringDiskGroovyLoader extends WebApplicationObjectSupport implemen
      * String)
      */
     @Override
-    public Object load(String name) throws Exception {
+    public Object load(ICS ics,String name) throws Exception {
 
-        return groovyLoader.load(name);
+        return groovyLoader.load(ics,name);
     }
 
     /**

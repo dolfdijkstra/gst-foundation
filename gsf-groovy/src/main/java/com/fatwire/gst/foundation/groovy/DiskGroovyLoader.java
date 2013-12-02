@@ -32,6 +32,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.codehaus.groovy.control.CompilationFailedException;
 
+import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
@@ -83,7 +85,7 @@ public class DiskGroovyLoader implements GroovyLoader {
     }
 
     @Override
-    public Object load(final String name) throws Exception {
+    public Object load(ICS ics,final String name) throws Exception {
 
         Class<?> c;
         try {

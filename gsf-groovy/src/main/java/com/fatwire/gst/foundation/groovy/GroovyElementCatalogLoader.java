@@ -33,7 +33,6 @@ import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.Row;
@@ -50,85 +49,102 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
  * http://groovy.codehaus.org/Alternate+Spring-Groovy-Integration
  */
 public class GroovyElementCatalogLoader extends DiskGroovyLoader {
-    private PreparedStmt stmt;
-    private Log logger = LogUtil.getLog(getClass());
+	private PreparedStmt stmt;
+	private Log logger = LogUtil.getLog(getClass());
+	private boolean isLoaded = false;
+	private String path;
 
-    public GroovyElementCatalogLoader(ServletContext servletContext) {
-        super(servletContext);
-        /*ElementCatalog does not have Browser ACL, assumption here is that elements are updated as assets */
-        stmt = new PreparedStmt("SELECT * FROM ElementCatalog WHERE elementname=?",
-                Collections.singletonList("CSElement"));  
-        stmt.setElement(0, java.sql.Types.VARCHAR);
+	public GroovyElementCatalogLoader(ServletContext servletContext) {
+		super(servletContext);
+		/*
+		 * ElementCatalog does not have Browser ACL, assumption here is that
+		 * elements are updated as assets
+		 */
+		stmt = new PreparedStmt(
+				"SELECT * FROM ElementCatalog WHERE elementname=?",
+				Collections.singletonList("CSElement"));
+		stmt.setElement(0, java.sql.Types.VARCHAR);
 
-    }
+	}
 
-    @Override
-    public Object load(String resourceName) throws Exception {
-        ICS ics = ICSFactory.getOrCreateICS();
+	@Override
+	public Object load(ICS ics, String resourceName) throws Exception {
+		if (!isLoaded) {
+			bootEngine(ics, path);
+			isLoaded = true;
+		}
 
-        if (logger.isDebugEnabled())
-            logger.debug("Loading groovy script " + resourceName);
-        if (ics.IsElement(resourceName)) {
+		if (logger.isDebugEnabled())
+			logger.debug("Loading groovy script " + resourceName);
+		if (ics.IsElement(resourceName)) {
 
-            final StatementParam param = stmt.newParam();
-            param.setString(0, resourceName);
-            Row row = SqlHelper.selectSingle(ics, stmt, param);
+			final StatementParam param = stmt.newParam();
+			param.setString(0, resourceName);
+			Row row = SqlHelper.selectSingle(ics, stmt, param);
 
-            // ELEMENTNAME DESCRIPTION URL RESDETAILS1
-            // RESDETAILS2
+			// ELEMENTNAME DESCRIPTION URL RESDETAILS1
+			// RESDETAILS2
 
-            String url = row.getString("url");
-            String res1 = row.getString("resdetails1");
-            String res2 = row.getString("resdetails2");
-            Map<String, String> m = new HashMap<String, String>();
-            Utilities.getParams(res1, m, false);
-            Utilities.getParams(res2, m, false);
-            String tid = m.get("tid");
-            String eid = m.get("eid");
-            if (StringUtils.isNotBlank(tid)) {
-                LogDep.logDep(ics, "Template", tid);
-            }
-            if (StringUtils.isNotBlank(tid)) {
-                LogDep.logDep(ics, "CSElement", eid);
-            }
-            // prevent case where resourcename is same as a jsp element.
-            if (url.endsWith(".groovy")) {
-                // no loading based on fallback class name as the super method
-                // has.
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Found element for " + resourceName + " => " + url);
-                }
-                Class<?> x = getGroovyScriptEngine().loadScriptByName(url);
-                return x.newInstance();
+			String url = row.getString("url");
+			String res1 = row.getString("resdetails1");
+			String res2 = row.getString("resdetails2");
+			Map<String, String> m = new HashMap<String, String>();
+			Utilities.getParams(res1, m, false);
+			Utilities.getParams(res2, m, false);
+			String tid = m.get("tid");
+			String eid = m.get("eid");
+			if (StringUtils.isNotBlank(tid)) {
+				LogDep.logDep(ics, "Template", tid);
+			}
+			if (StringUtils.isNotBlank(tid)) {
+				LogDep.logDep(ics, "CSElement", eid);
+			}
+			// prevent case where resourcename is same as a jsp element.
+			if (url.endsWith(".groovy")) {
+				// no loading based on fallback class name as the super method
+				// has.
+				if (logger.isDebugEnabled()) {
+					logger.debug("Found element for " + resourceName + " => "
+							+ url);
+				}
+				Class<?> x = getGroovyScriptEngine().loadScriptByName(url);
+				return x.newInstance();
 
-            } else {
-                return super.load(resourceName);
-            }
-        } else {
-            return super.load(resourceName);
-        }
+			} else {
+				return super.load(ics, resourceName);
+			}
+		} else {
+			return super.load(ics, resourceName);
+		}
 
-    }
+	}
 
-    public void bootEngine(final String path) {
-        String[] root = new String[2];
-        ICS ics = ICSFactory.getOrCreateICS();
+	@Override
+	public void bootEngine(final String path) {
+		this.path = path;
+	}
 
-        String elementCatalogDefDir = ics.ResolveVariables("CS.CatalogDir.ElementCatalog");
-        root[0] = elementCatalogDefDir;
-        root[1] = path;
+	public void bootEngine(ICS ics, final String path) {
+		String[] root = new String[2];
 
-        GroovyScriptEngine gse;
-        try {
-            gse = new GroovyScriptEngine(root, Thread.currentThread().getContextClassLoader());
-            gse.getConfig().setRecompileGroovySource(true);
-            gse.getConfig().setMinimumRecompilationInterval(getMinimumRecompilationInterval());
-            setGroovyScriptEngine(gse);
+		String elementCatalogDefDir = ics
+				.ResolveVariables("CS.CatalogDir.ElementCatalog");
+		root[0] = elementCatalogDefDir;
+		root[1] = path;
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+		GroovyScriptEngine gse;
+		try {
+			gse = new GroovyScriptEngine(root, Thread.currentThread()
+					.getContextClassLoader());
+			gse.getConfig().setRecompileGroovySource(true);
+			gse.getConfig().setMinimumRecompilationInterval(
+					getMinimumRecompilationInterval());
+			setGroovyScriptEngine(gse);
 
-    }
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
 
 }

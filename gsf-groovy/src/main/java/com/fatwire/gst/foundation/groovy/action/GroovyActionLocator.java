@@ -31,67 +31,70 @@ import com.fatwire.gst.foundation.groovy.GroovyLoader;
  * @since Mar 28, 2011
  */
 public class GroovyActionLocator extends AbstractActionLocator {
-    private GroovyLoader groovyLoader;
+	private GroovyLoader groovyLoader;
 
-    public GroovyActionLocator() {
-        super();
+	public GroovyActionLocator() {
+		super();
 
-    }
+	}
 
-    public GroovyActionLocator(ActionLocator fallbackActionLocator, Injector injector) {
-        super(fallbackActionLocator, injector);
-    }
+	public GroovyActionLocator(ActionLocator fallbackActionLocator,
+			Injector injector) {
+		super(fallbackActionLocator, injector);
+	}
 
-    protected Action doFindAction(final ICS ics, final String name) {
+	protected Action doFindAction(final ICS ics, final String name) {
 
-        Action action = null;
-        action = groovyAction(name);
+		Action action = null;
+		action = groovyAction(ics, name);
 
-        return action;
-    }
+		return action;
+	}
 
-    /**
-     * Factory method for the Action
-     * 
-     * @param name the name of the action
-     * @return the Action
-     * @throws RuntimeException
-     */
-    private Action groovyAction(final String name) {
+	/**
+	 * Factory method for the Action
+	 * 
+	 * @param name
+	 *            the name of the action
+	 * @return the Action
+	 * @throws RuntimeException
+	 */
+	private Action groovyAction(final ICS ics, final String name) {
 
-        if (StringUtils.isBlank(name))
-            return null;
-        Action action = null;
-        try {
+		if (StringUtils.isBlank(name))
+			return null;
+		Action action = null;
+		try {
 
-            final Object o = getGroovyLoader().load(name);
+			final Object o = getGroovyLoader().load(ics, name);
 
-            if (o instanceof Action) {
-                action = (Action) o;
-            } else {
-                if (LOG.isDebugEnabled())
-                    LOG.debug(name + " is not a valid script.");
-            }
-        } catch (final RuntimeException e) {
-            throw e;
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
-        return action;
-    }
+			if (o instanceof Action) {
+				action = (Action) o;
+			} else {
+				if (LOG.isDebugEnabled())
+					LOG.debug(name + " is not a valid script.");
+			}
+		} catch (final RuntimeException e) {
+			throw e;
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+		return action;
+	}
 
-    /**
-     * @return the groovyLoader
-     */
-    public final GroovyLoader getGroovyLoader() {
-        return groovyLoader;
-    }
+	/**
+	 * @return the groovyLoader
+	 */
+	public final GroovyLoader getGroovyLoader() {
+		return groovyLoader;
+	}
 
-    /**
-     * @param groovyLoader the groovyLoader to set
-     */
-    public final void setGroovyLoader(final GroovyLoader groovyLoader) {
-        this.groovyLoader = groovyLoader;
-    }
+	/**
+	 * @param groovyLoader
+	 *            the groovyLoader to set
+	 */
+	public final void setGroovyLoader(final GroovyLoader groovyLoader) {
+		this.groovyLoader = groovyLoader;
+	}
 
 }
