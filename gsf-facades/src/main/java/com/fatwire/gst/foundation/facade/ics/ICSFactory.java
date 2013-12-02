@@ -16,16 +16,13 @@
 
 package com.fatwire.gst.foundation.facade.ics;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IPS;
 import COM.FutureTense.Servlet.IPSRegistry;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Factory class for creating new ICS instances. This process is very expensive
@@ -46,7 +43,7 @@ public final class ICSFactory {
      * Create a new instance of ICS. Expensive operation. Should be used
      * sparingly. TODO: low priority: Document lifecycle restrictions
      *
-     * @deprecated Createds a new un-backed ICS instance, which can very easily be mistaken for a regular ICS object
+     * @deprecated Creates a new un-backed ICS instance, which can very easily be mistaken for a regular ICS object
      * @return ICS instance, not backed by servlet.
      */
     @Deprecated
@@ -54,7 +51,7 @@ public final class ICSFactory {
         try {
             LOG.debug("Creating new ICS object");
             ICS ics = Factory.newCS();
-            LOG.debug("A new ICS object has just been created.  This activity is deprecated.", new Exception());
+            LOG.warn("A new ICS object has just been created.  This activity is deprecated.", new Exception());
             return ics;
         } catch (Exception e) {
             throw new RuntimeException("Could not create new ICS instance: " + e, e);
