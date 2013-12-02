@@ -44,7 +44,6 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
-import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
@@ -98,7 +97,8 @@ public final class AssetApiPropertyDao implements PropertyDao {
         return ph.getProp();
     }
 
-    public synchronized Collection<String> getPropertyNames() {
+    @SuppressWarnings("unchecked")
+	public synchronized Collection<String> getPropertyNames() {
         return _props.keySet();
     }
 
@@ -173,7 +173,8 @@ public final class AssetApiPropertyDao implements PropertyDao {
         setProperty(property.getName(), property.getDescription(), property.asString());
     }
 
-    private void _appendCurrentToPublist(AttributeData data) {
+    @SuppressWarnings("unchecked")
+	private void _appendCurrentToPublist(AttributeData data) {
         String currentPub = _getCurrentSite();
         if (currentPub != null) {
             HashSet<String> pubs = new HashSet<String>();
@@ -199,7 +200,8 @@ public final class AssetApiPropertyDao implements PropertyDao {
         return null;
     }
 
-    public synchronized void addToSite(String name, String ... site) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public synchronized void addToSite(String name, String ... site) {
         if (name == null) throw new IllegalArgumentException("Invalid property name null");
         AssetId id = AssetList.lookupAssetId(ics, "GSTProperty", name);
         if (id == null) throw new IllegalArgumentException("Could not locate property "+id);
