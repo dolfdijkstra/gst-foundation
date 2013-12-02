@@ -443,7 +443,7 @@ public final class DebugHelper {
 
     }
 
-    @SuppressWarnings({ "unchecked", "deprecation" })
+    @SuppressWarnings({"deprecation" })
     private static void dumpHttpHeaders(final ICS ics, final PrintWriter pw) {
 
         try {
@@ -464,7 +464,8 @@ public final class DebugHelper {
         }
     }
 
-    private String printClassOrder(Class c) {
+    @SuppressWarnings("unused")
+	private String printClassOrder(Class<?> c) {
         StringBuilder b = new StringBuilder();
         b.append("class " + c.getName());
 
