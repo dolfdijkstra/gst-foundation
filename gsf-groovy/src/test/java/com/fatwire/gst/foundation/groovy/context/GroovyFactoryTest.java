@@ -18,7 +18,6 @@ package com.fatwire.gst.foundation.groovy.context;
 import groovy.lang.GroovyClassLoader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +82,7 @@ public class GroovyFactoryTest {
         gcl.addClasspath("./src/test/groovy");
 
         GroovyFactory factory = new GroovyFactory(ics, gcl);
-        Map map = factory.getObject("foo", Map.class);
+        Map<?,?> map = factory.getObject("foo", Map.class);
         org.junit.Assert.assertNull(map);
 
     }
@@ -97,7 +96,7 @@ public class GroovyFactoryTest {
             @SuppressWarnings("unchecked")
             @Override
             public <T> T getObject(String name, Class<T> c) {
-                ArrayList al = new ArrayList();
+                ArrayList<String> al = new ArrayList<String>();
                 al.add("tomato");
                 al.add("salad");
                 return (T) ((al.getClass().isAssignableFrom(c)) ? al: null);
