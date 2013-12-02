@@ -19,7 +19,6 @@ package com.fatwire.gst.foundation.facade.search;
 import java.util.Arrays;
 import java.util.List;
 
-import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.cs.core.search.data.ResultRow;
