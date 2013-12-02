@@ -27,7 +27,11 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
  * @since 11-09-02
  */
 final class PropertyImpl implements Property, Serializable {
-    String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 692797066527955686L;
+	String name;
     String description;
     String value;
     PropertyImpl(String name, String description, String value) {
