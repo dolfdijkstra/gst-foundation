@@ -15,69 +15,62 @@
  */
 package com.fatwire.gst.foundation.facade.assetapi.listener;
 
-import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.assetapi.common.AssetAccessException;
-import com.fatwire.assetapi.data.AssetData;
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.DebugHelper;
-import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
-import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
-import com.openmarket.basic.event.AbstractAssetEventListener;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import COM.FutureTense.Interfaces.ICS;
+
+import com.fatwire.assetapi.data.AssetId;
+import com.openmarket.basic.event.AbstractAssetEventListener;
+
+/**
+ * 
+ * @deprecated, incorrect use of ICS object, no replacement. All listeners using
+ *              ICS should be blocking.
+ * 
+ */
 public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
-    private static final Log LOG = LogFactory.getLog(NonBlockingDebugAssetListener.class.getPackage().getName());
-    private ICS ics;
-   
+	private static final Log LOG = LogFactory
+			.getLog(NonBlockingDebugAssetListener.class.getPackage().getName());
+	private ICS ics;
 
-    void printAsset(final AssetId id) {
-        if (LOG.isDebugEnabled()) {
-            final ICS ics = getICS();
-            final AssetData ad = AssetDataUtils.getAssetData(ics, id);
-            try {
-                LOG.debug("Print asset with new ICS " + id);
-                LOG.debug(DebugHelper.printAsset(ad));
-            } catch (final AssetAccessException e) {
-                LOG.error(e);
-            }
-        }
+	void printAsset(final AssetId id) {
+		throw new IllegalStateException(
+				"Cannot be used. All access to ICS should be from blocking listeners.");
 
-    }
+	}
 
-    @Override
-    public void assetAdded(final AssetId id) {
-        LOG.debug("Asset added " + id);
-        printAsset(id);
-    }
+	@Override
+	public void assetAdded(final AssetId id) {
+		LOG.debug("Asset added " + id);
+		printAsset(id);
+	}
 
-    @Override
-    public void assetDeleted(final AssetId id) {
-        LOG.debug("Asset deleted " + id);
-        printAsset(id);
+	@Override
+	public void assetDeleted(final AssetId id) {
+		LOG.debug("Asset deleted " + id);
+		printAsset(id);
 
-    }
+	}
 
-    @Override
-    public void assetUpdated(final AssetId id) {
-        LOG.debug("Asset updated " + id);
-        printAsset(id);
+	@Override
+	public void assetUpdated(final AssetId id) {
+		LOG.debug("Asset updated " + id);
+		printAsset(id);
 
-    }
+	}
 
-    public void install(final ICS ics) {
-        AssetListenerInstall.register(ics, NonBlockingDebugAssetListener.class.getName(), false);
-    }
-    protected ICS getICS() {
-        return ics != null ? ics : ICSFactory.getOrCreateICS();
-    }
+	public void install(final ICS ics) {
 
-    @Override
-    public void init(ICS ics) {
-        this.ics=ics;
-        
-    }
+	}
+
+	protected ICS getICS() {
+		return ics;
+	}
+
+	@Override
+	public void init(ICS ics) {
+		this.ics = ics;
+
+	}
 }
