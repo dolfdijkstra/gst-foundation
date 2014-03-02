@@ -97,11 +97,6 @@
         </dependency>
         <dependency>
             <groupId>com.fatwire.cs</groupId>
-            <artifactId>cs-cache</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
             <artifactId>visitor</artifactId>
             <version>${fatwire.contentserver.version}</version>
         </dependency>
