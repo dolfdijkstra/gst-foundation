@@ -329,7 +329,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -337,7 +337,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -345,7 +345,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -353,7 +353,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -361,7 +361,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -369,7 +369,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -377,7 +377,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -385,7 +385,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -393,7 +393,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -401,7 +401,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -409,7 +409,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -418,7 +418,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.or(cond);
+        query.setCondition(qc.or(cond));
         return this;
     }
 
@@ -426,7 +426,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -434,7 +434,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -442,7 +442,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -450,7 +450,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -458,7 +458,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -466,7 +466,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -474,7 +474,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -482,7 +482,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -491,7 +491,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -499,7 +499,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -507,7 +507,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 
@@ -516,7 +516,7 @@ public class QueryBuilder {
         Condition cond = ConditionFactory.createCondition(attName, opType, value, caseSensiive, immediateOnly);
         Condition qc = query.getCondition();
         if (qc == null) throw new RuntimeAssetAccessException(INITIALIZE_FIRST_MSG);
-        qc.and(cond);
+        query.setCondition(qc.and(cond));
         return this;
     }
 }
