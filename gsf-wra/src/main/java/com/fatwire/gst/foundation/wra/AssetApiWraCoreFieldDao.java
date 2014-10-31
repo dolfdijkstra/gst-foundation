@@ -115,7 +115,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
      *         is not
      */
     public boolean isWebReferenceable(WebReferenceableAsset candidate) {
-        return StringUtils.isNotBlank(candidate.getPath());
+        return StringUtils.isNotBlank(candidate.getPath()) && StringUtils.isNotBlank(candidate.getTemplate());
     }
 
     /**
@@ -257,10 +257,10 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
     @Override
     public boolean isVanityAsset(AssetId id) {
         try {
-
-            AssetData data = AssetDataUtils.getAssetData(ics, id, "path");
+            AssetData data = AssetDataUtils.getAssetData(ics, id, "path", "template");
             String path = AttributeDataUtils.asString(data.getAttributeData("path"));
-            return StringUtils.isNotBlank(path);
+            String template = AttributeDataUtils.asString(data.getAttributeData("template"));
+            return StringUtils.isNotBlank(path) && StringUtils.isNotBlank(template);
         } catch (RuntimeException e) {
             return false;
         }
