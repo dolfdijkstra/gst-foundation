@@ -122,9 +122,9 @@ public final class DebugHelper {
         String human = "(" + elapsed + "us) ";
         if (elapsed > 1000000) {
             final long e = elapsed / 1000;
-            human += Long.toString(e / 1000) + "." + Long.toString(e % 1000) + "s";
+            human += Long.toString(e / 1000) + "." + String.format("%03d", (e % 1000)) + "s";
         } else if (elapsed > 1000) {
-            human += Long.toString(elapsed / 1000) + "." + Long.toString(elapsed % 1000) + "ms";
+            human += Long.toString(elapsed / 1000) + "." + String.format("%03d", (elapsed % 1000)) + "ms";
         } else {
             human += Long.toString(elapsed) + "us";
         }
@@ -149,7 +149,7 @@ public final class DebugHelper {
             final long secs = (elapsed - mins * 60000) / 1000L;
             human += Long.toString(mins) + "m " + Long.toString(secs) + "s";
         } else if (elapsed > 1000L) {
-            human += Long.toString(elapsed / 1000) + "." + Long.toString(elapsed % 1000) + "ms";
+            human += Long.toString(elapsed / 1000) + "." + String.format("%03d", (elapsed % 1000)) + "ms";
         } else {
             human += Long.toString(elapsed) + "ms";
         }
