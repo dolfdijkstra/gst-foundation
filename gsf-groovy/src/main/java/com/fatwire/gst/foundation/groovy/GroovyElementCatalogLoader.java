@@ -96,7 +96,7 @@ public class GroovyElementCatalogLoader extends DiskGroovyLoader {
 			if (StringUtils.isNotBlank(tid)) {
 				LogDep.logDep(ics, "Template", tid);
 			}
-			if (StringUtils.isNotBlank(tid)) {
+			if (StringUtils.isNotBlank(eid)) {
 				LogDep.logDep(ics, "CSElement", eid);
 			}
 			// prevent case where resourcename is same as a jsp element.
