@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 public class DebugHelperTest extends TestCase {
 
     public void testMicroToHuman() {
-        assertEquals("(60004us) 60.4ms",DebugHelper.microToHuman(60004));
+        assertEquals("(60004us) 60.004ms",DebugHelper.microToHuman(60004));
     }
 
     public void testMilliToHuman() {
