@@ -37,7 +37,7 @@ import java.util.Date;
  * @author Tony Field
  * @since 15-08-04 5:36 PM
  */
-public interface VisitorService {
+public interface VisitorDataManagerService {
 
     /**
      * Set the alias string for the visitor. Does not re-set if no
