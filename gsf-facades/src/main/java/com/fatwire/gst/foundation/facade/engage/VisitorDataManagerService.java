@@ -16,6 +16,7 @@
 package com.fatwire.gst.foundation.facade.engage;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Facade over the WCS Engage personalization infrastructure, particularly the
@@ -85,14 +86,38 @@ public interface VisitorDataManagerService {
 
 
     /**
-     * Save a time-stamped attribute to the visitor context
+     * Save a time-stamped attribute to the visitor context. This is
+     * a convenience version of {@link #recordHistory(String,Map)}.
      * @param definition the name of the history definition to be used
      * @param name name of the history attribute to be stored
      * @param value value of the history attribute to be stored
      */
     void recordHistory(String definition, String name, Object value);
 
+    /**
+     * Save a time-stamped attribute to the visitor context
+     * @param definition the name of the history definition to be used
+     * @param values map containing the values to set into the history record
+     */
+    void recordHistory(String definition, Map<String,Object> values);
+
+    /**
+     * Remove data recorded for visitors who have not returned to the
+     * site in the specified period of time.  Long-running maintenance task.
+     * Not for website delivery use.
+     * @param cutoff visitor data will be saved for visitors who have visited
+     *               the site after this date.
+     */
     void flushInactive(Date cutoff);
+
+    /**
+     * Consolidate visitor data for visitor sessions that haven't been
+     * active since the cutoff date, that are linked together using the
+     * alias mechanism. Long-running maintenance task. Not for website
+     * delivery use.
+     * @param cutoff Visitor sessions last active before this date will
+     *               be merged together if linked using aliases.
+     */
     void mergeInactive(Date cutoff);
 
 }
