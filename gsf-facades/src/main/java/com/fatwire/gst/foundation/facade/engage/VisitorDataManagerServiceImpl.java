@@ -47,12 +47,14 @@ public class VisitorDataManagerServiceImpl implements VisitorDataManagerService 
 
     @Override
     public String getAlias(String name) {
-        String var = "getalias_"+ ics.genID(false);
+        String var = "getalias_" + ics.genID(false);
         GetAlias tag = new GetAlias(name, var);
-        tag.execute(ics);
-        String val = ics.GetVar(var);
-        ics.RemoveVar(var);
-        return val;
+        try {
+            tag.execute(ics);
+            return ics.GetVar(var);
+        } finally {
+            ics.RemoveVar(var); // unregister
+        }
     }
 
     @Override
@@ -63,57 +65,70 @@ public class VisitorDataManagerServiceImpl implements VisitorDataManagerService 
 
     @Override
     public String getScalar(String name) {
-        String var = "getscalar_"+ics.genID(false);
+        String var = "getscalar_" + ics.genID(false);
         GetScalar tag = new GetScalar(name, var);
-        tag.execute(ics);
-        String val = ics.GetVar(var);
-        ics.RemoveVar(val);
-        return val;
+        try {
+            tag.execute(ics);
+            return ics.GetVar(var);
+        } finally {
+            ics.RemoveVar(var);
+        }
     }
 
     @Override
     public void saveScalarObject(String name, Object value) {
-        String var = "saveScalar_"+ics.genID(false);
-        ics.SetObj(var, value);
-        SaveScalarObject tag = new SaveScalarObject();
-        tag.setAttribute(name);
-        tag.setObject(var);
-        tag.execute(ics);
-        ics.RemoveVar(var);
+        String var = "saveScalar_" + ics.genID(false);
+        try {
+            ics.SetObj(var, value);
+            SaveScalarObject tag = new SaveScalarObject();
+            tag.setAttribute(name);
+            tag.setObject(var);
+            tag.execute(ics);
+        } finally {
+            ics.SetObj(var, null);
+        }
     }
 
     @Override
     public Object loadScalarObject(String name) {
-        String var = "loadscalar_"+ics.genID(false);
-        LoadScalarObject tag = new LoadScalarObject(name, var);
-        tag.execute(ics);
-        Object result = ics.GetObj(var);
-        ics.SetObj(var, null);
-        return result;
+        String var = "loadscalar_" + ics.genID(false);
+        try {
+            LoadScalarObject tag = new LoadScalarObject(name, var);
+            tag.execute(ics);
+            return ics.GetObj(var);
+        } finally {
+            ics.SetObj(var, null);
+        }
     }
 
     @Override
     public void recordHistory(String definition, String name, Object value) {
-        String listName = "recordHistory_"+ics.genID(false);
+        String listName = "recordHistory_" + ics.genID(false);
         TwoColumnIList list = new TwoColumnIList(listName, "field", "value");
         list.addRow(name, value);
-        ics.RegisterList(listName, list);
-        RecordHistory tag = new RecordHistory(definition, listName);
-        tag.execute(ics);
-        ics.RegisterList(listName, null);
+        try {
+            ics.RegisterList(listName, list);
+            RecordHistory tag = new RecordHistory(definition, listName);
+            tag.execute(ics);
+        } finally {
+            ics.RegisterList(listName, null);
+        }
     }
 
     @Override
     public void recordHistory(String definition, Map<String, Object> values) {
-        String listName = "recordHistory_"+ics.genID(false);
+        String listName = "recordHistory_" + ics.genID(false);
         TwoColumnIList list = new TwoColumnIList(listName, "field", "value");
         for (String key : values.keySet()) {
             list.addRow(key, values.get(key));
         }
-        ics.RegisterList(listName, list);
-        RecordHistory tag = new RecordHistory(definition, listName);
-        tag.execute(ics);
-        ics.RegisterList(listName, null);
+        try {
+            ics.RegisterList(listName, list);
+            RecordHistory tag = new RecordHistory(definition, listName);
+            tag.execute(ics);
+        } finally {
+            ics.RegisterList(listName, null);
+        }
     }
 
     @Override
