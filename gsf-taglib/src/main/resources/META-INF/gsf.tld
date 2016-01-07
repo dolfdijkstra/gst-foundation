@@ -338,7 +338,7 @@
 			<description>the name of the action</description>
 			<name>action</name>
 			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 
 	</tag>
