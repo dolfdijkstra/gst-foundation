@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gst-foundation</artifactId>
-        <version>11.6.0-SNAPSHOT</version>
+        <version>11.6.0</version>
     </parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gsf-deprecated</artifactId>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-wra</artifactId>
-            <version>11.6.0-SNAPSHOT</version>
+            <version>11.6.0</version>
         </dependency>
        </dependencies>
     <distributionManagement>

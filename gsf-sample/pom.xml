@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.yourcompany.owcs</groupId>
   <artifactId>gsf-sample</artifactId>
-  <version>11.6.2-SNAPSHOT</version>
+  <version>11.6.2</version>
   <packaging>jar</packaging>
   <name>GSF Example</name>
   <description>A sample project that can be used as an example for an implementation that uses the GSF.</description>
@@ -27,7 +27,7 @@
     <dependency>
       <groupId>com.fatwire.gst</groupId>
       <artifactId>gst-foundation-all</artifactId>
-      <version>11.6.2-SNAPSHOT</version>
+      <version>11.6.2</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

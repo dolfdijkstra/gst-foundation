@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.fatwire.gst</groupId>
     <artifactId>gst-foundation</artifactId>
-    <version>11.6.2-SNAPSHOT</version>
+    <version>11.6.2</version>
   </parent>
   <artifactId>gsf-groovy</artifactId>
   <packaging>jar</packaging>
@@ -28,13 +28,13 @@
     <dependency>
       <groupId>com.fatwire.gst</groupId>
       <artifactId>gsf-cs-test</artifactId>
-      <version>11.6.2-SNAPSHOT</version>
+      <version>11.6.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.fatwire.gst</groupId>
       <artifactId>gsf-action</artifactId>
-      <version>11.6.2-SNAPSHOT</version>
+      <version>11.6.2</version>
     </dependency>
   </dependencies>
   <distributionManagement>

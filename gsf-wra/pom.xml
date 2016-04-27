@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.fatwire.gst</groupId>
         <artifactId>gst-foundation</artifactId>
-        <version>11.6.2-SNAPSHOT</version>
+        <version>11.6.2</version>
     </parent>
     <artifactId>gsf-wra</artifactId>
     <packaging>jar</packaging>
@@ -37,12 +37,12 @@
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-facades</artifactId>
-            <version>11.6.2-SNAPSHOT</version>
+            <version>11.6.2</version>
         </dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-cs-test</artifactId>
-            <version>11.6.2-SNAPSHOT</version>
+            <version>11.6.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
