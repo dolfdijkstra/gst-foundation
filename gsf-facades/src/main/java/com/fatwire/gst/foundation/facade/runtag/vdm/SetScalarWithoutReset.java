@@ -40,7 +40,7 @@ public class SetScalarWithoutReset implements TagRunner {
     }
 
     public String execute(final ICS ics) {
-        final String varname = "get_scalar_output_value" + ics.genID(true);
+        final String varname = "get_scalar_output_value" + ics.genID(false);
         try {
             ics.RemoveVar(varname);
             GetScalar getScalar = new GetScalar(attribute, varname);

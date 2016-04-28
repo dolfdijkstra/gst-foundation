@@ -40,7 +40,7 @@ public class SetAliasWithoutReset implements TagRunner {
     }
 
     public String execute(final ICS ics) {
-        final String varname = "alias" + ics.genID(true);
+        final String varname = "alias" + ics.genID(false);
         try {
             GetAlias getAlias = new GetAlias(key, varname);
             String getResult = getAlias.execute(ics);

@@ -27,6 +27,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.PreviewContext;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
+import com.fatwire.gst.foundation.facade.engage.*;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
@@ -152,6 +153,20 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
         return new SimpleSearchEngine("lucene");
     }
 
+    @ServiceProducer(cache = true)
+    public VisitorDataManagerService createVisitorDataManagerService(final ICS ics) {
+        return new VisitorDataManagerServiceImpl(ics);
+    }
+
+    @ServiceProducer(cache = true)
+    public CommerceContextService createCommerceContextService(final ICS ics) {
+        return new CommerceContextServiceImpl(ics);
+    }
+
+    @ServiceProducer(cache = true)
+    public CartService createCartService(final ICS ics) {
+        return new CartServiceImpl(ics);
+    }
     @ServiceProducer(cache = false)
     public NavigationService createNavigationService(final ICS ics) {
         // TODO: check if unnamed association is a valid association for a Page

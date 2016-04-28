@@ -135,6 +135,10 @@ public final class GetRecommendations extends AbstractTagRunner {
         this.set("FILTER", Boolean.toString(filter).toLowerCase());
     }
 
+    public void setDeptype(String deptype) {
+        this.set("deptype", deptype);
+    }
+
     /**
      * Easy-to-use utility method to return recommendations for the specified
      * asset.
