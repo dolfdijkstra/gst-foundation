@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.yourcompany.owcs</groupId>
   <artifactId>gsf-sample-avisports</artifactId>
-  <version>11.6.2</version>
+  <version>12.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>GSF example on top of avisports</name>
   <description>A rewrite of avisports with GSF as an example on how code is simplified and how easy it is to bold more features on top.</description>
@@ -24,7 +24,7 @@
     <dependency>
       <groupId>com.fatwire.gst</groupId>
       <artifactId>gst-foundation-all</artifactId>
-      <version>11.6.2</version>
+      <version>12.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
