@@ -26,6 +26,8 @@
       <name>Tony Field</name>
     </developer>
   </developers>
+
+
   <scm>
     <connection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</connection>
     <developerConnection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</developerConnection>
@@ -247,7 +249,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.1</version>
+          <version>3.3</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -339,6 +341,15 @@
         <module>gsf-sample</module>
         <module>gsf-sample-avisports</module>
       </modules>
+    </profile>
+      <profile>
+        <id>disable-java8-doclint</id>
+        <activation>
+            <jdk>[1.8,)</jdk>
+        </activation>
+        <properties>
+            <additionalparam>-Xdoclint:none</additionalparam>
+        </properties>
     </profile>
   </profiles>
   <distributionManagement>
