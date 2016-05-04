@@ -73,8 +73,8 @@ public class SimpleSearchEngine {
     }
 
     /**
-     * @param query
-     * @param indexNames
+     * @param query query expression object
+     * @param indexNames array of index names
      * @return search results based on query and indexes provided.
      */
     public SearchResultIterable search(QueryExpression query, String... indexNames) {
@@ -83,7 +83,7 @@ public class SimpleSearchEngine {
 
 
     /**
-     * @param stringValue
+     * @param stringValue string value for new query
      * @return a new query based on the passed in string.
      * @see SearchUtils#newQuery(String)
      */
@@ -92,9 +92,9 @@ public class SimpleSearchEngine {
     }
 
     /**
-     * @param fieldName
-     * @param op
-     * @param values
+     * @param fieldName field name string
+     * @param op operation
+     * @param values array of values
      * @return a query based on the fields, operation and values.
      */
     public QueryExpression newQuery(String fieldName, Operation op, Object... values) {

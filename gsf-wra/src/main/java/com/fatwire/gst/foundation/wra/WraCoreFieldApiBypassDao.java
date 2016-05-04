@@ -49,7 +49,7 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 	/**
 	 * @deprecated makes unsafe calls and references to unsupported ICS objects
 	 * @param ics Content Server context object
-	 * @return
+	 * @return a WRA Core Field API Bypass DAO
 	 */
 	@Deprecated
 	public static WraCoreFieldApiBypassDao getBackdoorInstance(ICS ics) {

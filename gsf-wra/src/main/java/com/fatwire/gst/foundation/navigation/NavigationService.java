@@ -44,12 +44,13 @@ public interface NavigationService {
      * @param site name of the site
      * @param depth the maximum number of levels to retrieve
      * @param linkAttribute
-     * @return
+     * @return a colleciton of nodes
      */
     Collection<NavigationNode> getRootNodesForSite(String site, int depth, String linkAttribute);
 
     /**
      * @param pagename the name of the Page asset
+     * @param depth the maximum number of levels to retreive
      * @return the NavigationNode for the page by this name.
      */
     NavigationNode getNodeByName(String pagename, int depth);

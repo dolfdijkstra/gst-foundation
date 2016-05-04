@@ -24,7 +24,7 @@ import COM.FutureTense.Interfaces.ICS;
  * <b>Not thread safe!!</b>
  * 
  * @author Dolf Dijkstra
- * @deprecated
+ * @deprecated check latest build notes
  */
 
 public class ICSLocatorSupport implements ICSLocator {

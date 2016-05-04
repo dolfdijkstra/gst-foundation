@@ -91,8 +91,8 @@ public final class Recommendations {
      * Get the context-based recommendations from the input Collection.
      * 
      * @param ics Content Server context object
-     * @param collection
-     * @param input
+     * @param collection string value for collection
+     * @param input collection of AssetIds
      * @return the collection with recommended assets
      */
     public static Collection<AssetId> getRecommendations(ICS ics, String collection, Collection<AssetId> input) {

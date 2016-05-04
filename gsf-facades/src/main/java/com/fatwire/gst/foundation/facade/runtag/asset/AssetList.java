@@ -29,10 +29,10 @@ import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
 /**
- * Exposes ASSET.LIST &lt;asset:list type="assetType" list="nameOfList"
+ * {@literal Exposes ASSET.LIST &lt;asset:list type="assetType" list="nameOfList"
  * [order="order"] [pubid="siteId"] [excludevoided="trueOrFalse"]
  * [field[n]="fieldName"] [value[n]="fieldValue"]> <asset:argument
- * name="fieldName" value="fieldValue"/&gt; &lt;/asset:list&gt;
+ * name="fieldName" value="fieldValue"/> </asset:list>;}
  *
  * @author Tony Field
  * @since Sep 28, 2008

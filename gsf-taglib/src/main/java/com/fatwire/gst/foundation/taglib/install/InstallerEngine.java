@@ -576,7 +576,6 @@ public final class InstallerEngine {
      * site enabled, then return STATUS_OK. Otherwise return
      * STATUS_NO_TREETABS_IN_SITE.
      * 
-     * @return
      */
     class TreetabsInSiteComponent implements GSFComponent {
         @Override
@@ -652,7 +651,6 @@ public final class InstallerEngine {
      * if their Start Menus don't exist for the GST site, then return status
      * STATUS_CSE_SE_DISABLED_IN_SITE.
      * 
-     * @return
      */
     class CSElementSiteEntryInSiteComponent implements GSFComponent {
         @Override
@@ -740,7 +738,6 @@ public final class InstallerEngine {
      * Check if a CSElement and SiteEntry named "GST/Dispatcher" exist and are
      * shared with the GST site.
      * 
-     * @return
      */
     class GSTDispatcherComponent implements GSFComponent {
         @Override

@@ -35,7 +35,7 @@ class SingleRow implements Row {
     private final IList list;
 
     /**
-     * @param list
+     * @param list iterable list
      */
     public SingleRow(final IList list) {
         super();
@@ -121,8 +121,8 @@ class SingleRow implements Row {
     }
 
     /**
-     * @param key
-     * @return
+     * @param key string value for key 
+     * @return boolean if a field exists for given key
      */
     public boolean isField(String key) {
         for (int i = 0; i < list.numColumns(); i++) {

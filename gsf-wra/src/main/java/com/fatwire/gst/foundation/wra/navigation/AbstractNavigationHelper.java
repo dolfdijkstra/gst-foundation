@@ -101,9 +101,9 @@ public abstract class AbstractNavigationHelper {
      * assetEffectiveDate to null.
      * 
      * @param ics Content Server context object
-     * @param assetTemplate
-     * @param wraDao
-     * @param aliasDao
+     * @param assetTemplate template asset access object
+     * @param wraDao WRA Core Field DAO
+     * @param aliasDao Alias Core Field DAO
      */
     public AbstractNavigationHelper(final ICS ics, TemplateAssetAccess assetTemplate, WraCoreFieldDao wraDao,
             AliasCoreFieldDao aliasDao) {
@@ -215,7 +215,7 @@ public abstract class AbstractNavigationHelper {
     /**
      * Get the NavNode for the current page with unlimited depth.
      * 
-     * @param pageid
+     * @param pageid asset id containing page id
      * @return the NavNode associated with this pageid.
      */
     public NavigationNode getSitePlan(final AssetId pageid) {

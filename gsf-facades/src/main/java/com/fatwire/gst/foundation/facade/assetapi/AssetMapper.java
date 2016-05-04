@@ -26,7 +26,7 @@ import com.fatwire.assetapi.data.AssetData;
  * Inteface to transform a AssetData into another form.
  * 
  * @author Dolf Dijkstra
- * 
+ * @param <T> creates new object T from asset data
  * 
  */
 

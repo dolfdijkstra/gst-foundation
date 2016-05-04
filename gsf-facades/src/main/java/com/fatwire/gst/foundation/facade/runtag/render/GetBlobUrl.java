@@ -63,7 +63,7 @@ public final class GetBlobUrl extends AbstractTagRunner {
     }
 
     /**
-     * @param s
+     * @param s string value for ASSET
      */
     public void setAsset(String s) {
         set("ASSET", s);

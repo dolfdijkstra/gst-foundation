@@ -32,8 +32,8 @@ public class PageUriBuilder {
     /**
      * Constructor with pagename and a wrapper .
      * 
-     * @param pagename
-     * @param wrapper
+     * @param pagename string value for page name
+     * @param wrapper string value for wrapper
      */
     public PageUriBuilder(String pagename, String wrapper) {
         tag.setPagename(pagename);
@@ -43,7 +43,7 @@ public class PageUriBuilder {
     /**
      * Constructor with pagename, without a wrapper.
      * 
-     * @param pagename
+     * @param pagename string value for page name
      */
     public PageUriBuilder(String pagename) {
         tag.setPagename(pagename);
@@ -55,8 +55,8 @@ public class PageUriBuilder {
      * 
      * @param c current asset
      * @param cid content id
-     * @param pagename
-     * @param wrapper
+     * @param pagename string value for page name
+     * @param wrapper string value for wrapper
      */
     public PageUriBuilder(String c, String cid, String pagename, String wrapper) {
         tag.setC(c);
@@ -70,7 +70,7 @@ public class PageUriBuilder {
      * 
      * @param c current asset
      * @param cid content id
-     * @param pagename
+     * @param pagename string value for page name
      */
     public PageUriBuilder(String c, String cid, String pagename) {
         tag.setC(c);
@@ -83,8 +83,8 @@ public class PageUriBuilder {
      * Constructor with AssetId and wrapper.
      * 
      * @param id asset id
-     * @param pagename
-     * @param wrapper
+     * @param pagename string value for page name
+     * @param wrapper string value for wrapper
      */
     public PageUriBuilder(AssetId id, String pagename, String wrapper) {
         this(id.getType(), Long.toString(id.getId()), pagename, wrapper);
@@ -94,7 +94,7 @@ public class PageUriBuilder {
      * Constructor with AssetId, without a wrapper.
      * 
      * @param id asset id
-     * @param pagename
+     * @param pagename string value for page name
      */
     public PageUriBuilder(AssetId id, String pagename) {
         this(id.getType(), Long.toString(id.getId()), pagename);

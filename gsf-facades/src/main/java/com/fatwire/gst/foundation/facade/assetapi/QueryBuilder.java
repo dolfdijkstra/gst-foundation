@@ -148,6 +148,7 @@ public class QueryBuilder {
     /**
      * @param lowerEqual flag for lower equal
      * @see com.fatwire.assetapi.query.QueryProperties#setIsLowerEqual(boolean)
+     * @return this query builder object
      */
     public QueryBuilder setLowerEqual(boolean lowerEqual) {
         props().setIsLowerEqual(lowerEqual);
@@ -157,6 +158,7 @@ public class QueryBuilder {
     /**
      * @param upperEqual flag for upper equal
      * @see com.fatwire.assetapi.query.QueryProperties#setIsUpperEqual(boolean)
+     * @return this query builder object
      */
     public QueryBuilder setUpperEqual(boolean upperEqual) {
         props().setIsUpperEqual(upperEqual);
@@ -166,6 +168,7 @@ public class QueryBuilder {
     /**
      * @param loadDependency value for load dependency
      * @see com.fatwire.assetapi.query.QueryProperties#setLoadDependency(int)
+     * @return this query builder object
      */
     public QueryBuilder setLoadDependency(int loadDependency) {
         props().setLoadDependency(loadDependency);
@@ -173,8 +176,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param maxAnswers
+     * @param maxAnswers maximum answers
      * @see com.fatwire.assetapi.query.QueryProperties#setMaxAnswers(int)
+     * @return this query builder object
      */
     public QueryBuilder setMaxAnswers(int maxAnswers) {
         props().setMaxAnswers(maxAnswers);
@@ -184,6 +188,7 @@ public class QueryBuilder {
     /**
      * @param maxRows value for maximum rows
      * @see com.fatwire.assetapi.query.QueryProperties#setMaxRows(int)
+     * @return this query builder object
      */
     public QueryBuilder setMaxRows(int maxRows) {
         props().setMaxRows(maxRows);
@@ -193,6 +198,7 @@ public class QueryBuilder {
     /**
      * @param parser string value for parser
      * @see com.fatwire.assetapi.query.QueryProperties#setParser(java.lang.String)
+     * @return this query builder object
      */
     public QueryBuilder setParser(String parser) {
         props().setParser(parser);
@@ -202,6 +208,7 @@ public class QueryBuilder {
     /**
      * @param readAll flag for read all
      * @see com.fatwire.assetapi.query.QueryProperties#setReadAll(boolean)
+     * @return this query builder object
      */
     public QueryBuilder setReadAll(boolean readAll) {
         props().setReadAll(readAll);

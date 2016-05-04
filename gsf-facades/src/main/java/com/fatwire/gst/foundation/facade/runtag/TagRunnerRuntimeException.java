@@ -35,6 +35,7 @@ public class TagRunnerRuntimeException extends CSRuntimeException {
     /** 
      * @param msg message
      * @param errno error number
+     * @param arguments list of arguments
      */
     public TagRunnerRuntimeException(String msg, int errno, final FTValList arguments) {
         this(msg, errno, arguments, null, null, null);

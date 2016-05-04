@@ -37,7 +37,7 @@ public class TemplateUriBuilder {
      * @param c current asset
      * @param cid content id
      * @param tname template name
-     * @param wrapper
+     * @param wrapper string value for wrapper
      */
     public TemplateUriBuilder(final String c, final String cid, final String tname, final String wrapper) {
         tag.setC(c);
@@ -65,7 +65,7 @@ public class TemplateUriBuilder {
      * 
      * @param id asset id
      * @param tname template name
-     * @param wrapper
+     * @param wrapper string value for wrapper
      */
     public TemplateUriBuilder(final AssetId id, final String tname, final String wrapper) {
         this(id.getType(), Long.toString(id.getId()), tname, wrapper);
@@ -111,10 +111,11 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param name
-     * @param value
+     * @param name argument name
+     * @param value argument value
      * @see com.fatwire.gst.foundation.facade.runtag.render.TagRunnerWithArguments#setArgument(java.lang.String,
      *      java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder argument(final String name, final String value) {
         tag.setArgument(name, value);
@@ -122,8 +123,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for assembler
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAssembler(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder assembler(final String s) {
         tag.setAssembler(s);
@@ -131,8 +133,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for authority
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAuthority(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder authority(final String s) {
         tag.setAuthority(s);
@@ -140,8 +143,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for container
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setContainer(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder container(final String s) {
         tag.setContainer(s);
@@ -149,8 +153,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s flag for dynamic
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setDynamic(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder dynamic(final boolean s) {
         tag.setDynamic(s);
@@ -158,8 +163,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for fragment
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setFragment(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder fragment(final String s) {
         tag.setFragment(s);
@@ -167,8 +173,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for packed arguments
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setPackedargs(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder packedargs(final String s) {
         tag.setPackedargs(s);
@@ -176,8 +183,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s flag for satellite
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setSatellite(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder satellite(final boolean s) {
         tag.setSatellite(s);
@@ -185,8 +193,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for scheme
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setScheme(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder scheme(final String s) {
         tag.setScheme(s);
@@ -194,8 +203,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for site
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setSite(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder site(final String s) {
         site = s;
@@ -204,8 +214,9 @@ public class TemplateUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for wrapper page
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setWrapperpage(java.lang.String)
+     * @return this template uri builder
      */
     public TemplateUriBuilder wrapper(final String s) {
         tag.setWrapperpage(s);

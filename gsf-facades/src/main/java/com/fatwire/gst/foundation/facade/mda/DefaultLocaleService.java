@@ -693,8 +693,8 @@ public class DefaultLocaleService implements LocaleService {
      * Returns the DimensionSetInstance. This implementation expects one
      * DimensionSet enabled for the current site.
      * 
-     * @param ics Content Server context object
-     * @return
+     * @param site current site
+     * @return dimension set instance
      */
     public final DimensionSetInstance locateDimensionSetInstanceForSite(String site) {
         try {

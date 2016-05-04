@@ -127,6 +127,7 @@ public class WraUriBuilder {
      * @param value argument value
      * @see com.fatwire.gst.foundation.facade.runtag.render.TagRunnerWithArguments#setArgument(java.lang.String,
      *      java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder argument(String name, String value) {
         tag.setArgument(name, value);
@@ -134,8 +135,9 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s 
+     * @param s string value for assembler 
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAssembler(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder assembler(String s) {
         tag.setAssembler(s);
@@ -145,6 +147,7 @@ public class WraUriBuilder {
     /**
      * @param s string value to set Authority
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAuthority(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder authority(String s) {
         tag.setAuthority(s);
@@ -154,6 +157,7 @@ public class WraUriBuilder {
     /**
      * @param s string value to assign to container
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setContainer(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder container(String s) {
         tag.setContainer(s);
@@ -163,6 +167,7 @@ public class WraUriBuilder {
     /**
      * @param s boolean value to setDynamic 
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setDynamic(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder dynamic(boolean s) {
         tag.setDynamic(s);
@@ -170,8 +175,9 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value for fragment
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setFragment(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder fragment(String s) {
         tag.setFragment(s);
@@ -181,6 +187,7 @@ public class WraUriBuilder {
     /**
      * @param s string value to setPackedargs 
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setPackedargs(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder packedargs(String s) {
         tag.setPackedargs(s);
@@ -190,6 +197,7 @@ public class WraUriBuilder {
     /**
      * @param s set Satellite value true or false, catches on true - ignores case, all other inputs are false
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setSatellite(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder satellite(String s) {
         tag.setSatellite("TRUE".equalsIgnoreCase(s));
@@ -199,6 +207,7 @@ public class WraUriBuilder {
     /**
      * @param s string representing the scheme
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setScheme(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder scheme(String s) {
         tag.setScheme(s);
@@ -208,6 +217,7 @@ public class WraUriBuilder {
     /**
      * @param s string representing the wrapper page
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setWrapperpage(java.lang.String)
+     * @return this wra uri builder
      */
     public WraUriBuilder wrapper(String s) {
         tag.setWrapperpage(s);

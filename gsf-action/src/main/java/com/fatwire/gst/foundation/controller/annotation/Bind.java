@@ -26,8 +26,8 @@ import java.lang.annotation.Target;
  * <p>
  * 
  * <pre>
- * {@code
- * class MyAction implements Action {
+ * 
+ *   class MyAction implements Action {
  * 
  *     {@literal @}Bind String rendermode;
  *     {@literal @}Bind("myVar") String theVariable;
@@ -39,8 +39,8 @@ import java.lang.annotation.Target;
  *         }
  *     }
  * 
- * }
- * }
+ *   }
+ * 
  * </pre>
  * @author Dolf.Dijkstra
  * @since 12 mei 2012

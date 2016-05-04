@@ -140,9 +140,9 @@ public abstract class AbstractNavigationService implements NavigationService {
 
     /**
      * @param site site to run process over
-     * @param depth
-     * @param linkAttribute
-     * @return
+     * @param depth depth to return
+     * @param linkAttribute link attribute
+     * @return collection of navigation nodes
      */
     @Override
     public Collection<NavigationNode> getRootNodesForSite(String site, int depth, String linkAttribute) {
@@ -238,7 +238,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param linkLabelAttribute
+     * @param linkLabelAttribute string value of link label attribute
      */
     public void setLinkLabelAttribute(String linkLabelAttribute) {
         this.linkLabelAttribute = linkLabelAttribute;
@@ -252,7 +252,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param pathAttribute
+     * @param pathAttribute path attribute string
      */
     public void setPathAttribute(String pathAttribute) {
         this.pathAttribute = pathAttribute;

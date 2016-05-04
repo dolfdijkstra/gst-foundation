@@ -67,9 +67,9 @@ public class UrlRegistry implements WraPathTranslationService {
     /**
      * 
      * @param ics Content Server context object
-     * @param wraDao
-     * @param vwDao
-     * @deprecated
+     * @param wraDao WRA Core Field DAO
+     * @param vwDao Virtual Webroot DAO
+     * @deprecated check latest build notes
      */
    @Deprecated
     public UrlRegistry(final ICS ics, final WraCoreFieldDao wraDao, final VirtualWebrootDao vwDao) {

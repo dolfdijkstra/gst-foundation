@@ -148,6 +148,7 @@ public class IncludeElement implements Include {
     /**
      * @param scope scope object
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallElement#setScope(com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope)
+     * @return this include element
      */
     public IncludeElement setScope(final Scope scope) {
         tag.setScope(scope);

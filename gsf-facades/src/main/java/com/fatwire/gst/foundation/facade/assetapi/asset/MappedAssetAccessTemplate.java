@@ -32,7 +32,7 @@ import com.fatwire.gst.foundation.facade.runtag.asset.AssetRelationTreeUtils;
 
 /**
  * @author Dolf Dijkstra
- * 
+ * @param <T> class to be returned based on asset mapper
  */
 public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     protected final AssetMapper<T> mapper;
