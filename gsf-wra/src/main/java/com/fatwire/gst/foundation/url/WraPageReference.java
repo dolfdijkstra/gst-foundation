@@ -43,7 +43,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * This is the WebReferenceable assets PageRef class. This overrides the default
  * PageRef, so we can manipulate the arguments that go into the assembler while
  * we have database access.
- * <p/>
+ * <p>
  * <p>
  * It will alter the input args map by adding the derived parameters
  * <ul>
@@ -52,7 +52,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * <li>pagename</li>
  * </ul>
  * to the map before calling super.setParameters(args, ics).
- * <p/>
+ * <p>
  * This modification is ONLY done when
  * <ol>
  * <li>the satellite context is Satellite</li>

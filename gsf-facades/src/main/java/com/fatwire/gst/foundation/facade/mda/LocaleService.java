@@ -47,7 +47,7 @@ public interface LocaleService {
 
     /**
      * Look up the translation for the asset specified, with the dimension filter.
-     * <p/>
+     * <p>
      * 
      * @param id asset id of asset to look up
      * @param filter the dimensionset to use
@@ -57,14 +57,14 @@ public interface LocaleService {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param c asset type of asset to look up
@@ -78,14 +78,14 @@ public interface LocaleService {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param id id of asset to look up
@@ -100,14 +100,14 @@ public interface LocaleService {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param id id of asset to look up
@@ -121,14 +121,14 @@ public interface LocaleService {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set has been configured that returns the asset other than
      * the preferred locale, that is considered to be fine and not really the
      * problem of the end user. In other words, a dimension set may dictate that
      * a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param id id of asset to look up
@@ -146,7 +146,7 @@ public interface LocaleService {
     /**
      * Finds the translation for the preferred dimension and dimensionset.
      * 
-     * @param id
+     * @param id asset id
      * @param preferredDimension
      * @param dimset
      * @return assetid of translated asset.

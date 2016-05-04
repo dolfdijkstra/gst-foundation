@@ -23,10 +23,10 @@ import com.fatwire.assetapi.data.AssetId;
 
 /**
  * Simple bean containing navigation information like linktext, and url.
- * <p/>
+ * <p>
  * Other convenience fields are included like the ID of the page and the subtype
  * of the page asset.
- * <p/>
+ * <p>
  * Finally, the immediateChildren property contains a list of immediate children
  * of the current page as stored in the SitePlanTree. This makes this bean an
  * ideal object for working with navigation systems.

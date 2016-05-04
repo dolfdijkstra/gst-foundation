@@ -39,7 +39,7 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
  * Backdoor implementation of WraCoreFieldDao that does not utilize any Asset
  * APIs. This class should be used sparingly and may result in some
  * dependencies, that would ordinarily be recorded, being skipped.
- * <p/>
+ * <p>
  * User: Tony Field Date: 2011-05-06
  * 
  * @author Dolf Dijkstra
@@ -48,7 +48,7 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 
 	/**
 	 * @deprecated makes unsafe calls and references to unsupported ICS objects
-	 * @param ics
+	 * @param ics Content Server context object
 	 * @return
 	 */
 	@Deprecated
@@ -79,7 +79,7 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 	 * priority: optimize as this will be called at runtime (assest api incache
 	 * will mitigate the performance issue)
 	 * 
-	 * @param id
+	 * @param id asset id
 	 *            asset ID to check
 	 * @return true if the asset is a valid web-referenceable asset, false if it
 	 *         is not
@@ -125,7 +125,7 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 	 * Return a web referenceable asset bean given an input id. Required fields
 	 * must be set or an exception is thrown.
 	 * 
-	 * @param id
+	 * @param id asset id
 	 *            asset id
 	 * @return WebReferenceableAsset, never null
 	 * @see #isWebReferenceable(AssetId)
@@ -209,7 +209,7 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 	/**
 	 * Checks if the table definition for a basic asset has all the wra fields.
 	 * 
-	 * @param id
+	 * @param id asset id
 	 */
 	private boolean isWraEnabledBasicAssetType(final AssetId id) {
 		boolean wraTable;

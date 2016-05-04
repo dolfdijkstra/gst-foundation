@@ -33,7 +33,7 @@ public class AssetListenerInstall {
 	/**
 	 * Regsisters the AssetEventListener in the AssetListener table
 	 * 
-	 * @param ics
+	 * @param ics Content Server context object
 	 * @param classname
 	 * @param blocking
 	 */

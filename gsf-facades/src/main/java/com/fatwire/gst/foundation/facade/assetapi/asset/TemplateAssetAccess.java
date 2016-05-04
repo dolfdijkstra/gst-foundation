@@ -30,7 +30,7 @@ public class TemplateAssetAccess extends MappedAssetAccessTemplate<TemplateAsset
     /**
      * Constructor with ICS.
      * 
-     * @param ics
+     * @param ics Content Server context object
      */
     public TemplateAssetAccess(ICS ics) {
         super(ics, m);

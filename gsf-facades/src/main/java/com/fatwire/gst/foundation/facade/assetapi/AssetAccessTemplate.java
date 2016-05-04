@@ -48,10 +48,10 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * This class is a one-stop-shop for all read-only access to AssetData. It acts
  * as a helper class to facilitate {@link AssetDataManager} use in a simplified
  * way in delivery ContentServer templates.
- * <p/>
+ * <p>
  * This class is inspired by springframework data access template classes like
  * org.springframework.jdbc.core.JdbcTemplate.
- * <p/>
+ * <p>
  * This class is not thread safe and should not be shared between threads.
  * 
  * @author Dolf.Dijkstra
@@ -77,7 +77,7 @@ public class AssetAccessTemplate {
     /**
      * Constructor that accepts ICS as an argument.
      * 
-     * @param ics
+     * @param ics Content Server context object
      */
     public AssetAccessTemplate(final ICS ics) {
         if (ics == null) {
@@ -89,8 +89,8 @@ public class AssetAccessTemplate {
     /**
      * Helper method to create an AssetId from c and cid as string values.
      * 
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @return the assetId for c/cid.
      */
     public AssetId createAssetId(final String c, final String cid) {
@@ -100,8 +100,8 @@ public class AssetAccessTemplate {
     /**
      * Helper method to create an AssetId from c and cid as string values.
      * 
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @return the assetId for c/cid.
      */
     public AssetId createAssetId(final String c, final long cid) {
@@ -113,7 +113,7 @@ public class AssetAccessTemplate {
      * AssetData into another object as specified by the AssetMapper.
      * 
      * @param <T>
-     * @param id
+     * @param id asset id
      * @param mapper
      * @return the Object created by the mapper.
      */
@@ -166,7 +166,7 @@ public class AssetAccessTemplate {
      * list of lister attributes is retrieved from the asset.
      * 
      * @param <T>
-     * @param id
+     * @param id asset id
      * @param mapper
      * @param attributes
      * @return the object created by the mapper.
@@ -188,7 +188,7 @@ public class AssetAccessTemplate {
      * Method to read an asset and provide the AssetClosure with the AssetData.
      * Only the list of lister attributes is retrieved from the asset.
      * 
-     * @param id
+     * @param id asset id
      * @param closure
      * @param attributes
      * 
@@ -284,7 +284,7 @@ public class AssetAccessTemplate {
 
     /**
      * Reads an asset based on the listed attribute names
-     * <p/>
+     * <p>
      * TODO: do we need to load the attribute values and prevent access to
      * non-listed attributes (prevent lazy loading)
      * 
@@ -426,7 +426,7 @@ public class AssetAccessTemplate {
      * Finds the assetid by the name of the asset in a particular site. The
      * asset can not be voided.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param assetType the type of the asset.
      * @param name the name of the asset.
      * @param siteid the Site id.
@@ -460,7 +460,7 @@ public class AssetAccessTemplate {
     /**
      * Finds the assetid by the name of the asset. The asset can not be voided.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param assetType the type of the asset.
      * @param name the name of the asset.
      * @return the assetid, null if asset is not found.
@@ -546,7 +546,7 @@ public class AssetAccessTemplate {
     /**
      * Reads the associated assets of the asset and returns the AssetIds.
      * 
-     * @param id
+     * @param id asset id
      * @param associationType
      * @return the assets from the associations.
      */
@@ -587,7 +587,7 @@ public class AssetAccessTemplate {
 
     /**
      * Queries for a list of objects as mapped by the AssetMapper.
-     * <p/>
+     * <p>
      * Sample queries are:
      * <ul>
      * <li>name='foo'</li>
@@ -617,7 +617,7 @@ public class AssetAccessTemplate {
 
     /**
      * Queries for a list of objects as mapped by the AssetMapper.
-     * <p/>
+     * <p>
      * Sample queries are:
      * <ul>
      * <li>name='foo'</li>

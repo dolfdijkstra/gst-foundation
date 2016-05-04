@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * 
  * Represents a row in an IList.
- * <p/>
+ * <p>
  * Wrapper over IList so that it can be used by an iterator()
  * 
  * @author Dolf.Dijkstra
@@ -30,44 +30,44 @@ import java.util.Date;
 
 public interface Row {
     /**
-     * @param key
+     * @param key key string to look up
      * @return the key value as a String or null.
      */
     String getString(String key);
 
     /**
-     * @param key
+     * @param key key string to look up
      * @return the key value as a Long or null.
      */
     Long getLong(String key);
     
     /**
-     * @param key
+     * @param key key string to look up
      * @return the key value as a Integer or null.
      */
     Integer getInt(String key);
 
 
     /**
-     * @param key
+     * @param key key string to look up
      * @return the key value as a Byte array or null.
      */
     byte[] getBytes(String key);
 
     /**
-     * @param key
+     * @param key key string to look up
      * @return the key value as a char or null.
      */
     Character getChar(String key);
 
     /**
-     * @param key
+     * @param key key string to look up
      * @return the key value as a Date or null.
      */
     Date getDate(String key);
 
     /**
-     * @param key
+     * @param key key string to look up
      * @return true if key is a field in the Row.
      */
     boolean isField(String key);

@@ -20,7 +20,7 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 
 /**
  * Path translation service for going from assetid to WRA path and back
- * <p/>
+ * <p>
  * todo: low priority: for any given partial url, get next children down, and
  * "are they parents too" TODO: low priority: remove asset listener methods from
  * interface, create separate interface for these methods

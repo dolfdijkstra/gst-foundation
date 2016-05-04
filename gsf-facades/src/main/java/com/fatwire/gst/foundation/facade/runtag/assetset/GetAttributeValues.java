@@ -121,8 +121,8 @@ public final class GetAttributeValues extends AbstractTagRunner {
 
     /**
      * 
-     * @param ics
-     * @param id
+     * @param ics Content Server context object
+     * @param id asset id
      * @param deptype
      * @param locale
      * @param attr

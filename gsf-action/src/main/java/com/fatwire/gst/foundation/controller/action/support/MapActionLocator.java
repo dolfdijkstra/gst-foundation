@@ -29,7 +29,7 @@ import com.fatwire.gst.foundation.controller.action.Action;
 /**
  * ActionLocator that holds a Map with the Actions. The 'name' is keyed to a map
  * that holds the Actions in a key/value pair.
- * <p/>
+ * <p>
  * 
  * @author Tony Field
  * @author Dolf Dijkstra

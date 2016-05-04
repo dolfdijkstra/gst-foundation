@@ -37,13 +37,13 @@ import com.fatwire.mda.Dimension;
  * 
  * This class provides easy access to AssetData, to be used in rendering code in
  * read-only mode. Is is called <tt>TemplateAsset</tt> because the intent is that it is to be used in Templates. 
- * <p/>
+ * <p>
  * It has casting accessors for values of the different
  * attribute types.
- * <p/>
+ * <p>
  * It must be noted that naming conflicts between flex attribute names and meta
  * attribute names are resolved by giving the meta attribute preference.
- * <p/>
+ * <p>
  * <pre>
  * {@code
  * TemplateAsset asset = ...;
@@ -118,7 +118,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return the attribute value
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,
      *      boolean)
@@ -140,7 +140,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return true is the attribute is defined as single valued.
      */
     public boolean isSingleValued(final String name) {
@@ -165,7 +165,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute as a List
      */
     public List<?> asList(final String name) {
@@ -180,7 +180,7 @@ public class TemplateAsset {
      */
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a Integer, can be null; please be careful with
      *         autoboxing.
      */
@@ -192,7 +192,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a Date.
      */
     public Date asDate(final String name) {
@@ -201,7 +201,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a BlobObject.
      */
     public BlobObject asBlob(final String name) {
@@ -210,7 +210,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a Float, can be null; please be careful with
      *         autoboxing.
      */
@@ -220,7 +220,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a Double, can be null; please be careful with
      *         autoboxing.
      */
@@ -230,7 +230,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a Long, can be null; please be careful with
      *         autoboxing.
      */
@@ -240,7 +240,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a AssetId.
      */
     public AssetId asAssetId(final String name) {
@@ -250,7 +250,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a String.
      */
     public String asString(final String name) {
@@ -259,7 +259,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return attribute value as a BlobAddress.
      */
     public BlobAddress asBlobAddress(final String name) {
@@ -318,7 +318,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @return list of assetids
      * @throws AssetAccessException
      * @see com.fatwire.assetapi.data.AssetData#getImmediateParents(java.lang.String)
@@ -337,7 +337,7 @@ public class TemplateAsset {
     }
 
     /**
-     * @param name
+     * @param name attribute name
      * @param meta the asset attributes
      * @return asset attributes
      * @see com.fatwire.assetapi.data.AssetData#getAttributeData(java.lang.String,

@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Implements the RENDER.GETTEMPLATEURL tag.
- * <p/>
+ * <p>
  * &lt;render:gettemplateurl [addsession="true|false"]
  * [assembler="uri assembler shortform"] [authority="authority value"]
  * [c="asset type"] [cid="asset id"] [container="servlet|portlet"]
@@ -37,9 +37,9 @@ import org.apache.commons.logging.LogFactory;
  * [tname="target Template or CSElement name"]
  * [ttype="caller Template or CSElement"] [variant="template variant name"]
  * [wrapperpage="name of uncached wrapper page"] /&gt;
- * <p/>
+ * <p>
  * [&lt;render:argument name="variable1" value="value1"/&gt;]
- * <p/>
+ * <p>
  * &lt;/render:gettemplateurl&gt;
  * 
  * @author Tony Field
@@ -237,9 +237,9 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
      * Outstr still needs to be set, and any nested parameters need to be set as
      * well prior to calling execute.
      * 
-     * @param ics
-     * @param c
-     * @param cid
+     * @param ics Content Server context object
+     * @param c current asset
+     * @param cid content id
      * @param tname
      * @param wrapper
      * @param slotname
@@ -346,9 +346,9 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
      * this will auto-discover tid/ttype, and site, and it sets context to an
      * empty string.
      * 
-     * @param ics
-     * @param c
-     * @param cid
+     * @param ics Content Server context object
+     * @param c current asset
+     * @param cid content id
      * @param tname
      * @param wrapper optional wrapper
      * @param slotname

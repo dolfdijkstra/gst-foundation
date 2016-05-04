@@ -20,7 +20,7 @@ import COM.FutureTense.Interfaces.ICS;
 
 /**
  * Base implementation of {@link ICSLocator}. Just one single ics is stored.
- * <p/>
+ * <p>
  * <b>Not thread safe!!</b>
  * 
  * @author Dolf Dijkstra

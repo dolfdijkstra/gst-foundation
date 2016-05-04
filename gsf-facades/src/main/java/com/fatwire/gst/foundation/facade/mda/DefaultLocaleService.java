@@ -67,7 +67,7 @@ public class DefaultLocaleService implements LocaleService {
      * Constructor with "lang" and "locale" as variable names for langVar and
      * localeVar.
      * 
-     * @param ics
+     * @param ics Content Server context object
      */
     public DefaultLocaleService(final ICS ics) {
         this(ics, "lang", "locale");
@@ -77,7 +77,7 @@ public class DefaultLocaleService implements LocaleService {
      * 
      * Constructor.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param langVar the name of the ics variable for the current 'language',
      *            as in en_US.
      * @param localeVar the name of the ics variable for the current dimension
@@ -522,7 +522,7 @@ public class DefaultLocaleService implements LocaleService {
      * Return a dimension filter instance corresponding to the dimension set
      * specified by the user (or discovered by the tag). The dimension filter is
      * configured with the preferred dimensions of the user (also configured).
-     * <p/>
+     * <p>
      * The preferred locales are identified by checking the following locations,
      * in the order specified:
      * <ol>
@@ -693,7 +693,7 @@ public class DefaultLocaleService implements LocaleService {
      * Returns the DimensionSetInstance. This implementation expects one
      * DimensionSet enabled for the current site.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return
      */
     public final DimensionSetInstance locateDimensionSetInstanceForSite(String site) {

@@ -23,7 +23,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * <mail.send to="recipient,recipient"
- * <p/>
+ * <p>
  * [from="your e-mail"] [subject="subject of message"] [body="message body"]
  * [replyto="your alternate e-mail address"] [contenttype="content format"]
  * [charset="character set"] />

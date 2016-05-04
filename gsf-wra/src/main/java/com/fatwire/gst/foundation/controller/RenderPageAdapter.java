@@ -39,7 +39,7 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  * logic. The RenderPage logic dispatches the request to the correct
  * asset/template combination based on the path field for a Web Referenceable
  * Asset.
- * <p/>
+ * <p>
  * 
  * 
  * @author Tony Field
@@ -171,9 +171,9 @@ public class RenderPageAdapter extends WraRenderPage {
     /**
      * This method transforms errno values into http status codes and sets them
      * using the X-Fatwire-Status header.
-     * <p/>
+     * <p>
      * Only some errnos are handled by this base class.
-     * <p/>
+     * <p>
      * More info coming soon
      * 
      * @param e exception

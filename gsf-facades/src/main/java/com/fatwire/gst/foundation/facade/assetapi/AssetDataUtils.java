@@ -45,8 +45,8 @@ public final class AssetDataUtils {
     /**
      * Return the AssetData for the specified asset
      * 
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @param attributes
      * @return asset data
      * @deprecated inconsistent method signature, replaced by {@link AssetDataUtils#getAssetData(AssetId, String...)}. 
@@ -90,7 +90,7 @@ public final class AssetDataUtils {
     /**
      * Return the AssetData for the specified asset
      * 
-     * @param id
+     * @param id asset id
      * @param attributes
      * @return asset data
      * @deprecated use #getAssetData(ICS, AssetId, String...) instead
@@ -103,7 +103,7 @@ public final class AssetDataUtils {
     /**
      * Return the AssetData for the specified asset
      * 
-     * @param id
+     * @param id asset id
      * @param attributes
      * @return asset data
      */
@@ -120,7 +120,7 @@ public final class AssetDataUtils {
      * This is a convenience method to read AssetData for the current c/cid
      * asset on the ics scope.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param attributes
      * @return asset data
      */
@@ -139,7 +139,7 @@ public final class AssetDataUtils {
      * This is a convenience method to read AssetData for the current c/cid
      * asset on the ics scope.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return asset data
      */
     public static AssetData getCurrentAssetData(ICS ics) {

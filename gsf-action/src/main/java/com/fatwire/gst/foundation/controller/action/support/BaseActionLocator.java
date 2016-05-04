@@ -29,7 +29,7 @@ import com.fatwire.gst.foundation.controller.action.RenderPage;
 
 /**
  * ActionLocator with support for Factory and a fall back ActionLocator.
- * <p/>
+ * <p>
  * Objects are created via a {@link Factory}, that can be configured via the
  * <tt>factoryClassname</tt>. That class needs to have a constructor accepting
  * ICS.

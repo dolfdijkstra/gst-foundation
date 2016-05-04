@@ -54,8 +54,7 @@ public class GroovyActionLocator extends AbstractActionLocator {
 	/**
 	 * Factory method for the Action
 	 * 
-	 * @param name
-	 *            the name of the action
+	 * @param name the name of the action
 	 * @return the Action
 	 * @throws RuntimeException
 	 */

@@ -35,7 +35,7 @@ import com.fatwire.gst.foundation.facade.logging.LogUtil;
 /**
  * Factory making use to reflection ({@link #reflectionStrategy(String, Class)}
  * and {@link #ctorStrategy(String, Class)}) to produce objects.
- * <p/>
+ * <p>
  * This class caches the produced objects for the lifetime of this object.
  * Effectively this means the lifetime of the ICS object.
  * 
@@ -92,7 +92,7 @@ public abstract class BaseFactory implements Factory {
      * Internal method to check for Services or create Services.
      * 
      * @param name
-     * @param c
+     * @param c current asset
      * @return the found service, null if no T can be created.
      * @throws InvocationTargetException
      */
@@ -134,7 +134,7 @@ public abstract class BaseFactory implements Factory {
      * implementation returns {@link #getClass()}.</p> Subclasses can return and
      * are encouraged to return other classes.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return array of classes to use for reflection
      */
     protected Class<?>[] factoryClasses(ICS ics) {
@@ -146,7 +146,7 @@ public abstract class BaseFactory implements Factory {
      * annotation where the names match.
      * 
      * @param name
-     * @param c
+     * @param c current asset
      * @return
      * @throws InvocationTargetException
      */
@@ -173,7 +173,7 @@ public abstract class BaseFactory implements Factory {
      * annotation without a name.
      * 
      * @param name
-     * @param c
+     * @param c current asset
      * @return
      * @throws InvocationTargetException
      */
@@ -197,7 +197,7 @@ public abstract class BaseFactory implements Factory {
 
     /**
      * Reflection based producer method.
-     * <p/>
+     * <p>
      * This method uses reflection to find producer methods to the following
      * rules:
      * <ul>
@@ -341,7 +341,7 @@ public abstract class BaseFactory implements Factory {
 
     /**
      * @param name
-     * @param c
+     * @param c current asset
      * @return
      * @throws InvocationTargetException
      */

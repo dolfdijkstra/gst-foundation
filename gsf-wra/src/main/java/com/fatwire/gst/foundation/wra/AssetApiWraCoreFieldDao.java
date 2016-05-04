@@ -69,7 +69,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
     /**
      * Return an AssetData object containing the core fields found in a
      * web-referenceable asset.
-     * <p/>
+     * <p>
      * Also includes selected metadata fields:
      * <ul>
      * <li>id</li>
@@ -220,11 +220,11 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
 
     /**
      * Locate the page that contains the specified Web-Referenceable Asset.
-     * <p/>
+     * <p>
      * A WRA is supposed to just be placed on one page (in the unnamed
      * association block), and this method locates it. If it is not found, 0L is
      * returned.
-     * <p/>
+     * <p>
      * If multiple matches are found, a warning is logged and the first one is
      * returned.
      * 

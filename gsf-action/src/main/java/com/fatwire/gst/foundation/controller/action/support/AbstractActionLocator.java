@@ -33,7 +33,7 @@ import com.fatwire.gst.foundation.controller.action.Injector;
  * ActionLocator with support for {@link Injector} and a fall back
  * {@link ActionLocator} in case this ActionLocator is not designed or
  * configured to create an action for that name.
- * <p/>
+ * <p>
  * Objects are created via a {@link Factory}, that can be obtained via the
  * <tt>FactoryFactory</tt>.
  * 
@@ -72,10 +72,10 @@ public abstract class AbstractActionLocator implements ActionLocator {
      * Action, that Action will be dependency injected with the
      * {@link #getInjector()}, otherwise the {@link #getFallbackActionLocator()}
      * is called.
-     * <p/>
+     * <p>
      * It is the fall back ActionLocator that should inject its Action with
      * services.
-     * <p/>
+     * <p>
      * Contract is that either the {@link #doFindAction(ICS, String)} method or
      * the {@link #getFallbackActionLocator()} returns an Action, so that this
      * method never returns null.
@@ -129,7 +129,7 @@ public abstract class AbstractActionLocator implements ActionLocator {
     protected abstract Action doFindAction(final ICS ics, final String name);
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @param action
      */
     protected final void injectDependencies(final ICS ics, final Action action) {

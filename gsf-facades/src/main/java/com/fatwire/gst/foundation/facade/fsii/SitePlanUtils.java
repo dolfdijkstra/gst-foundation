@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Miscellaneous utility library used to access data stored in the site plan or
  * assets related to the site plan.
- * <p/>
+ * <p>
  * This module is aware of two special types of page subtypes: Aliases and
  * Navigatin Placeholders. Aliases are pages that are aliases to other pages
  * containing the same information in the site plan tree. Navigation
@@ -97,7 +97,7 @@ public final class SitePlanUtils {
     /**
      * Return a bean containing the common information found inside a HEAD html
      * tag.
-     * <p/>
+     * <p>
      * Does not resolve aliases.
      * 
      * @param ics context
@@ -134,11 +134,11 @@ public final class SitePlanUtils {
      * linktet is derived from the page asset itself, leave detailAssocName as
      * null. Either way, the linktext comes from the appropriate asset's
      * linktextAttr.
-     * <p/>
+     * <p>
      * Links are not populated for Navigation Placeholders, but it is often very
      * convenient to pass a navigation placeholder into this function in order
      * to return all children under a specific placeholder.
-     * <p/>
+     * <p>
      * Aliases are resolved.
      * 
      * @param ics context

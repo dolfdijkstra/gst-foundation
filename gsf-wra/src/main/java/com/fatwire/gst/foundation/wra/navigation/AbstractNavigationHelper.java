@@ -100,7 +100,7 @@ public abstract class AbstractNavigationHelper {
      * Constructor with all the dependencies listed. Initializes
      * assetEffectiveDate to null.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param assetTemplate
      * @param wraDao
      * @param aliasDao
@@ -196,11 +196,11 @@ public abstract class AbstractNavigationHelper {
      * Retrieves the NavNode for the given Page with the provided id.
      * 
      * The NavNode contains all the attributes necessary to create a nav bar.
-     * <p/>
+     * <p>
      * Links are not populated for Navigation Placeholders, but it is often very
      * convenient to pass a navigation placeholder into this function in order
      * to return all children under a specific placeholder.
-     * <p/>
+     * <p>
      * StartDate and EndDate are checked and invalid pages aren't added. If a
      * Page asset is not valid, its children are not even examined.
      * 
@@ -261,11 +261,11 @@ public abstract class AbstractNavigationHelper {
 
     /**
      * Locate the page that contains the specified Web-Referenceable Asset.
-     * <p/>
+     * <p>
      * A WRA is supposed to just be placed on one page (in the unnamed
      * association block), and this method locates it. If it is not found, 0L is
      * returned.
-     * <p/>
+     * <p>
      * If multiple matches are found, a warning is logged and the first one is
      * returned.
      * 

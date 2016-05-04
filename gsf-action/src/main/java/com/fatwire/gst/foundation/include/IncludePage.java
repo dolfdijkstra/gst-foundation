@@ -52,7 +52,7 @@ public class IncludePage implements Include {
     private final ICS ics;
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @param pagename
      */
     public IncludePage(final ICS ics, final String pagename) {
@@ -60,7 +60,7 @@ public class IncludePage implements Include {
     }
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @param pagename
      * @param style
      */

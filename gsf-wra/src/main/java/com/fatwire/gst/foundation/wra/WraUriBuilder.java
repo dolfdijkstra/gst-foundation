@@ -38,7 +38,7 @@ public class WraUriBuilder {
     /**
      * Constructor with AssetId and default wrapper (GST/Dispatcher).
      * 
-     * @param id
+     * @param id asset id
      */
     public WraUriBuilder(AssetId id) {
         this(id, "GST/Dispatcher");
@@ -48,7 +48,7 @@ public class WraUriBuilder {
     /**
      * Constructor with AssetId and wrapper.
      * 
-     * @param id
+     * @param id asset id
      * @param wrapper
      */
     private WraUriBuilder(AssetId id, String wrapper) {
@@ -71,7 +71,7 @@ public class WraUriBuilder {
      * Returns the uri to the asset rendered with the specified template and
      * wrapper (if provided).
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return the URI as a String for this WRA
      * @see com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#execute(COM.FutureTense.Interfaces.ICS)
      */
@@ -123,8 +123,8 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param name
-     * @param value
+     * @param name argument name
+     * @param value argument value
      * @see com.fatwire.gst.foundation.facade.runtag.render.TagRunnerWithArguments#setArgument(java.lang.String,
      *      java.lang.String)
      */
@@ -134,7 +134,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s 
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAssembler(java.lang.String)
      */
     public WraUriBuilder assembler(String s) {
@@ -143,7 +143,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value to set Authority
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAuthority(java.lang.String)
      */
     public WraUriBuilder authority(String s) {
@@ -152,7 +152,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value to assign to container
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setContainer(java.lang.String)
      */
     public WraUriBuilder container(String s) {
@@ -161,7 +161,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s boolean value to setDynamic 
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setDynamic(java.lang.String)
      */
     public WraUriBuilder dynamic(boolean s) {
@@ -179,7 +179,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value to setPackedargs 
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setPackedargs(java.lang.String)
      */
     public WraUriBuilder packedargs(String s) {
@@ -188,7 +188,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s set Satellite value true or false, catches on true - ignores case, all other inputs are false
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setSatellite(java.lang.String)
      */
     public WraUriBuilder satellite(String s) {
@@ -197,7 +197,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string representing the scheme
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setScheme(java.lang.String)
      */
     public WraUriBuilder scheme(String s) {
@@ -206,7 +206,7 @@ public class WraUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string representing the wrapper page
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setWrapperpage(java.lang.String)
      */
     public WraUriBuilder wrapper(String s) {

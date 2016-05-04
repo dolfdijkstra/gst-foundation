@@ -48,12 +48,12 @@ import com.openmarket.xcelerate.publish.PubConstants;
 
 /**
  * Filters assets via startdate/enddate.
- * <p/>
+ * <p>
  * NOTE: This class calls a public yet internal function inside the JSP tag. No
  * guarantees can therefore exist as to its compatibility across patch versions.
  * The core function, however, is exceptionally slow to begin with, so caution
  * should be exercised when using this function.
- * <p/>
+ * <p>
  * 
  * @author Tony Field
  * @author Dolf Dijkstra

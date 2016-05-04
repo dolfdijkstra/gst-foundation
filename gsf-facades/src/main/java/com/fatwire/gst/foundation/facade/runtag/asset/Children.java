@@ -30,7 +30,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
  * AssetChildren
- * <p/>
+ * <p>
  * <ASSET.CHILDREN NAME="assetName" [TYPE="parent assettype"]
  * [ASSETID="parent assetid"] LIST="listName" [CODE="NameOfAssociation"]
  * [OBJECTTYPE="typeOfObject"] [OBJECTID="objectID"] [ORDER="nrank"]/>

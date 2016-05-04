@@ -34,8 +34,8 @@ public class TemplateUriBuilder {
     /**
      * Constructor with c and cid, with a wrapper .
      * 
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @param tname
      * @param wrapper
      */
@@ -49,8 +49,8 @@ public class TemplateUriBuilder {
     /**
      * Constructor with c and cid, without a wrapper.
      * 
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @param tname
      */
     public TemplateUriBuilder(final String c, final String cid, final String tname) {
@@ -63,7 +63,7 @@ public class TemplateUriBuilder {
     /**
      * Constructor with AssetId and wrapper.
      * 
-     * @param id
+     * @param id asset id
      * @param tname
      * @param wrapper
      */
@@ -74,7 +74,7 @@ public class TemplateUriBuilder {
     /**
      * Constructor with AssetId, without a wrapper.
      * 
-     * @param id
+     * @param id asset id
      * @param tname
      */
     public TemplateUriBuilder(final AssetId id, final String tname) {
@@ -85,7 +85,7 @@ public class TemplateUriBuilder {
      * Returns the uri to the asset rendered with the specified template and
      * wrapper (if provided).
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return the Content Server url.
      * @see com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#execute(COM.FutureTense.Interfaces.ICS)
      */

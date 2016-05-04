@@ -43,7 +43,7 @@ import com.fatwire.mda.Dimension;
  * An asset that has loaded the attributes into memory. In the constructor all
  * the attributes are copied into memory and and can be accessed via the
  * {@link Map} methods.
- * <p/>
+ * <p>
  * This class implements Serializable interface so the object can be serialized
  * if needed. The serialization use-case is the best use-case for this class.
  * The {@link AssetMapAdapter} is a better candidate to use if you are

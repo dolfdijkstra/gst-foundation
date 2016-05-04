@@ -96,7 +96,7 @@ public class BlobUriBuilder {
     }
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @return the URI
      */
     public String toURI(ICS ics) {

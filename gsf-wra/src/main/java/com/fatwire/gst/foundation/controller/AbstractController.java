@@ -48,7 +48,7 @@ public abstract class AbstractController  {
 
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      */
     public AbstractController(ICS ics) {
         super();

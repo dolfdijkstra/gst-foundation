@@ -49,7 +49,7 @@ public final class AnnotationUtils {
     /**
      * Searches the object for a field annotated with the InjectForRequest
      * annotation of the provided type.
-     * <p/>
+     * <p>
      * 
      * For instance <tt>@InjectForRequest Service service; </tt> is defined on
      * the class as a field, then <tt>findField(object,Service.class);</tt> will

@@ -53,8 +53,8 @@ public class PageUriBuilder {
     /**
      * Constructor with c and cid, with a wrapper .
      * 
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @param pagename
      * @param wrapper
      */
@@ -68,8 +68,8 @@ public class PageUriBuilder {
     /**
      * Constructor with c and cid, without a wrapper.
      * 
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @param pagename
      */
     public PageUriBuilder(String c, String cid, String pagename) {
@@ -82,7 +82,7 @@ public class PageUriBuilder {
     /**
      * Constructor with AssetId and wrapper.
      * 
-     * @param id
+     * @param id asset id
      * @param pagename
      * @param wrapper
      */
@@ -93,7 +93,7 @@ public class PageUriBuilder {
     /**
      * Constructor with AssetId, without a wrapper.
      * 
-     * @param id
+     * @param id asset id
      * @param pagename
      */
     public PageUriBuilder(AssetId id, String pagename) {
@@ -104,7 +104,7 @@ public class PageUriBuilder {
      * Returns the uri to the asset rendered with the specified template and
      * wrapper (if provided).
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#execute(COM.FutureTense.Interfaces.ICS)
      */

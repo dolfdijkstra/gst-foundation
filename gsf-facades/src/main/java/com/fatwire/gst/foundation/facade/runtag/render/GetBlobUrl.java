@@ -20,7 +20,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
  * Implements the RENDER.GETBLOBURL tag.
- * <p/>
+ * <p>
  * 
  * <pre>
  * &lt;RENDER.GETBLOBURL

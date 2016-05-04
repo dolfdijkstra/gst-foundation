@@ -82,7 +82,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     /**
      * Constructor that sets the linkLabel and path attributes.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param assetTemplate
      * @param linkLabelAttribute
      * @param pathAttribute
@@ -101,7 +101,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param site
+     * @param site site to run process over
      * @return the root SitePlanTree nodes for this site
      */
     public Collection<NavigationNode> getRootNodesForSite(String site) {
@@ -139,7 +139,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param site
+     * @param site site to run process over
      * @param depth
      * @param linkAttribute
      * @return

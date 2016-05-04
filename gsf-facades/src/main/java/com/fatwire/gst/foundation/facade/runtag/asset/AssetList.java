@@ -150,10 +150,10 @@ public class AssetList extends AbstractTagRunner {
      * returned from this search or an exception will be thrown. Pubid is
      * optional.
      *
-     * @param ics
-     * @param c
-     * @param cid
-     * @param field
+     * @param ics Content Server context object
+     * @param c current asset
+     * @param cid content id
+     * @param field field to get
      * @return single field value
      */
     public static String getRequiredSingleField(ICS ics, String c, String cid, String field) {

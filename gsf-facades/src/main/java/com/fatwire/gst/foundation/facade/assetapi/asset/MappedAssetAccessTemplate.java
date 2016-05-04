@@ -39,7 +39,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     protected final ICS ics;
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      */
     public MappedAssetAccessTemplate(ICS ics, AssetMapper<T> mapper) {
         super(ics);
@@ -49,7 +49,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     }
 
     /**
-     * @param id
+     * @param id asset id
      * @return the mapped object
      */
     public T read(final AssetId id) {
@@ -59,7 +59,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     /**
      * Reads the attributes of an asset.
      * 
-     * @param id
+     * @param id asset id
      * @param attributes
      * @return the mapped object
      */
@@ -72,7 +72,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
      * ScatteredAsset. This takes care of the asset read operation of the
      * associated assets.
      * 
-     * @param id
+     * @param id asset id
      * @param associationType
      * @return the assets from the associations.
      */
@@ -186,7 +186,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
 
     /**
      * Queries for a list of scattered assets.
-     * <p/>
+     * <p>
      * Sample queries are:
      * <ul>
      * <li>name='foo'</li>

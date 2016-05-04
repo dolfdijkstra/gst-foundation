@@ -66,7 +66,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param id
+     * @param id asset id
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setId(java.lang.String)
      */
     public  final void setId(final String id) {
