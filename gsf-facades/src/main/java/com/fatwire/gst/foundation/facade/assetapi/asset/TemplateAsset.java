@@ -43,7 +43,7 @@ import com.fatwire.mda.Dimension;
  * <p>
  * It must be noted that naming conflicts between flex attribute names and meta
  * attribute names are resolved by giving the meta attribute preference.
- * <p>
+ *
  * <pre>
  * {@code
  * TemplateAsset asset = ...;
@@ -60,7 +60,7 @@ public class TemplateAsset {
     private final List<String> metaList = new ArrayList<String>();
 
     /**
-     * @param delegate
+     * @param delegate asset data
      */
     public TemplateAsset(final AssetData delegate) {
         super();
@@ -320,7 +320,7 @@ public class TemplateAsset {
     /**
      * @param name attribute name
      * @return list of assetids
-     * @throws AssetAccessException
+     * @throws AssetAccessException asset exception
      * @see com.fatwire.assetapi.data.AssetData#getImmediateParents(java.lang.String)
      */
     public List<AssetId> getImmediateParents(final String name) throws AssetAccessException {
@@ -329,7 +329,7 @@ public class TemplateAsset {
 
     /**
      * @return the parents of the asset
-     * @throws AssetAccessException
+     * @throws AssetAccessException asset exception
      * @see com.fatwire.assetapi.data.AssetData#getParents()
      */
     public List<AssetId> getParents() throws AssetAccessException {

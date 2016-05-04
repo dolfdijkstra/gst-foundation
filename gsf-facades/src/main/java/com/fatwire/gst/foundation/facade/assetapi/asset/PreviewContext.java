@@ -34,7 +34,7 @@ public class PreviewContext {
      * the setting for the xcelerate property <tt>cs.sitepreview</tt>.
      * 
      * @param ics Content Server context object
-     * @param ssvarName
+     * @param ssvarName server session variable name
      * @return the preview date
      */
     public static Date getPreviewDateFromSession(final ICS ics, final String ssvarName) {
@@ -47,7 +47,7 @@ public class PreviewContext {
      * setting for the xcelerate property <tt>cs.sitepreview</tt>.
      * 
      * @param ics Content Server context object
-     * @param varName
+     * @param varName variable name
      * @return the date to preview
      */
     public static Date getPreviewDateFromCSVar(final ICS ics, final String varName) {
@@ -60,7 +60,7 @@ public class PreviewContext {
      * setting for the xcelerate property <tt>cs.sitepreview</tt>.
      * 
      * @param ics Content Server context object
-     * @param cutoff
+     * @param cutoff cut-off date
      * @return the date to preview
      */
     public static Date getPreviewDate(final ICS ics, final Date cutoff) {

@@ -185,6 +185,7 @@ public final class LocaleUtils {
      * <p>
      * Null, however, is a valid option.
      * 
+     * @param ics Content Server context object
      * @param id id of asset to look up
      * @param preferredDimension id of locale desired
      * @param dimensionSetId dimension set to use to find the translation
@@ -227,6 +228,7 @@ public final class LocaleUtils {
      * <p>
      * Null, however, is a valid option.
      * 
+     * @param ics Content Server context object
      * @param id id of asset to look up
      * @param preferredDimension id of locale desired
      * @param dimensionSetName the name of the dimension set to use to find the
@@ -266,10 +268,10 @@ public final class LocaleUtils {
     /**
      * @param ics Content Server context object
      * @param id asset id
-     * @param preferredDimension
-     * @param dimset
+     * @param preferredDimension id for preferred locale
+     * @param dimset dimension set instance
      * @return assetid of translated asset.
-     * @throws IllegalStateException
+     * @throws IllegalStateException exception when illegal state is reached
      */
     public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, DimensionSetInstance dimset)
             throws IllegalStateException {

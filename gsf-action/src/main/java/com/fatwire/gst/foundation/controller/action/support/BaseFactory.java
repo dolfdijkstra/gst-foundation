@@ -91,7 +91,7 @@ public abstract class BaseFactory implements Factory {
     /**
      * Internal method to check for Services or create Services.
      * 
-     * @param name
+     * @param name name of asset to find
      * @param c current asset
      * @return the found service, null if no T can be created.
      * @throws InvocationTargetException
@@ -145,7 +145,7 @@ public abstract class BaseFactory implements Factory {
      * Tries to create the object based on the {@link ServiceProducer}
      * annotation where the names match.
      * 
-     * @param name
+     * @param name name
      * @param c current asset
      * @return
      * @throws InvocationTargetException
@@ -172,7 +172,7 @@ public abstract class BaseFactory implements Factory {
      * Tries to create the object based on the {@link ServiceProducer}
      * annotation without a name.
      * 
-     * @param name
+     * @param name name
      * @param c current asset
      * @return
      * @throws InvocationTargetException
@@ -326,7 +326,7 @@ public abstract class BaseFactory implements Factory {
     }
 
     /**
-     * @param e
+     * @param e Exception
      */
     protected void throwRuntimeException(InvocationTargetException e) {
         Throwable t = e.getTargetException();
@@ -340,7 +340,7 @@ public abstract class BaseFactory implements Factory {
     }
 
     /**
-     * @param name
+     * @param name name
      * @param c current asset
      * @return
      * @throws InvocationTargetException

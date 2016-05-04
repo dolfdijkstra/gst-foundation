@@ -229,7 +229,7 @@ public final class DebugHelper {
      * 
      * @param ad the asset date
      * @return String with asset attributes etc
-     * @throws AssetAccessException
+     * @throws AssetAccessException asset access exception
      */
     @SuppressWarnings("unchecked")
     public static String printAsset(final AssetData ad) throws AssetAccessException {

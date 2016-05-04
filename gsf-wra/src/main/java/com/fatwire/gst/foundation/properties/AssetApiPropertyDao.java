@@ -238,11 +238,11 @@ public final class AssetApiPropertyDao implements PropertyDao {
 
         /**
          * Deep copy constructor, to be used when adding, to prevent messy cache issues
-         * @param name
-         * @param description
-         * @param value
-         * @param type
-         * @param propid
+         * @param name property name
+         * @param description property description
+         * @param value property value
+         * @param type property type
+         * @param propid property id
          */
         private PropertyHolder (String name, String description, String value, String type, long propid) {
             if (name == null) throw new IllegalArgumentException("Null name not allowed");

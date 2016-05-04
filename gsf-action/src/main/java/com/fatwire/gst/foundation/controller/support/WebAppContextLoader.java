@@ -153,8 +153,8 @@ public class WebAppContextLoader implements ServletContextListener {
     /**
      * Creates a AppContext based on the init parameter {@link #CONTEXTS}.
      * 
-     * @param context
-     * @param cl
+     * @param context servlet context
+     * @param cl class loader
      * @return the AppContext as configured from the web app init parameter.
      */
     protected AppContext configureFromInitParam(final ServletContext context, final ClassLoader cl) {

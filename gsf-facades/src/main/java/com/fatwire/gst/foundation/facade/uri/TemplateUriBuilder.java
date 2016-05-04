@@ -36,7 +36,7 @@ public class TemplateUriBuilder {
      * 
      * @param c current asset
      * @param cid content id
-     * @param tname
+     * @param tname template name
      * @param wrapper
      */
     public TemplateUriBuilder(final String c, final String cid, final String tname, final String wrapper) {
@@ -51,7 +51,7 @@ public class TemplateUriBuilder {
      * 
      * @param c current asset
      * @param cid content id
-     * @param tname
+     * @param tname template name
      */
     public TemplateUriBuilder(final String c, final String cid, final String tname) {
         tag.setC(c);
@@ -64,7 +64,7 @@ public class TemplateUriBuilder {
      * Constructor with AssetId and wrapper.
      * 
      * @param id asset id
-     * @param tname
+     * @param tname template name
      * @param wrapper
      */
     public TemplateUriBuilder(final AssetId id, final String tname, final String wrapper) {
@@ -75,7 +75,7 @@ public class TemplateUriBuilder {
      * Constructor with AssetId, without a wrapper.
      * 
      * @param id asset id
-     * @param tname
+     * @param tname template name
      */
     public TemplateUriBuilder(final AssetId id, final String tname) {
         this(id.getType(), Long.toString(id.getId()), tname);

@@ -68,8 +68,8 @@ public abstract class AnnotationController extends AbstractController {
     }
 
     /**
-     * @param m
-     * @param target
+     * @param m method to invoke
+     * @param target target object
      */
     protected void invokeControllerMethod(final Method m, final Object target) {
         try {

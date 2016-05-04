@@ -81,7 +81,7 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
 
     /**
      * @param ics Content Server context object
-     * @param roots
+     * @param roots Factory object
      */
     public IcsBackedObjectFactoryTemplate(ICS ics, Factory... roots) {
         super(ics, roots);

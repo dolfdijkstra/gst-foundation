@@ -35,8 +35,8 @@ public class SpringWebAppContext implements AppContext {
     /**
      * This constructor is needed for the {@link WebAppContextLoader}. 
      * 
-     * @param ctx
-     * @param app
+     * @param ctx web context
+     * @param app application context
      */
     public SpringWebAppContext(ServletContext ctx, AppContext app) {
         this.wac = WebApplicationContextUtils.getRequiredWebApplicationContext(ctx);

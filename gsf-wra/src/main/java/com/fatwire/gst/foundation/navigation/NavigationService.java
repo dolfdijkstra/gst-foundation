@@ -34,14 +34,14 @@ public interface NavigationService {
     Collection<NavigationNode> getRootNodesForSite(int depth);
 
     /**
-     * @param site
+     * @param site name of the site
      * @param depth the maximum number of levels to retrieve
      * @return the NavigationNodes for the page by this name.
      */
     Collection<NavigationNode> getRootNodesForSite(String site, int depth);
 
     /**
-     * @param site
+     * @param site name of the site
      * @param depth the maximum number of levels to retrieve
      * @param linkAttribute
      * @return
@@ -55,7 +55,7 @@ public interface NavigationService {
     NavigationNode getNodeByName(String pagename, int depth);
 
     /**
-     * @param site
+     * @param site name of the site
      * @param pagename the name of the Page asset
      * @param depth the maximum number of levels to retrieve
      * @return the NavigationNode for the page by this name.
@@ -63,7 +63,7 @@ public interface NavigationService {
     NavigationNode getNodeByName(String site, String pagename, int depth);
 
     /**
-     * @param site
+     * @param site name of the site
      * @param pagename the name of the Page asset
      * @param depth the maximum number of levels to retrieve
      * @param linkAttribute

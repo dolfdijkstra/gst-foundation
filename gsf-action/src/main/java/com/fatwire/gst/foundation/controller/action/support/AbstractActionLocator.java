@@ -130,7 +130,7 @@ public abstract class AbstractActionLocator implements ActionLocator {
 
     /**
      * @param ics Content Server context object
-     * @param action
+     * @param action Action to inject
      */
     protected final void injectDependencies(final ICS ics, final Action action) {
 

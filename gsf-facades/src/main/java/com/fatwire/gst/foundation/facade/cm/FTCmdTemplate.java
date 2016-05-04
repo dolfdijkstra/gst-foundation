@@ -37,6 +37,7 @@ public abstract class FTCmdTemplate extends FTValListFacade {
      * We can do preliminary check on the values for list to see if they are
      * complete
      * 
+     * @param ics Content Server context object
      * @return true to continue with ics.CatalogManager call
      */
     protected boolean preExcecuteAssert(final ICS ics) {

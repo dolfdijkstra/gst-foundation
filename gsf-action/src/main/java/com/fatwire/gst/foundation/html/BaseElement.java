@@ -58,7 +58,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param className
+     * @param className string value of class name
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setClassName(java.lang.String)
      */
     public  final void setClassName(final String className) {
@@ -74,7 +74,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param style
+     * @param style string value of style
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setStyle(java.lang.String)
      */
     public  final void setStyle(final String style) {
@@ -82,7 +82,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param title
+     * @param title string value of title
      * @see com.fatwire.gst.foundation.html.HtmlCoreAttr#setTitle(java.lang.String)
      */
     public  final void setTitle(final String title) {
@@ -170,7 +170,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onclick
+     * @param onclick string value of onClick event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnclick(java.lang.String)
      */
     public  final void setOnclick(final String onclick) {
@@ -178,7 +178,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param ondblclick
+     * @param ondblclick string value of onDoubleClick event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOndblclick(java.lang.String)
      */
     public  final void setOndblclick(final String ondblclick) {
@@ -186,7 +186,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onkeydown
+     * @param onkeydown string value of on key down event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnkeydown(java.lang.String)
      */
     public  final void setOnkeydown(final String onkeydown) {
@@ -194,7 +194,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onkeypress
+     * @param onkeypress string value of key press event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnkeypress(java.lang.String)
      */
     public final void setOnkeypress(final String onkeypress) {
@@ -202,7 +202,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onkeyup
+     * @param onkeyup string value of key up event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnkeyup(java.lang.String)
      */
     public final void setOnkeyup(final String onkeyup) {
@@ -210,7 +210,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onmousedown
+     * @param onmousedown string value of mouse down event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmousedown(java.lang.String)
      */
     public final void setOnmousedown(final String onmousedown) {
@@ -218,7 +218,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onmousemove
+     * @param onmousemove mouse move event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmousemove(java.lang.String)
      */
     public final void setOnmousemove(final String onmousemove) {
@@ -226,7 +226,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onmouseout
+     * @param onmouseout string value of mouse out event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmouseout(java.lang.String)
      */
     public final void setOnmouseout(final String onmouseout) {
@@ -234,7 +234,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onmouseover
+     * @param onmouseover string value of mouseover event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmouseover(java.lang.String)
      */
     public final void setOnmouseover(final String onmouseover) {
@@ -242,7 +242,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param onmouseup
+     * @param onmouseup string value of mouse up event
      * @see com.fatwire.gst.foundation.html.HtmlEventsAttr#setOnmouseup(java.lang.String)
      */
     public final void setOnmouseup(final String onmouseup) {
@@ -250,7 +250,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return dir
+     * @return dir string value of dir attribute
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#getDir()
      */
     public final String getDir() {
@@ -258,7 +258,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @return lang
+     * @return lang string value of internationalization attribute language
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#getLang()
      */
     public final String getLang() {
@@ -266,7 +266,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param dir
+     * @param dir string value of dir
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#setDir(java.lang.String)
      */
     public final void setDir(final String dir) {
@@ -274,7 +274,7 @@ abstract class BaseElement {
     }
 
     /**
-     * @param lang
+     * @param lang string value of internationalization to set lang
      * @see com.fatwire.gst.foundation.html.HtmlI18NAttr#setLang(java.lang.String)
      */
     public final void setLang(final String lang) {

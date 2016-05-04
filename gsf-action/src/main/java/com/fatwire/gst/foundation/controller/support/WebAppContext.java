@@ -39,8 +39,8 @@ public class WebAppContext implements AppContext {
     /**
      * This constructor is needed for the {@link WebAppContextLoader}.
      * 
-     * @param context
-     * @param parent
+     * @param context servlet context
+     * @param parent application context
      */
     public WebAppContext(ServletContext context, AppContext parent) {
         super();
@@ -51,7 +51,7 @@ public class WebAppContext implements AppContext {
     /**
      * Constructor with null parent.
      * 
-     * @param context
+     * @param context servlet context
      */
     public WebAppContext(ServletContext context) {
         this(context, null);

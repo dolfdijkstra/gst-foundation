@@ -27,14 +27,14 @@ import com.fatwire.assetapi.data.AssetData;
  * 
  * @author Dolf Dijkstra
  * 
- * @param <T>
+ * 
  */
 
 public interface AssetMapper<T> {
 
     /**
      * Creates a new object based on the provided AssetData.
-     * @param assetData
+     * @param assetData asset data
      * @return the created object.
      */
     T map(AssetData assetData);

@@ -30,7 +30,7 @@ public class SpringObjectFactory implements Factory {
     private final ApplicationContext app;
 
     /**
-     * @param app
+     * @param app application context
      */
     public SpringObjectFactory(ApplicationContext app) {
         super();

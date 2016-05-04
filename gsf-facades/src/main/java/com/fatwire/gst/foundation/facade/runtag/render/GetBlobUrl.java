@@ -70,170 +70,170 @@ public final class GetBlobUrl extends AbstractTagRunner {
     }
 
     /**
-     * @param b
+     * @param b boolean for ADDSESSION
      */
     public void setAddSession(boolean b) {
         set("ADDSESSION", b ? "TRUE" : "FALSE");
     }
 
     /**
-     * @param s
+     * @param s string value for ASSEMBLER
      */
     public void setAssembler(String s) {
         set("ASSEMBLER", s);
     }
 
     /**
-     * @param s
+     * @param s string value for authority
      */
     public void setAuthority(String s) {
         set("AUTHORITY", s);
     }
 
     /**
-     * @param s
+     * @param s string value for c, current asset
      */
     public void setC(String s) {
         set("C", s);
     }
 
     /**
-     * @param s
+     * @param s string value for cid, current asset id
      */
     public void setCid(String s) {
         set("CID", s);
     }
 
     /**
-     * @param s
+     * @param s string value for CONTAINER
      */
     public void setContainer(String s) {
         set("CONTAINER", s);
     }
 
     /**
-     * @param s
+     * @param s string value for DYNAMIC
      */
     public void setDynamic(String s) {
         set("DYNAMIC", s);
     }
 
     /**
-     * @param s
+     * @param s string value for FRAGMENT
      */
     public void setFragment(String s) {
         set("FRAGMENT", s);
     }
 
     /**
-     * @param s
+     * @param s string value for OUTSTR
      */
     public void setOutstr(String s) {
         set("OUTSTR", s);
     }
 
     /**
-     * @param s
+     * @param s string value for SATELLITE
      */
     public void setSatellite(String s) {
         set("SATELLITE", s);
     }
 
     /**
-     * @param s
+     * @param s string value for SCHEME
      */
     public void setScheme(String s) {
         set("SCHEME", s);
     }
 
     /**
-     * @param s
+     * @param s string value for BLOBTABLE
      */
     public void setBlobTable(String s) {
         set("BLOBTABLE", s);
     }
 
     /**
-     * @param s
+     * @param s string value for BLOBKEY
      */
     public void setBlobKey(String s) {
         set("BLOBKEY", s);
     }
 
     /**
-     * @param s
+     * @param s string value for blob where clause
      */
     public void setBlobWhere(String s) {
         set("BLOBWHERE", s);
     }
 
     /**
-     * @param s
+     * @param s string value for blob column
      */
     public void setBlobCol(String s) {
         set("BLOBCOL", s);
     }
 
     /**
-     * @param s
+     * @param s string value for field
      */
     public void setField(String s) {
         set("FIELD", s);
     }
 
     /**
-     * @param s
+     * @param s string value for blob header
      */
     public void setBobHeader(String s) {
         set("BLOBHEADER", s);
     }
 
     /**
-     * @param s
+     * @param s string value for blob no cache
      */
     public void setBlobNoCache(String s) {
         set("BLOBNOCACHE", s);
     }
 
     /**
-     * @param n
-     * @param s
+     * @param n number for blob header name + n
+     * @param s string value for blob header name
      */
     public void setBlobHeaderName(int n, String s) {
         set("BLOBHEADERNAME" + n, s);
     }
 
     /**
-     * @param n
-     * @param s
+     * @param n number for blob header name
+     * @param s string value for blob header value
      */
     public void setBlobHeaderValue(int n, String s) {
         set("BLOBHEADERVALUE" + n, s);
     }
 
     /**
-     * @param s
+     * @param s string value for CS blob id
      */
     public void setCSBlobId(String s) {
         set("CSBLOBID", s);
     }
 
     /**
-     * @param s
+     * @param s string value for parent id
      */
     public void setParentId(String s) {
         set("PARENTID", s);
     }
 
     /**
-     * @param s
+     * @param s string value for preferred file
      */
     public void setPreferredFile(String s) {
         set("PREFERREDFILE", s);
     }
 
     /**
-     * @param s
+     * @param s string value for preferred dir
      */
     public void setPreferredDir(String s) {
         set("PREFERREDDIR", s);

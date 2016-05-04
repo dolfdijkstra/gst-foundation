@@ -43,7 +43,7 @@ public interface IncludeService {
      * 
      * @param name the name of the Include for reference in the View layer.
      * @param pagename the name of the SiteCatalog entry to call.
-     * @param style
+     * @param style style
      * @return the created IncludePage
      */
     IncludePage page(String name, String pagename, Style style);

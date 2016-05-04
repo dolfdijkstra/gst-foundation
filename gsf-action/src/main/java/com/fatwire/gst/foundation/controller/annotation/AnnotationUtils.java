@@ -57,7 +57,7 @@ public final class AnnotationUtils {
      * 
      * @param <T> the type of the field to look for.
      * @param a the object to search on for the typed field.
-     * @param type
+     * @param type type to search for
      * @return the class field with the InjectForRequest annotation of the Class
      *         type.
      */

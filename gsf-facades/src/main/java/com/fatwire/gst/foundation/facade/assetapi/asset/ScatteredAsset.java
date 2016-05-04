@@ -74,7 +74,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
      * name 'description' the flex attribute value will not be used, but the
      * primary asset row 'description' field value.
      * 
-     * @param delegate
+     * @param delegate asset data object
      * @param attributes the names of attributes to load the data from into
      *            memory
      */
@@ -87,7 +87,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
      * Reads all the attributes, in case of name collisions meta attributes take
      * precedence.
      * 
-     * @param delegate
+     * @param delegate asset data object
      */
     public ScatteredAsset(AssetData delegate) {
         this(delegate, true, delegate.getAttributeNames().toArray(new String[0]));
@@ -97,7 +97,7 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
      * This constructor checks if the attributes are meta attributes and based
      * on the passed in <tt>meta</tt> asks for the meta value.
      * 
-     * @param delegate
+     * @param delegate asset data object
      * @param meta true if the attributes are meta attributes
      * @param attributes the names of attributes to load the data from into
      *            memory
@@ -148,8 +148,8 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
     }
 
     /**
-     * @param name
-     * @param attr
+     * @param name attribute name
+     * @param attr attribute data
      */
     private void extractSingleValue(String name, AttributeData attr) {
         switch (attr.getType()) {
@@ -224,8 +224,8 @@ public class ScatteredAsset extends AbstractMap<String, Object> implements Seria
     }
 
     /**
-     * @param name
-     * @param attr
+     * @param name attribute name
+     * @param attr attribute data
      */
     private void extractMultiValue(String name, AttributeData attr) {
         switch (attr.getType()) {

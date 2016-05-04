@@ -156,8 +156,8 @@ public class BlobUriBuilder {
     }
 
     /**
-     * @param name
-     * @param value
+     * @param name blob header name
+     * @param value blob header value
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int,
      *      java.lang.String)

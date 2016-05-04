@@ -64,7 +64,7 @@ public class AssetAccessTemplate {
     private AssetDataManager assetDataManager;
 
     /**
-     * @param session
+     * @param session session object
      */
     public AssetAccessTemplate(final Session session) {
         super();
@@ -112,9 +112,9 @@ public class AssetAccessTemplate {
      * Method to read an asset and use the AssetMapper to transform the
      * AssetData into another object as specified by the AssetMapper.
      * 
-     * @param <T>
+     * @param <T> type specified from asset mapper
      * @param id asset id
-     * @param mapper
+     * @param mapper asset mapper
      * @return the Object created by the mapper.
      */
     public <T> T readAsset(final AssetId id, final AssetMapper<T> mapper) {
@@ -136,10 +136,10 @@ public class AssetAccessTemplate {
      * Method to read an asset and use the AssetMapper to transform the
      * AssetData into another object as specified by the AssetMapper interface..
      * 
-     * @param <T>
+     * @param <T> type specified from asset mapper
      * @param c the assetType
      * @param cid the asset id
-     * @param mapper
+     * @param mapper asset mapper
      * @return the object created by the mapper.
      */
     public <T> T readAsset(final String c, final String cid, final AssetMapper<T> mapper) {
@@ -150,10 +150,10 @@ public class AssetAccessTemplate {
      * Method to read an asset and use the AssetMapper to transform the
      * AssetData into another object as specified by the AssetMapper.
      * 
-     * @param <T>
+     * @param <T> type specified from asset mapper
      * @param c the assetType
      * @param cid the asset id
-     * @param mapper
+     * @param mapper asset mapper
      * @return the object created by the mapper.
      */
     public <T> T readAsset(final String c, final long cid, final AssetMapper<T> mapper) {
@@ -165,10 +165,10 @@ public class AssetAccessTemplate {
      * AssetData into another object as specified by the AssetMapper. Only the
      * list of lister attributes is retrieved from the asset.
      * 
-     * @param <T>
+     * @param <T> type specified from asset mapper
      * @param id asset id
-     * @param mapper
-     * @param attributes
+     * @param mapper asset mapper
+     * @param attributes array of attribute names
      * @return the object created by the mapper.
      */
     public <T> T readAsset(final AssetId id, final AssetMapper<T> mapper, final String... attributes) {
@@ -189,8 +189,8 @@ public class AssetAccessTemplate {
      * Only the list of lister attributes is retrieved from the asset.
      * 
      * @param id asset id
-     * @param closure
-     * @param attributes
+     * @param closure asset closure
+     * @param attributes array of attribute names
      * 
      */
     public void readAsset(final AssetId id, final AssetClosure closure, final String... attributes) {
@@ -262,6 +262,7 @@ public class AssetAccessTemplate {
      * 
      * @param ids a list of AssetIds
      * @param closure the closure
+     * @param attributes array of attribute names
      */
     public void readAsset(final Iterable<AssetId> ids, final AssetClosure closure, final String... attributes) {
         final AssetDataManager m = getAssetDataManager();
@@ -364,7 +365,7 @@ public class AssetAccessTemplate {
     }
 
     /**
-     * @param query
+     * @param query query object
      * @return iterable with AssetData from the query result.
      */
     public Iterable<AssetData> readAssets(final Query query) {
@@ -406,9 +407,9 @@ public class AssetAccessTemplate {
      * Reading assets with the Query and using the mapper to transform the
      * AssetData into another object, as specified by T.
      * 
-     * @param <T>
-     * @param query
-     * @param mapper
+     * @param <T> type specified from asset mapper
+     * @param query query object
+     * @param mapper asset mapper
      * @return the objects created by the mapper.
      */
     public <T> Iterable<T> readAssets(final Query query, final AssetMapper<T> mapper) {
@@ -493,8 +494,8 @@ public class AssetAccessTemplate {
     /**
      * Creates a Query to retrieve the asset by it's name.
      * 
-     * @param assetType
-     * @param assetName
+     * @param assetType string value of asset type
+     * @param assetName string value of asset name
      * @return the simple query
      */
     public SimpleQuery createNameQuery(final String assetType, final String assetName) {
@@ -525,7 +526,7 @@ public class AssetAccessTemplate {
     }
 
     /**
-     * @param name
+     * @param name site name
      * @return the site info object
      */
     public SiteInfo readSiteInfo(final String name) {
@@ -547,7 +548,7 @@ public class AssetAccessTemplate {
      * Reads the associated assets of the asset and returns the AssetIds.
      * 
      * @param id asset id
-     * @param associationType
+     * @param associationType association type
      * @return the assets from the associations.
      */
     public Collection<AssetId> readAssociatedAssetIds(final AssetId id, final String associationType) {
@@ -597,14 +598,14 @@ public class AssetAccessTemplate {
      * <li>size=[1,2]</li>
      * <li>size{10,250}</li>
      * <li>name!='foo'</li>
+     * </ul>
      * 
-     * 
-     * @param <T>
-     * @param assetType
-     * @param subType
-     * @param query
-     * @param mapper
-     * @param attributes
+     * @param <T> type specified by asset mapper
+     * @param assetType asset type
+     * @param subType sub-type
+     * @param query string value of query
+     * @param mapper asset mapper
+     * @param attributes array of attribute names
      * @return a iterable of assets.
      * @see AssetAccessTemplate#query(String, String, String, AssetMapper,
      *      String...)
@@ -627,12 +628,13 @@ public class AssetAccessTemplate {
      * <li>size=[1,2]</li>
      * <li>size{10,250}</li>
      * <li>name!='foo'</li>
+     * </ul>
      * 
-     * @param <T>
-     * @param assetType
-     * @param subType
-     * @param query
-     * @param mapper
+     * @param <T> type specified by asset mapper
+     * @param assetType asset type
+     * @param subType sub-type
+     * @param query string value of query
+     * @param mapper asset mapper
      * 
      * @return a iterable of assets.
      */

@@ -88,8 +88,8 @@ public class TableDef {
 
     /**
      * Adds a non primary column to this table.
-     * @param name
-     * @param type
+     * @param name column name
+     * @param type column type
      * @return the added TableColumn.
      */
     public TableColumn addColumn(final String name, final Type type) {

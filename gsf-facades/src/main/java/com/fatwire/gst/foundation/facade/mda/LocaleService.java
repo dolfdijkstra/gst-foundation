@@ -39,7 +39,7 @@ public interface LocaleService {
     
     /**
      * Looks up the DimensionFilter based on the current browser settings and site configuration, as well as request parameters.
-     * @param site
+     * @param site name of the site
      * @return the DimensionFilterInstance
      */
     public DimensionFilterInstance getDimensionFilter(String site);
@@ -147,10 +147,10 @@ public interface LocaleService {
      * Finds the translation for the preferred dimension and dimensionset.
      * 
      * @param id asset id
-     * @param preferredDimension
-     * @param dimset
+     * @param preferredDimension id of preferred locale
+     * @param dimset dimension set instance
      * @return assetid of translated asset.
-     * @throws IllegalStateException
+     * @throws IllegalStateException exception thrown if illegal state is reached
      */
 
     public AssetId findTranslation(final AssetId id, final long preferredDimension, final DimensionSetInstance dimset);
@@ -158,7 +158,7 @@ public interface LocaleService {
     /**
      * Looksup the DimensionSetInstance for the given name.
      * 
-     * @param name
+     * @param name dimension name
      * @return the DimensionSetInstance by the provided name
      */
 

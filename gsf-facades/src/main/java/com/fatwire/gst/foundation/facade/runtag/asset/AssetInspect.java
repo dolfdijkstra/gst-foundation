@@ -19,8 +19,8 @@ package com.fatwire.gst.foundation.facade.runtag.asset;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <ASSET.INSPECT LIST="list name" TYPE="asset type" [PUBID="publication ID"]
- * [SUBTYPE="asset subtype"] />
+ * {@literal <ASSET.INSPECT LIST="list name" TYPE="asset type" [PUBID="publication ID"]}
+ * {@literal [SUBTYPE="asset subtype"] />}
  * 
  * @author Tony Field
  * @since 21-Nov-2008
