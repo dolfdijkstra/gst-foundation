@@ -43,7 +43,7 @@ public final class Recommendations {
      * @param ics context
      * @param id AssetId of recommendation to return
      * @param max max count
-     * @return Collection<AssetId> containing recommendations
+     * @return Collection{@literal<AssetId>} containing recommendations
      */
     public static Collection<AssetId> getRecommendations(ICS ics, AssetId id, int max) {
         GetRecommendations gr = new GetRecommendations();
@@ -68,7 +68,7 @@ public final class Recommendations {
      * @param ics context
      * @param collection the name of the recommendation
      * @param max max count
-     * @return Collection<AssetId> containing recommendations
+     * @return Collection{@literal<AssetId>} containing recommendations
      * @see IterableIListWrapper
      */
     public static Collection<AssetId> getRecommendations(ICS ics, String collection, int max) {

@@ -22,11 +22,11 @@ import COM.FutureTense.Util.ftErrors;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <mail.send to="recipient,recipient"
- * <p>
+ * {@code<mail.send to="recipient,recipient"
+ * 
  * [from="your e-mail"] [subject="subject of message"] [body="message body"]
  * [replyto="your alternate e-mail address"] [contenttype="content format"]
- * [charset="character set"] />
+ * [charset="character set"] />}
  * 
  * @author Tony Field
  * @since 4-Nov-2008

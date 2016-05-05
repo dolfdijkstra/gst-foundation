@@ -34,8 +34,8 @@ public interface WraPathTranslationService {
     /**
      * Look up the asset corresponding to the input virtual-webroot and url-path
      * 
-     * @param virtual_webroot
-     * @param url_path
+     * @param virtual_webroot string value of virtual web root
+     * @param url_path string value of url path
      * @return asset id and site
      */
     AssetIdWithSite resolveAsset(final String virtual_webroot, final String url_path);

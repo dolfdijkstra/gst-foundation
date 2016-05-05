@@ -43,7 +43,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * This is the WebReferenceable assets PageRef class. This overrides the default
  * PageRef, so we can manipulate the arguments that go into the assembler while
  * we have database access.
- * <p>
+ * 
  * <p>
  * It will alter the input args map by adding the derived parameters
  * <ul>
@@ -61,15 +61,15 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * <li>the asset is found</li>
  * <li>the asset has a path set</li>
  * <li>a virtual webroot can be found for the path set and environment name</li>
- * </p>
- * <p>
+ * </ol>
+ *
  * <ol>
  * <li>PageRef extends Reference implements IPageRef</li>
  * <li>Reference implements IReference</li>
  * <li>interface IPageRef extends IReference</li>
  * <li>interface IReference extends Definition</li>
  * </ol>
- * </p>
+ * 
  * 
  * @author Dolf Dijkstra
  * @author Tony Field

@@ -29,9 +29,11 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
  * <p>
  * Syntax
  * <p>
- * <COMMERCECONTEXT.GETRECOMMENDATION COLLECTION="recommendationname"
+ * 
+ * {@literal <COMMERCECONTEXT.GETRECOMMENDATION COLLECTION="recommendationname"
  * [LIST="inputlist"] [VALUE="rating"] [MAXCOUNT="assetcount"]
- * LISTVARNAME="assetlist" [FILTER="true|false"]/>
+ * LISTVARNAME="assetlist" [FILTER="true|false"]/>}
+ * 
  * <p>
  * This tag returns a list containing up to the specified number of recommended
  * assets. The recommendations, and the returned order of them, are based on the

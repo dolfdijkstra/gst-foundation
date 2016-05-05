@@ -91,10 +91,11 @@ public abstract class BaseFactory implements Factory {
     /**
      * Internal method to check for Services or create Services.
      * 
-     * @param name name of asset to find
+     * @param <T> ics or cached object
+     * @param askedName name of asset to find
      * @param c current asset
      * @return the found service, null if no T can be created.
-     * @throws InvocationTargetException
+     * @throws InvocationTargetException exception from invocation
      */
     @SuppressWarnings("unchecked")
     protected <T> T locate(final String askedName, final Class<T> c) throws InvocationTargetException {
@@ -131,8 +132,9 @@ public abstract class BaseFactory implements Factory {
 
     /**
      * Method to find classes to use for the producer methods. This
-     * implementation returns {@link #getClass()}.</p> Subclasses can return and
-     * are encouraged to return other classes.
+     * implementation returns {@link #getClass()}.
+     * 
+     * Subclasses can return and are encouraged to return other classes.
      * 
      * @param ics Content Server context object
      * @return array of classes to use for reflection
@@ -145,10 +147,11 @@ public abstract class BaseFactory implements Factory {
      * Tries to create the object based on the {@link ServiceProducer}
      * annotation where the names match.
      * 
+     * @param <T> object created by service producer
      * @param name name
      * @param c current asset
-     * @return
-     * @throws InvocationTargetException
+     * @return created object
+     * @throws InvocationTargetException exception from invocation
      */
     protected <T> T namedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
 
@@ -172,10 +175,11 @@ public abstract class BaseFactory implements Factory {
      * Tries to create the object based on the {@link ServiceProducer}
      * annotation without a name.
      * 
+     * @param <T> object created based on service producer
      * @param name name
      * @param c current asset
-     * @return
-     * @throws InvocationTargetException
+     * @return created object
+     * @throws InvocationTargetException exception from invocation
      */
     protected <T> T unnamedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
 
@@ -208,7 +212,7 @@ public abstract class BaseFactory implements Factory {
      * public constructor that takes {@link ICS} and {@link Factory} as
      * arguments. To this class the current ICS and this object will be passed.
      * 
-     * 
+     * @param <T> returnable producer method or null
      * @param name the simple name of the object to produce
      * @param c the class with the type information of the object to produce
      * @return the created object, null if no producer method was found or when
@@ -232,11 +236,12 @@ public abstract class BaseFactory implements Factory {
     }
 
     /**
+     * @param <T> created method type
      * @param name name of the object
      * @param c the type of the object to create
      * @param m the method to use to create the object
-     * @return
-     * @throws InvocationTargetException
+     * @return created object
+     * @throws InvocationTargetException exception from invoking specified method from class name
      */
     @SuppressWarnings("unchecked")
     protected <T> T createFromMethod(String name, Class<T> c, Method m) throws InvocationTargetException {
@@ -301,8 +306,8 @@ public abstract class BaseFactory implements Factory {
      * @param from object to invoke from
      * @param name the name of the object
      * @param arguments the arguments to pass to the method
-     * @return
-     * @throws InvocationTargetException
+     * @return object from invoked method
+     * @throws InvocationTargetException exception from invocation
      */
     protected Object invokeCreateMethod(Method m, Object from, String name, Object... arguments)
             throws InvocationTargetException {
@@ -340,10 +345,11 @@ public abstract class BaseFactory implements Factory {
     }
 
     /**
+     * @param <T> invoked object given class
      * @param name name
      * @param c current asset
-     * @return
-     * @throws InvocationTargetException
+     * @return newly created object
+     * @throws InvocationTargetException exception from invoking constructor
      */
     protected <T> T ctorStrategy(final String name, final Class<T> c) throws InvocationTargetException {
         T o = null;

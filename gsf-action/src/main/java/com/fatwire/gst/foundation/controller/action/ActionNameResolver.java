@@ -28,7 +28,7 @@ public interface ActionNameResolver {
 
     /**
      * Resolves the Action name based on the current Content Server context.
-     * </p> A null or empty string value is an indication that a default Action
+     * A null or empty string value is an indication that a default Action
      * need to be used.
      * 
      * @param ics the Content Server context

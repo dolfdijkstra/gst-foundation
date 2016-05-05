@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag.listobject;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <LISTOBJECT.CREATE NAME="listname" COLUMNS="col1,col2,...,coln"/>
+ * {@code <LISTOBJECT.CREATE NAME="listname" COLUMNS="col1,col2,...,coln"/>}
  * 
  * @author Tony Field
  * @since Oct 24, 2008

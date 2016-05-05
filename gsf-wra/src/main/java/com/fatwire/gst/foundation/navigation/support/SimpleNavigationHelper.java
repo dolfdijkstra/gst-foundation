@@ -165,7 +165,7 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
      * Builds up a URI for this asset, using the pathAttribute and the template
      * field of the asset
      * 
-     * @param asset
+     * @param asset template asset
      * @return the uri, xml escaped
      */
     protected String getUrl(final TemplateAsset asset) {

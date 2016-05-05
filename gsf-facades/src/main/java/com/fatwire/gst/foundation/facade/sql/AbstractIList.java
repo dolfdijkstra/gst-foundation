@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.sql;
 import COM.FutureTense.Interfaces.IList;
 
 /**
- * Base IList class supporting navigation & naming.
+ * Base IList class supporting navigation and naming.
  * 
  * @author Tony Field
  * @since Aug 13, 2010

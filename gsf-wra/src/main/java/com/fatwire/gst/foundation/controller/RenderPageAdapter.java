@@ -148,8 +148,8 @@ public class RenderPageAdapter extends WraRenderPage {
      * Renders the error page. This method can be overwritten is other elements
      * need to be invoked to render an error page.
      * 
-     * @param code
-     * @param e
+     * @param code number for error code
+     * @param e exception passed
      */
     protected void renderErrorPage(final int code, final Exception e) {
         String element = null;

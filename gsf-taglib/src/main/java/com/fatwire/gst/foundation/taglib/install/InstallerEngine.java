@@ -543,7 +543,7 @@ public final class InstallerEngine {
         }
 
         /**
-         * @return
+         * @return user manager
          */
         protected UserManager getUserManager() {
             UserManager um = (UserManager) SessionFactory.getSession(ics).getManager(UserManager.class.getName());

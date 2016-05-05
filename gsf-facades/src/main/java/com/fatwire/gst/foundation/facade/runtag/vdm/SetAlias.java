@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag.vdm;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <VDM.SETALIAS KEY="keyvalue" VALUE="aliasvalue"/>
+ * {@code <VDM.SETALIAS KEY="keyvalue" VALUE="aliasvalue"/>}
  * 
  * @author Tony Field
  * @since Sep 29, 2008

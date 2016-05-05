@@ -83,9 +83,9 @@ public abstract class AbstractNavigationService implements NavigationService {
      * Constructor that sets the linkLabel and path attributes.
      * 
      * @param ics Content Server context object
-     * @param assetTemplate
-     * @param linkLabelAttribute
-     * @param pathAttribute
+     * @param assetTemplate template asset access
+     * @param linkLabelAttribute link label attribute string
+     * @param pathAttribute path attribute string
      */
     protected AbstractNavigationService(ICS ics, TemplateAssetAccess assetTemplate, String linkLabelAttribute,
             String pathAttribute) {
@@ -215,7 +215,7 @@ public abstract class AbstractNavigationService implements NavigationService {
      * @param level the tree level depth
      * @param depth the maximum depth
      * @param linkAttribute the attribute to use for the link text
-     * @return
+     * @return collection of navigation nodes
      */
 
     protected abstract Collection<NavigationNode> getNodeChildren(long nodeId, int level, int depth,

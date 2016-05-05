@@ -43,8 +43,8 @@ public interface NavigationService {
     /**
      * @param site name of the site
      * @param depth the maximum number of levels to retrieve
-     * @param linkAttribute
-     * @return a colleciton of nodes
+     * @param linkAttribute link attribute string 
+     * @return a collection of nodes
      */
     Collection<NavigationNode> getRootNodesForSite(String site, int depth, String linkAttribute);
 
@@ -67,7 +67,7 @@ public interface NavigationService {
      * @param site name of the site
      * @param pagename the name of the Page asset
      * @param depth the maximum number of levels to retrieve
-     * @param linkAttribute
+     * @param linkAttribute link attribute string
      * 
      * @return the NavigationNode for the page by this name.
      */
@@ -79,7 +79,7 @@ public interface NavigationService {
      * 
      * @param pagename the name of the Page asset
      * @param depth the maximum number of levels to retrieve
-     * @param linkAttribute
+     * @param linkAttribute link attribute string
      * 
      * @return the NavigationNode for the page by this name.
      */
@@ -88,7 +88,7 @@ public interface NavigationService {
     /**
      * @param query the asset query, needs to return Page assets
      * @param depth the maximum number of levels to retrieve
-     * @param linkAttribute
+     * @param linkAttribute link attribute string
      * @return the NavigationNode for the page by this name.
      */
     NavigationNode getNodeByQuery(Query query, int depth, String linkAttribute);

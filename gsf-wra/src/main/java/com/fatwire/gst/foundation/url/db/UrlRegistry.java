@@ -49,7 +49,7 @@ import org.apache.commons.logging.Log;
  * 
  * @author Dolf.Dijkstra
  * @since Jun 17, 2010
- * @Deprecated use {@link UrlRegistry2}
+ * @deprecated use {@link UrlRegistry2}
  */
  @Deprecated
 public class UrlRegistry implements WraPathTranslationService {

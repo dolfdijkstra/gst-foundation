@@ -58,8 +58,8 @@ public abstract class AbstractController  {
     /**
      * Sends the http status code to the user-agent.
      * 
-     * 
      * @param code the http response code
+     * @param e the exception 
      * @return String to stream
      */
 

@@ -247,7 +247,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * This decoding method is smart enough to be able to interpret the
      * <code>_charset_</code> URL parameter that is often used by IE.
      * 
-     * @param qry
+     * @param qry string value for query
      * @return map containing <code>String</code>/<code>String[]</code> pairs.
      * @throws IllegalArgumentException if there are mistakes in the string that
      *             make it impossible to parse.

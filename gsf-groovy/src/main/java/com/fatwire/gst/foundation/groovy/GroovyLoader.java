@@ -29,7 +29,7 @@ public interface GroovyLoader {
      * @param name the name of the class
      * @param ics content server context
      * @return the Object loaded by Groovy
-     * @throws Exception
+     * @throws Exception exception from load attempt
      */
     Object load(ICS ics,String name) throws Exception;
 

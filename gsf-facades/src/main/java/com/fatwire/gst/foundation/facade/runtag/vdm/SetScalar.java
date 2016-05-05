@@ -24,7 +24,7 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <VDM.SETSCALAR ATTRIBUTE="attribute" VALUE="value"/>
+ * {@code <VDM.SETSCALAR ATTRIBUTE="attribute" VALUE="value"/>}
  * 
  * @author Tony Field
  * @since Sep 29, 2008
