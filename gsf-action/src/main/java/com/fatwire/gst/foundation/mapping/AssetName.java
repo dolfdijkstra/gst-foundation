@@ -28,8 +28,8 @@ public final class AssetName {
     private final String name;
 
     /**
-     * @param type
-     * @param name
+     * @param type asset type
+     * @param name asset name
      */
     public AssetName(final String type, final String name) {
         super();

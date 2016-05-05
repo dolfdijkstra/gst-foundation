@@ -42,7 +42,7 @@ public class ICSAsMap implements Map<String, Object> {
     private final ICS ics;
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      */
     public ICSAsMap(final ICS ics) {
         super();

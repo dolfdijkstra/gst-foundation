@@ -26,7 +26,7 @@ import COM.FutureTense.XML.Template.Seed2;
  * correct asset/template combination based on the path field for a Web
  * Referenceable Asset.
  * </p>
- * <p/>
+ * <p>
  * This controller should be called from an outer XML element via the
  * <tt>CALLJAVA</tt> tag:
  * <code>&lt;CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController" /&gt;

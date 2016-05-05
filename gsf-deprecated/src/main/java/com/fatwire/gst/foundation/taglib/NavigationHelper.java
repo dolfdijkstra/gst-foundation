@@ -46,7 +46,7 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
 /**
  * Used to retrieve the Navigation Bar data. See the description of
  * getSitePlanAsMap(String pageid) for more details.
- * <p/>
+ * <p>
  * TODO: add multilingual support
  *
  * @author David Chesebro
@@ -113,11 +113,11 @@ public class NavigationHelper {
      * <li><code>children</code>: (a List<Map<String,Object>> of the children (in the site plan tree) of the page,
      * where each Map contains the above attributes</li>
      * </ul>
-     * <p/>
+     * <p>
      * Links are not populated for Navigation Placeholders, but it is often very
      * convenient to pass a navigation placeholder into this function in order
      * to return all children under a specific placeholder.
-     * <p/>
+     * <p>
      * StartDate and EndDate are checked and invalid pages aren't added.  If a Page asset is not valid, its
      * children are not even examined.
      *
@@ -251,7 +251,7 @@ public class NavigationHelper {
     /**
      * Get the linktext for the specified alias asset.  If only linkimage is specified and there is no way to
      * locate the linktext, null is returned.
-     * <p/>
+     * <p>
      * If linktext is specified in the alias, it is returned.  If it is not, the target linktext is returned.
      * If no target is found and linktext is not specified, null is returned and a warning is issued.
      *
@@ -318,7 +318,7 @@ public class NavigationHelper {
      * its own method to facilitate overriding this method for custom
      * Alias assets or adding additional attributes.
      *
-     * @param id
+     * @param id asset id
      * @return map containing string-object mappings for use in things like placing in page scope
      */
     protected Map<String, Object> extractAttrFromAlias(AssetId id) {
@@ -352,10 +352,10 @@ public class NavigationHelper {
 
     /**
      * Locate the page that contains the specified Web-Referenceable Asset.
-     * <p/>
+     * <p>
      * A WRA is supposed to just be placed on one page (in the unnamed association
      * block), and this method locates it.  If it is not found, 0L is returned.
-     * <p/>
+     * <p>
      * If multiple matches are found, a warning is logged and the first one is
      * returned.
      *

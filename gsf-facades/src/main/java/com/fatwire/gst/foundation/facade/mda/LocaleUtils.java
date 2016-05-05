@@ -62,14 +62,14 @@ public final class LocaleUtils {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param c asset type of asset to look up
@@ -92,14 +92,14 @@ public final class LocaleUtils {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param c asset type of asset to look up
@@ -115,14 +115,14 @@ public final class LocaleUtils {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param id id of asset to look up
@@ -145,14 +145,14 @@ public final class LocaleUtils {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
      * @param ics context
@@ -175,16 +175,17 @@ public final class LocaleUtils {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set for the site has been configured that returns the
      * asset other than the preferred locale, that is considered to be fine and
      * not really the problem of the end user. In other words, a dimension set
      * may dictate that a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
+     * @param ics Content Server context object
      * @param id id of asset to look up
      * @param preferredDimension id of locale desired
      * @param dimensionSetId dimension set to use to find the translation
@@ -217,16 +218,17 @@ public final class LocaleUtils {
 
     /**
      * Look up the translation for the asset specified, in the locale specified.
-     * <p/>
+     * <p>
      * If the desired translation is not available, null will be returned.
-     * <p/>
+     * <p>
      * If a dimension set has been configured that returns the asset other than
      * the preferred locale, that is considered to be fine and not really the
      * problem of the end user. In other words, a dimension set may dictate that
      * a "backup" language can be returned to the user.
-     * <p/>
+     * <p>
      * Null, however, is a valid option.
      * 
+     * @param ics Content Server context object
      * @param id id of asset to look up
      * @param preferredDimension id of locale desired
      * @param dimensionSetName the name of the dimension set to use to find the
@@ -264,12 +266,12 @@ public final class LocaleUtils {
     }
 
     /**
-     * @param ics
-     * @param id
-     * @param preferredDimension
-     * @param dimset
+     * @param ics Content Server context object
+     * @param id asset id
+     * @param preferredDimension id for preferred locale
+     * @param dimset dimension set instance
      * @return assetid of translated asset.
-     * @throws IllegalStateException
+     * @throws IllegalStateException exception when illegal state is reached
      */
     public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, DimensionSetInstance dimset)
             throws IllegalStateException {

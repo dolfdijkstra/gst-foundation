@@ -18,7 +18,7 @@ package com.fatwire.gst.foundation.controller;
 /**
  * This interface represents the context in which an application is running.
  * It's sole purpose is providing access to objects based on a name.
- * <p/>
+ * <p>
  * Implementations are either providing their own Factory and Dependency injection framework, or delegate to (a combination of) dependency injections frameworks. 
  * 
  * 

@@ -33,11 +33,12 @@ import com.fatwire.mda.DimensionFilterInstance;
 
 /**
  * RenderPage action extension that handles translations as well as device
- * detection to direct the visitor to the device specific template. </p> The
- * rule is straight forward. If the template is X then a lookup is done if there
+ * detection to direct the visitor to the device specific template.
+ * <p>
+ * The rule is straight forward. If the template is X then a lookup is done if there
  * is a Template with the name X_mobile and that is used if the visitor is using
  * a mobile device. The same for _desktop and _tablet. If such a template does
- * not exist, the 'normal' template is used. </p>
+ * not exist, the 'normal' template is used.
  * 
  * 
  * @author Dolf Dijkstra

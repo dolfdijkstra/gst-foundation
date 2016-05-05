@@ -23,7 +23,6 @@ import com.fatwire.assetapi.data.AssetId;
  * Simple VanityAsset
  * 
  * @author Dolf Dijkstra
- * @since
  * 
  */
 public class VanityAssetBean implements VanityAsset {

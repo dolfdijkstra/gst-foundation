@@ -53,16 +53,16 @@ public class SqlHelper {
 
     /**
      * facade over ICS.SQL
-     * <p/>
+     * <p>
      * limit =-1;
-     * <p/>
+     * <p>
      * bCache=true;
-     * <p/>
+     * <p>
      * clears errno before ics.SQL
-     * <p/>
+     * <p>
      * no IList registered in ics variable space
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param table tablename
      * @param sql the sql statement, needs to start with 'select'
      * @return never null, always an IListIterable
@@ -77,7 +77,7 @@ public class SqlHelper {
     /**
      * Executes an ICS.SQL operation with a limit.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param table tablename
      * @param sql the sql statement, needs to start with 'select'
      * @param limit maximum number of rows to return
@@ -107,10 +107,10 @@ public class SqlHelper {
 
     /**
      * Executes sql statements, other then SELECT statements.
-     * <p/>
+     * <p>
      * flushes the table (ics.FlushCatalog()) after the statement execution
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param table tablename
      * @param sql the sql statement, can not start with "select"
      */
@@ -150,7 +150,7 @@ public class SqlHelper {
     /**
      * Executes a PreparedStatement
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param stmt the PreparedStatement
      * @param param the statement parameters
      * @return never null, always an IListIterable
@@ -174,7 +174,7 @@ public class SqlHelper {
      * Executes a PreparedStatement in a simple form. The values are simply
      * mapped based on order and type to prepared statement parameters.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param table tablename
      * @param sql the sql statement
      * @param value the values for the prepared statement parameters.
@@ -302,7 +302,7 @@ public class SqlHelper {
      * Executes an ICS.SQL operation, returning a single Row, or null if no
      * result was returned by ICS.SQL.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param table tablename
      * @param sql the sql statement, needs to start with 'select'
      * @return Row if resultset is returned, otherwise null

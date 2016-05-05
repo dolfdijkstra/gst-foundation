@@ -47,7 +47,7 @@ public final class ActionLocatorUtils {
     /**
      * Returns the ActionLocator as configured on the WebAppContext bean by the
      * name 'beanName'.
-     * 
+     * @param beanName bean name
      * @param servletContext the servlet context.
      * @return the ActionLocator that is configured via the servletContext.
      */

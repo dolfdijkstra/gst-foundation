@@ -68,8 +68,8 @@ public abstract class AnnotationController extends AbstractController {
     }
 
     /**
-     * @param m
-     * @param target
+     * @param m method to invoke
+     * @param target target object
      */
     protected void invokeControllerMethod(final Method m, final Object target) {
         try {
@@ -109,9 +109,9 @@ public abstract class AnnotationController extends AbstractController {
     /**
      * This method transforms errno values into http status codes and sets them
      * using the X-Fatwire-Status header.
-     * <p/>
+     * <p>
      * Only some errnos are handled by this base class.
-     * <p/>
+     * <p>
      * More info coming soon
      * 
      * @param e exception

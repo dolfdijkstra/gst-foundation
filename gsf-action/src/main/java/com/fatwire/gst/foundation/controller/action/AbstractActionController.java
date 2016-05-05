@@ -104,9 +104,9 @@ public abstract class AbstractActionController extends AbstractController {
     /**
      * This method transforms errno values into http status codes and sets them
      * using the X-Fatwire-Status header.
-     * <p/>
+     * <p>
      * Only some errnos are handled by this base class.
-     * <p/>
+     * <p>
      * More info coming soon
      * 
      * @param e exception

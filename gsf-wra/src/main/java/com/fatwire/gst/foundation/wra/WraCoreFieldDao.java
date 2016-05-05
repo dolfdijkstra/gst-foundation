@@ -81,11 +81,11 @@ public interface WraCoreFieldDao {
 
     /**
      * Locate the page that contains the specified Web-Referenceable Asset.
-     * <p/>
+     * <p>
      * A WRA is supposed to just be placed on one page (in the unnamed
      * association block), and this method locates it. If it is not found, 0L is
      * returned.
-     * <p/>
+     * <p>
      * If multiple matches are found, a warning is logged and the first one is
      * returned.
      * 
@@ -96,14 +96,14 @@ public interface WraCoreFieldDao {
     public long findP(AssetIdWithSite wraAssetIdWithSite);
 
     /**
-     * @param c
-     * @param cid
+     * @param c current asset
+     * @param cid content id
      * @return the name of the site that this asset belongs to.
      */
     public String resolveSite(String c, String cid);
 
     /**
-     * @param id
+     * @param id asset id
      * @return the VanityAsset for the id, null is not found or not a VanityAsset
      */
     public VanityAsset getVanityWra(AssetId id);

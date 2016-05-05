@@ -33,9 +33,9 @@ public class AssetListenerInstall {
 	/**
 	 * Regsisters the AssetEventListener in the AssetListener table
 	 * 
-	 * @param ics
-	 * @param classname
-	 * @param blocking
+	 * @param ics Content Server context object
+	 * @param classname class name
+	 * @param blocking flag for blocking
 	 */
 	public static void register(ICS ics, String classname, boolean blocking) {
 		String id = ics.genID(true);

@@ -34,8 +34,8 @@ public class IncludeElement implements Include {
     private final ICS ics;
 
     /**
-     * @param ics
-     * @param elementname
+     * @param ics Content Server context object
+     * @param elementname element name to be called
      */
     public IncludeElement(final ICS ics, final String elementname) {
         tag = new CallElement(elementname);
@@ -60,9 +60,9 @@ public class IncludeElement implements Include {
     /**
      * Adds the name value pair as an argument to the CallElement tag.
      * 
-     * @param name
-     * @param value
-     * @return this
+     * @param name name for the specified value
+     * @param value value referenced by the key, name
+     * @return this returns an IncludeElement
      */
     public IncludeElement argument(final String name, final String value) {
         tag.setArgument(name, value);
@@ -72,8 +72,8 @@ public class IncludeElement implements Include {
     /**
      * Adds the name value pair as an argument to the CallElement tag.
      * 
-     * @param name
-     * @param value
+     * @param name name for specified value
+     * @param value value referenced by the key, name
      * @return this
      */
     public IncludeElement argument(final String name, final Date value) {
@@ -84,8 +84,8 @@ public class IncludeElement implements Include {
     /**
      * Adds the name value pair as an argument to the CallElement tag.
      * 
-     * @param name
-     * @param value
+     * @param name name for specified value
+     * @param value value referenced by the key, name
      * @return this
      */
     public IncludeElement argument(final String name, final long value) {
@@ -96,8 +96,8 @@ public class IncludeElement implements Include {
     /**
      * Adds the name value pair as an argument to the CallElement tag.
      * 
-     * @param name
-     * @param value
+     * @param name name for specified value
+     * @param value value referenced by the key, name
      * @return this
      */
     public IncludeElement argument(final String name, final int value) {
@@ -108,8 +108,8 @@ public class IncludeElement implements Include {
     /**
      * Adds the name value pair as an argument to the CallElement tag.
      * 
-     * @param name
-     * @param value
+     * @param name name for specified value
+     * @param value value referenced by the key, name
      * @return this
      */
     public IncludeElement argument(final String name, final boolean value) {
@@ -120,8 +120,8 @@ public class IncludeElement implements Include {
     /**
      * Adds the name value pair as an argument to the CallElement tag.
      * 
-     * @param name
-     * @param value
+     * @param name name for specified value
+     * @param value value referenced by the key, name
      * @return this
      */
     public IncludeElement argument(final String name, final byte[] value) {
@@ -132,7 +132,7 @@ public class IncludeElement implements Include {
     /**
      * Copies the ics variables identified by the name array
      * 
-     * @param name
+     * @param name name for specified value
      * @return this
      */
     public IncludeElement copyArguments(final String... name) {
@@ -146,8 +146,9 @@ public class IncludeElement implements Include {
     }
 
     /**
-     * @param scope
+     * @param scope scope object
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallElement#setScope(com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope)
+     * @return this include element
      */
     public IncludeElement setScope(final Scope scope) {
         tag.setScope(scope);

@@ -25,7 +25,7 @@ import com.fatwire.gst.foundation.controller.AppContext;
 /**
  * A sample of a AppContext with direct access to Spring beans. This means that
  * all the beans need to be configured in Spring.
- * <p/>
+ * <p>
  * For instance the spring application context needs to have a FactoryProducer
  * implementation.
  * 

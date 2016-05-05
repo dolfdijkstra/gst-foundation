@@ -117,10 +117,11 @@ public final class AnnotationInjector {
     }
 
     /**
-     * @param object
-     * @param factory
-     * @param field
-     * @throws SecurityException
+     * @param object the object to inject into
+     * @param factory the factory that created the objects that need to be
+     *            injected.
+     * @param field field to inject into
+     * @throws SecurityException security exception injecting values into field
      */
     public static void injectIntoField(final Object object, final Factory factory, final Field field)
             throws SecurityException {
@@ -153,10 +154,11 @@ public final class AnnotationInjector {
     }
 
     /**
-     * @param object
-     * @param factory
-     * @param method
-     * @throws SecurityException
+     * @param object the object to inject into
+     * @param factory the factory that created the objects that need to be
+     *            injected.
+     * @param method the method to inject into
+     * @throws SecurityException security exception when injecting value into field
      */
     public static void injectIntoMethod(final Object object, final Factory factory, final Method method)
             throws SecurityException {

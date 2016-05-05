@@ -23,8 +23,8 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
- * <ASSET.GETSUBTYPE [NAME="loaded asset]" [TYPE="assettype]"
- * [OBJECTID="asset id]" [OUTPUT="variable name"] />
+ * {@literal <ASSET.GETSUBTYPE [NAME="loaded asset]" [TYPE="assettype]"
+ * [OBJECTID="asset id]" [OUTPUT="variable name"] />}
  * 
  * @author Tony Field
  * @since Oct 7, 2008

@@ -28,7 +28,7 @@ import java.util.Set;
  * This class is a container for Model data in the Model View Controller (MVC)
  * framework.
  * 
- * <p/>
+ * <p>
  * This class is not thread-safe.
  * 
  * @author Dolf Dijkstra
@@ -48,7 +48,7 @@ public class Model {
     /**
      * Removes the data with the name key.
      * 
-     * @param name
+     * @param name key value to lookup and remove the value of
      */
     public void reset(final String name) {
         map.remove(name);
@@ -57,8 +57,8 @@ public class Model {
     /**
      * Adds the key/value pair.
      * 
-     * @param key
-     * @param value
+     * @param key key to add
+     * @param value value referenced by key
      */
     public void add(final String key, final Object value) {
         map.put(key, value);
@@ -67,8 +67,8 @@ public class Model {
     /**
      * Adds the key/value pair, where are the values are added as a list.
      * 
-     * @param key
-     * @param value
+     * @param key specified key for key,value pair
+     * @param value referenced by key
      */
     public void add(final String key, final Object... value) {
         map.put(key, Arrays.asList(value));
@@ -77,8 +77,8 @@ public class Model {
     /**
      * Adds the key/value pair, where are the value is added as a list.
      * 
-     * @param key
-     * @param value
+     * @param key specified key for key,value pair
+     * @param value referenced by key
      */
     @SuppressWarnings("unchecked")
     public void list(final String key, final Object value) {

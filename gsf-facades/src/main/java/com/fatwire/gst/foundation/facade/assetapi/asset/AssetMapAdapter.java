@@ -27,10 +27,10 @@ import com.fatwire.assetapi.def.AttributeDef;
 /**
  * This class adapts an <tt>TemplateAsset</tt> into a <tt>Map</tt>. The Map is
  * convenient in expression languages like JSP EL.
- * <p/>
+ * <p>
  * This class uses lazy-loading, so if used in a View layer, it might open
  * connections to the database.
- * <p/>
+ * <p>
  * In case of naming conflicts with flex attribute names and meta attribute
  * names the meta attributes take precedent.
  * 

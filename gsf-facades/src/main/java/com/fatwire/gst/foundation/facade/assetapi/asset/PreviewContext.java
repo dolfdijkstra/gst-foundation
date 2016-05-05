@@ -33,8 +33,8 @@ public class PreviewContext {
      * Returns the value of the preview date based on the session variable and
      * the setting for the xcelerate property <tt>cs.sitepreview</tt>.
      * 
-     * @param ics
-     * @param ssvarName
+     * @param ics Content Server context object
+     * @param ssvarName server session variable name
      * @return the preview date
      */
     public static Date getPreviewDateFromSession(final ICS ics, final String ssvarName) {
@@ -46,8 +46,8 @@ public class PreviewContext {
      * Returns the value of the preview date based on the cs variable and the
      * setting for the xcelerate property <tt>cs.sitepreview</tt>.
      * 
-     * @param ics
-     * @param varName
+     * @param ics Content Server context object
+     * @param varName variable name
      * @return the date to preview
      */
     public static Date getPreviewDateFromCSVar(final ICS ics, final String varName) {
@@ -59,8 +59,8 @@ public class PreviewContext {
      * Returns the value of the preview date based on the provided date and the
      * setting for the xcelerate property <tt>cs.sitepreview</tt>.
      * 
-     * @param ics
-     * @param cutoff
+     * @param ics Content Server context object
+     * @param cutoff cut-off date
      * @return the date to preview
      */
     public static Date getPreviewDate(final ICS ics, final Date cutoff) {
@@ -93,7 +93,7 @@ public class PreviewContext {
     /**
      * Checks if start/enddate checking is enabled.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return true if 'cs.sitepreview' xcelerate property is either
      *         'contentmanagement' or 'delivery', false if set to 'disabled'.
      */
@@ -111,7 +111,7 @@ public class PreviewContext {
     }
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @return true if 'cs.sitepreview' xcelerate property is set to delivery
      */
     public static boolean isSitePreviewDelivery(final ICS ics) {

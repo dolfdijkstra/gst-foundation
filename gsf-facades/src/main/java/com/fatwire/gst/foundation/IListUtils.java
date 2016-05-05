@@ -148,7 +148,7 @@ public final class IListUtils {
      * Reads an IList with collumns <tt>assettype</tt> and <tt>assetid</tt> and
      * creates a Collection of AssetId objects.
      * 
-     * @param result
+     * @param result list of asset type and asset id pairs
      * @return Collection of AssetIds, never null.
      */
     public static Collection<AssetId> toAssetIdCollection(IList result) {

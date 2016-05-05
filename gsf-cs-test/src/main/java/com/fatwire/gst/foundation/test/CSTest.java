@@ -43,13 +43,13 @@ import org.apache.commons.logging.LogFactory;
 /**
  * NOTE July 6, 2010: The following instructions are not rigorously tested but
  * the class works.
- * <p/>
+ * <p>
  * JUnit test base class that allows AssetAPI and limited ICS usage in the
  * absence of the ContentServer web container.
- * <p/>
+ * <p>
  * Using this class, it is possible to test the DAO layer without requiring
  * deployment to the web container.
- * <p/>
+ * <p>
  * To set up, follow the following instructions:
  * <ol>
  * <li>mount the shared filesystem on your local machine in the same path that

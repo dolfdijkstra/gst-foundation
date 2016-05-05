@@ -38,8 +38,8 @@ public class AssetFilterIterator implements Iterable<AssetId> {
     final Iterable<AssetId> i;
 
     /**
-     * @param aat
-     * @param assetIds
+     * @param aat asset access template
+     * @param assetIds collection of AssetIds
      */
     public AssetFilterIterator(final AssetAccessTemplate aat, final Iterable<AssetId> assetIds) {
         this(aat, new Date(), assetIds);
@@ -47,9 +47,9 @@ public class AssetFilterIterator implements Iterable<AssetId> {
     }
 
     /**
-     * @param aat
-     * @param date
-     * @param assetIds
+     * @param aat asset access template
+     * @param date date
+     * @param assetIds collection of AssetIds
      */
 
     public AssetFilterIterator(final AssetAccessTemplate aat, final Date date, final Iterable<AssetId> assetIds) {

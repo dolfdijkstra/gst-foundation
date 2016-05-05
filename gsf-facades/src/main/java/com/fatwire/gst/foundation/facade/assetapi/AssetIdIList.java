@@ -28,7 +28,7 @@ import com.fatwire.gst.foundation.facade.sql.AbstractIList;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 
 /**
- * IList implementation that starts with a List<AssetId> and exposes the rows as
+ * IList implementation that starts with a List{@literal<AssetId>} and exposes the rows as
  * ASSETTYPE,ASSETID.  The getter is case-insensitive, so assettype,assetid works too.
  * 
  * @author Tony Field

@@ -30,7 +30,7 @@ public class LogUtil {
      * Returns the Log for the provided class based on the package name of the
      * class.
      * 
-     * @param clazz
+     * @param clazz class
      * @return the logger with the name of the package of the clazz.
      */
     public static Log getLog(Class<?> clazz) {

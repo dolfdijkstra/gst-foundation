@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Implements the RENDER.GETTEMPLATEURL tag.
- * <p/>
+ * <p>
  * &lt;render:gettemplateurl [addsession="true|false"]
  * [assembler="uri assembler shortform"] [authority="authority value"]
  * [c="asset type"] [cid="asset id"] [container="servlet|portlet"]
@@ -37,9 +37,9 @@ import org.apache.commons.logging.LogFactory;
  * [tname="target Template or CSElement name"]
  * [ttype="caller Template or CSElement"] [variant="template variant name"]
  * [wrapperpage="name of uncached wrapper page"] /&gt;
- * <p/>
+ * <p>
  * [&lt;render:argument name="variable1" value="value1"/&gt;]
- * <p/>
+ * <p>
  * &lt;/render:gettemplateurl&gt;
  * 
  * @author Tony Field
@@ -58,21 +58,21 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
     }
 
     /**
-     * @param s
+     * @param s string value for asset
      */
     public void setAsset(String s) {
         set("ASSET", s);
     }
 
     /**
-     * @param b
+     * @param b boolean value for ADDSESSION
      */
     public void setAddSession(boolean b) {
         set("ADDSESSION", b ? "TRUE" : "FALSE");
     }
 
     /**
-     * @param s
+     * @param s string value for assembler
      */
     public void setAssembler(String s) {
         set("ASSEMBLER", s);
@@ -80,55 +80,55 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
     }
 
     /**
-     * @param s
+     * @param s string value for AUTHORITY
      */
     public void setAuthority(String s) {
         set("AUTHORITY", s);
     }
 
     /**
-     * @param s
+     * @param s string value for "C", current asset
      */
     public void setC(String s) {
         set("C", s);
     }
 
     /**
-     * @param s
+     * @param s string value for CID, current asset id
      */
     public void setCid(String s) {
         set("CID", s);
     }
 
     /**
-     * @param s
+     * @param s string value for container
      */
     public void setContainer(String s) {
         set("CONTAINER", s);
     }
 
     /**
-     * @param s
+     * @param s string value for context
      */
     public void setContext(String s) {
         set("CONTEXT", s);
     }
 
     /**
-     * @param s
+     * @param s string value for DEPTYPE
      */
     public void setDeptype(String s) {
         set("DEPTYPE", s);
     }
 
     /**
-     * @param b
+     * @param b string value TRUE|FALSE for DYNAMIC
      */
     public void setDynamic(boolean b) {
         set("DYNAMIC", b ? "TRUE" : "FALSE");
     }
     /**
-     * @param b
+     * @param b value for DYNAMIC
      * @deprecated use {@link #setDynamic(boolean)}.
      */
     public void setDynamic(String b) {
@@ -136,35 +136,35 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
     }
 
     /**
-     * @param s
+     * @param s string value for FRAGMENT
      */
     public void setFragment(String s) {
         set("FRAGMENT", s);
     }
 
     /**
-     * @param s
+     * @param s string value for OUTSTR
      */
     public void setOutstr(String s) {
         set("OUTSTR", s);
     }
 
     /**
-     * @param s
+     * @param s string value for packed arguments
      */
     public void setPackedargs(String s) {
         set("PACKEDARGS", s);
     }
 
     /**
-     * @param b
+     * @param b boolean value for SATELLITE, TRUE|FALSE
      */
     public void setSatellite(boolean b) {
         set("SATELLITE", b ? "TRUE" : "FALSE");
     }
 
     /**
-     * @param b
+     * @param b boolean for SATELLITE
      * @deprecated use {@link #setSatellite(boolean)}.
      */
     public void setSatellite(String b) {
@@ -172,56 +172,56 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
     }
 
     /**
-     * @param s
+     * @param s string value for SCHEME
      */
     public void setScheme(String s) {
         set("SCHEME", s);
     }
 
     /**
-     * @param s
+     * @param s string value for site
      */
     public void setSite(String s) {
         set("SITE", s);
     }
 
     /**
-     * @param s
+     * @param s string value for SLOTNAME
      */
     public void setSlotname(String s) {
         set("SLOTNAME", s);
     }
 
     /**
-     * @param s
+     * @param s string value for tid, template id
      */
     public void setTid(String s) {
         set("TID", s);
     }
 
     /**
-     * @param s
+     * @param s string value for tname, template name
      */
     public void setTname(String s) {
         set("TNAME", s);
     }
 
     /**
-     * @param s
+     * @param s string value for ttype, template type
      */
     public void setTtype(String s) {
         set("TTYPE", s);
     }
 
     /**
-     * @param s
+     * @param s string value for variant
      */
     public void setVariant(String s) {
         set("VARIANT", s);
     }
 
     /**
-     * @param s
+     * @param s string value for wrapper page
      */
     public void setWrapperpage(String s) {
         LOG.trace("Setting wrapper to :" + s);
@@ -237,26 +237,26 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
      * Outstr still needs to be set, and any nested parameters need to be set as
      * well prior to calling execute.
      * 
-     * @param ics
-     * @param c
-     * @param cid
-     * @param tname
-     * @param wrapper
-     * @param slotname
-     * @param site
-     * @param context
-     * @param ttype
-     * @param tid
-     * @param assembler
-     * @param authority
-     * @param container
-     * @param deptype
-     * @param dynamic
-     * @param fragment
-     * @param packedargs
-     * @param satellite
-     * @param scheme
-     * @param variant
+     * @param ics Content Server context object
+     * @param c current asset
+     * @param cid content id
+     * @param tname template name
+     * @param wrapper wrapper
+     * @param slotname slot name
+     * @param site name of the site
+     * @param context web context
+     * @param ttype template type
+     * @param tid template id
+     * @param assembler assembler
+     * @param authority authority
+     * @param container container
+     * @param deptype dep type
+     * @param dynamic dynamic
+     * @param fragment fragment
+     * @param packedargs packed arguments
+     * @param satellite satellite
+     * @param scheme scheme
+     * @param variant variant
      */
     public GetTemplateUrl(ICS ics, String c, String cid, String tname, String wrapper, String slotname, String site,
             String context, String ttype, String tid, String assembler, String authority, String container,
@@ -346,12 +346,12 @@ public final class GetTemplateUrl extends TagRunnerWithArguments {
      * this will auto-discover tid/ttype, and site, and it sets context to an
      * empty string.
      * 
-     * @param ics
-     * @param c
-     * @param cid
-     * @param tname
+     * @param ics Content Server context object
+     * @param c current asset
+     * @param cid content id
+     * @param tname template name
      * @param wrapper optional wrapper
-     * @param slotname
+     * @param slotname slot name
      */
     public GetTemplateUrl(ICS ics, String c, String cid, String tname, String wrapper, String slotname) {
         this(ics, c, cid, tname, wrapper, slotname, null, "", null, null, null, null, null, null, null, null, null,

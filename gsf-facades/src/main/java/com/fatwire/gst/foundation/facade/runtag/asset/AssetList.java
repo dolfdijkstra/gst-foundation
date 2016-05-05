@@ -29,10 +29,10 @@ import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
 /**
- * Exposes ASSET.LIST &lt;asset:list type="assetType" list="nameOfList"
+ * {@literal Exposes ASSET.LIST &lt;asset:list type="assetType" list="nameOfList"
  * [order="order"] [pubid="siteId"] [excludevoided="trueOrFalse"]
  * [field[n]="fieldName"] [value[n]="fieldValue"]> <asset:argument
- * name="fieldName" value="fieldValue"/&gt; &lt;/asset:list&gt;
+ * name="fieldName" value="fieldValue"/> </asset:list>;}
  *
  * @author Tony Field
  * @since Sep 28, 2008
@@ -150,10 +150,10 @@ public class AssetList extends AbstractTagRunner {
      * returned from this search or an exception will be thrown. Pubid is
      * optional.
      *
-     * @param ics
-     * @param c
-     * @param cid
-     * @param field
+     * @param ics Content Server context object
+     * @param c current asset
+     * @param cid content id
+     * @param field field to get
      * @return single field value
      */
     public static String getRequiredSingleField(ICS ics, String c, String cid, String field) {

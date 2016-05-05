@@ -97,9 +97,9 @@ public final class WraPathPreviewAssembler extends LightweightAbstractAssembler 
      * virtual-webroot and url-path. Once core query params are suppressed, the
      * remaining params are appended to the URL.
      * 
-     * @param definition
+     * @param definition definition object
      * @return valid URI
-     * @throws URISyntaxException
+     * @throws URISyntaxException exception thrown on URI syntax error
      */
     public URI assemble(Definition definition) throws URISyntaxException {
         String rendermode = definition.getParameter("rendermode");

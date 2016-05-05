@@ -46,7 +46,7 @@ public class DateFilterClosure implements AssetClosure {
      * 
      * 
      * @param cutoff the cutoff date in the cs date format.
-     * @param target
+     * @param target target asset closure
      */
     public DateFilterClosure(final String cutoff, final AssetClosure target) {
         this(parseDate(cutoff), target);
@@ -54,8 +54,8 @@ public class DateFilterClosure implements AssetClosure {
     }
 
     /**
-     * @param cuttoff
-     * @param target
+     * @param cuttoff cut off date
+     * @param target target asset closure
      */
     public DateFilterClosure(final Date cuttoff, final AssetClosure target) {
         if (target == null) {

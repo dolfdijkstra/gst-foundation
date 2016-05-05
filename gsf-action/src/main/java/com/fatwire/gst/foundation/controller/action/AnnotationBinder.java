@@ -83,7 +83,7 @@ public final class AnnotationBinder {
      * @param object object to bind to
      * @param ics the ics context
      * @param field the field to inject to
-     * @throws SecurityException
+     * @throws SecurityException security exception 
      */
     public static void bindToField(final Object object, final ICS ics, final Field field) throws SecurityException {
 

@@ -49,7 +49,7 @@ import org.apache.commons.logging.Log;
  * 
  * @author Dolf.Dijkstra
  * @since Jun 17, 2010
- * @Deprecated use {@link UrlRegistry2}
+ * @deprecated use {@link UrlRegistry2}
  */
  @Deprecated
 public class UrlRegistry implements WraPathTranslationService {
@@ -66,10 +66,10 @@ public class UrlRegistry implements WraPathTranslationService {
 
     /**
      * 
-     * @param ics
-     * @param wraDao
-     * @param vwDao
-     * @deprecated
+     * @param ics Content Server context object
+     * @param wraDao WRA Core Field DAO
+     * @param vwDao Virtual Webroot DAO
+     * @deprecated check latest build notes
      */
    @Deprecated
     public UrlRegistry(final ICS ics, final WraCoreFieldDao wraDao, final VirtualWebrootDao vwDao) {

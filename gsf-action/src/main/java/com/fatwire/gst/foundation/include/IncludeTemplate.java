@@ -108,8 +108,8 @@ public class IncludeTemplate implements Include {
     }
 
     /**
-     * @param name
-     * @param value
+     * @param name argument name
+     * @param value argument value
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setArgument(java.lang.String,
      *      java.lang.String)
@@ -135,7 +135,7 @@ public class IncludeTemplate implements Include {
     /**
      * Copies the ics variables identified by the name array
      * 
-     * @param name
+     * @param name argument name
      * @return this
      */
     public IncludeTemplate copyArguments(final String... name) {

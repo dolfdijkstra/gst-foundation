@@ -37,7 +37,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  * This ensures that even though parent has not changed, pagelets that reference
  * it are automatically flushed. This ensures that by simply tagging an asset,
  * it automatically and instantly appears in pages that render it.
- * <p/>
+ * <p>
  * The GSTTagRegistry table is read for the specific assets before the new
  * values are inserted. This is to make sure that pagelets are also flushed with
  * the old tag values for the cases where the tag is deleted or the values have

@@ -59,7 +59,7 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
     /**
      * Return an AssetData object containing the core fields found in an alias
      * asset.
-     * <p/>
+     * <p>
      * Also includes selected metadata fields:
      * <ul>
      * <li>id</li>
