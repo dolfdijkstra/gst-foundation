@@ -353,7 +353,6 @@
 			</activation>
 			<modules>
 				<module>gsf-sample</module>
-				<module>gsf-sample-avisports</module>
 			</modules>
 		</profile>
 		
