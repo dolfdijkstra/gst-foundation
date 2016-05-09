@@ -16,13 +16,9 @@
 
 GST Site Foundation Samples
 
-  The GST Site Foundation comes with a couple of samples:
+  The GST Site Foundation comes with one sample:
 
     * {{gsf-sample}}: some sample code around Actions, AppContext and ObjectFactory customization.
-
-    * {{gsf-sample-avisports}}: a avisport refactoring to GSF. This gives a working example of GSF on-top of avisports, for instance in a JSK.
-
-    * some {{{./action/index.html#Code_samples}samples}} based on FirstSiteII, created during GSF-1.2 version.
 
 *  {gsf-sample}
 
@@ -141,85 +137,3 @@ GST Site Foundation Samples
   * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample/src/cs/MainDetail.jsp}gsf-sample/src/cs/MainDetail.jsp}}
 
     A sample detail template.
-
-
-   
-*  {gsf-sample-avisports}
-
-       This sample does is a showcase for coding. It does not include vanity urls, as this would involve changing content assets.
-
-       To install this sample you need to add the gst-foundation-all.jar to WEB-INF/lib, add the groovy-all.jar as mentioned in the {{{./InstallGuide.html}install guide}}. The copy the gsf-groovy directory from the gsf-sample-avisports project folder to WEB-INF/gsf-groovy. Restart appserver. The use csdt command tools to export the existing code assets to the workspce. The copy the content from gsf-sample-avisports/csdt into that folder in such a way that the <<<src>>> folders map. After that import thew workspace with csdt.
-
-       Use for instance the following command line script.
-
------------
-
-      java -cp ./ContentServer/11.1.1.6.0/csdt-client-1.2.jar com.fatwire.csdt.client.main.CSDT \
-       http://localhost:8080/cs/ContentServer username=fwadmin password=xceladmin \
-       resources='Template:*;CSElement:*;SiteEntry:*' \
-       datastore=tmp/avi fromSites=avisports cmd=export
-
------------------
-
-     After copying the csdt folder files issue:
-
----------------
-
-java -cp ./ContentServer/11.1.1.6.0/csdt-client-1.2.jar com.fatwire.csdt.client.main.CSDT \
-       http://localhost:8080/cs/ContentServer username=fwadmin password=xceladmin \
-       resources='Template:*;CSElement:*;SiteEntry:*' \
-       datastore=tmp/avi cmd=import
-
------------
- 
-
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/gsf/ObjectFactory.groovy}gsf-groovy/gsf/ObjectFactory.groovy}}
-
-      Generic ObjectFactory, used in all sites, to create services to be used in Actions, via the @InjectForRequest annotation.
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/gsf/avisports/ObjectFactory.groovy}gsf-groovy/gsf/avisports/ObjectFactory.groovy}}
-
-      Specific ObjectFactory, only used in avisports site. This complements the generic ObjectFactory and the out of the box IcsBackedObjectFactory. For this factory to be selected the site parameter at the beginning of the element needs to be correct. This means that one should be carefull if you use a generic GST/Dispatcher element for all sites and the site param is not set correcttly. Use of this inside Template is mostly predictable.
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/root.groovy}gsf-groovy/root.groovy}}
-
-      A named action, in this case root, that is aware of locale and device. It will select the correct translated asset based on browser preferences, or explicitly choosen locales, as well as device types (dekstop, mobile,tablet). It will try to dispatch to the device specific layout template, for instanace 3ColumnLayout_mobile, if the asset has a 3ColumnLayout template specified.
-
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/ArticleCategory/Link.groovy}gsf-groovy/ArticleCategory/Link.groovy}}
-
-      Action for creating a link to an ArticleCategory.
-
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/avisports/Page/GetLink.groovy}gsf-groovy/avisports/Page/GetLink.groovy}}
-
-      Action for creating a link to a Page.
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/avisports/AVIArticle/GetHome.groovy}gsf-groovy/avisports/AVIArticle/GetHome.groovy}}
-
-      Action for creating a link to a the Home page.
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/avisports/AVIArticle/Summary.groovy}gsf-groovy/avisports/AVIArticle/Summary.groovy}}
- 
-      Action for the Summary templates.
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/gsf-groovy/avisports/AVIArticle/GetLink.groovy}gsf-groovy/avisports/AVIArticle/GetLink.groovy}}
-
-      Action for creating a link to a AVIArticle.
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/csdt/src/_metadata/ELEMENTS/avisports/navbar_action.groovy}csdt/src/_metadata/ELEMENTS/avisports/navbar_action.groovy}}
-
-      This is a sample of an Action defined in a CSElement. In this case the action can be manged in the same way as any CSElement and can be published.
-
-    * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample-avisports/src/main/csdt/src/_metadata/ELEMENTS/Wrapper.xml}csdt/src/_metadata/ELEMENTS/Wrapper.xml}}
-  
-      This is a GSF Dispatcher element. Because avisports does not make use of a outer wrapper, this is an addition. The sample code in this project for the link builder is not changed to make use of Wrapper. If you call the site via this wrapper, the device detection and asset locale selection is kicked in.
-     
-     Sample urls to use the wrapper:
-
-     <<<http://localhost:8080/cs/ContentServer?c=Page&pagename=Wrapper&childpagename=avisports/Page/HomeLayout&cid=1327351719456>>>
-
-     <<<http://localhost:8080/cs/ContentServer?c=Page&pagename=Wrapper&childpagename=avisports/Page/SectionLayout3&cid=1327351719525>>>
-
-     To change avisports to make use of Vanity urls, you would need to register VirtualRoot assets, set the path fields of all the assets, set up a webserver with the rewrite rules. For all the assets that are not vanity assets you would need to  change the actions that create links to dispatch to the wrapper.
