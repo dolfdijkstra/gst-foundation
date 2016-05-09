@@ -35,7 +35,7 @@ import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.navigation.NavigationService;
-import com.fatwire.gst.foundation.navigation.support.SimpleNavigationHelper;
+//import com.fatwire.gst.foundation.navigation.support.SimpleNavigationHelper;
 import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
 import com.fatwire.gst.foundation.properties.PropertyDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
@@ -157,12 +157,10 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
         // TODO: check if unnamed association is a valid association for a Page
         // assettype and create NavigationService based on that.
 
-        boolean wraNavigationSupport = true;
+        //boolean wraNavigationSupport = true;
         TemplateAssetAccess taa = getObject("templateAssetAccess", TemplateAssetAccess.class);
         // TODO come up with a generalized Strategy for per-site dispatching
-        if ("avisports".equalsIgnoreCase(ics.GetVar("site"))) {
-            return new SimpleNavigationHelper(ics, taa, "title", "path");
-        } else if (wraNavigationSupport) {
+        //if (wraNavigationSupport) {
             // BE AWARE that the NavigationService is cached per request and
             // that the DimensionFilter is also reused per all the
             // NavigationService calls per request.
@@ -178,10 +176,9 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
             AliasCoreFieldDao aliasDao = getObject("aliasCoreFieldDao", AliasCoreFieldDao.class);
             Date date = PreviewContext.getPreviewDateFromCSVar(ics, "previewDate");
             return new WraNavigationService(ics, taa, aliasDao, filter, date);
-        } else {
-            return new SimpleNavigationHelper(ics, taa, "linktext", "path");
-
-        }
+        //} else {
+            //return new SimpleNavigationHelper(ics, taa, "linktext", "path");
+        //}
     }
 
 }
