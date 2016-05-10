@@ -30,11 +30,8 @@
 		<unpack>true</unpack>
 		<scope>runtime</scope>
 		<includes>
-		  <include>com.fatwire.gst:*</include>
+		  <include>com.fatwire.gst:*-legacy</include>
 		</includes>
-		<excludes>
-		  <exclude>com.fatwire.gst:*-legacy</exclude>
-		</excludes>
 	  </dependencySet>
   </dependencySets>
   <fileSets>
