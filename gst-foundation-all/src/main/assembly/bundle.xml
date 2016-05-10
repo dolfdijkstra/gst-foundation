@@ -32,6 +32,9 @@
 		<includes>
 		  <include>com.fatwire.gst:*</include>
 		</includes>
+		<excludes>
+		  <exclude>com.fatwire.gst:*-legacy</exclude>
+		</excludes>
 	  </dependencySet>
   </dependencySets>
   <fileSets>

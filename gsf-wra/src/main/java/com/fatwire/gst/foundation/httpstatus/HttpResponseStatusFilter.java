@@ -96,7 +96,7 @@ public class HttpResponseStatusFilter implements Filter {
      * initializes the FilterConfig object
      * 
      * @param filterConf FilterConfig object
-     * @throws ServletException
+     * @throws ServletException exception from servlet
      */
 
     public void init(final FilterConfig filterConf) throws ServletException {

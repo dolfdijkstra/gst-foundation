@@ -82,10 +82,10 @@ public abstract class AbstractNavigationService implements NavigationService {
     /**
      * Constructor that sets the linkLabel and path attributes.
      * 
-     * @param ics
-     * @param assetTemplate
-     * @param linkLabelAttribute
-     * @param pathAttribute
+     * @param ics Content Server context object
+     * @param assetTemplate template asset access
+     * @param linkLabelAttribute link label attribute string
+     * @param pathAttribute path attribute string
      */
     protected AbstractNavigationService(ICS ics, TemplateAssetAccess assetTemplate, String linkLabelAttribute,
             String pathAttribute) {
@@ -101,7 +101,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param site
+     * @param site site to run process over
      * @return the root SitePlanTree nodes for this site
      */
     public Collection<NavigationNode> getRootNodesForSite(String site) {
@@ -139,10 +139,10 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param site
-     * @param depth
-     * @param linkAttribute
-     * @return
+     * @param site site to run process over
+     * @param depth depth to return
+     * @param linkAttribute link attribute
+     * @return collection of navigation nodes
      */
     @Override
     public Collection<NavigationNode> getRootNodesForSite(String site, int depth, String linkAttribute) {
@@ -215,7 +215,7 @@ public abstract class AbstractNavigationService implements NavigationService {
      * @param level the tree level depth
      * @param depth the maximum depth
      * @param linkAttribute the attribute to use for the link text
-     * @return
+     * @return collection of navigation nodes
      */
 
     protected abstract Collection<NavigationNode> getNodeChildren(long nodeId, int level, int depth,
@@ -238,7 +238,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param linkLabelAttribute
+     * @param linkLabelAttribute string value of link label attribute
      */
     public void setLinkLabelAttribute(String linkLabelAttribute) {
         this.linkLabelAttribute = linkLabelAttribute;
@@ -252,7 +252,7 @@ public abstract class AbstractNavigationService implements NavigationService {
     }
 
     /**
-     * @param pathAttribute
+     * @param pathAttribute path attribute string
      */
     public void setPathAttribute(String pathAttribute) {
         this.pathAttribute = pathAttribute;

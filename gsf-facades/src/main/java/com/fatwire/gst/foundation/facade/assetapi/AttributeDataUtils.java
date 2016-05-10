@@ -91,9 +91,9 @@ public final class AttributeDataUtils {
      * 
      * All attribute values or substring values of zero length are dropped.
      * 
-     * @param attributeData
+     * @param attributeData attribute data object
      * @param delimRegex regex for splitting
-     * @return Collection<String> of attribute data, never null (though an empty
+     * @return Collection{@literal <String>} of attribute data, never null (though an empty
      *         list may be returned
      */
     public static Collection<String> getAndSplitString(AttributeData attributeData, String delimRegex) {

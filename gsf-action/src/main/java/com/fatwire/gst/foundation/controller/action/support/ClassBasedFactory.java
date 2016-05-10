@@ -30,7 +30,7 @@ public class ClassBasedFactory extends BaseFactory {
     private Class<?>[] clx;
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @param parent the parent factory
      * @param classnames the names of the classes that hold the factory methods
      */
@@ -39,7 +39,7 @@ public class ClassBasedFactory extends BaseFactory {
     }
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @param parent the parent factory
      * @param classLoader the classloader to load the classes of
      * @param classnames the names of the classes that hold the factory methods

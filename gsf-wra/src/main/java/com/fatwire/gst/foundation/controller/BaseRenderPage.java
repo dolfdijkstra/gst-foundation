@@ -206,7 +206,7 @@ public abstract class BaseRenderPage {
      * arguments are added to the map as name-value pairs.
      * 
      * @param id AssetIdWithSite object
-     * @param arguments Map<String,String> containing arguments for the nested
+     * @param arguments Map{@literal<String,String>} containing arguments for the nested
      *            CallTemplate call
      */
     protected void getCallTemplateArguments(AssetIdWithSite id, Map<String, String> arguments) {

@@ -33,7 +33,7 @@ public final class RenderUtils {
      * Checks if the pagelet should be cached. Takes into consideration if
      * current pagelet is rendered for Satellite Server.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @param pname the pagename
      * @return true if this pagename is cacheable for the current render context (Satellite or ContentServer).
      */
@@ -46,7 +46,7 @@ public final class RenderUtils {
      * Records the compositions dependencies for SiteEntry,CSElement and
      * Template.
      * 
-     * @param ics
+     * @param ics Content Server context object
      */
     public static void recordBaseCompositionalDependencies(final ICS ics) {
 

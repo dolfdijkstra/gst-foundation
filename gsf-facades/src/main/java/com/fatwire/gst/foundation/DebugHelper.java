@@ -229,7 +229,7 @@ public final class DebugHelper {
      * 
      * @param ad the asset date
      * @return String with asset attributes etc
-     * @throws AssetAccessException
+     * @throws AssetAccessException asset access exception
      */
     @SuppressWarnings("unchecked")
     public static String printAsset(final AssetData ad) throws AssetAccessException {
@@ -404,7 +404,7 @@ public final class DebugHelper {
      * Dumps to current ICS state (Content Server variables, session
      * variables,ICS objects,elementname,page url and stacktrace) as a String.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return the state of ICS.
      */
     public static String printState(final ICS ics) {

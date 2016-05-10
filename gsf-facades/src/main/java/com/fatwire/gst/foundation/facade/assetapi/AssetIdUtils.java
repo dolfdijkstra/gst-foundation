@@ -61,7 +61,7 @@ public final class AssetIdUtils {
     /**
      * Converts an AssetId into a String of the form assettype:id.
      * 
-     * @param id
+     * @param id asset id
      * @return the assetid as a String in the form of assettype:id.
      */
     public static String toString(AssetId id) {
@@ -73,7 +73,7 @@ public final class AssetIdUtils {
     /**
      * Creates an AssetId out of 'c' and 'cid' variables on ICS context.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return AssetId from c and cid
      * @throws IllegalArgumentException if c or cid is blank.
      */
@@ -94,7 +94,7 @@ public final class AssetIdUtils {
     /**
      * Creates an AssetId out of 'p' variable on ICS context with type 'Page'.
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return AssetId with id from 'p'.
      * @throws IllegalArgumentException if p is blank.
      */

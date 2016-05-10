@@ -70,7 +70,7 @@ public class TableDef {
      * Adds a column to this table.
      * @param name the name of the column
      * @param type the type of the column
-     * @param primary
+     * @param primary boolean flag for primary
      * @return the added TableColumn.
      */
     public TableColumn addColumn(final String name, final Type type, final boolean primary) {
@@ -88,8 +88,8 @@ public class TableDef {
 
     /**
      * Adds a non primary column to this table.
-     * @param name
-     * @param type
+     * @param name column name
+     * @param type column type
      * @return the added TableColumn.
      */
     public TableColumn addColumn(final String name, final Type type) {

@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag.siteplan;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <siteplan:load name="name" nodeid="nodeid"/>
+ * {@code <siteplan:load name="name" nodeid="nodeid"/>}
  * 
  * @author Tony Field
  * @since Sep 28, 2008

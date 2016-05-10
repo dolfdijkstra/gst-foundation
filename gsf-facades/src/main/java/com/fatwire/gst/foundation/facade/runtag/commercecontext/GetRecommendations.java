@@ -26,13 +26,15 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 /**
  * Retrieves and lists the assets that match the recommendation constraints
  * passed to the tag.
- * <p/>
+ * <p>
  * Syntax
- * <p/>
- * <COMMERCECONTEXT.GETRECOMMENDATION COLLECTION="recommendationname"
+ * <p>
+ * 
+ * {@literal <COMMERCECONTEXT.GETRECOMMENDATION COLLECTION="recommendationname"
  * [LIST="inputlist"] [VALUE="rating"] [MAXCOUNT="assetcount"]
- * LISTVARNAME="assetlist" [FILTER="true|false"]/>
- * <p/>
+ * LISTVARNAME="assetlist" [FILTER="true|false"]/>}
+ * 
+ * <p>
  * This tag returns a list containing up to the specified number of recommended
  * assets. The recommendations, and the returned order of them, are based on the
  * details of the referenced recommendation asset. This tag automatically
@@ -40,7 +42,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
  * if they have not yet been calculated. For information about creating
  * recommendations, including context-based recommendations, see the CS
  * Developer's Guide.
- * <p/>
+ * <p>
  * NOTE: This tag also causes compositional dependencies to be recorded for all
  * assets that contribute to the returned lists, and may, under the right
  * conditions, have the same effect as a RENDER.UNKNOWNDEPS tag.

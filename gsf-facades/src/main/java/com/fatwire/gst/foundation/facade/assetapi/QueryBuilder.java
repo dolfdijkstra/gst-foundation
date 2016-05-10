@@ -60,8 +60,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param attributeName
+     * @param attributeName attribute name
      * @see com.fatwire.assetapi.query.SimpleQuery#setAttributes(java.util.List)
+     * @return query builder object
      */
     public QueryBuilder attribute(String attributeName) {
         List<String> old = new ArrayList<String>();
@@ -72,8 +73,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param attributeNames
+     * @param attributeNames list of attribute names
      * @see com.fatwire.assetapi.query.SimpleQuery#setAttributes(java.util.List)
+     * @return query builder object
      */
     public QueryBuilder attributes(String... attributeNames) {
         List<String> old = new ArrayList<String>();
@@ -85,8 +87,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param sort
+     * @param sort SortOrder list
      * @see com.fatwire.assetapi.query.SimpleQuery#setSortOrder(java.util.List)
+     * @return query builder object 
      */
     public QueryBuilder setSortOrder(List<SortOrder> sort) {
         query.setSortOrder(sort);
@@ -94,26 +97,28 @@ public class QueryBuilder {
     }
 
     /**
-     * @param fConfidence
+     * @param fConfidence number/float representing confidence
      * @see com.fatwire.assetapi.query.QueryProperties#setConfidence(float)
-     */
+     * @return query builder object     */
     public QueryBuilder setConfidence(float fConfidence) {
         props().setConfidence(fConfidence);
         return this;
     }
 
     /**
-     * @param fixedList
+     * @param fixedList boolean for fixed lList
      * @see com.fatwire.assetapi.query.QueryProperties#setFixedList(boolean)
-     */
+     * @return query builder object       
+    */
     public QueryBuilder setFixedList(boolean fixedList) {
         props().setFixedList(fixedList);
         return this;
     }
 
     /**
-     * @param basicSearch
+     * @param basicSearch boolean for basic search
      * @see com.fatwire.assetapi.query.QueryProperties#setIsBasicSearch(boolean)
+     * @return query builder object 
      */
     public QueryBuilder setBasicSearch(boolean basicSearch) {
         props().setIsBasicSearch(basicSearch);
@@ -121,8 +126,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param caseSensitive
+     * @param caseSensitive flag for case sensitivity
      * @see com.fatwire.assetapi.query.QueryProperties#setIsCaseSensitive(boolean)
+     * @return query builder object 
      */
     public QueryBuilder setCaseSensitive(boolean caseSensitive) {
         props().setIsCaseSensitive(caseSensitive);
@@ -130,8 +136,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param immediateOnly
+     * @param immediateOnly flag for immediate only
      * @see com.fatwire.assetapi.query.QueryProperties#setIsImmediateOnly(boolean)
+     * @return query builder object 
      */
     public QueryBuilder setImmediateOnly(boolean immediateOnly) {
         props().setIsImmediateOnly(immediateOnly);
@@ -139,8 +146,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param lowerEqual
+     * @param lowerEqual flag for lower equal
      * @see com.fatwire.assetapi.query.QueryProperties#setIsLowerEqual(boolean)
+     * @return this query builder object
      */
     public QueryBuilder setLowerEqual(boolean lowerEqual) {
         props().setIsLowerEqual(lowerEqual);
@@ -148,8 +156,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param upperEqual
+     * @param upperEqual flag for upper equal
      * @see com.fatwire.assetapi.query.QueryProperties#setIsUpperEqual(boolean)
+     * @return this query builder object
      */
     public QueryBuilder setUpperEqual(boolean upperEqual) {
         props().setIsUpperEqual(upperEqual);
@@ -157,8 +166,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param loadDependency
+     * @param loadDependency value for load dependency
      * @see com.fatwire.assetapi.query.QueryProperties#setLoadDependency(int)
+     * @return this query builder object
      */
     public QueryBuilder setLoadDependency(int loadDependency) {
         props().setLoadDependency(loadDependency);
@@ -166,8 +176,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param maxAnswers
+     * @param maxAnswers maximum answers
      * @see com.fatwire.assetapi.query.QueryProperties#setMaxAnswers(int)
+     * @return this query builder object
      */
     public QueryBuilder setMaxAnswers(int maxAnswers) {
         props().setMaxAnswers(maxAnswers);
@@ -175,8 +186,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param maxRows
+     * @param maxRows value for maximum rows
      * @see com.fatwire.assetapi.query.QueryProperties#setMaxRows(int)
+     * @return this query builder object
      */
     public QueryBuilder setMaxRows(int maxRows) {
         props().setMaxRows(maxRows);
@@ -184,8 +196,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param parser
+     * @param parser string value for parser
      * @see com.fatwire.assetapi.query.QueryProperties#setParser(java.lang.String)
+     * @return this query builder object
      */
     public QueryBuilder setParser(String parser) {
         props().setParser(parser);
@@ -193,8 +206,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param readAll
+     * @param readAll flag for read all
      * @see com.fatwire.assetapi.query.QueryProperties#setReadAll(boolean)
+     * @return this query builder object
      */
     public QueryBuilder setReadAll(boolean readAll) {
         props().setReadAll(readAll);
@@ -202,8 +216,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param site
+     * @param site site id number
      * @see com.fatwire.assetapi.query.QueryProperties#setSite(java.lang.Long)
+     * @return query builder object 
      */
     public QueryBuilder setSite(long site) {
         props().setSite(site);
@@ -211,8 +226,9 @@ public class QueryBuilder {
     }
 
     /**
-     * @param startIndex
+     * @param startIndex start index
      * @see com.fatwire.assetapi.query.QueryProperties#setStartIndex(int)
+     * @return query builder object 
      */
     public QueryBuilder setStartIndex(int startIndex) {
         props().setStartIndex(startIndex);

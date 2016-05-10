@@ -22,7 +22,7 @@ import COM.FutureTense.Interfaces.IList;
 
 /**
  * Wrapper for an IList that turns an <tt>IList</tt> into a <tt>Iterable</tt>.
- * <p/>
+ * <p>
  * Sample usage:
  * 
  * <pre>

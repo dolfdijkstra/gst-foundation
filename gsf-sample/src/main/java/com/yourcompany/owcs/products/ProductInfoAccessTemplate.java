@@ -23,7 +23,7 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.MappedAssetAccessTemplat
 
 /**
  * A sample AssetAccessTemplate to create a ProductInfo bean.
- * <p/>
+ * <p>
  * The full creation of the bean is not demonstrated here.
  * 
  * @author Dolf Dijkstra

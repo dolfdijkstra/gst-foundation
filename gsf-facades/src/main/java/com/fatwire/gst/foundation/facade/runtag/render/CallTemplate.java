@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * CallTemplate tag with many improvements around context and style.
- * <p/>
+ * <p>
  * <code>
  * &lt;RENDER.CALLTEMPLATE SITE="site name"
  * SLOTNAME="name of slot"
@@ -46,9 +46,9 @@ import org.apache.commons.logging.LogFactory;
  * [C="asset type"] [CID="asset id"] [TNAME="target Template or CSElement name"]
  * [CONTEXT="context override"] [STYLE="pagelet or element"]
  * [VARIANT="template variant name"] [PACKEDARGS="packed arguments"]&gt;
- * <p/>
+ * 
  * [&lt;RENDER.ARGUMENT NAME="variable1" VALUE="value1"/&gt;]
- * <p/>
+ * 
  * &lt;/RENDER.CALLTEMPLATE&gt;
  * </code>
  * 
@@ -89,9 +89,9 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
     /**
      * Sets up CallTemplate with default <tt>Style.element</tt>
      * 
-     * @param slotname
-     * @param tname
-     * @param type
+     * @param slotname slot name
+     * @param tname template name
+     * @param type template type
      */
     public CallTemplate(final String slotname, final String tname, final Type type) {
         super("RENDER.CALLTEMPLATE");

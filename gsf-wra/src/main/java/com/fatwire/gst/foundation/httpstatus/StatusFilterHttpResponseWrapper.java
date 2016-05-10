@@ -50,6 +50,9 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
 
     /**
      * Class constructor instantiating the response object
+     * 
+     * @param origResponse servlet response
+     * @param sendError flag to send an error
      */
     public StatusFilterHttpResponseWrapper(HttpServletResponse origResponse, boolean sendError) {
         super(origResponse);

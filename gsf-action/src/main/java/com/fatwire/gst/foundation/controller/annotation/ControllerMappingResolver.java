@@ -24,7 +24,7 @@ import COM.FutureTense.Interfaces.ICS;
  * This class resolves a specific method that handles a specific request as a
  * controller. The method needs to be annotated with the IcsVariable annotation
  * and need to accept one argument of type ICS.
- * <p/>
+ * <p>
  * The name of the method can be freely chosen. The method needs to have public
  * visibility.
  * 
@@ -34,7 +34,7 @@ import COM.FutureTense.Interfaces.ICS;
 public class ControllerMappingResolver {
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      * @param o object with method annotations of type IcsVariable
      * @return the method with the IcsVariable annotation that has a match for
      *         the name value pair as set in the annotation.

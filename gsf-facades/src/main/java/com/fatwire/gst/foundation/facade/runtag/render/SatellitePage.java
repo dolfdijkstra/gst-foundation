@@ -28,7 +28,7 @@ public class SatellitePage extends TagRunnerWithRenderArguments {
     }
 
     /**
-     * @param pagename
+     * @param pagename string value for page name
      * 
      */
     public SatellitePage(String pagename) {

@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * Backdoor implementation of VirtualWebrootDao that does not utilize any Asset
  * APIs. This class should be used sparingly and may result in some
  * dependencies, that would ordinarily be recorded, being skipped.
- * <p/>
+ * <p>
  * User: Tony Field Date: 2011-05-06
  */
 public class VirtualWebrootApiBypassDao implements VirtualWebrootDao {

@@ -22,7 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <VDM.GETALIAS KEY="keyvalue" VARNAME="varname"/>
+ * {@code <VDM.GETALIAS KEY="keyvalue" VARNAME="varname"/>}
  * 
  * @author Tony Field
  * @since Sep 29, 2008

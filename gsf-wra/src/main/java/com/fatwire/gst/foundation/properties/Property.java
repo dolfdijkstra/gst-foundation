@@ -25,42 +25,42 @@ import com.fatwire.assetapi.data.AssetId;
  */
 public interface Property {
     /**
-     * The name of the property
+     * @return The name of the property
      */
     String getName();
 
     /**
-     * The description of the property, for human informational purposes only
+     * @return The description of the property, for human informational purposes only
      */
     String getDescription();
 
     /**
-     * Returns whether or not the property is set to null.  Empty strings are not null.
+     * @return Returns whether or not the property is set to null.  Empty strings are not null.
      */
     boolean isNull();
 
     /**
-     * Returns true if the value is set to TRUE or true.  Not set or set to anything else returns false.
+     * @return Returns true if the value is set to TRUE or true.  Not set or set to anything else returns false.
      */
     boolean asBoolean();
 
     /**
-     * Returns the property value as a string
+     * @return Returns the property value as a string
      */
     String asString();
 
     /**
-     * Retursn the property as a long.
+     * @return Returns the property as a long.
      */
     long asLong();
 
     /**
-     * Returns the property as an int
+     * @return Returns the property as an int
      */
     int asInt();
 
     /**
-     * Returns the property as an asset ID.
+     * @return Returns the property as an asset ID.
      */
     AssetId asAssetId();
 }

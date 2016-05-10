@@ -56,7 +56,7 @@ public final class AssetRelationTreeUtils {
      * Get all of the parent assets in the AssetRelationTree for the specified
      * asset. Association name is required, but expectedParentType is an
      * optional filter argument.
-     * <p/>
+     * <p>
      * Does not record any asset dependencies
      *
      * @param ics                ICS context

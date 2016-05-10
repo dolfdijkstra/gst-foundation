@@ -27,8 +27,8 @@ import com.fatwire.gst.foundation.facade.runtag.listobject.Create;
 import com.fatwire.gst.foundation.facade.runtag.listobject.ToList;
 
 /**
- * <assetset:getmultiplevalues name="myassetset" prefix="ValueList"
- * list="listout" immediateonly="false" byasset="true"/>
+ * {@literal <assetset:getmultiplevalues name="myassetset" prefix="ValueList"
+ * list="listout" immediateonly="false" byasset="true"/>}
  * 
  * @author Tony Field
  * @since Oct 24, 2008

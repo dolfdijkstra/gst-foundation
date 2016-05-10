@@ -37,14 +37,14 @@ public class GetPageUrl extends TagRunnerWithArguments {
     }
 
     /**
-     * @param b
+     * @param b flag for ADDSESSION
      */
     public void setAddSession(boolean b) {
         set("ADDSESSION", b ? "TRUE" : "FALSE");
     }
 
     /**
-     * @param s
+     * @param s string value for assembler
      */
     public void setAssembler(String s) {
         set("ASSEMBLER", s);
@@ -52,98 +52,98 @@ public class GetPageUrl extends TagRunnerWithArguments {
     }
 
     /**
-     * @param s
+     * @param s string value for AUTHORITY
      */
     public void setAuthority(String s) {
         set("AUTHORITY", s);
     }
 
     /**
-     * @param s
+     * @param s string value for C , current asset
      */
     public void setC(String s) {
         set("C", s);
     }
 
     /**
-     * @param s
+     * @param s string value for CID, current asset id
      */
     public void setCid(String s) {
         set("CID", s);
     }
 
     /**
-     * @param s
+     * @param s string value for P
      */
     public void setP(String s) {
         set("P", s);
     }
 
     /**
-     * @param s
+     * @param s string value for CONTAINER
      */
     public void setContainer(String s) {
         set("CONTAINER", s);
     }
 
     /**
-     * @param s
+     * @param s string value for DEPTYPE
      */
     public void setDeptype(String s) {
         set("DEPTYPE", s);
     }
 
     /**
-     * @param b
+     * @param b flag for DYNAMIC
      */
     public void setDynamic(boolean b) {
         set("DYNAMIC", b ? "TRUE" : "FALSE");
     }
 
     /**
-     * @param s
+     * @param s string value for FRAGMENT
      */
     public void setFragment(String s) {
         set("FRAGMENT", s);
     }
 
     /**
-     * @param s
+     * @param s string value for OUTSTR
      */
     public void setOutstr(String s) {
         set("OUTSTR", s);
     }
 
     /**
-     * @param s
+     * @param s string value for packed arguments
      */
     public void setPackedargs(String s) {
         set("PACKEDARGS", s);
     }
 
     /**
-     * @param b
+     * @param b flag for SATELLITE
      */
     public void setSatellite(boolean b) {
         set("SATELLITE", b ? "TRUE" : "FALSE");
     }
 
     /**
-     * @param s
+     * @param s string value for SCHEME
      */
     public void setScheme(String s) {
         set("SCHEME", s);
     }
 
     /**
-     * @param s
+     * @param s string value for page name
      */
     public void setPagename(String s) {
         set("PAGENAME", s);
     }
 
     /**
-     * @param s
+     * @param s string value for wrapper page
      */
     public void setWrapperpage(String s) {
         if (LOG.isTraceEnabled())

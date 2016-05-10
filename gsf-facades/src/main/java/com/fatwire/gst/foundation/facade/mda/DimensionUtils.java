@@ -85,6 +85,7 @@ public final class DimensionUtils {
      * If the asset does not have a locale set, returns null
      * 
      * @param id asset
+     * @param dam dimensionable asset manager object
      * @return locale dimension or null
      */
     public static Dimension getLocaleAsDimension(DimensionableAssetManager dam, AssetId id) {

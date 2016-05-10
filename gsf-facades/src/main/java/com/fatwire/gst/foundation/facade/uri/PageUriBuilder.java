@@ -32,8 +32,8 @@ public class PageUriBuilder {
     /**
      * Constructor with pagename and a wrapper .
      * 
-     * @param pagename
-     * @param wrapper
+     * @param pagename string value for page name
+     * @param wrapper string value for wrapper
      */
     public PageUriBuilder(String pagename, String wrapper) {
         tag.setPagename(pagename);
@@ -43,7 +43,7 @@ public class PageUriBuilder {
     /**
      * Constructor with pagename, without a wrapper.
      * 
-     * @param pagename
+     * @param pagename string value for page name
      */
     public PageUriBuilder(String pagename) {
         tag.setPagename(pagename);
@@ -53,10 +53,10 @@ public class PageUriBuilder {
     /**
      * Constructor with c and cid, with a wrapper .
      * 
-     * @param c
-     * @param cid
-     * @param pagename
-     * @param wrapper
+     * @param c current asset
+     * @param cid content id
+     * @param pagename string value for page name
+     * @param wrapper string value for wrapper
      */
     public PageUriBuilder(String c, String cid, String pagename, String wrapper) {
         tag.setC(c);
@@ -68,9 +68,9 @@ public class PageUriBuilder {
     /**
      * Constructor with c and cid, without a wrapper.
      * 
-     * @param c
-     * @param cid
-     * @param pagename
+     * @param c current asset
+     * @param cid content id
+     * @param pagename string value for page name
      */
     public PageUriBuilder(String c, String cid, String pagename) {
         tag.setC(c);
@@ -82,9 +82,9 @@ public class PageUriBuilder {
     /**
      * Constructor with AssetId and wrapper.
      * 
-     * @param id
-     * @param pagename
-     * @param wrapper
+     * @param id asset id
+     * @param pagename string value for page name
+     * @param wrapper string value for wrapper
      */
     public PageUriBuilder(AssetId id, String pagename, String wrapper) {
         this(id.getType(), Long.toString(id.getId()), pagename, wrapper);
@@ -93,8 +93,8 @@ public class PageUriBuilder {
     /**
      * Constructor with AssetId, without a wrapper.
      * 
-     * @param id
-     * @param pagename
+     * @param id asset id
+     * @param pagename string value for page name
      */
     public PageUriBuilder(AssetId id, String pagename) {
         this(id.getType(), Long.toString(id.getId()), pagename);
@@ -104,7 +104,7 @@ public class PageUriBuilder {
      * Returns the uri to the asset rendered with the specified template and
      * wrapper (if provided).
      * 
-     * @param ics
+     * @param ics Content Server context object
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#execute(COM.FutureTense.Interfaces.ICS)
      */
@@ -118,8 +118,8 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param name
-     * @param value
+     * @param name argument name
+     * @param value argument value
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.TagRunnerWithArguments#setArgument(java.lang.String,
      *      java.lang.String)
@@ -130,7 +130,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value of assembler
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAssembler(java.lang.String)
      */
@@ -140,7 +140,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value of authority
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setAuthority(java.lang.String)
      */
@@ -150,7 +150,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value of container
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setContainer(java.lang.String)
      */
@@ -160,7 +160,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s boolean value for Dynamic
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setDynamic(java.lang.String)
      */
@@ -170,7 +170,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value of fragment
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setFragment(java.lang.String)
      */
@@ -180,7 +180,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value of packed arguments
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setPackedargs(java.lang.String)
      */
@@ -190,7 +190,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s boolean value of satellite
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setSatellite(java.lang.String)
      */
@@ -200,7 +200,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value of scheme
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setScheme(java.lang.String)
      */
@@ -210,7 +210,7 @@ public class PageUriBuilder {
     }
 
     /**
-     * @param s
+     * @param s string value of wrapper page
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl#setWrapperpage(java.lang.String)
      */

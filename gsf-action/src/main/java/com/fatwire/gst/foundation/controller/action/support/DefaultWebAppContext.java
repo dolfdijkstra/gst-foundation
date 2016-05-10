@@ -30,7 +30,7 @@ import com.fatwire.gst.foundation.controller.support.WebAppContext;
 /**
  * This is the WebAppContext with accessors to the ActionLocator,
  * ActionNameResolver and the Injector, with the companion FactoryProducer.
- * <p/>
+ * <p>
  * Developer are expected to subclass this class for their own implementations.
  * In most cases they would only like to override {@link #getFactory(ICS)} for
  * their own Service factory.

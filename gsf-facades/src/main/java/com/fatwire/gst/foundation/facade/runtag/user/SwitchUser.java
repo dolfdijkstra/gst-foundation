@@ -27,7 +27,7 @@ import COM.FutureTense.Interfaces.ICS;
  * does not support body tags with actions in both the starttag and endtag, and
  * this functionality requires this. Instead, this class is stateful and
  * contains a switchTo() and switchBack() method.
- * <p/>
+ * <p>
  * Note that this class is NOT THREAD SAFE.
  * 
  * @author Tony Field

@@ -228,7 +228,7 @@ public class WraNavigationService extends AbstractNavigationService implements N
      * Builds up a URI for this asset, using the pathAttribute and the template
      * field of the asset
      * 
-     * @param asset
+     * @param asset template asset
      * @return the uri, xml escaped
      */
     protected String getUrl(TemplateAsset asset) {

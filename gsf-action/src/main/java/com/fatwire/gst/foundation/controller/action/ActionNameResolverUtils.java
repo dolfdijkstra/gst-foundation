@@ -62,7 +62,7 @@ public final class ActionNameResolverUtils {
     /**
      * Returns the ActionNameResolver as configured by spring framework on the
      * WebApplicationContext bean by the name 'beanName'.
-     * 
+     * @param beanName bean name
      * @param servletContext the servlet context.
      * @return the ActionNameResolver that is configured via the servletContext.
      */

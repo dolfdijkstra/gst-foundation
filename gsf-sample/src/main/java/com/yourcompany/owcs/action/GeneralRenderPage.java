@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * This class renders a standard WRA and loads a specific named association and places it into the model.
- * <p/>
+ * <p>
  * It exists as a sample that a company can use to build its own page actions.
  *
  * @author Tony Field

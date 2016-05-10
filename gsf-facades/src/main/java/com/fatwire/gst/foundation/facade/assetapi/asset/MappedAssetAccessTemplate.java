@@ -32,14 +32,15 @@ import com.fatwire.gst.foundation.facade.runtag.asset.AssetRelationTreeUtils;
 
 /**
  * @author Dolf Dijkstra
- * 
+ * @param <T> class to be returned based on asset mapper
  */
 public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     protected final AssetMapper<T> mapper;
     protected final ICS ics;
 
     /**
-     * @param ics
+     * @param ics Content Server context object
+     * @param mapper asset mapper
      */
     public MappedAssetAccessTemplate(ICS ics, AssetMapper<T> mapper) {
         super(ics);
@@ -49,7 +50,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     }
 
     /**
-     * @param id
+     * @param id asset id
      * @return the mapped object
      */
     public T read(final AssetId id) {
@@ -59,8 +60,8 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     /**
      * Reads the attributes of an asset.
      * 
-     * @param id
-     * @param attributes
+     * @param id asset id
+     * @param attributes array of attribute names
      * @return the mapped object
      */
     public T read(final AssetId id, final String... attributes) {
@@ -72,8 +73,8 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
      * ScatteredAsset. This takes care of the asset read operation of the
      * associated assets.
      * 
-     * @param id
-     * @param associationType
+     * @param id asset id
+     * @param associationType associated type
      * @return the assets from the associations.
      */
     public Collection<T> readAssociatedAssets(final AssetId id, final String associationType) {
@@ -93,7 +94,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
      * Reads the list of associated assets based on the current c and cid cs
      * variables.
      * 
-     * @param associationType
+     * @param associationType associated type
      * @return the assets from the associations.
      */
     public Collection<AssetId> readAssociatedAssetIds(final String associationType) {
@@ -166,7 +167,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
      * Reads the mentioned asset attributes of the asset identified by the
      * current c and cid variables on the ics scope.
      * 
-     * @param attributes
+     * @param attributes array of attribute names
      * @return the mapped object
      */
     public T readCurrent(final String... attributes) {
@@ -177,7 +178,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
     /**
      * Queries the asset repository with the provided query.
      * 
-     * @param query
+     * @param query query object
      * @return Iterable of mapped objects
      */
     public Iterable<T> query(final Query query) {
@@ -186,7 +187,7 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
 
     /**
      * Queries for a list of scattered assets.
-     * <p/>
+     * <p>
      * Sample queries are:
      * <ul>
      * <li>name='foo'</li>
@@ -196,8 +197,11 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
      * <li>size=[1,2]</li>
      * <li>size{10,250}</li>
      * <li>name!='foo'</li>
-     * 
-     * @param query
+     * </ul>
+     *
+     * @param assetType string value for asset type
+     * @param subType string value for sub-type
+     * @param query query object
      * @return a Iterable of mapped objects
      */
     public Iterable<T> query(final String assetType, final String subType, final String query) {
@@ -209,10 +213,10 @@ public class MappedAssetAccessTemplate<T> extends AssetAccessTemplate {
      * Queries for a list of scattered assets. Only the mentioned attributes are
      * returned.
      * 
-     * @param assetType
-     * @param subType
-     * @param query
-     * @param attributes
+     * @param assetType string value of asset type
+     * @param subType string value of subtype
+     * @param query string value of query
+     * @param attributes string array of attributes
      * @return a Iterable of mapped objects
      */
     public Iterable<T> query(final String assetType, final String subType, final String query,

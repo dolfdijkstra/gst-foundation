@@ -29,7 +29,7 @@ import com.fatwire.gst.foundation.facade.runtag.asset.GetSiteNode;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 /**
- * <siteplan:nodepath name="node" list="list name"/>
+ * {@code <siteplan:nodepath name="node" list="list name"/>}
  * 
  * @author Tony Field
  * @since Sep 28, 2008

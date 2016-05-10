@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Builds up a Condition from a string.
- * <p/>
+ * <p>
  * Sample query strings are:
  * <ul>
  * <li>name='foo'</li>

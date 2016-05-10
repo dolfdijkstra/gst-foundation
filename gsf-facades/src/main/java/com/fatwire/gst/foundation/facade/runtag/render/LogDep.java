@@ -26,7 +26,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 import com.openmarket.xcelerate.publish.PubConstants;
 
 /**
- * Wraps the <RENDER.LOGDEP> xml tag.
+ * Wraps the {@code<RENDER.LOGDEP>} xml tag.
  * 
  * @author Tony Field
  * @since 10-Jun-2008

@@ -24,7 +24,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
 
 /**
- * <user.login>
+ * {@code <user.login>}
  * 
  * @author Tony Field
  * @since Feb 1, 2011

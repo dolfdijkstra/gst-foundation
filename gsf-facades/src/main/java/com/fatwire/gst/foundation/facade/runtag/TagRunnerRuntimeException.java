@@ -32,9 +32,10 @@ public class TagRunnerRuntimeException extends CSRuntimeException {
     private final FTValList arguments;
     private static final long serialVersionUID = 5392042951880858120L;
 
-    /**
-     * @param msg
-     * @param errno
+    /** 
+     * @param msg message
+     * @param errno error number
+     * @param arguments list of arguments
      */
     public TagRunnerRuntimeException(String msg, int errno, final FTValList arguments) {
         this(msg, errno, arguments, null, null, null);

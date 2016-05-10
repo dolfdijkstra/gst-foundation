@@ -19,7 +19,7 @@ package com.fatwire.gst.foundation.facade.runtag.listobject;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <LISTOBJECT.TOLIST NAME="listname" LISTVARNAME="varname"/> *
+ * {@code <LISTOBJECT.TOLIST NAME="listname" LISTVARNAME="varname"/> } 
  * 
  * @author Tony Field
  * @since Oct 24, 2008

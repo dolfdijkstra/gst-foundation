@@ -31,7 +31,8 @@ import com.fatwire.gst.foundation.mobile.DeviceType;
 /**
  * DeviceDecector making use of the MobiForce algorithm. This is a simple
  * algorithm and takes care of most of the devices based on User-Agent header.
- * </p> To override the User-Agent algorithm, you can add a parameter <tt>d</tt>
+ * <p> 
+ * To override the User-Agent algorithm, you can add a parameter <tt>d</tt>
  * with a value of <tt>mobile, tablet or desktop</tt>.
  * 
  * @author Dolf Dijkstra

@@ -153,8 +153,8 @@ public class WebAppContextLoader implements ServletContextListener {
     /**
      * Creates a AppContext based on the init parameter {@link #CONTEXTS}.
      * 
-     * @param context
-     * @param cl
+     * @param context servlet context
+     * @param cl class loader
      * @return the AppContext as configured from the web app init parameter.
      */
     protected AppContext configureFromInitParam(final ServletContext context, final ClassLoader cl) {
@@ -222,12 +222,12 @@ public class WebAppContextLoader implements ServletContextListener {
      * @param context the web context
      * @param parent parent AppContext, null is none
      * @return the created AppContext
-     * @throws ClassNotFoundException
-     * @throws SecurityException
-     * @throws NoSuchMethodException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
+     * @throws ClassNotFoundException class not found
+     * @throws SecurityException security exception
+     * @throws NoSuchMethodException no method exists
+     * @throws InstantiationException could not instantiate
+     * @throws IllegalAccessException no access to perform this operation
+     * @throws InvocationTargetException exception from invocation
      */
     AppContext createAppContext(final ClassLoader cl, final String c, final ServletContext context,
             final AppContext parent) throws ClassNotFoundException, SecurityException, NoSuchMethodException,

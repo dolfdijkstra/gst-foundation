@@ -52,17 +52,17 @@ public class IncludePage implements Include {
     private final ICS ics;
 
     /**
-     * @param ics
-     * @param pagename
+     * @param ics Content Server context object
+     * @param pagename page name
      */
     public IncludePage(final ICS ics, final String pagename) {
         this(ics, pagename, Style.embedded);
     }
 
     /**
-     * @param ics
-     * @param pagename
-     * @param style
+     * @param ics Content Server context object
+     * @param pagename page name
+     * @param style string value of style
      */
     public IncludePage(final ICS ics, final String pagename, final Style style) {
         this.ics = ics;
@@ -139,8 +139,8 @@ public class IncludePage implements Include {
     }
 
     /**
-     * @param name
-     * @param value
+     * @param name argument name
+     * @param value argument value
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setArgument(java.lang.String,
      *      java.lang.String)
@@ -161,7 +161,7 @@ public class IncludePage implements Include {
     /**
      * Adds packedargs.
      * 
-     * @param s
+     * @param s string value of packed arguments
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)
      */
@@ -173,7 +173,7 @@ public class IncludePage implements Include {
     /**
      * Copies the ics variables identified by the name array
      * 
-     * @param name
+     * @param name array of argument names
      * @return this
      */
     public IncludePage copyArguments(final String... name) {

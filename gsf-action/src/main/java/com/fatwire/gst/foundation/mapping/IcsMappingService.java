@@ -53,7 +53,7 @@ public final class IcsMappingService implements MappingService {
     private final AssetAccessTemplate aat;
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      */
     public IcsMappingService(final ICS ics) {
         super();

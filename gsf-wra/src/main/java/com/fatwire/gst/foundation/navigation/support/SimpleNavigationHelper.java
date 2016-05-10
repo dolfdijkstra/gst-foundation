@@ -75,18 +75,18 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
     /**
      * 
      * 
-     * @param ics
-     * @param assetTemplate
+     * @param ics Content Server context object
+     * @param assetTemplate asset template
      */
     public SimpleNavigationHelper(final ICS ics, final TemplateAssetAccess assetTemplate) {
         super(ics, assetTemplate);
     }
 
     /**
-     * @param ics
-     * @param assetTemplate
-     * @param linkLabelAttribute
-     * @param pathAttribute
+     * @param ics Content Server context object
+     * @param assetTemplate asset template
+     * @param linkLabelAttribute string value for link label attribute
+     * @param pathAttribute string value for path attribute
      */
     public SimpleNavigationHelper(final ICS ics, final TemplateAssetAccess assetTemplate,
             final String linkLabelAttribute, final String pathAttribute) {
@@ -165,7 +165,7 @@ public class SimpleNavigationHelper extends AbstractNavigationService implements
      * Builds up a URI for this asset, using the pathAttribute and the template
      * field of the asset
      * 
-     * @param asset
+     * @param asset template asset
      * @return the uri, xml escaped
      */
     protected String getUrl(final TemplateAsset asset) {

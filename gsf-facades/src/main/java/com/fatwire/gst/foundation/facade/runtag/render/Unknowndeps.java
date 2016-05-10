@@ -21,7 +21,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 
 /**
- * <RENDER.UNKNOWNDEPS [ASSETTYPE="assettype"]/>
+ * {@code <RENDER.UNKNOWNDEPS [ASSETTYPE="assettype"]/>}
  *
  * @author Tony Field
  * @since Mar 10, 2011

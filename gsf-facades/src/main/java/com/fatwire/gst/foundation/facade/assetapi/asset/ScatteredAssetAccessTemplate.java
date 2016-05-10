@@ -24,10 +24,10 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 /**
  * This class provides simple access to AssetData. It is intended to be a
  * one-stop-shop for all read operations on assets.
- * <p/>
+ * <p>
  * In many cases it returns a {@link ScatteredAsset} for easy access to
  * AssetData.
- * <p/>
+ * <p>
  * The object has the same lifecycle as the ICS object, one per request.
  * 
  * @author Dolf Dijkstra
@@ -45,7 +45,7 @@ public class ScatteredAssetAccessTemplate extends MappedAssetAccessTemplate<Scat
     };
 
     /**
-     * @param ics
+     * @param ics Content Server context object
      */
     public ScatteredAssetAccessTemplate(final ICS ics) {
         super(ics, mapper_);

@@ -31,7 +31,8 @@ import com.fatwire.gst.foundation.groovy.context.GroovyWebContext;
 /**
  * A sample on how to extend the service factory in GSF. This class is an
  * extension of the groovy app context, giving access to another ObjectFactory.
- * This class needs to be registered to the file META-INF/gsf-contexts. </p>
+ * This class needs to be registered to the file META-INF/gsf-contexts. 
+ * <p>
  * 
  * This class is also a show case on how services from Spring can be injected
  * 

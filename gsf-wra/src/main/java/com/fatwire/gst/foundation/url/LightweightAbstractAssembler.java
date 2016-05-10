@@ -51,7 +51,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * Constructor. Upon object construction, support for UTF-8 encoding is
      * tested, and the result is cached for future use in the encode() and
      * decode() methods.
-     * <p/>
+     * <p>
      * UTF-8 is the recommended URLEncoding:
      * <ul>
      * <li><a
@@ -183,7 +183,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * getting double-encoded. So, we need to construct a full URL ourselves so
      * we can use the single-arg URI constructor, because it does not quote
      * anything.
-     * <p/>
+     * <p>
      * There are multiple variants of combinations of these parameters to create
      * a valid URL. Consult the URI specificaiton for what is allowed and what
      * is not. The URI constructor will throw a URISyntaxException if required
@@ -239,15 +239,15 @@ public abstract class LightweightAbstractAssembler implements Assembler {
     /**
      * Parse a query string and put the parameters into a map. Input parameters
      * will be URLDecoded prior to their addition into the resultant map.
-     * <p/>
+     * <p>
      * Note that the map returned contains a <em><code>String[]</code> as the
      * value, not a single <code>String</code> value</em> This provides support
      * for query strings with multiple values for a given parameter name.
-     * <p/>
+     * <p>
      * This decoding method is smart enough to be able to interpret the
      * <code>_charset_</code> URL parameter that is often used by IE.
      * 
-     * @param qry
+     * @param qry string value for query
      * @return map containing <code>String</code>/<code>String[]</code> pairs.
      * @throws IllegalArgumentException if there are mistakes in the string that
      *             make it impossible to parse.
