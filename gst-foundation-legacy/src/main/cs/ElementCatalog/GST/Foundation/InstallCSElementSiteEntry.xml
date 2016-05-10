@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<!--
+
+    Copyright 2010 FatWire Corporation. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<FTCS Version="1.1">
+<!-- GST/Foundation/InstallCSElementSiteEntry
+Enables the 'CSElement' and 'SiteEntry' asset types in the GST site and creates New/Search Start Menus for both types
+INPUT
+
+OUTPUT
+
+-->
+
+<STRINGLIST NAME="AssetTypes" STR="CSElement,SiteEntry" DELIM=","/>
+<LOOP LIST="AssetTypes">
+<LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Enabling and creating start menus for AssetTypes.ITEM in GST site." />
+<callelement NAME="OpenMarket/Xcelerate/Actions/AssetMgt/EnableAssetTypePub" SCOPED="LOCAL">
+    <argument NAME="upcommand" VALUE="EnableAssetType"/>
+    <argument NAME="assettype" VALUE="AssetTypes.ITEM"/>
+    <argument NAME="pubid" VALUE="SessionVariables.pubid"/>
+</callelement>
+
+<assettype.list LIST="ThisAsset" FIELD1="assettype" VALUE1="AssetTypes.ITEM"/>
+
+<STARTMENU.LOAD NAME="Find AssetTypes.ITEM, GST" ITEMTYPE="Search" OBJVARNAME="miTest"/>
+<STARTMENUITEM.GETID NAME="miTest" VARNAME="miExists"/>
+<IF COND="IsVariable.miExists=false">
+    <THEN>
+        <STARTMENU.CREATE OBJVARNAME="mi" />
+        <SETVAR NAME="item:name" VALUE="Find AssetTypes.ITEM, GST" />
+        <SETVAR NAME="item:description" VALUE="Find ThisAsset.description" />
+        <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+        <SETVAR NAME="item:itemtype" VALUE="Search" />
+        <SETVAR NAME="item:legalsitessites" VALUE="SessionVariables.pubid" />
+        <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+        <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+        <SETVAR NAME="item:argumentsargumentTotal" VALUE="1"/>
+        <SETVAR NAME="item:argumentsargument0name" VALUE="subtype"/>
+        <SETVAR NAME="item:argumentsargument0value" VALUE="AssetTypes.ITEM"/>
+        <SETVAR NAME="item:assetsubtype" VALUE="AssetTypes.ITEM" />
+        <SETVAR NAME="item:processinput" VALUE="notallowed" />
+        <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+        <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+        <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+        <STARTMENU.SAVE OBJECT="mi" />
+    </THEN>
+</IF>
+
+<STARTMENU.LOAD NAME="New AssetTypes.ITEM, GST" ITEMTYPE="ContentForm" OBJVARNAME="miTest"/>
+<STARTMENUITEM.GETID NAME="miTest" VARNAME="miExists"/>
+<IF COND="IsVariable.miExists=false">
+    <THEN>
+        <STARTMENU.CREATE OBJVARNAME="mi" />
+        <SETVAR NAME="item:name" VALUE="New AssetTypes.ITEM, GST" />
+        <SETVAR NAME="item:description" VALUE="New ThisAsset.description" />
+        <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+        <SETVAR NAME="item:itemtype" VALUE="ContentForm" />
+        <SETVAR NAME="item:legalsitessites" VALUE="SessionVariables.pubid" />
+        <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+        <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+        <SETVAR NAME="item:argumentsargumentTotal" VALUE="1"/>
+        <SETVAR NAME="item:argumentsargument0name" VALUE="subtype"/>
+        <SETVAR NAME="item:argumentsargument0value" VALUE="AssetTypes.ITEM"/>
+        <SETVAR NAME="item:assetsubtype" VALUE="AssetTypes.ITEM" />
+        <SETVAR NAME="item:processinput" VALUE="notallowed" />
+        <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+        <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+
+        <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+        <STARTMENU.SAVE OBJECT="mi" />
+    </THEN>
+</IF>
+
+</LOOP>
+
+</FTCS>
