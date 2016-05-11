@@ -427,7 +427,7 @@ Extending the Action framework: AppContext and Factories
   
 {Configuration}
 
-  If the gst-foundation-all jar is deployed into the WEB-INF/lib directory the default Action support is enabled.
+  If the gst-foundation-core jar is deployed into the WEB-INF/lib directory the default Action support is enabled.
 
 
 

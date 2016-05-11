@@ -45,7 +45,17 @@
 		<maven>2.2.1</maven>
 	</prerequisites>
 	<modules>
-		<module>gst-foundation-all</module>
+		<module>gsf-cs-all</module>
+		<module>gsf-cs-test</module>
+		<module>gsf-facades</module>
+		<module>gsf-wra</module>
+		<module>gsf-tagging</module>
+		<module>gsf-action</module>
+		<module>gsf-mobile</module>
+		<module>gsf-groovy</module>
+		<module>gst-foundation-core</module>
+		<module>gsf-tagging-legacy</module>
+		<module>gsf-taglib-legacy</module>
 		<module>gst-foundation-legacy</module>
 	</modules>
 	<dependencies>
