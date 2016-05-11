@@ -16,8 +16,8 @@
 
 package com.fatwire.gst.foundation.facade.runtag.render;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Builds a PageUrl.
@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class GetPageUrl extends TagRunnerWithArguments {
 
-    private static Log LOG = LogFactory.getLog(GetTemplateUrl.class);
+    private static Logger LOG = LoggerFactory.getLogger(GetTemplateUrl.class);
 
     /**
      * 

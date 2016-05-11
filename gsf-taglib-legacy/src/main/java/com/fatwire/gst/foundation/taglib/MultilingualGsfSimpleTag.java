@@ -33,8 +33,8 @@ import com.fatwire.mda.DimensionFilterInstance;
 import com.fatwire.mda.DimensionManager;
 import com.fatwire.mda.DimensionSetInstance;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * simple tag for translating an asset
@@ -43,7 +43,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 2011-11-28
  */
 public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
-    protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.taglib");
+    protected static final Logger LOG = LoggerFactory.getLogger(MultilingualGsfSimpleTag.class);
 
     private String dimensionSetName = null;
     private long dimensionSetId = -1L;

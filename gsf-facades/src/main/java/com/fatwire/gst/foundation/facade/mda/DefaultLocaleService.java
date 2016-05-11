@@ -24,7 +24,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
@@ -32,7 +33,6 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetLoadByName;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
@@ -49,7 +49,7 @@ import com.fatwire.system.SessionFactory;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 public class DefaultLocaleService implements LocaleService {
-    private static final Log LOG = LogUtil.getLog(DefaultLocaleService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultLocaleService.class);
 
     /** the variable name for the id of the current Dimension */
 

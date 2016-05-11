@@ -22,13 +22,14 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.wra.SimpleWRADao;
 import com.fatwire.gst.foundation.wra.SimpleWra;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Dolf Dijkstra
@@ -37,7 +38,7 @@ import org.apache.commons.logging.Log;
  */
 public class DbSimpleWRADao implements SimpleWRADao {
 
-    private static final Log LOG = LogUtil.getLog(DbSimpleWRADao.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DbSimpleWRADao.class);
 
     private final ICS ics;
 

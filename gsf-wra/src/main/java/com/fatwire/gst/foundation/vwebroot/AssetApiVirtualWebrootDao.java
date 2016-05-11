@@ -31,8 +31,8 @@ import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.wra.VanityAsset;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * DAO for working with Virtual Webroots
@@ -42,7 +42,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
 
-    private static final Log LOG = LogFactory.getLog(AssetApiVirtualWebrootDao.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(AssetApiVirtualWebrootDao.class.getName());
 
     private final ICS ics;
 

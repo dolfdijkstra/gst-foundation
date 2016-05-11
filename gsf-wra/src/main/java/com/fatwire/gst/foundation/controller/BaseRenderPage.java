@@ -26,7 +26,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
@@ -34,7 +36,7 @@ import COM.FutureTense.Util.ftMessage;
 
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.RenderUtils;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate;
 import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style;
 import com.fatwire.gst.foundation.facade.runtag.render.SatellitePage;
@@ -54,7 +56,7 @@ public abstract class BaseRenderPage {
             "eid", "seid", PACKEDARGS, "variant", "context", "pagename", "childpagename", "site", "tid",
             "SystemAssetsRoot", "rendermode", "cshttp", "errno", "tablename", "empty", "ft_ss", "errdetail", "null"));
 
-    protected static final Log LOG = LogUtil.getLog(WraRenderPage.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(WraRenderPage.class);
     protected ICS ics;
 
     public BaseRenderPage() {

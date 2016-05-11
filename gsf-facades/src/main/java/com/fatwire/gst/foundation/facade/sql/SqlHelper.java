@@ -35,8 +35,8 @@ import COM.FutureTense.Interfaces.IList;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A helper class over <tt>ICS.SQL</tt>
@@ -46,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class SqlHelper {
 
-    private static final Log LOG = LogFactory.getLog(SqlHelper.class.getPackage().getName());
+    private static final Logger LOG = LoggerFactory.getLogger(SqlHelper.class);
 
     private SqlHelper() {
     }

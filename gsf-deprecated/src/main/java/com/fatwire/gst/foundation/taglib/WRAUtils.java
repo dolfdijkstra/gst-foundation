@@ -25,15 +25,15 @@ import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author David Chesebro
  * @since Jun 17, 2010
  */
 public class WRAUtils {
-    private final Log LOG = LogFactory.getLog(WRAUtils.class);
+    private final Logger LOG = LoggerFactory.getLogger(WRAUtils.class);
     private WraCoreFieldDao wraDao;
     private AliasCoreFieldDao aliasDao;
 

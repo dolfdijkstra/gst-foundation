@@ -19,6 +19,9 @@ package com.fatwire.gst.foundation.facade.mda;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
@@ -31,8 +34,6 @@ import com.fatwire.mda.DimensionableAssetManager;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Miscellaneous utilities for working with dimensions
@@ -41,7 +42,7 @@ import org.apache.commons.logging.LogFactory;
  * @since Jun 8, 2009
  */
 public final class DimensionUtils {
-    private static final Log _log = LogFactory.getLog(DefaultLocaleService.class.getPackage().getName());
+    private static final Logger _log = LoggerFactory.getLogger(DefaultLocaleService.class);
 
     /**
      * Shorthand function for returning the DimensionableAssetManager given an

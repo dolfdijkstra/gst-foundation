@@ -37,8 +37,8 @@ import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.dbcp.BasicDataSourceFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * NOTE July 6, 2010: The following instructions are not rigorously tested but
@@ -76,7 +76,7 @@ import org.apache.commons.logging.LogFactory;
  * <code>SessionFactory.getSession(ics)</code> operates per usual.
  */
 public abstract class CSTest extends TestCase {
-    static Log log = LogFactory.getLog(CSTest.class);
+    static Logger log = LoggerFactory.getLogger(CSTest.class);
 
     /*
      * (non-Javadoc)
@@ -155,7 +155,7 @@ public abstract class CSTest extends TestCase {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    log.error(e, e);
+                    log.error("Cannot close input stream " + in, e);
                 }
             }
 

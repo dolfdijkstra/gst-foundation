@@ -39,8 +39,6 @@ import com.fatwire.assetapi.common.SiteAccessException;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.site.User;
 import com.fatwire.assetapi.site.UserManager;
-import com.fatwire.gst.foundation.facade.logging.Log;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.runtag.publication.PublicationCreate;
 import com.fatwire.gst.foundation.facade.runtag.publication.PublicationGather;
@@ -55,6 +53,9 @@ import com.fatwire.gst.foundation.url.WraAssetEventListener;
 import com.fatwire.gst.foundation.url.db.UrlRegistryDaoImpl;
 import com.fatwire.system.SessionFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * General installer class to be used by JSP tag library. Also externally
  * accessible.
@@ -64,7 +65,7 @@ import com.fatwire.system.SessionFactory;
  * @since 2012-03-26
  */
 public final class InstallerEngine {
-    protected static final Log LOG = LogUtil.getLog(InstallStatus.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(InstallStatus.class);
 
     public static final String[] GST_SITE_TREETABS = { "Active List", "Admin", "Bookmarks", "Site Plan" };
 

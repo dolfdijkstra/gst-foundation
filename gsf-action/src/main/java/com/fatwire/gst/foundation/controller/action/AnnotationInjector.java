@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.fatwire.gst.foundation.DebugHelper;
@@ -39,8 +39,8 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  * @since Mar 26, 2011
  */
 public final class AnnotationInjector {
-    protected static final Log LOG = LogFactory.getLog(AnnotationInjector.class.getPackage().getName());
-    protected static final Log LOG_TIME = LogFactory.getLog(AnnotationInjector.class.getPackage().getName() + ".time");
+	protected static final Logger LOG = LoggerFactory.getLogger(AnnotationInjector.class.getPackage().getName());
+    protected static final Logger LOG_TIME = LoggerFactory.getLogger(AnnotationInjector.class.getPackage().getName() + ".time");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the
