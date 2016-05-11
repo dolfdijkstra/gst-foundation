@@ -24,8 +24,8 @@ import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
 import com.fatwire.gst.foundation.properties.Property;
 import com.fatwire.gst.foundation.properties.PropertyDao;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * extract the asset id from the asset property value
@@ -34,7 +34,9 @@ import org.apache.commons.logging.LogFactory;
  * @since 11-09-02
  */
 public final class GetPropertyAssetIdTag extends GsfSimpleTag {
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.properties");
+    
+	private static final Logger LOG = LoggerFactory.getLogger("com.fatwire.gst.foundation.properties");
+
     private String name;
     private String property;
 

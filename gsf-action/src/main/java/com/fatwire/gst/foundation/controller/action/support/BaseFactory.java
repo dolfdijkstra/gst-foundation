@@ -24,13 +24,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 
 /**
  * Factory making use to reflection ({@link #reflectionStrategy(String, Class)}
@@ -44,7 +46,7 @@ import com.fatwire.gst.foundation.facade.logging.LogUtil;
  */
 public abstract class BaseFactory implements Factory {
 
-    protected static final Log LOG = LogUtil.getLog(IcsBackedObjectFactoryTemplate.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(IcsBackedObjectFactoryTemplate.class);
 
     protected final ICS ics;
 

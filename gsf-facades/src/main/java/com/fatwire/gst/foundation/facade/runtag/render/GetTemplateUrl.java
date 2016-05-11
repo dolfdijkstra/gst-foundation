@@ -20,8 +20,8 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements the RENDER.GETTEMPLATEURL tag.
@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
  * @since Mar 13, 2011
  */
 public final class GetTemplateUrl extends TagRunnerWithArguments {
-    private static Log LOG = LogFactory.getLog(GetTemplateUrl.class);
+    private static Logger LOG = LoggerFactory.getLogger(GetTemplateUrl.class);
 
     /**
      * 

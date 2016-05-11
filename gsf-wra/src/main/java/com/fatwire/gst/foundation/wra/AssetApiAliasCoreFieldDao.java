@@ -30,8 +30,8 @@ import com.fatwire.gst.foundation.facade.runtag.asset.Children;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
@@ -54,7 +54,7 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
         this.wraCoreFieldDao = wraCoreFieldDao;
     }
 
-    private static final Log LOG = LogFactory.getLog(AssetApiAliasCoreFieldDao.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssetApiAliasCoreFieldDao.class);
 
     /**
      * Return an AssetData object containing the core fields found in an alias

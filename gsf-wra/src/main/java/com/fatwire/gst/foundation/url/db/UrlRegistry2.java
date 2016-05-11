@@ -22,7 +22,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
@@ -30,7 +32,7 @@ import COM.FutureTense.Util.ftErrors;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
@@ -50,7 +52,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 
 public class UrlRegistry2 implements WraPathTranslationService {
-    private static final Log LOG = LogUtil.getLog(UrlRegistry2.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UrlRegistry2.class);
 
     private final ICS ics;
     private final SimpleWRADao wraDao;

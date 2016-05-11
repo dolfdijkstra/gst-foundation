@@ -33,8 +33,9 @@ import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Dao for dealing with core fields in a WRA This DAO is not aware of Aliases.
@@ -64,7 +65,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
         this.ics = ics;
     }
 
-    private static final Log LOG = LogFactory.getLog(AssetApiWraCoreFieldDao.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssetApiWraCoreFieldDao.class);
 
     /**
      * Return an AssetData object containing the core fields found in a

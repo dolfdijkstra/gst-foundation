@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.ISyncHash;
@@ -56,7 +56,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 // TODO: Figure out how to assign these to a give site/publication
 public final class AssetApiPropertyDao implements PropertyDao {
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.properties");
+    private static final Logger LOG = LoggerFactory.getLogger(AssetApiPropertyDao.class);
 
     public static final String TYPE = "GSTProperty";
     public static final String SUBTYPE = "GSTProperty";

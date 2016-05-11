@@ -26,7 +26,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.data.AssetData;
@@ -35,7 +36,6 @@ import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.fatwire.mda.Dimension;
 
 /**
@@ -57,7 +57,7 @@ import com.fatwire.mda.Dimension;
  */
 
 public class ScatteredAsset extends AbstractMap<String, Object> implements Serializable {
-    private static final Log LOG = LogUtil.getLog(ScatteredAsset.class);
+	protected static final Logger LOG = LoggerFactory.getLogger(ScatteredAsset.class);
 
     /**
 	 * 

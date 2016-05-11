@@ -18,13 +18,13 @@ package com.fatwire.gst.foundation.controller.action.support;
 import java.lang.reflect.Constructor;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.FactoryProducer;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
  * Producer for a {@link Factory} that makes use of reflection to construct the
@@ -34,7 +34,8 @@ import com.fatwire.gst.foundation.facade.logging.LogUtil;
  * 
  */
 public class ReflectionFactoryProducer implements FactoryProducer {
-    protected static final Log LOG = LogUtil.getLog(ReflectionFactoryProducer.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(ReflectionFactoryProducer.class);
+    
     private Constructor<Factory> constructor;
 
     public Factory getFactory(final ICS ics) {
@@ -42,7 +43,7 @@ public class ReflectionFactoryProducer implements FactoryProducer {
         try {
             factory = getInjectionFactory(ics);
         } catch (final Exception e) {
-            LOG.warn(e);
+            LOG.warn("Error whilst getting the injection factory", e);
         }
         if (factory == null) {
             factory = new IcsBackedObjectFactoryTemplate(ics);

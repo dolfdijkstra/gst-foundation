@@ -18,8 +18,8 @@ package com.fatwire.gst.foundation.controller.action;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -32,7 +32,8 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
  * @since May 27, 2011
  */
 public final class ActionNameResolverUtils {
-    private static final Log LOG = LogFactory.getLog(ActionNameResolverUtils.class.getPackage().getName());
+	protected static final Logger LOG = LoggerFactory.getLogger(ActionNameResolverUtils.class);
+
     public static final String ACTION_NAME_RESOLVER_BEAN = "gsfActionNameResolver";
 
     private static final ActionNameResolver nullActionNameResolver = new NullActionNameResolver();

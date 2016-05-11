@@ -17,7 +17,8 @@ package com.fatwire.gst.foundation.controller.support;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -25,10 +26,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.fatwire.gst.foundation.controller.AppContext;
 import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
 import com.fatwire.gst.foundation.controller.action.support.NullActionNameResolver;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 public class SpringWebAppContext implements AppContext {
-    protected static final Log LOG = LogUtil.getLog(SpringWebAppContext.class);
+	protected static final Logger LOG = LoggerFactory.getLogger(SpringWebAppContext.class);
     private static final ActionNameResolver nullActionNameResolver = new NullActionNameResolver();
     private final WebApplicationContext wac;
 

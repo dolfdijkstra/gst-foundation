@@ -26,8 +26,8 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAsset;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class renders a standard WRA and loads a specific named association and places it into the model.
@@ -39,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class GeneralRenderPage implements Action {
 
-    protected static final Log LOG = LogFactory.getLog(GeneralRenderPage.class.getPackage().getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(GeneralRenderPage.class);
 
     /**
      * Inject an ICS into the action for convenience

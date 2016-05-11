@@ -17,15 +17,16 @@ package com.fatwire.gst.foundation.facade.assetapi.listener;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class EventPrintAssetListener extends AbstractAssetEventListener {
-    private static final Log LOG = LogFactory.getLog(EventPrintAssetListener.class.getPackage().getName());
+	protected static final Logger LOG = LoggerFactory.getLogger(EventPrintAssetListener.class);
 
     @Override
     public void assetAdded(final AssetId id) {

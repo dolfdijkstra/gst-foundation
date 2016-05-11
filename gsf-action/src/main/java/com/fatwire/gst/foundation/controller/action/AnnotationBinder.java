@@ -24,8 +24,8 @@ import java.util.Date;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -41,8 +41,8 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  * @since 12 mei 2012
  */
 public final class AnnotationBinder {
-    protected static final Log LOG = LogFactory.getLog(AnnotationBinder.class.getPackage().getName());
-    protected static final Log LOG_TIME = LogFactory.getLog(AnnotationBinder.class.getPackage().getName() + ".time");
+	protected static final Logger LOG = LoggerFactory.getLogger(AnnotationBinder.class);
+	protected static final Logger LOG_TIME = LoggerFactory.getLogger(AnnotationBinder.class + ".time");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the
@@ -129,7 +129,7 @@ public final class AnnotationBinder {
                             } catch (NoSuchMethodException e) {
                                 // ignore
                             } catch (IllegalArgumentException e) {
-                                LOG.debug(e);
+                                LOG.debug("Exception whilst introspecting session object " + obj);
                             } catch (InvocationTargetException e) {
                                 LOG.warn(e.getMessage());
                             }

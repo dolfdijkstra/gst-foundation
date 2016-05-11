@@ -26,8 +26,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
@@ -56,7 +57,7 @@ import com.fatwire.mda.DimensionFilterInstance;
  */
 public class WraNavigationService extends AbstractNavigationService implements NavigationService {
 
-    private static final Log LOG = LogFactory.getLog(WraNavigationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WraNavigationService.class);
     /**
      * Name of the page subtype indicating that this page is NOT rendered on the
      * site but is instead merely used to group navigation components on the

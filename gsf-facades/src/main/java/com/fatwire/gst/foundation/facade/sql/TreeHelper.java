@@ -26,8 +26,8 @@ import COM.FutureTense.Interfaces.IList;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Simple class used to help out with TreeManager commands
@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 2011-10-13
  */
 public final class TreeHelper {
-    private static final Log LOG = LogFactory.getLog(TreeHelper.class.getPackage().getName());
+    private static final Logger LOG = LoggerFactory.getLogger(TreeHelper.class);
 
     private TreeHelper() {
     }

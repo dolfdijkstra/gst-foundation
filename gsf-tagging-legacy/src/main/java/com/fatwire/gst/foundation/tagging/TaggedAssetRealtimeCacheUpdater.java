@@ -24,8 +24,8 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.realtime.PageCacheUpdaterImpl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepString;
 
@@ -49,7 +49,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  */
 public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl {
 
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.tagging");
+    private static final Logger LOG = LoggerFactory.getLogger(TaggedAssetRealtimeCacheUpdater.class);
 
     @Override
     protected void beforeSelect(ICS ics, Collection<String> invalKeys, Collection<String> regenKeys,

@@ -26,14 +26,16 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
 
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
@@ -50,7 +52,7 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
  */
 public class GroovyElementCatalogLoader extends DiskGroovyLoader {
 	private PreparedStmt stmt;
-	private Log logger = LogUtil.getLog(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	private boolean isLoaded = false;
 	private String path;
 
