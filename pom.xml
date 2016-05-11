@@ -57,6 +57,7 @@
 		<module>gsf-tagging-legacy</module>
 		<module>gsf-taglib-legacy</module>
 		<module>gst-foundation-legacy</module>
+		<module>gsf-action-legacy</module>
 	</modules>
 	<dependencies>
 		<dependency>
