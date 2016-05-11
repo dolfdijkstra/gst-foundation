@@ -26,8 +26,8 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.include.Include;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Includes a template,element or page in a jsp page.
@@ -37,7 +37,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class IncludeTag extends GsfSimpleTag {
 
-    static final Log LOG = LogFactory.getLog(IncludeTag.class.getPackage().getName());
+    static final Logger LOG = LoggerFactory.getLogger(IncludeTag.class);
 
     private String name;
     private boolean silent = false;

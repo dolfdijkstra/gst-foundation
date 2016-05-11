@@ -23,15 +23,15 @@ import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.openmarket.xcelerate.interfaces.IAsset;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Dolf Dijkstra
  * @since Apr 6, 2011
  */
 public class DateFilterClosure implements AssetClosure {
-    private static Log LOG = LogFactory.getLog(DateFilterClosure.class.getPackage().getName());
+	protected static final Logger LOG = LoggerFactory.getLogger(DateFilterClosure.class);
 
     private final Date cutoff;
 

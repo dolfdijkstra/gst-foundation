@@ -16,14 +16,15 @@
 package com.fatwire.gst.foundation.controller.action.support;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.Injector;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
  * ActionLocator that loads actions based on a naming convention; if the action name is prefixed with <tt>class:</tt>
@@ -34,7 +35,8 @@ import com.fatwire.gst.foundation.facade.logging.LogUtil;
  *
  */
 public class ClassActionLocator extends AbstractActionLocator {
-    private static final Log LOG = LogUtil.getLog(ClassActionLocator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClassActionLocator.class);
+    
     private static final String CLASS_PREFIX = "class:";
 
     public ClassActionLocator(ActionLocator fallbackActionLocator, Injector injector) {

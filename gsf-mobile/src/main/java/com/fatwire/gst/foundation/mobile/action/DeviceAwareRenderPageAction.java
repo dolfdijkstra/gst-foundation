@@ -16,7 +16,9 @@
 package com.fatwire.gst.foundation.mobile.action;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Util.ftErrors;
 
@@ -25,7 +27,7 @@ import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.RenderPage;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.mobile.DeviceDetector;
 import com.fatwire.gst.foundation.mobile.DeviceType;
@@ -46,7 +48,7 @@ import com.fatwire.mda.DimensionFilterInstance;
  */
 public class DeviceAwareRenderPageAction extends RenderPage {
 
-    static final private Log log = LogUtil.getLog(DeviceAwareRenderPageAction.class);
+    static final private Logger log = LoggerFactory.getLogger(DeviceAwareRenderPageAction.class);
 
     @InjectForRequest
     public DeviceDetector detector;

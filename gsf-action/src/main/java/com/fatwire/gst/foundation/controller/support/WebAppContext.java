@@ -23,11 +23,12 @@ import javax.servlet.ServletContext;
 import org.apache.commons.lang.StringUtils;
 
 import com.fatwire.gst.foundation.controller.AppContext;
-import com.fatwire.gst.foundation.facade.logging.Log;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebAppContext implements AppContext {
-    protected static final Log LOG = LogUtil.getLog(WebAppContext.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(WebAppContext.class);
 
     public static final String WEB_CONTEXT_NAME = "gsf/AppContext";
 

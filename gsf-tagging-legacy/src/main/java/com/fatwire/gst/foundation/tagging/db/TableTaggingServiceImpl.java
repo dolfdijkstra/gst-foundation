@@ -35,7 +35,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetMapper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.cm.AddRow;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.Row;
@@ -48,7 +48,9 @@ import com.fatwire.gst.foundation.tagging.Tag;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.fatwire.gst.foundation.tagging.TagUtils.asTag;
 import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepString;
@@ -61,7 +63,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  */
 public final class TableTaggingServiceImpl implements AssetTaggingService {
 
-    private static final Log LOG = LogUtil.getLog(TableTaggingServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TableTaggingServiceImpl.class);
 
     public static String TAGREGISTRY_TABLE = "GSTTagRegistry";
     public static String TABLE_ACL_LIST = ""; // no ACLs because events are

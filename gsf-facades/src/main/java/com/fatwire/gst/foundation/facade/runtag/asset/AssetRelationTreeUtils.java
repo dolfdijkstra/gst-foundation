@@ -23,6 +23,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
@@ -37,8 +40,6 @@ import com.fatwire.gst.foundation.facade.sql.TreeHelper;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 import com.openmarket.xcelerate.publish.Render;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import static com.fatwire.gst.foundation.IListUtils.getStringValue;
 
@@ -50,7 +51,7 @@ import static com.fatwire.gst.foundation.IListUtils.getStringValue;
  */
 public final class AssetRelationTreeUtils {
 
-    private static final Log LOG = LogFactory.getLog(AssetRelationTreeUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssetRelationTreeUtils.class);
 
     /**
      * Get all of the parent assets in the AssetRelationTree for the specified
@@ -69,7 +70,7 @@ public final class AssetRelationTreeUtils {
      * @return list of parents, never null.
      * @see #getParents(ICS, AssetId, String[])
      */
-    public static List<AssetId> getAssetRelationTreeParents(ICS ics, Log log, AssetId child, String expectedParentType, String associationName) {
+    public static List<AssetId> getAssetRelationTreeParents(ICS ics, Logger log, AssetId child, String expectedParentType, String associationName) {
         FTValList vl = new FTValList();
         vl.setValString("ftcmd", "findnode");
         vl.setValString("treename", "AssetRelationTree");

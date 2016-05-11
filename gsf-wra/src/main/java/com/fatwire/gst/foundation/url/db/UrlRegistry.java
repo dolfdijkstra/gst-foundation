@@ -27,7 +27,7 @@ import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
@@ -42,7 +42,9 @@ import com.fatwire.gst.foundation.wra.VanityAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -54,7 +56,7 @@ import org.apache.commons.logging.Log;
  @Deprecated
 public class UrlRegistry implements WraPathTranslationService {
 
-    private static final Log LOG = LogUtil.getLog(UrlRegistry.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UrlRegistry.class);
 
     private final ICS ics;
     private final WraCoreFieldDao wraDao;

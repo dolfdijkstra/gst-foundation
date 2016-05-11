@@ -18,8 +18,9 @@ package com.fatwire.gst.foundation.wra.navigation;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -65,7 +66,7 @@ public abstract class AbstractNavigationHelper {
     /**
      * Log file
      */
-    protected static final Log LOG = LogFactory.getLog(AbstractNavigationHelper.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(AbstractNavigationHelper.class);
     /**
      * Effective date for the purposes of startdate/enddate comparisons for an
      * asset.

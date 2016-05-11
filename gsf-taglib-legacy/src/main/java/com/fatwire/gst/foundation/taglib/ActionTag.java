@@ -29,8 +29,8 @@ import com.fatwire.gst.foundation.controller.action.ActionLocatorUtils;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.AnnotationUtils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JSP tag that replaces the GsfRoot tag and adds Action support. If the action
@@ -40,8 +40,8 @@ import org.apache.commons.logging.LogFactory;
  * @since Apr 13, 2011
  */
 public class ActionTag extends GsfSimpleTag {
-    static final Log LOG = LogFactory.getLog(ActionTag.class.getPackage().getName());
-    static final Log LOG_TIME = LogFactory.getLog(ActionTag.class.getPackage().getName() + ".time");
+    static final Logger LOG = LoggerFactory.getLogger(ActionTag.class.getPackage().getName());
+    static final Logger LOG_TIME = LoggerFactory.getLogger(ActionTag.class.getPackage().getName() + ".time");
 
     private String action;
 

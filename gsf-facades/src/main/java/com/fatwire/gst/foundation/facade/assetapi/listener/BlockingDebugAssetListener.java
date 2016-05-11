@@ -15,10 +15,10 @@
  */
 package com.fatwire.gst.foundation.facade.assetapi.listener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import COM.FutureTense.Interfaces.ICS;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.data.AssetData;
@@ -29,8 +29,8 @@ import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
 public class BlockingDebugAssetListener extends AbstractAssetEventListener {
-	private static final Log LOG = LogFactory
-			.getLog(BlockingDebugAssetListener.class.getPackage().getName());
+
+	protected static final Logger LOG = LoggerFactory.getLogger(BlockingDebugAssetListener.class);
 	private ICS ics;
 
 	void printAsset(final AssetId id) {
@@ -42,7 +42,7 @@ public class BlockingDebugAssetListener extends AbstractAssetEventListener {
 				LOG.debug("Print asset with current ICS " + id);
 				LOG.debug(DebugHelper.printAsset(ad));
 			} catch (final AssetAccessException e) {
-				LOG.error(e);
+				LOG.error("Exception thrown whilst accessing asset " + id, e);
 			}
 		}
 

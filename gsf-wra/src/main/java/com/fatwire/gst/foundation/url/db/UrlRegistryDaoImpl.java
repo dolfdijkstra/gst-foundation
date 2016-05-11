@@ -27,7 +27,7 @@ import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.facade.cm.AddRow;
 import com.fatwire.gst.foundation.facade.cm.ReplaceRow;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
+
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.facade.sql.table.TableColumn.Type;
@@ -37,7 +37,9 @@ import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
 import com.fatwire.gst.foundation.wra.SimpleWra;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * WraPathTranslationService that is backed by the GSTUrlRegistry table.
@@ -67,7 +69,7 @@ public class UrlRegistryDaoImpl implements UrlRegistryDao {
 
     private static final String ID = "id";
 
-    private static final Log LOG = LogUtil.getLog(UrlRegistryDaoImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UrlRegistryDaoImpl.class);
 
     private final ICS ics;
     private static final String URLREG_TABLE = "GSTUrlRegistry";

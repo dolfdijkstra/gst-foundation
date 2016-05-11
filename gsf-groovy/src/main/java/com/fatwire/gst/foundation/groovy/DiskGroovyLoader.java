@@ -29,12 +29,13 @@ import java.net.URL;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.codehaus.groovy.control.CompilationFailedException;
 
 import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
  * Loader for groovy script classes, configured via the ServletContext
@@ -48,7 +49,7 @@ import com.fatwire.gst.foundation.facade.logging.LogUtil;
  */
 public class DiskGroovyLoader implements GroovyLoader {
 
-    private Log logger = LogUtil.getLog(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private GroovyScriptEngine groovyScriptEngine;
 
     private File scriptPath;

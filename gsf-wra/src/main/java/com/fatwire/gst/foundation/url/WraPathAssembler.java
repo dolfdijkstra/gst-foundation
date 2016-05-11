@@ -31,8 +31,9 @@ import com.fatwire.cs.core.uri.Simple;
 import com.openmarket.xcelerate.publish.PubConstants;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
@@ -43,7 +44,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * @since Jul 20, 2010
  */
 public final class WraPathAssembler extends LightweightAbstractAssembler {
-    protected static final Log LOG = LogFactory.getLog(WraPathAssembler.class.getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(WraPathAssembler.class);
 
     /**
      * Name of query string parameter for virtual webroot
@@ -236,9 +237,9 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             }
             msg.append("Assembled URI").append(uri.toASCIIString());
             if (LOG.isTraceEnabled())
-                LOG.trace(msg);
+                LOG.trace(msg.toString());
             else
-                LOG.debug(msg);
+                LOG.debug(msg.toString());
         }
         return uri;
     }

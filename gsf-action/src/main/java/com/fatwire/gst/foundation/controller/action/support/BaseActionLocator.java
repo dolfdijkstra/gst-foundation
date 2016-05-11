@@ -16,8 +16,8 @@
 
 package com.fatwire.gst.foundation.controller.action.support;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -39,7 +39,7 @@ import com.fatwire.gst.foundation.controller.action.RenderPage;
  */
 public abstract class BaseActionLocator extends AbstractActionLocator {
 
-    protected static final Log LOG = LogFactory.getLog(BaseActionLocator.class.getPackage().getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(BaseActionLocator.class);
 
     private ReflectionFactoryProducer f = new ReflectionFactoryProducer();
     private Injector i;

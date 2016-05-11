@@ -54,6 +54,7 @@
 		<module>gsf-mobile</module>
 		<module>gsf-groovy</module>
 		<module>gst-foundation-core</module>
+		<module>gsf-facades-legacy</module>
 		<module>gsf-tagging-legacy</module>
 		<module>gsf-taglib-legacy</module>
 		<module>gst-foundation-legacy</module>
@@ -64,6 +65,11 @@
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>

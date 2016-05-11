@@ -17,8 +17,9 @@ package com.fatwire.gst.foundation.url;
 
 import com.fatwire.cs.core.uri.Assembler;
 import com.fatwire.cs.core.uri.Util;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -38,7 +39,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
     /**
      * Logger for use by sub-classes.
      */
-    protected static final Log LOG = LogFactory.getLog(LightweightAbstractAssembler.class.getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(LightweightAbstractAssembler.class);
 
     private static final String CHARSET_lower = "_charset_";
     private static final String CHARSET_upper = "_CHARSET_";
@@ -351,7 +352,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
                     bf.append('[').append(rawKey).append(']').append('=').append('[').append(rawVal).append(']');
                     bf.append(" decoded to: ");
                     bf.append('[').append(key).append(']').append('=').append('[').append(val[i]).append(']');
-                    LOG.trace(bf);
+                    LOG.trace(bf.toString());
                 }
             }
             res.put(key, val);
@@ -388,7 +389,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
                                     + val + "]");
                             bf.append(" after encoding: [").append(encode(key)).append("]=[").append(encode(val))
                                     .append("]");
-                            LOG.trace(bf);
+                            LOG.trace(bf.toString());
 
                         }
                         qryStr.append(encode(key)).append('=').append(encode(val));

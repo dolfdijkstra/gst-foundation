@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class HttpResponseStatusFilter implements Filter {
 
-    private static Log log = LogFactory.getLog(HttpResponseStatusFilter.class.getPackage().getName());
+    private static Logger log = LoggerFactory.getLogger(HttpResponseStatusFilter.class);
     private boolean sendError = false;
 
     /**
