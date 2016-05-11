@@ -17,8 +17,6 @@
 package com.fatwire.gst.foundation.controller.action.support;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 import COM.FutureTense.Cache.CacheManager;
@@ -28,6 +26,9 @@ import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Injector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ActionLocator with support for {@link Injector} and a fall back
@@ -42,7 +43,8 @@ import com.fatwire.gst.foundation.controller.action.Injector;
  */
 public abstract class AbstractActionLocator implements ActionLocator {
 
-    protected static final Log LOG = LogFactory.getLog(AbstractActionLocator.class.getPackage().getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(AbstractActionLocator.class);
+    
     /**
      * The default fallbackActionLocator in case no action is found.
      */

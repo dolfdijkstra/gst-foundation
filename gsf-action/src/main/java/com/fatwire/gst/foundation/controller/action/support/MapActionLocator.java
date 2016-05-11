@@ -19,8 +19,8 @@ package com.fatwire.gst.foundation.controller.action.support;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -38,7 +38,8 @@ import com.fatwire.gst.foundation.controller.action.Action;
 
 public class MapActionLocator extends BaseActionLocator {
 
-    protected static final Log LOG = LogFactory.getLog(MapActionLocator.class.getPackage().getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(MapActionLocator.class);
+    
     private Map<String, Action> commandActionMap = new HashMap<String, Action>();
 
     public MapActionLocator() {

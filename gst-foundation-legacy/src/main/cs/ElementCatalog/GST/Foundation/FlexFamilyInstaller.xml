@@ -1,0 +1,211 @@
+<?xml version="1.0" ?>
+<!--
+
+    Copyright 2010 FatWire Corporation. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<FTCS Version="1.1">
+<!-- GST/FlexFamilyInstaller
+
+INPUT
+
+OUTPUT
+
+-->
+<LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Creating flex family" />
+<CALLELEMENT NAME="OpenMarket/Gator/FlexibleAssets/AssetMaker/makeasset" SCOPED="LOCAL">
+
+    <ARGUMENT NAME="Filt" VALUE="GSTFilter"/>
+    <ARGUMENT NAME="PluralFilt" VALUE="GST Filters"/>
+    <ARGUMENT NAME="DescFilt" VALUE="GST Filter"/>
+
+    <ARGUMENT NAME="Attr" VALUE="GSTAttribute"/>
+    <ARGUMENT NAME="PluralAttr" VALUE="GST Attributes"/>
+    <ARGUMENT NAME="DescAttr" VALUE="GST Attribute"/>
+
+    <ARGUMENT NAME="PGT" VALUE="GSTPDefinition"/>
+    <ARGUMENT NAME="DescPGT" VALUE="GST Parent Definition"/>
+    <ARGUMENT NAME="PluralPGT" VALUE="GST Parent Definitions"/>
+
+    <ARGUMENT NAME="PT" VALUE="GSTDefinition"/>
+    <ARGUMENT NAME="DescPT" VALUE="GST Definition"/>
+    <ARGUMENT NAME="PluralPT" VALUE="GST Definitions"/>
+
+    <ARGUMENT NAME="Group" VALUE="GSTParent"/>
+    <ARGUMENT NAME="DescGroup" VALUE="GST Parent"/>
+    <ARGUMENT NAME="PluralGroup" VALUE="GST Parents"/>
+
+    <ARGUMENT NAME="Prod" VALUE="GSTVirtualWebroot"/>
+    <ARGUMENT NAME="DescProd" VALUE="GST VirtualWebroot"/>
+    <ARGUMENT NAME="PluralProd" VALUE="GST VirtualWebroots"/>
+
+</CALLELEMENT>
+
+<assettype.list LIST="ga" FIELD1="assettype" VALUE1="GSTAlias"/>
+<IF COND="Variables.errno=-101">
+<THEN>
+    <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Adding GSTAlias to flex family" />
+    <CALLELEMENT NAME="OpenMarket/Xcelerate/Admin/FlexFamily" SCOPED="LOCAL">
+        <ARGUMENT NAME="op" VALUE="make"/>
+        <ARGUMENT NAME="pagetype" VALUE="post"/>
+        <ARGUMENT NAME="member" VALUE="asset"/>
+        <ARGUMENT NAME="parent" VALUE="GSTParent"/>
+        <ARGUMENT NAME="def" VALUE="GSTDefinition"/>
+        <argument NAME="Filt" VALUE="GSTAlias"/>
+        <argument NAME="DescFilt" VALUE="GST Alias"/>
+        <argument NAME="PluralFilt" VALUE="GST Aliases"/>
+    </CALLELEMENT>
+</THEN>
+</IF>
+
+<assettype.list LIST="ga" FIELD1="assettype" VALUE1="GSTProperty"/>
+<IF COND="Variables.errno=-101">
+<THEN>
+    <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Adding GSTProperty to flex family" />
+    <CALLELEMENT NAME="OpenMarket/Xcelerate/Admin/FlexFamily" SCOPED="LOCAL">
+        <ARGUMENT NAME="op" VALUE="make"/>
+        <ARGUMENT NAME="pagetype" VALUE="post"/>
+        <ARGUMENT NAME="member" VALUE="asset"/>
+        <ARGUMENT NAME="parent" VALUE="GSTParent"/>
+        <ARGUMENT NAME="def" VALUE="GSTDefinition"/>
+        <argument NAME="Filt" VALUE="GSTProperty"/>
+        <argument NAME="DescFilt" VALUE="GST Property"/>
+        <argument NAME="PluralFilt" VALUE="GST Properties"/>
+    </CALLELEMENT>
+</THEN>
+</IF>
+
+<STRINGLIST NAME="AssetTypes" STR="GSTAttribute,GSTFilter,GSTPDefinition,GSTDefinition,GSTParent" DELIM=","/>
+<LOOP LIST="AssetTypes">
+    <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Enabling and creating start menus for AssetTypes.ITEM" />
+    <callelement NAME="OpenMarket/Xcelerate/Actions/AssetMgt/EnableAssetTypePub" SCOPED="LOCAL">
+	    <argument NAME="upcommand" VALUE="EnableAssetType"/>
+	    <argument NAME="assettype" VALUE="AssetTypes.ITEM"/>
+	    <argument NAME="pubid" VALUE="SessionVariables.pubid"/>
+    </callelement>
+
+    
+    <assettype.list LIST="ThisAsset" FIELD1="assettype" VALUE1="AssetTypes.ITEM"/>
+
+    <STARTMENU.LOAD NAME="Find AssetTypes.ITEM" ITEMTYPE="Search" OBJVARNAME="miTest"/>
+    <STARTMENUITEM.GETID NAME="miTest" VARNAME="miExists"/>
+    <IF COND="IsVariable.miExists=false">
+        <THEN>
+            <STARTMENU.CREATE OBJVARNAME="mi" />
+            <SETVAR NAME="item:name" VALUE="Find AssetTypes.ITEM" />
+            <SETVAR NAME="item:description" VALUE="Find ThisAsset.description" />
+            <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+            <SETVAR NAME="item:itemtype" VALUE="Search" />
+            <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
+            <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+            <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+            <SETVAR NAME="item:assetsubtype" VALUE="Variables.empty" />
+            <SETVAR NAME="item:processinput" VALUE="notallowed" />
+            <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+            <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+            <SETVAR NAME="item:argumentsargumentTotal" VALUE="0" />
+            <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+            <STARTMENU.SAVE OBJECT="mi" />
+        </THEN>
+    </IF>
+
+    <STARTMENU.LOAD NAME="New AssetTypes.ITEM" ITEMTYPE="ContentForm" OBJVARNAME="miTest"/>
+    <STARTMENUITEM.GETID NAME="miTest" VARNAME="miExists"/>
+    <IF COND="IsVariable.miExists=false">
+        <THEN>
+            <STARTMENU.CREATE OBJVARNAME="mi" />
+            <SETVAR NAME="item:name" VALUE="New AssetTypes.ITEM" />
+            <SETVAR NAME="item:description" VALUE="New ThisAsset.description" />
+            <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+            <SETVAR NAME="item:itemtype" VALUE="ContentForm" />
+            <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
+            <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+            <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+            <SETVAR NAME="item:assetsubtype" VALUE="Variables.empty" />
+            <SETVAR NAME="item:processinput" VALUE="notallowed" />
+            <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+            <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+            <SETVAR NAME="item:argumentsargumentTotal" VALUE="0" />
+            <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+            <STARTMENU.SAVE OBJECT="mi" />
+        </THEN>
+    </IF>
+
+</LOOP>
+<STRINGLIST NAME="AssetTypes" STR="GSTVirtualWebroot,GSTAlias,GSTProperty" DELIM=","/>
+<LOOP LIST="AssetTypes">
+    <LOGMSG NAME="com.fatwire.gst.foundation.taglib.install" STR="Enabling and creating start menus for AssetTypes.ITEM" />
+    <callelement NAME="OpenMarket/Xcelerate/Actions/AssetMgt/EnableAssetTypePub" SCOPED="LOCAL">
+	    <argument NAME="upcommand" VALUE="EnableAssetType"/>
+	    <argument NAME="assettype" VALUE="AssetTypes.ITEM"/>
+	    <argument NAME="pubid" VALUE="SessionVariables.pubid"/>
+    </callelement>
+
+    
+    <assettype.list LIST="ThisAsset" FIELD1="assettype" VALUE1="AssetTypes.ITEM"/>
+
+    <STARTMENU.LOAD NAME="Find AssetTypes.ITEM" ITEMTYPE="Search" OBJVARNAME="miTest"/>
+    <STARTMENUITEM.GETID NAME="miTest" VARNAME="miExists"/>
+    <IF COND="IsVariable.miExists=false">
+        <THEN>
+            <STARTMENU.CREATE OBJVARNAME="mi" />
+            <SETVAR NAME="item:name" VALUE="Find AssetTypes.ITEM" />
+            <SETVAR NAME="item:description" VALUE="Find ThisAsset.description" />
+            <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+            <SETVAR NAME="item:itemtype" VALUE="Search" />
+            <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
+            <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+            <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+            <SETVAR NAME="item:argumentsargumentTotal" VALUE="1"/>
+            <SETVAR NAME="item:argumentsargument0name" VALUE="subtype"/>
+            <SETVAR NAME="item:argumentsargument0value" VALUE="AssetTypes.ITEM"/>
+            <SETVAR NAME="item:assetsubtype" VALUE="AssetTypes.ITEM" />
+            <SETVAR NAME="item:processinput" VALUE="notallowed" />
+            <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+            <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+            <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+            <STARTMENU.SAVE OBJECT="mi" />
+        </THEN>
+    </IF>
+
+    <STARTMENU.LOAD NAME="New AssetTypes.ITEM" ITEMTYPE="ContentForm" OBJVARNAME="miTest"/>
+    <STARTMENUITEM.GETID NAME="miTest" VARNAME="miExists"/>
+    <IF COND="IsVariable.miExists=false">
+        <THEN>
+            <STARTMENU.CREATE OBJVARNAME="mi" />
+            <SETVAR NAME="item:name" VALUE="New AssetTypes.ITEM" />
+            <SETVAR NAME="item:description" VALUE="New ThisAsset.description" />
+            <SETVAR NAME="item:assettype" VALUE="AssetTypes.ITEM"/>
+            <SETVAR NAME="item:itemtype" VALUE="ContentForm" />
+            <SETVAR NAME="item:legalsitessites" VALUE="_ALL_" />
+            <SETVAR NAME="item:legalrolesroles" VALUE="_ALL_" />
+            <SETVAR NAME="item:sitessites" VALUE="Variables.empty" />
+            <SETVAR NAME="item:argumentsargumentTotal" VALUE="1"/>
+            <SETVAR NAME="item:argumentsargument0name" VALUE="subtype"/>
+            <SETVAR NAME="item:argumentsargument0value" VALUE="AssetTypes.ITEM"/>
+            <SETVAR NAME="item:assetsubtype" VALUE="AssetTypes.ITEM" />
+            <SETVAR NAME="item:processinput" VALUE="notallowed" />
+            <SETVAR NAME="item:participantinput" VALUE="notallowed" />
+            <SETVAR NAME="item:siteinput" VALUE="notallowed" />
+
+            <STARTMENUITEM.GATHER NAME="mi" PREFIX="item:" />
+            <STARTMENU.SAVE OBJECT="mi" />
+        </THEN>
+    </IF>
+
+</LOOP>
+
+
+</FTCS>

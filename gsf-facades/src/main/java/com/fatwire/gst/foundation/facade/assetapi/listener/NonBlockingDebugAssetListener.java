@@ -15,10 +15,10 @@
  */
 package com.fatwire.gst.foundation.facade.assetapi.listener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import COM.FutureTense.Interfaces.ICS;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.basic.event.AbstractAssetEventListener;
@@ -30,8 +30,7 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
  * 
  */
 public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
-	private static final Log LOG = LogFactory
-			.getLog(NonBlockingDebugAssetListener.class.getPackage().getName());
+	protected static final Logger LOG = LoggerFactory.getLogger(NonBlockingDebugAssetListener.class);
 	private ICS ics;
 
 	void printAsset(final AssetId id) {

@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
@@ -55,7 +55,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 
 public final class LocaleUtils {
-    private static final Log _log = LogFactory.getLog(LocaleUtils.class);
+    private static final Logger _log = LoggerFactory.getLogger(LocaleUtils.class);
 
     private LocaleUtils() {
     }

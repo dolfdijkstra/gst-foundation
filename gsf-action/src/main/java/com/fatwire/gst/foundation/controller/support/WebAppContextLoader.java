@@ -32,11 +32,11 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fatwire.gst.foundation.controller.AppContext;
 import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
  * ServletContextListener that loads and configures the AppContext for this
@@ -50,7 +50,7 @@ public class WebAppContextLoader implements ServletContextListener {
     private static final String GROOVY_CLASSNAME = "groovy.util.GroovyScriptEngine";
     public static final String CONTEXTS = "gsf-contexts";
 
-    protected static final Log LOG = LogUtil.getLog(WebAppContextLoader.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(WebAppContextLoader.class);
     boolean booted = false;
     private static final Class<?>[] ARGS = new Class[] { ServletContext.class, AppContext.class };
 
@@ -180,19 +180,19 @@ public class WebAppContextLoader implements ServletContextListener {
                         parent = n;
                     }
                 } catch (final IllegalArgumentException e) {
-                    LOG.warn(e);
+                    LOG.warn("Couldn't create the app context", e);
                 } catch (final InstantiationException e) {
-                    LOG.warn(e);
+                	LOG.warn("Couldn't create the app context", e);
                 } catch (final IllegalAccessException e) {
-                    LOG.warn(e);
+                	LOG.warn("Couldn't create the app context", e);
                 } catch (final InvocationTargetException e) {
-                    LOG.warn(e);
+                	LOG.warn("Couldn't create the app context", e);
                 } catch (final SecurityException e) {
-                    LOG.warn(e);
+                	LOG.warn("Couldn't create the app context", e);
                 } catch (final NoSuchMethodException e) {
-                    LOG.warn(e);
+                	LOG.warn("Couldn't create the app context", e);
                 } catch (final ClassNotFoundException e) {
-                    LOG.warn(e);
+                	LOG.warn("Couldn't create the app context", e);
                 }
 
             }

@@ -46,8 +46,9 @@ import com.fatwire.mda.DimensionFilterInstance;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.isValidOnDate;
 
@@ -78,7 +79,7 @@ public class NavigationHelper {
     /**
      * Log file
      */
-    protected final Log LOG = LogFactory.getLog(NavigationHelper.class);
+    protected final Logger LOG = LoggerFactory.getLogger(NavigationHelper.class);
     /**
      * Effective date for the purposes of startdate/enddate comparisons for an
      * asset.

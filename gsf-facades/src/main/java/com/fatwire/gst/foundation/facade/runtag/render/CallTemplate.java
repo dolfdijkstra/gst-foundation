@@ -33,8 +33,8 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.RenderUtils;
 import com.fatwire.gst.foundation.facade.runtag.TagRunnerRuntimeException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CallTemplate tag with many improvements around context and style.
@@ -58,7 +58,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CallTemplate extends TagRunnerWithRenderArguments {
 
-    private static Log LOG = LogFactory.getLog(CallTemplate.class.getPackage().getName());
+    private static Logger LOG = LoggerFactory.getLogger(CallTemplate.class);
 
     static private boolean configLoaded = false;
     /**

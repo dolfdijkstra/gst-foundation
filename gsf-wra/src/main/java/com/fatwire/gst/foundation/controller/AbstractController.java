@@ -22,8 +22,8 @@ import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
@@ -40,7 +40,7 @@ import com.fatwire.gst.foundation.httpstatus.HttpStatusStrings;
  */
 
 public abstract class AbstractController  {
-    protected static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.controller");
+    protected static final Logger LOG = LoggerFactory.getLogger("com.fatwire.gst.foundation.controller");
 
     public static final String STATUS_HEADER = HttpStatusStrings.X_FATWIRE_STATUS;
 

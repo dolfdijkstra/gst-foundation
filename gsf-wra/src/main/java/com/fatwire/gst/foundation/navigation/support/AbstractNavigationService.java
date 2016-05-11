@@ -21,8 +21,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -37,7 +38,7 @@ import com.fatwire.gst.foundation.navigation.NavigationNode;
 import com.fatwire.gst.foundation.navigation.NavigationService;
 
 public abstract class AbstractNavigationService implements NavigationService {
-    private static final Log LOG = LogFactory.getLog(AbstractNavigationService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractNavigationService.class);
 
     private static final String NODE_SQL = "SELECT nid,oid,otype FROM SitePlanTree WHERE otype='Publication' AND exists (SELECT 1 FROM Publication WHERE name=? AND id=SitePlanTree.oid)";
 

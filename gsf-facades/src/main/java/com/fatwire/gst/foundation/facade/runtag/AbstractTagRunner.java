@@ -18,8 +18,8 @@ package com.fatwire.gst.foundation.facade.runtag;
 
 import java.util.Enumeration;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
@@ -34,7 +34,7 @@ import com.fatwire.gst.foundation.facade.FTValListFacade;
 
 public abstract class AbstractTagRunner extends FTValListFacade implements TagRunner {
 
-    private static final Log LOG = LogFactory.getLog(AbstractTagRunner.class.getPackage().getName());
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractTagRunner.class);
 
     private final String tagName;
 
@@ -100,7 +100,7 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
                 sb.append("\n\t").append(key).append("=")
                         .append(isPW(key) ? "<password suppressed>" : ics.GetSSVar(key));
             }
-            LOG.trace(sb);
+            LOG.trace(sb.toString());
         }
         String s = ics.runTag(tagName, list);
         if (LOG.isTraceEnabled()) {
@@ -124,7 +124,7 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
                 sb.append("\n\t").append(key).append("=")
                         .append(isPW(key) ? "<password suppressed>" : ics.GetSSVar(key));
             }
-            LOG.trace(sb);
+            LOG.trace(sb.toString());
         }
         postExecute(ics);
         if (ics.GetErrno() < 0) {

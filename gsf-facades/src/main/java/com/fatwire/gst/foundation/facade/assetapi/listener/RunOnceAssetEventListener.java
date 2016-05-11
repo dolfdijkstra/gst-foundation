@@ -18,13 +18,13 @@ package com.fatwire.gst.foundation.facade.assetapi.listener;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
 /**
@@ -37,7 +37,7 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
 
 public abstract class RunOnceAssetEventListener extends
 		AbstractAssetEventListener {
-	protected final Log LOG = LogUtil.getLog(getClass());
+	protected final Logger LOG = LoggerFactory.getLogger(getClass());
 	private ICS ics;
 
 	private static class RunOnceList {

@@ -16,8 +16,8 @@
 
 package com.fatwire.gst.foundation.facade.ics;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.CS.Factory;
 import COM.FutureTense.Interfaces.ICS;
@@ -37,7 +37,7 @@ import COM.FutureTense.Servlet.IPSRegistry;
 @Deprecated
 public final class ICSFactory {
 
-    private static final Log LOG = LogFactory.getLog(ICSFactory.class.getName());
+	protected static final Logger LOG = LoggerFactory.getLogger(ICSFactory.class);
 
     /**
      * Create a new instance of ICS. Expensive operation. Should be used

@@ -18,11 +18,12 @@ package com.fatwire.gst.foundation.test.event;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This class is a trivial asset event listener that reports that an asset event
@@ -33,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class VerySimpleAssetEventListener extends AbstractAssetEventListener {
 
-    private static final Log LOG = LogFactory.getLog("com.fatwire.gst.foundation.test.event");
+	protected static final Logger LOG = LoggerFactory.getLogger(VerySimpleAssetEventListener.class);
 
     @Override
     public void assetAdded(AssetId assetId) {

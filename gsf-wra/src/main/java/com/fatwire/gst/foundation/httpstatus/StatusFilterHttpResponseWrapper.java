@@ -24,8 +24,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -42,7 +42,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper {
 
-    private static Log log = LogFactory.getLog(StatusFilterHttpResponseWrapper.class.getPackage().getName());
+    private static Logger log = LoggerFactory.getLogger(StatusFilterHttpResponseWrapper.class);
 
     private int status = -1;
 
