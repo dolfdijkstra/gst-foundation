@@ -49,7 +49,6 @@
 		<module>gsf-cs-test</module>
 		<module>gsf-facades</module>
 		<module>gsf-wra</module>
-		<module>gsf-tagging</module>
 		<module>gsf-action</module>
 		<module>gsf-mobile</module>
 		<module>gsf-groovy</module>
