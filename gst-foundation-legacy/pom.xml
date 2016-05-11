@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.yourcompany.owcs</groupId>
-	<artifactId>gsf-sample</artifactId>
-	<version>12.0-SNAPSHOT</version>
+	<parent>
+		<groupId>com.fatwire.gst</groupId>
+		<artifactId>gst-foundation</artifactId>
+		<version>12.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>gst-foundation-legacy</artifactId>
 	<packaging>jar</packaging>
-	<name>GSF Example</name>
-	<description>A sample project that can be used as an example for an implementation that uses the GSF.</description>
-	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-sample</url>
-	<inceptionYear>2012</inceptionYear>
+	<name>Sites GSF: Aggregator (LEGACY)</name>
+	<inceptionYear>2016</inceptionYear>
 	<developers>
+		<developer>
+			<name>Dolf Dijkstra</name>
+		</developer>
 		<developer>
 			<name>Tony Field</name>
 		</developer>
 		<developer>
-			<name>Dolf Dijkstra</name>
+			<name>Freddy Villalba</name>
 		</developer>
 	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<prerequisites>
-		<maven>2.2.1</maven>
-	</prerequisites>
 	<dependencies>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gst-foundation-core</artifactId>
+			<artifactId>gsf-tagging-legacy</artifactId>
 			<version>12.0-SNAPSHOT</version>
-			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fatwire.gst</groupId>
+			<artifactId>gsf-taglib-legacy</artifactId>
+			<version>12.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -55,55 +60,48 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.3</version>
 				<executions>
 					<execution>
-						<id>attach-sources</id>
 						<phase>package</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<createSourcesJar>true</createSourcesJar>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+							<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+							<shadedArtifactAttached>false</shadedArtifactAttached>
+							<artifactSet>
+								<includes>
+									<include>com.fatwire.gst:*-legacy</include>
+								</includes>
+							</artifactSet>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8</version>
+				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<javadocVersion>1.8</javadocVersion>
-					<quiet>true</quiet>
-					<detectLinks>false</detectLinks>
-					<detectOfflineLinks>false</detectOfflineLinks>
+					<descriptors>
+						<descriptor>src/main/assembly/elements.xml</descriptor>
+						<descriptor>src/main/assembly/bin.xml</descriptor>
+					</descriptors>
 				</configuration>
 				<executions>
 					<execution>
-						<id>attach-javadocs</id>
-
-						<phase>install</phase>
+						<id>make-assembly</id>
+						<phase>package</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>single</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
-		<site>
-			<id>github-project-site</id>
-			<url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-sample</url>
-		</site>
-		<repository>
-			<id>repo</id>
-			<url>file://${user.home}/.m2/deploy-repository</url>
-		</repository>
-	</distributionManagement>
 </project>
