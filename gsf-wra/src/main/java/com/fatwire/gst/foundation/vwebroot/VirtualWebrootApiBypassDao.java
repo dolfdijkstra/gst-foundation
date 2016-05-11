@@ -29,8 +29,8 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.wra.VanityAsset;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Backdoor implementation of VirtualWebrootDao that does not utilize any Asset
@@ -40,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
  * User: Tony Field Date: 2011-05-06
  */
 public class VirtualWebrootApiBypassDao implements VirtualWebrootDao {
-    private static final Log LOG = LogFactory.getLog(VirtualWebrootApiBypassDao.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(VirtualWebrootApiBypassDao.class);
 
     private final ICS ics;
     private final DirectSqlAccessTools directSqlAccessTools;

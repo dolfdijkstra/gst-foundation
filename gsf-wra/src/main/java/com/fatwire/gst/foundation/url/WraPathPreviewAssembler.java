@@ -27,8 +27,9 @@ import com.fatwire.cs.core.uri.QueryAssembler;
 import com.fatwire.cs.core.uri.Simple;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A dispatching assembler, dispatching to Web-referenceable asset path
@@ -39,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
  * @since November 16,2011
  */
 public final class WraPathPreviewAssembler extends LightweightAbstractAssembler {
-    protected static final Log LOG = LogFactory.getLog(WraPathPreviewAssembler.class.getName());
+    protected static final Logger LOG = LoggerFactory.getLogger(WraPathPreviewAssembler.class);
     /**
      * Name of query string parameter for virtual webroot
      */

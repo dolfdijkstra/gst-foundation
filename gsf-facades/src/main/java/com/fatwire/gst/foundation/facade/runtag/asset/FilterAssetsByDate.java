@@ -27,8 +27,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
@@ -60,7 +61,7 @@ import com.openmarket.xcelerate.publish.PubConstants;
  * @since Jun 23, 2010
  */
 public final class FilterAssetsByDate {
-    private static final Log LOG = LogFactory.getLog(FilterAssetsByDate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FilterAssetsByDate.class);
 
     private static String[] jdbcDateFormatStrings = { "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS" };
 

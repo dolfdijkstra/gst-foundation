@@ -22,8 +22,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
@@ -51,7 +52,7 @@ import com.fatwire.gst.foundation.wra.WraUriBuilder;
  */
 public class SimpleNavigationHelper extends AbstractNavigationService implements NavigationService {
 
-    protected static final Log LOG = LogFactory.getLog(SimpleNavigationHelper.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(SimpleNavigationHelper.class);
 
     private static final String CHILD_SQL = "SELECT otype,oid,nrank,nid from SitePlanTree where nparentid=? and ncode='Placed' order by nrank";
     private static final PreparedStmt CHILD_STMT = new PreparedStmt(CHILD_SQL, Arrays.asList("SitePlanTree"));

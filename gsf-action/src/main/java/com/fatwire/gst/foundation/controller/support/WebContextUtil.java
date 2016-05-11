@@ -17,10 +17,10 @@ package com.fatwire.gst.foundation.controller.support;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fatwire.gst.foundation.controller.AppContext;
-import com.fatwire.gst.foundation.facade.logging.LogUtil;
 
 /**
  * @author Dolf.Dijkstra
@@ -28,7 +28,7 @@ import com.fatwire.gst.foundation.facade.logging.LogUtil;
  */
 public class WebContextUtil {
 
-    protected static final Log LOG = LogUtil.getLog(WebContextUtil.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(WebContextUtil.class);
     private WebContextUtil() {
         super();
     }

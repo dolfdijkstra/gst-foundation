@@ -26,6 +26,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.common.AssetAccessException;
@@ -40,8 +43,6 @@ import com.fatwire.assetapi.def.AttributeDefProperties;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
 import com.fatwire.mda.Dimension;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Various helper methods for debugging.
@@ -52,8 +53,8 @@ import org.apache.commons.logging.LogFactory;
 public final class DebugHelper {
 
     public static final String TIME_LOGGER = DebugHelper.class.getPackage().getName() + ".debug.time";
-    private static final Log LOG = LogFactory.getLog(DebugHelper.class.getPackage().getName() + ".debug");
-    private static final Log LOG_TIME = LogFactory.getLog(TIME_LOGGER);
+    protected static final Logger LOG = LoggerFactory.getLogger(DebugHelper.class.getPackage().getName() + ".debug");
+    private static final Logger LOG_TIME = LoggerFactory.getLogger(TIME_LOGGER);
 
     private DebugHelper() {
     }
@@ -63,7 +64,7 @@ public final class DebugHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public static void dumpVars(final ICS ics, final Log log) {
+    public static void dumpVars(final ICS ics, final Logger log) {
         if (log.isDebugEnabled()) {
             for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements();) {
                 final String n = e.nextElement();
@@ -182,7 +183,7 @@ public final class DebugHelper {
      * @see DebugHelper#microToHuman(long)
      */
 
-    public static void printTime(final Log log, final String msg, final long start, final long end) {
+    public static void printTime(final Logger log, final String msg, final long start, final long end) {
         if (start > 0) {
             final long elapsed = (end - start) / 1000;
             log.debug(msg + " took " + microToHuman(elapsed));
@@ -201,7 +202,7 @@ public final class DebugHelper {
      * @see DebugHelper#microToHuman(long)
      */
 
-    public static void printTime(final Log log, final String msg, final long start) {
+    public static void printTime(final Logger log, final String msg, final long start) {
         if (start > 0) {
             printTime(log, msg, start, System.nanoTime());
         }

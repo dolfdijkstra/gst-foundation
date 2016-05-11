@@ -22,11 +22,11 @@ import javax.servlet.jsp.tagext.VariableInfo;
 
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GsfRootTei extends TagExtraInfo {
-    private static final Log log = LogFactory.getLog(GsfRootTei.class);
+    private static final Logger log = LoggerFactory.getLogger(GsfRootTei.class);
 
     @Override
     public VariableInfo[] getVariableInfo(final TagData data) {

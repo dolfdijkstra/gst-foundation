@@ -30,8 +30,8 @@ import com.fatwire.gst.foundation.controller.annotation.AnnotationUtils;
 import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.include.IncludeService;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JSP tag that replaces the GsfRoot tag and adds Action support. If the action
@@ -41,8 +41,8 @@ import org.apache.commons.logging.LogFactory;
  * @since Apr 13, 2011
  */
 public class PageTag extends GsfRootTag {
-    static final Log LOG = LogFactory.getLog(PageTag.class.getPackage().getName());
-    static final Log LOG_TIME = LogFactory.getLog(PageTag.class.getPackage().getName() + ".time");
+    static final Logger LOG = LoggerFactory.getLogger(PageTag.class.getPackage().getName());
+    static final Logger LOG_TIME = LoggerFactory.getLogger(PageTag.class.getPackage().getName() + ".time");
 
     /**
      * 

@@ -34,8 +34,8 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 import com.openmarket.xcelerate.publish.PageRef;
 import com.openmarket.xcelerate.publish.PubConstants;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static COM.FutureTense.Interfaces.Utilities.goodString;
 
@@ -84,7 +84,7 @@ public class WraPageReference extends PageRef {
     /**
      * This logic is quite specific to the GSF so create a dedicated logger.
      */
-    private static final Log log = LogFactory.getLog(WraPageReference.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(WraPageReference.class);
 
     public static final String GST_DISPATCHER = "GST/Dispatcher";
 
