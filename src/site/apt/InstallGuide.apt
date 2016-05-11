@@ -40,9 +40,9 @@ Installation Guide
           <<<wget -U downloader http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar>>>
           
 
-    [[2]] Deploy these downloaded jars and the gst-foundation-all-\<version\>.jar from the zip or tgz archive to cs/WEB-INF/lib.
+    [[2]] Deploy these downloaded jars and the gst-foundation-core-\<version\>.jar from the zip or tgz archive to cs/WEB-INF/lib.
 
-    [[3]] Import the ElementCatalog and SiteCatalog with CatalogManager from gst-foundation-all-<XXX>-elements.zip}}:
+    [[3]] Import the ElementCatalog and SiteCatalog with CatalogManager from gst-foundation-core-<XXX>-elements.zip}}:
 
     [[4]] For each CS environment, set the java startup system property <com.fatwire.gst.foundation.env-name> (i.e. in the  application server startup script). For example,
 

@@ -53,9 +53,10 @@
 		<module>gsf-action</module>
 		<module>gsf-mobile</module>
 		<module>gsf-groovy</module>
-		<module>gsf-taglib</module>
-		<module>gst-foundation-all</module>
-		<!--module>gsf-sample</module -->
+		<module>gst-foundation-core</module>
+		<module>gsf-tagging-legacy</module>
+		<module>gsf-taglib-legacy</module>
+		<module>gst-foundation-legacy</module>
 	</modules>
 	<dependencies>
 		<dependency>

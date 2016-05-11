@@ -21,7 +21,7 @@ function onexit() {
     echo the output of the failed build is propably in /tmp/mvn-gsf.out.
     exit $exit_status
 }
-if [ ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation-all ] ;
+if [ ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation-core ] ;
 then 
    echo The GSF artifacts are  not present in your maven  maven repository. This is expected if you are building for the first time on this computer.
    echo Starting initial build
@@ -44,7 +44,7 @@ if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 archive=`pwd`/target/gst-foundation-$VERSION
  
 echo adding primary artifacts to kit
-cp -R gst-foundation-all/target/gst* "$tmpLocation"
+cp -R gst-foundation-core/target/gst* "$tmpLocation"
 mkdir "$tmpLocation/gsf-sample/"
 cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
 cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
