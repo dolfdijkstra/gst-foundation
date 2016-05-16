@@ -51,8 +51,9 @@
 		<module>gsf-mobile</module>
 		<module>gsf-groovy</module>
 		<module>gst-foundation-core</module>
-		<module>gsf-action-legacy</module>
 		<module>gsf-facades-legacy</module>
+		<module>gsf-action-legacy</module>
+		<module>gsf-mobile-legacy</module>
 		<module>gsf-tagging-legacy</module>
 		<module>gsf-taglib-legacy</module>
 		<module>gst-foundation-legacy</module>

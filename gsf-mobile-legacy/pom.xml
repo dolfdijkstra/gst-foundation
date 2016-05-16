@@ -6,14 +6,17 @@
     <artifactId>gst-foundation</artifactId>
     <version>12.0-SNAPSHOT</version>
   </parent>
-  <artifactId>gsf-mobile</artifactId>
+  <artifactId>gsf-mobile-legacy</artifactId>
   <packaging>jar</packaging>
-  <name>Sites GSF: Mobile</name>
-  <url>http://dolfdijkstra.github.com/gst-foundation/gsf-mobile</url>
-  <inceptionYear>2012</inceptionYear>
+  <name>Sites GSF: Mobile (LEGACY)</name>
+  <url>http://dolfdijkstra.github.com/gst-foundation/gsf-mobile-legacy</url>
+  <inceptionYear>2016</inceptionYear>
   <developers>
     <developer>
       <name>Dolf Dijkstra</name>
+    </developer>
+    <developer>
+      <name>Freddy Villalba</name>
     </developer>
   </developers>
   <properties>
@@ -36,7 +39,7 @@
   <distributionManagement>
     <site>
       <id>github-project-site</id>
-      <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-mobile</url>
+      <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-mobile-legacy</url>
     </site>
   </distributionManagement>
 </project>
