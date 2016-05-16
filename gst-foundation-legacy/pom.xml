@@ -27,17 +27,22 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
+			<artifactId>gsf-facades-legacy</artifactId>
+			<version>12.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fatwire.gst</groupId>
+			<artifactId>gsf-action-legacy</artifactId>
+			<version>12.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-tagging-legacy</artifactId>
 			<version>12.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-taglib-legacy</artifactId>
-			<version>12.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-facades-legacy</artifactId>
 			<version>12.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
