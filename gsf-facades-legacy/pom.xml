@@ -8,7 +8,7 @@
 	<artifactId>gsf-facades-legacy</artifactId>
 	<packaging>jar</packaging>
 	<name>Sites GSF: ContentServer Library Facades (LEGACY)</name>
-	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-facades</url>
+	<url>http://dolfdijkstra.github.com/gst-foundation/gsf-facades-legacy</url>
 	<inceptionYear>2016</inceptionYear>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -81,13 +81,6 @@ GST Site Foundation Samples
     A rudimentary sample of an AppContext for your company.
 
 
-
-  * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample/src/main/java/com/yourcompany/owcs/seed/DetectorSeed.java}gsf-sample/src/main/java/com/yourcompany/owcs/seed/DetectorSeed.java}}
-
-
-   A sample Seed (java bridge from an XML element) to help with Device Detection.
-
-
   * {{{https://github.com/dolfdijkstra/gst-foundation/tree/master/gsf-sample/src/main/java/com/yourcompany/owcs/products/ProductInfoAccessTemplate.java}gsf-sample/src/main/java/com/yourcompany/owcs/products/ProductInfoAccessTemplate.java}}
 
     An example on how to create a bean from an asset, making use of all the helpers in the AssetAccessTemplate.
