@@ -26,8 +26,6 @@
 			<name>Tony Field</name>
 		</developer>
 	</developers>
-
-
 	<scm>
 		<connection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</connection>
 		<developerConnection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</developerConnection>
@@ -53,6 +51,7 @@
 		<module>gsf-mobile</module>
 		<module>gsf-groovy</module>
 		<module>gst-foundation-core</module>
+		<module>gsf-action-legacy</module>
 		<module>gsf-facades-legacy</module>
 		<module>gsf-tagging-legacy</module>
 		<module>gsf-taglib-legacy</module>
