@@ -255,7 +255,9 @@ public class UrlRegistry2 implements WraPathTranslationService {
 
     @Deprecated
     public static UrlRegistry2 lookup(final ICS ics) {
-        final Object o = ics.GetObj(UrlRegistry2.class.getName());
+    	LOG.trace("Entered UrlRegistry2.lookup...");
+    	
+    	final Object o = ics.GetObj(UrlRegistry2.class.getName());
         if (o instanceof UrlRegistry2) {
             return (UrlRegistry2) o;
         }
@@ -264,6 +266,7 @@ public class UrlRegistry2 implements WraPathTranslationService {
                 new UrlRegistryDaoImpl(ics));
 
         ics.SetObj(UrlRegistry2.class.getName(), x);
+        
         return x;
     }
 
