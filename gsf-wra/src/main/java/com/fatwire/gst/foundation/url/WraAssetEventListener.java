@@ -15,8 +15,6 @@
  */
 package com.fatwire.gst.foundation.url;
 
-import org.slf4j.LoggerFactory;
-
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.listener.RunOnceAssetEventListener;
 import com.fatwire.gst.foundation.url.db.UrlRegistry2;
@@ -34,26 +32,25 @@ public class WraAssetEventListener extends RunOnceAssetEventListener {
 	
     @Override
     protected void doAssetAdded(final AssetId assetId) {
-        //if (LOG.isTraceEnabled()) {
-            LOG.debug("**************** Heard assetAdded event for " + assetId);
-        //}
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("**************** Heard assetAdded event for " + assetId);
+        }
         getService().addAsset(assetId);
     }
 
     @Override
     protected void doAssetUpdated(final AssetId assetId) {
-        //if (LOG.isTraceEnabled()) {
-            LOG.debug("**************** Heard assetUpdated event for " + assetId);
-            System.out.println("************** System.out.println inside WraAssetEventListener... logger name = " + LOG.getName());
-        //}
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("**************** Heard assetUpdated event for " + assetId);
+        }
         getService().updateAsset(assetId);
     }
 
     @Override
     protected void doAssetDeleted(final AssetId assetId) {
-        //if (LOG.isTraceEnabled()) {
-            LOG.debug("**************** Heard assetDeleted event for " + assetId);
-        //}
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("**************** Heard assetDeleted event for " + assetId);
+        }
         getService().deleteAsset(assetId);
     }
 

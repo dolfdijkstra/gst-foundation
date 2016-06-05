@@ -40,7 +40,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * @since Apr 13, 2011
  */
 public class MappingInjector {
-	protected static final Logger LOG = LoggerFactory.getLogger(MappingInjector.class);
+	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.mapping.MappingInjector");
 
     public final static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
         if (object == null) {

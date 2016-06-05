@@ -46,7 +46,7 @@ import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
  */
 public abstract class BaseFactory implements Factory {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(IcsBackedObjectFactoryTemplate.class);
+    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.support.BaseFactory");
 
     protected final ICS ics;
 

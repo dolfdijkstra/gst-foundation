@@ -42,25 +42,10 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
  */
 
 public abstract class RunOnceAssetEventListener extends AbstractAssetEventListener {
-	//private ODLLogger odlLOG = ODLLogger.getODLLogger(make12cFriendlyLoggerName(getClass().getName()));
-	private Log apacheLOG = LogFactory.getLog(make12cFriendlyLoggerName(getClass().getName()));
-
-
 	
-	//protected final Logger LOG = LoggerFactory.getLogger(getClass());
-	protected final Logger LOG = LoggerFactory.getLogger(make12cFriendlyLoggerName(getClass().getName()));
+	protected final Logger LOG = LoggerFactory.getLogger(getClass().getName().replaceFirst("fatwire.gst", "function1.gsf"));
 	private ICS ics;
 	
-	private static String make12cFriendlyLoggerName(String loggerName) {
-		System.out.println("******************* RunOnceAssetEventListener.make12cFriendlyLoggerName: being asked to fabricate a nice logger name out of: " + loggerName);
-		String out = loggerName;
-		if (loggerName.startsWith("com.fatwire")) {
-			out = loggerName.replaceFirst("com.fatwire", "org");
-		}
-		System.out.println("******************* RunOnceAssetEventListener.make12cFriendlyLoggerName: Made this nice logger name just for you: " + out);
-		return out;
-	}
-
 	private static class RunOnceList {
 		private final Set<String> assets = new HashSet<String>();
 
@@ -111,9 +96,7 @@ public abstract class RunOnceAssetEventListener extends AbstractAssetEventListen
 
 	@Override
 	public final void assetUpdated(final AssetId id) {
-		LOG.debug("************ Asset updated event received for " + id + " (using SLF4J)");
-		//odlLOG.log(Level.FINE, "******************* Asset updated event received for " + id + " (using ODLLogger)");
-		apacheLOG.debug("******************* Asset updated event received for " + id + " (using Apache Commons Logging)");
+		LOG.debug("************ Asset updated event received for " + id);
 		if (!seen(id)) {
 			doAssetUpdated(id);
 		}

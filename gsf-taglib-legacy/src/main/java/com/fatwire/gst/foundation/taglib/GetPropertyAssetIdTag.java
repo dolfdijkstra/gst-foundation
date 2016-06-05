@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class GetPropertyAssetIdTag extends GsfSimpleTag {
     
-	private static final Logger LOG = LoggerFactory.getLogger("com.fatwire.gst.foundation.properties");
+	private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.properties");
 
     private String name;
     private String property;

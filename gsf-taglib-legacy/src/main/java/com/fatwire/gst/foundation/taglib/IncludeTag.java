@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class IncludeTag extends GsfSimpleTag {
 
-    static final Logger LOG = LoggerFactory.getLogger(IncludeTag.class);
+    static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.IncludeTag");
 
     private String name;
     private boolean silent = false;

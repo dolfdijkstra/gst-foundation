@@ -40,7 +40,7 @@ import com.fatwire.gst.foundation.httpstatus.HttpStatusStrings;
  */
 
 public abstract class AbstractController  {
-    protected static final Logger LOG = LoggerFactory.getLogger("com.fatwire.gst.foundation.controller");
+    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.AbstractController");
 
     public static final String STATUS_HEADER = HttpStatusStrings.X_FATWIRE_STATUS;
 

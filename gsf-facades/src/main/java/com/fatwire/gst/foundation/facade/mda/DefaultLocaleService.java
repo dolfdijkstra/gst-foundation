@@ -49,7 +49,7 @@ import com.fatwire.system.SessionFactory;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 public class DefaultLocaleService implements LocaleService {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultLocaleService.class);
+    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.mda.DefaultLocaleService");
 
     /** the variable name for the id of the current Dimension */
 

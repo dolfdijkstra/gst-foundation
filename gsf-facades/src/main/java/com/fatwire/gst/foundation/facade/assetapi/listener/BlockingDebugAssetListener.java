@@ -30,7 +30,7 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
 
 public class BlockingDebugAssetListener extends AbstractAssetEventListener {
 
-	protected static final Logger LOG = LoggerFactory.getLogger(BlockingDebugAssetListener.class);
+	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.assetapi.listener.BlockingDebugAssetListener");
 	private ICS ics;
 
 	void printAsset(final AssetId id) {
