@@ -63,7 +63,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  */
 public final class TableTaggingServiceImpl implements AssetTaggingService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TableTaggingServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.tagging.db.TableTaggingServiceImpl");
 
     public static String TAGREGISTRY_TABLE = "GSTTagRegistry";
     public static String TABLE_ACL_LIST = ""; // no ACLs because events are

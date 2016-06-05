@@ -55,7 +55,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 
 public final class LocaleUtils {
-    private static final Logger _log = LoggerFactory.getLogger(LocaleUtils.class);
+    private static final Logger _log = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.mda.LocaleUtils");
 
     private LocaleUtils() {
     }

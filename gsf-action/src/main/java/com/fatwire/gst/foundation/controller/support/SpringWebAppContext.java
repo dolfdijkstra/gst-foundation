@@ -28,7 +28,7 @@ import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
 import com.fatwire.gst.foundation.controller.action.support.NullActionNameResolver;
 
 public class SpringWebAppContext implements AppContext {
-	protected static final Logger LOG = LoggerFactory.getLogger(SpringWebAppContext.class);
+	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.support.SpringWebAppContext");
     private static final ActionNameResolver nullActionNameResolver = new NullActionNameResolver();
     private final WebApplicationContext wac;
 

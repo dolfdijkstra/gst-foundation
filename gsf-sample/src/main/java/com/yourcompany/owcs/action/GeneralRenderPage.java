@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class GeneralRenderPage implements Action {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(GeneralRenderPage.class);
+    protected static final Logger LOG = LoggerFactory.getLogger("com.yourcompany.owcs.action.GeneralRenderPage");
 
     /**
      * Inject an ICS into the action for convenience

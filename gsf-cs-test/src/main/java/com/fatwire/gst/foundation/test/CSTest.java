@@ -76,7 +76,7 @@ import org.slf4j.LoggerFactory;
  * <code>SessionFactory.getSession(ics)</code> operates per usual.
  */
 public abstract class CSTest extends TestCase {
-    static Logger log = LoggerFactory.getLogger(CSTest.class);
+    static Logger log = LoggerFactory.getLogger("com.function1.gsf.foundation.test.CSTest");
 
     /*
      * (non-Javadoc)

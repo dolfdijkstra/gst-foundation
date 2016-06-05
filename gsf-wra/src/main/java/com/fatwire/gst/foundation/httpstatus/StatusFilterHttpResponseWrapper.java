@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper {
 
-    private static Logger log = LoggerFactory.getLogger(StatusFilterHttpResponseWrapper.class);
+    private static Logger log = LoggerFactory.getLogger("com.function1.gsf.foundation.httpstatus.StatusFilterHttpResponseWrapper");
 
     private int status = -1;
 

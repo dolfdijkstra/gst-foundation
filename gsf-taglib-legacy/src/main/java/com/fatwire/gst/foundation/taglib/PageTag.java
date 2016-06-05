@@ -41,8 +41,8 @@ import org.slf4j.LoggerFactory;
  * @since Apr 13, 2011
  */
 public class PageTag extends GsfRootTag {
-    static final Logger LOG = LoggerFactory.getLogger(PageTag.class.getPackage().getName());
-    static final Logger LOG_TIME = LoggerFactory.getLogger(PageTag.class.getPackage().getName() + ".time");
+    static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.PageTag");
+    static final Logger LOG_TIME = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.PageTag.time");
 
     /**
      * 

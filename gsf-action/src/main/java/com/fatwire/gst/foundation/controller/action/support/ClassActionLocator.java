@@ -35,7 +35,7 @@ import com.fatwire.gst.foundation.controller.action.Injector;
  *
  */
 public class ClassActionLocator extends AbstractActionLocator {
-    private static final Logger LOG = LoggerFactory.getLogger(ClassActionLocator.class);
+    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.support.ClassActionLocator");
     
     private static final String CLASS_PREFIX = "class:";
 
