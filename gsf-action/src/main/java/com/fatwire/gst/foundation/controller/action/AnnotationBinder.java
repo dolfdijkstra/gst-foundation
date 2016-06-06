@@ -41,8 +41,8 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  * @since 12 mei 2012
  */
 public final class AnnotationBinder {
-	protected static final Logger LOG = LoggerFactory.getLogger(AnnotationBinder.class);
-	protected static final Logger LOG_TIME = LoggerFactory.getLogger(AnnotationBinder.class + ".time");
+	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.AnnotationBinder");
+	protected static final Logger LOG_TIME = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.AnnotationBinder.time");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the

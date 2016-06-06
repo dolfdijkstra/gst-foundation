@@ -51,7 +51,7 @@ import static com.fatwire.gst.foundation.IListUtils.getStringValue;
  */
 public final class AssetRelationTreeUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AssetRelationTreeUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.runtag.asset.AssetRelationTreeUtils");
 
     /**
      * Get all of the parent assets in the AssetRelationTree for the specified

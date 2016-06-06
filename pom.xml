@@ -71,6 +71,12 @@
 			<version>1.7.21</version>
 		</dependency>
 		<dependency>
+		    <groupId>com.oracle.odl</groupId>
+		    <artifactId>ojdl</artifactId>
+		    <version>1.1.0</version>
+		    <classifier>150521.1418</classifier>
+		</dependency>
+		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>

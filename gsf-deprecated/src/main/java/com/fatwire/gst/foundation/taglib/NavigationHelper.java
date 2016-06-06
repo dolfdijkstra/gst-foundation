@@ -68,7 +68,7 @@ public class NavigationHelper {
     /**
      * Log file
      */
-    protected final Logger LOG = LoggerFactory.getLogger(NavigationHelper.class);
+    protected final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.NavigationHelper");
     /**
      * Effective date for the purposes of startdate/enddate comparisons for
      * an asset.

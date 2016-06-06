@@ -48,7 +48,7 @@ import com.fatwire.mda.DimensionFilterInstance;
  */
 public class DeviceAwareRenderPageAction extends RenderPage {
 
-    static final private Logger log = LoggerFactory.getLogger(DeviceAwareRenderPageAction.class);
+    static final private Logger log = LoggerFactory.getLogger("com.function1.gsf.foundation.mobile.action.DeviceAwareRenderPageAction");
 
     @InjectForRequest
     public DeviceDetector detector;

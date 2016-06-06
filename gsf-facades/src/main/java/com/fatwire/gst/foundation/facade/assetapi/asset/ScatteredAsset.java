@@ -57,7 +57,7 @@ import com.fatwire.mda.Dimension;
  */
 
 public class ScatteredAsset extends AbstractMap<String, Object> implements Serializable {
-	protected static final Logger LOG = LoggerFactory.getLogger(ScatteredAsset.class);
+	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.assetapi.asset.ScatteredAsset");
 
     /**
 	 * 

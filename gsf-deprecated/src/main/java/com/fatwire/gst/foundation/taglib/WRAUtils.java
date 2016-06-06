@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @since Jun 17, 2010
  */
 public class WRAUtils {
-    private final Logger LOG = LoggerFactory.getLogger(WRAUtils.class);
+    private final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.WRAUtils");
     private WraCoreFieldDao wraDao;
     private AliasCoreFieldDao aliasDao;
 

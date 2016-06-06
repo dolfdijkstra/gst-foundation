@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AssetApiVirtualWebrootDao.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.vwebroot.AssetApiVirtualWebrootDao");
 
     private final ICS ics;
 
