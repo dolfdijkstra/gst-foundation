@@ -210,7 +210,7 @@ public final class DebugHelper {
 
     /**
      * Print the elapsed time since the <tt>start</tt> to the default time
-     * logger {@link DebugHelper#TIME_LOGGER}.
+     * logger {@link DebugHelper#LOG_TIME}.
      * 
      * 
      * @param msg The message as an indicator of the operation that was
