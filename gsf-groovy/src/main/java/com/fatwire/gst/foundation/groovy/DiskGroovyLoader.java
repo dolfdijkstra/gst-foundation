@@ -49,7 +49,7 @@ import COM.FutureTense.Interfaces.ICS;
  */
 public class DiskGroovyLoader implements GroovyLoader {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger("com.function1.gsf.foundation.groovy.DiskGroovyLoader");
     private GroovyScriptEngine groovyScriptEngine;
 
     private File scriptPath;

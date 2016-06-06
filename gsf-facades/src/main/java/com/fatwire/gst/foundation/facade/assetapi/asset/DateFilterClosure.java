@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @since Apr 6, 2011
  */
 public class DateFilterClosure implements AssetClosure {
-	protected static final Logger LOG = LoggerFactory.getLogger(DateFilterClosure.class);
+	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.assetapi.asset.DateFilterClosure");
 
     private final Date cutoff;
 

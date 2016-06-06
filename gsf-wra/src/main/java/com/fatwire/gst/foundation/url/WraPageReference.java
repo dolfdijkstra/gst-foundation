@@ -84,7 +84,7 @@ public class WraPageReference extends PageRef {
     /**
      * This logic is quite specific to the GSF so create a dedicated logger.
      */
-    private static final Logger log = LoggerFactory.getLogger(WraPageReference.class);
+    private static final Logger log = LoggerFactory.getLogger("com.function1.gsf.foundation.url.WraPageReference");
 
     public static final String GST_DISPATCHER = "GST/Dispatcher";
 

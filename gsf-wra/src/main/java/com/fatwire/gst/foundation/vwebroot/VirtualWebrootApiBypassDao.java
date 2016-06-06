@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  * User: Tony Field Date: 2011-05-06
  */
 public class VirtualWebrootApiBypassDao implements VirtualWebrootDao {
-    private static final Logger LOG = LoggerFactory.getLogger(VirtualWebrootApiBypassDao.class);
+    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.vwebroot.VirtualWebrootApiBypassDao");
 
     private final ICS ics;
     private final DirectSqlAccessTools directSqlAccessTools;

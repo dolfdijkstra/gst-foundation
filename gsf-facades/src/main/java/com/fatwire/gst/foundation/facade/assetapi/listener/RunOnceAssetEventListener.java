@@ -17,14 +17,20 @@ package com.fatwire.gst.foundation.facade.assetapi.listener;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import COM.FutureTense.Interfaces.ICS;
+//import oracle.core.ojdl.logging.ODLLogger;
+
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
+
 import com.openmarket.basic.event.AbstractAssetEventListener;
 
 /**
@@ -35,11 +41,11 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
  * 
  */
 
-public abstract class RunOnceAssetEventListener extends
-		AbstractAssetEventListener {
-	protected final Logger LOG = LoggerFactory.getLogger(getClass());
+public abstract class RunOnceAssetEventListener extends AbstractAssetEventListener {
+	
+	protected final Logger LOG = LoggerFactory.getLogger(getClass().getName().replaceFirst("fatwire.gst", "function1.gsf"));
 	private ICS ics;
-
+	
 	private static class RunOnceList {
 		private final Set<String> assets = new HashSet<String>();
 
@@ -63,7 +69,7 @@ public abstract class RunOnceAssetEventListener extends
 
 	@Override
 	public final void assetAdded(final AssetId id) {
-		LOG.debug("Asset added event received for " + id);
+		LOG.debug("************ Asset added event received for " + id);
 		if (!seen(id)) {
 			doAssetAdded(id);
 		}
@@ -71,7 +77,7 @@ public abstract class RunOnceAssetEventListener extends
 
 	private boolean seen(final AssetId id) {
 		final boolean s = RunOnceList.find(getICS(), getClass()).seenBefore(id);
-		LOG.debug("An event for asset " + id + " was " + (s ? "" : " not ")
+		LOG.debug("************ An event for asset " + id + " was " + (s ? "" : " not ")
 				+ " executed before.");
 		return s;
 	}
@@ -80,7 +86,7 @@ public abstract class RunOnceAssetEventListener extends
 
 	@Override
 	public final void assetDeleted(final AssetId id) {
-		LOG.debug("Asset deleted event received for " + id);
+		LOG.debug("************ Asset deleted event received for " + id);
 		if (!seen(id)) {
 			doAssetDeleted(id);
 		}
@@ -90,7 +96,7 @@ public abstract class RunOnceAssetEventListener extends
 
 	@Override
 	public final void assetUpdated(final AssetId id) {
-		LOG.debug("Asset updated event received for " + id);
+		LOG.debug("************ Asset updated event received for " + id);
 		if (!seen(id)) {
 			doAssetUpdated(id);
 		}

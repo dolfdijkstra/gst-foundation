@@ -29,11 +29,11 @@ import com.fatwire.gst.foundation.url.db.UrlRegistry2;
  * @since Jul 21, 2010
  */
 public class WraAssetEventListener extends RunOnceAssetEventListener {
-
+	
     @Override
     protected void doAssetAdded(final AssetId assetId) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Heard assetAdded event for " + assetId);
+            LOG.trace("**************** Heard assetAdded event for " + assetId);
         }
         getService().addAsset(assetId);
     }
@@ -41,7 +41,7 @@ public class WraAssetEventListener extends RunOnceAssetEventListener {
     @Override
     protected void doAssetUpdated(final AssetId assetId) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Heard assetUpdated event for " + assetId);
+            LOG.trace("**************** Heard assetUpdated event for " + assetId);
         }
         getService().updateAsset(assetId);
     }
@@ -49,12 +49,13 @@ public class WraAssetEventListener extends RunOnceAssetEventListener {
     @Override
     protected void doAssetDeleted(final AssetId assetId) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Heard assetDeleted event for " + assetId);
+            LOG.trace("**************** Heard assetDeleted event for " + assetId);
         }
         getService().deleteAsset(assetId);
     }
 
     protected WraPathTranslationService getService() {
+    	LOG.debug("***************** Invoked WraAssetEventListener.getService()...");
         return UrlRegistry2.lookup(getICS());
     }
 

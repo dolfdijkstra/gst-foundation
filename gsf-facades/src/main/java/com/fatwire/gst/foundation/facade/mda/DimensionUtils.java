@@ -42,7 +42,7 @@ import com.fatwire.system.SessionFactory;
  * @since Jun 8, 2009
  */
 public final class DimensionUtils {
-    private static final Logger _log = LoggerFactory.getLogger(DefaultLocaleService.class);
+    private static final Logger _log = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.mda.DefaultLocaleService");
 
     /**
      * Shorthand function for returning the DimensionableAssetManager given an
