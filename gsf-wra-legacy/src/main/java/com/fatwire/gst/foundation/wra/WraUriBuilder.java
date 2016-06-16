@@ -27,7 +27,10 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @author Dolf Dijkstra
  * @since Mar 13, 2011
+ * 
+ * @deprecated fvillalba on June 16, 2016
  */
+@Deprecated
 public class WraUriBuilder {
 
     private final GetTemplateUrl tag = new GetTemplateUrl();

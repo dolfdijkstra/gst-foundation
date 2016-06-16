@@ -16,51 +16,56 @@
 package com.fatwire.gst.foundation.vwebroot;
 
 import java.util.Comparator;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Interfaces.IList;
 
-import com.fatwire.assetapi.data.AssetData;
-import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
-import com.fatwire.gst.foundation.facade.sql.IListIterable;
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.assetapi.DirectSqlAccessTools;
 import com.fatwire.gst.foundation.facade.sql.Row;
+import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.wra.VanityAsset;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * DAO for working with Virtual Webroots
+ * Backdoor implementation of VirtualWebrootDao that does not utilize any Asset
+ * APIs. This class should be used sparingly and may result in some
+ * dependencies, that would ordinarily be recorded, being skipped.
+ * <p>
+ * User: Tony Field Date: 2011-05-06
  * 
- * @author Tony Field
- * @since Jul 22, 2010
+ * @deprecated May 15, 2016 by fvillalba
+ * 
  */
-public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
-
-    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.vwebroot.AssetApiVirtualWebrootDao");
+@Deprecated
+public class VirtualWebrootApiBypassDao implements VirtualWebrootDao {
+    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.vwebroot.VirtualWebrootApiBypassDao");
 
     private final ICS ics;
+    private final DirectSqlAccessTools directSqlAccessTools;
 
-    public AssetApiVirtualWebrootDao(ICS ics) {
+    public VirtualWebrootApiBypassDao(ICS ics) {
         this.ics = ics;
+        this.directSqlAccessTools = new DirectSqlAccessTools(ics);
     }
 
     public VirtualWebroot getVirtualWebroot(long cid) {
-        String sCid = Long.toString(cid);
         if (LOG.isTraceEnabled())
-            LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + sCid);
-        AssetData ad = AssetDataUtils.getAssetData(ics, AssetIdUtils.createAssetId("GSTVirtualWebroot", sCid), "master_vwebroot", "env_vwebroot",
+            LOG.trace("Loading virtual webroot data for for GSTVirtualWebroot:" + cid);
+        AssetId id = new AssetIdImpl("GSTVirtualWebroot", cid);
+        Map<String, String> m = directSqlAccessTools.getFlexAttributeValues(id, "master_vwebroot", "env_vwebroot",
                 "env_name");
-        return new VWebrootBeanImpl(cid, AttributeDataUtils.getWithFallback(ad, "master_vwebroot"),
-                AttributeDataUtils.getWithFallback(ad, "env_vwebroot"), AttributeDataUtils.getWithFallback(ad,
-                        "env_name"));
-
+        return new VWebrootBeanImpl(cid, m.get("master_vwebroot"), m.get("env_vwebroot"), m.get("env_name"));
     }
+
+    // private static final PreparedStmt ALL_VW = new
+    // PreparedStmt("SELECT id from GSTVirtualWebroot WHERE status != 'VO'",
+    // Collections.singletonList("GSTVirtualWebroot"));
 
     /**
      * Get all of the virtual webroots, sorted by URL length.
@@ -68,21 +73,14 @@ public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
      * @return list of virtual webroots
      */
     public SortedSet<VirtualWebroot> getAllVirtualWebroots() {
-        AssetList al = new AssetList();
-        al.setExcludeVoided(true);
-        al.setList("pr-out");
-        al.setType("GSTVirtualWebroot");
-        ics.RegisterList("pr-out", null);
-        al.execute(ics);
-        IList ilist = ics.GetList("pr-out");
-        ics.RegisterList("pr-out", null);
-        if (ilist == null)
-            throw new IllegalStateException("No GSTVirtualWebroots are registered");
 
         SortedSet<VirtualWebroot> result = new TreeSet<VirtualWebroot>(new UrlInfoComparator());
-        for (Row r : new IListIterable(ilist)) {
+        for (Row r : SqlHelper
+                .select(ics, "GSTVirtualWebroot", "SELECT id from GSTVirtualWebroot WHERE status != 'VO'")) {
             result.add(getVirtualWebroot(r.getLong("id")));
         }
+        if (result.size() == 0)
+            throw new IllegalStateException("No GSTVirtualWebroots are registered");
         return result;
     }
 
@@ -119,8 +117,8 @@ public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
 
     /**
      * Look up and return the VirtualWebroot corresponding to the specified
-     * WebReferenceableAsset, for the current environment. If the current
-     * environment is not configured, no match can be found.
+     * VanityAsset, for the current environment. If the current environment is
+     * not configured, no match can be found.
      * 
      * @param wra web-referenceable asset
      * @return matching VirtualWebroot or null if no match is found.
@@ -134,7 +132,7 @@ public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
 
     public VirtualWebroot lookupVirtualWebrootForUri(String wraPath) {
         if (wraPath == null) {
-            LOG.trace("WRA does not have a path set - cannot locate virtual webroot");
+            LOG.trace("WRA does ont have a path set - cannot locate virtual webroot");
             return null;
         }
         String env = getVirtualWebrootEnvironment();

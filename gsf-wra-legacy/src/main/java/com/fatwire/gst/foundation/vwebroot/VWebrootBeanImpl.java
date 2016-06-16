@@ -25,7 +25,11 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * 
  * @author Tony Field
  * @since Jul 22, 2010
+ * 
+ * @deprecated May 15, 2016 by fvillalba
+ * 
  */
+@Deprecated
 final class VWebrootBeanImpl implements VirtualWebroot {
 
     public static final String GST_VIRTUAL_WEBROOT = "GSTVirtualWebroot";

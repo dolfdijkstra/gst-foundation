@@ -23,7 +23,10 @@ import java.util.Date;
  * @author Dolf Dijkstra
  * @since November 1, 2011
  * 
+ * @deprecated May 15, 2016 by fvillalba
+ * 
  */
+@Deprecated
 class VanityUrl {
     private long id;
     private String path;

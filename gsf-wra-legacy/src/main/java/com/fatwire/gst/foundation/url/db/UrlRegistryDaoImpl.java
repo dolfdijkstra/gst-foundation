@@ -46,7 +46,11 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Dolf Dijkstra
  * @since November 1, 2011
+ * 
+ * @deprecated May 15, 2016 by fvillalba
+ * 
  */
+@Deprecated
 public class UrlRegistryDaoImpl implements UrlRegistryDao {
 
     private static final String OPT_SITE = "opt_site";

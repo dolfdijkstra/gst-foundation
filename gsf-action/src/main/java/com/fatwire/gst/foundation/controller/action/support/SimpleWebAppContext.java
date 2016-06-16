@@ -66,7 +66,7 @@ public class SimpleWebAppContext extends WebAppContext implements FactoryProduce
     @Override
     public Factory getFactory(final ICS ics) {
         // called very often; once per request/pagelet, scoped per ICS context
-        return new IcsBackedObjectFactoryTemplate(ics);
+        return new SimpleIcsBackedObjectFactoryTemplate(ics);
     }
 
 }

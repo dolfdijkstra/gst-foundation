@@ -59,7 +59,11 @@ import static com.fatwire.gst.foundation.facade.runtag.asset.FilterAssetsByDate.
  * @author David Chesebro
  * @author Dolf Dijkstra
  * @since Jun 17, 2010
+ * 
+ * @deprecated June 16, 2016 by fvillalba
+ * 
  */
+@Deprecated
 public class NavigationHelper {
     /**
      * ICS context

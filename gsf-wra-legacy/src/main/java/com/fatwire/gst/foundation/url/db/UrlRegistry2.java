@@ -49,8 +49,11 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * 
  * @author Dolf Dijkstra
  * @since Jun 17, 2010
+ * 
+ * @deprecated May 15, 2016 by fvillalba
+ * 
  */
-
+@Deprecated
 public class UrlRegistry2 implements WraPathTranslationService {
     private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.url.db.UrlRegistry2");
 

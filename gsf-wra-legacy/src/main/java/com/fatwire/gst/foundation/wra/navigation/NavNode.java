@@ -29,6 +29,7 @@ import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
  * @author Dolf Dijkstra
  * @since Feb 8, 2011
  */
+@Deprecated
 public class NavNode {
     private AssetId page;
     private int level;

@@ -13,23 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.vwebroot;
+package com.fatwire.gst.foundation.url.db;
+
+import java.util.List;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
+import com.fatwire.gst.foundation.wra.SimpleWra;
 
 /**
- * Virtual webroot as defined in GST Site Foundation document
+ * @author Dolf Dijkstra
+ * @since November 1, 2011
  * 
- * @author Tony Field
- * @since Jul 22, 2010
+ * @deprecated May 15, 2016 by fvillalba
+ * 
  */
-public interface VirtualWebroot {
+@Deprecated
+public interface UrlRegistryDao {
 
-    public AssetId getId();
+    public List<VanityUrl> resolveAsset(final String virtual_webroot, final String url_path);
 
-    public String getMasterVirtualWebroot();
+    public void add(SimpleWra wra, VirtualWebroot vw, String site);
 
-    public String getEnvironmentVirtualWebroot();
+    public void update(VanityUrl url);
 
-    public String getEnvironmentName();
+    public VanityUrl read(AssetId id);
+
+    public void delete(AssetId id);
+
+    public void clear();
+
 }

@@ -13,31 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.url.db;
+package com.fatwire.gst.foundation.vwebroot;
 
-import java.util.List;
+import java.util.SortedSet;
 
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
-import com.fatwire.gst.foundation.wra.SimpleWra;
+import com.fatwire.gst.foundation.wra.VanityAsset;
+
+
 
 /**
+ * DAO for Virtual Webroot table
  * @author Dolf Dijkstra
- * @since November 1, 2011
+ *
+ *
+ * @deprecated May 15, 2016 by fvillalba
  * 
  */
-public interface UrlRegistryDao {
+@Deprecated
+public interface VirtualWebrootDao {
 
-    public List<VanityUrl> resolveAsset(final String virtual_webroot, final String url_path);
+    VirtualWebroot lookupVirtualWebrootForAsset(VanityAsset wra);
 
-    public void add(SimpleWra wra, VirtualWebroot vw, String site);
+    VirtualWebroot lookupVirtualWebrootForUri(String uri);
 
-    public void update(VanityUrl url);
-
-    public VanityUrl read(AssetId id);
-
-    public void delete(AssetId id);
-
-    public void clear();
-
+    /**
+     * Get all of the virtual webroots, sorted by URL length.
+     *
+     * @return list of virtual webroots
+     */
+    public SortedSet<VirtualWebroot> getAllVirtualWebroots();
 }
