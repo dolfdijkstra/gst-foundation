@@ -24,12 +24,12 @@
 		<maven>2.2.1</maven>
 	</prerequisites>
 	<dependencies>
-		<dependency>
+		<!--  dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gst-foundation-core</artifactId>
 			<version>12.0-SNAPSHOT</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency -->
 	</dependencies>
 	<build>
 		<plugins>

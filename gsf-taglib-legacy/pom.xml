@@ -55,7 +55,7 @@
     </dependency>
     <dependency>
       <groupId>com.fatwire.gst</groupId>
-      <artifactId>gsf-action</artifactId>
+      <artifactId>gsf-action-legacy</artifactId>
       <version>12.0-SNAPSHOT</version>
     </dependency>
     <dependency>
