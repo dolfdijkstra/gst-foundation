@@ -38,7 +38,7 @@ public class WebAppContext implements AppContext {
     private Map<String, Object> localScope = new HashMap<String, Object>();
 
     /**
-     * This constructor is needed for the {@link WebAppContextLoader}.
+     * This constructor was needed for the WebAppContextLoader (now deprecated).
      * 
      * @param context servlet context
      * @param parent application context
