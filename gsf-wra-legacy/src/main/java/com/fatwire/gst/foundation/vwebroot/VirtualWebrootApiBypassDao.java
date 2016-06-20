@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 @Deprecated
 public class VirtualWebrootApiBypassDao implements VirtualWebrootDao {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsfion.vwebroot.VirtualWebrootApiBypassDao");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.vwebroot.VirtualWebrootApiBypassDao");
 
     private final ICS ics;
     private final DirectSqlAccessTools directSqlAccessTools;
