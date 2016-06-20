@@ -45,9 +45,9 @@ archive=`pwd`/target/gst-foundation-$VERSION
  
 echo adding primary artifacts to kit
 cp -R gst-foundation-core/target/gst* "$tmpLocation"
-mkdir "$tmpLocation/gsf-sample/"
-cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
-cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
+#mkdir "$tmpLocation/gsf-sample/"
+#cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
+#cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
 echo copying license to kit
 cp LICENSE "$tmpLocation"
 echo compressing
