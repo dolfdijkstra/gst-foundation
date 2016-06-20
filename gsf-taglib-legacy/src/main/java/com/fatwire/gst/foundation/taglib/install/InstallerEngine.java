@@ -65,7 +65,7 @@ import org.slf4j.LoggerFactory;
  * @since 2012-03-26
  */
 public final class InstallerEngine {
-    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.install.InstallEngine");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.taglib.install.InstallEngine");
 
     public static final String[] GST_SITE_TREETABS = { "Active List", "Admin", "Bookmarks", "Site Plan" };
 

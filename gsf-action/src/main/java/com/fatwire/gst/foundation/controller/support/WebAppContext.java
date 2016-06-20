@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WebAppContext implements AppContext {
-    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.support.WebAppContext");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.support.WebAppContext");
 
     public static final String WEB_CONTEXT_NAME = "gsf/AppContext";
 

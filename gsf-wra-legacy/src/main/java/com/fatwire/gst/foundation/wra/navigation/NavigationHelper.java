@@ -83,7 +83,7 @@ public class NavigationHelper {
     /**
      * Log file
      */
-    protected final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.wra.navigation.NavigationHelper");
+    protected final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.wra.navigation.NavigationHelper");
     /**
      * Effective date for the purposes of startdate/enddate comparisons for an
      * asset.

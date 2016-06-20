@@ -66,7 +66,7 @@ public abstract class AbstractNavigationHelper {
     /**
      * Log file
      */
-    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.wra.navigation.AbstractNavigationHelper");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.wra.navigation.AbstractNavigationHelper");
     /**
      * Effective date for the purposes of startdate/enddate comparisons for an
      * asset.

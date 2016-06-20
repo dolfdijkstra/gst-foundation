@@ -73,7 +73,7 @@ public class UrlRegistryDaoImpl implements UrlRegistryDao {
 
     private static final String ID = "id";
 
-    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.url.db.UrlRegistryDaoImpl");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.url.db.UrlRegistryDaoImpl");
 
     private final ICS ics;
     private static final String URLREG_TABLE = "GSTUrlRegistry";
