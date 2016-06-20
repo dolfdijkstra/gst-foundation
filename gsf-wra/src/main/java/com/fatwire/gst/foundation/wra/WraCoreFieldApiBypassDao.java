@@ -72,7 +72,7 @@ public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 		directSqlAccessTools = new DirectSqlAccessTools(ics);
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.wra.WraCoreFieldApiBypassDao");
+	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.wra.WraCoreFieldApiBypassDao");
 
 	/**
 	 * Method to test whether or not an asset is web-referenceable. todo: low

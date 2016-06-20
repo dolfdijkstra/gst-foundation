@@ -39,7 +39,7 @@ import com.fatwire.gst.foundation.controller.action.RenderPage;
  */
 public abstract class BaseActionLocator extends AbstractActionLocator {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.support.BaseActionLocator");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.action.support.BaseActionLocator");
 
     private ReflectionFactoryProducer f = new ReflectionFactoryProducer();
     private Injector i;

@@ -39,8 +39,8 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  * @since Mar 26, 2011
  */
 public final class AnnotationInjector {
-	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.AnnotationInjector");
-    protected static final Logger LOG_TIME = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.AnnotationInjector.time");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.action.AnnotationInjector");
+    protected static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.foundation.controller.action.AnnotationInjector.time");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the

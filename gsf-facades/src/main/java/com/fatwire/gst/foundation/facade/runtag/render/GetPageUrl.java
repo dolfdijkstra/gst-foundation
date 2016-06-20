@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class GetPageUrl extends TagRunnerWithArguments {
 
-    private static Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.runtag.render.GetTemplateUrl");
+    private static Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.facade.runtag.render.GetTemplateUrl");
 
     /**
      * 

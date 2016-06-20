@@ -40,8 +40,8 @@ import org.slf4j.LoggerFactory;
  * @since Apr 13, 2011
  */
 public class ActionTag extends GsfSimpleTag {
-    static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.ActionTag");
-    static final Logger LOG_TIME = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.ActionTag.time");
+    static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.taglib.ActionTag");
+    static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.foundation.taglib.ActionTag.time");
 
     private String action;
 

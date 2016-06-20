@@ -58,7 +58,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CallTemplate extends TagRunnerWithRenderArguments {
 
-    private static Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.runtag.render.CallTemplate");
+    private static Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.facade.runtag.render.CallTemplate");
 
     static private boolean configLoaded = false;
     /**

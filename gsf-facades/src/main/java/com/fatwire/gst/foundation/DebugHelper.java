@@ -53,8 +53,8 @@ import com.fatwire.mda.Dimension;
 public final class DebugHelper {
 
     //public static final String TIME_LOGGER = DebugHelper.class.getPackage().getName() + ".debug.time";
-    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.DebugHelper.debug");
-    private static final Logger LOG_TIME = LoggerFactory.getLogger("com.function1.gsf.foundation.DebugHelper.debug.time");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.DebugHelper.debug");
+    private static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.foundation.DebugHelper.debug.time");
 
     private DebugHelper() {
     }

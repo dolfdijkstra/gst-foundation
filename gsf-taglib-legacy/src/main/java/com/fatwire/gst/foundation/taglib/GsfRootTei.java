@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GsfRootTei extends TagExtraInfo {
-    private static final Logger log = LoggerFactory.getLogger("com.function1.gsf.foundation.taglib.GsfRootTei");
+    private static final Logger log = LoggerFactory.getLogger("tools.gsf.foundation.taglib.GsfRootTei");
 
     @Override
     public VariableInfo[] getVariableInfo(final TagData data) {
