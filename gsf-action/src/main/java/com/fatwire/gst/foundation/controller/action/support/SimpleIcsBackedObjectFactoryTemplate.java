@@ -27,8 +27,6 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
 import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
-import com.fatwire.gst.foundation.include.DefaultIncludeService;
-import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
@@ -50,9 +48,10 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  * </p>
  * <p>
  * This class was created as a subset of the methods of the legacy class IcsBackedObjectFactory.
- * More especifically, it was removed the createWraPathTranslationService method and the
- * createNavigationService method, therefore breaking the dependency between this class, the
- * vanity url-related classes and the navigation service-related classes.
+ * More especifically, it was removed the createWraPathTranslationService method, the
+ * createIncludeService method and the createNavigationService method, therefore breaking the
+ * dependency between this class, the vanity url-related classes, the navigation service-related
+ * classes and the include service-related classes.
  * </p>
  * 
  * @author Dolf.Dijkstra
@@ -91,11 +90,6 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
     @ServiceProducer(cache = true)
     public PropertyDao createPropertyDao(final ICS ics) {
         return AssetApiPropertyDao.newInstance(ics);
-    }
-
-    @ServiceProducer(cache = true)
-    public IncludeService createIncludeService(final ICS ics) {
-        return new DefaultIncludeService(ics);
     }
 
     @ServiceProducer(cache = true)
