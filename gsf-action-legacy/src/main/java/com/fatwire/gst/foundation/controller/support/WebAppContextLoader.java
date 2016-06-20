@@ -50,7 +50,7 @@ public class WebAppContextLoader implements ServletContextListener {
     private static final String GROOVY_CLASSNAME = "groovy.util.GroovyScriptEngine";
     public static final String CONTEXTS = "gsf-contexts";
 
-    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.support.WebAppContextLoader");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.support.WebAppContextLoader");
     boolean booted = false;
     private static final Class<?>[] ARGS = new Class[] { ServletContext.class, AppContext.class };
 

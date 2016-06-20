@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * @since 2011-10-13
  */
 public final class TreeHelper {
-    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.sql.TreeHelper");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.facade.sql.TreeHelper");
 
     private TreeHelper() {
     }

@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpResponseStatusFilter implements Filter {
 
-    private static Logger log = LoggerFactory.getLogger("com.function1.gsf.foundation.httpstatus.HttpResponseStatusFilter");
+    private static Logger log = LoggerFactory.getLogger("tools.gsf.foundation.httpstatus.HttpResponseStatusFilter");
     private boolean sendError = false;
 
     /**

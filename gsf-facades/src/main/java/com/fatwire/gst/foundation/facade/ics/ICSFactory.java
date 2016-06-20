@@ -37,7 +37,7 @@ import COM.FutureTense.Servlet.IPSRegistry;
 @Deprecated
 public final class ICSFactory {
 
-	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.ics.ICSFactory");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.facade.ics.ICSFactory");
 
     /**
      * Create a new instance of ICS. Expensive operation. Should be used

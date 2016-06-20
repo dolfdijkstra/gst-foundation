@@ -56,7 +56,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 // TODO: Figure out how to assign these to a give site/publication
 public final class AssetApiPropertyDao implements PropertyDao {
-    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.properties.AssetApiPropertyDao");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.properties.AssetApiPropertyDao");
 
     public static final String TYPE = "GSTProperty";
     public static final String SUBTYPE = "GSTProperty";

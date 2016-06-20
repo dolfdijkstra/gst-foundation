@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  @Deprecated
 public class UrlRegistry implements WraPathTranslationService {
 
-    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.url.db.UrlRegistry");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsfion.url.db.UrlRegistry");
 
     private final ICS ics;
     private final WraCoreFieldDao wraDao;

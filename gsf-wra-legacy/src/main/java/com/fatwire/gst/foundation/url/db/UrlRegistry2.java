@@ -55,7 +55,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  */
 @Deprecated
 public class UrlRegistry2 implements WraPathTranslationService {
-    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.url.db.UrlRegistry2");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsfion.url.db.UrlRegistry2");
 
     private final ICS ics;
     private final SimpleWRADao wraDao;

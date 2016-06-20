@@ -32,7 +32,7 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
  * @since May 27, 2011
  */
 public final class ActionNameResolverUtils {
-	protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.action.ActionNameResolverUtils");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.action.ActionNameResolverUtils");
 
     public static final String ACTION_NAME_RESOLVER_BEAN = "gsfActionNameResolver";
 
