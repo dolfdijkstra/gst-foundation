@@ -17,6 +17,8 @@ package com.fatwire.gst.foundation.properties;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 
@@ -34,9 +36,12 @@ final class PropertyImpl implements Property, Serializable {
 	String name;
     String description;
     String value;
-    PropertyImpl(String name, String description, String value) {
+    String propertyAssetType;
+    
+    PropertyImpl(String propertyAssetType, String name, String description, String value) {
         this.name = name;
         this.value = value;
+        this.propertyAssetType = propertyAssetType;
     }
     public String getName() {
         return name;
@@ -64,6 +69,13 @@ final class PropertyImpl implements Property, Serializable {
     }
 
     public String toString() {
-        return "GSTProperty:"+name+"="+value; // todo: smart password suppression
+    	// Basic password suppression
+    	if (!StringUtils.isEmpty(name) &&
+    		(name.startsWith("password") ||
+    		 name.startsWith("pwd"))) {
+    		return this.propertyAssetType + ":" + name + "= (value blanked by password protection mechanism)";
+    	} else { 
+    		return this.propertyAssetType + ":" + name + "=" + value; // todo: smart password suppression
+    	}
     }
 }

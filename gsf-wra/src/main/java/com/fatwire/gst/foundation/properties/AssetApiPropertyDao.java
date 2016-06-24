@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,8 +59,14 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 public final class AssetApiPropertyDao implements PropertyDao {
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.properties.AssetApiPropertyDao");
 
-    public static final String TYPE = "GSTProperty";
-    public static final String SUBTYPE = "GSTProperty";
+    private static final String DEFAULT_TYPE = "GSTProperty";
+    private static final String DEFAULT_SUBTYPE = "GSTProperty";
+    
+    public static final String GST_PROPERTY_TYPE_INIT_PARAM_NAME = "gst-property-type";
+    public static final String GST_PROPERTY_SUBTYPE_INIT_PARAM_NAME = "gst-property-subtype";
+
+    private static String _TYPE;
+    private static String _SUBTYPE;
 
     private static final int TIMEOUT_MINUTES = 60 * 24; // one day
     private static final int MAX_SIZE = 1000000; // a million
@@ -82,7 +89,13 @@ public final class AssetApiPropertyDao implements PropertyDao {
     private AssetApiPropertyDao(ICS ics) {
         this.ics = ics;
         this.assetDataManager = (AssetDataManager)SessionFactory.getSession(ics).getManager(AssetDataManager.class.getName());
-        this._props = ics.GetSynchronizedHash(AssetApiPropertyDao.class.getName(), true, TIMEOUT_MINUTES, MAX_SIZE, true, true, Arrays.asList(ics.GetProperty("cs.dsn")+TYPE));
+        _TYPE = ics.getIServlet().getServlet().getServletContext().getInitParameter(GST_PROPERTY_TYPE_INIT_PARAM_NAME);
+        _SUBTYPE = ics.getIServlet().getServlet().getServletContext().getInitParameter(GST_PROPERTY_SUBTYPE_INIT_PARAM_NAME);
+        if (StringUtils.isEmpty(_TYPE) || StringUtils.isEmpty(_SUBTYPE)) {
+        	_TYPE = DEFAULT_TYPE;
+        	_SUBTYPE = DEFAULT_SUBTYPE;
+        }
+        this._props = ics.GetSynchronizedHash(AssetApiPropertyDao.class.getName(), true, TIMEOUT_MINUTES, MAX_SIZE, true, true, Arrays.asList(ics.GetProperty("cs.dsn") + _TYPE));
     }
 
     public synchronized Property getProperty(String name) {
@@ -101,9 +114,9 @@ public final class AssetApiPropertyDao implements PropertyDao {
 	public synchronized Collection<String> getPropertyNames() {
         return _props.keySet();
     }
-
+    
     private PropertyHolder _readProperty(String name) {
-        Query loadQuery = new QueryBuilder(TYPE, SUBTYPE).attributes("id", "name", "description", "value")
+        Query loadQuery = new QueryBuilder(_TYPE, _SUBTYPE).attributes("id", "name", "description", "value")
                 .condition("status", OpTypeEnum.NOT_EQUALS, "VO")
                 .condition("name", OpTypeEnum.EQUALS, name)
                 .setBasicSearch(true)
@@ -113,13 +126,13 @@ public final class AssetApiPropertyDao implements PropertyDao {
         for (TemplateAsset d : templateAssetAccess.query(loadQuery)) {
             if (LOG.isTraceEnabled())
                 LOG.trace("Loaded property: " + name);
-            return new AssetApiPropertyDao.PropertyHolder(name, d.asString("description"), d.asString("value"), TYPE, d.asLong("id"));
+            return new AssetApiPropertyDao.PropertyHolder(name, d.asString("description"), d.asString("value"), _TYPE, d.asLong("id"));
         }
         if (LOG.isTraceEnabled())
             LOG.trace("Property not found: "+name);
-        return AssetApiPropertyDao.PropertyHolder.EMPTY_HOLDER;
+        return AssetApiPropertyDao.PropertyHolder.EMPTY_HOLDER;    	
     }
-
+    
     /**
      * Convenience method to set (or re-set) a property value
      *
@@ -130,10 +143,10 @@ public final class AssetApiPropertyDao implements PropertyDao {
     public synchronized void setProperty(String name, String description, String value) {
         if (name == null) throw new IllegalArgumentException("Cannot set a null property name");
 
-        AssetId id = AssetList.lookupAssetId(ics, TYPE, name);
+        AssetId id = AssetList.lookupAssetId(ics, _TYPE, name);
         if (id == null) {
             try {// add
-                MutableAssetData data = assetDataManager.newAssetData("GSTProperty", "GSTProperty");
+                MutableAssetData data = assetDataManager.newAssetData(_TYPE, _SUBTYPE);
                 data.getAttributeData("name").setData(name);
                 data.getAttributeData("description").setData(description);
                 data.getAttributeData("value").setData(value);
@@ -203,7 +216,7 @@ public final class AssetApiPropertyDao implements PropertyDao {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public synchronized void addToSite(String name, String ... site) {
         if (name == null) throw new IllegalArgumentException("Invalid property name null");
-        AssetId id = AssetList.lookupAssetId(ics, "GSTProperty", name);
+        AssetId id = AssetList.lookupAssetId(ics, _TYPE, name);
         if (id == null) throw new IllegalArgumentException("Could not locate property "+id);
 
         try {
@@ -248,7 +261,7 @@ public final class AssetApiPropertyDao implements PropertyDao {
             if (name == null) throw new IllegalArgumentException("Null name not allowed");
             if (value == null) throw new IllegalArgumentException("Null value not allowed");
             if (type == null) throw new IllegalArgumentException("Null property asset type not allowed");
-            this.prop = new PropertyImpl(name, description, value);
+            this.prop = new PropertyImpl(type, name, description, value);
             this.id = new AssetIdImpl(type, propid);
         }
 
