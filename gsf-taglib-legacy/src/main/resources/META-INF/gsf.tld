@@ -375,15 +375,30 @@
 	</tag>
 	<tag>
 		<description>Tag to expose the property asset values for JSP EL.
-            Property assets are of type and subtype GSTProperty  and have three fields/attributes: name, description, value.  Description is for human descriptive use only.
+            Property assets's type and subtype can be of any type which complies with the following conditions:
+            1) It's a flex asset type.
+            2) It has a "value" attribute.
+            3) The name of the asset represents the name of the property.
+            4) The description of the asset represents the description of the property and it is for human descriptive use only.
+            This type and subtype are configured inside web.xml via gst-property-type and gst-property-subtype init params.
+            If not specified, type / subtype will DEFAULT TO "GSTProperty". This fallback is provided for backwards compatibility
+            purposes only.
             The properties are exposed in the page context under the prefix "props".</description>
 		<name>get-properties</name>
 		<tag-class>com.fatwire.gst.foundation.taglib.GetPropertiesTag</tag-class>
 		<body-content>empty</body-content>
 	</tag>
 	<tag>
-		<description>Tag to expose the asset id part of a property of type "asset id" to a JSP EL. in the form AssetId.
-            Property assets are of type and subtype GSTProperty  and have three fields/attributes: name, description, value.  Description is for human descriptive use only.
+		<description>
+			Tag to expose the asset id part of a property of type "asset id" to a JSP EL. in the form AssetId.
+			Property assets's type and subtype can be of any type which complies with the following conditions:
+            1) It's a flex asset type.
+            2) It has a "value" attribute.
+            3) The name of the asset represents the name of the property.
+            4) The description of the asset represents the description of the property and it is for human descriptive use only.
+            This type and subtype are configured inside web.xml via gst-property-type and gst-property-subtype init params.
+            If not specified, type / subtype will DEFAULT TO "GSTProperty". This fallback is provided for backwards compatibility
+            purposes only.
         </description>
 		<name>get-property-assetid</name>
 		<tag-class>com.fatwire.gst.foundation.taglib.GetPropertyAssetIdTag</tag-class>
@@ -402,8 +417,16 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>Tag to expose the asset id part of a property of any type to a JSP EL.
-            Property assets are of type and subtype GSTProperty  and have three fields/attributes: name, description, value.  Description is for human descriptive use only.
+		<description>
+			Tag to expose the asset id part of a property of any type to a JSP EL.
+			Property assets's type and subtype can be of any type which complies with the following conditions:
+            1) It's a flex asset type.
+            2) It has a "value" attribute.
+            3) The name of the asset represents the name of the property.
+            4) The description of the asset represents the description of the property and it is for human descriptive use only.
+            This type and subtype are configured inside web.xml via gst-property-type and gst-property-subtype init params.
+            If not specified, type / subtype will DEFAULT TO "GSTProperty". This fallback is provided for backwards compatibility
+            purposes only.
         </description>
 		<name>get-property</name>
 		<tag-class>com.fatwire.gst.foundation.taglib.GetPropertyTag</tag-class>
