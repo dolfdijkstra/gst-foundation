@@ -15,17 +15,14 @@
  */
 package com.fatwire.gst.foundation.taglib;
 
-import java.io.IOException;
-import javax.servlet.jsp.JspException;
-
-import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
+import com.fatwire.gst.foundation.controller.action.support.IcsFactoryUtil;
 import com.fatwire.gst.foundation.properties.Property;
 import com.fatwire.gst.foundation.properties.PropertyDao;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.jsp.JspException;
+import java.io.IOException;
 
 /**
  * extract the asset id from the asset property value
@@ -47,9 +44,8 @@ public final class GetPropertyAssetIdTag extends GsfSimpleTag {
      */
     @Override
     public void doTag() throws JspException, IOException {
-        final ICS ics = getICS();
-        PropertyDao propertyDao = AssetApiPropertyDao.getInstance(ics);
-        Property p = propertyDao.getProperty(property);
+        PropertyDao propertyDao = IcsFactoryUtil.getFactory(getICS()).getObject("propertyDao", PropertyDao.class);
+    	Property p = propertyDao.getProperty(property);
         if (p != null) {
             getJspContext().setAttribute(name, p.asAssetId());
         } else {
