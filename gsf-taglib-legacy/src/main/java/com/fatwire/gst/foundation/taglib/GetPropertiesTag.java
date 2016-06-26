@@ -15,15 +15,13 @@
  */
 package com.fatwire.gst.foundation.taglib;
 
+import com.fatwire.gst.foundation.controller.action.support.IcsFactoryUtil;
+import com.fatwire.gst.foundation.properties.PropertyDao;
+
+import javax.servlet.jsp.JspException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.jsp.JspException;
-
-import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
-import com.fatwire.gst.foundation.properties.PropertyDao;
 
 /**
  * Load property values from the property asset into the page scope
@@ -45,9 +43,8 @@ public class GetPropertiesTag extends GsfSimpleTag {
     }
 
     private Map<String, String> getAllPropsAsMap() {
-        final ICS ics = getICS();
-        PropertyDao propertyDao = AssetApiPropertyDao.getInstance(ics);
-        HashMap<String, String> map = new HashMap<String, String>();
+        PropertyDao propertyDao = IcsFactoryUtil.getFactory(getICS()).getObject("propertyDao", PropertyDao.class);
+    	HashMap<String, String> map = new HashMap<String, String>();
         for (String name : propertyDao.getPropertyNames()) {
             map.put(name, propertyDao.getProperty(name).asString());
         }

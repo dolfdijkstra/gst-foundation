@@ -17,7 +17,6 @@
 package com.fatwire.gst.foundation.controller.action.support;
 
 import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
@@ -29,12 +28,8 @@ import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
-import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
-import com.fatwire.gst.foundation.properties.PropertyDao;
-import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
-import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
-import com.fatwire.gst.foundation.wra.AssetApiWraCoreFieldDao;
-import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
+
+
 
 /**
  * Factory implementation that works with a method naming convention to create
@@ -48,14 +43,13 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  * </p>
  * <p>
  * This class was created as a subset of the methods of the legacy class IcsBackedObjectFactory.
- * More especifically, it was removed the createWraPathTranslationService method, the
- * createIncludeService method and the createNavigationService method, therefore breaking the
- * dependency between this class, the vanity url-related classes, the navigation service-related
- * classes and the include service-related classes.
+ * More especifically, it was removed all "create" methods depending on deprecated classes / features.
+ * (createWraPathTranslationService,  createIncludeService, createNavigationService, ...) so to break
+ * dependencies with deprecated features (vanity urls, include service, ...)
  * </p>
  * 
- * @author Dolf.Dijkstra
- * @since Apr 20, 2011
+ * @author Freddy Villalba
+ * @since June 16, 2016
  * 
  */
 public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
@@ -74,22 +68,6 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
      */
     public SimpleIcsBackedObjectFactoryTemplate(ICS ics, Factory... roots) {
         super(ics, roots);
-    }
-
-    @ServiceProducer(cache = true)
-    public WraCoreFieldDao createWraCoreFieldDao(final ICS ics) {
-        return AssetApiWraCoreFieldDao.getInstance(ics);
-    }
-
-    @ServiceProducer(cache = true)
-    public AliasCoreFieldDao createAliasCoreFieldDao(final ICS ics) {
-        final WraCoreFieldDao wraCoreFieldDao = getObject("wraCoreFieldDao", WraCoreFieldDao.class);
-        return new AssetApiAliasCoreFieldDao(ics, wraCoreFieldDao);
-    }
-
-    @ServiceProducer(cache = true)
-    public PropertyDao createPropertyDao(final ICS ics) {
-        return AssetApiPropertyDao.newInstance(ics);
     }
 
     @ServiceProducer(cache = true)

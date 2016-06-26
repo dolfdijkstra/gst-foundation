@@ -35,30 +35,30 @@ emphasis is on a non-rendering foundation that at a high-level provides the foll
 
 - Is suitable for use "out of the box" for a large number of sites
 
-- Introduces the notion of a web-referenceable asset, which is accessed via a common controller
+DEPRECATED - Introduces the notion of a web-referenceable asset, which is accessed via a common controller
 
-- Handles and dispatches requests quickly and efficiently
+DEPRECATED - Handles and dispatches requests quickly and efficiently
 
-- Supports easily-constructed vanity URLs for any web-referenceable asset
+DEPRECATED - Supports easily-constructed vanity URLs for any web-referenceable asset
 
 - Standardizes usage of the Page asset for navigation
 
-- Standardizes meta attributes
+DEPRECATED - Standardizes meta attributes
 
 - Provides infrastructure for built-in 404 responses for assets as required
 
-- Provides for managed alias assets that can represent any other URL
+DEPRECATED - Provides for managed alias assets that can represent any other URL
 
 - Can be cleanly extended to address custom client requirements
 
 
-    Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and
+    <DEPRECATED> Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and
     acknowledgement that the URL is more important than the content.  By giving each asset its own URL at the
     discretion of the editor, both problems are solved.
 
     This model is appropriate for many different solution designs. However there may be some site requirements which
     would make the patterns and conventions of this approach less suitable.  A checklist is included that helps an
-    architect to determine if this rendering model is the best approach for the project at hand.
+    architect to determine if this rendering model is the best approach for the project at hand.</DEPRECATED>
 
     The Global Site Foundation is initiated in 2010 by Tony Field, Dolf Dijkstra, Michael Sullivan 
     and Suzanne Bourdeaux.
@@ -74,7 +74,7 @@ Documentation for the GST Foundation project is found on [Github Pages](http://d
 
 ##Download
 
-The 11.6.0 version of GSF that works with Sites 11gr1 BP1 is on [this repository](https://github.com/dolfdijkstra/mvn-repository/tree/master/releases/com/fatwire/gst/gst-foundation-core).
+<DEPRECATED>The 11.6.0 version of GSF that works with Sites 11gr1 BP1 is on [this repository](https://github.com/dolfdijkstra/mvn-repository/tree/master/releases/com/fatwire/gst/gst-foundation-core).<DEPRECATED>
  
 
 ##Support
