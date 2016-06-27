@@ -20,6 +20,8 @@ import java.util.Date;
 
 import COM.FutureTense.Interfaces.ICS;
 
+import com.fatwire.assetapi.data.AssetDataManager;
+import com.fatwire.assetapi.site.SiteManager;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
@@ -35,7 +37,6 @@ import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.navigation.NavigationService;
-//import com.fatwire.gst.foundation.navigation.support.SimpleNavigationHelper;
 import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
 import com.fatwire.gst.foundation.properties.PropertyDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;
@@ -52,6 +53,8 @@ import com.fatwire.gst.foundation.wra.SimpleWRADao;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 import com.fatwire.gst.foundation.wra.navigation.WraNavigationService;
 import com.fatwire.mda.DimensionFilterInstance;
+import com.fatwire.system.Session;
+import com.fatwire.system.SessionFactory;
 
 /**
  * Factory implementation that works with a method naming convention to create
@@ -100,7 +103,15 @@ public class IcsBackedObjectFactoryTemplate extends BaseFactory {
 
     @ServiceProducer(cache = true)
     public PropertyDao createPropertyDao(final ICS ics) {
-        return AssetApiPropertyDao.newInstance(ics);
+    	Session session = SessionFactory.getSession(ics);
+    	AssetDataManager adm = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+    	SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
+    	String type = "GSTProperty";
+    	String flexDefName = "GSTProperty";
+    	String propNameAttr = "name";
+    	String propDescAttr = "description";
+    	String propValueAttr = "value";
+    	return new AssetApiPropertyDao(adm, sm, type, flexDefName, propNameAttr, propDescAttr, propValueAttr, ics);
     }
 
     @ServiceProducer(cache = true)
