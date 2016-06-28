@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 import com.fatwire.gst.foundation.controller.AppContext;
 
 /**
- * @author Freddy.Villalba
- * @since 28 June 2016
+ * @author Dolf.Dijkstra
+ * @since 4 April 2012
  */
 public class WebContextUtil {
 

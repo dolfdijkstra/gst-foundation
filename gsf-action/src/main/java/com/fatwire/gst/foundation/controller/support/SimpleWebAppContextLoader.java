@@ -40,7 +40,8 @@ import com.fatwire.gst.foundation.controller.AppContext;
  * ServletContextListener that loads and configures the AppContext for this
  * application.
  * 
- * @author Dolf Dijkstra
+ * @author Freddy.Villalba
+ * @since 28 June 2016
  * 
  */
 public class SimpleWebAppContextLoader implements ServletContextListener {
