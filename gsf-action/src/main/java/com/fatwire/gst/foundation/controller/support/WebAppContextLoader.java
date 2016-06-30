@@ -16,7 +16,6 @@
 package com.fatwire.gst.foundation.controller.support;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -46,8 +45,6 @@ import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext
  * 
  */
 public class WebAppContextLoader implements ServletContextListener {
-    private static final String GROOVY_WEB_CONTEXT = "com.fatwire.gst.foundation.groovy.context.GroovyWebContext";
-    private static final String GROOVY_CLASSNAME = "groovy.util.GroovyScriptEngine";
     public static final String CONTEXTS = "gsf-contexts";
 
     protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.support.WebAppContextLoader");
@@ -77,19 +74,6 @@ public class WebAppContextLoader implements ServletContextListener {
                 parent = configureFromServiceLocator(context, cl);
             } catch (IOException e) {
                 LOG.debug("Exception when loadding the service descriptor for the AppContext from the classpath.", e);
-            }
-        }
-        if (parent == null) {
-            // if gsf-groovy is found and groovy classes around found, boot with
-            // groovy
-            final String groovyPath = context.getRealPath("/WEB-INF/gsf-groovy");
-
-            if (new File(groovyPath).isDirectory() && isGroovyOnClassPath(cl)) {
-                try {
-                    parent = createAppContext(cl, GROOVY_WEB_CONTEXT, context, null);
-                } catch (final Exception e) {
-                    LOG.warn("Exception when creating the GroovyWebContext as a default option", e);
-                }
             }
         }
         if (parent == null) {
@@ -199,15 +183,6 @@ public class WebAppContextLoader implements ServletContextListener {
 
         }
         return parent;
-    }
-
-    private boolean isGroovyOnClassPath(final ClassLoader cl) {
-        try {
-            cl.loadClass(GROOVY_CLASSNAME);
-        } catch (final ClassNotFoundException e) {
-            return false;
-        }
-        return true;
     }
 
     @Override
