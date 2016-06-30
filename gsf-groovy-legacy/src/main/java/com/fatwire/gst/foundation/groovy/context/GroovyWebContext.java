@@ -26,7 +26,7 @@ import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.action.support.ClassActionLocator;
-import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
+import com.fatwire.gst.foundation.controller.action.support.LegacyDefaultWebAppContext;
 import com.fatwire.gst.foundation.controller.action.support.RenderPageActionLocator;
 import com.fatwire.gst.foundation.controller.support.WebAppContextLoader;
 import com.fatwire.gst.foundation.groovy.GroovyElementCatalogLoader;
@@ -40,7 +40,7 @@ import com.fatwire.gst.foundation.groovy.action.GroovyActionLocator;
  * @since 11 mei 2012
  * 
  */
-public class GroovyWebContext extends DefaultWebAppContext {
+public class GroovyWebContext extends LegacyDefaultWebAppContext {
     private GroovyClassLoader classLoader;
 
     /**
@@ -58,7 +58,7 @@ public class GroovyWebContext extends DefaultWebAppContext {
     }
 
     /* (non-Javadoc)
-     * @see com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext#createActionLocator()
+     * @see com.fatwire.gst.foundation.controller.action.support.LegacyDefaultWebAppContext#createActionLocator()
      */
     public ActionLocator createActionLocator() {
         // this method is expected to be called only once during the lifecycle

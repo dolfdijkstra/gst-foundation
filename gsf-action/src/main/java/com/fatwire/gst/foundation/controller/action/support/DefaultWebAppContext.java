@@ -38,14 +38,14 @@ import com.fatwire.gst.foundation.controller.support.WebAppContext;
  * @author Freddy Villalba
  * 
  */
-public class SimpleWebAppContext extends WebAppContext implements FactoryProducer {
+public class DefaultWebAppContext extends WebAppContext implements FactoryProducer {
 
-    public SimpleWebAppContext(final ServletContext context) {
+    public DefaultWebAppContext(final ServletContext context) {
         super(context);
 
     }
 
-    public SimpleWebAppContext(final ServletContext context, final AppContext parent) {
+    public DefaultWebAppContext(final ServletContext context, final AppContext parent) {
         super(context, parent);
 
     }
