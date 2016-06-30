@@ -52,4 +52,12 @@
       <url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-action</url>
     </site>
   </distributionManagement>
+  	<build>
+	  	<resources>
+	  		<resource>
+				<directory>src/main/resources/archive-files</directory>
+				<targetPath>META-INF</targetPath>
+			</resource>
+		</resources>
+	</build>
 </project>
