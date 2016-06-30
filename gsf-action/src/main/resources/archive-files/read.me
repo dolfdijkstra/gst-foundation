@@ -1,0 +1,5 @@
+The gsf-contexts file in this folder will get deployed under the "META-INF" folder of the CORE JAR file.
+Regardless of whether you want to use the new (default) AppContext implementation,  the deprecated (legacy)
+implementation or even a custom one, you can use the gsf-contexts file in this folder to specify that.
+Since the LEGACY JAR file requires the CORE JAR file being deployed, this will cover all possible scenarios.
+You can also configure gsf-contexts inside web.xml.
