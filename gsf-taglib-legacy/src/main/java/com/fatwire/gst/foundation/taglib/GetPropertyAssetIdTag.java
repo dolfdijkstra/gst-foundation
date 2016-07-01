@@ -32,7 +32,7 @@ import java.io.IOException;
  */
 public final class GetPropertyAssetIdTag extends GsfSimpleTag {
     
-	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.properties");
+	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.properties");
 
     private String name;
     private String property;

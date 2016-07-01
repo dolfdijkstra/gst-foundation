@@ -27,7 +27,6 @@ import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetDataManager;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
 
@@ -40,32 +39,6 @@ import com.fatwire.system.SessionFactory;
  */
 public final class AssetDataUtils {
     private AssetDataUtils() {
-    }
-
-    /**
-     * Return the AssetData for the specified asset
-     * 
-     * @param c current asset
-     * @param cid content id
-     * @param attributes list of attribute names
-     * @return asset data
-     * @deprecated inconsistent method signature, replaced by {@link AssetDataUtils#getAssetData(AssetId, String...)}. 
-     */
-    @Deprecated
-    public static AssetData getAssetData(String c, String cid, String... attributes) {
-        return getAssetData(AssetIdUtils.createAssetId(c, cid), attributes);
-    }
-
-    /**
-     * Read all attributes for the given asset id.
-     * 
-     * @param id must be valid or else an exception is thrown
-     * @return asset data, never null.
-     * @deprecated use #getAssetData(ICS, AssetId) instead
-     */
-    @Deprecated
-    public static AssetData getAssetData(AssetId id) {
-        return getAssetData(ICSFactory.getOrCreateICS(), id);
     }
 
     /**
@@ -85,19 +58,6 @@ public final class AssetDataUtils {
             throw new CSRuntimeException("Failed to read attribute data: " + e, ftErrors.exceptionerr, e);
         }
         throw new CSRuntimeException("Asset not found: " + id, ftErrors.badparams);
-    }
-
-    /**
-     * Return the AssetData for the specified asset
-     * 
-     * @param id asset id
-     * @param attributes list of attribute names
-     * @return asset data
-     * @deprecated use #getAssetData(ICS, AssetId, String...) instead
-     */
-    @Deprecated
-    public static AssetData getAssetData(AssetId id, String... attributes) {
-        return getAssetData(ICSFactory.getOrCreateICS(), id, attributes);
     }
 
     /**
