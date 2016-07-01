@@ -67,6 +67,7 @@ public class DefaultWebAppContext extends WebAppContext implements FactoryProduc
         } else {
             this.factoryConstructor = f;
         }
+        LOG.debug("DefaultWebAppContext instance bound to factoryConstructor = " + this.factoryConstructor);
     }
 
     public Injector createInjector() {

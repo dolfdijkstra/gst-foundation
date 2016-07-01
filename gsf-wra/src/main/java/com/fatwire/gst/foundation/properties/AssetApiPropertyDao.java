@@ -44,7 +44,7 @@ import java.util.*;
  * @since 2011-09-02
  */
 public final class AssetApiPropertyDao implements PropertyDao {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.properties.AssetApiPropertyDao");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.properties.AssetApiPropertyDao");
     private static final int TIMEOUT_MINUTES = 60 * 24; // one day
     private static final int MAX_SIZE = 1000000; // a million
     private static final String ID = "id";

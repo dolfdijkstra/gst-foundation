@@ -61,7 +61,7 @@ import com.openmarket.xcelerate.publish.PubConstants;
  * @since Jun 23, 2010
  */
 public final class FilterAssetsByDate {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.facade.runtag.asset.FilterAssetsByDate");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.runtag.asset.FilterAssetsByDate");
 
     private static String[] jdbcDateFormatStrings = { "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS" };
 

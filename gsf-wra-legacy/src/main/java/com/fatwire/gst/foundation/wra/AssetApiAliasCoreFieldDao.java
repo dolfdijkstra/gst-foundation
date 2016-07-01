@@ -54,7 +54,7 @@ public class AssetApiAliasCoreFieldDao implements AliasCoreFieldDao {
         this.wraCoreFieldDao = wraCoreFieldDao;
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.wra.AssetApiAliasCoreFieldDao");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.wra.AssetApiAliasCoreFieldDao");
 
     /**
      * Return an AssetData object containing the core fields found in an alias

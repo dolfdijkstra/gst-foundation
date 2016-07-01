@@ -49,7 +49,7 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  */
 public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl {
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.tagging.TaggedAssetRealtimeCacheUpdater");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.tagging.TaggedAssetRealtimeCacheUpdater");
 
     @Override
     protected void beforeSelect(ICS ics, Collection<String> invalKeys, Collection<String> regenKeys,
