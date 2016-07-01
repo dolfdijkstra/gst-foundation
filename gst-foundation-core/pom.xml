@@ -6,7 +6,7 @@
 		<artifactId>gst-foundation</artifactId>
 		<version>12.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>gst-foundation-core</artifactId>
+	<artifactId>gsf-core</artifactId>
 	<packaging>jar</packaging>
 	<name>Sites GSF: Aggregator</name>
 	<inceptionYear>2010</inceptionYear>
@@ -25,27 +25,17 @@
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-facades</artifactId>
-			<version>12.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-wra</artifactId>
-			<version>12.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-action</artifactId>
-			<version>12.0-SNAPSHOT</version>
-		</dependency>
-		<!-- dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-mobile</artifactId>
-			<version>12.0-SNAPSHOT</version>
-		</dependency -->
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-groovy</artifactId>
-			<version>12.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -99,24 +89,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptors>
-						<descriptor>src/main/assembly/elements.xml</descriptor>
-						<descriptor>src/main/assembly/bin.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin -->
 		</plugins>
 	</build>
 </project>
