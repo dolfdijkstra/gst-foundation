@@ -28,7 +28,7 @@ import com.fatwire.gst.foundation.controller.AppContext;
  */
 public class WebContextUtil {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.support.WebContextUtil");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.support.WebContextUtil");
     private WebContextUtil() {
         super();
     }

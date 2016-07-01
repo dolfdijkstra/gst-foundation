@@ -34,7 +34,7 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
  */
 public final class VerySimpleAssetEventListener extends AbstractAssetEventListener {
 
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.test.event.VerySimpleAssetEventListener");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.test.event.VerySimpleAssetEventListener");
 
     @Override
     public void assetAdded(AssetId assetId) {

@@ -3,3 +3,10 @@ Regardless of whether you want to use the new (default) AppContext implementatio
 implementation or even a custom one, you can use the gsf-contexts file in this folder to specify that.
 Since the LEGACY JAR file requires the CORE JAR file being deployed, this will cover all possible scenarios.
 You can also configure gsf-contexts inside web.xml.
+
+Same rationale applies for the gsf-factory file in this folder which allows your specifying the Factory implementation
+GSF will rely upon.
+
+Note that the gsf-factory file is the only way to customize that setting, which defaults to:
+
+	com.fatwire.gst.foundation.controller.action.support.SimpleIcsBackedObjectFactoryTemplate 

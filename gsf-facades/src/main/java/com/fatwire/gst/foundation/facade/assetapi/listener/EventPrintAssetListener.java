@@ -26,7 +26,7 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
 
 
 public class EventPrintAssetListener extends AbstractAssetEventListener {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.facade.assetapi.listener.EventPrintAssetListener");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.assetapi.listener.EventPrintAssetListener");
 
     @Override
     public void assetAdded(final AssetId id) {

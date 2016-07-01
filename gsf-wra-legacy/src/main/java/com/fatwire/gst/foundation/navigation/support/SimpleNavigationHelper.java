@@ -52,7 +52,7 @@ import com.fatwire.gst.foundation.wra.WraUriBuilder;
  */
 public class SimpleNavigationHelper extends AbstractNavigationService implements NavigationService {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.navigation.support.SimpleNavigationHelper");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.navigation.support.SimpleNavigationHelper");
 
     private static final String CHILD_SQL = "SELECT otype,oid,nrank,nid from SitePlanTree where nparentid=? and ncode='Placed' order by nrank";
     private static final PreparedStmt CHILD_STMT = new PreparedStmt(CHILD_SQL, Arrays.asList("SitePlanTree"));

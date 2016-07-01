@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * @since 2011-11-28
  */
 public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.taglib.MultilingualGsfSimpleTag");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.taglib.MultilingualGsfSimpleTag");
 
     private String dimensionSetName = null;
     private long dimensionSetId = -1L;
