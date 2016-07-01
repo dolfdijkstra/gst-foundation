@@ -41,20 +41,20 @@ mkdir -p "$tmpLocation"
 mvn -q site:stage -P '!samples' -DstagingDirectory="$tmpLocation/site" > /dev/null
 
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
-archive=`pwd`/target/gst-foundation-$VERSION
+archive=`pwd`/target/gsf-core-$VERSION
  
 echo adding primary artifacts to kit
-cp -R gst-foundation-core/target/gst* "$tmpLocation"
-mkdir "$tmpLocation/gsf-sample/"
-cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
-cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
+cp -R gst-foundation-core/target/gsf* "$tmpLocation"
+#mkdir "$tmpLocation/gsf-sample/"
+#cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
+#cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
 echo copying license to kit
 cp LICENSE "$tmpLocation"
 echo compressing
 #(cd    /tmp && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-* && rm -rf "$tmpLocation") 
 (cd `dirname "$tmpLocation"` && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-*) 
 
-echo done packaging gst-foundation
+echo done packaging gsf-core
 
 
 

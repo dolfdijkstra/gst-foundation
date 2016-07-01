@@ -15,75 +15,74 @@
  */
 package com.fatwire.gst.foundation.properties;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.ISyncHash;
 import COM.FutureTense.Util.ftErrors;
-
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.common.SiteAccessException;
-import com.fatwire.assetapi.data.AssetData;
-import com.fatwire.assetapi.data.AssetDataManager;
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.assetapi.data.AttributeData;
-import com.fatwire.assetapi.data.MutableAssetData;
+import com.fatwire.assetapi.data.*;
 import com.fatwire.assetapi.query.OpTypeEnum;
 import com.fatwire.assetapi.query.Query;
 import com.fatwire.assetapi.site.SiteInfo;
 import com.fatwire.assetapi.site.SiteManager;
 import com.fatwire.gst.foundation.CSRuntimeException;
+import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.QueryBuilder;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
-import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
-import com.fatwire.system.SessionFactory;
-import com.openmarket.xcelerate.asset.AssetIdImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
- * Class representing properties stored as an asset. Can be basic or flex but
- * fields are specifically defined
  * 
+ * Class representing properties stored as an asset. Can be basic or flex. Property name field must be a core
+ * asset field ("name" is usually chosen). Other fields can be set as needed.
+ *
+ * Adding a new property adds it to the current site, as defined by the pubid session variable.
  * @author Tony Field
- * @since 11-09-02
+ * @since 2011-09-02
  */
-// TODO: Figure out how to assign these to a give site/publication
 public final class AssetApiPropertyDao implements PropertyDao {
-    private static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.properties.AssetApiPropertyDao");
-
-    public static final String TYPE = "GSTProperty";
-    public static final String SUBTYPE = "GSTProperty";
-
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.properties.AssetApiPropertyDao");
     private static final int TIMEOUT_MINUTES = 60 * 24; // one day
     private static final int MAX_SIZE = 1000000; // a million
+    private static final String ID = "id";
+    private static final String PUBLIST = "Publist";
+    
     private final ISyncHash _props;
-    private final ICS ics;
     private final AssetDataManager assetDataManager;
+    private final SiteManager siteManager;
+    private final String assetType;
+    private final String assetFlexDefinition;
+    private final String propertyNameAttr;
+    private final String propertyDescriptionAttr;
+    private final String propertyValueAttr;
+    private final ICS _ics;
 
-    public static final PropertyDao getInstance(ICS ics) {
-        return newInstance(ics);
-    }
-
-    public static final PropertyDao newInstance(ICS ics) {
-        if (ics == null) {
-            throw new IllegalArgumentException("ics must not be null.");
-        }
-
-        return new AssetApiPropertyDao(ics);
-    }
-
-    private AssetApiPropertyDao(ICS ics) {
-        this.ics = ics;
-        this.assetDataManager = (AssetDataManager)SessionFactory.getSession(ics).getManager(AssetDataManager.class.getName());
-        this._props = ics.GetSynchronizedHash(AssetApiPropertyDao.class.getName(), true, TIMEOUT_MINUTES, MAX_SIZE, true, true, Arrays.asList(ics.GetProperty("cs.dsn")+TYPE));
-    }
+    
+    /**
+     * Property dao backed by a basic or flex asset.
+     * @param adm asset data manager
+     * @param siteManager site manager
+     * @param type asset type to be used
+     * @param flexDefName flex definition, if using a flex asset; null if using a basic asset
+     * @param propNameAttr attribute name holding property name. Must be a core asset field (i.e. in the main row of the asset) so that lookups can be done properly. Must be a string attribute type.
+     * @param propDescAttr attribute name holding the description of the property Must be a string attribute type.
+     * @param propValueAttr attribute name holding the property value. Must be a string attribute type.
+     * @param ics ics context
+     */
+    public AssetApiPropertyDao(AssetDataManager adm, SiteManager siteManager, String type, String flexDefName, String propNameAttr, String propDescAttr, String propValueAttr, ICS ics) {
+        this.assetDataManager = adm;
+        this.siteManager = siteManager;
+        this.assetType = type;
+        this.assetFlexDefinition = flexDefName;
+        this.propertyNameAttr = propNameAttr;
+        this.propertyDescriptionAttr = propDescAttr;
+        this.propertyValueAttr = propValueAttr;
+        this._props = ics.GetSynchronizedHash(AssetApiPropertyDao.class.getName(), true, TIMEOUT_MINUTES, MAX_SIZE, true, true, Collections.singletonList(ics.GetProperty("cs.dsn") + assetType));
+        this._ics = ics;
+	}
 
     public synchronized Property getProperty(String name) {
         PropertyHolder ph = (PropertyHolder) _props.get(name);
@@ -92,34 +91,51 @@ public final class AssetApiPropertyDao implements PropertyDao {
             _props.put(name, ph);
         }
         if (ph.getId() != null) {
-            LogDep.logDep(ics, ph.getId());
+            LogDep.logDep(_ics, ph.getId()); // can't rely on asset API to do this for us since we're caching
         }
         return ph.getProp();
     }
 
     @SuppressWarnings("unchecked")
 	public synchronized Collection<String> getPropertyNames() {
-        return _props.keySet();
+        ArrayList<String> keys = new ArrayList<>();
+        for (Object key : _props.keySet()) {
+            String sKey = (String)key;
+            PropertyHolder ph = (PropertyHolder)_props.get(sKey);
+            if (ph != PropertyHolder.EMPTY_HOLDER) {
+                keys.add(sKey);
+            }
+        }
+        return keys;
     }
-
+    
     private PropertyHolder _readProperty(String name) {
-        Query loadQuery = new QueryBuilder(TYPE, SUBTYPE).attributes("id", "name", "description", "value")
+    	Query loadQuery = new QueryBuilder(assetType, assetFlexDefinition).attributes(ID, propertyNameAttr, propertyDescriptionAttr, propertyValueAttr)
                 .condition("status", OpTypeEnum.NOT_EQUALS, "VO")
-                .condition("name", OpTypeEnum.EQUALS, name)
-                .setBasicSearch(true)
+                .condition(propertyNameAttr, OpTypeEnum.EQUALS, name)
+                .setBasicSearch(true) // note must be a core field for lookup to work
                 .setFixedList(true)  // we are being precise
                 .toQuery();
-        TemplateAssetAccess templateAssetAccess = new TemplateAssetAccess(ics);
-        for (TemplateAsset d : templateAssetAccess.query(loadQuery)) {
-            if (LOG.isTraceEnabled())
-                LOG.trace("Loaded property: " + name);
-            return new AssetApiPropertyDao.PropertyHolder(name, d.asString("description"), d.asString("value"), TYPE, d.asLong("id"));
+        try {
+            for (AssetData propData : assetDataManager.read(loadQuery)) {
+                AttributeData oName = propData.getAttributeData(propertyNameAttr);
+                AttributeData oDesc = propData.getAttributeData(propertyDescriptionAttr);
+                AttributeData oVal = propData.getAttributeData(propertyValueAttr);
+                AssetId id = propData.getAssetId();
+                if (oName == null) throw new IllegalStateException("Property name attribute configured in PropertyDao not found in asset: "+propertyNameAttr);
+                if (oDesc == null) throw new IllegalStateException("Property description attribute configured in PropertyDao not found in asset" +propertyDescriptionAttr);
+                if (oVal == null) throw new IllegalStateException("Property value attribute configured in PropertyDao not found in asset" +propertyValueAttr);
+                LOG.debug("Loaded property {}",name);
+                return new PropertyHolder(name, AttributeDataUtils.asString(oDesc), AttributeDataUtils.asString(oVal), id);
+            }
+        } catch (AssetAccessException e) {
+            LOG.error("Failure reading property: {}", name, e);
+            return AssetApiPropertyDao.PropertyHolder.EMPTY_HOLDER;
         }
-        if (LOG.isTraceEnabled())
-            LOG.trace("Property not found: "+name);
-        return AssetApiPropertyDao.PropertyHolder.EMPTY_HOLDER;
+        LOG.debug("Property not found: {}", name);
+        return AssetApiPropertyDao.PropertyHolder.EMPTY_HOLDER;    	
     }
-
+    
     /**
      * Convenience method to set (or re-set) a property value
      *
@@ -130,37 +146,42 @@ public final class AssetApiPropertyDao implements PropertyDao {
     public synchronized void setProperty(String name, String description, String value) {
         if (name == null) throw new IllegalArgumentException("Cannot set a null property name");
 
-        AssetId id = AssetList.lookupAssetId(ics, TYPE, name);
-        if (id == null) {
-            try {// add
-                MutableAssetData data = assetDataManager.newAssetData("GSTProperty", "GSTProperty");
-                data.getAttributeData("name").setData(name);
-                data.getAttributeData("description").setData(description);
-                data.getAttributeData("value").setData(value);
-                _appendCurrentToPublist(data.getAttributeData("Publist"));
-                assetDataManager.insert(Arrays.<AssetData>asList(data));
-                id = data.getAssetId();
+        String pubid = _ics.GetSSVar("pubid");
+        String site = _lookupSiteName(pubid);
+
+        PropertyHolder holder = _readProperty(name);
+        if (holder == PropertyHolder.EMPTY_HOLDER) {
+            // add
+            try {
+                MutableAssetData data = assetDataManager.newAssetData(assetType, assetFlexDefinition);
+                data.getAttributeData(propertyNameAttr).setData(name);
+                data.getAttributeData(propertyDescriptionAttr).setData(description);
+                data.getAttributeData(propertyValueAttr).setData(value);
+                _appendToPublist(data.getAttributeData(PUBLIST), site);
+                assetDataManager.insert(Collections.singletonList(data));
+                holder = new PropertyHolder(name, description, value, data.getAssetId());
             } catch (AssetAccessException e) {
                 throw new CSRuntimeException("Could not add new property "+name, ftErrors.exceptionerr, e);
             }
         } else {
             // replace
             try {
-                ArrayList<AssetData> sAssets = new ArrayList<AssetData>();
-                for (MutableAssetData data : assetDataManager.readForUpdate(Arrays.asList(id))) {
+                ArrayList<AssetData> sAssets = new ArrayList<>();
+                for (MutableAssetData data : assetDataManager.readForUpdate(Collections.singletonList(holder.getId()))) {
                     // sorry can't reset 'name'
-                    data.getAttributeData("description").setData(description);
-                    data.getAttributeData("value").setData(value);
-                    _appendCurrentToPublist(data.getAttributeData("Publist"));
+                    data.getAttributeData(propertyDescriptionAttr).setData(description);
+                    data.getAttributeData(propertyValueAttr).setData(value);
+                    _appendToPublist(data.getAttributeData(PUBLIST), site);
                     sAssets.add(data);
+                    holder = new PropertyHolder(name, description, value, holder.getId());
                 }
                 assetDataManager.update(sAssets); // there can only be one since we are loading by id
             } catch (AssetAccessException e) {
                 throw new CSRuntimeException("Could not update property "+name, ftErrors.exceptionerr, e);
             }
         }
-        // cache or re-cache
-        _props.put(name, new AssetApiPropertyDao.PropertyHolder(name, description, value, id.getType(), id.getId()));
+        // cache or replace in cache
+        _props.put(name, holder);
     }
 
     /**
@@ -174,23 +195,20 @@ public final class AssetApiPropertyDao implements PropertyDao {
     }
 
     @SuppressWarnings("unchecked")
-	private void _appendCurrentToPublist(AttributeData data) {
-        String currentPub = _getCurrentSite();
-        if (currentPub != null) {
-            HashSet<String> pubs = new HashSet<String>();
-            pubs.add(currentPub);
+	private void _appendToPublist(AttributeData data, String ... siteName) {
+        if (siteName != null) {
+            HashSet<String> pubs = new HashSet<>();
+            pubs.addAll(Arrays.asList(siteName));
             pubs.addAll(data.getDataAsList());
-            data.setDataAsList(new ArrayList<String>(pubs));
+            data.setDataAsList(new ArrayList<>(pubs));
         }
     }
 
-    private String _getCurrentSite() {
-        String pubid = ics.GetSSVar("pubid");
+    private String _lookupSiteName(String pubid) {
         if (pubid != null) {
             long id = Long.valueOf(pubid);
-            SiteManager sm = (SiteManager) SessionFactory.getSession().getManager(SiteManager.class.getName());
             try {
-                for (SiteInfo si : sm.list()) {
+                for (SiteInfo si : siteManager.list()) {
                     if (si.getId() == id) return si.getName();
                 }
             } catch (SiteAccessException e) {
@@ -203,17 +221,14 @@ public final class AssetApiPropertyDao implements PropertyDao {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public synchronized void addToSite(String name, String ... site) {
         if (name == null) throw new IllegalArgumentException("Invalid property name null");
-        AssetId id = AssetList.lookupAssetId(ics, "GSTProperty", name);
-        if (id == null) throw new IllegalArgumentException("Could not locate property "+id);
+        PropertyHolder holder = _readProperty(name);
+        if (holder == PropertyHolder.EMPTY_HOLDER) throw new IllegalArgumentException("Could not locate property "+name);
 
         try {
-            ArrayList<AssetData> sAssets = new ArrayList<AssetData>();
-            for (MutableAssetData data : assetDataManager.readForUpdate(Arrays.asList(id))) {
-                HashSet<String> pubs = new HashSet<String>();
-                pubs.addAll(Arrays.asList(site));
-                AttributeData publistData = data.getAttributeData("Publist");
-                pubs.addAll(publistData.getDataAsList());
-                publistData.setDataAsList(new ArrayList(pubs));
+            ArrayList<AssetData> sAssets = new ArrayList<>();
+            for (MutableAssetData data : assetDataManager.readForUpdate(Collections.singletonList(holder.getId()))) {
+                AttributeData publistData = data.getAttributeData(PUBLIST);
+                _appendToPublist(publistData, site);
                 sAssets.add(data);
             }
             assetDataManager.update(sAssets);
@@ -241,15 +256,13 @@ public final class AssetApiPropertyDao implements PropertyDao {
          * @param name property name
          * @param description property description
          * @param value property value
-         * @param type property type
-         * @param propid property id
+         * @param id property id
          */
-        private PropertyHolder (String name, String description, String value, String type, long propid) {
+        private PropertyHolder(String name, String description, String value, AssetId id) {
             if (name == null) throw new IllegalArgumentException("Null name not allowed");
             if (value == null) throw new IllegalArgumentException("Null value not allowed");
-            if (type == null) throw new IllegalArgumentException("Null property asset type not allowed");
-            this.prop = new PropertyImpl(name, description, value);
-            this.id = new AssetIdImpl(type, propid);
+            this.id = id;
+            this.prop = new PropertyImpl(id.getType(), name, description, value);
         }
 
         private Property getProp() {

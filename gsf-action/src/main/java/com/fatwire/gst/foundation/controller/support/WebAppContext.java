@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WebAppContext implements AppContext {
-    protected static final Logger LOG = LoggerFactory.getLogger("com.function1.gsf.foundation.controller.support.WebAppContext");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.support.WebAppContext");
 
     public static final String WEB_CONTEXT_NAME = "gsf/AppContext";
 
@@ -38,7 +38,7 @@ public class WebAppContext implements AppContext {
     private Map<String, Object> localScope = new HashMap<String, Object>();
 
     /**
-     * This constructor is needed for the {@link WebAppContextLoader}.
+     * This constructor was needed for the SimpleWebAppContextLoader (now deprecated).
      * 
      * @param context servlet context
      * @param parent application context

@@ -19,116 +19,72 @@ Installation Guide
   The minimal installation guide exists of these steps:
 
 
-    [[1]] Download <<<gst-foundation-\<version\>.tgz>>> from  {{https://github.com/dolfdijkstra/gst-foundation/downloads/}}.
+    [[1]] Install all the ContentServer jars in your local maven repository.
 
-          Execute <<<tar xfz gst-foundation-*.tgz>>> or <<<unzip gst-foundation-*.zip>>> to explode the kit.
-          
-          Optionally download {{http://repo1.maven.org/maven2/org/tuckey/urlrewritefilter/3.2.0/urlrewritefilter-3.2.0.jar}} if you are not using webserver rewriting rules
-          
-          Download {{http://repo1.maven.org/maven2/javax/servlet/jstl/1.2/jstl-1.2.jar}} if your servlet engine does not come with jstl prepackaged. Tomcat6 needs this file for instance.
-          
-          Download {{http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar}} for groovy support. Please check that there are no other (older) groovy versions in WEB-INF/lib or the classpath. Sites 11g comes with a groovy jar that does not work! It has class incompalibility issues with asm.
-          
-          The repo1.maven.org website has blocked traffic for wget based on their useragent string. To bypass this you can set the user-agent string manually, 
-          add <-U downloader> to set the UserAgent header to downloader.  
-          
-         
-          <<<wget -U downloader http://repo1.maven.org/maven2/org/tuckey/urlrewritefilter/3.2.0/urlrewritefilter-3.2.0.jar>>>
-          
-          <<<wget -U downloader http://repo1.maven.org/maven2/javax/servlet/jstl/1.2/jstl-1.2.jar>>>
-          
-          <<<wget -U downloader http://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/1.7.10/groovy-all-1.7.10.jar>>>
-          
+    [[2]] Compile parent project with "mvn clean install".
 
-    [[2]] Deploy these downloaded jars and the gst-foundation-core-\<version\>.jar from the zip or tgz archive to cs/WEB-INF/lib.
+    [[3]] In futuretense_xcel.ini, set the following property:
 
-    [[3]] Import the ElementCatalog and SiteCatalog with CatalogManager from gst-foundation-core-<XXX>-elements.zip}}:
+      <<<xcelerate.pageref=com.fatwire.gst.foundation.url.WraPageReference>>>
 
-    [[4]] For each CS environment, set the java startup system property <com.fatwire.gst.foundation.env-name> (i.e. in the  application server startup script). For example,
+    [[4]] In ServletRequest.properties, set the following properties:
+
+    # set to the name of your wrapper element. If not set, it defaults to <"GST/Dispatcher">
+
+    <<<com.fatwire.gst.foundation.url.wrapathassembler.dispatcher=Wrapper>>>
+
+    <<<uri.assembler.1.shortform=wrapath>>>
+    <<<uri.assembler.1.classname=com.fatwire.gst.foundation.url.WraPathAssembler>>>
+    <<<uri.assembler.2.shortform=query>>>
+    <<<uri.assembler.2.classname=com.fatwire.cs.core.uri.QueryAssembler>>>
+
+    [[5]] For each CS environment, set the system property <com.fatwire.gst.foundation.env-name> (i.e. in a CS startup script). For example,
 
       <<<-Dcom.fatwire.gst.foundation.env-name=fatwire-dev>>>
 
-    [[8]] Add the following lines to your web.xml and restart the application server.
+    [[6]] deploy the <<<gst-foundation-all-XXX-bundle.jar>>> from gsf-assembly project to to your CS webserver.
+
+    [[7]] Add SiteGod ACL to your user.
+    
+    [[8]] Import the following ElementCatalog.html and SiteCatalog.html from:
+    
+      <<<gsf-tagging/src/main/elements/>>>
+      <<<gsf-wra/src/main/elements/>>>
+
+    [[9]] Install the GSF Events
+
+      <<<http://<server>:<port>/cs/ContentServer?pagename=GST/Foundation/UrlRegistryInstaller>>>
+      <<<http://<server>:<port>/cs/ContentServer?pagename=GST/Foundation/TagRegistryInstaller>>>
+    
+    [[10]] Create GST Flex Family
+    
+    [[11]] In ContentServer, create a Virtual Webroot (GSTVirtualWebroot) asset for each site. 
+
+    The 'Environment Name' attribute must match the com.fatwire.gst.foundation.env-name property from step #4.
+
+    [[12]] Add Status Servlet Filter
+
+    Add the following lines to your web.xml and restart the application server.
 
 --------------    
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	version="2.4"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
-[...]
-
-	<!-- the  HttpStatusHeaderFilter is used for http repsonse code support, it must also be deployed on Remote Satellite Server -->
-
-	<filter>
-		<filter-name>HttpStatusHeaderFilter</filter-name>
-		<filter-class>com.fatwire.gst.foundation.httpstatus.HttpResponseStatusFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>HttpStatusHeaderFilter</filter-name>
-		<servlet-name>Satellite</servlet-name>
-		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-	</filter-mapping>
-
-[..]
-
-</web-app>
+  <filter>
+    <filter-name>CustomHeaderFilter</filter-name>
+    <filter-class>com.fatwire.gst.foundation.httpstatus.CustomHeaderFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>CustomHeaderFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
 --------------    
-
-
-    [[4]] Login into Advanced UI with an xceladmin ACL enabled use, for instance fwadmin. Change to {{http://localhost:8080/cs/ContentServer?pagename=GST/Foundation/Installer}}. Follow the instructions on the page.
-
+    [[13]] Create Wrapper (CSElement should be two lines of code, 1 the XML tag and the remaining code)
     
-    [[6]] In ContentServer, create a Virtual Webroot (GSTVirtualWebroot) asset for each site. 
-
-    The 'Environment Name' attribute must match the com.fatwire.gst.foundation.env-name property from step #5.
-
-    [[7]] Configure a virtual host on Apache httpd server. This is the advised setup for production systems. A sample virtual host config file can be found here: {{./deploy/mydomain.conf.txt}}.
-
-          Alternatively you can install and configure Tuckey URLRewrite. A complete sample urlrewrite.xml for a Content Server 7.6 JSK is avaiable for {{{./deploy/urlrewrite.xml}reference}} This sample
-           assumes that two http ports are configured and that only traffic on port 8280 is rewritten. Normal editoral work is done on port 8180, GSF Preview is done on port 8280.
-           
-
-    [[9]] If you want to use Tuckey, add these lines to web.xml and restart the application server.
-
---------------    
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	version="2.4"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
-[...]
-
-        <!-- tuckey is only needed for deployment on a development, when no webserver with rewriting capabilities is available. -->
-
-	<filter>
-		<filter-name>UrlRewriteFilter</filter-name>
-		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-		<init-param>
-			<param-name>confReloadCheckInterval</param-name>
-			<param-value>0</param-value>
-		</init-param>
-		<init-param>
-			<param-name>logLevel</param-name>
-			<param-value>log4j</param-value>
-		</init-param>
-	</filter>
-
-	<filter-mapping>
-                <filter-name>UrlRewriteFilter</filter-name>
-                 <url-pattern>/*</url-pattern> 
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping> 
-
-[..]
-
-</web-app>
---------------    
-   
-    [[10]] Read further instructions on how to use GSF. A good starter is the GSF Beginners Guide.
+      <<<<?xml version="1.0" ?>\
+      <!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd"><FTCS Version="1.1"><CALLJAVA CLASS="com.fatwire.gst.foundation.controller.BaseController"/></FTCS>>>>
     
-    [[11]] If you want to use Spring to congigure the Action framework, please check the {{./InstallGuide - Spring.html}}..
+    [[14]] Install and configure Tuckey URLRewrite
     
-    
+    [[15]] In each Web-Referencable Asset, set the path field to a fully qualified URL using the Master Virtual Webroot.
+
+    For more information, please refer to the {{{http://www.nl.fatwire.com/dta/contrib/gst-foundation/}GST Site Foundation documentation}}.

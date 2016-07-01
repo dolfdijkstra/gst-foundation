@@ -23,14 +23,6 @@
 	<prerequisites>
 		<maven>2.2.1</maven>
 	</prerequisites>
-	<dependencies>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gst-foundation-core</artifactId>
-			<version>12.0-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -86,7 +78,6 @@
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
-
 						<phase>install</phase>
 						<goals>
 							<goal>jar</goal>

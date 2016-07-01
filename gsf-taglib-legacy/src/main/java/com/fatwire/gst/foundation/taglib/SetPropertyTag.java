@@ -15,11 +15,12 @@
  */
 package com.fatwire.gst.foundation.taglib;
 
-import java.io.IOException;
-import javax.servlet.jsp.JspException;
-
-import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
+import com.fatwire.gst.foundation.controller.action.support.IcsFactoryUtil;
 import com.fatwire.gst.foundation.properties.PropertyDao;
+
+import javax.servlet.jsp.JspException;
+import java.io.IOException;
+
 
 /**
  * Set the property name, optionally including the site names to add to this particular property.
@@ -36,7 +37,7 @@ public final class SetPropertyTag extends GsfSimpleTag {
 
     @Override
     public void doTag() throws JspException, IOException {
-        PropertyDao dao = AssetApiPropertyDao.getInstance(getICS());
+    	PropertyDao dao = IcsFactoryUtil.getFactory(getICS()).getObject("propertyDao", PropertyDao.class);
         dao.setProperty(property, description, value);
         if (publist != null) dao.addToSite(property, publist.split(","));
         super.doTag();

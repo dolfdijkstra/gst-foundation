@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class GetAlias extends AbstractTagRunner {
 
-    protected static final Logger log = LoggerFactory.getLogger("com.function1.gsf.foundation.facade.runtag.vdm.GetAlias");
+    protected static final Logger log = LoggerFactory.getLogger("tools.gsf.foundation.facade.runtag.vdm.GetAlias");
 
     public GetAlias() {
         super("VDM.GETALIAS");

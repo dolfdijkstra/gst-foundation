@@ -15,37 +15,31 @@
  */
 package com.fatwire.gst.foundation.facade.assetapi.listener;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import COM.FutureTense.Interfaces.ICS;
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
+import com.openmarket.basic.event.AbstractAssetEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import COM.FutureTense.Interfaces.ICS;
+import java.util.HashSet;
+import java.util.Set;
+
 //import oracle.core.ojdl.logging.ODLLogger;
-
-
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.install.AssetListenerInstall;
-
-import com.openmarket.basic.event.AbstractAssetEventListener;
 
 /**
  * AssetEventListener that protects from multiple event fires for the same
  * asset. It does so by registering the assets on a list on the ICS scope.
- * 
+ *
  * @author Dolf Dijkstra
- * 
+ *
  */
 
 public abstract class RunOnceAssetEventListener extends AbstractAssetEventListener {
-	
+
 	protected final Logger LOG = LoggerFactory.getLogger(getClass().getName().replaceFirst("fatwire.gst", "function1.gsf"));
 	private ICS ics;
-	
+
 	private static class RunOnceList {
 		private final Set<String> assets = new HashSet<String>();
 
@@ -118,7 +112,7 @@ public abstract class RunOnceAssetEventListener extends AbstractAssetEventListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.openmarket.basic.event.AbstractAssetEventListener#init(COM.FutureTense
 	 * .Interfaces.ICS)

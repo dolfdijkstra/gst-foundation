@@ -29,7 +29,7 @@ public class TemplateMethodFactory {
     private static final Object[] NO_ARGS = new Object[0];
 
     @SuppressWarnings("unchecked")
-    static <T> T createByMethod(Object template, Class<T> c) throws SecurityException, NoSuchMethodException,
+    public static <T> T createByMethod(Object template, Class<T> c) throws SecurityException, NoSuchMethodException,
             IllegalArgumentException, IllegalAccessException, InvocationTargetException {
         Method m;
         m = template.getClass().getMethod("create" + c.getSimpleName(), NO_PARAMS);

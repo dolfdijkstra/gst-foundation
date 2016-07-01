@@ -6,7 +6,7 @@
 		<artifactId>gst-foundation</artifactId>
 		<version>12.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>gst-foundation-legacy</artifactId>
+	<artifactId>gsf-legacy</artifactId>
 	<packaging>jar</packaging>
 	<name>Sites GSF: Aggregator (LEGACY)</name>
 	<inceptionYear>2016</inceptionYear>
@@ -28,22 +28,32 @@
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-facades-legacy</artifactId>
-			<version>12.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-action-legacy</artifactId>
-			<version>12.0-SNAPSHOT</version>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fatwire.gst</groupId>
+			<artifactId>gsf-wra-legacy</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fatwire.gst</groupId>
+			<artifactId>gsf-groovy-legacy</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-tagging-legacy</artifactId>
-			<version>12.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fatwire.gst</groupId>
 			<artifactId>gsf-taglib-legacy</artifactId>
-			<version>12.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

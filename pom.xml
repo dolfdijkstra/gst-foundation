@@ -5,7 +5,7 @@
 	<artifactId>gst-foundation</artifactId>
 	<version>12.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Sites GST: Site Foundation</name>
+	<name>Sites GST Site Foundation</name>
 	<description>The GST Site Foundation parent project</description>
 	<url>http://dolfdijkstra.github.com/gst-foundation</url>
 	<inceptionYear>2010</inceptionYear>
@@ -38,24 +38,29 @@
 	</issueManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javax.servlet.servlet-api.version>3.0.1</javax.servlet.servlet-api.version><!-- switch to 3.0 -->
+		<javax.servlet.jsp-api.version>2.0</javax.servlet.jsp-api.version><!-- switch to 2.2.1 -->
 	</properties>
 	<prerequisites>
 		<maven>2.2.1</maven>
 	</prerequisites>
 	<modules>
+		<!-- dependencies -->
 		<module>gsf-cs-all</module>
+		<!-- tests -->
 		<module>gsf-cs-test</module>
+		<!-- core -->
 		<module>gsf-facades</module>
 		<module>gsf-wra</module>
 		<module>gsf-action</module>
-		<module>gsf-mobile</module>
-		<module>gsf-groovy</module>
 		<module>gst-foundation-core</module>
+		<!-- legacy -->
 		<module>gsf-facades-legacy</module>
+		<module>gsf-wra-legacy</module>
 		<module>gsf-action-legacy</module>
-		<module>gsf-mobile-legacy</module>
 		<module>gsf-tagging-legacy</module>
 		<module>gsf-taglib-legacy</module>
+		<module>gsf-groovy-legacy</module>
 		<module>gst-foundation-legacy</module>
 	</modules>
 	<dependencies>
@@ -209,7 +214,7 @@
 					<dependency>
 						<groupId>com.fatwire.gst</groupId>
 						<artifactId>gsf-build-tools</artifactId>
-						<version>12.0-SNAPSHOT</version>
+						<version>${project.version}</version>
 					</dependency>
 				</dependencies>
 				<configuration>
@@ -224,6 +229,7 @@
 					<properties>
 						<year>${project.inceptionYear}</year>
 						<company>${project.organization.name}</company>
+						<company>Function1</company>
 						<company>Metastratus Web Solutions</company>
 						<company>FatWire Corporation</company>
 					</properties>
@@ -367,7 +373,6 @@
 				<module>gsf-sample</module>
 			</modules>
 		</profile>
-		
 	</profiles>
 	<distributionManagement>
 		<site>
