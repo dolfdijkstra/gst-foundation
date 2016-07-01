@@ -1,5 +1,5 @@
 ~~
-~~ Copyright 2010 FatWire Corporation. All Rights Reserved.
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
 ~~
 ~~ Licensed under the Apache License, Version 2.0 (the "License");
 ~~ you may not use this file except in compliance with the License.
@@ -14,93 +14,81 @@
 ~~ limitations under the License.
 ~~
 
-GST Site Foundation Overview
+GSF-12 Overview
 
-    The GST Site Foundation accomplishes the following:
+    The GSF aims at:
 
-    [[1]]	Defines architectural and design standards for the foundation of a site
+    [[1]]	Defining architectural and design standards for the foundation of a site
 
-    [[1]]	Standardizes processes for business users
+    [[1]]	Standardizing processes for business users
 
-    [[1]]	Simplifies coding greatly, to the point where much can be provided in common libraries
+    [[1]]	Simplifying coding greatly, to the point where much can be provided in common libraries
 
-    [[1]]	Clearly defines extension points
+    [[1]]	Clearly defining extension points   
 
 	[]
 
-	{{{./GST Site Foundation 1.0.3.pdf}The GST Site Foundation Document}} defines a simple URL-management and request
-	handling/request dispatching model that Content Server architects can easily extend and build upon. The initial
-	emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+	At a high level, the GSF offers a non-rendering foundation which aims at providing the following primary benefits:
 
 	*	Is suitable for use "out of the box" for a large number of sites
 
-	*	Introduces the notion of a web-referenceable asset,  which is accessed via a common controller
+	*	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
+	
+	*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
 
-	*	Handles and dispatches requests quickly and efficiently
-
-	*	Supports easily-constructed vanity URLs for any web-referenceable asset
-
-	*	Standardizes usage of the Page asset for navigation
-
-	*	Standardizes meta attributes
-
-	*	Provides infrastructure for built-in 404 responses for assets as required
-
-	*	Provides for managed alias assets that can represent any other URL
+	*	Provides for managed alias assets pointing at other assets or external URLs
 
 	*	Can be cleanly extended to address custom client requirements
 
 	[]
 
-    Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and
-    acknowledgement that the URL is more important than the content.  By giving each asset its own URL at the
-    discretion of the editor, both problems are solved.
+    This release of the GSF, GSF-12, is considered to be a "transitional" one.
+    
+    The main goal is providing the means for clients out there already using GSF to reuse as much of their existing
+    code as possible when upgrading from WCS 11.x to WCS 12.x.
+    
+    GSF features that became partially or totally unnecessary due to WCS 12.x offering them natively have been either
+    deprecated or wiped off the GSF-12's codebase.
+    
+    Only those classes / components which are still valid and/or useful and/or expected to be building blocks for NEW
+    features to be implemented in future releases of the GSF-12 have been either left untouched or adjusted specifically
+    for WCS 12.x.
 
-    This model is appropriate for many different solution designs. However there may be some site requirements which
-    would make the patterns and conventions of this approach less suitable.  A checklist is included that helps an
-    architect to determine if this rendering model is the best approach for the project at hand.
+    This release acknowledges the small but mission-critical differences that sometimes exist amongst WCS implementations
+    out there. In this regard, GSF-12's roadmap contemplates reengineering some of the core features in previous versions
+    - such as the Navigation Service - so they can be tailored to address those small differences, painlessly.
 
-	Hats off to Tony Field (tony.field at fatwire dot com) for taking the lead on this project, with valuable 
-	assistance and insight from Dolf Dijkstra (dolf.dijkstra at fatwire dot com), Michael Sullivan 
-	(michael.sullivan at fatwire dot com), Suzanne Bourdeaux (suzanne.bourdeaux  at fatwire dot com), and 
-	Randall Spicher (randall.spicher at fatwire dot com).
+	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding
+	in such enhancements into future versions of the GST Site Foundation.
 
-	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal 
-	of folding in such enhancements into future versions of the GST Site Foundation.
-
-	June, 2010, The Global Solutions Team
+	July, 2016.
 
 Documentation
   
-	* {{{./GST Site Foundation 1.0.3.pdf}Architecture specification document}} - the core specification
-
-	* {{{http://img.en25.com/Web/Fatwire/TTRNG%20-%20Introducing%20GST%20Site%20Foundation.pdf} Introducing GST Site Foundation}} - Interact 2010 User Conference Presentation
-
-	* {{{http://img.en25.com/Web/Fatwire/SEO%20Optimization%20Using%20CS%20-%20condensed.pdf} SEO with CS and the GSF}} - Interact 2010 User Conference Presentation
-
-	* {{{./apidocs/index.html}JavaDoc API Reference}} - toolkit API
-
-	* {{{./InstallGuide.html}GSF Installation ReadMe}} - Minimalistic gide for installing and configuring the GSF toolkit
-
-	* Functioning Microsite Sample {{./GST-Dispatcher.xml}} and {{./Microsite.jsp}}
-
-	* {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}} - Step-by-step instructions for installing and using the GSF toolkit
+	* {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
+	
+	* {{{./2-JARs-For-Transitioning.html}Why 2 separate JARs?}} - Why we'll be distributing two JARs instead of just one and the corresponding semantics
 
 Download
 
-    The GSF is not yet packaged into a single, downloadable bundle.  In its current state, the core components must be
-    downloaded using {{{http://subversion.apache.org}Subversion}}, and the pre-compiled jar file can be downloaded
-     from the Maven repository.
-
-     *  Subversion repository {{http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/tags/gsf-parent-1.0}}
-
-     *  Pre-compiled Jar {{http://www.nl.fatwire.com/maven2/com/fatwire/gst/gst-foundation-all/1.0/gst-foundation-all-1.0.jar}}
+    For this transitional release, classes are shipped in 2 JAR files:
+    
+    * gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slimmer) CORE of the GSF.    
+    
+    * gsf-legacy-<version>.jar: here you'll find the classes that have been deprecated and are planned for complete removal in future releases.
+    
+    You can obtain the 2 JARs by either:
+    
+    * Checking out the GSF project from GitHub and building the JARs yourself (TO DO: add link GitHub repo here)
+    
+    ... OR
+    
+    * Downloading the pre-compiled JARs -- NOTE: these may not include the latest codebase / bugfixes (TO DO: add links to both JARs here)
 
      []
 
 Installation
 
-    Installing the GSF is simple, but affects multiple components.  The {{{./InstallGuide.html}attached minimalitic guide}}
-    should get you up and running quickly.
-
-    More detailed information can be found in the {{{./GSF Developers Guide 1.0.docx}GSF Developer's Guide}}.
+    Installing the GSF-12 is relatively simple. However, as opposed to their predecessors, it's a manual procedure; no installer is provided.
+    
+    The {{{./InstallGuide.html}attached guide}} should get you up and running quickly.
