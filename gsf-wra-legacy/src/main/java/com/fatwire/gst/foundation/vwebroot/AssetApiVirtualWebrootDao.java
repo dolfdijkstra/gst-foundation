@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 @Deprecated
 public final class AssetApiVirtualWebrootDao implements VirtualWebrootDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.vwebroot.AssetApiVirtualWebrootDao");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.vwebroot.AssetApiVirtualWebrootDao");
 
     private final ICS ics;
 

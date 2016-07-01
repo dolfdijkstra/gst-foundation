@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  * @since November 16,2011
  */
 public final class WraPathPreviewAssembler extends LightweightAbstractAssembler {
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.url.WraPathPreviewAssembler");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.url.WraPathPreviewAssembler");
     /**
      * Name of query string parameter for virtual webroot
      */

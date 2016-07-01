@@ -38,7 +38,7 @@ import com.fatwire.gst.foundation.controller.action.Action;
 
 public class MapActionLocator extends BaseActionLocator {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.foundation.controller.action.support.MapActionLocator");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.support.MapActionLocator");
     
     private Map<String, Action> commandActionMap = new HashMap<String, Action>();
 
