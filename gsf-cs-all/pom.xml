@@ -21,35 +21,18 @@
         </developer>
     </developers>
     <dependencies>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>logkit</groupId>
-                    <artifactId>logkit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>avalon-framework</groupId>
-                    <artifactId>avalon-framework</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>2.2.1</version>
-        </dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${javax.servlet.jsp-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 		    <groupId>com.oracle.sites</groupId>
 		    <artifactId>sites-app</artifactId>
@@ -239,64 +222,7 @@
 		    <groupId>com.oracle.sites</groupId>
 		    <artifactId>sites-wurfl</artifactId>
 		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<!-- 
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>cs</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>xcelerate</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>assetapi</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>assetapi-impl</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>cs-core</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>basic</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>framework</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>assetframework</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>gator</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>visitor</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>MSXML</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        -->
+		</dependency>
     </dependencies>
     <distributionManagement>
         <site>

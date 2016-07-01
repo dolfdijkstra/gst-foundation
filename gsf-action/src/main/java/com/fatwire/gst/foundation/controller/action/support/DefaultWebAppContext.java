@@ -38,10 +38,10 @@ import java.util.List;
 /**
  * This is the WebAppContext with accessor to the injector but without accessors
  * to the ActionLocator and ActionNameResolver, with the companion FactoryProducer.
- * <p/>
+ *
  * Developers are expected to either subclass this class or use as a reference
  * for their own implementations.
- * <p/>
+ *
  * In most cases they would only like to override {@link #getFactory(ICS)} for
  * their own Service factory.
  *
