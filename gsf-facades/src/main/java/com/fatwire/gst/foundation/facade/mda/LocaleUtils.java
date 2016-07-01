@@ -35,7 +35,6 @@ import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.IListUtils;
-import com.fatwire.gst.foundation.facade.ics.ICSFactory;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetLoadByName;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.mda.Dimension;
@@ -76,71 +75,11 @@ public final class LocaleUtils {
      * @param cid asset id of asset to look up
      * @param preferredLocaleDimensionId id of locale desired
      * @param site name of site
-     * @return AssetId of translation asset.
-     * @deprecated Use #findTranslation(ICS,String,String,String,String)
-     *             instead. This version is unable to correctly record
-     *             compositional dependencies on the DimensionSet asset for the
-     *             site, which can result in the translation function not
-     *             flushing pages when the dimension set is altered (for
-     *             example, to change the filter, or change enabled dimensions).
-     */
-    @Deprecated
-    public static AssetId findTranslation(String c, String cid, String preferredLocaleDimensionId, String site) {
-        return findTranslation(ICSFactory.getOrCreateICS(), new AssetIdImpl(c, Long.valueOf(cid)),
-                preferredLocaleDimensionId, site);
-    }
-
-    /**
-     * Look up the translation for the asset specified, in the locale specified.
-     * <p>
-     * If the desired translation is not available, null will be returned.
-     * <p>
-     * If a dimension set for the site has been configured that returns the
-     * asset other than the preferred locale, that is considered to be fine and
-     * not really the problem of the end user. In other words, a dimension set
-     * may dictate that a "backup" language can be returned to the user.
-     * <p>
-     * Null, however, is a valid option.
-     * 
-     * @param c asset type of asset to look up
-     * @param cid asset id of asset to look up
-     * @param preferredLocaleDimensionId id of locale desired
-     * @param site name of site
      * @param ics ics context
      * @return AssetId of translation asset.
      */
     public static AssetId findTranslation(ICS ics, String c, String cid, String preferredLocaleDimensionId, String site) {
         return findTranslation(ics, new AssetIdImpl(c, Long.valueOf(cid)), preferredLocaleDimensionId, site);
-    }
-
-    /**
-     * Look up the translation for the asset specified, in the locale specified.
-     * <p>
-     * If the desired translation is not available, null will be returned.
-     * <p>
-     * If a dimension set for the site has been configured that returns the
-     * asset other than the preferred locale, that is considered to be fine and
-     * not really the problem of the end user. In other words, a dimension set
-     * may dictate that a "backup" language can be returned to the user.
-     * <p>
-     * Null, however, is a valid option.
-     * 
-     * @param id id of asset to look up
-     * @param preferredLocaleDimensionIdString id of locale desired
-     * @param site name of site
-     * @return AssetId of translation asset, or null if none is returned by the
-     *         dimension set filter.
-     * @deprecated Use #findTranslation(ICS,AssetId,String,String) instead. This
-     *             version is unable to correctly record compositional
-     *             dependencies on the DimensionSet asset for the site, which
-     *             can result in the translation function not flushing pages
-     *             when the dimension set is altered (for example, to change the
-     *             filter, or change enabled dimensions).
-     */
-    @Deprecated
-    public static AssetId findTranslation(AssetId id, String preferredLocaleDimensionIdString, String site) {
-        ICS ics = ICSFactory.getOrCreateICS();
-        return findTranslation(ics, id, preferredLocaleDimensionIdString, site);
     }
 
     /**
