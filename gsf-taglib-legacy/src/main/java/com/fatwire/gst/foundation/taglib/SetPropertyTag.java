@@ -27,6 +27,10 @@ import java.io.IOException;
  *
  * @author Tony Field
  * @since 2012-03-27
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class SetPropertyTag extends GsfSimpleTag {
 

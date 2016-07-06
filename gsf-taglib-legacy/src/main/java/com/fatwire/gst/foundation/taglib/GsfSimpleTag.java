@@ -28,6 +28,9 @@ import COM.FutureTense.Interfaces.ICS;
  * 
  * @author Dolf Dijkstra
  * @since Apr 11, 2011
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public abstract class GsfSimpleTag extends SimpleTagSupport {
 

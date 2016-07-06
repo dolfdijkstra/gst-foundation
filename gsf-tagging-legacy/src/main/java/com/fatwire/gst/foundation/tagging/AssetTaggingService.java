@@ -25,6 +25,9 @@ import com.fatwire.assetapi.data.AssetId;
  * 
  * @author Tony Field
  * @since Jul 28, 2010
+ * 
+ * @deprecated as of release 12.x, replaced with WCS 12c's native tagging 
+ * 
  */
 public interface AssetTaggingService {
 

@@ -51,7 +51,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Dolf.Dijkstra
  * @since Jun 17, 2010
- * @deprecated use {@link UrlRegistry2}
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
  */
  @Deprecated
 public class UrlRegistry implements WraPathTranslationService {

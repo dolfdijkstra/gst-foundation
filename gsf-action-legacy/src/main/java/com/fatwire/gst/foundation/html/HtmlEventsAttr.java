@@ -15,6 +15,11 @@
  */
 package com.fatwire.gst.foundation.html;
 
+/**
+ * 
+ * @deprecated as of release 12.x
+ *
+ */
 final class HtmlEventsAttr {
     private String onclick;
     private String ondblclick;

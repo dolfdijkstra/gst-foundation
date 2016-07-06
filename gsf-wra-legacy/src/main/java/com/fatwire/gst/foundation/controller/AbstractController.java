@@ -37,8 +37,11 @@ import com.fatwire.gst.foundation.httpstatus.HttpStatusStrings;
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 16, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native features (Controllers, wrappers, etc...)
+ * 
  */
-
 public abstract class AbstractController  {
     protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.AbstractController");
 

@@ -34,6 +34,9 @@ import com.fatwire.gst.foundation.controller.action.Action;
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since 2011-03-15
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 
 public class MapActionLocator extends BaseActionLocator {

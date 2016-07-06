@@ -40,6 +40,10 @@ import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
  * @author Dolf Dijkstra
  * @since Apr 15, 2011
  * @see IcsVariable
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public abstract class AnnotationController extends AbstractController {
 

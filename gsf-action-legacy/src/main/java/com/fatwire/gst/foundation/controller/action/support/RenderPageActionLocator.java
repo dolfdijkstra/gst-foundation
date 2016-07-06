@@ -28,6 +28,9 @@ import com.fatwire.gst.foundation.controller.action.RenderPage;
  * 
  * @author Dolf Dijkstra
  * 
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public final class RenderPageActionLocator extends AbstractActionLocator {
     public RenderPageActionLocator(Injector injector) {

@@ -30,6 +30,9 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 /**
  * @author Dolf Dijkstra
  * @since May 27, 2011
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public final class ActionNameResolverUtils {
 	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.ActionNameResolverUtils");

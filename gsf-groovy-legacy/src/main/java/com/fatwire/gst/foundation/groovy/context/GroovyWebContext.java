@@ -39,6 +39,9 @@ import com.fatwire.gst.foundation.groovy.action.GroovyActionLocator;
  * @author Dolf Dijkstra
  * @since 11 mei 2012
  * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native Groovy support
+ * 
  */
 public class GroovyWebContext extends LegacyDefaultWebAppContext {
     private GroovyClassLoader classLoader;

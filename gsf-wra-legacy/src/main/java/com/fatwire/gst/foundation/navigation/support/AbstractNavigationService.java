@@ -37,6 +37,11 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.navigation.NavigationNode;
 import com.fatwire.gst.foundation.navigation.NavigationService;
 
+/**
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation (coming soon)
+ *
+ */
 public abstract class AbstractNavigationService implements NavigationService {
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.navigation.support.AbstractNavigationService");
 

@@ -77,8 +77,11 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * @see IReference
  * @see Definition
  * @since Jun 17, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
-
 public class WraPageReference extends PageRef {
 
     /**

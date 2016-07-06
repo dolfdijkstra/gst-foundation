@@ -44,6 +44,10 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
  * User: Tony Field Date: 2011-05-06
  * 
  * @author Dolf Dijkstra
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public class WraCoreFieldApiBypassDao extends AssetApiWraCoreFieldDao {
 

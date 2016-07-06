@@ -32,6 +32,10 @@ import com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Type;
 /**
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with OOTB features (e.g. callelement tag, calltemplate tag, ics.RunTag and the like)
+ * 
  */
 public class IncludeTemplate implements Include {
 

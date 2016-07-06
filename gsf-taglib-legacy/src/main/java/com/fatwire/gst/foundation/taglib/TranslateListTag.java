@@ -36,6 +36,10 @@ import com.fatwire.mda.DimensionFilterInstance;
  *
  * @author Tony Field
  * @since 11-09-20
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class TranslateListTag extends MultilingualGsfSimpleTag {
 

@@ -28,6 +28,9 @@ import com.fatwire.gst.foundation.wra.WebReferenceableAsset;
  * 
  * @author Dolf Dijkstra
  * @since Feb 8, 2011
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation (coming soon)
+ * 
  */
 @Deprecated
 public class NavNode {

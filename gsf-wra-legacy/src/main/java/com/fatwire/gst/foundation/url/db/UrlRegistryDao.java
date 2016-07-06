@@ -25,7 +25,7 @@ import com.fatwire.gst.foundation.wra.SimpleWra;
  * @author Dolf Dijkstra
  * @since November 1, 2011
  * 
- * @deprecated May 15, 2016 by fvillalba
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
  * 
  */
 @Deprecated

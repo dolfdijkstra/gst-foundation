@@ -22,6 +22,9 @@ import com.fatwire.assetapi.data.AssetId;
  * 
  * @author Larissa Kowaliw
  * @since Jul 27, 2010
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation which won't depend on any GSF-specific asset type / subtypes.
+ * 
  */
 public class AliasBeanImpl extends WraBeanImpl implements Alias {
 

@@ -30,6 +30,9 @@ import COM.FutureTense.Interfaces.ICS;
  * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
+ * 
+ * @deprecated as of release 12.x, replace with OOTB features in WCS 12c (e.g. Controllers, callelement tag, calltemplate tag, ics.RunTag and the like).
+ * 
  */
 public interface Include {
 

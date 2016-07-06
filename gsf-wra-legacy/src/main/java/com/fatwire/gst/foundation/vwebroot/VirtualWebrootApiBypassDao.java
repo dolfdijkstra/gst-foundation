@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * <p>
  * User: Tony Field Date: 2011-05-06
  * 
- * @deprecated May 15, 2016 by fvillalba
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
  * 
  */
 @Deprecated

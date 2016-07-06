@@ -24,6 +24,10 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * 
  * @author Tony Field
  * @since Jul 28, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replaced with WCS 12c's native tagging
+ * 
  */
 public final class AssetTaggingServiceFactory {
     public static AssetTaggingService getService(ICS ics) {

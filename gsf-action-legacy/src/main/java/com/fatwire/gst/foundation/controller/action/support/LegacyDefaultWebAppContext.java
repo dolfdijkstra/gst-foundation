@@ -37,6 +37,9 @@ import com.fatwire.gst.foundation.controller.support.WebAppContext;
  * 
  * @author Dolf Dijkstra
  * 
+ * 
+ * @deprecated as of release 12.x, replace with new DefaultWebAppContext or your own (WCS 12c-friendly) AppContext implementation.
+ * 
  */
 public class LegacyDefaultWebAppContext extends WebAppContext implements FactoryProducer {
 

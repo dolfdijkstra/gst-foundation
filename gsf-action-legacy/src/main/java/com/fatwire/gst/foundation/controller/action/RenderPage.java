@@ -30,6 +30,9 @@ import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
  * 
  * @author Dolf Dijkstra
  * @since 2011-03-15
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public class RenderPage extends WraRenderPage implements Action {
 

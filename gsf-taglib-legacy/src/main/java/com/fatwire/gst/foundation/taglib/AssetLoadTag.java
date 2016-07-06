@@ -27,6 +27,11 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemp
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * 
+ * @deprecated as of release 12.x
+ *
+ */
 public class AssetLoadTag extends GsfSimpleTag {
 
     private String c;

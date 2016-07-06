@@ -27,6 +27,9 @@ import com.fatwire.gst.foundation.facade.runtag.render.CallElement.Scope;
  * 
  * @author Dolf Dijkstra
  * @since Apr 11, 2011
+ * 
+ * @deprecated as of release 12.x, replace with OOTB features (e.g. callelement tag, calltemplate tag, ics.RunTag and the like)
+ * 
  */
 public class IncludeElement implements Include {
 

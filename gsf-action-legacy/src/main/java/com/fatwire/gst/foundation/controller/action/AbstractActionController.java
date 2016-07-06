@@ -32,6 +32,9 @@ import com.fatwire.gst.foundation.facade.RenderUtils;
  * 
  * @author Dolf Dijkstra
  * @since May 26, 2011
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public abstract class AbstractActionController extends AbstractController {
 
