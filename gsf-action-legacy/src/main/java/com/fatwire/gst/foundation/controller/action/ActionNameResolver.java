@@ -23,6 +23,10 @@ import COM.FutureTense.Interfaces.ICS;
  * 
  * @author Dolf.Dijkstra
  * @since May 27, 2011
+ * 
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public interface ActionNameResolver {
 

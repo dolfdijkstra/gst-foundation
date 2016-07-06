@@ -15,6 +15,11 @@
  */
 package com.fatwire.gst.foundation.html;
 
+/**
+ * 
+ * @deprecated as of release 12.x
+ *
+ */
 public final class Img extends BaseElement {
     private String src;
     private String alt;

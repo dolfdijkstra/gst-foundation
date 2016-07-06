@@ -23,6 +23,9 @@ import com.fatwire.gst.foundation.facade.sql.Row;
 /**
  * @author Dolf Dijkstra
  *
+ *
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ *
  */
 public class SimpleWra {
     private final Row row;

@@ -22,7 +22,10 @@ import com.fatwire.assetapi.query.Query;
 /**
  * @author Dolf Dijkstra
  * @since August 2012
- * @deprecated see NavService instead
+ * 
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation (coming soon)
+ *
  */
 public interface NavigationService {
 

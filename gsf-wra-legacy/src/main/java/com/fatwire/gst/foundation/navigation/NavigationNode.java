@@ -27,7 +27,8 @@ import com.fatwire.assetapi.data.AssetId;
  * 
  * @author Dolf Dijkstra
  * @since June 8, 2012
- * @deprecated see Node instead
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation (coming soon)
  */
 public class NavigationNode {
 

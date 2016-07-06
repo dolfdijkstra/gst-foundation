@@ -39,6 +39,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public class PageTag extends GsfRootTag {
     static final Logger LOG = LoggerFactory.getLogger("tools.gsf.taglib.PageTag");

@@ -27,6 +27,9 @@ import java.io.IOException;
  *
  * @author Tony Field
  * @since 11-09-02
+ * 
+ * @deprecated as of release 12.x, replace with GSF-12's new GST Properties implementation which does NOT rely on any GST-specific asset type / subtype (those are all deprecated, too).
+ * 
  */
 public final class GetPropertyTag extends GsfSimpleTag {
 

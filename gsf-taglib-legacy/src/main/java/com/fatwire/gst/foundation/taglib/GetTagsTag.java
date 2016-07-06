@@ -30,6 +30,10 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Tony Field
  * @since 2011-09-20
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class GetTagsTag extends GsfSimpleTag {
 

@@ -29,6 +29,9 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
  * @since 28 August 2012 (for some history: <a
  *        href="http://en.wikipedia.org/wiki/Siege_of_Groningen">28 August</a>.)
  * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public class IcsFactoryUtil {
 

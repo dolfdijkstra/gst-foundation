@@ -26,6 +26,10 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jul 21, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public interface WraCoreFieldDao {
 

@@ -16,7 +16,86 @@
 
 Installation Guide
 
-WORK IN PROGRESS
+	This release of the GSF is transitional, meaning it is primarily aimed at users upgrading their WCS 11g implementations to WCS 12c.
+
+	Both brand new and re-engineered features specifically designed for WCS 12c will be released in the next major release of the GSF,
+	coming very soon (2016).
+
+	For this reason, we will outline 2 different installation procedures, both of them manual:
+
+	* A very simple one, for users upgrading from WCS 11g.
+	
+	* A simple one, for users starting fresh with WCS 12c and GSF-12 who are not going to be using any of the deprecated features / classes.
+
+	* A complex one, for users wanting to use deprecated features shipped in GSF-12.
+	
+	You are strongly advised not to use any of the DEPRECATED features in this release, which are packaged inside the "-legacy" JAR file.
+	
+	Deprecated features will be eventually wiped out from the GSF codebase (and JAR files) in the upcoming releases. Hence, any application
+	whose code depends on such features / classes will eventually stop working properly. 
+	
+	In case you are already using deprecated features, you should reengineer any affected classes / components so to replace any dependencies
+	on deprecated features with the equivalent native feature(s) in WCS 12c.
+	
+	UPGRADING FROM WCS / GSF  11g
+	
+		Assuming you just want to reuse your existing code on 12c, you'd just need to:
+		
+		- Replace the existing GSF JAR file with:
+			* The new "CORE" JAR file.
+			* In case you are using any deprecated features / classes, the "LEGACY" JAR file.
+			
+		- In case you want to use the new AppContext loader (listener), you don't need to do anything; GSF-12 will default to it.
+			
+		- In case you are using a custom AppContext loader:
+			* Configure the due listener as needed, inside WCS 12c's web.xml file.
+			* Make sure the required classes are deployed.
+			* Make sure it still works as expected in WCS 12c.
+		
+		- If you are using GSF Actions or any other deprecated features / services which depend on DefaultWebAppContext and you want to
+		  keep using them, then you must either:
+		  
+		  	* Use "LegacyDefaultWebAppContext" instead of "DefaultWebAppContext" by wiring it up explicitly inside WCS 12c's web.xml file.
+		  	  For example:
+		  	
+		  		<some example>
+		  		</some example>		  		
+		  		  	
+		  	* Alternatively, code your own AppContext implementation in order to support such deprecated features and wire it
+		  	  up inside web.xml (see above).
+		  
+		- GSF-12 defaults to the new "SimpleIcsBackedObjectFactoryTemplate". If you want to keep using "IcsBackedObjectFactoryTemplate" 
+		  (deprecated), then you must:
+		
+			* Configure it explicitly inside WCS 12c's web.xml file. For example:
+		  
+			  	<some example>
+			  	</some example>
+			  				
+			* Alternatively, you can wire up the "LegacyDefaultWebAppContext" implementation instead of defaulting to
+			  "DefaultWebAppContext" (see above).
+		
+		- In case you have customized the GSF classes themselves, then you must reengineer your codebase to either:
+			* Stop using those customizations and rely on OOTB features / classes, and/or
+			* Re-implement your customizations on top of GSF-12's codebase.
+			
+			
+		WORK IN PROGRESS
+		WORK IN PROGRESS
+		WORK IN PROGRESS
+		WORK IN PROGRESS
+		WORK IN PROGRESS
+		
+		You should be able to reuse all custom, GSF-specific tables as-is on WCS 12c.
+		
+		You should be able to reuse all custom, GSF-specific Asset Event Listeners as-is on WCS 12c.
+		
+		You should get rid of the gsf-samples.tld as well as any other DEPRECATED TLD which is not being used by your application.
+
+	WORK IN PROGRESS
+	WORK IN PROGRESS
+	(...)
+   
 
 EVERYTHING BELOW THIS LINE IS INVALID, MUST BE REWRITTEN ESPECIFICALLY FOR THE 12.0-SNAPSHOT release.
 -----------------------------------------------------------------------------------------------------

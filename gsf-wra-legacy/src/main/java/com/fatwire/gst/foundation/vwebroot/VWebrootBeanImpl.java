@@ -26,7 +26,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * @author Tony Field
  * @since Jul 22, 2010
  * 
- * @deprecated May 15, 2016 by fvillalba
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
  * 
  */
 @Deprecated

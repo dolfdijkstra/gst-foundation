@@ -27,6 +27,10 @@ import COM.FutureTense.Interfaces.ICS;
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Mar 15, 2011
+ * 
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public class ActionFrameworkController extends AbstractActionController {
     public ActionFrameworkController(ICS ics) {

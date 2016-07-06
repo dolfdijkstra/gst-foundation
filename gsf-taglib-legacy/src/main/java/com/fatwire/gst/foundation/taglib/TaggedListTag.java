@@ -39,6 +39,10 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * 
  * @author Tony Field
  * @since Aug 13, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class TaggedListTag extends GsfSimpleTag {
 

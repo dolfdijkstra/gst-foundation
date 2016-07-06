@@ -32,6 +32,9 @@ import com.fatwire.gst.foundation.tagging.db.TableTaggingServiceImpl;
  * @author Dolf Dijkstra
  * @since Feb 14, 2011
  * @see AssetTaggingService
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class TaggedAssetsTag extends GsfSimpleTag {
     private String tag = null;

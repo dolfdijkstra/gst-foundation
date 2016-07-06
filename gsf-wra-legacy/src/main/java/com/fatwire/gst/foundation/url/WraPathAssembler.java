@@ -42,6 +42,10 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * 
  * @author Tony Field
  * @since Jul 20, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public final class WraPathAssembler extends LightweightAbstractAssembler {
     protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.url.WraPathAssembler");

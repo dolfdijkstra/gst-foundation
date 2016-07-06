@@ -40,6 +40,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Dolf Dijkstra
  * @since Apr 27, 2011
+ * 
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public abstract class AbstractActionLocator implements ActionLocator {
 

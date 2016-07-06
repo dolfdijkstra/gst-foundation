@@ -32,6 +32,8 @@ import com.fatwire.gst.foundation.controller.action.FactoryProducer;
  * 
  * @author Dolf.Dijkstra
  * 
+ * @deprecated as of release 12.x
+ * 
  */
 public class ReflectionFactoryProducer implements FactoryProducer {
     protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.support.ReflectionFactoryProducer");

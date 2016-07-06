@@ -25,6 +25,11 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemp
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @deprecated as of release 12.x
+ *
+ */
 public class GsfRootTei extends TagExtraInfo {
     private static final Logger log = LoggerFactory.getLogger("tools.gsf.taglib.GsfRootTei");
 

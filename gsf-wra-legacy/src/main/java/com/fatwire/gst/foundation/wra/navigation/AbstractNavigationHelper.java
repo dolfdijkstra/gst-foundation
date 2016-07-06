@@ -43,6 +43,9 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * 
  * @author Dolf Dijkstra
  * @deprecated replaced with {@link NavigationService}
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation (coming soon)
+ * 
  */
 public abstract class AbstractNavigationHelper {
 

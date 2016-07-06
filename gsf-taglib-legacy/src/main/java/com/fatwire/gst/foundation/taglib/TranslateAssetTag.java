@@ -31,6 +31,10 @@ import com.fatwire.mda.DimensionFilterInstance;
  *
  * @author Tony Field
  * @since 11-11-22
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class TranslateAssetTag extends MultilingualGsfSimpleTag {
 

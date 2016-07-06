@@ -36,6 +36,9 @@ import com.fatwire.gst.foundation.taglib.GsfSimpleTag;
  * @author Dolf Dijkstra
  * @since August 31, 2012
  * 
+ * 
+ * @deprecated as of release 12.x, temporarily, until a brand new, significantly improved NavigationService implementation is released (soon)
+ * 
  */
 public class PluggableNavigationTag extends GsfSimpleTag {
 

@@ -26,6 +26,12 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 
+
+/**
+ * 
+ * @deprecated as of release 12.x
+ *
+ */
 public class GsfRootTag extends BodyTagSupport {
 	public static final String ICS_VARIABLE_NAME = "ics";
 	public static final String VARIABLE_SCOPE_NAME = "cs";
