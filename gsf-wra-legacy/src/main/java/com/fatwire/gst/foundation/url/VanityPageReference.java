@@ -20,6 +20,10 @@ package com.fatwire.gst.foundation.url;
  *
  * @author Tony Field
  * @since 2013-06-03
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public final class VanityPageReference extends WraPageReference {
     protected boolean requireWraForVanityUrls() { return false; }

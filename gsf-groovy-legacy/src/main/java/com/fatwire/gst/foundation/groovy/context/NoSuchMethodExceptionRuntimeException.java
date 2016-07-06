@@ -15,6 +15,11 @@
  */
 package com.fatwire.gst.foundation.groovy.context;
 
+/**
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native Groovy support
+ *
+ */
 public class NoSuchMethodExceptionRuntimeException extends RuntimeException {
 
     /**

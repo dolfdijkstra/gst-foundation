@@ -19,6 +19,9 @@ package com.fatwire.gst.foundation.controller.action;
  * Action controller adapter to provide backward-compatibility with GSF 11.6.1.
  * @author Tony Field
  * @since 15-07-30 4:33 PM
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public class ActionController extends com.fatwire.gst.foundation.controller.action.support.ActionController {
 }

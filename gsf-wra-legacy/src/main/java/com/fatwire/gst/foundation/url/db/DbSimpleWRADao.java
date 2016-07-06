@@ -35,6 +35,9 @@ import org.slf4j.LoggerFactory;
  * @author Dolf Dijkstra
  * @since November 1, 2011
  * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public class DbSimpleWRADao implements SimpleWRADao {
 

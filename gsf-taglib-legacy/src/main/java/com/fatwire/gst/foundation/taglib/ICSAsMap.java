@@ -36,6 +36,9 @@ import COM.FutureTense.Interfaces.IList;
  * 
  * @author Dolf.Dijkstra
  * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public class ICSAsMap implements Map<String, Object> {
 

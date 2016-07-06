@@ -18,6 +18,9 @@ package com.fatwire.gst.foundation.html;
 /**
  * @author Dolf Dijkstra
  * @since Apr 16, 2011
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class Anchor extends BaseElement {
 

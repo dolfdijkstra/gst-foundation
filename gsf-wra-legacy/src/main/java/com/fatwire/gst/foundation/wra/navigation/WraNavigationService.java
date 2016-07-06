@@ -54,6 +54,9 @@ import com.fatwire.mda.DimensionFilterInstance;
 /**
  * @author Dolf Dijkstra
  * 
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation (coming soon) 
+ * 
  */
 public class WraNavigationService extends AbstractNavigationService implements NavigationService {
 

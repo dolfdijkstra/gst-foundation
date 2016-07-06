@@ -23,6 +23,10 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 /**
  * @author Dolf Dijkstra
  * @since Apr 11, 2011
+ * 
+ * 
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ * 
  */
 public final class ActionLocatorUtils {
     public static final String ACTION_LOCATOR_BEAN = "gsfActionLocator";

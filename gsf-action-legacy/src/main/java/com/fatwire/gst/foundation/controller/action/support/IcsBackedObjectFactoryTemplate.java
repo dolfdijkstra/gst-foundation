@@ -71,6 +71,8 @@ import com.fatwire.system.SessionFactory;
  * @author Dolf.Dijkstra
  * @since Apr 20, 2011
  * 
+ * @deprecated as of release 12.x, replace with SimpleIcsBackedObjectFactory or your own (WCS 12c-friendly) Factory implementation.
+ * 
  */
 public class IcsBackedObjectFactoryTemplate extends BaseFactory {
     /**

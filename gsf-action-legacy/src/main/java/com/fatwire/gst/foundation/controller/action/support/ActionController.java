@@ -27,6 +27,9 @@ import COM.FutureTense.XML.Template.Seed2;
  * @author Dolf Dijkstra
  * @see ActionFrameworkController
  *
+ *
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ *
  */
 public class ActionController implements Seed2 {
 

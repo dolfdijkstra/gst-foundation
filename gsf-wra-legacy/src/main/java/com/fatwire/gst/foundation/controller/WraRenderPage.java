@@ -42,6 +42,9 @@ import com.openmarket.xcelerate.publish.PubConstants;
  * @author Dolf Dijkstra
  * @since June 2010
  * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native features (Controllers, wrappers, etc...)
+ * 
  */
 public class WraRenderPage extends BaseRenderPage {
     public static final String URL_PATH = "url-path";

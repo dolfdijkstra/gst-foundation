@@ -28,6 +28,10 @@ import com.fatwire.mda.DimensionFilterInstance;
  * plans.
  * 
  * @author Tony Field
+ * 
+ * 
+ * @deprecated as of release 12.x, temporarily, until a brand new, significantly improved NavigationService implementation is released (soon)
+ * 
  */
 public final class MultilingualNavigationTag extends MultilingualGsfSimpleTag {
 

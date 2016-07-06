@@ -27,6 +27,10 @@ import com.fatwire.gst.foundation.url.db.UrlRegistry2;
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jul 21, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public class WraAssetEventListener extends RunOnceAssetEventListener {
 	

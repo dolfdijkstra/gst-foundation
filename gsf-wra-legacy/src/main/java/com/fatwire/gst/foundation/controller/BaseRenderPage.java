@@ -46,6 +46,9 @@ import com.openmarket.xcelerate.publish.PubConstants;
  * Helper class to be used in an outer wrapper to run the correct childtemplate based on c/cid/site arguments.
  * 
  * @author Dolf Dijkstra
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native features (Controllers, wrappers, etc...)
  *
  */
 public abstract class BaseRenderPage {

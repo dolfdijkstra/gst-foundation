@@ -46,6 +46,10 @@ import static com.fatwire.gst.foundation.tagging.TagUtils.convertTagToCacheDepSt
  * 
  * @author Tony Field
  * @since Jul 30, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replaced with WCS 12c's native tagging
+ * 
  */
 public final class TaggedAssetRealtimeCacheUpdater extends PageCacheUpdaterImpl {
 

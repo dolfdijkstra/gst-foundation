@@ -41,6 +41,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Tony Field
  * @since 2011-11-28
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public abstract class MultilingualGsfSimpleTag extends GsfSimpleTag {
     protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.taglib.MultilingualGsfSimpleTag");

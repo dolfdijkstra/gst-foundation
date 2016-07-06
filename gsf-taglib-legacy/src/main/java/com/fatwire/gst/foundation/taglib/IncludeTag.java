@@ -34,6 +34,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
+ * 
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public final class IncludeTag extends GsfSimpleTag {
 

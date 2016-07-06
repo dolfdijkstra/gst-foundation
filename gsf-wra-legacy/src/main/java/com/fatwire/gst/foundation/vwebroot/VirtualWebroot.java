@@ -23,7 +23,7 @@ import com.fatwire.assetapi.data.AssetId;
  * @author Tony Field
  * @since Jul 22, 2010
  * 
- * @deprecated June 15, 2016 by fvillalba
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
  * 
  */
 @Deprecated

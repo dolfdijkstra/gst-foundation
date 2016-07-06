@@ -43,6 +43,9 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Tony Field
  * @since Jul 21, 2010
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
 

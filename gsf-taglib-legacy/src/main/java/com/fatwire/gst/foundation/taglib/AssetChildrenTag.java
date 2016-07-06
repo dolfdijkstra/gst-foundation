@@ -31,6 +31,9 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @author Dolf Dijkstra
  * @since Mar, 2011
+ * 
+ * @deprecated as of release 12.x
+ * 
  */
 public class AssetChildrenTag extends GsfSimpleTag {
 

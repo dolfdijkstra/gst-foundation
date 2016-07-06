@@ -24,6 +24,9 @@ import com.fatwire.assetapi.data.AssetId;
  * 
  * @author Dolf Dijkstra
  * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
+ * 
  */
 public class VanityAssetBean implements VanityAsset {
     private AssetId id;

@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Dolf Dijkstra
  * @since Mar 13, 2011
  * 
- * @deprecated fvillalba on June 16, 2016
+ * @deprecated as of release 12.x, replace with WCS 12c's native vanity URLs support.
  */
 @Deprecated
 public class WraUriBuilder {

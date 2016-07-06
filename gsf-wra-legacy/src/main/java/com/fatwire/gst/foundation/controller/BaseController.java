@@ -35,6 +35,10 @@ import COM.FutureTense.XML.Template.Seed2;
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
+ * 
+ * 
+ * @deprecated as of release 12.x, replace with WCS 12c's native features (Controllers, wrappers, etc...)
+ * 
  */
 public class BaseController implements Seed2 {
 

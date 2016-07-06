@@ -33,6 +33,9 @@ import com.fatwire.gst.foundation.wra.navigation.NavigationHelper;
  * @author Dolf Dijkstra
  * @deprecated check latest build notes
  * 
+ * 
+ * @deprecated as of release 12.x, temporarily, until a brand new, significantly improved NavigationService implementation is released (soon)
+ * 
  */
 public class NavigationTag extends GsfSimpleTag {
 

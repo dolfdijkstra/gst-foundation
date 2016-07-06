@@ -20,6 +20,8 @@ package com.fatwire.gst.foundation.facade.logging;
  * 
  * @author Dolf Dijkstra
  *
+ * @deprecated as of release 12.x, replaced with SLF4J which is natively used by (and shipped along) WCS
+ *
  */
 public class LogEnhancer implements Log {
 

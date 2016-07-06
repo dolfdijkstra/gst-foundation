@@ -15,6 +15,11 @@
  */
 package com.fatwire.gst.foundation.html;
 
+/**
+ * 
+ * @deprecated as of release 12.x
+ *
+ */
 final class HtmlCoreAttr {
     private String id;
     private String className;

@@ -24,6 +24,9 @@ import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
  * 
  * @author Dolf Dijkstra
  *
+ *
+ * @deprecated as of release 12.x, replace GSF Actions with WCS 12c's native Controllers and/or wrappers
+ *
  */
 public class NullActionNameResolver implements ActionNameResolver {
 

@@ -28,6 +28,11 @@ import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
 import com.fatwire.gst.foundation.controller.action.support.NullActionNameResolver;
 import com.fatwire.gst.foundation.controller.support.TemplateMethodFactory;
 
+/**
+ * 
+ * @deprecated as of release 12.x, replace with new DefaultWebAppContext or your own custom (WCS 12c-friendly) AppContext implementation.
+ *
+ */
 public class SpringWebAppContext implements AppContext {
 	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.support.SpringWebAppContext");
     private static final ActionNameResolver nullActionNameResolver = new NullActionNameResolver();

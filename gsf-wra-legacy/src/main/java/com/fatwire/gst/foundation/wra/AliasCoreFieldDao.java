@@ -24,6 +24,9 @@ import com.fatwire.assetapi.data.AssetId;
  * 
  * @author Tony Field
  * @since Jul 21, 2010
+ * 
+ * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation which won't depend on any GSF-specific asset type / subtypes.
+ * 
  */
 public interface AliasCoreFieldDao {
 
