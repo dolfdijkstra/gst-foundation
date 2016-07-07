@@ -27,30 +27,11 @@ import com.fatwire.assetapi.data.AssetId;
 public interface NavService<NODE extends Node> {
 
     /**
-     * Set the site to be used by this navigation service. Resetting the site is not permitted
-     * @param site site name
-     * @throws UnsupportedOperationException as reset is not supported
-     */
-    void setSite(String site) throws UnsupportedOperationException;
-
-    /**
      * Load the navigation structure based on an object in the site plan.
-     * Equivalent to #loadNav(sitePlan, null)
      *
      * @param sitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
-     *                 All nodes below this object will be returned, but the specified object will not be.
+     *                 This object, as well as all nodes below this object will be returned.
      * @return Site plan node.
      */
     NODE loadNav(AssetId sitePlan);
-
-    /**
-     * Load the navigation structure based on the specified object in the site plan, and employing
-     * the params specified to supplement the load operation.
-     * @param sitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
-     *                 All nodes below this object will be returned, but the specified object will not be.
-     * @param params optional param array that can be used by loading code to provide more functionality to the load
-     *               operation
-     * @return Site plan node.
-     */
-    NODE loadNav(AssetId sitePlan, Object... params);
 }

@@ -18,13 +18,44 @@ package com.fatwire.gst.foundation.navigation;
 import java.util.List;
 
 /**
+ * Navigation structure node. Knows how to return parent nodes, child nodes, sibling nodes, and the id of the object
+ * represented by this node.
+ *
+ * Designed to be extended to support more sophisticated node types.
+ *
  * @author Tony Field
  * @since 2016-07-02.
  */
 public interface Node<NODE extends Node, ID> {
+
+    /**
+     * Get the id of the object represented by this node.
+     * @return object id
+     */
     ID getId();
+
+    /**
+     * Get the parent node
+     * @return parent node
+     */
     NODE getParent();
+
+    /**
+     * Get the siblings of this node. All siblings are returned in ranked order, including this node.
+     * @return sibling nodes
+     */
     List<NODE> getSiblings();
+
+    /**
+     * Return this node's children, if any, in ranked order
+     * @return this node's children, never null.
+     */
     List<NODE> getChildren();
+
+    /**
+     * Return the path down the navigation structure to this node, starting at the root of the structure and ending
+     * with this node. Designed for use in creating breadcrumbs.
+     * @return breadcrumb-ordered ancestor list.
+     */
     List<NODE> getBreadcrumb();
 }

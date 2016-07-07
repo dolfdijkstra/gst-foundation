@@ -28,7 +28,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Node type that can return asset data.
+ * Simple node, representing an asset, that can be populated with asset data. Not all attributes
+ * of the asset are necessarily loaded into this node. Many convenience methods exist for retrieving
+ * node attribute data.
  * @author Tony Field
  * @since 2016-07-04.
  * @see com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset
