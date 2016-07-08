@@ -26,6 +26,7 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.mda.Dimension;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Simple node, representing an asset, that can be populated with asset data. Not all attributes
@@ -38,8 +39,8 @@ public class SimpleAssetNode implements AssetNode {
 
     private final AssetId id;
     private TemplateAsset asset = null;
-    Node parent = null;
-    ArrayList<Node> children = new ArrayList<>();
+    AssetNode parent = null;
+    ArrayList<AssetNode> children = new ArrayList<>();
 
     SimpleAssetNode(AssetId id) {
         this.id = id;
@@ -49,43 +50,34 @@ public class SimpleAssetNode implements AssetNode {
         this.asset = asset;
     }
 
-    void setParent(Node parent) {
+    void setParent(AssetNode parent) {
         this.parent = parent;
     }
 
-    void addChild(int rank, Node child) {
-        List<Node> kids = Collections.singletonList(child);
-        children.addAll(rank, kids);
-
-        //clean up
-        for (Iterator<Node> it = children.iterator(); it.hasNext();) {
-            Node n = it.next();
-            if (n == null) {
-                it.remove();
-            }
-        }
-        children.trimToSize();
+    void addChild(int rank, AssetNode child) {
+        while (children.size() < rank) children.add(null);
+        children.set(rank-1, child);
     }
 
     public AssetId getId() {
         return id;
     }
 
-    public Node getParent() {
+    public AssetNode getParent() {
         return parent;
     }
 
-    public List<Node> getSiblings() {
+    public List<AssetNode> getSiblings() {
         return parent.getChildren();
     }
 
-    public List<Node> getChildren() {
-        return children;
+    public List<AssetNode> getChildren() {
+        return children.stream().filter(n -> n != null).collect(Collectors.toList());
     }
 
-    public List<Node> getBreadcrumb() {
-        List<Node> ancestors = new ArrayList<>();
-        Node node = this;
+    public List<AssetNode> getBreadcrumb() {
+        List<AssetNode> ancestors = new ArrayList<>();
+        AssetNode node = this;
         do {
             ancestors.add(node);
             node = node.getParent();
@@ -196,5 +188,13 @@ public class SimpleAssetNode implements AssetNode {
 
     public boolean isSingleValued(String name) {
         return asset.isSingleValued(name);
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleAssetNode{" +
+                "id=" + id +
+                (isAttribute("name") ? " name=" + asString("name") :  "") +
+                '}';
     }
 }

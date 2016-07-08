@@ -16,6 +16,7 @@
 package com.fatwire.gst.foundation.navigation;
 
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IList;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
@@ -27,6 +28,7 @@ import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Simple navigation service implementation that loads objects from the Site Plan. Supports populating node data via
@@ -41,10 +43,12 @@ public class SitePlanNavService implements NavService<AssetNode> {
 
     private final ICS ics;
     private final TemplateAssetAccess dao;
+    private final boolean isHsqldb;
 
     public SitePlanNavService(ICS ics, TemplateAssetAccess dao) {
         this.ics = ics;
         this.dao = dao;
+        this.isHsqldb = "HSQLDB".equals(ics.GetProperty("cs.dbtype"));
     }
 
     private static final PreparedStmt NAVIGATION_TREE_LOOKUP = new PreparedStmt(
@@ -62,6 +66,9 @@ public class SitePlanNavService implements NavService<AssetNode> {
     static {
         NAVIGATION_TREE_LOOKUP.setElement(0, "SITEPLANTREE", "OID");
     }
+    private static final PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
+            "select * from SITEPLANTREE where ncode = 'Placed'",
+            Collections.singletonList("SITEPLANTREE"));
 
     public AssetNode loadNav(AssetId sitePlan) {
 
@@ -73,7 +80,11 @@ public class SitePlanNavService implements NavService<AssetNode> {
         StatementParam assetIdParam = NAVIGATION_TREE_LOOKUP.newParam();
         assetIdParam.setLong(0, sitePlan.getId());
         Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
-        for (Row row : new IListIterable(ics.SQL(NAVIGATION_TREE_LOOKUP, assetIdParam, true))) {
+        IList sitePlanTree = isHsqldb
+                ? ics.SQL(NAVIGATION_TREE_DUMP, NAVIGATION_TREE_DUMP.newParam(), true)
+                : ics.SQL(NAVIGATION_TREE_LOOKUP, assetIdParam, true);
+
+        for (Row row : new IListIterable(sitePlanTree)) {
             SitePlanTreeData nodeInfo = new SitePlanTreeData(row);
             rowMap.put(nodeInfo.nid, nodeInfo);
         }
@@ -114,7 +125,7 @@ public class SitePlanNavService implements NavService<AssetNode> {
             }
         }
 
-        throw new IllegalStateException("Could not lcoate root node in processed tree data. Possible bug.");
+        throw new IllegalStateException("Could not locate root node in processed tree data. Possible bug.");
     }
 
     /**
@@ -139,6 +150,16 @@ public class SitePlanNavService implements NavService<AssetNode> {
             nrank = row.getInt("nrank");
             assetId = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
         }
+
+        @Override
+        public String toString() {
+            return "SitePlanTreeData{" +
+                    "nid=" + nid +
+                    ", nparentid=" + nparentid +
+                    ", nrank=" + nrank +
+                    ", assetId=" + assetId +
+                    '}';
+        }
     }
 
     private static final PreparedStmt BREADCRUMBS_LOOKUP = new PreparedStmt("WITH tblChildren (nid, nparentid, oid, otype, nrank) AS "
@@ -162,8 +183,46 @@ public class SitePlanNavService implements NavService<AssetNode> {
             throw new IllegalArgumentException("Cannot calculate breadcrumb of a null asset");
         }
 
-        List<AssetId> results = new ArrayList<>();
+        return isHsqldb ? _breadcrumbByFullScan(id) : _breadcrumbByQuery(id);
+    }
 
+    private List<AssetId> _breadcrumbByFullScan(AssetId id) {
+
+        Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
+        StatementParam dumpParam = NAVIGATION_TREE_DUMP.newParam();
+        for (Row row : new IListIterable(ics.SQL(NAVIGATION_TREE_DUMP, dumpParam, true))) {
+            SitePlanTreeData nodeInfo = new SitePlanTreeData(row);
+            rowMap.put(nodeInfo.nid, nodeInfo);
+        }
+
+        // create Node objects
+        Map<Long, SimpleAssetNode> nodeMap = new HashMap<>();
+        for (long nid : rowMap.keySet()) {
+            SimpleAssetNode node = new SimpleAssetNode(rowMap.get(nid).assetId);
+            nodeMap.put(nid, node);
+        }
+
+        // hook up parent-child relationships
+        for (long nid : rowMap.keySet()) {
+            SitePlanTreeData sptRow = rowMap.get(nid);
+            SimpleAssetNode node = nodeMap.get(nid);
+            SimpleAssetNode parent = nodeMap.get(sptRow.nparentid);
+            if (parent != null) {
+                node.setParent(parent);
+                parent.addChild(sptRow.nrank, node); // this ranks them too!
+            }
+        }
+
+        // find my node
+        AssetNode myNode = nodeMap.values().stream().filter(n -> n.getId().equals(id)).findFirst().get();
+        if (myNode == null) throw new IllegalArgumentException("Could not find breadcrumb for "+id);
+
+        // return the breadcrumb for it in the form of assetids
+        return myNode.getBreadcrumb().stream().map(Node::getId).collect(Collectors.toList());
+    }
+
+    private List<AssetId> _breadcrumbByQuery(AssetId id) {
+        List<AssetId> results = new ArrayList<>();
         StatementParam breadcrumbParam = BREADCRUMBS_LOOKUP.newParam();
         breadcrumbParam.setLong(0, id.getId());
 
