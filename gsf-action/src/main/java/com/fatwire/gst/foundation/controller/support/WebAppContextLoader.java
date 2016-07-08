@@ -84,7 +84,7 @@ public class WebAppContextLoader implements ServletContextListener {
         if (parent == null) {
             parent = new DefaultWebAppContext(context);
             parent.init();
-            LOG.info("AppContext initialized using default class: {}"+parent.getClass().getName());
+            LOG.info("AppContext initialized using default class: {}", parent.getClass().getName());
         }
 
         // register it
