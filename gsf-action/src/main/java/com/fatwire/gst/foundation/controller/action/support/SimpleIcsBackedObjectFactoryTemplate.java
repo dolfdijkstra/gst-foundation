@@ -28,6 +28,7 @@ import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
+import com.fatwire.gst.foundation.navigation.AssetNode;
 import com.fatwire.gst.foundation.navigation.NavService;
 import com.fatwire.gst.foundation.navigation.SitePlanNavService;
 
@@ -102,7 +103,7 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
     }
 
     @ServiceProducer(cache = true)
-    public NavService createNavService(final ICS ics) {
+    public NavService<AssetNode> createNavService(final ICS ics) {
         TemplateAssetAccess dao = getObject("templateAssetAccess", TemplateAssetAccess.class);
         return new SitePlanNavService(ics, dao);
     }

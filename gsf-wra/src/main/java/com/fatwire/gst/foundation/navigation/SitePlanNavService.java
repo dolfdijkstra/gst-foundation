@@ -26,7 +26,7 @@ import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +39,7 @@ import java.util.Map;
  * @author Tony Field
  * @since 2016-07-06
  */
-public class SitePlanNavService implements NavService {
+public class SitePlanNavService implements NavService<AssetNode> {
 
     private final ICS ics;
     private final TemplateAssetAccess dao;
@@ -57,10 +57,10 @@ public class SitePlanNavService implements NavService {
                     + " UNION ALL "
                     + " SELECT spt.NID, spt.NPARENTID, spt.OID, spt.OTYPE, spt.nrank from "
                     + " SITEPLANTREE spt JOIN tblChildren ON spt.NPARENTID = tblChildren.NID where spt.NCODE = 'Placed' "
-                    + ") " + " SELECT NID, NPARENTID, OID, OTYPE, NRANK "
+                    + ") "
+                    + " SELECT NID, NPARENTID, OID, OTYPE, NRANK "
                     + " FROM tblChildren order by NRANK ",
-            Arrays.asList("SITEPLANTREE"));
-
+            Collections.singletonList("SITEPLANTREE"));
     static {
         NAVIGATION_TREE_LOOKUP.setElement(0, "SITEPLANTREE", "OID");
     }
@@ -141,7 +141,5 @@ public class SitePlanNavService implements NavService {
             nrank = row.getInt("nrank");
             assetId = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
         }
-
     }
-
 }
