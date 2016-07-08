@@ -17,6 +17,8 @@ package com.fatwire.gst.foundation.navigation;
 
 import com.fatwire.assetapi.data.AssetId;
 
+import java.util.List;
+
 /**
  * Navigation service used to access site plan-based nav structures in WebCenter Sites. Not all data driving this
  * structure needs to come from the Site Plan, but it is designed to work with structures rooted in it.
@@ -29,9 +31,19 @@ public interface NavService<NODE extends Node> {
     /**
      * Load the navigation structure based on an object in the site plan.
      *
-     * @param sitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
-     *                 This object, as well as all nodes below this object will be returned.
+     * @param assetInSitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
+     *                        This object, as well as all nodes below this object will be returned.
      * @return Site plan node.
      */
-    NODE loadNav(AssetId sitePlan);
+    NODE loadNav(AssetId assetInSitePlan);
+
+    /**
+     * Return the breadcrumb path from the root of the site plan to the specified asset in the navigation
+     * structure.
+     *
+     * @param id The id of the asset whose path to the root of the navigation structure will be traced.
+     * @return A list of assets starting with the root of the navigation structure up to the specified asset.
+     */
+    List<AssetId> getBreadcrumb(AssetId id);
+
 }

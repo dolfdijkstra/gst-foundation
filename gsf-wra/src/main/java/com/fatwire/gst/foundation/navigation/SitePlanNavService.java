@@ -26,9 +26,7 @@ import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Simple navigation service implementation that loads objects from the Site Plan. Supports populating node data via
@@ -49,7 +47,7 @@ public class SitePlanNavService implements NavService<AssetNode> {
         this.dao = dao;
     }
 
-    public static final PreparedStmt NAVIGATION_TREE_LOOKUP = new PreparedStmt(
+    private static final PreparedStmt NAVIGATION_TREE_LOOKUP = new PreparedStmt(
             "WITH tblChildren (nid, nparentid, oid, otype, nrank) AS "
                     + "( "
                     + " select spt.NID, spt.NPARENTID, spt.OID, spt.otype, spt.nrank from SITEPLANTREE spt "
@@ -141,5 +139,38 @@ public class SitePlanNavService implements NavService<AssetNode> {
             nrank = row.getInt("nrank");
             assetId = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
         }
+    }
+
+    private static final PreparedStmt BREADCRUMBS_LOOKUP = new PreparedStmt("WITH tblChildren (nid, nparentid, oid, otype, nrank) AS "
+            + "( "
+            + " select spt.NID, spt.NPARENTID, spt.OID, spt.otype, spt.nrank from SITEPLANTREE spt "
+            + " WHERE spt.OID = ? "
+            + " UNION ALL "
+            + " SELECT spt.NID, spt.NPARENTID, spt.OID, spt.OTYPE, spt.nrank from "
+            + " SITEPLANTREE spt JOIN tblChildren ON spt.NID = tblChildren.NPARENTID where spt.OTYPE = 'Page' "
+            + ") "
+            + " SELECT NID, NPARENTID, OID, OTYPE, NRANK "
+            + " FROM tblChildren ",
+            Collections.singletonList("SITEPLANTREE"));
+    static {
+        BREADCRUMBS_LOOKUP.setElement(0, "SITEPLANTREE", "OID");
+    }
+
+    public List<AssetId> getBreadcrumb(AssetId id) {
+
+        if (id == null) {
+            throw new IllegalArgumentException("Cannot calculate breadcrumb of a null asset");
+        }
+
+        List<AssetId> results = new ArrayList<>();
+
+        StatementParam breadcrumbParam = BREADCRUMBS_LOOKUP.newParam();
+        breadcrumbParam.setLong(0, id.getId());
+
+        for (Row row : new IListIterable(ics.SQL(BREADCRUMBS_LOOKUP, breadcrumbParam, true))) {
+            AssetId result = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
+            results.add(0, result);
+        }
+        return results;
     }
 }
