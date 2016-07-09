@@ -36,7 +36,7 @@ import com.fatwire.gst.foundation.facade.sql.table.TableDef;
 import com.fatwire.gst.foundation.vwebroot.VirtualWebroot;
 import com.fatwire.gst.foundation.wra.SimpleWra;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

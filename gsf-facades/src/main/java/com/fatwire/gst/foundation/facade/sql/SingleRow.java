@@ -22,7 +22,7 @@ import COM.FutureTense.Interfaces.IList;
 
 import com.fatwire.cs.core.db.Util;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Implements a Row.

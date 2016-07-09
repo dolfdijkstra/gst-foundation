@@ -47,7 +47,7 @@ import com.fatwire.gst.foundation.tagging.AssetTaggingService;
 import com.fatwire.gst.foundation.tagging.Tag;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

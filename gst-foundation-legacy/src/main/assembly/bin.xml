@@ -19,7 +19,7 @@
     <!-- handy example http://maven.40175.n5.nabble.com/Need-end-to-end-example-using-the-maven-assembly-plugin-td113264.html -->
   <id>web-resources</id>
   <formats>
-    <format>dir</format>
+    <format>zip</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>

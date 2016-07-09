@@ -26,7 +26,7 @@ import com.fatwire.cs.core.uri.Definition;
 import com.fatwire.cs.core.uri.QueryAssembler;
 import com.fatwire.cs.core.uri.Simple;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

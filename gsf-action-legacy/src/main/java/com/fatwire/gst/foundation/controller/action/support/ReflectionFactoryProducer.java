@@ -17,7 +17,7 @@ package com.fatwire.gst.foundation.controller.action.support;
 
 import java.lang.reflect.Constructor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
