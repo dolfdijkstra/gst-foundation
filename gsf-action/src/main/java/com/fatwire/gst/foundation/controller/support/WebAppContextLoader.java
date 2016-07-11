@@ -43,7 +43,7 @@ import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext
  * application.
  *
  * It is configured to auto-load into the servlet context by way of the
- * @ WebListener annotation.  Overriding of this class is allowed.
+ * {@code @WebListener} annotation.  Overriding of this class is allowed.
  * 
  * @author Dolf Dijkstra
  * @author Tony Field
