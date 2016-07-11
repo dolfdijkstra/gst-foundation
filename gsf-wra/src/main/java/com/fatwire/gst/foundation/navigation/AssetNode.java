@@ -60,7 +60,7 @@ public interface AssetNode extends Node<AssetNode, AssetId> {
     List<String> getMetaAttributeNames();
     List<AssetId> getParents() throws AssetAccessException;
     String getSubtype();
-    AttributeTypeEnum getType(String name);
+    AttributeTypeEnum getAttributeType(String name);
     boolean isAttribute(String name);
     boolean isSingleValued(String name);
 }
