@@ -41,6 +41,9 @@ import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext
 /**
  * ServletContextListener that loads and configures the AppContext for this
  * application.
+ *
+ * It is configured to auto-load into the servlet context by way of the
+ * @ WebListener annotation.  Overriding of this class is allowed.
  * 
  * @author Dolf Dijkstra
  * @author Tony Field
