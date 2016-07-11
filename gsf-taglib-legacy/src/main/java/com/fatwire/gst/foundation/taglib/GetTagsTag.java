@@ -24,7 +24,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *

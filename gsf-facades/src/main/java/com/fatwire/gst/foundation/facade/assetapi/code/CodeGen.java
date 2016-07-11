@@ -41,7 +41,7 @@ import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class CodeGen {
 
@@ -289,7 +289,7 @@ public class CodeGen {
                 }
                 pw.println("    }");
                 pw.println("}");
-                out.print(org.apache.commons.lang.StringEscapeUtils.escapeHtml(sw.toString()));
+                out.print(org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(sw.toString()));
             }
         }
 
@@ -357,8 +357,7 @@ public class CodeGen {
 
         @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
-            StringEscapeUtils.escapeHtml(writer, new String(cbuf, off, len));
-
+            writer.write(StringEscapeUtils.escapeHtml4(new String(cbuf, off, len)));
         }
 
     }

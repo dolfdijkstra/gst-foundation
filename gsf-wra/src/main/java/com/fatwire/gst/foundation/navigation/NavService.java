@@ -17,6 +17,8 @@ package com.fatwire.gst.foundation.navigation;
 
 import com.fatwire.assetapi.data.AssetId;
 
+import java.util.List;
+
 /**
  * Navigation service used to access site plan-based nav structures in WebCenter Sites. Not all data driving this
  * structure needs to come from the Site Plan, but it is designed to work with structures rooted in it.
@@ -27,30 +29,21 @@ import com.fatwire.assetapi.data.AssetId;
 public interface NavService<NODE extends Node> {
 
     /**
-     * Set the site to be used by this navigation service. Resetting the site is not permitted
-     * @param site site name
-     * @throws UnsupportedOperationException as reset is not supported
-     */
-    void setSite(String site) throws UnsupportedOperationException;
-
-    /**
      * Load the navigation structure based on an object in the site plan.
-     * Equivalent to #loadNav(sitePlan, null)
      *
-     * @param sitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
-     *                 All nodes below this object will be returned, but the specified object will not be.
+     * @param assetInSitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
+     *                        This object, as well as all nodes below this object will be returned.
      * @return Site plan node.
      */
-    NODE loadNav(AssetId sitePlan);
+    NODE loadNav(AssetId assetInSitePlan);
 
     /**
-     * Load the navigation structure based on the specified object in the site plan, and employing
-     * the params specified to supplement the load operation.
-     * @param sitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
-     *                 All nodes below this object will be returned, but the specified object will not be.
-     * @param params optional param array that can be used by loading code to provide more functionality to the load
-     *               operation
-     * @return Site plan node.
+     * Return the breadcrumb path from the root of the site plan to the specified asset in the navigation
+     * structure.
+     *
+     * @param id The id of the asset whose path to the root of the navigation structure will be traced.
+     * @return A list of assets starting with the root of the navigation structure up to the specified asset.
      */
-    NODE loadNav(AssetId sitePlan, Object... params);
+    List<AssetId> getBreadcrumb(AssetId id);
+
 }

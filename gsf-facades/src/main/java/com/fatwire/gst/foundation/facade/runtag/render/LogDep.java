@@ -16,7 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.runtag.render;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;

@@ -41,7 +41,7 @@ import com.fatwire.gst.foundation.vwebroot.VirtualWebrootDao;
 import com.fatwire.gst.foundation.wra.VanityAsset;
 import com.fatwire.gst.foundation.wra.WraCoreFieldDao;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

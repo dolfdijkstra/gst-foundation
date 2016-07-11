@@ -22,7 +22,7 @@ import com.fatwire.gst.foundation.facade.assetapi.AssetClosure;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.openmarket.xcelerate.interfaces.IAsset;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

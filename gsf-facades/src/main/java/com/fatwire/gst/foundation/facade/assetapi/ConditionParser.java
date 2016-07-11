@@ -25,7 +25,7 @@ import com.fatwire.assetapi.query.Condition;
 import com.fatwire.assetapi.query.ConditionFactory;
 import com.fatwire.assetapi.query.OpTypeEnum;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Builds up a Condition from a string.

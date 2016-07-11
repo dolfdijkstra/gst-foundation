@@ -30,7 +30,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.Util;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Miscellaneous IList Utilities

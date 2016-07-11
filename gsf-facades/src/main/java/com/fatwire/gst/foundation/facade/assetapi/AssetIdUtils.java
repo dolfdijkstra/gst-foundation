@@ -21,7 +21,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility class for working with Asset IDs

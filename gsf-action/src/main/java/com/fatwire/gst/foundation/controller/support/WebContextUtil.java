@@ -35,16 +35,11 @@ public class WebContextUtil {
 
     public static AppContext getWebAppContext(ServletContext ctx) {
         Object o = ctx.getAttribute(WebAppContext.WEB_CONTEXT_NAME);
-        if (o == null) {
-            LOG.trace("Configuring WebAppContext from WebContextUtil; it is not explicitly configured in web.xml. Using default setup!");
-            return new WebAppContextLoader().configureWebAppContext(ctx);
-        }
         if (o instanceof AppContext) {
             return (AppContext) o;
         }
-
         throw new IncompleteConfigurationException("There was no " + WebAppContext.WEB_CONTEXT_NAME
-                + " object in the ServletContext found. Is the WebAppContextLoader listener configured in web.xml?");
+                + " object in the ServletContext found. Is the WebAppContextLoader listener configured?");
     }
 
 }

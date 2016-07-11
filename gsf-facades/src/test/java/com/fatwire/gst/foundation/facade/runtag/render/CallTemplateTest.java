@@ -45,7 +45,7 @@ public class CallTemplateTest extends TestCase {
 
                 String shortKey = key.substring(CallTemplate.ARGS.length());
                 boolean found = CallTemplate.CALLTEMPLATE_EXCLUDE_VARS.contains(shortKey);
-                System.out.println(key +" " + found);
+                //System.out.println(key +" " + found);
                 if (!found) {
                     for (final String c : pc) {
                         if (c.equalsIgnoreCase(shortKey)) {
@@ -55,13 +55,12 @@ public class CallTemplateTest extends TestCase {
                     }
                 }
                 if (!found) {
-                    System.out.println("Argument '" + key + "' not found as PageCriterium " + ". Arguments are: "
-                            + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
+                    //System.out.println("Argument '" + key + "' not found as PageCriterium " + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc));
                     // we could correct this by calling as an element
                     // or by removing the argument
 
                     i.remove();
-                    System.out.println("Argument '" + key + "' is removed from the call as it is not a PageCriterium.");
+                    //System.out.println("Argument '" + key + "' is removed from the call as it is not a PageCriterium.");
                 }
 
             }
