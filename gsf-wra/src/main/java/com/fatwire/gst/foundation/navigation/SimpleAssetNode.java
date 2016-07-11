@@ -178,7 +178,7 @@ public class SimpleAssetNode implements AssetNode {
         return asset.getSubtype();
     }
 
-    public AttributeTypeEnum getType(String name) {
+    public AttributeTypeEnum getAttributeType(String name) {
         return asset.getType(name);
     }
 
