@@ -32,13 +32,7 @@ Installation Guide
     STARTING FRESH WITH GSF-12 AND WCS 12c (i.e. not using any deprecated features)
     
     	Installing GSF-12 on WCS 12c is very simple:
-    	
-    		* Add the GSF AppContext loader (listener) to WCS 12c's web.xml:
-    		
-				<listener>
-					<listener-class>com.fatwire.gst.foundation.controller.support.WebAppContextLoader</listener-class>
-				</listener>
-    	
+    	    	
     		* Deploy GSF-12's "CORE" JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app:
     		
     			* If the WCS 12c web app is getting deployed as a WAR file, then you must:
@@ -71,18 +65,10 @@ Installation Guide
             	* Configure your custom listener as needed inside WCS 12c's web.xml file (see "STARTING FRESH..." above)
             
             	* Deploy your custom listener's classes.
+            	
+            	* Make sure only your custom listener gets loaded and executed. GSF-12 defaults to its OOTB AppContext loader via annotations (@WebListener) or that, at the very least, they don't collide / cause the other's malfunctioning.  
             
             	* Make sure your custom listener works properly with WCS 12c (and GSF-12 itself)
-
-	        * If you need to create a GSF-specific table (for ex.: GSTUrlRegistry) from scratch on a clean WCS 12c install, then you are advised to:
-	        
-				* Extract the DDL script for that table - and the due constraints / indexes - directly from your DBMS.
-	        	
-				* Run the DDL script on the new WCS 12c instance's DB so to get the corresponding objects initialized there.
-	        	
-				* Register the corresponding table on the new WCS 12c instance's SystemInfo table.
-	        	
-				* The old GSF installer - as well as the GSF WemApp - has been DEPRECATED and are not supported anymore in WCS 12c. Do NOT install them nor attempt to execute them (YOU HAVE BEEN WARNED!)
 
 			* If you are upgrading an existing implementation from WCS 11g to WCS 12c where GSF (v11.x) is correctly setup and being used, you don't need to recreate nor register your GSF-specific tables; the WCS 12c installer won't touch them.
                 
@@ -95,6 +81,23 @@ Installation Guide
 	        	* In case you have customized GSF's asset event listeners (the actual java classes), you'd need to port those customizations to WCS 12c.
 	        	
 			* If you are upgrading an existing WCS 11g instance to WCS 12c (i.e. no clean install of WCS 12c) where GSF (11) is already correctly setup, you don't need to recreate nor register your GSF-specific asset event listeners; the WCS 12c installer won't touch them.
+			
+	        * If you need to use GSF vanity URLs support, the you might need to re-create the GSTUrlRegistry from scratch (e.g. on a clean WCS 12c install):
+	        
+				* Extract the DDL script for that table - and the due constraints / indexes - directly from your DBMS.
+				
+					* Here is an EXAMPLE for HSQLDB (you are strongly advised to gather it on your own):
+					
+						CREATE TABLE GSTURLREGISTRY (ID BIGINT NOT NULL, PATH VARCHAR(4000) NOT NULL, ASSETTYPE VARCHAR(255) NOT NULL, ASSETID BIGINT NOT NULL, STARTDATE TIMESTAMP, ENDDATE TIMESTAMP, OPT_VWEBROOT VARCHAR(255), OPT_URL_PATH VARCHAR(4000), OPT_DEPTH INTEGER, OPT_SITE VARCHAR(255), PRIMARY KEY (ID));
+						CREATE UNIQUE INDEX SYS_IDX_GSTURLREG ON "PUBLIC"."GSTURLREGISTRY"(ID);
+	        	
+				* Run the DDL script on the new WCS 12c instance's DB so to get the corresponding objects initialized there.
+	        	
+				* Register the corresponding table on the new WCS 12c instance's SystemInfo table.
+					        	
+				* The old GSF installer - as well as the GSF WemApp - has been DEPRECATED and they are not supported anymore in WCS 12c. Do NOT install them nor attempt to execute them (YOU HAVE BEEN WARNED!)			
+			
+			* If you need to use any other deprecated feature which relies on GSF-specific tables, use the same procedure as for GSTUrlRegistry (see above)
 			
 			* If you need to use any asset type of the GST Flex Family and you are not upgrading on top of WCS 11g but setting up a fresh WCS 12c install, then:
 			
