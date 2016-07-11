@@ -1,0 +1,40 @@
+package com.fatwire.gst.foundation.navigation;
+
+import COM.FutureTense.Interfaces.ICS;
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
+import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
+
+/**
+ * Simple implementation of the SitePlanNavService that simply populates the
+ * node assets with the name and template of the page asset from the site plan
+ * tree.
+ *
+ * Alternate implementations of this could perform complex logic in the
+ * #populateNodeData(AssetId) method to figure out what data should be
+ * loaded into this object.
+ *
+ * @author Tony Field
+ * @since 2016-07-11
+ */
+public final class LightweightSitePlanNavService extends SitePlanNavService {
+
+    private final ICS ics;
+    private final TemplateAssetAccess dao;
+
+    public LightweightSitePlanNavService(ICS ics, TemplateAssetAccess dao) {
+        super(ics, dao);
+        this.ics = ics;
+        this.dao = dao;
+    }
+
+    /**
+     * Method to retrieve data that will be loaded into a node. Implementing classes should take care
+     * to be very efficient both for cpu time as well as memory usage.
+     * @param id asset ID to load
+     * @return asset data in the form of a TemplateAsset, never null
+     */
+    protected TemplateAsset populateNodeData(AssetId id) {
+        return dao.read(id, "name", "template");
+    }
+}

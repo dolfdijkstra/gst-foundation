@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  * @author Tony Field
  * @since 2016-07-06
  */
-public class SitePlanNavService implements NavService<AssetNode> {
+public abstract class SitePlanNavService implements NavService<AssetNode> {
 
     private final ICS ics;
     private final TemplateAssetAccess dao;
@@ -134,9 +134,7 @@ public class SitePlanNavService implements NavService<AssetNode> {
      * @param id asset ID to load
      * @return asset data in the form of a TemplateAsset, never null
      */
-    protected TemplateAsset populateNodeData(AssetId id) {
-        return dao.read(id, "name", "template");
-    }
+    protected abstract TemplateAsset populateNodeData(AssetId id);
 
     private static class SitePlanTreeData {
         final long nid;
