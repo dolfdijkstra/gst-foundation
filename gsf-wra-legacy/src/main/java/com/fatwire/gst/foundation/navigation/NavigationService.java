@@ -25,8 +25,7 @@ import com.fatwire.assetapi.query.Query;
  * 
  * 
  * @deprecated as of release 12.x, will be replaced with a brand new, significantly improved NavigationService implementation (coming soon)
- * 
- * 
+ *
  */
 public interface NavigationService {
 

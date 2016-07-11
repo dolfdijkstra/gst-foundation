@@ -67,13 +67,11 @@ Documentation
   
 	* {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
 	
-	* {{{./2-JARs-For-Transitioning.html}Why 2 separate JARs?}} - Why we'll be distributing two JARs instead of just one and the corresponding semantics
-
 Download
 
     For this transitional release, classes are shipped in 2 JAR files:
     
-    * gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slimmer) CORE of the GSF.    
+    * gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slim) CORE of the GSF.    
     
     * gsf-legacy-<version>.jar: here you'll find the classes that have been deprecated and are planned for complete removal in future releases.
     
@@ -87,8 +85,14 @@ Download
 
      []
 
+Requirements
+
+	Java 1.8 (or newer)
+	WCS 12c
+	SLF4J 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
+
 Installation
 
     Installing the GSF-12 is relatively simple. However, as opposed to their predecessors, it's a manual procedure; no installer is provided.
     
-    The {{{./InstallGuide.html}attached guide}} should get you up and running quickly.
+    The {{{./InstallGuide.html}attached guide}} should get you up and running quickly. For users wanting to keep using deprecated features, we are providing a long checklist of the additional steps that would require, depending on the concerned (deprecated) feature. 
