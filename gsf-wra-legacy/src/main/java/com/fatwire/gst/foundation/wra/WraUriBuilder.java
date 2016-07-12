@@ -22,7 +22,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetList;
 import com.fatwire.gst.foundation.facade.runtag.render.GetTemplateUrl;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Dolf Dijkstra

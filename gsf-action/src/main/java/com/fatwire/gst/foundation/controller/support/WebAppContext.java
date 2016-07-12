@@ -20,7 +20,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.fatwire.gst.foundation.controller.AppContext;
 

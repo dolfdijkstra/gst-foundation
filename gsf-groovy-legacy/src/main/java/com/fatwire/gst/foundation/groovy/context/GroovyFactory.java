@@ -15,7 +15,7 @@
  */
 package com.fatwire.gst.foundation.groovy.context;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import COM.FutureTense.Interfaces.ICS;
 

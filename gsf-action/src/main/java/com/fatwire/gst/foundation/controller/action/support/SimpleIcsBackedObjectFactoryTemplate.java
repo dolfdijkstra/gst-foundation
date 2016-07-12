@@ -28,7 +28,9 @@ import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
-
+import com.fatwire.gst.foundation.navigation.AssetNode;
+import com.fatwire.gst.foundation.navigation.NavService;
+import com.fatwire.gst.foundation.navigation.SitePlanNavService;
 
 
 /**
@@ -41,18 +43,13 @@ import com.fatwire.gst.foundation.mapping.MappingService;
  * method <tt>public Foo createFoo(ICS ics);</tt>. The method has to be public
  * and has to accept one argument of type ICS.
  * </p>
- * <p>
- * This class was created as a subset of the methods of the legacy class IcsBackedObjectFactory.
- * More especifically, it was removed all "create" methods depending on deprecated classes / features.
- * (createWraPathTranslationService,  createIncludeService, createNavigationService, ...) so to break
- * dependencies with deprecated features (vanity urls, include service, ...)
- * </p>
- * 
+ *
  * @author Freddy Villalba
  * @since June 16, 2016
  * 
  */
 public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
+
     /**
      * Constructor.
      * 
@@ -103,6 +100,12 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
     @ServiceProducer(cache = true)
     public SimpleSearchEngine createSimpleSearchEngine(final ICS ics) {
         return new SimpleSearchEngine("lucene");
+    }
+
+    @ServiceProducer(cache = true)
+    public NavService<AssetNode> createNavService(final ICS ics) {
+        TemplateAssetAccess dao = getObject("templateAssetAccess", TemplateAssetAccess.class);
+        return new SitePlanNavService(ics, dao);
     }
 
 }

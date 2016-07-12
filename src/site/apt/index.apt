@@ -83,11 +83,10 @@ Download
     
     * Downloading the pre-compiled JARs -- NOTE: these may not include the latest codebase / bugfixes (TO DO: add links to both JARs here)
 
-     []
-
 Requirements
 
 	Java 1.8 (or newer)
+	Servlet 3.0
 	WCS 12c
 	SLF4J 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
 

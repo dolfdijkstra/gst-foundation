@@ -16,7 +16,7 @@
 
 package com.fatwire.gst.foundation.controller.action.support;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import COM.FutureTense.Cache.CacheManager;
