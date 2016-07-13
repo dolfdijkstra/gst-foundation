@@ -39,7 +39,7 @@
     </dependency>
     <dependency>
       <groupId>com.fatwire.gst</groupId>
-      <artifactId>gsf-action</artifactId>
+      <artifactId>gsf-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

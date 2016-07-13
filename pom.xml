@@ -53,9 +53,6 @@
 		<!-- tests -->
 		<module>gsf-cs-test</module>
 		<!-- core -->
-		<module>gsf-facades</module>
-		<module>gsf-wra</module>
-		<module>gsf-action</module>
 		<module>gst-foundation-core</module>
 		<!-- legacy -->
 		<module>gsf-facades-legacy</module>

@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
-            <artifactId>gsf-facades</artifactId>
+            <artifactId>gsf-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

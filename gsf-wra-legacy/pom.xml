@@ -36,12 +36,7 @@
         </dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
-            <artifactId>gsf-facades</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.gst</groupId>
-            <artifactId>gsf-wra</artifactId>
+            <artifactId>gsf-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
