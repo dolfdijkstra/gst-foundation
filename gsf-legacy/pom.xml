@@ -76,6 +76,11 @@
 			<version>${commons-logging.version}</version>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
