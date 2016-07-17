@@ -9,10 +9,8 @@ package com.fatwire.gst.foundation.time;
 public class NoopTimer implements Timer {
     public static final Timer INSTANCE = new NoopTimer();
     private NoopTimer() {}
-    @Override
-    public void reset() {}
-    @Override
-    public void interval(String message) {}
-    @Override
+    public void start() {}
+    public void restart() {}
+    public void split(String message) {}
     public void elapsed(String message) {}
 }

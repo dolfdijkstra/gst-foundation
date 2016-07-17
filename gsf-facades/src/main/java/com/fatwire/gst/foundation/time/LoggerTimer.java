@@ -17,7 +17,7 @@ public final class LoggerTimer implements Timer {
     /**
      * Default logger name used by this timer if no other logger is named.
      */
-    public static final String DEFAULT_LOGGER_NAME = "tools.gst.time";
+    public static final String DEFAULT_LOGGER_NAME = "tools.gsf.time";
 
     /**
      * Timer message format string. This format will be used for all measurements (interval and cumulative).
@@ -63,37 +63,56 @@ public final class LoggerTimer implements Timer {
 
     private LoggerTimer(Logger logger) {
         this.logger = logger;
-        this.startTimeNanos = System.nanoTime();
-        this.lastIntervalTimeNanos = startTimeNanos;
+        this.startTimeNanos = 0L;
+        this.lastIntervalTimeNanos = 0L;
     }
 
 
     @Override
-    public void reset() {
-        startTimeNanos = System.nanoTime();
-        lastIntervalTimeNanos = startTimeNanos;
+    public void start() {
+        if (startTimeNanos == 0L) {
+            startTimeNanos = System.nanoTime();
+            lastIntervalTimeNanos = startTimeNanos;
+        } else {
+            throw new IllegalStateException("Already started. Try calling restart() instead.");
+        }
     }
 
     @Override
-    public void interval(String msg) {
+    public void restart() {
+        if (startTimeNanos == 0L) {
+            throw new IllegalStateException("Cannot restart: timer has never been started.");
+        } else {
+            startTimeNanos = System.nanoTime();
+            lastIntervalTimeNanos = startTimeNanos;
+        }
+    }
+
+    @Override
+    public void split(String msg) {
+        if (startTimeNanos == 0L) throw new IllegalStateException("Not yet started. Call start() first.");
+        // no need for code guards - debug is definitely enabled
         long now = System.nanoTime();
-        log(lastIntervalTimeNanos, now, msg);
+        _log(lastIntervalTimeNanos, now, msg);
         lastIntervalTimeNanos = now;
     }
 
     @Override
     public void elapsed(String msg) {
+        if (startTimeNanos == 0L) throw new IllegalStateException("Not yet started. Call start() first.");
+        // no need for code guards - debug is definitely enabled
         long now = System.nanoTime();
-        log(startTimeNanos, now, msg);
+        _log(startTimeNanos, now, msg);
     }
 
-    private void log(long startNanos, long endNanos, String msg) {
+    private void _log(long startNanos, long endNanos, String msg) {
+        // no need for code guards - debug is definitely enabled
         long micros = (endNanos - startNanos) / 1000;
-        String human = humanFormat(micros);
+        String human = _humanFormat(micros);
         logger.debug(MESSAGE_FORMAT, msg, Long.toString(micros), human);
     }
 
-    private String humanFormat(long micros) {
+    private String _humanFormat(long micros) {
         String human;
         if (micros > 1000000) {
             final long millis = micros / 1000;
