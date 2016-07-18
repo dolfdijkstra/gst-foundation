@@ -31,6 +31,8 @@ import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.navigation.AssetNode;
 import com.fatwire.gst.foundation.navigation.LightweightSitePlanNavService;
 import com.fatwire.gst.foundation.navigation.NavService;
+import com.fatwire.gst.foundation.time.LoggerTimer;
+import com.fatwire.gst.foundation.time.Timer;
 
 //import com.fatwire.gst.foundation.time.LoggerTimer;
 //import com.fatwire.gst.foundation.time.Timer;
@@ -111,11 +113,12 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
         return new LightweightSitePlanNavService(ics, dao);
     }
 
-    /*
-    * 
+/*
     @ServiceProducer(cache = false)
     public Timer createTimer(ICS ics) {
         return LoggerTimer.getInstance();
     }
-    */
+
+*/
+
 }
