@@ -30,7 +30,7 @@ then
    # first install the build tools
    # then run install on the whole kit to force-download all dependencies (even ones not caught by dependency:go-offline)
    (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd ..)
-   mvn -q install >/tmp/mvn-gsf-out
+   mvn -q install >/tmp/mvn-gsf.out
    echo "Finished initial build"
 fi
 
@@ -53,8 +53,8 @@ echo "  adding site"
 mkdir -p "$tmpLocation/site"
 cp -R target/staging/* "$tmpLocation/site"
 echo "  adding build artifacts"
-cp -R gst-foundation-core/target/gsf* "$tmpLocation"
-cp -R gst-foundation-legacy/target/gsf* "$tmpLocation"
+cp -R gsf-core/target/gsf* "$tmpLocation"
+cp -R gsf-legacy/target/gsf* "$tmpLocation"
 #mkdir "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
