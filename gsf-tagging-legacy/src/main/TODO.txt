@@ -1,7 +1,0 @@
-Last upated: Aug 1, 2010 9:30am by Tony Field
-- document exactly how to wire listeners & publish event updater
-- document installation
-- create the gsf:tagged-list tag in gsf-taglib.
-
-Someday maybe
-- create tool to clean up or at least identify orphan tags.

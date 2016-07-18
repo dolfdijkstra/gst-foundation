@@ -50,21 +50,10 @@
 	<modules>
 		<!-- dependencies -->
 		<module>gsf-cs-all</module>
-		<!-- tests -->
-		<module>gsf-cs-test</module>
 		<!-- core -->
-		<module>gsf-facades</module>
-		<module>gsf-wra</module>
-		<module>gsf-action</module>
-		<module>gst-foundation-core</module>
+		<module>gsf-core</module>
 		<!-- legacy -->
-		<module>gsf-facades-legacy</module>
-		<module>gsf-wra-legacy</module>
-		<module>gsf-action-legacy</module>
-		<module>gsf-tagging-legacy</module>
-		<module>gsf-taglib-legacy</module>
-		<module>gsf-groovy-legacy</module>
-		<module>gst-foundation-legacy</module>
+		<module>gsf-legacy</module>
 	</modules>
 	<dependencies>
         <dependency>
