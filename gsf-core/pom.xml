@@ -53,12 +53,6 @@
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-cs-all</artifactId>
-			<version>${project.version}</version>
-			<type>pom</type>
-		</dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -120,4 +114,5 @@
 			</resource>
 		</resources>
 	</build>
+	<description>This submodule comprises the GSF's stable components (classes, configuration files, features, etc...)</description>
 </project>

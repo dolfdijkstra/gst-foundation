@@ -65,12 +65,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-cs-all</artifactId>
-			<version>${project.version}</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>${commons-logging.version}</version>
@@ -127,4 +121,5 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<description>This submodule comprises the GSF's DEPRECATED components (classes, configuration files, features, etc...).</description>
 </project>
