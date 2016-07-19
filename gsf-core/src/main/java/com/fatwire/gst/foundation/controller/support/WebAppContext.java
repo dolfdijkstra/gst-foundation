@@ -35,7 +35,7 @@ public class WebAppContext implements AppContext {
     private final ServletContext context;
     private final AppContext parent;
 
-    private Map<String, Object> localScope = new HashMap<String, Object>();
+    private Map<String, Object> localScope = new HashMap<>();
 
     /**
      * This constructor was needed for the SimpleWebAppContextLoader (now deprecated).
@@ -68,29 +68,24 @@ public class WebAppContext implements AppContext {
             throw new IllegalArgumentException("Arrays are not supported");
         }
 
-        Object o = null;
-
-        o = localScope.get(name);
+        Object o = localScope.get(name);
 
         if (o == null) {
-            LOG.debug("Asking for bean by name %s of type %s.",name,  c.getName());
+            LOG.debug("Asking for bean by name {} of type {}.",name,  c.getName());
             try {
                 // TODO: medium: check for other method signatures
 
                 o = TemplateMethodFactory.createByMethod(this, c);
                 if (o != null && c.isAssignableFrom(o.getClass())) {
                     localScope.put(name, o);
-
                 }
-
             } catch (final NoSuchMethodException e) {
 
                 try {
                     if (parent != null)
-                        o = parent.getBean(name, c); // don't register locally
-                                                     // if found
+                        o = parent.getBean(name, c); // don't register locally if found
                     else {
-                        LOG.debug("Could not create  a %s via a Template method, trying via constructor.",c.getName());
+                        LOG.debug("Could not create  a {} via a Template method, trying via constructor.",c.getName());
                         o = TemplateMethodFactory.createByConstructor(c);
                         if (o != null && c.isAssignableFrom(o.getClass())) {
                             localScope.put(name, o);
@@ -106,18 +101,15 @@ public class WebAppContext implements AppContext {
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
-
         }
         return (T) o;
     }
 
-    public ServletContext getServletContext() {
+    protected ServletContext getServletContext() {
         return context;
     }
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
-
     }
 }
