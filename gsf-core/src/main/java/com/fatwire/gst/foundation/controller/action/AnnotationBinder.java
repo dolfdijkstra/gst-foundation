@@ -23,6 +23,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import com.fatwire.gst.foundation.time.LoggerStopwatch;
+import com.fatwire.gst.foundation.time.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.cs.core.db.Util;
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.annotation.Bind;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
@@ -39,10 +40,10 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  * 
  * @author Dolf Dijkstra
  * @since 12 mei 2012
+ * @deprecated - class due for rewriting
  */
 public final class AnnotationBinder {
 	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationBinder");
-	protected static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationBinder.time");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the
@@ -53,14 +54,14 @@ public final class AnnotationBinder {
      * @param object the object to inject into.
      * @param ics the ics context.
      */
-    public static final void bind(final Object object, ICS ics) {
+    public static void bind(final Object object, ICS ics) {
         if (object == null) {
             throw new IllegalArgumentException("Object cannot be null.");
         }
         if (ics == null) {
             throw new IllegalArgumentException("CS cannot be null.");
         }
-        final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0L;
+        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
         try {
             Class<?> c = object.getClass();
             // all annotated fields.
@@ -75,7 +76,7 @@ public final class AnnotationBinder {
                 c = c.getSuperclass();
             }
         } finally {
-            DebugHelper.printTime(LOG_TIME, "inject model for " + object.getClass().getName(), start);
+            stopwatch.elapsed("bind model for {}", object.getClass().getName());
         }
     }
 
@@ -85,7 +86,7 @@ public final class AnnotationBinder {
      * @param field the field to inject to
      * @throws SecurityException security exception 
      */
-    public static void bindToField(final Object object, final ICS ics, final Field field) throws SecurityException {
+    private static void bindToField(final Object object, final ICS ics, final Field field) throws SecurityException {
 
         if (!field.isAccessible()) {
             field.setAccessible(true); // make private fields accessible
@@ -100,9 +101,7 @@ public final class AnnotationBinder {
 
             switch (ifr.scope()) {
                 case ics:
-                    if (field.getType().isArray()) {
-
-                    } else {
+                    if (!field.getType().isArray()) {
                         String var = ics.GetVar(name);
                         if (StringUtils.isBlank(var)) {
                             put(object, field, ics.GetObj(name));
@@ -177,9 +176,6 @@ public final class AnnotationBinder {
             put(object, field, (String) value);
         } else if (field.getType().isPrimitive()) {
             putPrimitive(object, field, value);
-
-        } else {
-
         }
 
     }
@@ -201,7 +197,7 @@ public final class AnnotationBinder {
             } else if (field.getType() == Double.class) {
                 value = new Double(var);
             } else if (field.getType() == Character.class) {
-                value = new Character(var.charAt(0));
+                value = var.charAt(0);
             } else if (field.getType() == Long.class) {
                 value = new Long(var);
             }

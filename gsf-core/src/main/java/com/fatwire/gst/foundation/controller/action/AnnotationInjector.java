@@ -23,12 +23,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fatwire.gst.foundation.time.LoggerStopwatch;
+import com.fatwire.gst.foundation.time.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
 /**
@@ -37,10 +38,10 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  * 
  * @author Dolf Dijkstra
  * @since Mar 26, 2011
+ * @deprecated - class due for rewriting
  */
 public final class AnnotationInjector {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationInjector");
-    protected static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationInjector.time");
+	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationInjector");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the
@@ -52,14 +53,14 @@ public final class AnnotationInjector {
      * @param factory the factory that created the objects that need to be
      *            injected.
      */
-    public static final void inject(final Object object, final Factory factory) {
+    public static void inject(final Object object, final Factory factory) {
         if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
         if (factory == null) {
             throw new IllegalArgumentException("factory cannot be null.");
         }
-        final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0L;
+        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
         try {
             Class<?> c = object.getClass();
             // first to all annotated public setter methods.
@@ -80,7 +81,7 @@ public final class AnnotationInjector {
                 c = c.getSuperclass();
             }
         } finally {
-            DebugHelper.printTime(LOG_TIME, "inject model for " + object.getClass().getName(), start);
+            stopwatch.elapsed("inject model for {}", object.getClass().getName());
         }
     }
 
@@ -92,7 +93,7 @@ public final class AnnotationInjector {
      * @param annnotationClass the annotation to find.
      * @return the array of fields with the annotation, never null.
      */
-    public static final Field[] findFieldsWithAnnotation(final Object object,
+    public static Field[] findFieldsWithAnnotation(final Object object,
             final Class<? extends Annotation> annnotationClass) {
         if (object == null) {
             throw new IllegalArgumentException("object must not be null.");
@@ -100,7 +101,7 @@ public final class AnnotationInjector {
         if (annnotationClass == null) {
             throw new IllegalArgumentException("clazz must not be null.");
         }
-        final List<Field> x = new ArrayList<Field>();
+        final List<Field> x = new ArrayList<>();
         Class<?> c = object.getClass();
         while (c != Object.class && c != null) {
             for (final Field field : c.getDeclaredFields()) {
@@ -123,7 +124,7 @@ public final class AnnotationInjector {
      * @param field field to inject into
      * @throws SecurityException security exception injecting values into field
      */
-    public static void injectIntoField(final Object object, final Factory factory, final Field field)
+    private static void injectIntoField(final Object object, final Factory factory, final Field field)
             throws SecurityException {
 
         final InjectForRequest ifr = field.getAnnotation(InjectForRequest.class);
@@ -160,7 +161,7 @@ public final class AnnotationInjector {
      * @param method the method to inject into
      * @throws SecurityException security exception when injecting value into field
      */
-    public static void injectIntoMethod(final Object object, final Factory factory, final Method method)
+    private static void injectIntoMethod(final Object object, final Factory factory, final Method method)
             throws SecurityException {
         // LOG.trace("Found annotated field: "+field.getName());
         final InjectForRequest ifr = method.getAnnotation(InjectForRequest.class);

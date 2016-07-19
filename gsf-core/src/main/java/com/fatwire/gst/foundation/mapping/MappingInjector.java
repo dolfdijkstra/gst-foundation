@@ -18,6 +18,8 @@ package com.fatwire.gst.foundation.mapping;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import com.fatwire.gst.foundation.time.LoggerStopwatch;
+import com.fatwire.gst.foundation.time.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,6 @@ import COM.FutureTense.Util.ftErrors;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.AnnotationInjector;
 import com.fatwire.gst.foundation.controller.action.Factory;
@@ -38,18 +39,19 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 /**
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
+ * @deprecated - class due for rewriting
  */
-public class MappingInjector {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.mapping.MappingInjector");
+public final class MappingInjector {
+	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.mapping.MappingInjector");
 
-    public final static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
+    public static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
         if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
         if (factory == null) {
             throw new IllegalArgumentException("factory cannot be null.");
         }
-        final long start = System.nanoTime();
+        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
         try {
             final Field[] fields = AnnotationInjector.findFieldsWithAnnotation(object, Mapping.class);
 
@@ -65,7 +67,7 @@ public class MappingInjector {
                 }
             }
         } finally {
-            DebugHelper.printTime("inject mapping for " + object.getClass().getName(), start);
+            stopwatch.elapsed("inject mapping for {}", object.getClass().getName());
         }
     }
 
