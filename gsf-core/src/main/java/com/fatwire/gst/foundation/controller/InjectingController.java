@@ -22,14 +22,21 @@ import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 
 import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
+import com.fatwire.gst.foundation.time.LoggerStopwatch;
+import com.fatwire.gst.foundation.time.Stopwatch;
 
 public class InjectingController extends BaseController {
 	
 	public DependenciesAwareModelAndView handleRequest() {
 		ServletContext srvCtx = ics.getIServlet().getServlet().getServletContext();
 		AppContext ctx = WebContextUtil.getWebAppContext(srvCtx);
-		Injector injector = ctx.getBean("Injector",Injector.class); 
-		injector.inject(ics, this);		
-		return super.handleRequest();
+		Injector injector = ctx.getBean("Injector",Injector.class);
+		Stopwatch stopwatch = LoggerStopwatch.getInstance(); // todo: better DI here
+		stopwatch.start();
+		injector.inject(ics, this);
+		stopwatch.split("Injecting into controller {}", this.getClass().getSimpleName());
+		DependenciesAwareModelAndView result = super.handleRequest();
+		stopwatch.elapsed("Executed controller {}", this.getClass().getSimpleName());
+		return result;
 	}
 }
