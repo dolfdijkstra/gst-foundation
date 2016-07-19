@@ -50,7 +50,7 @@ public class StopwatchTest {
         Stopwatch timer2 = LoggerStopwatch.getInstance();
         timer2.start();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 25; i++) {
             Stopwatch timer = LoggerStopwatch.getInstance();
             timer.start();
             sleep();
@@ -72,7 +72,7 @@ public class StopwatchTest {
         Stopwatch timer2 = LoggerStopwatch.getInstance();
         timer2.start();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 25; i++) {
             Stopwatch timer = LoggerStopwatch.getInstance();
             timer.start();
             timer.split("Split 1");
