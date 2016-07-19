@@ -23,12 +23,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fatwire.gst.foundation.time.LoggerStopwatch;
+import com.fatwire.gst.foundation.time.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
 /**
@@ -40,7 +41,6 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  */
 public final class AnnotationInjector {
 	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationInjector");
-    protected static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationInjector.time");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the
@@ -59,7 +59,7 @@ public final class AnnotationInjector {
         if (factory == null) {
             throw new IllegalArgumentException("factory cannot be null.");
         }
-        final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0L;
+        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
         try {
             Class<?> c = object.getClass();
             // first to all annotated public setter methods.
@@ -80,7 +80,7 @@ public final class AnnotationInjector {
                 c = c.getSuperclass();
             }
         } finally {
-            DebugHelper.printTime(LOG_TIME, "inject model for " + object.getClass().getName(), start);
+            stopwatch.elapsed("inject model for {}", object.getClass().getName());
         }
     }
 

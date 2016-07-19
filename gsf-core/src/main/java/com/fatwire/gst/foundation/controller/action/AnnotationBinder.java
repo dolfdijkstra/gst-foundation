@@ -23,6 +23,10 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.controller.support.WebContextUtil;
+import com.fatwire.gst.foundation.time.LoggerStopwatch;
+import com.fatwire.gst.foundation.time.Stopwatch;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.cs.core.db.Util;
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.annotation.Bind;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 
@@ -42,7 +45,6 @@ import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
  */
 public final class AnnotationBinder {
 	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationBinder");
-	protected static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationBinder.time");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the
@@ -60,7 +62,7 @@ public final class AnnotationBinder {
         if (ics == null) {
             throw new IllegalArgumentException("CS cannot be null.");
         }
-        final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0L;
+        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
         try {
             Class<?> c = object.getClass();
             // all annotated fields.
@@ -75,7 +77,7 @@ public final class AnnotationBinder {
                 c = c.getSuperclass();
             }
         } finally {
-            DebugHelper.printTime(LOG_TIME, "inject model for " + object.getClass().getName(), start);
+            stopwatch.elapsed("bind model for {}", object.getClass().getName());
         }
     }
 
