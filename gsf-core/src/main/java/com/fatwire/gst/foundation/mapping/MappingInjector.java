@@ -39,11 +39,12 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 /**
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
+ * @deprecated - class due for rewriting
  */
-public class MappingInjector {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.mapping.MappingInjector");
+public final class MappingInjector {
+	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.mapping.MappingInjector");
 
-    public final static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
+    public static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
         if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
