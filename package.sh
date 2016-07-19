@@ -43,15 +43,20 @@ echo "  preparing"
 mvn -P '!samples' site >/tmp/mvn-gsf.out
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 mkdir -p "$tmpLocation"
-echo "  staging"
-mvn site:stage -P '!samples' > /dev/null
-
-
+echo "  staging site under $tmpLocation/site"
+mvn site:stage -P '!samples' -DstagingDirectory=$tmpLocation/site > /dev/null
+echo "  copying JAR files inside $tmpLocation/site/downloads"
+if [ ! -d $tmpLocation/site/downloads ] ;
+then
+	mkdir $tmpLocation/site/downloads
+fi
+cp gsf-core/target/gsf-core-$VERSION.jar $tmpLocation/site/downloads/
+cp gsf-legacy/target/gsf-legacy-$VERSION.jar $tmpLocation/site/downloads/
 
 echo "Assembling kit"
 echo "  adding site"
-mkdir -p "$tmpLocation/site"
-cp -R target/staging/* "$tmpLocation/site"
+#mkdir -p "$tmpLocation/site"
+#cp -R target/staging/* "$tmpLocation/site"
 echo "  adding build artifacts"
 cp -R gsf-core/target/gsf* "$tmpLocation"
 cp -R gsf-legacy/target/gsf* "$tmpLocation"
@@ -64,7 +69,6 @@ echo "  compressing"
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 archive=`pwd`/target/gsf-$VERSION
 (cd `dirname "$tmpLocation"` && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-*)
-if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 
 echo "GSF Packaging complete. Kits are ready for pick-up here:"
 echo "  ${archive}.tgz"
