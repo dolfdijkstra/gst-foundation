@@ -31,8 +31,8 @@ import com.fatwire.gst.foundation.mapping.MappingService;
 import com.fatwire.gst.foundation.navigation.AssetNode;
 import com.fatwire.gst.foundation.navigation.LightweightSitePlanNavService;
 import com.fatwire.gst.foundation.navigation.NavService;
-import com.fatwire.gst.foundation.time.LoggerStopwatch;
-import com.fatwire.gst.foundation.time.Stopwatch;
+import tools.gsf.time.LoggerStopwatch;
+import tools.gsf.time.Stopwatch;
 
 
 /**

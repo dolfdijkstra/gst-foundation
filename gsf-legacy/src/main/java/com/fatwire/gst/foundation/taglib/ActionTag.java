@@ -32,7 +32,7 @@ import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.AnnotationUtils;
 
 import com.fatwire.gst.foundation.controller.support.WebContextUtil;
-import com.fatwire.gst.foundation.time.Stopwatch;
+import tools.gsf.time.Stopwatch;
 
 /**
  * JSP tag that replaces the GsfRoot tag and adds Action support. If the action

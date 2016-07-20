@@ -24,8 +24,7 @@ import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 
 import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
-import com.fatwire.gst.foundation.time.LoggerStopwatch;
-import com.fatwire.gst.foundation.time.Stopwatch;
+import tools.gsf.time.Stopwatch;
 
 public class InjectingController extends BaseController {
 	

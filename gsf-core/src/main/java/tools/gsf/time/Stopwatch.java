@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.time;
+package tools.gsf.time;
 
 /**
  * Stateful stopwatch object used for measuring elapsed time. Can be used to record cumulative time as well as split times.
