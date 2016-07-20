@@ -19,6 +19,9 @@ import java.util.Collection;
 
 import junit.framework.TestCase;
 
+/**
+ * @deprecated 12c has native support for model maps
+ */
 public class ModelTest extends TestCase {
 
     public void testAddStringObject() {

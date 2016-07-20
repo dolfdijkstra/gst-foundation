@@ -18,7 +18,6 @@ package com.fatwire.gst.foundation.controller.action.support;
 
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.controller.action.Factory;
-import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
 import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
@@ -92,11 +91,6 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
     @ServiceProducer(cache = true)
     public TemplateAssetAccess createTemplateAssetAccess(final ICS ics) {
         return new TemplateAssetAccess(ics);
-    }
-
-    @ServiceProducer(cache = false)
-    public Model createModel(final ICS ics) {
-        return new Model();
     }
 
     @ServiceProducer(cache = true)

@@ -30,7 +30,8 @@ import java.util.Set;
  * 
  * <p>
  * This class is not thread-safe.
- * 
+ *
+ * @deprecated 12c has native support for model maps
  * @author Dolf Dijkstra
  * @since Apr 16, 2011
  */
