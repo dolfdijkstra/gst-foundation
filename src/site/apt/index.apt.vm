@@ -76,23 +76,45 @@ Download
 
 	For this transitional release, classes are shipped in 2 JAR files:
     
-	* gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slim) CORE of the GSF.    
+		* gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slim) CORE of the GSF.    
     
-	* gsf-legacy-<version>.jar: here you'll find the classes that have been deprecated and are planned for complete removal in future releases.
+		* gsf-legacy-<version>.jar: here you'll find the classes that have been deprecated and are planned for complete removal in future releases.
     
-	You can obtain the 2 JARs by either:
+	You can obtain both JARs by either:
     
-	* Checking out the GSF project from GitHub and building the JARs yourself (TO DO: add link GitHub repo here)
-    
-	... OR
-    
-	* Downloading the pre-compiled JARs -- NOTE: these may not include the latest codebase / bugfixes
+		* Checking out the GSF project from GitHub and building the JARs yourself
 	
-		Project Version = $projectVersionForAPTs
+			{{{https://github.com/dolfdijkstra/gst-foundation.git} https://github.com/dolfdijkstra/gst-foundation.git}}
     
-    	GSF CORE: {{{./downloads/gsf-core-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}
+		... OR
+    
+		* Downloading the pre-compiled JARs -- NOTE: these may not include the latest codebase / bugfixes
+	
+			Version $projectVersionForAPTs:
+    
+	    		GSF CORE: {{{./downloads/gsf-core-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}
+	    	
+	    		GSF LEGACY: {{{./downloads/gsf-legacy-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}
     	
-    	GSF LEGACY: {{{./downloads/gsf-legacy-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}
+    In addition to the 2 JAR files holding the compiled classes, you can get ahold of the actual source code and the corresponding JavaDocs by either:
+    
+		* Checking them out from GitHub (same URL as above),
+		
+		* Viewing them online on this website -- NOTE: these may not be the very latest
+		
+		... OR
+	    
+		* Downloading them -- NOTE: these may not be the very latest
+		
+			Version $projectVersionForAPTs:
+		
+		    	GSF CORE's Source Code: {{{./downloads/gsf-core-${projectVersionForAPTs}-sources.jar} gsf-core-${projectVersionForAPTs}-sources.jar}} 
+		    	
+		    	GSF CORE's JavaDoc: {{{./downloads/gsf-core-${projectVersionForAPTs}-javadoc.jar} gsf-core-${projectVersionForAPTs}-javadoc.jar}}
+		    	
+		    	GSF LEGACY's Source Code: {{{./downloads/gsf-legacy-${projectVersionForAPTs}-sources.jar} gsf-legacy-${projectVersionForAPTs}-sources.jar}} 
+		    	
+		    	GSF LEGACY's JavaDoc: {{{./downloads/gsf-legacy-${projectVersionForAPTs}-javadoc.jar} gsf-legacy-${projectVersionForAPTs}-javadoc.jar}}
 
 Requirements
 
