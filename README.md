@@ -16,66 +16,76 @@
 
 #GST Site Foundation Overview
 
-The GST Site Foundation accomplishes the following:
+The GSF aims at:
 
-1. Defines architectural and design standards for the foundation of a site
+	1.	Defining architectural and design standards for the foundation of a site
 
-2. Standardizes processes for business users
+	2.	Standardizing processes for business users
 
-3. Simplifies coding greatly, to the point where much can be provided in common libraries
+	3.	Simplifying coding greatly, to the point where much can be provided in common libraries
 
-4. Clearly defines extension points
+	4.	Clearly defining extension points   
 
-Documentation for the GST Foundation project is found on [Github Pages](http://dolfdijkstra.github.com/gst-foundation).
+At a high level, the GSF offers a non-rendering foundation which aims at providing the following primary benefits:
 
+	*	Is suitable for use "out of the box" for a large number of sites
 
-[The GST Site Foundation Document](./GST Site Foundation 1.0.3.pdf) defines a simple URL-management and request
-handling/request dispatching model that Content Server architects can easily extend and build upon. The initial
-emphasis is on a non-rendering foundation that at a high-level provides the following primary benefits:
+	*	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
 
-- Is suitable for use "out of the box" for a large number of sites
+	*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
 
-DEPRECATED - Introduces the notion of a web-referenceable asset, which is accessed via a common controller
+	*	Provides for managed alias assets pointing at other assets or external URLs
 
-DEPRECATED - Handles and dispatches requests quickly and efficiently
+	*	Can be cleanly extended to address custom client requirements
 
-DEPRECATED - Supports easily-constructed vanity URLs for any web-referenceable asset
+This release of the GSF, GSF-12, is considered to be a "transitional" one.
 
-- Standardizes usage of the Page asset for navigation
+The main goal is providing the means for clients out there already using GSF to reuse as much of their existing
+code as possible when upgrading from WCS 11.x to WCS 12.x.
 
-DEPRECATED - Standardizes meta attributes
+GSF features that became partially or totally unnecessary due to WCS 12.x offering them natively have been either
+deprecated or wiped off the GSF-12's codebase.
 
-- Provides infrastructure for built-in 404 responses for assets as required
+Only those classes / components which are still valid and/or useful and/or expected to be building blocks for NEW
+features to be implemented in future releases of the GSF-12 have been either left untouched or adjusted specifically
+for WCS 12.x.
 
-DEPRECATED - Provides for managed alias assets that can represent any other URL
+This release acknowledges the small but mission-critical differences that sometimes exist amongst WCS implementations
+out there. In this regard, GSF-12's roadmap contemplates reengineering some of the core features in previous versions
+- such as the Navigation Service - so they can be tailored to address those small differences, painlessly.
 
-- Can be cleanly extended to address custom client requirements
+Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding
+in such enhancements into future versions of the GST Site Foundation.
 
-
-    <DEPRECATED> Additionally, this foundation addresses problems that many sites face: addressability of assets by editors, and
-    acknowledgement that the URL is more important than the content.  By giving each asset its own URL at the
-    discretion of the editor, both problems are solved.
-
-    This model is appropriate for many different solution designs. However there may be some site requirements which
-    would make the patterns and conventions of this approach less suitable.  A checklist is included that helps an
-    architect to determine if this rendering model is the best approach for the project at hand.</DEPRECATED>
-
-    The Global Site Foundation is initiated in 2010 by Tony Field, Dolf Dijkstra, Michael Sullivan 
-    and Suzanne Bourdeaux.
-
-    Developers and Architects are encouraged to build upon and extend this framework with the long-term goal 
-    of folding in such enhancements into future versions of the GST Site Foundation.
-
-    August, 2011, The Global Solutions Team
+July, 2016
 
 ##Documentation
 
-Documentation for the GST Foundation project is found on [Github Pages](http://dolfdijkstra.github.com/gst-foundation).
+* {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
+
+* JavaDocs are included in this kit. Alternatively, you can get them from the GSF's website.
 
 ##Download
 
-<DEPRECATED>The 11.6.0 version of GSF that works with Sites 11gr1 BP1 is on [this repository](https://github.com/dolfdijkstra/mvn-repository/tree/master/releases/com/fatwire/gst/gst-foundation-core).<DEPRECATED>
- 
+For this transitional release, classes are shipped in 2 JAR files:
+
+	* gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slim) CORE of the GSF.    
+
+	* gsf-legacy-<version>.jar: here you'll find the classes that have been deprecated and are planned for complete removal in future releases.
+
+This kit includes both JAR files. 
+
+Alternatively, you can obtain them by either:
+
+	* Checking out the GSF project from GitHub and building the JARs yourself:
+
+		https://github.com/dolfdijkstra/gst-foundation.git
+
+	... or
+
+	* Downloading the pre-compiled JARs from the GSF's website:
+	
+		http://gst-foundation.org/	
 
 ##Support
 
