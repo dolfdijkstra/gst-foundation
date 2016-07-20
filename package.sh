@@ -5,7 +5,14 @@ VERSION=`python -c "from xml.dom.minidom import parse;dom = parse('pom.xml');pri
 echo "GST Site Foundation packager"
 echo "Building GSF version $VERSION"
 
+execLocation="$PWD"
+
 tmpLocation=/tmp/gsf-deploy/gsf-$VERSION
+
+siteLocation=$tmpLocation/site
+
+kitLocation=$tmpLocation/kit
+
 trap onexit ERR
 
 
@@ -16,9 +23,9 @@ function onexit() {
     echo "An error occured. In many case this is caused by missing artifacts from the local maven repository."
     echo "Try running"
     echo '(cd gsf-build-tools && mvn -q -Dmaven.test.skip=true install && cd .. && mvn install && mvn -P '\''!samples'\'' site)'
-    echo "mvn -o site:stage -P '!samples'" -DstagingDirectory=""$tmpLocation/site""
+    echo "mvn -o site:stage -P '!samples'" -DstagingDirectory=""$siteLocation""
     echo "and then try to run package.sh again."
-    echo "the output of the failed build is propably in /tmp/mvn-gsf.out."
+    echo "the output of the failed build is propably in /tmp/gsf-deploy/mvn-gsf.out."
     exit $exit_status
 }
 
@@ -30,51 +37,102 @@ then
    # first install the build tools
    # then run install on the whole kit to force-download all dependencies (even ones not caught by dependency:go-offline)
    (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd ..)
-   mvn -q install >/tmp/mvn-gsf.out
+   mvn -q install >/tmp/gsf-deploy/mvn-gsf.out
    echo "Finished initial build"
 fi
 
 echo "Downloading all artifacts"
-mvn -q dependency:go-offline >/tmp/mvn-gsf.out
+mvn -q dependency:go-offline >/tmp/gsf-deploy/mvn-gsf.out
+
 echo "Building jars"
-mvn -o clean install >/tmp/mvn-gsf.out
-echo "Building site"
-echo "  preparing"
-mvn -P '!samples' site >/tmp/mvn-gsf.out
+mvn -o clean install >/tmp/gsf-deploy/mvn-gsf.out
+
+echo "Clearing $tmpLocation"
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 mkdir -p "$tmpLocation"
-echo "  staging site under $tmpLocation/site"
-mvn site:stage -P '!samples' -DstagingDirectory=$tmpLocation/site > /dev/null
-echo "  copying JAR files inside $tmpLocation/site/downloads"
-if [ ! -d $tmpLocation/site/downloads ] ;
-then
-	mkdir $tmpLocation/site/downloads
-fi
-cp gsf-core/target/gsf-core-$VERSION.jar $tmpLocation/site/downloads/
-cp gsf-legacy/target/gsf-legacy-$VERSION.jar $tmpLocation/site/downloads/
-echo "  copying JavaDoc and Source Files inside $tmpLocation/site/downloads"
-cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $tmpLocation/site/downloads/
-cp gsf-core/target/gsf-core-$VERSION-sources.jar $tmpLocation/site/downloads/
-cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $tmpLocation/site/downloads/
-cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $tmpLocation/site/downloads/
 
+echo "Building site"
+
+echo "  preparing"
+mvn -P '!samples' site >/tmp/gsf-deploy/mvn-gsf.out
+
+echo "  staging site under $siteLocation"
+mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation > /dev/null
+
+echo "  initializing 'downloads' folder $siteLocation/downloads"
+if [ ! -d $siteLocation/downloads ] ;
+then
+	mkdir $siteLocation/downloads
+fi
+
+echo "  copying JAR files inside $siteLocation/downloads"
+cp gsf-core/target/gsf-core-$VERSION.jar $siteLocation/downloads/
+cp gsf-legacy/target/gsf-legacy-$VERSION.jar $siteLocation/downloads/
+
+echo "  copying JavaDoc and Source Files inside $siteLocation/downloads"
+cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $siteLocation/downloads/
+cp gsf-core/target/gsf-core-$VERSION-sources.jar $siteLocation/downloads/
+cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
+cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $siteLocation/downloads/
+
+echo "Adding license to $siteLocation"
+cp LICENSE "$siteLocation"
+
+echo "  compressing site"
+if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
+websiteArchive=`pwd`/target/gsf-$VERSION-website
+cd $tmpLocation
+tar -czf ${websiteArchive}.tgz site
+zip -q -r ${websiteArchive}.zip site
+
+echo "GSF's website is ready for pick-up here:"
+echo "  ${websiteArchive}.tgz"
+echo "  ${websiteArchive}.zip"
+echo
+
+cd $execLocation
+
+echo "Building kit"
+
+echo "  initializing 'kit' folder $kitLocation"
+if [ ! -d $kitLocation ] ;
+then
+        mkdir $kitLocation
+fi
+
+echo "  copying JAR files with compiled classes inside $kitLocation"
+cp gsf-core/target/gsf-core-$VERSION.jar $kitLocation
+cp gsf-legacy/target/gsf-legacy-$VERSION.jar $kitLocation
+
+echo "  copying JavaDoc and Source Files inside $kitLocation"
+cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $kitLocation
+cp gsf-core/target/gsf-core-$VERSION-sources.jar $kitLocation
+cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $kitLocation
+cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $kitLocation
+
+echo "  copying README.md inside $kitLocation"
+cp ./README.md $kitLocation
 
 #mkdir "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
-echo "  adding license"
-cp LICENSE "$tmpLocation"
-echo "  compressing"
+
+echo "Adding license to $kitLocation"
+cp LICENSE "$kitLocation"
+
+echo "  compressing kit"
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
-archive=`pwd`/target/gsf-$VERSION
-(cd `dirname "$tmpLocation"` && tar -czf ${archive}.tgz gsf-* && zip -q -r ${archive}.zip gsf-*)
+kitArchive=`pwd`/target/gsf-$VERSION-kit
+cd $tmpLocation
+tar -czf ${kitArchive}.tgz kit
+zip -q -r ${kitArchive}.zip kit
 
 echo "GSF Packaging complete. Kits are ready for pick-up here:"
-echo "  ${archive}.tgz"
-echo "  ${archive}.zip"
+echo "  ${kitArchive}.tgz"
+echo "  ${kitArchive}.zip"
 echo
 
-
+cd $execLocation
 
 
 # notes for GSF release engineer:
