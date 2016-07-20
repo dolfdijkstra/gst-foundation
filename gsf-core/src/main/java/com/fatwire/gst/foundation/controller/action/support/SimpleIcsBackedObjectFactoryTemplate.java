@@ -28,9 +28,9 @@ import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
-import com.fatwire.gst.foundation.navigation.AssetNode;
-import com.fatwire.gst.foundation.navigation.LightweightSitePlanNavService;
-import com.fatwire.gst.foundation.navigation.NavService;
+import tools.gsf.navigation.AssetNode;
+import tools.gsf.navigation.LightweightSitePlanNavService;
+import tools.gsf.navigation.NavService;
 import tools.gsf.time.LoggerStopwatch;
 import tools.gsf.time.Stopwatch;
 

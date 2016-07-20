@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.navigation;
+package tools.gsf.navigation;
 
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.data.AssetData;

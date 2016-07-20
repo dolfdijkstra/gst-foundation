@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.navigation.support;
+package tools.gsf.navigation.support;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,8 +39,8 @@ import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.facade.uri.TemplateUriBuilder;
-import com.fatwire.gst.foundation.navigation.NavigationNode;
-import com.fatwire.gst.foundation.navigation.NavigationService;
+import tools.gsf.navigation.NavigationNode;
+import tools.gsf.navigation.NavigationService;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
 
 /**

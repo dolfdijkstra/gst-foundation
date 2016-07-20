@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.navigation.support;
+package tools.gsf.navigation.support;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,8 +34,8 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
-import com.fatwire.gst.foundation.navigation.NavigationNode;
-import com.fatwire.gst.foundation.navigation.NavigationService;
+import tools.gsf.navigation.NavigationNode;
+import tools.gsf.navigation.NavigationService;
 
 /**
  * 
