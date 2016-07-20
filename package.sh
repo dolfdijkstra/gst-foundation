@@ -52,14 +52,13 @@ then
 fi
 cp gsf-core/target/gsf-core-$VERSION.jar $tmpLocation/site/downloads/
 cp gsf-legacy/target/gsf-legacy-$VERSION.jar $tmpLocation/site/downloads/
+echo "  copying JavaDoc and Source Files inside $tmpLocation/site/downloads"
+cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $tmpLocation/site/downloads/
+cp gsf-core/target/gsf-core-$VERSION-sources.jar $tmpLocation/site/downloads/
+cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $tmpLocation/site/downloads/
+cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $tmpLocation/site/downloads/
 
-echo "Assembling kit"
-echo "  adding site"
-#mkdir -p "$tmpLocation/site"
-#cp -R target/staging/* "$tmpLocation/site"
-echo "  adding build artifacts"
-cp -R gsf-core/target/gsf* "$tmpLocation"
-cp -R gsf-legacy/target/gsf* "$tmpLocation"
+
 #mkdir "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
