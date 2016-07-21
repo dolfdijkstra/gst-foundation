@@ -68,10 +68,26 @@ GSF-12 Overview
 
 	July, 2016.
 
+An Important Note on Backwards-Compatibility
+
+	One of the major changes introduced into the GSF codebase in version 12 (and up) is a brand new namespace for all classes and loggers.
+	
+	The new namespace is: <<tools.gsf>>.
+	
+	Starting the initial release of GSF-12:
+	
+		* Pre-existing classes will be progressively moved onto the LEGACY artifact.
+		
+		* New "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself) 
+	
+	As per the LEGACY artifact's semantic, the above implies "old" classes will enter the deprecation cycle, which ends up in permanent (physical) removal from the GSF's codebase / project in periods of 12 to 24 months.
+	
+	Therefore, you are strongly advised to start using the new namespace (e.g. packages / classnames). 
+
 Documentation
   
 	* {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
-	
+
 Download
 
 	For this transitional release, classes are shipped in 2 JAR files:
