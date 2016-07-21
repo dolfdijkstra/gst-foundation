@@ -18,6 +18,8 @@ package com.fatwire.gst.foundation.controller;
 import javax.servlet.ServletContext;
 
 import com.fatwire.assetapi.data.BaseController;
+import com.fatwire.gst.foundation.controller.action.Factory;
+import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 
@@ -33,7 +35,9 @@ public class InjectingController extends BaseController {
 		AppContext ctx = WebContextUtil.getWebAppContext(srvCtx);
 
 		Injector injector = ctx.getBean("Injector",Injector.class);
-		Stopwatch stopwatch = LoggerStopwatch.getInstance(); // todo: better DI here
+		FactoryProducer fp = ctx.getBean("FactoryProducer", FactoryProducer.class);
+		Factory factory = fp.getFactory(ics);
+		Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
 
 		stopwatch.start();
 

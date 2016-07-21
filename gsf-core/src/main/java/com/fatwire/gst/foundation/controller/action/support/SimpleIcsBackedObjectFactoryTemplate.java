@@ -110,9 +110,8 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
         return new LightweightSitePlanNavService(ics, dao);
     }
 
-
     @ServiceProducer(cache = false)
-    public Stopwatch createTimer(ICS ics) {
+    public Stopwatch createStopwatch(ICS ics) {
         return LoggerStopwatch.getInstance();
     }
 
