@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.httpstatus;
+package tools.gsf.httpstatus;
 
-import java.io.IOException;
-import java.util.Enumeration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,20 +28,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  * <p>
  * A response header filter sets the customer status headers from ContentServer.
  * </p>
- * 
- * 
- * @since 16 June 2009
+ *
  * @author Daniel Iversen, Ram Sabnavis, Dolf Dijkstra
- * @deprecated moved to new namespace
- * @see tools.gsf.httpstatus.HttpResponseStatusFilter
+ * @since 16 June 2009
  */
 public class HttpResponseStatusFilter implements Filter {
 
@@ -61,9 +57,9 @@ public class HttpResponseStatusFilter implements Filter {
      * This method performs the filtering process on the response headers to set
      * the custom headers in the response object and initiates the subsequent
      * filter chain
-     * 
-     * @param request Request object
-     * @param response Response Object
+     *
+     * @param request     Request object
+     * @param response    Response Object
      * @param filterChain FilterChain Object
      * @throws IOException , ServletException
      */
@@ -77,7 +73,7 @@ public class HttpResponseStatusFilter implements Filter {
             printRequestHeaders(request);
         }
 
-        final HttpServletResponseWrapper wrapper = new StatusFilterHttpResponseWrapper(httpResponse, sendError);
+        final HttpServletResponseWrapper wrapper = new HttpStatusFilterResponseWrapper(httpResponse, sendError);
 
         filterChain.doFilter(request, wrapper);
 
@@ -86,7 +82,7 @@ public class HttpResponseStatusFilter implements Filter {
     private void printRequestHeaders(final ServletRequest request) {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        for (Enumeration<?> en = httpRequest.getHeaderNames(); en.hasMoreElements();) {
+        for (Enumeration<?> en = httpRequest.getHeaderNames(); en.hasMoreElements(); ) {
             String headername = (String) en.nextElement();
             log.debug(headername + ": " + httpRequest.getHeader(headername));
         }
@@ -95,7 +91,7 @@ public class HttpResponseStatusFilter implements Filter {
     /**
      * This method is called by application server at the startup and
      * initializes the FilterConfig object
-     * 
+     *
      * @param filterConf FilterConfig object
      * @throws ServletException exception from servlet
      */

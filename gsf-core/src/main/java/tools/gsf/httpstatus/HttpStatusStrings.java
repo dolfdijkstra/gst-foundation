@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.httpstatus;
+package tools.gsf.httpstatus;
 
-/**
- * @deprecated - moved to new namespace
- * @see tools.gsf.httpstatus.HttpStatusStrings
- */
 public class HttpStatusStrings {
     public static final String X_FATWIRE_STATUS = "X-Fatwire-Status";
     public static final String X_FATWIRE_HEADER = "X-Fatwire-Header";

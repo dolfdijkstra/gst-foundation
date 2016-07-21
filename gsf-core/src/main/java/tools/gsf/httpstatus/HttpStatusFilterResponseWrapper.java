@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.httpstatus;
-
-import static com.fatwire.gst.foundation.httpstatus.HttpStatusStrings.X_FATWIRE_HEADER;
-import static com.fatwire.gst.foundation.httpstatus.HttpStatusStrings.X_FATWIRE_STATUS;
-
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+package tools.gsf.httpstatus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
+import java.io.IOException;
+
+import static tools.gsf.httpstatus.HttpStatusStrings.X_FATWIRE_HEADER;
+import static tools.gsf.httpstatus.HttpStatusStrings.X_FATWIRE_STATUS;
 
 /**
  * <p>
@@ -34,16 +33,13 @@ import org.slf4j.LoggerFactory;
  * ics.StreamHeader("X-Fatwire-Status","404") to set the response status for
  * Satellite Server to 404.
  * </p>
- * 
- * 
- * @version 15 June 2009
+ *
  * @author Dolf Dijkstra
- * @deprecated - moved to new namespace
- * @see tools.gsf.httpstatus.HttpStatusFilterResponseWrapper
+ * @version 15 June 2009
  */
-public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper {
+public class HttpStatusFilterResponseWrapper extends HttpServletResponseWrapper {
 
-    private static Logger log = LoggerFactory.getLogger("tools.gsf.httpstatus.StatusFilterHttpResponseWrapper");
+    private static Logger log = LoggerFactory.getLogger("tools.gsf.httpstatus.HttpStatusFilterResponseWrapper");
 
     private int status = -1;
 
@@ -51,11 +47,11 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
 
     /**
      * Class constructor instantiating the response object
-     * 
+     *
      * @param origResponse servlet response
-     * @param sendError flag to send an error
+     * @param sendError    flag to send an error
      */
-    public StatusFilterHttpResponseWrapper(HttpServletResponse origResponse, boolean sendError) {
+    public HttpStatusFilterResponseWrapper(HttpServletResponse origResponse, boolean sendError) {
         super(origResponse);
         this.sendError = sendError;
 
@@ -67,8 +63,8 @@ public class StatusFilterHttpResponseWrapper extends HttpServletResponseWrapper 
      * (ContentServer). If the environment is SS (Satellite Server) then the
      * custom header information supplied as "X-FatWire-Header" and
      * "X-FatWire-Status" is parsed and set in the response header accordingly
-     * 
-     * @param hdrName Response header name
+     *
+     * @param hdrName  Response header name
      * @param hdrValue Response header value
      */
     public void setHeader(String hdrName, String hdrValue) {
