@@ -30,6 +30,7 @@ import COM.FutureTense.Interfaces.ICS;
  * 
  * @author Dolf Dijkstra
  * @since Mar 21, 2011
+ * @deprecated - WCS 12c supports its own native controller infrastructure
  */
 public class ControllerMappingResolver {
 

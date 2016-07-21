@@ -24,6 +24,9 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.gst.foundation.test.MockICS;
 
+/**
+ * @deprecated - WCS 12c supports its own native controller infrastructure
+ */
 public class ControllerMappingResolverTest extends TestCase {
 
     static class Foo {

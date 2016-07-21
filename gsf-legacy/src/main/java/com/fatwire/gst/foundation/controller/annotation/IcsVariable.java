@@ -27,6 +27,7 @@ import java.lang.annotation.Target;
  * 
  * @author Dolf Dijkstra
  * @since Mar 21, 2011
+ * @deprecated - WCS 12c supports its own native controller infrastructure
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
