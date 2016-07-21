@@ -36,7 +36,7 @@ import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.include.IncludeService;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
-import tools.gsf.navigation.NavigationService;
+import com.fatwire.gst.foundation.wra.navigation.NavigationService;
 import com.fatwire.gst.foundation.properties.AssetApiPropertyDao;
 import com.fatwire.gst.foundation.properties.PropertyDao;
 import com.fatwire.gst.foundation.url.WraPathTranslationService;

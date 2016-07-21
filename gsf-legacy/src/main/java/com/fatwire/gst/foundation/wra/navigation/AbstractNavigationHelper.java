@@ -28,8 +28,6 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.site.SiteInfo;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
-import tools.gsf.navigation.NavigationNode;
-import tools.gsf.navigation.NavigationService;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.AssetApiAliasCoreFieldDao;
