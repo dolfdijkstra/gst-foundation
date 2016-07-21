@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.properties;
+package tools.gsf.properties;
 
 import com.fatwire.assetapi.data.AssetId;
 
@@ -22,8 +22,6 @@ import com.fatwire.assetapi.data.AssetId;
  *
  * @author Tony Field
  * @since 2011-09-02
- * @deprecated - moved to new namespace
- * @see tools.gsf.properties.Property
  */
 public interface Property {
     /**

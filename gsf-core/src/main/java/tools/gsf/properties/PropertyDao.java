@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.properties;
+package tools.gsf.properties;
 
 import java.util.Collection;
 
@@ -21,9 +21,7 @@ import java.util.Collection;
  * Utility to retrieve properties
  *
  * @author Tony Field
- * @since 11-09-02
- * @deprecated - moved to new namespace
- * @see tools.gsf.properties.PropertyDao
+ * @since 2011-09-02
  */
 public interface PropertyDao {
     Property getProperty(String name);
