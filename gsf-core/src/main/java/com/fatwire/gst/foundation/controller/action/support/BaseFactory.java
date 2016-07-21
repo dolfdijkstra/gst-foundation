@@ -15,6 +15,13 @@
  */
 package com.fatwire.gst.foundation.controller.action.support;
 
+import COM.FutureTense.Interfaces.ICS;
+import com.fatwire.gst.foundation.controller.action.Factory;
+import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,17 +29,6 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.gst.foundation.controller.action.Factory;
-import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
-
 
 /**
  * Factory making use to reflection ({@link #reflectionStrategy(String, Class)}
@@ -42,7 +38,6 @@ import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
  * Effectively this means the lifetime of the ICS object.
  * 
  * @author Dolf Dijkstra
- * 
  */
 public abstract class BaseFactory implements Factory {
 
@@ -50,13 +45,12 @@ public abstract class BaseFactory implements Factory {
 
     protected final ICS ics;
 
-    private final Map<String, Object> objectCache = new HashMap<String, Object>();
-    private Factory[] roots = new Factory[0];;
+    private final Map<String, Object> objectCache = new HashMap<>();
+    private Factory[] roots = new Factory[0];
 
     public BaseFactory(ICS ics) {
         super();
         this.ics = ics;
-
     }
 
     public BaseFactory(ICS ics, Factory... roots) {
@@ -77,10 +71,8 @@ public abstract class BaseFactory implements Factory {
                     o = root.getObject(name, fieldType);
                     if (o != null)
                         return o;
-
                 }
-                // only try ctor at the root level, otherwise
-                // it will be invoked on each BaseFactory
+                // only try ctor at the root level, otherwise it will be invoked on each BaseFactory
                 if (roots.length == 0)
                     o = ctorStrategy(name, fieldType);
             }
@@ -108,28 +100,30 @@ public abstract class BaseFactory implements Factory {
             throw new IllegalArgumentException("Arrays are not supported");
         }
         final String name = StringUtils.isNotBlank(askedName) ? askedName : c.getSimpleName();
-
         if (StringUtils.isBlank(name)) {
-            return null;
+            return null; // should not be possible - c would have to be anonymous.
         }
 
-        Object o = objectCache.get(name);
-        if (o != null && !c.isAssignableFrom(o.getClass()))
-            throw new IllegalStateException("Name conflict: '" + name + "' is in cache and is of type  '"
-                    + o.getClass() + "' but a '" + c.getName()
-                    + "' was asked for. Please check your factories for naming conflicts.");
+        Object o = locateInCache(c, name);
         if (o == null) {
             o = namedAnnotationStrategy(name, c);
         }
         if (o == null) {
             o = unnamedAnnotationStrategy(name, c);
         }
-
         if (o == null) {
             o = reflectionStrategy(name, c);
         }
-
         return (T) o;
+    }
+
+    private <T> Object locateInCache(Class<T> c, String name) {
+        Object o = objectCache.get(name);
+        if (o != null && !c.isAssignableFrom(o.getClass()))
+            throw new IllegalStateException("Name conflict: '" + name + "' is in cache and is of type  '"
+                    + o.getClass() + "' but a '" + c.getName()
+                    + "' was asked for. Please check your factories for naming conflicts.");
+        return o;
     }
 
     /**
@@ -167,7 +161,6 @@ public abstract class BaseFactory implements Factory {
                         }
                     }
                 }
-
             }
         }
         return null;
@@ -195,7 +188,6 @@ public abstract class BaseFactory implements Factory {
                         }
                     }
                 }
-
             }
         }
         return null;
@@ -248,20 +240,15 @@ public abstract class BaseFactory implements Factory {
     @SuppressWarnings("unchecked")
     protected <T> T createFromMethod(String name, Class<T> c, Method m) throws InvocationTargetException {
         Object o = null;
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("trying to create a " + c.getName() + " object with name " + name + "  from method "
-                    + m.toGenericString());
-        }
+        LOG.trace("trying to create a {} object with name {} from method {}", c.getName(), name, m.toGenericString());
 
         if (c.isAssignableFrom(m.getReturnType())) {
             Object from = null;
 
             if (!Modifier.isStatic(m.getModifiers())) {
                 Class<?> reflectionClass = m.getDeclaringClass();
-
                 if (reflectionClass.isAssignableFrom(getClass())) {
-                    from = this; // TODO will this clash if this class and
-                                 // declared class have same parent class?
+                    from = this; // TODO will this clash if this class and declared class have same parent class?
                 } else {
                     Constructor<?> ctor;
 
@@ -279,16 +266,14 @@ public abstract class BaseFactory implements Factory {
                     } catch (InstantiationException e) {
                         LOG.error(e.getMessage());
                     } catch (IllegalArgumentException e) {
-                        LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", "
-                                + e.getMessage());
+                        LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", " + e.getMessage());
                     } catch (IllegalAccessException e) {
-                        LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString() + ", "
-                                + e.getMessage());
+                        LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString() + ", " + e.getMessage());
                     }
                 }
-
             }
-            if (m.getParameterTypes().length == 2 && m.getParameterTypes()[0].isAssignableFrom(ICS.class)
+            if (m.getParameterTypes().length == 2
+                    && m.getParameterTypes()[0].isAssignableFrom(ICS.class)
                     && m.getParameterTypes()[1].isAssignableFrom(Factory.class)) {
                 o = invokeCreateMethod(m, from, name, ics, this);
             } else if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0].isAssignableFrom(ICS.class)) {
@@ -298,7 +283,6 @@ public abstract class BaseFactory implements Factory {
             }
             if (shouldCache(m))
                 objectCache.put(name, o);
-
         }
         return (T) o;
     }
@@ -311,14 +295,13 @@ public abstract class BaseFactory implements Factory {
      * @return object from invoked method
      * @throws InvocationTargetException exception from invocation
      */
-    protected Object invokeCreateMethod(Method m, Object from, String name, Object... arguments)
-            throws InvocationTargetException {
+    protected Object invokeCreateMethod(Method m, Object from, String name, Object... arguments) throws InvocationTargetException {
         try {
             return m.invoke(from, arguments);
         } catch (IllegalArgumentException e) {
-            LOG.error("Huh, Can't happen, the arguments are checked: " + m.toString() + ", " + e.getMessage());
+            LOG.error("Huh, can't happen, the arguments are checked: {}, {}", m.toString(), e.getMessage());
         } catch (IllegalAccessException e) {
-            LOG.error("Huh, Can't happen, the modifier is checked for public: " + m.toString() + ", " + e.getMessage());
+            LOG.error("Huh, can't happen, the modifier is checked for public: {}, {}", m.toString(), e.getMessage());
         }
         return null;
     }
@@ -326,8 +309,8 @@ public abstract class BaseFactory implements Factory {
     protected boolean shouldCache(Method m) {
         boolean r = false;
         if (m.isAnnotationPresent(ServiceProducer.class)) {
-            ServiceProducer annon = m.getAnnotation(ServiceProducer.class);
-            r = annon.cache();
+            ServiceProducer ann = m.getAnnotation(ServiceProducer.class);
+            r = ann.cache();
         }
         return r;
     }
@@ -357,25 +340,17 @@ public abstract class BaseFactory implements Factory {
         T o = null;
         try {
             if (c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
-                if (LOG.isDebugEnabled())
-                    LOG.debug("Could not create  a " + c.getName() + " via a Template method. The class '"
-                            + c.getName()
-                            + "' is an interface or abstract class, giving up as a class cannot be constructed.");
+                LOG.debug("Could not create a {} via a Template method. The class {} is an interface or abstract class. Giving up as a class cannot be constructed", c.getName(), c.getName());
                 return null;
             }
-
-            if (LOG.isDebugEnabled())
-                LOG.debug("Could not create  a " + c.getName() + " via a Template method, trying via constructor.");
+            LOG.debug("Could not create a {} via a Template method. Trying via constructor.", c.getName());
             final Constructor<T> constr = c.getConstructor(ICS.class);
             o = constr.newInstance(ics);
-        } catch (final NoSuchMethodException e1) {
-            LOG.debug("Could not create  a " + c.getName() + " via a constructor method.");
-        } catch (IllegalArgumentException e) {
-            LOG.debug("Could not create  a " + c.getName() + " via a constructor method.");
-        } catch (InstantiationException e) {
-            LOG.debug("Could not create  a " + c.getName() + " via a constructor method.");
-        } catch (IllegalAccessException e) {
-            LOG.debug("Could not create  a " + c.getName() + " via a constructor method.");
+        } catch (final NoSuchMethodException
+                |IllegalArgumentException
+                |InstantiationException
+                |IllegalAccessException e1) {
+            LOG.debug("Could not create a {} via a constructor method.", c.getName());
         }
         return o;
     }
@@ -389,5 +364,4 @@ public abstract class BaseFactory implements Factory {
     public String toString() {
         return "BaseFactory [roots=" + Arrays.toString(roots) + "]";
     }
-
 }
