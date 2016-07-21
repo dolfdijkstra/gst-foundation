@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation;
+package tools.gsf.runtime;
 
 import COM.FutureTense.Util.ftErrors;
 
 /**
  * Generic Content Server exception that knows about errno.
- * 
+ *
  * @author Dolf Dijkstra
  * @author Tony Field
  * @since 10-Jun-2008
- * @deprecated moved to new namespace
- * @see tools.gsf.runtime.CSRuntimeException
  */
 public class CSRuntimeException extends RuntimeException {
-    private static final long serialVersionUID = 4188899178173205442L;
+    private static final long serialVersionUID = 4188899178173205443L;
     private final int errno;
     private final ftErrors complexError;
 
@@ -80,7 +78,7 @@ public class CSRuntimeException extends RuntimeException {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Throwable#getMessage()
      */
     @Override

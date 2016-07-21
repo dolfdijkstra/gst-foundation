@@ -14,23 +14,9 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package tools.gsf.runtime;
 
 import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
@@ -42,18 +28,27 @@ import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeDefProperties;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
 import com.fatwire.mda.Dimension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * Various helper methods for debugging.
- * 
+ *
  * @author Dolf Dijkstra
- * @deprecated - moved to new namespace
- * @see tools.gsf.runtime.DebugHelper
  */
 public final class DebugHelper {
 
-    //public static final String TIME_LOGGER = DebugHelper.class.getPackage().getName() + ".debug.time";
     protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.DebugHelper.debug");
     private static final Logger LOG_TIME = LoggerFactory.getLogger("tools.gsf.DebugHelper.debug.time");
 
@@ -67,7 +62,7 @@ public final class DebugHelper {
     @SuppressWarnings("unchecked")
     public static void dumpVars(final ICS ics, final Logger log) {
         if (log.isDebugEnabled()) {
-            for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements();) {
+            for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements(); ) {
                 final String n = e.nextElement();
                 log.debug("ICS variable: " + n + "=" + ics.GetVar(n));
             }
@@ -77,7 +72,7 @@ public final class DebugHelper {
     @SuppressWarnings("unchecked")
     public static void dumpVars(final ICS ics, final PrintWriter pw) {
 
-        for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements();) {
+        for (final Enumeration<String> e = ics.GetVars(); e.hasMoreElements(); ) {
             final String n = e.nextElement();
             pw.println("ICS variable: " + n + "=" + ics.GetVar(n));
         }
@@ -87,7 +82,7 @@ public final class DebugHelper {
     @SuppressWarnings("unchecked")
     public static void dumpSSVars(final ICS ics, final PrintWriter pw) {
 
-        for (final Enumeration<String> e = ics.GetSSVars(); e.hasMoreElements();) {
+        for (final Enumeration<String> e = ics.GetSSVars(); e.hasMoreElements(); ) {
             final String n = e.nextElement();
             pw.println("session variable: " + n + "=" + ics.GetSSVar(n));
         }
@@ -96,8 +91,7 @@ public final class DebugHelper {
 
     /**
      * Retrieves the root exception of a <code>Throwable</code>.
-     * 
-     * 
+     *
      * @param e the exception with nested exceptions (causes)
      * @return the root cause
      */
@@ -113,10 +107,9 @@ public final class DebugHelper {
     }
 
     /**
-     * 
      * Converts an elapsed time in micro seconds to a human readable string with
      * seconds and milliseconds precision on larger elapsed times.
-     * 
+     *
      * @param elapsed the elapsed time in micro seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
@@ -135,11 +128,10 @@ public final class DebugHelper {
     }
 
     /**
-     * 
      * Converts an elapsed time in nano seconds to a human readable string with
      * microseconds, seconds and milliseconds precision on larger elapsed times.
      * Precision is dropped to microseconds precision.
-     * 
+     *
      * @param elapsed the elapsed time in nano seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
@@ -160,10 +152,9 @@ public final class DebugHelper {
     }
 
     /**
-     * 
      * Converts an elapsed time in milli seconds to a human readable string with
      * minutes and seconds precision on larger elapsed times.
-     * 
+     *
      * @param elapsed the elapsed time in nano seconds (us)
      * @return A human readable string for the elapsed micro seconds
      */
@@ -175,12 +166,12 @@ public final class DebugHelper {
     /**
      * Print the elapsed time between the <tt>start</tt> and <tt>end</tt> to the
      * provided logger in a human readable form.
-     * 
-     * @param log The logger where the message will be printed to.
-     * @param msg The message as an indicator of the operation that was
-     *            monitored.
+     *
+     * @param log   The logger where the message will be printed to.
+     * @param msg   The message as an indicator of the operation that was
+     *              monitored.
      * @param start time in nanoseconds {@link System#nanoTime()}
-     * @param end time in nanoseconds {@link System#nanoTime()}
+     * @param end   time in nanoseconds {@link System#nanoTime()}
      * @see DebugHelper#microToHuman(long)
      */
 
@@ -193,12 +184,11 @@ public final class DebugHelper {
     }
 
     /**
-     * 
      * Print the elapsed time since the <tt>start</tt> to the provided Log.
-     * 
-     * @param log The logger where the message will be printed to.
-     * @param msg The message as an indicator of the operation that was
-     *            monitored.
+     *
+     * @param log   The logger where the message will be printed to.
+     * @param msg   The message as an indicator of the operation that was
+     *              monitored.
      * @param start time in nanoseconds {@link System#nanoTime()}
      * @see DebugHelper#microToHuman(long)
      */
@@ -212,13 +202,11 @@ public final class DebugHelper {
     /**
      * Print the elapsed time since the <tt>start</tt> to the default time
      * logger {@link DebugHelper#LOG_TIME}.
-     * 
-     * 
-     * @param msg The message as an indicator of the operation that was
-     *            monitored.
+     *
+     * @param msg   The message as an indicator of the operation that was
+     *              monitored.
      * @param start time in nanoseconds {@link System#nanoTime()}
      * @see DebugHelper#microToHuman(long)
-     * 
      */
     public static void printTime(final String msg, final long start) {
         if (start > 0) {
@@ -228,7 +216,7 @@ public final class DebugHelper {
 
     /**
      * Print the AssetData to a string for debugging purposes.
-     * 
+     *
      * @param ad the asset date
      * @return String with asset attributes etc
      * @throws AssetAccessException asset access exception
@@ -360,7 +348,7 @@ public final class DebugHelper {
     /**
      * Returns the assetid in as a human readable string in the format of
      * type:id.
-     * 
+     *
      * @param assetId the asset id.
      * @return a String concatenated with type and id.
      */
@@ -370,7 +358,7 @@ public final class DebugHelper {
 
     /**
      * Creates a String from the Throwable.
-     * 
+     *
      * @param t the throwable to print.
      * @return a string with the message and the stacktrace.
      */
@@ -388,9 +376,9 @@ public final class DebugHelper {
 
     /**
      * Prints the StackTrace of the Throwable to the Writer.
-     * 
+     *
      * @param writer writer to write to.
-     * @param t the Throwable to print the stacktrace of.
+     * @param t      the Throwable to print the stacktrace of.
      */
     public static void printStackTrace(final Writer writer, final Throwable t) {
         if (writer instanceof PrintWriter) {
@@ -405,7 +393,7 @@ public final class DebugHelper {
     /**
      * Dumps to current ICS state (Content Server variables, session
      * variables,ICS objects,elementname,page url and stacktrace) as a String.
-     * 
+     *
      * @param ics Content Server context object
      * @return the state of ICS.
      */
@@ -438,18 +426,18 @@ public final class DebugHelper {
 
     @SuppressWarnings("unchecked")
     private static void dumpAttributes(final ICS ics, final PrintWriter pw) {
-        for (final Enumeration<String> e = ics.getAttributeNames(); e.hasMoreElements();) {
+        for (final Enumeration<String> e = ics.getAttributeNames(); e.hasMoreElements(); ) {
             final String n = e.nextElement();
             pw.println("request attribute: " + n + "=" + ics.getAttribute(n));
         }
 
     }
 
-    @SuppressWarnings({"deprecation" })
+    @SuppressWarnings({"deprecation"})
     private static void dumpHttpHeaders(final ICS ics, final PrintWriter pw) {
 
         try {
-            for (Enumeration<String> e = ics.getIServlet().getServletRequest().getHeaderNames(); e.hasMoreElements();) {
+            for (Enumeration<String> e = ics.getIServlet().getServletRequest().getHeaderNames(); e.hasMoreElements(); ) {
                 String n = e.nextElement();
                 pw.println("http header: " + n + "=" + ics.ResolveVariables("CS.Header." + n));
             }
@@ -459,15 +447,15 @@ public final class DebugHelper {
     }
 
     private static void dumpCgiVars(final ICS ics, final PrintWriter pw) {
-        String[] headers = { "CS.Browser", "CS.HTTPS", "CS.PATH_INFO", "CS.QUERY_STRING", "CS.REMOTE_ADDR",
-                "CS.REMOTE_HOST", "CS.REQUEST_METHOD", "CS.SERVER_NAME", "CS.SERVER_PORT", "CS.SERVER_PROTOCOL" };
+        String[] headers = {"CS.Browser", "CS.HTTPS", "CS.PATH_INFO", "CS.QUERY_STRING", "CS.REMOTE_ADDR",
+                "CS.REMOTE_HOST", "CS.REQUEST_METHOD", "CS.SERVER_NAME", "CS.SERVER_PORT", "CS.SERVER_PROTOCOL"};
         for (String n : headers) {
             pw.println("cgi var: " + n + "=" + ics.ResolveVariables(n));
         }
     }
 
     @SuppressWarnings("unused")
-	private String printClassOrder(Class<?> c) {
+    private String printClassOrder(Class<?> c) {
         StringBuilder b = new StringBuilder();
         b.append("class " + c.getName());
 
