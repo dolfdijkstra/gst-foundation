@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.url;
+package tools.gsf.url;
 
 import com.fatwire.cs.core.uri.Assembler;
 import com.fatwire.cs.core.uri.Util;
@@ -31,11 +31,9 @@ import java.util.*;
  * logger, handles encoding and decoding and query string processing. Much
  * lighter in weight than <code>com.fatwire.cs.core.uri.AbstractAssembler</code>
  * .
- * 
+ *
  * @author Tony Field
  * @since Sep 27, 2008
- * @deprecated moved to new namespace
- * @see tools.gsf.url.LightweightAbstractAssembler
  */
 public abstract class LightweightAbstractAssembler implements Assembler {
     /**
@@ -91,7 +89,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
     /**
      * Convenience method to get a property value set into the assembler from
      * the configuration files.
-     * 
+     *
      * @param name name of property to import
      * @param dephault default value of property - returned if the property
      *            value is not specified
@@ -107,7 +105,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
 
     /**
      * URLEncodes a string using the encoding specified by this class.
-     * 
+     *
      * @param string the string to encode
      * @return encoded string
      * @throws IllegalStateException if UTF-8 encoding is not supported and the
@@ -131,7 +129,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
 
     /**
      * URLDecodes a string using the encoding specified by this class.
-     * 
+     *
      * @param string encoded string
      * @return decoded string
      * @throws IllegalStateException if UTF-8 encoding is not supported and the
@@ -145,7 +143,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
 
     /**
      * URLDecodes a string using the encoding specified.
-     * 
+     *
      * @param string encoded string
      * @param encoding the encoding to use to decode the string. If null is
      *            specified, the decoding specified by this class shall be used.
@@ -191,7 +189,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * a valid URL. Consult the URI specificaiton for what is allowed and what
      * is not. The URI constructor will throw a URISyntaxException if required
      * components are missing for a given combination.
-     * 
+     *
      * @param scheme the URI scheme (protocol)
      * @param authority the URI authority (host:port)
      * @param path the path for the URI (servlet context path, servlet name,
@@ -203,7 +201,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * @throws URISyntaxException if there is a problem with what is passed in
      */
     protected static final URI constructURI(final String scheme, final String authority, final String path,
-            final String quotedQueryString, final String fragment) throws URISyntaxException {
+                                            final String quotedQueryString, final String fragment) throws URISyntaxException {
         // Update, Feb 25, 2005 by Tony Field
         StringBuilder bf = new StringBuilder();
         if (scheme != null) {
@@ -211,7 +209,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
         }
         if (authority != null) {
             bf.append("//").append(authority); // nothing legal to quote until
-                                               // I18N URLs work
+            // I18N URLs work
         }
         // Path needs quoting though, so let the URI object do it for us.
         // Use the toASCIIString() method because we need the quoted values.
@@ -249,7 +247,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * <p>
      * This decoding method is smart enough to be able to interpret the
      * <code>_charset_</code> URL parameter that is often used by IE.
-     * 
+     *
      * @param qry string value for query
      * @return map containing <code>String</code>/<code>String[]</code> pairs.
      * @throws IllegalArgumentException if there are mistakes in the string that
@@ -332,7 +330,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
                             "Somehow an empty _charst_ param made it into our map. Impossible...");
                 case 1:
                     encoding = _charset_[0]; // url contains an override for the
-                                             // spec
+                    // spec
                     break;
                 default:
                     throw new IllegalStateException("Too many values of _charset_ found in the URL");
@@ -367,7 +365,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * Given an input map of name-value pairs, construct a query string. This
      * supports multiple values for any given parameter. Names and values are
      * properly encoded.
-     * 
+     *
      * @param parameters parameters to encode and place in the query string
      * @return the query string, or null if no values needed to be added.
      * @see #encode(String)
@@ -412,7 +410,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * Given an array of query-string-like packed arguments, eliminate the
      * specified parameters and return the packedargs parameter with the values
      * stripped.
-     * 
+     *
      * @param origPackedargsStrings array of query string-like packed args.
      * @param toExclude list of args to remove from the packed args.
      * @return array the same length as the original array, containing the same
