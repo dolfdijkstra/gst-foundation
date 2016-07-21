@@ -15,7 +15,6 @@
  */
 package tools.gsf.config;
 
-import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

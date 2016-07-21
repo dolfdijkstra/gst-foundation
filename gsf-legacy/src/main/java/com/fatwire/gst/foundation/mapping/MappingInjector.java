@@ -15,26 +15,23 @@
  */
 package com.fatwire.gst.foundation.mapping;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
-import tools.gsf.time.LoggerStopwatch;
-import tools.gsf.time.Stopwatch;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import COM.FutureTense.Util.ftErrors;
-
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.AnnotationInjector;
-import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.annotation.Mapping;
 import com.fatwire.gst.foundation.controller.annotation.Mapping.Match;
 import com.fatwire.gst.foundation.mapping.MappingValue.Type;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tools.gsf.config.Factory;
+import tools.gsf.time.Stopwatch;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 /**
  * @author Dolf Dijkstra
@@ -42,7 +39,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * @deprecated - class due for rewriting
  */
 public final class MappingInjector {
-	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.mapping.MappingInjector");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.mapping.MappingInjector");
 
     public static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
         if (object == null) {
@@ -51,7 +48,7 @@ public final class MappingInjector {
         if (factory == null) {
             throw new IllegalArgumentException("factory cannot be null.");
         }
-        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
+        Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
         try {
             final Field[] fields = AnnotationInjector.findFieldsWithAnnotation(object, Mapping.class);
 
@@ -72,7 +69,7 @@ public final class MappingInjector {
     }
 
     private static void injectIntoField(final Object object, final Map<String, MappingValue> map, final Field field,
-            final AssetIdWithSite id) throws SecurityException {
+                                        final AssetIdWithSite id) throws SecurityException {
 
         final Mapping ifr = field.getAnnotation(Mapping.class);
 

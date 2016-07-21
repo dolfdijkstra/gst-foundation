@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2016 Function1. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,39 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.fatwire.gst.foundation.controller.action;
+package tools.gsf.config;
 
 /**
+ * Interface for a object factory. This factory is used by the
+ * AnnotationInjector.
+ *
  * @author Dolf Dijkstra
- * @since 12 jun. 2012
- * 
+ * @since Mar 26, 2011
  */
-public class InjectionException extends RuntimeException {
+public interface Factory {
 
-    public InjectionException() {
-        super();
-
-    }
-
-    public InjectionException(String message, Throwable cause) {
-        super(message, cause);
-
-    }
-
-    public InjectionException(String message) {
-        super(message);
-
-    }
-
-    public InjectionException(Throwable cause) {
-        super(cause);
-
-    }
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+    <T> T getObject(String name, Class<T> type);
 
 }

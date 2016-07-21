@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Oracle Corporation. All Rights Reserved.
+ * Copyright 2016 Function1. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller.action.support;
+package tools.gsf.config;
 
 import COM.FutureTense.Interfaces.ICS;
-import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.annotation.ServiceProducer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -32,32 +31,27 @@ import java.util.Map;
 
 /**
  * Factory making use to reflection ({@link #reflectionStrategy(String, Class)}
- * and {@link #ctorStrategy(String, Class)}) to produce objects.
+ * and {@link #ctorStrategy(Class)}) to produce objects.
  * <p>
  * This class caches the produced objects for the lifetime of this object.
  * Effectively this means the lifetime of the ICS object.
- * 
+ *
  * @author Dolf Dijkstra
+ * @author Tony Field
  */
 public abstract class BaseFactory implements Factory {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.support.BaseFactory");
-
-    protected final ICS ics;
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.BaseFactory");
 
     private final Map<String, Object> objectCache = new HashMap<>();
+    private final ICS ics;
     private Factory[] roots = new Factory[0];
 
-    public BaseFactory(ICS ics) {
-        super();
-        this.ics = ics;
-    }
-
     public BaseFactory(ICS ics, Factory... roots) {
-        super();
         this.ics = ics;
-        if (roots != null)
+        if (roots != null) {
             this.roots = roots;
+        }
     }
 
     @Override
@@ -69,12 +63,14 @@ public abstract class BaseFactory implements Factory {
             if (o == null) {
                 for (Factory root : roots) {
                     o = root.getObject(name, fieldType);
-                    if (o != null)
+                    if (o != null) {
                         return o;
+                    }
                 }
                 // only try ctor at the root level, otherwise it will be invoked on each BaseFactory
-                if (roots.length == 0)
-                    o = ctorStrategy(name, fieldType);
+                if (roots.length == 0) {
+                    o = ctorStrategy(fieldType);
+                }
             }
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e.getTargetException());
@@ -84,15 +80,15 @@ public abstract class BaseFactory implements Factory {
 
     /**
      * Internal method to check for Services or create Services.
-     * 
-     * @param <T> ics or cached object
+     *
+     * @param <T>       ics or cached object
      * @param askedName name of asset to find
-     * @param c current asset
+     * @param c         current asset
      * @return the found service, null if no T can be created.
      * @throws InvocationTargetException exception from invocation
      */
     @SuppressWarnings("unchecked")
-    protected <T> T locate(final String askedName, final Class<T> c) throws InvocationTargetException {
+    private <T> T locate(final String askedName, final Class<T> c) throws InvocationTargetException {
         if (ICS.class.isAssignableFrom(c)) {
             return (T) ics;
         }
@@ -119,37 +115,38 @@ public abstract class BaseFactory implements Factory {
 
     private <T> Object locateInCache(Class<T> c, String name) {
         Object o = objectCache.get(name);
-        if (o != null && !c.isAssignableFrom(o.getClass()))
+        if (o != null && !c.isAssignableFrom(o.getClass())) {
             throw new IllegalStateException("Name conflict: '" + name + "' is in cache and is of type  '"
                     + o.getClass() + "' but a '" + c.getName()
                     + "' was asked for. Please check your factories for naming conflicts.");
+        }
         return o;
     }
 
     /**
      * Method to find classes to use for the producer methods. This
      * implementation returns {@link #getClass()}.
-     * 
+     * <p>
      * Subclasses can return and are encouraged to return other classes.
-     * 
+     *
      * @param ics Content Server context object
      * @return array of classes to use for reflection
      */
     protected Class<?>[] factoryClasses(ICS ics) {
-        return new Class[] { getClass() };
+        return new Class[]{getClass()};
     }
 
     /**
      * Tries to create the object based on the {@link ServiceProducer}
      * annotation where the names match.
-     * 
-     * @param <T> object created by service producer
+     *
+     * @param <T>  object created by service producer
      * @param name name
-     * @param c current asset
+     * @param c    current asset
      * @return created object
      * @throws InvocationTargetException exception from invocation
      */
-    protected <T> T namedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
+    private <T> T namedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
 
         for (Class<?> reflectionClass : factoryClasses(ics)) {
             for (Method m : reflectionClass.getMethods()) {
@@ -169,14 +166,14 @@ public abstract class BaseFactory implements Factory {
     /**
      * Tries to create the object based on the {@link ServiceProducer}
      * annotation without a name.
-     * 
-     * @param <T> object created based on service producer
+     *
+     * @param <T>  object created based on service producer
      * @param name name
-     * @param c current asset
+     * @param c    current asset
      * @return created object
      * @throws InvocationTargetException exception from invocation
      */
-    protected <T> T unnamedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
+    private <T> T unnamedAnnotationStrategy(String name, Class<T> c) throws InvocationTargetException {
 
         for (Class<?> reflectionClass : factoryClasses(ics)) {
             for (Method m : reflectionClass.getMethods()) {
@@ -205,16 +202,16 @@ public abstract class BaseFactory implements Factory {
      * If the non-static version is used the implementing class needs to have a
      * public constructor that takes {@link ICS} and {@link Factory} as
      * arguments. To this class the current ICS and this object will be passed.
-     * 
-     * @param <T> returnable producer method or null
+     *
+     * @param <T>  returnable producer method or null
      * @param name the simple name of the object to produce
-     * @param c the class with the type information of the object to produce
+     * @param c    the class with the type information of the object to produce
      * @return the created object, null if no producer method was found or when
-     *         that method returned null.
+     * that method returned null.
      * @throws InvocationTargetException when the create&lt;Type&gt; method
-     *             throws an exception.
+     *                                   throws an exception.
      */
-    protected <T> T reflectionStrategy(String name, Class<T> c) throws InvocationTargetException {
+    private <T> T reflectionStrategy(String name, Class<T> c) throws InvocationTargetException {
 
         for (Class<?> reflectionClass : factoryClasses(ics)) {
 
@@ -230,15 +227,15 @@ public abstract class BaseFactory implements Factory {
     }
 
     /**
-     * @param <T> created method type
+     * @param <T>  created method type
      * @param name name of the object
-     * @param c the type of the object to create
-     * @param m the method to use to create the object
+     * @param c    the type of the object to create
+     * @param m    the method to use to create the object
      * @return created object
      * @throws InvocationTargetException exception from invoking specified method from class name
      */
     @SuppressWarnings("unchecked")
-    protected <T> T createFromMethod(String name, Class<T> c, Method m) throws InvocationTargetException {
+    private <T> T createFromMethod(String name, Class<T> c, Method m) throws InvocationTargetException {
         Object o = null;
         LOG.trace("trying to create a {} object with name {} from method {}", c.getName(), name, m.toGenericString());
 
@@ -257,12 +254,10 @@ public abstract class BaseFactory implements Factory {
                         if (Modifier.isPublic(ctor.getModifiers())) {
                             from = ctor.newInstance(ics, this);
                         } else {
-                            throw new NoSuchMethodExceptionRuntimeException(reflectionClass.getName()
-                                    + " does not have a public (ICS,Factory) constructor.");
+                            throw new IllegalStateException(reflectionClass.getName() + " does not have a public (ICS,Factory) constructor.");
                         }
                     } catch (NoSuchMethodException e) {
-                        throw new NoSuchMethodExceptionRuntimeException(reflectionClass.getName()
-                                + " should have a public constructor accepting a ICS and Factory.");
+                        throw new IllegalStateException(reflectionClass.getName() + " should have a public constructor accepting a ICS and Factory.");
                     } catch (InstantiationException e) {
                         LOG.error(e.getMessage());
                     } catch (IllegalArgumentException e) {
@@ -275,27 +270,27 @@ public abstract class BaseFactory implements Factory {
             if (m.getParameterTypes().length == 2
                     && m.getParameterTypes()[0].isAssignableFrom(ICS.class)
                     && m.getParameterTypes()[1].isAssignableFrom(Factory.class)) {
-                o = invokeCreateMethod(m, from, name, ics, this);
+                o = invokeCreateMethod(m, from, ics, this);
             } else if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0].isAssignableFrom(ICS.class)) {
-                o = invokeCreateMethod(m, from, name, ics);
+                o = invokeCreateMethod(m, from, ics);
             } else if (m.getParameterTypes().length == 0) {
-                o = invokeCreateMethod(m, from, name);
+                o = invokeCreateMethod(m, from);
             }
-            if (shouldCache(m))
+            if (shouldCache(m)) {
                 objectCache.put(name, o);
+            }
         }
         return (T) o;
     }
 
     /**
-     * @param m method in invoke
-     * @param from object to invoke from
-     * @param name the name of the object
+     * @param m         method in invoke
+     * @param from      object to invoke from
      * @param arguments the arguments to pass to the method
      * @return object from invoked method
      * @throws InvocationTargetException exception from invocation
      */
-    protected Object invokeCreateMethod(Method m, Object from, String name, Object... arguments) throws InvocationTargetException {
+    private Object invokeCreateMethod(Method m, Object from, Object... arguments) throws InvocationTargetException {
         try {
             return m.invoke(from, arguments);
         } catch (IllegalArgumentException e) {
@@ -306,7 +301,7 @@ public abstract class BaseFactory implements Factory {
         return null;
     }
 
-    protected boolean shouldCache(Method m) {
+    private boolean shouldCache(Method m) {
         boolean r = false;
         if (m.isAnnotationPresent(ServiceProducer.class)) {
             ServiceProducer ann = m.getAnnotation(ServiceProducer.class);
@@ -316,27 +311,12 @@ public abstract class BaseFactory implements Factory {
     }
 
     /**
-     * @param e Exception
-     */
-    protected void throwRuntimeException(InvocationTargetException e) {
-        Throwable t = e.getTargetException();
-        if (t == null) {
-            throw new RuntimeException(e);
-        } else if (t instanceof RuntimeException) {
-            throw (RuntimeException) t;
-        } else {
-            throw new RuntimeException(t);
-        }
-    }
-
-    /**
      * @param <T> invoked object given class
-     * @param name name
-     * @param c current asset
+     * @param c   current asset
      * @return newly created object
      * @throws InvocationTargetException exception from invoking constructor
      */
-    protected <T> T ctorStrategy(final String name, final Class<T> c) throws InvocationTargetException {
+    private <T> T ctorStrategy(final Class<T> c) throws InvocationTargetException {
         T o = null;
         try {
             if (c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
@@ -347,17 +327,12 @@ public abstract class BaseFactory implements Factory {
             final Constructor<T> constr = c.getConstructor(ICS.class);
             o = constr.newInstance(ics);
         } catch (final NoSuchMethodException
-                |IllegalArgumentException
-                |InstantiationException
-                |IllegalAccessException e1) {
+                | IllegalArgumentException
+                | InstantiationException
+                | IllegalAccessException e1) {
             LOG.debug("Could not create a {} via a constructor method.", c.getName());
         }
         return o;
-    }
-
-    @ServiceProducer(cache = false)
-    public ICS createICS(final ICS ics) {
-        return ics;
     }
 
     @Override

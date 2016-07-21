@@ -17,35 +17,35 @@ package tools.gsf.controller;
 
 import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
 import com.fatwire.assetapi.data.BaseController;
-import com.fatwire.gst.foundation.controller.action.Factory;
-import com.fatwire.gst.foundation.controller.action.FactoryProducer;
-import com.fatwire.gst.foundation.controller.action.Injector;
 import tools.gsf.config.AppContext;
+import tools.gsf.config.Factory;
+import tools.gsf.config.FactoryProducer;
 import tools.gsf.config.WebAppContextUtil;
+import tools.gsf.config.inject.Injector;
 import tools.gsf.time.Stopwatch;
 
 import javax.servlet.ServletContext;
 
 public class InjectingController extends BaseController {
-	
-	public DependenciesAwareModelAndView handleRequest() {
 
-		ServletContext srvCtx = ics.getIServlet().getServlet().getServletContext();
-		AppContext ctx = WebAppContextUtil.getWebAppContext(srvCtx);
+    public DependenciesAwareModelAndView handleRequest() {
 
-		Injector injector = ctx.getBean("Injector",Injector.class);
-		FactoryProducer fp = ctx.getBean("FactoryProducer", FactoryProducer.class);
-		Factory factory = fp.getFactory(ics);
-		Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
+        ServletContext srvCtx = ics.getIServlet().getServlet().getServletContext();
+        AppContext ctx = WebAppContextUtil.getWebAppContext(srvCtx);
 
-		stopwatch.start();
+        Injector injector = ctx.getBean("Injector", Injector.class);
+        FactoryProducer fp = ctx.getBean("FactoryProducer", FactoryProducer.class);
+        Factory factory = fp.getFactory(ics);
+        Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
 
-		injector.inject(ics, this);
-		stopwatch.split("Injecting into controller {}", this.getClass().getSimpleName());
+        stopwatch.start();
 
-		DependenciesAwareModelAndView result = super.handleRequest();
-		stopwatch.elapsed("Executed controller {}", this.getClass().getSimpleName());
+        injector.inject(ics, this);
+        stopwatch.split("Injecting into controller {}", this.getClass().getSimpleName());
 
-		return result;
-	}
+        DependenciesAwareModelAndView result = super.handleRequest();
+        stopwatch.elapsed("Executed controller {}", this.getClass().getSimpleName());
+
+        return result;
+    }
 }

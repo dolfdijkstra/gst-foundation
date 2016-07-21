@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Oracle Corporation. All Rights Reserved.
+ * Copyright 2016 Function1. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller.action.support;
+package tools.gsf.config;
 
 import org.springframework.context.ApplicationContext;
 
-import com.fatwire.gst.foundation.controller.action.Factory;
-
 /**
  * Factory with access to Spring framework beans.
- * 
+ *
  * @author Dolf Dijkstra
- * 
  */
 public class SpringObjectFactory implements Factory {
 

@@ -20,11 +20,13 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.AnnotationBinder;
 import com.fatwire.gst.foundation.controller.action.AnnotationInjector;
-import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.mapping.MappingInjector;
 
+/**
+ * @deprecated see {@link tools.gsf.config.inject.AnnotationInjector}
+ */
 public class DefaultAnnotationInjector implements Injector {
 
     private FactoryProducer factoryFactory;
@@ -41,7 +43,7 @@ public class DefaultAnnotationInjector implements Injector {
 
     @Override
     public void inject(ICS ics, Object action) {
-        final Factory factory = getFactory(ics);
+        final tools.gsf.config.Factory factory = factoryFactory.getFactory(ics);
         AnnotationInjector.inject(action, factory);
         AnnotationBinder.bind(action, ics);
         final AssetIdWithSite id = figureOutTemplateOrCSElementId(ics);
@@ -63,26 +65,4 @@ public class DefaultAnnotationInjector implements Injector {
         return null;
     }
 
-    protected Factory getFactory(final ICS ics) {
-
-        final Object o = ics.GetObj(Factory.class.getName());
-        if (o instanceof Factory) {
-            return (Factory) o;
-        }
-        Factory factory = null;
-
-        factory = getFactoryFactory().getFactory(ics);
-
-        ics.SetObj(Factory.class.getName(), factory);
-        return factory;
-    }
-
-    public FactoryProducer getFactoryFactory() {
-        return factoryFactory;
-    }
-
-//    public void setFactoryFactory(FactoryProducer factoryFactory) {
-//        Assert.notNull(factoryFactory);
-//        this.factoryFactory = factoryFactory;
-//    }
 }

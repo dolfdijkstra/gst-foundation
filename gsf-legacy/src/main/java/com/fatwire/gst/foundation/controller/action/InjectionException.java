@@ -13,17 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.controller.action;
 
 /**
- * Interface for a object factory. This factory is used by the
- * AnnotationInjector.
- * 
  * @author Dolf Dijkstra
- * @since Mar 26, 2011
+ * @since 12 jun. 2012
+ * @deprecated see {@link tools.gsf.config.inject.InjectionException}
  */
-public interface Factory {
+public class InjectionException extends tools.gsf.config.inject.InjectionException {
 
-    <T> T getObject(String name, Class<T> type);
+    public InjectionException() {
+        super();
+
+    }
+
+    public InjectionException(String message, Throwable cause) {
+        super(message, cause);
+
+    }
+
+    public InjectionException(String message) {
+        super(message);
+
+    }
+
+    public InjectionException(Throwable cause) {
+        super(cause);
+
+    }
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
 }

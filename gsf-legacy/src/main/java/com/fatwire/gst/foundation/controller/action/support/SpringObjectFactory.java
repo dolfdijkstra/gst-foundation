@@ -15,27 +15,32 @@
  */
 package com.fatwire.gst.foundation.controller.action.support;
 
-public class NoSuchMethodExceptionRuntimeException extends RuntimeException {
+import org.springframework.context.ApplicationContext;
+
+import com.fatwire.gst.foundation.controller.action.Factory;
+
+/**
+ * Factory with access to Spring framework beans.
+ * 
+ * @author Dolf Dijkstra
+ * @deprecated see {@link tools.gsf.config.SpringObjectFactory}
+ */
+public class SpringObjectFactory implements Factory {
+
+    private final ApplicationContext app;
 
     /**
-     * 
+     * @param app application context
      */
-    private static final long serialVersionUID = -7633915174457400855L;
-
-    public NoSuchMethodExceptionRuntimeException() {
-
+    public SpringObjectFactory(ApplicationContext app) {
+        super();
+        this.app = app;
     }
 
-    public NoSuchMethodExceptionRuntimeException(String message) {
-        super(message);
-    }
-
-    public NoSuchMethodExceptionRuntimeException(Throwable cause) {
-        super(cause);
-    }
-
-    public NoSuchMethodExceptionRuntimeException(String message, Throwable cause) {
-        super(message, cause);
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T getObject(String name, Class<T> requiredType) {
+        return (T) app.getBean(name, requiredType);
     }
 
 }

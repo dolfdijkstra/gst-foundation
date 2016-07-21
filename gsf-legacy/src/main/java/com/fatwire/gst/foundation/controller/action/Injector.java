@@ -15,23 +15,12 @@
  */
 package com.fatwire.gst.foundation.controller.action;
 
-import COM.FutureTense.Interfaces.ICS;
-
-
 /**
- * A factory for a Factory to provide access to services that need access to ICS.
+ * Implementations inject services into the dependent object.
  * <p>
- * 
+ * See <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a> for more information on Dependency Injection.
  * 
  * @author Dolf.Dijkstra
- *
+ * @deprecated {@link tools.gsf.config.inject.Injector}
  */
-public interface FactoryProducer {
-    
-    /**
-     * Method to produce a {@link Factory} to access services that need access to ICS
-     * @param ics Content Server context object
-     * @return the Factory to create services that need access to ics.
-     */
-    Factory getFactory(final ICS ics);
-}
+public interface Injector extends tools.gsf.config.inject.Injector {}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2016 Function1. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller.action;
+package tools.gsf.config.inject;
 
 import COM.FutureTense.Interfaces.ICS;
 
 /**
  * Implementations inject services into the dependent object.
  * <p>
- * See <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a> for more information on Dependency Injection.
- * 
+ * See <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a>
+ * for more information on Dependency Injection.
+ *
  * @author Dolf.Dijkstra
- * 
+ *
  */
 public interface Injector {
 

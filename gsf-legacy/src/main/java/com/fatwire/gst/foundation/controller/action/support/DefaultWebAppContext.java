@@ -46,6 +46,7 @@ import java.util.List;
  * their own Service factory.
  *
  * @author Freddy Villalba
+ * @deprecated see {@link tools.gsf.config.DefaultWebAppContext}
  */
 public class DefaultWebAppContext extends WebAppContext implements FactoryProducer {
 
