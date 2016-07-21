@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.test;
-
-import java.io.OutputStream;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Vector;
+package tools.gsf.test;
 
 import COM.FutureTense.Cache.Satellite;
 import COM.FutureTense.ContentServer.PageData;
@@ -39,15 +32,17 @@ import COM.FutureTense.Interfaces.IURLDefinition;
 import COM.FutureTense.Interfaces.PastramiEngine;
 import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.XML.Template.Seed;
-
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
 import com.fatwire.cs.core.uri.Definition;
 
-/**
- * @deprecated - moved to new namespace
- * @see tools.gsf.test.MockICS
- */
+import java.io.OutputStream;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Vector;
+
 @SuppressWarnings("deprecation")
 public class MockICS implements ICS {
 
@@ -138,7 +133,7 @@ public class MockICS implements ICS {
     }
 
     public boolean EmailEvent(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5,
-            FTValList arg6) {
+                              FTValList arg6) {
 
         return false;
     }
@@ -234,7 +229,7 @@ public class MockICS implements ICS {
     }
 
     public ISyncHash GetSynchronizedHash(String arg0, boolean arg1, int arg2, int arg3, boolean arg4, boolean arg5,
-            @SuppressWarnings("rawtypes") Collection arg6) {
+                                         @SuppressWarnings("rawtypes") Collection arg6) {
 
         return null;
     }
@@ -244,14 +239,14 @@ public class MockICS implements ICS {
         return null;
     }
 
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({"rawtypes"})
     public Enumeration GetVars() {
 
         return null;
     }
 
     public boolean IndexAdd(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6,
-            FTValList arg7, FTValList arg8, FTValList arg9, String arg10, String arg11, StringBuffer arg12) {
+                            FTValList arg7, FTValList arg8, FTValList arg9, String arg10, String arg11, StringBuffer arg12) {
 
         return false;
     }
@@ -277,7 +272,7 @@ public class MockICS implements ICS {
     }
 
     public boolean IndexReplace(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5,
-            String arg6, FTValList arg7, FTValList arg8, FTValList arg9, String arg10, String arg11, StringBuffer arg12) {
+                                String arg6, FTValList arg7, FTValList arg8, FTValList arg9, String arg10, String arg11, StringBuffer arg12) {
 
         return false;
     }
@@ -313,37 +308,37 @@ public class MockICS implements ICS {
 
     @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, String arg1, String arg2, String arg3, String arg4, String arg5, int arg6,
-            boolean arg7, boolean arg8, int arg9, StringBuffer arg10) {
+                      boolean arg7, boolean arg8, int arg9, StringBuffer arg10) {
 
         return 0;
     }
 
     @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, Vector arg1, String arg2, String arg3, String arg4, String arg5, String arg6,
-            int arg7, boolean arg8, boolean arg9, int arg10, StringBuffer arg11) {
+                      int arg7, boolean arg8, boolean arg9, int arg10, StringBuffer arg11) {
 
         return 0;
     }
 
     @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, String arg1, String arg2, String arg3, String arg4, String arg5, int arg6,
-            boolean arg7, String arg8, String arg9, String arg10, String arg11, boolean arg12, int arg13,
-            StringBuffer arg14) {
+                      boolean arg7, String arg8, String arg9, String arg10, String arg11, boolean arg12, int arg13,
+                      StringBuffer arg14) {
 
         return 0;
     }
 
     public int Mirror(IList arg0, String arg1, String arg2, String arg3, String arg4, String arg5, int arg6,
-            boolean arg7, String arg8, String arg9, String arg10, String arg11, boolean arg12, int arg13, String arg14,
-            StringBuffer arg15) {
+                      boolean arg7, String arg8, String arg9, String arg10, String arg11, boolean arg12, int arg13, String arg14,
+                      StringBuffer arg15) {
 
         return 0;
     }
 
     @SuppressWarnings("rawtypes")
     public int Mirror(Vector arg0, Vector arg1, String arg2, String arg3, String arg4, String arg5, String arg6,
-            int arg7, boolean arg8, String arg9, String arg10, String arg11, String arg12, boolean arg13, int arg14,
-            StringBuffer arg15) {
+                      int arg7, boolean arg8, String arg9, String arg10, String arg11, String arg12, boolean arg13, int arg14,
+                      StringBuffer arg15) {
 
         return 0;
     }
@@ -524,7 +519,7 @@ public class MockICS implements ICS {
     }
 
     public IList Search(String arg0, String arg1, String arg2, String arg3, int arg4, FTValList arg5, String arg6,
-            String arg7, String arg8, StringBuffer arg9) {
+                        String arg7, String arg8, StringBuffer arg9) {
 
         return null;
     }
@@ -535,7 +530,7 @@ public class MockICS implements ICS {
     }
 
     public IList SelectTo(String arg0, String arg1, String arg2, String arg3, int arg4, String arg5, boolean arg6,
-            StringBuffer arg7) {
+                          StringBuffer arg7) {
 
         return null;
     }
@@ -876,9 +871,9 @@ public class MockICS implements ICS {
         return false;
     }
 
-	public IList CatalogIndexDef(String arg0, String arg1, StringBuffer arg2) {
-		return null;
-	}
+    public IList CatalogIndexDef(String arg0, String arg1, StringBuffer arg2) {
+        return null;
+    }
 
     @Override
     public boolean BlobServer(FTValList arg0, OutputStream arg1) {

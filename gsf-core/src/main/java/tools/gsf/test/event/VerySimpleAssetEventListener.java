@@ -14,29 +14,25 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.test.event;
+package tools.gsf.test.event;
 
 import COM.FutureTense.Interfaces.ICS;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.basic.event.AbstractAssetEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * This class is a trivial asset event listener that reports that an asset event
  * has been heard. This is used to test the asset event system.
- * 
+ *
  * @author Tony Field
  * @since 2011-03-28
- * @deprecated - moved to new namespace
- * @see tools.gsf.test.event.VerySimpleAssetEventListener
  */
 public final class VerySimpleAssetEventListener extends AbstractAssetEventListener {
 
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.test.event.VerySimpleAssetEventListener");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.test.event.VerySimpleAssetEventListener");
 
     @Override
     public void assetAdded(AssetId assetId) {

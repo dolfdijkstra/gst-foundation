@@ -14,8 +14,21 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.test;
+package tools.gsf.test;
 
+import COM.FutureTense.CS.Factory;
+import COM.FutureTense.Interfaces.FTValList;
+import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Util.ftMessage;
+import junit.framework.TestCase;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp.BasicDataSourceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tools.gsf.test.jndi.VerySimpleInitialContextFactory;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,22 +36,6 @@ import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
-import junit.framework.TestCase;
-import COM.FutureTense.CS.Factory;
-import COM.FutureTense.Interfaces.FTValList;
-import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Util.ftMessage;
-
-import com.fatwire.gst.foundation.test.jndi.VerySimpleInitialContextFactory;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.dbcp.BasicDataSourceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * NOTE July 6, 2010: The following instructions are not rigorously tested but
@@ -74,22 +71,21 @@ import org.slf4j.LoggerFactory;
  * however, and writes to the database will not be noticed on the main server.
  * An ICS object is available, protected, and as well
  * <code>SessionFactory.getSession(ics)</code> operates per usual.
- * @deprecated - moved to new namespace
- * @see tools.gsf.test.CSTest
  */
 public abstract class CSTest extends TestCase {
     static Logger log = LoggerFactory.getLogger("tools.gsf.test.CSTest");
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see junit.framework.TestCase#tearDown()
      */
 
     @Override
     protected void tearDown() throws Exception {
-        if (ds != null)
+        if (ds != null) {
             ds.close();
+        }
         super.tearDown();
     }
 
@@ -204,8 +200,9 @@ public abstract class CSTest extends TestCase {
                 cmds.put(ftMessage.password, ftMessage.SiteReaderPassword);// "SomeReader"
                 // cmds.put(ftMessage.username, "firstsite");
                 // cmds.put(ftMessage.password, "firstsite");
-                if (!ics.CatalogManager(cmds) || ics.GetErrno() < 0)
+                if (!ics.CatalogManager(cmds) || ics.GetErrno() < 0) {
                     throw new RuntimeException("Can't log in, errno " + ics.GetErrno());
+                }
                 ics.RemoveVar("cshttp");
             }
         }

@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.test.jndi;
-
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
+package tools.gsf.test.jndi;
 
 import javax.naming.Binding;
 import javax.naming.Context;
@@ -27,12 +23,12 @@ import javax.naming.NameClassPair;
 import javax.naming.NameParser;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
- * 
  * @author Dolf Dijkstra
- * @deprecated - moved to new namespace
- * @see tools.gsf.test.jndi.VerySimpleInitialContextFactory
  */
 public class VerySimpleInitialContextFactory implements javax.naming.spi.InitialContextFactory {
     private static Context initial;
@@ -45,7 +41,7 @@ public class VerySimpleInitialContextFactory implements javax.naming.spi.Initial
     @SuppressWarnings("unchecked")
     public Context getInitialContext(final Hashtable<?, ?> environment) throws NamingException {
         // System.out.println("getInitialContext" + environment);
-        if (initial == null)
+        if (initial == null) {
             initial = new Context() {
                 @SuppressWarnings("rawtypes")
                 Hashtable env = new Hashtable(environment);
@@ -188,6 +184,7 @@ public class VerySimpleInitialContextFactory implements javax.naming.spi.Initial
 
                 }
             };
+        }
         return initial;
     }
 }
