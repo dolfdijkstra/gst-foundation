@@ -25,8 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.navigation.NavigationNode;
-import com.fatwire.gst.foundation.navigation.NavigationService;
+import tools.gsf.navigation.NavigationNode;
+import tools.gsf.navigation.NavigationService;
 import com.fatwire.gst.foundation.taglib.GsfSimpleTag;
 
 /**

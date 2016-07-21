@@ -28,7 +28,6 @@ import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.action.support.ClassActionLocator;
 import com.fatwire.gst.foundation.controller.action.support.LegacyDefaultWebAppContext;
 import com.fatwire.gst.foundation.controller.action.support.RenderPageActionLocator;
-import com.fatwire.gst.foundation.controller.support.WebAppContextLoader;
 import com.fatwire.gst.foundation.groovy.GroovyElementCatalogLoader;
 import com.fatwire.gst.foundation.groovy.GroovyLoader;
 import com.fatwire.gst.foundation.groovy.action.GroovyActionLocator;
@@ -39,9 +38,7 @@ import com.fatwire.gst.foundation.groovy.action.GroovyActionLocator;
  * @author Dolf Dijkstra
  * @since 11 mei 2012
  * 
- * 
  * @deprecated as of release 12.x, replace with WCS 12c's native Groovy support
- * 
  */
 public class GroovyWebContext extends LegacyDefaultWebAppContext {
     private GroovyClassLoader classLoader;

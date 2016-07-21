@@ -13,54 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.fatwire.gst.foundation.controller.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Annotation to be used in a Controller to map requests to controller methods.
  * 
- * Annotation to bind variables to the Action.
- * 
- * <pre>
- * 
- *   class MyAction implements Action {
- * 
- *     {@literal @}Bind String rendermode;
- *     {@literal @}Bind("myVar") String theVariable;
- *     {@literal @}Bind(scope="session") ShoppingCart cart;
- * 
- *     public void handleRequest(ICS ics){
- *         if("live".equals(rendermode){
- *           // do something when rendermode=live
- *         }
- *     }
- * 
- *   }
- * 
- * </pre>
- * @author Dolf.Dijkstra
- * @since 12 mei 2012
- * 
+ * @author Dolf Dijkstra
+ * @since Mar 21, 2011
+ * @deprecated - WCS 12c supports its own native controller infrastructure
  */
-
+@Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Bind {
+@Documented
+public @interface IcsVariable {
 
-    public enum Scope {
-        ics, request, session
-    }
+    String[] var() default {};
 
-    /**
-     * @return the key name of the variable to bind
-     */
-    String value() default "";
-
-    /**
-     * @return the match argument from render:lookup tag
-     */
-    Scope scope() default Scope.ics;
 }
