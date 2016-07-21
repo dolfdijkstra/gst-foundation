@@ -30,7 +30,7 @@ under the License.
 		<item name="License" href="http://www.apache.org/licenses/"/>
 	</menu>
 	
-	<menu ref="reports" />
+	<menu ref="modules" />
 	
 </body>
 </project>
