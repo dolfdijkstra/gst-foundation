@@ -17,6 +17,9 @@ package com.fatwire.gst.foundation.controller.support;
 
 import junit.framework.TestCase;
 
+/**
+ * @deprecated helper class; no replacement
+ */
 public class TemplateMethodFactoryTest extends TestCase {
 
     static public class Bar {

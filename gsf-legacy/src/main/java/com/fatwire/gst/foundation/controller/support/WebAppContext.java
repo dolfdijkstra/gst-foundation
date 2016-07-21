@@ -15,31 +15,26 @@
  */
 package com.fatwire.gst.foundation.controller.support;
 
+import com.fatwire.gst.foundation.controller.AppContext;
+
+import javax.servlet.ServletContext;
+
 /**
- * @author Dolf.Dijkstra
- * @since 4 April 2012
- * 
+ * @deprecated see {@link tools.gsf.config.WebAppContext}
  */
-public class IncompleteConfigurationException extends RuntimeException {
+public class WebAppContext extends tools.gsf.config.WebAppContext {
+    private final ServletContext context;
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -411240247677991694L;
-
-    public IncompleteConfigurationException(String message) {
-        super(message);
-
+    public WebAppContext(ServletContext context, AppContext parent) {
+        super(context, parent);
+        this.context = context;
     }
 
-    public IncompleteConfigurationException(Throwable cause) {
-        super(cause);
-
+    public WebAppContext(ServletContext context) {
+        this(context, null);
     }
 
-    public IncompleteConfigurationException(String message, Throwable cause) {
-        super(message, cause);
-
+    protected ServletContext getServletContext() {
+        return context;
     }
-
 }

@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller;
+package tools.gsf.controller;
 
-import javax.servlet.ServletContext;
-
+import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Injector;
-import com.fatwire.gst.foundation.controller.support.WebContextUtil;
-
-import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
+import tools.gsf.config.AppContext;
+import tools.gsf.config.WebAppContextUtil;
 import tools.gsf.time.Stopwatch;
+
+import javax.servlet.ServletContext;
 
 public class InjectingController extends BaseController {
 	
 	public DependenciesAwareModelAndView handleRequest() {
 
 		ServletContext srvCtx = ics.getIServlet().getServlet().getServletContext();
-		AppContext ctx = WebContextUtil.getWebAppContext(srvCtx);
+		AppContext ctx = WebAppContextUtil.getWebAppContext(srvCtx);
 
 		Injector injector = ctx.getBean("Injector",Injector.class);
 		FactoryProducer fp = ctx.getBean("FactoryProducer", FactoryProducer.class);

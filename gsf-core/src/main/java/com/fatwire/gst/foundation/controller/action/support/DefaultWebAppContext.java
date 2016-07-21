@@ -16,12 +16,12 @@
 package com.fatwire.gst.foundation.controller.action.support;
 
 import COM.FutureTense.Interfaces.ICS;
-import com.fatwire.gst.foundation.controller.AppContext;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Injector;
-import com.fatwire.gst.foundation.controller.support.WebAppContext;
 import org.apache.commons.lang3.StringUtils;
+import tools.gsf.config.AppContext;
+import tools.gsf.config.WebAppContext;
 
 import javax.servlet.ServletContext;
 import java.io.BufferedReader;

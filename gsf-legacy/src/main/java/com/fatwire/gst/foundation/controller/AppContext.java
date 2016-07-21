@@ -16,20 +16,7 @@
 package com.fatwire.gst.foundation.controller;
 
 /**
- * This interface represents the context in which an application is running.
- * It's sole purpose is providing access to objects based on a name.
- * <p>
- * Implementations are either providing their own Factory and Dependency injection framework, or delegate to (a combination of) dependency injections frameworks. 
- * 
- * 
- * @author Dolf.Dijkstra
- * @since 4 April 2012
- * 
+ * @deprecated see {@link tools.gsf.config.AppContext}
  */
-public interface AppContext{
-
-    <T> T getBean(String name, Class<T> c);
-
-    void init();
-
+public interface AppContext extends tools.gsf.config.AppContext {
 }

@@ -20,9 +20,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * 
  * @author Dolf Dijkstra
- * 
+ * @deprecated helper class; no replacement
  */
 public class TemplateMethodFactory {
     private static final Class<?>[] NO_PARAMS = new Class[0];
