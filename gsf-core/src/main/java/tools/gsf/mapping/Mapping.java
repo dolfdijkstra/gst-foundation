@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller.annotation;
+package tools.gsf.mapping;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,12 +21,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
+ *
  * Annotation to help to retrieve Template and CSElement mapping values.
- * 
+ *
  * @author Dolf.Dijkstra
- * @deprecated moved to new namespace
- * @see tools.gsf.mapping.Mapping
+ *
  */
 
 @Retention(RetentionPolicy.RUNTIME)
