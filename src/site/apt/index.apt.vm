@@ -80,7 +80,9 @@ An Important Note on Backwards-Compatibility
 		
 		* New "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself) 
 	
-	As per the LEGACY artifact's semantic, the above implies "old" classes will enter the deprecation cycle, which ends up in permanent (physical) removal from the GSF's codebase / project in periods of 12 to 24 months.
+	As per the LEGACY artifact's semantic, the above implies "old" classes will enter the deprecation cycle.
+	
+	Components that get deprecated (and added to the LEGACY jar) will be physically removed from the GSF's codebase / project in the next major release after deprecation occurs.
 	
 	Therefore, you are strongly advised to start using the new namespace (e.g. packages / classnames). 
 

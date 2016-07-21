@@ -67,7 +67,9 @@ The new namespace is: tools.gsf.
 
 Starting the initial release of GSF-12, pre-existing classes will be progressively moved onto the LEGACY artifact.
 
-As per the LEGACY artifact's semantic, this implies "old" classes will enter the deprecation cycle, which ends up in permanent (physical) removal from the GSF's codebase / project in periods of 12 to 24 months.
+As per the LEGACY artifact's semantic, this implies "old" classes will enter the deprecation cycle.
+
+Components that get deprecated will be physically removed from the GSF's codebase / project in the next major release after deprecation occurs.
 
 Therefore, you are strongly advised to start using the new namespace (e.g. packages / classnames). 
 
