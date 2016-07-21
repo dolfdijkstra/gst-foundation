@@ -17,14 +17,17 @@ package tools.gsf.url;
 
 import com.fatwire.cs.core.uri.Assembler;
 import com.fatwire.cs.core.uri.Util;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Lightweight abstract assembler that handles property management, provides a
@@ -90,9 +93,9 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * Convenience method to get a property value set into the assembler from
      * the configuration files.
      *
-     * @param name name of property to import
+     * @param name     name of property to import
      * @param dephault default value of property - returned if the property
-     *            value is not specified
+     *                 value is not specified
      * @return property value or dephault value
      */
     protected String getProperty(String name, String dephault) {
@@ -109,7 +112,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * @param string the string to encode
      * @return encoded string
      * @throws IllegalStateException if UTF-8 encoding is not supported and the
-     *             platform's default encoding is not supported.
+     *                               platform's default encoding is not supported.
      */
     protected final String encode(String string) {
         String result;
@@ -132,10 +135,10 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      *
      * @param string encoded string
      * @return decoded string
-     * @throws IllegalStateException if UTF-8 encoding is not supported and the
-     *             platform's default encoding is not supported.
+     * @throws IllegalStateException    if UTF-8 encoding is not supported and the
+     *                                  platform's default encoding is not supported.
      * @throws IllegalArgumentException if the string is not well-formed for
-     *             decoding.
+     *                                  decoding.
      */
     protected final String decode(String string) {
         return decode(string, null);
@@ -144,15 +147,15 @@ public abstract class LightweightAbstractAssembler implements Assembler {
     /**
      * URLDecodes a string using the encoding specified.
      *
-     * @param string encoded string
+     * @param string   encoded string
      * @param encoding the encoding to use to decode the string. If null is
-     *            specified, the decoding specified by this class shall be used.
+     *                 specified, the decoding specified by this class shall be used.
      * @return decoded string
-     * @throws IllegalStateException if the encoding specified is not supported,
-     *             or if UTF-8 encoding is not supported and the platform's
-     *             default encoding is not supported.
+     * @throws IllegalStateException    if the encoding specified is not supported,
+     *                                  or if UTF-8 encoding is not supported and the platform's
+     *                                  default encoding is not supported.
      * @throws IllegalArgumentException if the string is not well-formed for
-     *             decoding.
+     *                                  decoding.
      */
     protected final String decode(String string, String encoding) {
         String result;
@@ -190,13 +193,13 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * is not. The URI constructor will throw a URISyntaxException if required
      * components are missing for a given combination.
      *
-     * @param scheme the URI scheme (protocol)
-     * @param authority the URI authority (host:port)
-     * @param path the path for the URI (servlet context path, servlet name,
-     *            pathinfo)
+     * @param scheme            the URI scheme (protocol)
+     * @param authority         the URI authority (host:port)
+     * @param path              the path for the URI (servlet context path, servlet name,
+     *                          pathinfo)
      * @param quotedQueryString the query string, with illegal characters
-     *            already quoted.
-     * @param fragment the fragment (anchor)
+     *                          already quoted.
+     * @param fragment          the fragment (anchor)
      * @return the valid URI with proper encoding
      * @throws URISyntaxException if there is a problem with what is passed in
      */
@@ -251,7 +254,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * @param qry string value for query
      * @return map containing <code>String</code>/<code>String[]</code> pairs.
      * @throws IllegalArgumentException if there are mistakes in the string that
-     *             make it impossible to parse.
+     *                                  make it impossible to parse.
      */
     protected final Map<String, String[]> parseQueryString(String qry) {
         Map<String, String[]> rawPairs = new HashMap<String, String[]>();
@@ -412,13 +415,13 @@ public abstract class LightweightAbstractAssembler implements Assembler {
      * stripped.
      *
      * @param origPackedargsStrings array of query string-like packed args.
-     * @param toExclude list of args to remove from the packed args.
+     * @param toExclude             list of args to remove from the packed args.
      * @return array the same length as the original array, containing the same
-     *         values, except the <code>toExclude</code> parameters are removed.
-     *         If all params end up getting removed, the packedargs string ends
-     *         up being null. The array returned is never null though.
+     * values, except the <code>toExclude</code> parameters are removed.
+     * If all params end up getting removed, the packedargs string ends
+     * up being null. The array returned is never null though.
      * @throws IllegalArgumentException if the input args or the input list are
-     *             null.
+     *                                  null.
      */
     protected final String[] excludeFromPackedargs(String[] origPackedargsStrings, Collection<String> toExclude) {
         if (origPackedargsStrings == null) {
