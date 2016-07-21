@@ -22,6 +22,6 @@ GSF LEGACY Submodule
 	
 	Components will be progressively added to this JAR in future releases, as soon as they get deprecated.
 	
-	Deprecated components will be physically removed from the GSF JAR submodule (and the GSF project's codebase altogether) in periods of 12 to 24 months.
+	Components that get deprecated (and added to the LEGACY jar) will be physically removed from the GSF's codebase / project in the next major release after deprecation occurs.
 	
 	Full backwards-compatibility is not guaranteed for deprecated components. In fact, in some exceptional cases, deprecated components and new features could be incompatible with each other.

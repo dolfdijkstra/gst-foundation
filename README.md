@@ -59,6 +59,20 @@ in such enhancements into future versions of the GST Site Foundation.
 
 July, 2016
 
+##An Important Note on Backwards-Compatibility
+
+One of the major changes introduced into the GSF codebase in version 12 (and up) is a brand new namespace for all classes and loggers.
+
+The new namespace is: tools.gsf.
+
+Starting the initial release of GSF-12, pre-existing classes will be progressively moved onto the LEGACY artifact.
+
+As per the LEGACY artifact's semantic, this implies "old" classes will enter the deprecation cycle.
+
+Components that get deprecated will be physically removed from the GSF's codebase / project in the next major release after deprecation occurs.
+
+Therefore, you are strongly advised to start using the new namespace (e.g. packages / classnames). 
+
 ##Documentation
 
 * {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
@@ -86,6 +100,12 @@ Alternatively, you can obtain them by either:
 	* Downloading the pre-compiled JARs from the GSF's website:
 	
 		http://gst-foundation.org/	
+
+##Support
+
+The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
+
+Oracle Support does NOT provide support on GSF.
 
 ##Support
 
