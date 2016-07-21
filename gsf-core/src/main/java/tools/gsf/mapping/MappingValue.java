@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.mapping;
+package tools.gsf.mapping;
 
 /**
  * Object to hold the CSElement or Template mapping value and mapping type.
- * 
+ *
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
- * @deprecated - moved to new namespace
- * @see tools.gsf.mapping.MappingValue
  */
 public final class MappingValue {
 

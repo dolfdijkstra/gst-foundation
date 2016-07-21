@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.mapping;
+package tools.gsf.mapping;
 
 import java.util.Map;
 
@@ -21,17 +21,15 @@ import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 
 /**
  * Service the read the mappings for an asset.
- * 
+ *
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
- * @deprecated moved to new namespace
- * @see tools.gsf.mapping.MappingService
  */
 public interface MappingService {
 
     /**
      * Reads the mappings for the asset and the site.
-     * 
+     *
      * @param id the asset that holds the mapping.
      * @return the mappings for the asset.
      */

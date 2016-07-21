@@ -13,28 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.mapping;
-
-import java.util.Map;
-
-import com.fatwire.gst.foundation.controller.AssetIdWithSite;
+package tools.gsf.mapping;
 
 /**
- * Service the read the mappings for an asset.
- * 
+ * Class that holds asset type and asset name, similar to AssetId.
+ *
  * @author Dolf Dijkstra
- * @since Apr 13, 2011
- * @deprecated moved to new namespace
- * @see tools.gsf.mapping.MappingService
+ * @author Tony Field
+ * @since July 21, 2016
+ * @see com.fatwire.assetapi.data.AssetId
  */
-public interface MappingService {
-
-    /**
-     * Reads the mappings for the asset and the site.
-     * 
-     * @param id the asset that holds the mapping.
-     * @return the mappings for the asset.
-     */
-    Map<String, MappingValue> readMapping(AssetIdWithSite id);
-
+public interface AssetName {
+    String getName();
+    String getType();
 }

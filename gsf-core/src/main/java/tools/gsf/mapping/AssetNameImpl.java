@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.mapping;
+package tools.gsf.mapping;
 
 /**
  * Class that holds asset type and asset name, similar to AssetId.
- * 
+ *
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
- * @deprecated - moved to new namespace, and also split out an interface
  * @see com.fatwire.assetapi.data.AssetId
- * @see tools.gsf.mapping.AssetNameImpl
- * @see tools.gsf.mapping.AssetName
  */
-public final class AssetName {
+public final class AssetNameImpl implements AssetName {
 
     private final String type;
     private final String name;
@@ -34,8 +31,7 @@ public final class AssetName {
      * @param type asset type
      * @param name asset name
      */
-    public AssetName(final String type, final String name) {
-        super();
+    public AssetNameImpl(final String type, final String name) {
         this.type = type;
         this.name = name;
     }
@@ -56,7 +52,7 @@ public final class AssetName {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -64,52 +60,28 @@ public final class AssetName {
         return type + ":" + name;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (name == null ? 0 : name.hashCode());
-        result = prime * result + (type == null ? 0 : type.hashCode());
-        return result;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!(obj instanceof AssetName)) {
+
+        AssetNameImpl assetName = (AssetNameImpl) o;
+
+        if (type != null ? !type.equals(assetName.type) : assetName.type != null) {
             return false;
         }
-        final AssetName other = (AssetName) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (type == null) {
-            if (other.type != null) {
-                return false;
-            }
-        } else if (!type.equals(other.type)) {
-            return false;
-        }
-        return true;
+        return name != null ? name.equals(assetName.name) : assetName.name == null;
+
     }
 
+    @Override
+    public int hashCode() {
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }
