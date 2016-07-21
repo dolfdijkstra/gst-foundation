@@ -16,7 +16,9 @@
 
 Release Notes
 
-	* GSF-12 requires Java v1.8 (or newer)
+	* GSF-12 requires Java v1.8 (or newer) and Servlet 3.0 (or newer)
+	
+	* A brand new namespace for classes and loggers will be used from now on: <<tools.gsf>>. Pre-existing classes will get progressively deprecated, moved onto the LEGACY artifact and (eventually) physically removed from the GSF's codebase / project in future versions.
 
 	* All taglibs have been DEPRECATED (see gsf-taglib-legacy). You should stop using and/or extending and/or customizing them; some of them will be wiped out in future releases and some will be completely replaced by new ones.
   

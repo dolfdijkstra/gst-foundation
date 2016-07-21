@@ -33,7 +33,7 @@ import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.include.IncludeService;
 
-import com.fatwire.gst.foundation.time.Stopwatch;
+import tools.gsf.time.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

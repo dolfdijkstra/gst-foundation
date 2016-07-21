@@ -1,4 +1,4 @@
-package com.fatwire.gst.foundation.time;
+package tools.gsf.time;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
