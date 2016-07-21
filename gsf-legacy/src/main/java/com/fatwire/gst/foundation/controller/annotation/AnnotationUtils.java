@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
  * 
  * @author Dolf Dijkstra
  * @since May 27, 2011
+ * @deprecated
  */
 public final class AnnotationUtils {
     private AnnotationUtils() {
