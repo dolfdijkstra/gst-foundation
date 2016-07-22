@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fatwire.gst.foundation.controller.annotation;
+package tools.gsf.config.inject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,30 +21,28 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
  * Annotation to bind variables to the Action.
- * 
+ * <p>
  * <pre>
- * 
+ *
  *   class MyAction implements Action {
- * 
+ *
  *     {@literal @}Bind String rendermode;
  *     {@literal @}Bind("myVar") String theVariable;
  *     {@literal @}Bind(scope="session") ShoppingCart cart;
- * 
+ *
  *     public void handleRequest(ICS ics){
  *         if("live".equals(rendermode){
  *           // do something when rendermode=live
  *         }
  *     }
- * 
+ *
  *   }
- * 
+ *
  * </pre>
+ *
  * @author Dolf.Dijkstra
  * @since 12 mei 2012
- * @deprecated moved to new namespace
- * @see tools.gsf.config.inject.Bind
  */
 
 @Retention(RetentionPolicy.RUNTIME)

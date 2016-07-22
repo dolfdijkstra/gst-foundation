@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.controller.annotation;
+package tools.gsf.config.inject;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -27,9 +27,7 @@ import java.lang.annotation.Target;
  * the Injector.
  *
  * @author Dolf Dijkstra
- * @see tools.gsf.config.inject.InjectForRequest
  * @since 2011-03-24
- * @deprecated moved to new namespace
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})

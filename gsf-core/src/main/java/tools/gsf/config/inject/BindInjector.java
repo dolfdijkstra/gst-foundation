@@ -17,7 +17,6 @@ package tools.gsf.config.inject;
 
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.cs.core.db.Util;
-import com.fatwire.gst.foundation.controller.annotation.Bind;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

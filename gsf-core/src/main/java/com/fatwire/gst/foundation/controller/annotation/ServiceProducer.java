@@ -25,7 +25,8 @@ import java.lang.annotation.Target;
  * indicates if this should be cached.
  * 
  * @author Dolf Dijkstra
- * 
+ * @deprecated moved to new namespace
+ * @see tools.gsf.config.ServiceProducer
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
