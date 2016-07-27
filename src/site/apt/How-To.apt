@@ -1,0 +1,223 @@
+~~
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+HOW-TO
+
+	{{Use Your Own Factory Implementation}}
+
+	{{Use Your Own App Context Implementation}}
+
+	{{Use Your Own Asset Type as a GST Property Asset}}
+	
+	{{Use Your Own NavService Implementation}}
+
+	{{Make Your Own Beans / Objects Available for Injection}}
+	
+	{{Use Your Own NavigationNode Implementation}}
+	
+	{{Inject Your Own Beans / Objects Into a WCS 12c Controller}}	
+
+Use Your Own Factory Implementation
+
+	* Implement your own custom factory.
+	
+		* Typically, you'll want to extend either <<tools.gsf.config.IcsObjectFactory>> or even <<tools.gsf.config.BaseFactory>>.
+		
+		* The only true requisite is that you implement the <<tools.gsf.config.Factory>> interface.
+		
+		* There are other factories you could either extend or reuse (for instance, SpringObjectFactory)
+		
+		[]
+	
+	* Register it:
+	
+		[[1]] Create a file named "gsf-factory".
+		
+		[[1]] Inside your "gsf-factory" file, specify the fully-qualified name of your custom factory class.
+		
+		[[1]] Package your "gsf-factory" file inside the "META-INF" folder of any JAR file to be deployed inside the WCS web app.
+		
+			[[a]] Typically, you'd package this inside either your own JAR file or the GSF's JAR file itself.
+			
+		[[1]] Deploy the JAR file containing your "gsf-factory" file inside the WCS web app.
+			
+		[]
+		
+	[]
+		
+Use Your Own App Context Implementation
+    
+	* Implement your own custom app context.
+	
+		* Typically, you'll want to extend <<tools.gsf.config.DefaultWebAppContext>> or even <<tools.gsf.config.WebAppContext>>.
+		
+		* The only true requisite is that you implement the <<tools.gsf.config.AppContext>> interface.
+		
+		[]
+	
+	* Register it:
+	
+		[[A]] ALTERNATIVE #1: via <<META-INF>>
+	
+			[[1]] Create a file named "gsf-contexts".
+			
+			[[1]] Inside your "gsf-contexts" file, specify the fully-qualified name of your custom factory class.
+			
+				[[a]] You can even specify a hierarchy of contexts (one per line), but that's extremely unusual and only intended for true GSF experts.
+				
+			[[1]] Package your "gsf-contexts" file inside the "META-INF" folder of any JAR file to be deployed inside the WCS web app.
+			
+				[[a]] Typically, you'd package this inside either your own JAR file or the GSF's JAR file itself.
+				
+			[[1]] Deploy the JAR file containing your "gsf-contexts" file inside the WCS web app.
+				
+			[]
+		
+		[[A]] ALTERNATIVE #2: via <<web.xml>>
+		
+			* If the WCS web app is getting deployed as a plain folder structure (a.k.a. "exploited" WAR file): 
+			
+				[[1]] Stop the WCS web app.
+					
+				[[1]] Add the context param to the WCS web app's web.xml called "gsf-contexts", whose value is the fully-qualified name of your custom App Context class:
+
++--				
+(...)
+<context-param>
+	<param-name>gsf-contexts</param-name>
+	<param-value>com.mycompany.gsf.MyCustomGSFAppContextImplementation</param-value>
+</context-param>
+(...)
++--
+				
+				[[1]] Restart the WCS web app.
+					
+				[]
+				
+			* If the WCS web app is getting deployed as a WAR file:			
+
+				[[1]] Copy the WCS web app's WAR file onto a separate temporary folder (e.g. apart from both the app server's folder structure and WCS' install folder) 
+				
+				[[1]] Extract the contents of the copied WAR file.
+
+				[[1]] Add a context-param to the WCS web app's web.xml called "gsf-contexts", whose value is the fully-qualified name of your custom App Context class:
+
++--				
+(...)
+<context-param>
+	<param-name>gsf-contexts</param-name>
+	<param-value>com.mycompany.gsf.MyCustomGSFAppContextImplementation</param-value>
+</context-param>
+(...)
++--
+				
+				[[1]] Repack the WCS web app's WAR, including the modified web.xml file (e.g. jar ...)
+				
+				[[1]] Stop the WCS web app.
+				
+				[[1]] Replace the existing WCS web app's WAR with the new, modified one.
+					
+				[[1]] Restart / Redeploy the WCS web app.
+
+				[]
+				
+			[]
+			
+		[]
+		
+	[]
+	
+Use Your Own Asset Type as a GST Property Asset
+
+	* Implement your own object factory from scratch.
+	
+	* Add to your custom object factory a "create" method which instantiates the new <<com.fatwire.gst.foundation.properties.AssetApiPropertyDao>>.
+		
+	* Example:
+	
++--
+
+@ServiceProducer(cache = true)
+public PropertyDao createPropertyDao(final ICS ics) {
+	Session session = SessionFactory.getSession(ics);
+	AssetDataManager adm = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+	SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
+	String type = "MyCustomAssetType";
+	String flexDefName = "MyCustomFlexDefName";
+	String propNameAttr = "nameOfAttributeToGetThePropertyNameFrom"; \\ Typically "name"
+	String propDescAttr = "nameOfAttributeToGetThePropertyDescriptionFrom"; \\ Typically "description"
+	String propValueAttr = "nameOfAttributeToGetThePropertyValueFrom"; \\ Typically "value"
+	return new AssetApiPropertyDao(adm, sm, type, flexDefName, propNameAttr, propDescAttr, propValueAttr, ics);
+}
+
++--
+		
+	[]
+
+Use Your Own NavService Implementation
+
+	* Implement your own object factory from scratch.
+	
+	* Make your custom bean / object available by adding the due "create" method to your Factory implementation.
+		
+		* In case you have <<extended>> IcsObjectFactory, you probably want to override the existing <<"createNavService">> method.
+		
+		* In case you have not extended IcsObjectFactory, you must add the due "create" method to your Factory implementation; for example: 
+	
++--
+
+@ServiceProducer(cache = true)
+public NavService<AssetNode> createNavService(final ICS ics) {
+    TemplateAssetAccess dao = getObject("templateAssetAccess", TemplateAssetAccess.class);
+    return new MyCustomNavServiceImplementation(ics, dao);
+}
+
++--
+		
+		[]
+		
+	[]
+	
+
+Make Your Own Beans / Objects Available for Injection
+				
+	See "Use a Custom Asset Type as a GST Property Asset" and "Implement (and Use) Your Own NavService Implementation" above.
+
+Use Your Own NavigationNode Implementation
+
+	This one depends on what "using your own NavigationNode implementation" means to you:
+	
+	* If you literally want to use your own <<Node>> implementation, then doing so requires your implementing your own <<NavService>>, too.
+	
+		* You can either implement your own NavService from scratch or extend the existing ones (see <<SitePlanNavService>> or <<LightweightSitePlanNavService>>)
+	
+		* Plugging in your own NavService is simple (see above)
+	
+	* If you are using one of the OOTB NavService implementations and you just want each <<AssetNode>> to be pre-populated with additional data other than the asset's "name" and "template", then you just need to override the <<"populateNodeData">> method.
+	
+	[]
+	
+Inject Your Own Beans / Objects Into a WCS 12c Controller
+
+	* Extend GSF's own <<tools.gsf.controller.InjectingController>> instead of WCS 12c's BaseController.
+	
+		* We suggest you look at the source code of GSF's <<InjectingController.java>> for better understanding how GSF's injection and WCS' Controllers are being integrated.
+		
+		[]
+		
+	[]
+	
+  
