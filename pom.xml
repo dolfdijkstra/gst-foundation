@@ -473,41 +473,6 @@
 	<reporting>
 		<plugins>
 			<plugin>
-				<inherited>false</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
-				<configuration>
-					<source>1.8</source>
-					<javadocVersion>1.8</javadocVersion>
-					<quiet>true</quiet>
-					<detectLinks>false</detectLinks>
-					<detectOfflineLinks>true</detectOfflineLinks>
-					<header>
-            <![CDATA[
-              <script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', 'UA-41996736-1']);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-              </script>
-  ]]>
-					</header>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<id>aggregate</id>
-						<reports>
-							<report>aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.9</version>
 			</plugin>
@@ -525,9 +490,6 @@
 			<id>full-reports</id>
 			<reporting>
 				<plugins>
-					<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
-						<version>2.6</version> <configuration> <configLocation>http://www.nl.fatwire.com/svn/dta/contrib/gst-foundation/trunk/src/config/gsf-checkstyle.xml</configLocation> 
-						</configuration> </plugin> -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>findbugs-maven-plugin</artifactId>
