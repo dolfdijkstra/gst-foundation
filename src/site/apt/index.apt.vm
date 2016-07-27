@@ -1,0 +1,148 @@
+#* Copyright 2016 Function1, Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#* In order to auto-adjust the download links to the version being
+   specifically built, this apt-velocity script relies on the
+   "projectVersionForAPTs" property defined inside the project's
+   uber pom.xml.
+*#
+
+GSF-12 Overview
+
+    The GSF aims at:
+
+    [[1]]	Defining architectural and design standards for the foundation of a site
+
+    [[1]]	Standardizing processes for business users
+
+    [[1]]	Simplifying coding greatly, to the point where much can be provided in common libraries
+
+    [[1]]	Clearly defining extension points   
+
+	[]
+
+	At a high level, the GSF offers a non-rendering foundation which aims at providing the following primary benefits:
+
+	*	Is suitable for use "out of the box" for a large number of sites
+
+	*	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
+	
+	*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
+
+	*	Provides for managed alias assets pointing at other assets or external URLs
+
+	*	Can be cleanly extended to address custom client requirements
+
+	[]
+
+    This release of the GSF, GSF-12, is considered to be a "transitional" one.
+    
+    The main goal is providing the means for clients out there already using GSF to reuse as much of their existing
+    code as possible when upgrading from WCS 11.x to WCS 12.x.
+    
+    GSF features that became partially or totally unnecessary due to WCS 12.x offering them natively have been either
+    deprecated or wiped off the GSF-12's codebase.
+    
+    Only those classes / components which are still valid and/or useful and/or expected to be building blocks for NEW
+    features to be implemented in future releases of the GSF-12 have been either left untouched or adjusted specifically
+    for WCS 12.x.
+
+    This release acknowledges the small but mission-critical differences that sometimes exist amongst WCS implementations
+    out there. In this regard, GSF-12's roadmap contemplates reengineering some of the core features in previous versions
+    - such as the Navigation Service - so they can be tailored to address those small differences, painlessly.
+
+	Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding
+	in such enhancements into future versions of the GST Site Foundation.
+
+	July, 2016.
+
+An Important Note on Backwards-Compatibility
+
+	One of the major changes introduced into the GSF codebase in version 12 (and up) is a brand new namespace for all classes and loggers.
+	
+	The new namespace is: <<tools.gsf>>.
+	
+	Starting the initial release of GSF-12:
+	
+		* Pre-existing classes will be progressively moved onto the LEGACY artifact.
+		
+		* New "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself) 
+	
+	As per the LEGACY artifact's semantic, the above implies "old" classes will enter the deprecation cycle.
+	
+	Components that get deprecated (and added to the LEGACY jar) will be physically removed from the GSF's codebase / project in the next major release after deprecation occurs.
+	
+	Therefore, you are strongly advised to start using the new namespace (e.g. packages / classnames). 
+
+Documentation
+  
+	* {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
+
+Download
+
+	For this transitional release, classes are shipped in 2 JAR files:
+    
+		* gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slim) CORE of the GSF.    
+    
+		* gsf-legacy-<version>.jar: here you'll find the classes that have been deprecated and are planned for complete removal in future releases.
+    
+	You can obtain both JARs by either:
+    
+		* Checking out the GSF project from GitHub and building the JARs yourself
+	
+			{{{https://github.com/dolfdijkstra/gst-foundation.git} https://github.com/dolfdijkstra/gst-foundation.git}}
+    
+		... OR
+    
+		* Downloading the pre-compiled JARs -- NOTE: these may not include the latest codebase / bugfixes
+	
+			Version $projectVersionForAPTs:
+    
+	    		GSF CORE: {{{./downloads/gsf-core-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}
+	    	
+	    		GSF LEGACY: {{{./downloads/gsf-legacy-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}
+    	
+    In addition to the 2 JAR files holding the compiled classes, you can get ahold of the actual source code and the corresponding JavaDocs by either:
+    
+		* Checking them out from GitHub (same URL as above),
+		
+		* Viewing them online on this website -- NOTE: these may not be the very latest
+		
+		... OR
+	    
+		* Downloading them -- NOTE: these may not be the very latest
+		
+			Version $projectVersionForAPTs:
+		
+		    	GSF CORE's Source Code: {{{./downloads/gsf-core-${projectVersionForAPTs}-sources.jar} gsf-core-${projectVersionForAPTs}-sources.jar}} 
+		    	
+		    	GSF CORE's JavaDoc: {{{./downloads/gsf-core-${projectVersionForAPTs}-javadoc.jar} gsf-core-${projectVersionForAPTs}-javadoc.jar}}
+		    	
+		    	GSF LEGACY's Source Code: {{{./downloads/gsf-legacy-${projectVersionForAPTs}-sources.jar} gsf-legacy-${projectVersionForAPTs}-sources.jar}} 
+		    	
+		    	GSF LEGACY's JavaDoc: {{{./downloads/gsf-legacy-${projectVersionForAPTs}-javadoc.jar} gsf-legacy-${projectVersionForAPTs}-javadoc.jar}}
+
+Requirements
+
+	Java 1.8 (or newer)
+	Servlet 3.0
+	WCS 12c
+	SLF4J 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
+
+Installation
+
+    Installing the GSF-12 is relatively simple. However, as opposed to their predecessors, it's a manual procedure; no installer is provided.
+    
+    The {{{./InstallGuide.html}attached guide}} should get you up and running quickly. For users wanting to keep using deprecated features, we are providing a long checklist of the additional steps that would require, depending on the concerned (deprecated) feature. 
