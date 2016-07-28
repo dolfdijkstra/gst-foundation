@@ -15,13 +15,12 @@
  */
 package com.fatwire.gst.foundation.facade.runtag.render;
 
-import java.util.Arrays;
+import junit.framework.TestCase;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import junit.framework.TestCase;
 
 public class CallTemplateTest extends TestCase {
 
@@ -30,14 +29,14 @@ public class CallTemplateTest extends TestCase {
     }
 
     void x() {
-        String[] pc = { "locale", "p" };
+        String[] pc = {"locale", "p"};
         Map<String, Object> m = new HashMap<String, Object>();
 
         m.put("TTYPE", "foo");
         m.put("ARGS_locale", "en");
         m.put("ARGS_foo", "foo");
         m.put("ARGS_TNAME", "foo");
-        for (final Iterator<Entry<String, Object>> i = m.entrySet().iterator(); i.hasNext();) {
+        for (final Iterator<Entry<String, Object>> i = m.entrySet().iterator(); i.hasNext(); ) {
             final Entry<String, ?> e = i.next();
             final String key = e.getKey();
             // only inspect arguments that start with ARGS_

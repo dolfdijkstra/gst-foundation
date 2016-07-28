@@ -16,15 +16,14 @@
 
 package com.fatwire.gst.foundation.facade.assetapi;
 
-import java.util.List;
-
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
 import com.fatwire.assetapi.query.Condition;
 import com.fatwire.assetapi.query.ConditionExpression;
 import com.fatwire.assetapi.query.OpTypeEnum;
 import com.fatwire.assetapi.query.QueryProperties;
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
+import java.util.List;
 
 public class ConditionParserTest extends TestCase {
 
@@ -102,8 +101,9 @@ public class ConditionParserTest extends TestCase {
     }
 
     void print(Condition c) {
-        if (c == null)
+        if (c == null) {
             return;
+        }
         System.out.println("JoinType: " + c.getJoinType());
         ConditionExpression e = c.getExpression();
         if (e != null) {

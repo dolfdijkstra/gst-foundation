@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2008 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.mapping;
 
-import tools.gsf.facade.assetapi.AssetIdWithSite;
+package tools.gsf.runtime;
 
-import java.util.Map;
+import junit.framework.TestCase;
 
+public class DebugHelperTest extends TestCase {
 
-/**
- * Service the read the mappings for an asset.
- *
- * @author Dolf Dijkstra
- * @since Apr 13, 2011
- */
-public interface MappingService {
+    public void testMicroToHuman() {
+        assertEquals("(60004us) 60.004ms",DebugHelper.microToHuman(60004));
+    }
 
-    /**
-     * Reads the mappings for the asset and the site.
-     *
-     * @param id the asset that holds the mapping.
-     * @return the mappings for the asset.
-     */
-    Map<String, MappingValue> readMapping(AssetIdWithSite id);
+    public void testMilliToHuman() {
+        assertEquals("(60004ms) 1m 0s",DebugHelper.milliToHuman(60004));
+    }
+
+    public void testNanoToHuman() {
+        assertEquals("(60us) 60us",DebugHelper.nanoToHuman(60004));
+    }
 
 }

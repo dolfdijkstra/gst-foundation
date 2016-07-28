@@ -18,14 +18,12 @@ package com.fatwire.gst.foundation.facade.sql.table;
 
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.gst.foundation.CSRuntimeException;
+import tools.gsf.runtime.CSRuntimeException;
 
 /**
  * Facade over table create and delete CatalogManager operations
- * 
+ *
  * @author Dolf Dijkstra
- * 
  */
 
 public class TableCreator {
@@ -38,9 +36,8 @@ public class TableCreator {
     }
 
     /**
-     * 
      * Delete a table
-     * 
+     *
      * @param name the name of the table to delete
      */
     public void delteTable(String name) {
@@ -57,7 +54,7 @@ public class TableCreator {
 
     /**
      * Create a table
-     * 
+     *
      * @param table the table to create as defined by its TableDef
      */
     public void createTable(TableDef table) {

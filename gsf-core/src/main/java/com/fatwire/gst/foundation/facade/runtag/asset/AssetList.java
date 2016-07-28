@@ -19,14 +19,13 @@ package com.fatwire.gst.foundation.facade.runtag.asset;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
-
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+import tools.gsf.facade.sql.IListUtils;
 
 /**
  * {@literal Exposes ASSET.LIST &lt;asset:list type="assetType" list="nameOfList"

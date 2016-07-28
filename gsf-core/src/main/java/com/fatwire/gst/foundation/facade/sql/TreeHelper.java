@@ -16,18 +16,16 @@
 
 package com.fatwire.gst.foundation.facade.sql;
 
-import java.util.Arrays;
-import java.util.List;
-
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
-
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.CSRuntimeException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.gsf.runtime.CSRuntimeException;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Simple class used to help out with TreeManager commands
@@ -51,10 +49,18 @@ public final class TreeHelper {
 
     public static IListIterable findNode(ICS ics, String tree, String otype, String oid) {
 
-        if (ics == null) throw new IllegalArgumentException("ICS may not be null");
-        if (tree == null || tree.length() == 0) throw new IllegalArgumentException("Tree name not specified");
-        if (otype == null) throw new IllegalArgumentException("Object type may not be null");
-        if (oid == null) throw new IllegalArgumentException("Object id may not be null");
+        if (ics == null) {
+            throw new IllegalArgumentException("ICS may not be null");
+        }
+        if (tree == null || tree.length() == 0) {
+            throw new IllegalArgumentException("Tree name not specified");
+        }
+        if (otype == null) {
+            throw new IllegalArgumentException("Object type may not be null");
+        }
+        if (oid == null) {
+            throw new IllegalArgumentException("Object id may not be null");
+        }
 
         FTValList vl = new FTValList();
         vl.setValString("ftcmd", "findnode");
@@ -74,9 +80,15 @@ public final class TreeHelper {
     }
 
     public static IListIterable findParents(ICS ics, String tree, String nid) {
-        if (ics == null) throw new IllegalArgumentException("ICS may not be null");
-        if (tree == null || tree.length() == 0) throw new IllegalArgumentException("Tree name not specified");
-        if (nid == null) throw new IllegalArgumentException("Node id may not be null");
+        if (ics == null) {
+            throw new IllegalArgumentException("ICS may not be null");
+        }
+        if (tree == null || tree.length() == 0) {
+            throw new IllegalArgumentException("Tree name not specified");
+        }
+        if (nid == null) {
+            throw new IllegalArgumentException("Node id may not be null");
+        }
 
         FTValList vl = new FTValList();
         vl.setValString("ftcmd", "getparent");

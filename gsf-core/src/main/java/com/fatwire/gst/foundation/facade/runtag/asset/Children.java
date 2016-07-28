@@ -16,17 +16,16 @@
 
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
-
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+import tools.gsf.facade.sql.IListUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * AssetChildren
@@ -34,7 +33,7 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
  * {@literal <ASSET.CHILDREN NAME="assetName" [TYPE="parent assettype"]
  * [ASSETID="parent assetid"] LIST="listName" [CODE="NameOfAssociation"]
  * [OBJECTTYPE="typeOfObject"] [OBJECTID="objectID"] [ORDER="nrank"]/>}
- * 
+ *
  * @author Tony Field
  * @since Sep 28, 2008
  */
@@ -77,18 +76,19 @@ public class Children extends AbstractTagRunner {
 
     @Override
     protected void handleError(ICS ics) {
-        if (ics.GetErrno() == -111)
+        if (ics.GetErrno() == -111) {
             return;
+        }
         super.handleError(ics);
     }
 
     /**
      * Look up the single valued named association for a specified asset. If no
      * associated asset is found an exception is thrown.
-     * 
-     * @param ics context
-     * @param c asset type
-     * @param cid asset id
+     *
+     * @param ics  context
+     * @param c    asset type
+     * @param cid  asset id
      * @param code association name
      * @return id of the associated asset
      */
@@ -118,10 +118,10 @@ public class Children extends AbstractTagRunner {
     /**
      * Look up the single valued named association for a specified asset. If no
      * associated asset is found null is returned
-     * 
-     * @param ics context
-     * @param c asset type
-     * @param cid asset id
+     *
+     * @param ics  context
+     * @param c    asset type
+     * @param cid  asset id
      * @param code association name
      * @return id of the associated asset
      */
@@ -150,10 +150,10 @@ public class Children extends AbstractTagRunner {
     /**
      * Look up the multi-valued named association for a specified asset. If no
      * associated asset is found an empty list is returned.
-     * 
-     * @param ics context
-     * @param c asset type
-     * @param cid asset id
+     *
+     * @param ics  context
+     * @param c    asset type
+     * @param cid  asset id
      * @param code association name
      * @return ids of the associated asset
      */
@@ -180,10 +180,10 @@ public class Children extends AbstractTagRunner {
     /**
      * Look up the multi-valued named association for a specified asset. If no
      * associated asset is found an exception is thrown.
-     * 
-     * @param ics context
-     * @param c asset type
-     * @param cid asset id
+     *
+     * @param ics  context
+     * @param c    asset type
+     * @param cid  asset id
      * @param code association name
      * @return ids of the associated asset
      */

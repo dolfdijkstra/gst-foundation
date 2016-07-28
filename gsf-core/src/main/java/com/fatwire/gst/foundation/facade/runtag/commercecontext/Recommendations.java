@@ -16,19 +16,18 @@
 
 package com.fatwire.gst.foundation.facade.runtag.commercecontext;
 
-import java.util.Collection;
-
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
-
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
+import tools.gsf.facade.sql.IListUtils;
+
+import java.util.Collection;
 
 /**
  * Helper to execute the GetRecommendations tag in a assetapi/java friendly way.
- * 
+ *
  * @author Dolf.Dijkstra
  * @since Apr 28, 2011
  */
@@ -39,9 +38,9 @@ public final class Recommendations {
     /**
      * Easy-to-use utility method to return recommendations for the specified
      * asset.
-     * 
+     *
      * @param ics context
-     * @param id AssetId of recommendation to return
+     * @param id  AssetId of recommendation to return
      * @param max max count
      * @return Collection{@literal<AssetId>} containing recommendations
      */
@@ -64,10 +63,10 @@ public final class Recommendations {
     /**
      * Easy-to-use utility method to return recommendations for the specified
      * asset.
-     * 
-     * @param ics context
+     *
+     * @param ics        context
      * @param collection the name of the recommendation
-     * @param max max count
+     * @param max        max count
      * @return Collection{@literal<AssetId>} containing recommendations
      * @see IterableIListWrapper
      */
@@ -89,10 +88,10 @@ public final class Recommendations {
 
     /**
      * Get the context-based recommendations from the input Collection.
-     * 
-     * @param ics Content Server context object
+     *
+     * @param ics        Content Server context object
      * @param collection string value for collection
-     * @param input collection of AssetIds
+     * @param input      collection of AssetIds
      * @return the collection with recommended assets
      */
     public static Collection<AssetId> getRecommendations(ICS ics, String collection, Collection<AssetId> input) {

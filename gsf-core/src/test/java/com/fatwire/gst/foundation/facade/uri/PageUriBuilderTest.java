@@ -16,12 +16,11 @@
 
 package com.fatwire.gst.foundation.facade.uri;
 
-import com.fatwire.gst.foundation.test.MockICS;
-
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import tools.gsf.test.MockICS;
 
 public class PageUriBuilderTest extends TestCase {
 

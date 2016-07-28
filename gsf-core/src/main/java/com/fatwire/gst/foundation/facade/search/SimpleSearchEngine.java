@@ -16,11 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.search;
 
-import java.util.Arrays;
-import java.util.List;
-
 import COM.FutureTense.Util.ftErrors;
-
 import com.fatwire.cs.core.search.data.ResultRow;
 import com.fatwire.cs.core.search.engine.SearchEngine;
 import com.fatwire.cs.core.search.engine.SearchEngineConfig;
@@ -28,8 +24,11 @@ import com.fatwire.cs.core.search.engine.SearchEngineException;
 import com.fatwire.cs.core.search.engine.SearchResult;
 import com.fatwire.cs.core.search.query.Operation;
 import com.fatwire.cs.core.search.query.QueryExpression;
-import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.search.util.SearchUtils;
+import tools.gsf.runtime.CSRuntimeException;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Simplified SearchEngine class optimized for common use cases
@@ -73,7 +72,7 @@ public class SimpleSearchEngine {
     }
 
     /**
-     * @param query query expression object
+     * @param query      query expression object
      * @param indexNames array of index names
      * @return search results based on query and indexes provided.
      */
@@ -93,8 +92,8 @@ public class SimpleSearchEngine {
 
     /**
      * @param fieldName field name string
-     * @param op operation
-     * @param values array of values
+     * @param op        operation
+     * @param values    array of values
      * @return a query based on the fields, operation and values.
      */
     public QueryExpression newQuery(String fieldName, Operation op, Object... values) {

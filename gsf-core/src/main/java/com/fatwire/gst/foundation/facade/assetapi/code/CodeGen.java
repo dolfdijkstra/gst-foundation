@@ -16,19 +16,7 @@
 
 package com.fatwire.gst.foundation.facade.assetapi.code;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.jsp.JspWriter;
-
 import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.def.AssetAssociationDef;
 import com.fatwire.assetapi.def.AssetTypeDef;
@@ -37,11 +25,20 @@ import com.fatwire.assetapi.def.AssetTypeDefProperties;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeDefProperties;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
-
 import org.apache.commons.lang3.StringEscapeUtils;
+import tools.gsf.runtime.DebugHelper;
+
+import javax.servlet.jsp.JspWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CodeGen {
 
@@ -68,8 +65,9 @@ public class CodeGen {
         }
 
         public void printAssetTypeDef(AssetTypeDef def) {
-            if (def == null)
+            if (def == null) {
                 return;
+            }
             if (def.getSubtype() == null && def.getProperties().getIsFlexAsset()) {
                 return;
             }
@@ -83,10 +81,12 @@ public class CodeGen {
 
             out.print(" canAddSubtypes: " + p.getCanAddSubtypes());
             String type = p.getIsAssetmakerAsset() ? "AssetmakerAsset" : "Unknown Type";
-            if (p.getIsCoreAsset())
+            if (p.getIsCoreAsset()) {
                 type = "CoreAsset";
-            if (p.getIsFlexAsset())
+            }
+            if (p.getIsFlexAsset()) {
                 type = "FlexAsset";
+            }
             out.print(" type: '" + type + "'");
             out.println(" nameMustUnique: " + p.getIsNameMustUnique());
 
@@ -142,24 +142,32 @@ public class CodeGen {
                         out.print(" assettype: '" + p.getAssetType() + "'");
                         out.print(" assettype: '" + p.getAssetType() + "'");
                     }
-                    if (a.isDataMandatory())
+                    if (a.isDataMandatory()) {
                         out.print(" mandatory");
-                    if (a.isMetaDataAttribute())
+                    }
+                    if (a.isMetaDataAttribute()) {
                         out.print(" meta");
+                    }
 
-                    if (p.isAllowEmbeddedLinks())
+                    if (p.isAllowEmbeddedLinks()) {
                         out.print(" allow embedded");
-                    if (p.isDerivedFlexAttribute())
+                    }
+                    if (p.isDerivedFlexAttribute()) {
                         out.print(" derived");
-                    if (p.isInheritedFlexAttribute())
+                    }
+                    if (p.isInheritedFlexAttribute()) {
                         out.print(" inherited");
+                    }
 
-                    if (p.getMultiple() != null)
+                    if (p.getMultiple() != null) {
                         out.print(" multiple: '" + p.getMultiple() + "'");
-                    if (p.getOrdinal() != null)
+                    }
+                    if (p.getOrdinal() != null) {
                         out.print(" ordinal: '" + p.getOrdinal() + "'");
-                    if (p.getRequired() != null)
+                    }
+                    if (p.getRequired() != null) {
                         out.print(" required: '" + p.getRequired() + "'");
+                    }
                     out.println();
                 }
             }
@@ -175,8 +183,9 @@ public class CodeGen {
         }
 
         public void printAssetTypeDef(AssetTypeDef def) {
-            if (def == null)
+            if (def == null) {
                 return;
+            }
             if (def.getSubtype() == null && def.getProperties().getIsFlexAsset()) {
                 return;
             }
@@ -189,10 +198,12 @@ public class CodeGen {
             AssetTypeDefProperties p = def.getProperties();
             out.print(" canAddSubtypes: " + p.getCanAddSubtypes());
             String type = p.getIsAssetmakerAsset() ? "AssetmakerAsset" : "Unknown Type";
-            if (p.getIsCoreAsset())
+            if (p.getIsCoreAsset()) {
                 type = "CoreAsset";
-            if (p.getIsFlexAsset())
+            }
+            if (p.getIsFlexAsset()) {
                 type = "FlexAsset";
+            }
             out.print(" type: '" + type + "'");
             out.println(" nameMustUnique: " + p.getIsNameMustUnique());
 
@@ -214,10 +225,12 @@ public class CodeGen {
         }
 
         protected String toVarName(String name) {
-            if (name == null || name.length() == 0)
+            if (name == null || name.length() == 0) {
                 return "noname";
-            if (KEYWORDS.contains(name))
+            }
+            if (KEYWORDS.contains(name)) {
                 return name + "_";
+            }
             char[] t = name.replace("-", "_").toCharArray();
             t[0] = Character.toLowerCase(t[0]);
             return new String(t);
@@ -245,8 +258,9 @@ public class CodeGen {
                 pw.println("        AttributeData attribute = null;");
 
                 for (AttributeDef a : attributes) {
-                    if (USELESS_ATTRIBUTES.contains(a.getName()))
+                    if (USELESS_ATTRIBUTES.contains(a.getName())) {
                         continue;
+                    }
                     AttributeTypeEnum t = a.getType();
                     String cast = toCastType(t);
                     String name = toVarName(a.getName());
@@ -376,8 +390,9 @@ public class CodeGen {
                 // pw.println("    // attributes: ");
 
                 for (AttributeDef a : attributes) {
-                    if (USELESS_ATTRIBUTES.contains(a.getName()))
+                    if (USELESS_ATTRIBUTES.contains(a.getName())) {
                         continue;
+                    }
                     AttributeTypeEnum t = a.getType();
                     String cast = toCastType(t);
                     String name = toVarName(a.getName());
@@ -490,8 +505,9 @@ public class CodeGen {
         String getAttributeNames(List<AttributeDef> list) {
             StringBuilder b = new StringBuilder();
             for (AttributeDef def : list) {
-                if (b.length() > 0)
+                if (b.length() > 0) {
                     b.append(",");
+                }
                 b.append(def.getName());
             }
             return b.toString();

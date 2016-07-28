@@ -16,29 +16,26 @@
 
 package com.fatwire.gst.foundation.facade.uri;
 
-import org.apache.commons.lang3.StringUtils;
-
 import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.data.BlobObject.BlobAddress;
-import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl;
+import org.apache.commons.lang3.StringUtils;
+import tools.gsf.runtime.DebugHelper;
 
 /**
  * Builder support for blob urls.
- * 
+ * <p>
  * <pre>
  * new BlobUriBuilder(blob).mimeType(&quot;image/jpeg&quot;).parent(&quot;12345&quot;).toURI(ics);
  * </pre>
- * 
+ *
  * @author Dolf Dijkstra
  * @since Feb 15, 2011
- * 
  */
 public class BlobUriBuilder {
 
@@ -47,19 +44,21 @@ public class BlobUriBuilder {
 
     /**
      * Constructor that accepts AssetData and an attribute name.
-     * 
-     * @param data the asset.
+     *
+     * @param data          the asset.
      * @param attributeName the name of the attribute containing the blob.
      */
     public BlobUriBuilder(final AssetData data, String attributeName) {
         AttributeData attr = data.getAttributeData(attributeName);
-        if (attr == null)
+        if (attr == null) {
             throw new IllegalStateException("Can't find attribute " + attributeName + " on asset "
                     + DebugHelper.toString(data.getAssetId()));
+        }
         BlobObject blob = AttributeDataUtils.asBlob(attr);
-        if (blob == null)
+        if (blob == null) {
             throw new IllegalStateException("Attribute " + attributeName + " on asset "
                     + DebugHelper.toString(data.getAssetId()) + " is not found.");
+        }
 
         populateTag(blob.getBlobAddress());
 
@@ -68,7 +67,7 @@ public class BlobUriBuilder {
 
     /**
      * Constructor accepting a BlobObject.
-     * 
+     *
      * @param blob blob
      */
     public BlobUriBuilder(final BlobObject blob) {
@@ -77,7 +76,7 @@ public class BlobUriBuilder {
 
     /**
      * Constructor accepting a BlobAddress.
-     * 
+     *
      * @param address blob address
      */
     public BlobUriBuilder(final BlobAddress address) {
@@ -137,8 +136,9 @@ public class BlobUriBuilder {
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBobHeader(java.lang.String)
      */
     public BlobUriBuilder mimeType(String s) {
-        if (StringUtils.isBlank(s))
+        if (StringUtils.isBlank(s)) {
             throw new IllegalArgumentException("Value cannot be blank.");
+        }
         tag.setBobHeader(s);
         return this;
     }
@@ -149,24 +149,27 @@ public class BlobUriBuilder {
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobNoCache(java.lang.String)
      */
     public BlobUriBuilder blobNoCache(String s) {
-        if (StringUtils.isBlank(s))
+        if (StringUtils.isBlank(s)) {
             throw new IllegalArgumentException("Value cannot be blank.");
+        }
         tag.setBlobNoCache(s);
         return this;
     }
 
     /**
-     * @param name blob header name
+     * @param name  blob header name
      * @param value blob header value
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public BlobUriBuilder header(String name, String value) {
-        if (StringUtils.isBlank(name))
+        if (StringUtils.isBlank(name)) {
             throw new IllegalArgumentException("Name cannot be blank.");
-        if (StringUtils.isBlank(value))
+        }
+        if (StringUtils.isBlank(value)) {
             throw new IllegalArgumentException("Value cannot be blank.");
+        }
         tag.setBlobHeaderName(n, name);
         tag.setBlobHeaderValue(n, value);
         n++;
@@ -175,15 +178,16 @@ public class BlobUriBuilder {
 
     /**
      * Sets the Cache-Control: max-age http response header for this blob.
-     * 
+     *
      * @param value the max-age value as per http specification.
      * @return this
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int,
-     *      java.lang.String)
+     * java.lang.String)
      */
     public BlobUriBuilder maxAge(int value) {
-        if (value < 0)
+        if (value < 0) {
             throw new IllegalArgumentException("Cache-Control: max-age can not be negative");
+        }
         tag.setBlobHeaderName(n, "Cache-Control");
         tag.setBlobHeaderValue(n, "max-age=" + value);
         n++;
@@ -196,16 +200,17 @@ public class BlobUriBuilder {
      * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
      */
     public BlobUriBuilder parent(String s) {
-        if (StringUtils.isBlank(s))
+        if (StringUtils.isBlank(s)) {
             throw new IllegalArgumentException("Value cannot be blank.");
+        }
         tag.setParentId(s);
         return this;
     }
 
     /**
      * @param assetId asset id object
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
      * @return this
+     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
      */
     public BlobUriBuilder parent(AssetId assetId) {
         return parent(Long.toString(assetId.getId()));

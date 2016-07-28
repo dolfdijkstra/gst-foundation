@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 FatWire Corporation. All Rights Reserved.
+ * Copyright 2010 FatWire Corporation. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.mapping;
 
-import tools.gsf.facade.assetapi.AssetIdWithSite;
-
-import java.util.Map;
-
+package com.fatwire.gst.foundation.httpstatus;
 
 /**
- * Service the read the mappings for an asset.
- *
- * @author Dolf Dijkstra
- * @since Apr 13, 2011
+ * @deprecated - moved to new namespace
+ * @see "tools.gsf.httpstatus.HttpStatusStrings"
  */
-public interface MappingService {
-
-    /**
-     * Reads the mappings for the asset and the site.
-     *
-     * @param id the asset that holds the mapping.
-     * @return the mappings for the asset.
-     */
-    Map<String, MappingValue> readMapping(AssetIdWithSite id);
+public class HttpStatusStrings {
+    public static final String X_FATWIRE_STATUS = "X-Fatwire-Status";
+    public static final String X_FATWIRE_HEADER = "X-Fatwire-Header";
 
 }

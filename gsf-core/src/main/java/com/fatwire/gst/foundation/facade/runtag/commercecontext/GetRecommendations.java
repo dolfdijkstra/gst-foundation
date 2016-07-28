@@ -19,9 +19,8 @@ package com.fatwire.gst.foundation.facade.runtag.commercecontext;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
-
-import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
+import tools.gsf.facade.sql.IListUtils;
 
 /**
  * Retrieves and lists the assets that match the recommendation constraints
@@ -29,11 +28,11 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
  * <p>
  * Syntax
  * <p>
- * 
+ * <p>
  * {@literal <COMMERCECONTEXT.GETRECOMMENDATION COLLECTION="recommendationname"
  * [LIST="inputlist"] [VALUE="rating"] [MAXCOUNT="assetcount"]
  * LISTVARNAME="assetlist" [FILTER="true|false"]/>}
- * 
+ * <p>
  * <p>
  * This tag returns a list containing up to the specified number of recommended
  * assets. The recommendations, and the returned order of them, are based on the
@@ -46,7 +45,7 @@ import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
  * NOTE: This tag also causes compositional dependencies to be recorded for all
  * assets that contribute to the returned lists, and may, under the right
  * conditions, have the same effect as a RENDER.UNKNOWNDEPS tag.
- * 
+ *
  * @author Tony Field
  * @since Apr 12, 2010
  */
@@ -57,11 +56,11 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param collection Input parameter. Name of the recommendation. The sort
-     *            and selection criteria defined in the recommendation are used
-     *            to create the list of possible assets. You can constrain this
-     *            list by using the MAXCOUNT argument, defined below. If there
-     *            are any promotions in place that override this recommendation,
-     *            it substitutes the name of the promotion, instead.
+     *                   and selection criteria defined in the recommendation are used
+     *                   to create the list of possible assets. You can constrain this
+     *                   list by using the MAXCOUNT argument, defined below. If there
+     *                   are any promotions in place that override this recommendation,
+     *                   it substitutes the name of the promotion, instead.
      */
     public void setCollection(String collection) {
         this.set("COLLECTION", collection);
@@ -69,11 +68,11 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param collectionid ID of the recommendation. The sort and selection
-     *            criteria defined in the recommendation are used to create the
-     *            list of possible assets. You can constrain this list by using
-     *            the MAXCOUNT argument, defined below. If there are any
-     *            promotions in place that override this recommendation, it
-     *            substitutes the name of the promotion, instead.
+     *                     criteria defined in the recommendation are used to create the
+     *                     list of possible assets. You can constrain this list by using
+     *                     the MAXCOUNT argument, defined below. If there are any
+     *                     promotions in place that override this recommendation, it
+     *                     substitutes the name of the promotion, instead.
      */
     public void setCollectionId(String collectionid) {
         this.set("COLLECTIONID", collectionid);
@@ -81,11 +80,11 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param collectionid ID of the recommendation. The sort and selection
-     *            criteria defined in the recommendation are used to create the
-     *            list of possible assets. You can constrain this list by using
-     *            the MAXCOUNT argument, defined below. If there are any
-     *            promotions in place that override this recommendation, it
-     *            substitutes the name of the promotion, instead.
+     *                     criteria defined in the recommendation are used to create the
+     *                     list of possible assets. You can constrain this list by using
+     *                     the MAXCOUNT argument, defined below. If there are any
+     *                     promotions in place that override this recommendation, it
+     *                     substitutes the name of the promotion, instead.
      */
     public void setCollectionId(long collectionid) {
         this.setCollectionId(Long.toString(collectionid));
@@ -93,10 +92,10 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param inputList Input parameter. name of the list of assets you want to
-     *            be used as the input for the calculation. This argument is
-     *            applicable only if the recommendation named by COLLECTION is a
-     *            context-based recommendation. Columns are assettype and
-     *            assetid.
+     *                  be used as the input for the calculation. This argument is
+     *                  applicable only if the recommendation named by COLLECTION is a
+     *                  context-based recommendation. Columns are assettype and
+     *                  assetid.
      */
     public void setList(String inputList) {
         this.set("LIST", inputList);
@@ -104,8 +103,8 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param rating Input parameter. Default rating for assets that do not have
-     *            one. If you do not declare a value, unrated assets are
-     *            assigned a default rating of 50 on a scale of 1-100.
+     *               one. If you do not declare a value, unrated assets are
+     *               assigned a default rating of 50 on a scale of 1-100.
      */
     public void setValue(int rating) {
         this.set("VALUE", Integer.toString(rating));
@@ -113,7 +112,7 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param assetcount Input parameter. Maximum number of assets to return.
-     *            Use this value to constrain the list of recommended assets.
+     *                   Use this value to constrain the list of recommended assets.
      */
     public void setMaxCount(int assetcount) {
         this.set("MAXCOUNT", Integer.toString(assetcount));
@@ -121,8 +120,8 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param assetlist Input and output parameter. As input, name you want to
-     *            assign to the list of assets returned on output. Its columns
-     *            are: assettype and assetid.
+     *                  assign to the list of assets returned on output. Its columns
+     *                  are: assettype and assetid.
      */
     public void setListVarName(String assetlist) {
         this.set("LISTVARNAME", assetlist);
@@ -130,8 +129,8 @@ public final class GetRecommendations extends AbstractTagRunner {
 
     /**
      * @param filter Input parameter. A Boolean value: true specifies that no
-     *            assets in the input list can be returned as output; false
-     *            (default) allows input assets to be returned as output.
+     *               assets in the input list can be returned as output; false
+     *               (default) allows input assets to be returned as output.
      */
     public void setFilter(boolean filter) {
         this.set("FILTER", Boolean.toString(filter).toLowerCase());
@@ -140,13 +139,13 @@ public final class GetRecommendations extends AbstractTagRunner {
     /**
      * Easy-to-use utility method to return recommendations for the specified
      * asset.
-     * 
-     * @param ics context
+     *
+     * @param ics   context
      * @param recId id of recommendation to return
-     * @param max max count
+     * @param max   max count
      * @return IList containing recommendations
      * @see IterableIListWrapper
-     * @deprecated replaced by {@link Recommendations#getRecommendations(ICS, String, int)}. 
+     * @deprecated replaced by {@link Recommendations#getRecommendations(ICS, String, int)}.
      */
     @Deprecated
     public static IList getRecommendations(ICS ics, long recId, int max) {

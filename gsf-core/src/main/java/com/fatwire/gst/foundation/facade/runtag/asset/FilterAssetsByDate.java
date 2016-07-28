@@ -16,28 +16,11 @@
 
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
-import static COM.FutureTense.Interfaces.Utilities.goodString;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import COM.FutureTense.Cache.CacheManager;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
-
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
@@ -46,6 +29,20 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.PreviewContext;
 import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.openmarket.xcelerate.publish.PubConstants;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tools.gsf.facade.sql.IListUtils;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
+import static COM.FutureTense.Interfaces.Utilities.goodString;
 
 /**
  * Filters assets via startdate/enddate.
@@ -55,7 +52,7 @@ import com.openmarket.xcelerate.publish.PubConstants;
  * The core function, however, is exceptionally slow to begin with, so caution
  * should be exercised when using this function.
  * <p>
- * 
+ *
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 23, 2010
@@ -63,15 +60,15 @@ import com.openmarket.xcelerate.publish.PubConstants;
 public final class FilterAssetsByDate {
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.runtag.asset.FilterAssetsByDate");
 
-    private static String[] jdbcDateFormatStrings = { "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS" };
+    private static String[] jdbcDateFormatStrings = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS"};
 
     /**
      * Filter a single asset, checking to see if it's valid on the given date.
      * If no date is specified, then the date used is the one used by the
      * FilterAssetsByDate tag when no parameter is specified
-     * 
-     * @param ics context
-     * @param id input asset
+     *
+     * @param ics  context
+     * @param id   input asset
      * @param date override date
      * @return true if the asset is valid, false otherwise.
      */
@@ -79,8 +76,9 @@ public final class FilterAssetsByDate {
 
         AssetId[] out = filter(ics, date, id);
 
-        if (out == null)
+        if (out == null) {
             throw new IllegalStateException("Tag executed successfully but no outlist was returned");
+        }
         if (out.length == 0) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Asset " + id + " is not valid on the effective date.");
@@ -105,10 +103,10 @@ public final class FilterAssetsByDate {
      * Filter a array of asset, checking to see if they're valid on the given
      * date. If no date is specified, then the date used is the one used by the
      * FilterAssetsByDate tag when no parameter is specified
-     * 
-     * @param ics context
+     *
+     * @param ics  context
      * @param date override date
-     * @param id array of assetids
+     * @param id   array of assetids
      * @return the array of asset filtered for the date.
      */
     public static AssetId[] filter(ICS ics, Date date, AssetId... id) {
@@ -120,8 +118,8 @@ public final class FilterAssetsByDate {
      * Filter a collection of assets, checking to see if they're valid on the
      * given date. If no date is specified, then the date used is the one used
      * by the FilterAssetsByDate tag when no parameter is specified
-     * 
-     * @param ics ics context
+     *
+     * @param ics  ics context
      * @param date override date
      * @param list Collection of assetids.
      * @return the Collection of asset filtered for the date.
@@ -149,8 +147,9 @@ public final class FilterAssetsByDate {
         IList out = ics.GetList(outListName);
         ics.RegisterList(outListName, null); // tidy up!
 
-        if (out == null)
+        if (out == null) {
             throw new IllegalStateException("Tag executed successfully but no outlist was returned");
+        }
 
         List<AssetId> olist = new ArrayList<AssetId>();
 
@@ -159,8 +158,9 @@ public final class FilterAssetsByDate {
         for (Row row : new IListIterable(out)) {
             AssetId id = AssetIdUtils.createAssetId(row.getString("assettype"), row.getLong("assetid"));
             olist.add(id);
-            if (previewEnabled)
+            if (previewEnabled) {
                 logDependancy(ics, id);
+            }
         }
 
         return olist;
@@ -179,9 +179,10 @@ public final class FilterAssetsByDate {
                     CacheManager.RecordItem(ics,
                             PubConstants.CACHE_PREFIX + id.getId() + PubConstants.SEPARATOR + id.getType(), null,
                             sdate, edate);
-                } else
+                } else {
                     CacheManager.RecordItem(ics,
                             PubConstants.CACHE_PREFIX + id.getId() + PubConstants.SEPARATOR + id.getType());
+                }
             }
         } else {
             CacheManager
@@ -196,10 +197,10 @@ public final class FilterAssetsByDate {
      * date is a Date object, or null, in which case the current date is used.
      * The boundary dates are JDBC format dates, and can be null, indication the
      * dates aren't boudned.
-     * 
+     *
      * @param startDateJdbc start date in jdbc format or null
      * @param effectiveDate comparison date or null to use current date
-     * @param endDateJdbc end date in jdbc format
+     * @param endDateJdbc   end date in jdbc format
      * @return true if the date is in the valid range; false otherwise.
      */
     public static boolean isDateWithinRange(String startDateJdbc, Date effectiveDate, String endDateJdbc) {
@@ -212,18 +213,19 @@ public final class FilterAssetsByDate {
      * Method to check to see if a date falls between two dates. The comparison
      * date is a Date object, or null, in which case the current date is used.
      * The boundary dates can be null, indication the dates aren't bounded.
-     * 
-     * @param startDate start date or null
+     *
+     * @param startDate     start date or null
      * @param effectiveDate comparison date or null to use current date
-     * @param endDate end date or null
+     * @param endDate       end date or null
      * @return true if the date is in the valid range; false otherwise.
      */
     public static boolean isDateWithinRange(Date startDate, Date effectiveDate, Date endDate) {
         if (startDate == null && endDate == null) {
             return true;
         } else {
-            if (effectiveDate == null)
+            if (effectiveDate == null) {
                 effectiveDate = new Date();
+            }
 
             if (startDate == null) {
                 return effectiveDate.before(endDate) || effectiveDate.equals(endDate);
@@ -237,7 +239,7 @@ public final class FilterAssetsByDate {
 
     /**
      * Given an input string in JDBC form, parse it and return a date object.
-     * 
+     *
      * @param string jdbc date string in the form yyyy-MM-dd HH:mm:ss
      * @return Date
      * @throws IllegalArgumentException on failure

@@ -16,25 +16,14 @@
 
 package com.fatwire.gst.foundation.facade.mda;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
 import COM.FutureTense.Util.ftErrors;
-
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.runtag.asset.AssetLoadByName;
 import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
 import com.fatwire.mda.Dimension;
@@ -45,10 +34,19 @@ import com.fatwire.mda.DimensionSetInstance;
 import com.fatwire.mda.DimensionableAssetManager;
 import com.fatwire.system.Session;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tools.gsf.facade.sql.IListUtils;
+import tools.gsf.runtime.CSRuntimeException;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Handles Locale-specific functions efficiently in Java.
- * 
+ *
  * @author Tony Field
  * @since May 8, 2009
  */
@@ -70,12 +68,12 @@ public final class LocaleUtils {
      * may dictate that a "backup" language can be returned to the user.
      * <p>
      * Null, however, is a valid option.
-     * 
-     * @param c asset type of asset to look up
-     * @param cid asset id of asset to look up
+     *
+     * @param c                          asset type of asset to look up
+     * @param cid                        asset id of asset to look up
      * @param preferredLocaleDimensionId id of locale desired
-     * @param site name of site
-     * @param ics ics context
+     * @param site                       name of site
+     * @param ics                        ics context
      * @return AssetId of translation asset.
      */
     public static AssetId findTranslation(ICS ics, String c, String cid, String preferredLocaleDimensionId, String site) {
@@ -93,13 +91,13 @@ public final class LocaleUtils {
      * may dictate that a "backup" language can be returned to the user.
      * <p>
      * Null, however, is a valid option.
-     * 
-     * @param ics context
-     * @param id id of asset to look up
+     *
+     * @param ics                              context
+     * @param id                               id of asset to look up
      * @param preferredLocaleDimensionIdString id of locale desired
-     * @param site name of site
+     * @param site                             name of site
      * @return AssetId of translation asset, or null if none is returned by the
-     *         dimension set filter.
+     * dimension set filter.
      */
     public static AssetId findTranslation(ICS ics, AssetId id, String preferredLocaleDimensionIdString, String site) {
         if (preferredLocaleDimensionIdString == null) {
@@ -123,13 +121,13 @@ public final class LocaleUtils {
      * may dictate that a "backup" language can be returned to the user.
      * <p>
      * Null, however, is a valid option.
-     * 
-     * @param ics Content Server context object
-     * @param id id of asset to look up
+     *
+     * @param ics                Content Server context object
+     * @param id                 id of asset to look up
      * @param preferredDimension id of locale desired
-     * @param dimensionSetId dimension set to use to find the translation
+     * @param dimensionSetId     dimension set to use to find the translation
      * @return AssetId of translation asset, or null if none is returned by the
-     *         dimension set filter.
+     * dimension set filter.
      */
     public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, long dimensionSetId) {
         if (id == null) {
@@ -166,16 +164,16 @@ public final class LocaleUtils {
      * a "backup" language can be returned to the user.
      * <p>
      * Null, however, is a valid option.
-     * 
-     * @param ics Content Server context object
-     * @param id id of asset to look up
+     *
+     * @param ics                Content Server context object
+     * @param id                 id of asset to look up
      * @param preferredDimension id of locale desired
-     * @param dimensionSetName the name of the dimension set to use to find the
-     *            translation
+     * @param dimensionSetName   the name of the dimension set to use to find the
+     *                           translation
      * @return AssetId of translation asset, or null if none is returned by the
-     *         dimension set filter. The id parameters is returned if the asset
-     *         does not have a locale or if the locale is already of the
-     *         preferredDimension
+     * dimension set filter. The id parameters is returned if the asset
+     * does not have a locale or if the locale is already of the
+     * preferredDimension
      */
     public static AssetId findTranslation(ICS ics, AssetId id, long preferredDimension, String dimensionSetName) {
         if (id == null) {
@@ -205,10 +203,10 @@ public final class LocaleUtils {
     }
 
     /**
-     * @param ics Content Server context object
-     * @param id asset id
+     * @param ics                Content Server context object
+     * @param id                 asset id
      * @param preferredDimension id for preferred locale
-     * @param dimset dimension set instance
+     * @param dimset             dimension set instance
      * @return assetid of translated asset.
      * @throws IllegalStateException exception when illegal state is reached
      */
@@ -216,7 +214,7 @@ public final class LocaleUtils {
             throws IllegalStateException {
         AssetId preferredDim = new AssetIdImpl("Dimension", preferredDimension);
         List<AssetId> preferredDims = Collections.singletonList(preferredDim);
-        Collection<AssetId> relatives = findTranslation(DimensionUtils.getDM(ics), Collections.singletonList(id), preferredDims, dimset );
+        Collection<AssetId> relatives = findTranslation(DimensionUtils.getDM(ics), Collections.singletonList(id), preferredDims, dimset);
         // *****************************************************************************
 
         // make the result pretty
@@ -257,19 +255,19 @@ public final class LocaleUtils {
     /**
      * Main translation lookup method.  Accesses the filter in the dimension set, configures it with the preferred
      * dimension IDs, then filters the input assets.
-     * @param dimensionManager manager class for Dimension lookups
-     * @param toFilterList list of input assets that need to be translated.  Often it's just one, but a list is perfectly valid.
-     * @param preferredDimensionIds preferred dimensions to be investigated for a result. Priority preference depends on the
-     * configured filter
-     * @param dimSet DimensionSet to use for filtering.
-     * @return list of assets based on the translation rules in the dimension filter from the specified dimension set.
      *
+     * @param dimensionManager      manager class for Dimension lookups
+     * @param toFilterList          list of input assets that need to be translated.  Often it's just one, but a list is perfectly valid.
+     * @param preferredDimensionIds preferred dimensions to be investigated for a result. Priority preference depends on the
+     *                              configured filter
+     * @param dimSet                DimensionSet to use for filtering.
+     * @return list of assets based on the translation rules in the dimension filter from the specified dimension set.
      */
     public static Collection<AssetId> findTranslation(DimensionManager dimensionManager, List<AssetId> toFilterList, Collection<AssetId> preferredDimensionIds, DimensionSetInstance dimSet) {
         try {
             return DimensionUtils.filterAssets(dimensionManager, toFilterList, preferredDimensionIds, dimSet);
         } catch (DimensionException e) {
-            throw new CSRuntimeException("Failed to translate assets.  Input assets:"+toFilterList+", Preferred Dimensions: "+preferredDimensionIds+", DimensionSet:"+dimSet, ftErrors.exceptionerr, e);
+            throw new CSRuntimeException("Failed to translate assets.  Input assets:" + toFilterList + ", Preferred Dimensions: " + preferredDimensionIds + ", DimensionSet:" + dimSet, ftErrors.exceptionerr, e);
         }
     }
 
@@ -277,11 +275,12 @@ public final class LocaleUtils {
     // Helper functions
 
     private static boolean _isInputAssetDimensionPreferred(DimensionableAssetManager mgr, AssetId id,
-            long preferredDimension) {
+                                                           long preferredDimension) {
         Dimension dim = DimensionUtils.getLocaleAsDimension(mgr, id);
-        if (dim == null)
+        if (dim == null) {
             return true; // if locale not found, tell that the asset is expected
-                         // locale
+        }
+        // locale
         return dim.getId().getId() == preferredDimension;
     }
 
@@ -297,8 +296,8 @@ public final class LocaleUtils {
      * Locates a single dimension set in a site. If no match is found, an
      * exception is thrown. If more than one match is found, an exception is
      * thrown.
-     * 
-     * @param ics context
+     *
+     * @param ics  context
      * @param site site containing a dimension set
      * @return DimensionSet ID
      */
@@ -329,12 +328,14 @@ public final class LocaleUtils {
         results.moveTo(1);
         String id = IListUtils.getStringValue(results, "id");
         LogDep.logDep(ics, "DimensionSet", id);
-        if (_log.isTraceEnabled()) _log.trace("Looked up dimset for site "+site+" and found "+id);
+        if (_log.isTraceEnabled()) {
+            _log.trace("Looked up dimset for site " + site + " and found " + id);
+        }
         return Long.valueOf(id);
     }
 
     private static DimensionFilterInstance _getPopulatedDimensionFilter(Session ses, DimensionSetInstance dimset,
-            long localeDimensionId) {
+                                                                        long localeDimensionId) {
 
         // Set the filter's preferred dimension
         // Equivalent to:
@@ -350,7 +351,7 @@ public final class LocaleUtils {
     }
 
     private static DimensionFilterInstance _getPopulatedDimensionFilter(DimensionSetInstance dimset,
-            Dimension preferredDimension) {
+                                                                        Dimension preferredDimension) {
         DimensionFilterInstance filter;
         try {
             filter = dimset.getFilter();

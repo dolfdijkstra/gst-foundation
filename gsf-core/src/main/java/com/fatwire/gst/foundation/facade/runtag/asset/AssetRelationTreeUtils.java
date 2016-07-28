@@ -16,6 +16,22 @@
 
 package com.fatwire.gst.foundation.facade.runtag.asset;
 
+import COM.FutureTense.Interfaces.FTValList;
+import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IList;
+import COM.FutureTense.Util.IterableIListWrapper;
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
+import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
+import com.fatwire.gst.foundation.facade.sql.Row;
+import com.fatwire.gst.foundation.facade.sql.TreeHelper;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
+import com.openmarket.xcelerate.publish.Render;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tools.gsf.facade.sql.IListUtils;
+import tools.gsf.runtime.CSRuntimeException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,25 +39,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import COM.FutureTense.Interfaces.FTValList;
-import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Interfaces.IList;
-import COM.FutureTense.Util.IterableIListWrapper;
-
-import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
-import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
-import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.facade.sql.TreeHelper;
-import com.openmarket.xcelerate.asset.AssetIdImpl;
-import com.openmarket.xcelerate.publish.Render;
-
-
-import static com.fatwire.gst.foundation.IListUtils.getStringValue;
 
 /**
  * Utilities for working efficiently with the AssetRelationTree.
@@ -105,14 +102,14 @@ public final class AssetRelationTreeUtils {
 
                 List<String> childNodeIds = new ArrayList<String>();
                 for (IList row : new IterableIListWrapper(art)) {
-                    if (child.getType().equals(getStringValue(row, "otype"))) {
-                        String nid = getStringValue(row, "nid");
-                        String ncode = getStringValue(row, "ncode");
+                    if (child.getType().equals(IListUtils.getStringValue(row, "otype"))) {
+                        String nid = IListUtils.getStringValue(row, "nid");
+                        String ncode = IListUtils.getStringValue(row, "ncode");
                         if (log != null && log.isTraceEnabled()) {
                             log.trace("Found " + child + " in AssetRelationTree.  Node ID: " + nid + ", ncode: " + ncode + ", expecting ncode: " + associationName);
                         }
                         if (associationName.equals(ncode)) {
-                            childNodeIds.add(getStringValue(row, "nid"));
+                            childNodeIds.add(IListUtils.getStringValue(row, "nid"));
                         }
                     }
                 }
@@ -125,7 +122,7 @@ public final class AssetRelationTreeUtils {
                     if (ics.TreeManager(vl) && ics.GetErrno() >= 0) {
                         art = ics.GetList("AssetRelationTree");
                         ics.RegisterList("AssetRelationTree", null);
-                        AssetId parent = new AssetIdImpl(getStringValue(art, "otype"), Long.valueOf(getStringValue(art, "oid")));
+                        AssetId parent = new AssetIdImpl(IListUtils.getStringValue(art, "otype"), Long.valueOf(IListUtils.getStringValue(art, "oid")));
                         if (log != null && log.isTraceEnabled()) {
                             log.trace(child + " in AssetRelationTree has a parent " + parent);
                         }
@@ -165,9 +162,15 @@ public final class AssetRelationTreeUtils {
     public static Collection<AssetId> getParents(ICS ics, AssetId child, String... associationName) {
 
         // validate input
-        if (ics == null) throw new IllegalArgumentException("ICS cannot be null");
-        if (child == null) throw new IllegalArgumentException("Child asset id is required");
-        if (associationName == null) throw new IllegalArgumentException("Association name may not be null");
+        if (ics == null) {
+            throw new IllegalArgumentException("ICS cannot be null");
+        }
+        if (child == null) {
+            throw new IllegalArgumentException("Child asset id is required");
+        }
+        if (associationName == null) {
+            throw new IllegalArgumentException("Association name may not be null");
+        }
 
         List<String> assocNames = Arrays.asList(associationName); // so lame...
 
@@ -178,8 +181,9 @@ public final class AssetRelationTreeUtils {
             // right assoc name?
             String ncode = childInfo.getString("ncode");
             if (!assocNames.contains(ncode)) {
-                if (LOG.isTraceEnabled())
+                if (LOG.isTraceEnabled()) {
                     LOG.trace("Asset " + child + " with node " + childInfo.getString("nid") + " is not the child of any other asset using the association name " + assocNames + ". (This node is for the name " + ncode + ".)");
+                }
                 // nope...
                 continue;
             }
@@ -187,8 +191,9 @@ public final class AssetRelationTreeUtils {
             // Yup. Find its parent.
             for (Row parentInfo : TreeHelper.findParents(ics, "AssetRelationTree", childInfo.getString("nid"))) {
                 AssetId parent = AssetIdUtils.createAssetId(parentInfo.getString("otype"), parentInfo.getString("oid"));
-                if (LOG.isTraceEnabled())
+                if (LOG.isTraceEnabled()) {
                     LOG.trace("Found parent " + parent + " of child " + child + " with association name " + ncode);
+                }
                 parents.add(parent);
             }
         }

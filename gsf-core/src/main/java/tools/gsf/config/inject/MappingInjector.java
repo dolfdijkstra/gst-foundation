@@ -17,12 +17,12 @@ package tools.gsf.config.inject;
 
 import COM.FutureTense.Util.ftErrors;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.gsf.config.Factory;
+import tools.gsf.facade.assetapi.AssetIdWithSite;
 import tools.gsf.mapping.AssetName;
 import tools.gsf.mapping.AssetNameImpl;
 import tools.gsf.mapping.Mapping;

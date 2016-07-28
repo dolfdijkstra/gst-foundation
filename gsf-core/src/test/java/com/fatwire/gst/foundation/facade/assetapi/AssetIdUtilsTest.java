@@ -17,7 +17,6 @@
 package com.fatwire.gst.foundation.facade.assetapi;
 
 import com.fatwire.assetapi.data.AssetId;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

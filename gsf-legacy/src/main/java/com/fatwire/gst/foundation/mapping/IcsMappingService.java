@@ -13,25 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.mapping;
-
-import COM.FutureTense.Interfaces.ICS;
-import com.fatwire.cs.core.db.PreparedStmt;
-import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
-import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.facade.sql.SqlHelper;
-import tools.gsf.facade.assetapi.AssetIdWithSite;
+package com.fatwire.gst.foundation.mapping;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import COM.FutureTense.Interfaces.ICS;
+
+import com.fatwire.cs.core.db.PreparedStmt;
+import com.fatwire.cs.core.db.StatementParam;
+import com.fatwire.gst.foundation.controller.AssetIdWithSite;
+import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
+import com.fatwire.gst.foundation.facade.sql.Row;
+import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+
 /**
- * MappingService implementation making use to sql queries to perform fast lookup of mapping values.
- *
+ * MappingService implementation making use to sql queries to perform fast lookup of mapping values. 
+ * 
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
+ * @deprecated - moved to new namespace
+ * @see "tools.gsf.mapping.IcsMappingService"
  */
 public final class IcsMappingService implements MappingService {
 
@@ -62,7 +65,7 @@ public final class IcsMappingService implements MappingService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * com.fatwire.gst.foundation.mapping.MappingService#readMapping(com.fatwire
      * .gst.foundation.controller.AssetIdWithSite)
