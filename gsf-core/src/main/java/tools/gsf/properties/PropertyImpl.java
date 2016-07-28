@@ -16,7 +16,7 @@
 package tools.gsf.properties;
 
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
+import tools.gsf.facade.assetapi.AssetIdUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;

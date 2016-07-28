@@ -16,12 +16,12 @@
 package tools.gsf.config;
 
 import COM.FutureTense.Interfaces.ICS;
-import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
-import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAssetAccessTemplate;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
-import com.fatwire.gst.foundation.facade.mda.DefaultLocaleService;
-import com.fatwire.gst.foundation.facade.mda.LocaleService;
-import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
+import tools.gsf.facade.assetapi.AssetAccessTemplate;
+import tools.gsf.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
+import tools.gsf.facade.mda.DefaultLocaleService;
+import tools.gsf.facade.mda.LocaleService;
+import tools.gsf.facade.search.SimpleSearchEngine;
 import tools.gsf.mapping.IcsMappingService;
 import tools.gsf.mapping.MappingService;
 import tools.gsf.navigation.AssetNode;

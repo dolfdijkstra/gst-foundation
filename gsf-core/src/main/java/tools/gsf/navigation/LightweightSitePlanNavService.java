@@ -17,8 +17,8 @@ package tools.gsf.navigation;
 
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
+import tools.gsf.facade.assetapi.asset.TemplateAsset;
+import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 
 /**
  * Simple implementation of the SitePlanNavService that simply populates the

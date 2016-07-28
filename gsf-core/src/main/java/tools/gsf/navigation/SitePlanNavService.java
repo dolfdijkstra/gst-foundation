@@ -20,12 +20,12 @@ import COM.FutureTense.Interfaces.IList;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
-import com.fatwire.gst.foundation.facade.runtag.render.LogDep;
-import com.fatwire.gst.foundation.facade.sql.IListIterable;
-import com.fatwire.gst.foundation.facade.sql.Row;
+import tools.gsf.facade.assetapi.AssetIdUtils;
+import tools.gsf.facade.assetapi.asset.TemplateAsset;
+import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
+import tools.gsf.facade.runtag.render.LogDep;
+import tools.gsf.facade.sql.IListIterable;
+import tools.gsf.facade.sql.Row;
 
 import java.util.*;
 import java.util.stream.Collectors;

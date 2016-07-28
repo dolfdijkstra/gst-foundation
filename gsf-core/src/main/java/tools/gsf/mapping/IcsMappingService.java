@@ -18,9 +18,9 @@ package tools.gsf.mapping;
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.cs.core.db.PreparedStmt;
 import com.fatwire.cs.core.db.StatementParam;
-import com.fatwire.gst.foundation.facade.assetapi.AssetAccessTemplate;
-import com.fatwire.gst.foundation.facade.sql.Row;
-import com.fatwire.gst.foundation.facade.sql.SqlHelper;
+import tools.gsf.facade.assetapi.AssetAccessTemplate;
+import tools.gsf.facade.sql.Row;
+import tools.gsf.facade.sql.SqlHelper;
 import tools.gsf.facade.assetapi.AssetIdWithSite;
 
 import java.util.Arrays;
@@ -64,7 +64,7 @@ public final class IcsMappingService implements MappingService {
      * (non-Javadoc)
      *
      * @see
-     * com.fatwire.gst.foundation.mapping.MappingService#readMapping(com.fatwire
+     * tools.gsf.mapping.MappingService#readMapping(com.fatwire
      * .gst.foundation.controller.AssetIdWithSite)
      */
     public Map<String, MappingValue> readMapping(final AssetIdWithSite id) {

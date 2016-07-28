@@ -28,7 +28,7 @@ import COM.FutureTense.Util.IterableIListWrapper;
 
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.Util;
-import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
+import tools.gsf.facade.assetapi.AssetIdUtils;
 
 import org.apache.commons.lang3.StringUtils;
 

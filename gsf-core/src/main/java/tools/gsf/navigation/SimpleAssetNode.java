@@ -22,7 +22,7 @@ import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.def.AssetTypeDef;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
-import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
+import tools.gsf.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.mda.Dimension;
 
 import java.util.*;
