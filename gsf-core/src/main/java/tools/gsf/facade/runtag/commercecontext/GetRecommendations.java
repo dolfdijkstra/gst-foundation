@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.facade.runtag.commercecontext;
+package tools.gsf.facade.runtag.commercecontext;
 
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
-import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
+import tools.gsf.facade.runtag.AbstractTagRunner;
 import tools.gsf.facade.sql.IListUtils;
 
 /**

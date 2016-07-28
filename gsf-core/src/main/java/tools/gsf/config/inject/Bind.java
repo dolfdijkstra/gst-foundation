@@ -22,7 +22,6 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to bind variables to the Action.
- * <p>
  * <pre>
  *
  *   class MyAction implements Action {

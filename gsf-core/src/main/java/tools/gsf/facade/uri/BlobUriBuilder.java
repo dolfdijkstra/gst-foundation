@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fatwire.gst.foundation.facade.uri;
+package tools.gsf.facade.uri;
 
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetData;
@@ -22,9 +22,9 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.data.BlobObject.BlobAddress;
-import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
-import com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl;
 import org.apache.commons.lang3.StringUtils;
+import tools.gsf.facade.assetapi.AttributeDataUtils;
+import tools.gsf.facade.runtag.render.GetBlobUrl;
 import tools.gsf.runtime.DebugHelper;
 
 /**
