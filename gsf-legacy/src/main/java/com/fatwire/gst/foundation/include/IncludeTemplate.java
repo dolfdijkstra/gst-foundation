@@ -115,8 +115,7 @@ public class IncludeTemplate implements Include {
      * @param name argument name
      * @param value argument value
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setArgument(java.lang.String,
-     *      java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setArgument(java.lang.String, java.lang.String)"
      */
     public IncludeTemplate argument(final String name, final String value) {
         if (StringUtils.isBlank(name)) {
@@ -157,7 +156,7 @@ public class IncludeTemplate implements Include {
      * 
      * @param s packedargs
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)"
      */
     public IncludeTemplate packedargs(final String s) {
         tag.setPackedargs(s);
@@ -167,7 +166,7 @@ public class IncludeTemplate implements Include {
     /**
      * @param s style
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setStyle(com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setStyle(com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.Style)"
      */
     public IncludeTemplate style(final Style s) {
         tag.setStyle(s);

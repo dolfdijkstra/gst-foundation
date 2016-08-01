@@ -31,7 +31,7 @@ import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
 public class NullActionNameResolver implements ActionNameResolver {
 
     /* (non-Javadoc)
-     * @see com.fatwire.gst.foundation.controller.action.ActionNameResolver#resolveActionName(COM.FutureTense.Interfaces.ICS)
+     * @see "com.fatwire.gst.foundation.controller.action.ActionNameResolver#resolveActionName(COM.FutureTense.Interfaces.ICS)"
      */
     @Override
     public String resolveActionName(ICS ics) {

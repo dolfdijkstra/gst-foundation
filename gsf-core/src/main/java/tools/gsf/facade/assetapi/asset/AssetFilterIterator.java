@@ -30,7 +30,7 @@ import java.util.List;
  * of a DateFilterClosure.
  *
  * @author Dolf.Dijkstra
- * @see DateFilterClosure
+ * @see "DateFilterClosure"
  * @since Apr 20, 2011
  */
 public class AssetFilterIterator implements Iterable<AssetId> {

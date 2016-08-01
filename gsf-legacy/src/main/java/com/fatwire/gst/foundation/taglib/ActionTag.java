@@ -52,7 +52,7 @@ public class ActionTag extends GsfSimpleTag {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.taglib.GsfRootTag#doStartTag()
+     * @see "com.fatwire.gst.foundation.taglib.GsfRootTag#doStartTag()"
      */
     @Override
     public void doTag() throws JspException {

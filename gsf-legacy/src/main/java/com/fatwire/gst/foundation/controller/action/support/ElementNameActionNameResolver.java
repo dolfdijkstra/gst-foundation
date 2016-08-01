@@ -34,7 +34,7 @@ public class ElementNameActionNameResolver implements ActionNameResolver {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.controller.action.ActionNameResolver#
+     * @see "com.fatwire.gst.foundation.controller.action.ActionNameResolver#"
      * resolveActionName(COM.FutureTense.Interfaces.ICS)
      */
     public String resolveActionName(ICS ics) {

@@ -58,7 +58,7 @@ public class GroovyWebContext extends LegacyDefaultWebAppContext {
     }
 
     /* (non-Javadoc)
-     * @see com.fatwire.gst.foundation.controller.action.support.LegacyDefaultWebAppContext#createActionLocator()
+     * @see "com.fatwire.gst.foundation.controller.action.support.LegacyDefaultWebAppContext#createActionLocator()"
      */
     public ActionLocator createActionLocator() {
         // this method is expected to be called only once during the lifecycle

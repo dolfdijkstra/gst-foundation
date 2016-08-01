@@ -112,7 +112,7 @@ public class BlobUriBuilder {
     /**
      * @param s string value for assembler
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setAssembler(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setAssembler(java.lang.String)"
      */
     public BlobUriBuilder assembler(String s) {
         tag.setAssembler(s);
@@ -122,7 +122,7 @@ public class BlobUriBuilder {
     /**
      * @param s string value for fragment
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setFragment(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setFragment(java.lang.String)"
      */
     public BlobUriBuilder fragment(String s) {
         tag.setFragment(s);
@@ -132,7 +132,7 @@ public class BlobUriBuilder {
     /**
      * @param s string value for bob header
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBobHeader(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBobHeader(java.lang.String)"
      */
     public BlobUriBuilder mimeType(String s) {
         if (StringUtils.isBlank(s)) {
@@ -145,7 +145,7 @@ public class BlobUriBuilder {
     /**
      * @param s string value for blob no cache
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobNoCache(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobNoCache(java.lang.String)"
      */
     public BlobUriBuilder blobNoCache(String s) {
         if (StringUtils.isBlank(s)) {
@@ -159,8 +159,7 @@ public class BlobUriBuilder {
      * @param name  blob header name
      * @param value blob header value
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int,
-     * java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int, java.lang.String)"
      */
     public BlobUriBuilder header(String name, String value) {
         if (StringUtils.isBlank(name)) {
@@ -180,8 +179,7 @@ public class BlobUriBuilder {
      *
      * @param value the max-age value as per http specification.
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int,
-     * java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setBlobHeaderName(int, java.lang.String)"
      */
     public BlobUriBuilder maxAge(int value) {
         if (value < 0) {
@@ -196,7 +194,7 @@ public class BlobUriBuilder {
     /**
      * @param s string value for parent id
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)"
      */
     public BlobUriBuilder parent(String s) {
         if (StringUtils.isBlank(s)) {
@@ -209,7 +207,7 @@ public class BlobUriBuilder {
     /**
      * @param assetId asset id object
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl#setParentId(java.lang.String)"
      */
     public BlobUriBuilder parent(AssetId assetId) {
         return parent(Long.toString(assetId.getId()));

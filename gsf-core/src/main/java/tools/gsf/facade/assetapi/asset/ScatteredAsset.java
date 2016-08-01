@@ -49,7 +49,7 @@ import java.util.TreeMap;
  * language like JSP EL.
  *
  * @author Dolf.Dijkstra
- * @see AssetMapAdapter
+ * @see "AssetMapAdapter"
  * @since Nov 23, 2009
  */
 
