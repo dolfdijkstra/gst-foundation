@@ -431,7 +431,7 @@ public class DefaultLocaleService implements LocaleService {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.facade.mda.LocaleService#
+     * @see "com.fatwire.gst.foundation.facade.mda.LocaleService#"
      * getDimensionAssetIdForName(java.lang.String)
      */
 

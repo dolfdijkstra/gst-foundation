@@ -144,8 +144,7 @@ public class IncludePage implements Include {
      * @param name argument name
      * @param value argument value
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setArgument(java.lang.String,
-     *      java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setArgument(java.lang.String, java.lang.String)"
      */
     public IncludePage argument(final String name, final String value) {
         if (FORBIDDEN_VARS.contains(name)) {
@@ -165,7 +164,7 @@ public class IncludePage implements Include {
      * 
      * @param s string value of packed arguments
      * @return this
-     * @see com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.runtag.render.CallTemplate#setPackedargs(java.lang.String)"
      */
     public IncludePage packedargs(final String s) {
         this.packedArgs = s;

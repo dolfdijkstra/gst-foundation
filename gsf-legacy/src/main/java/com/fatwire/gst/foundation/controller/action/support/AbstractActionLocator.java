@@ -86,8 +86,7 @@ public abstract class AbstractActionLocator implements ActionLocator {
      * the {@link #getFallbackActionLocator()} returns an Action, so that this
      * method never returns null.
      * 
-     * @see com.fatwire.gst.foundation.controller.action.ActionLocator#getAction(COM.FutureTense.Interfaces.ICS,
-     *      java.lang.String)
+     * @see "com.fatwire.gst.foundation.controller.action.ActionLocator#getAction(COM.FutureTense.Interfaces.ICS, java.lang.String)"
      */
     public final Action getAction(final ICS ics, final String name) {
         Action action = null;

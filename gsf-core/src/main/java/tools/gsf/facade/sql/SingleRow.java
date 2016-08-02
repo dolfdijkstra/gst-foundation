@@ -42,7 +42,7 @@ class SingleRow implements Row {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.facade.sql.Row#getBytes(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.sql.Row#getBytes(java.lang.String)"
      */
     public byte[] getBytes(final String key) {
         try {
@@ -55,7 +55,7 @@ class SingleRow implements Row {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.facade.sql.Row#getChar(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.sql.Row#getChar(java.lang.String)"
      */
     public Character getChar(final String key) {
         try {
@@ -72,7 +72,7 @@ class SingleRow implements Row {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.facade.sql.Row#getDate(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.sql.Row#getDate(java.lang.String)"
      */
     public Date getDate(final String key) {
         try {
@@ -89,7 +89,7 @@ class SingleRow implements Row {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.facade.sql.Row#getLong(java.lang.String)
+     * @see "com.fatwire.gst.foundation.facade.sql.Row#getLong(java.lang.String)"
      */
     public Long getLong(final String key) {
         try {
