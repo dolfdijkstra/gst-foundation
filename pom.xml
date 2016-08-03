@@ -475,6 +475,9 @@
 			<plugin>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.9</version>
+                <configuration>
+                	<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+            	</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-jxr-plugin</artifactId>
