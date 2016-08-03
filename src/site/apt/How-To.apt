@@ -16,6 +16,8 @@
 
 HOW-TO
 
+	{{Build and Package the GSF Project}}
+
 	{{Use Your Own Factory Implementation}}
 
 	{{Use Your Own App Context Implementation}}
@@ -29,6 +31,40 @@ HOW-TO
 	{{Use Your Own NavigationNode Implementation}}
 	
 	{{Inject Your Own Beans / Objects Into a WCS 12c Controller}}	
+
+Build and Package the GSF Project
+
+	Building and packaging the GSF's components is very simple; just execute the package.sh shell script located in the project's root folder:
+
++--				
+(...)	
+$ sh package.sh
+(...)
++--
+
+	This will:
+	
+		[[1]] Download all due MAVEN artifacts
+	
+		[[1]] Build the entire MAVEN project, including both CORE and LEGACY submodules / components.
+	
+		[[1]] Build the GSF website.
+	
+		[[1]] Package all of the above in 2 separate files: the GSF "KIT" and the GSF "SITE".
+		
+		[]
+		
+	The script is quite verbose so it should be trivial understanding what it is doing and where you can pick up the output (files)
+	
+	In addition to the default behaviour, you also have the ability to invoke just one part of the whole packaging process:
+	
+		* <<"sh package.sh jar">>: this will download the artifacts and build the project (e.g. produce the JARs), but it won't generate the website, package it nor will it package the Kit.
+		
+		* <<"sh package.sh kit">>: this will package the GSF Kit for you, but it will not build the project for you (e.g. it won't re-compile the code)
+		
+		* <<"sh package.sh site">>: this will package the GSF Website for you, but it will not build the project nor package the GSF Kit for you.
+		
+		* <<"sh package.sh all">>: this is the default behaviour, i.e. it is <<equivalent to "sh package.sh">>.   
 
 Use Your Own Factory Implementation
 
