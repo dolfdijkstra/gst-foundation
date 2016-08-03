@@ -170,7 +170,7 @@ case ${commandName} in
 	"kit")	packageKit ;;
 	"site")	packageWebsite ;;
 	"all")	buildAndPackageAll ;;
-	*)	onexit ;;
+	*)	echo UNSUPPORTED OPERATION "$commandName". ; exit ;;
 esac
 
 
