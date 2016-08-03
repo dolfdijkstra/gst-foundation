@@ -16,11 +16,9 @@
 
 Release Notes
 
-	* GSF-12 requires Java v1.8 (or newer)
+	* GSF-12 requires Java v1.8 (or newer) and Servlet 3.0 (or newer)
 	
-	* The namespace of the entire project has been changed to "tools.gsf.". All classes under the "com.fatwire.gst" namespace have been deprecated. You must stop using deprecated classes as soon as possible. Old classes under the old namespace / packages are still available (temporarily) inside the LEGACY JAR for backwards compatibility. 
-	
-	* Loggers have been "renamed" from "com.fatwire.gsf.foundation..." to "tools.gsf..." so that WCS 12.x's logging framework doesn't break and replaced Apache Commons Logging with SLF4J, which integrates with ODL natively in WCS 12.x. This also leverages consistency between package names and the loggers'. 
+	* A brand new namespace for classes and loggers will be used from now on: <<tools.gsf>>. Pre-existing classes will get progressively deprecated, moved onto the LEGACY artifact and (eventually) physically removed from the GSF's codebase / project in future versions.
 
 	* All GSF taglibs have been DEPRECATED (see gsf-taglib-legacy). You should stop using and/or extending and/or customizing them; some of them will be wiped out in future releases and some will be completely replaced by new ones.
   

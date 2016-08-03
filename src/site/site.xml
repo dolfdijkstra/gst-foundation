@@ -24,13 +24,15 @@ under the License.
 		<item name="Introduction" href="index.html"/>
 		<item name="Release Notes" href="ReleaseNotes.html"/>
 		<item name="Install Guide" href="InstallGuide.html"/>
+		<item name="How To..." href="How-To.html"/>
+		<item name="Facades Highlights" href="Facades-Highlights.html"/>
 		<!--
 		 According to https://issues.apache.org/jira/browse/MNGSITE-152 
 		-->
 		<item name="License" href="http://www.apache.org/licenses/"/>
 	</menu>
 	
-	<menu ref="reports" />
+	<menu ref="modules" />
 	
 </body>
 </project>
