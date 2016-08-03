@@ -64,7 +64,9 @@ $ sh package.sh
 		
 		* <<"sh package.sh site">>: this will package the GSF Website for you, but it will not build the project nor package the GSF Kit for you.
 		
-		* <<"sh package.sh all">>: this is the default behaviour, i.e. it is <<equivalent to "sh package.sh">>.   
+		* <<"sh package.sh all">>: this is the default behaviour, i.e. it is <<equivalent to "sh package.sh">>.
+		
+		[]   
 
 Use Your Own Factory Implementation
 
