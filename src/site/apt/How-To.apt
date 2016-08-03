@@ -66,7 +66,9 @@ $ sh package.sh
 		
 		* <<"sh package.sh all">>: this is the default behaviour, i.e. it is <<equivalent to "sh package.sh">>.
 		
-		[]   
+		[]
+		
+	If you want MAVEN to include a timestamp on every line it outputs, make sure you configure MAVEN accordingly. You can find useful information {{{https://maven.apache.org/maven-logging.html} here}}.   
 
 Use Your Own Factory Implementation
 
