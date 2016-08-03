@@ -146,14 +146,14 @@ fi
 
 if [ ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation ] ;
 then 
-   echo "The GSF artifacts are not present in your maven repository. This is expected if you are building for the first time on this computer."
-   echo "Starting initial build"
+   echo "[$(date)] The GSF artifacts are not present in your maven repository. This is expected if you are building for the first time on this computer."
+   echo "[$(date)] Starting initial build"
    echo
    # first install the build tools
    # then run install on the whole kit to force-download all dependencies (even ones not caught by dependency:go-offline)
    (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd ..)
    mvn -q install > $mavenOutputLog
-   echo "Finished initial build"
+   echo "[$(date)] Finished initial build"
 fi
 
 echo "[$(date)] Clearing $tmpLocation"
