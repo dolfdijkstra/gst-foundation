@@ -37,9 +37,7 @@ Build and Package the GSF Project
 	Building and packaging the GSF's components is very simple; just execute the package.sh shell script located in the project's root folder:
 
 +--				
-(...)	
 $ sh package.sh
-(...)
 +--
 
 	This will:
