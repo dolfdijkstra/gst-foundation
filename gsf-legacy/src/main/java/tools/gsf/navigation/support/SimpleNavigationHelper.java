@@ -39,8 +39,8 @@ import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.facade.uri.TemplateUriBuilder;
-import tools.gsf.navigation.NavigationNode;
-import tools.gsf.navigation.NavigationService;
+import com.fatwire.gst.foundation.wra.navigation.NavigationNode;
+import com.fatwire.gst.foundation.wra.navigation.NavigationService;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
 
 /**

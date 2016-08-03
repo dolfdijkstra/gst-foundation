@@ -20,13 +20,13 @@ Release Notes
 	
 	* A brand new namespace for classes and loggers will be used from now on: <<tools.gsf>>. Pre-existing classes will get progressively deprecated, moved onto the LEGACY artifact and (eventually) physically removed from the GSF's codebase / project in future versions.
 
-	* All taglibs have been DEPRECATED (see gsf-taglib-legacy). You should stop using and/or extending and/or customizing them; some of them will be wiped out in future releases and some will be completely replaced by new ones.
+	* All GSF taglibs have been DEPRECATED (see gsf-taglib-legacy). You should stop using and/or extending and/or customizing them; some of them will be wiped out in future releases and some will be completely replaced by new ones.
   
-	* GSF Tags have been DEPRECATED (see gsf-tagging-legacy), including the GSTTagRegistry table. You should stop using and/or extending and/or customizing them, rely instead on WCS 12.x's native tagging support.
+	* GSF Tagging has been DEPRECATED (see gsf-tagging-legacy), including the GSTTagRegistry table. You should stop using and/or extending and/or customizing them, rely instead on WCS 12.x's native tagging support.
 
-	* The entire groovy module has been DEPRECATED (see gsf-groovy-legacy). You must stop using and/or extending and/or customizing these classes as soon as possible, rely on WCS 12.x's native Groovy support instead (in conjunction with WCS 12.x's Controllers / Templates / CSElements)
+	* The entire Groovy module has been DEPRECATED (see gsf-groovy-legacy). You must stop using and/or extending and/or customizing these classes as soon as possible, rely on WCS 12.x's native Groovy support instead (in conjunction with WCS 12.x's Controllers / Templates / CSElements)
 
-	* The entire gsf-samples module has been WIPED OUT, but the gsf-samples module is not deprecated; we will release brand new samples in a future release! (and new development guidelines will be outlined)
+	* All GSF-specific samples have been wiped out, although the gsf-samples module itself is still there; we will implement brand new samples in a future release! (and new development guidelines will be outlined)
 
 	* The entire gsf-mobile module has been WIPED OUT. You should stop using and/or extending and/or customizing these classes, rely on WCS 12.x's native multi-device support instead.
 
@@ -36,21 +36,17 @@ Release Notes
 
 	* The entire "include" subpackage, including IncludeService and GsfCallTemplate, has been DEPRECATED. You should stop using these, use WCS 12.x's OOTB features instead.
 
-	* NavigationHelpers, Navigation Service implementation and all related classes - except the NavigationService interface and the NavigationNode class - have been DEPRECATED. A brand new, improved Navigation Helper - and supporting services / interfaces - will be implemented in the next releases!
+	* A brand new implementation of the Navigation Service has been implemented. The existing (former) implementation has been DEPRECATED. Check out the How-To's / Highlights section for more info.
 
-	* IcsBackedObjectFactoryTemplate has been DEPRECATED, replaced with a new Factory implementation: SimpleIcsBackedObjectFactoryTemplate. You should stop using / extending / customizing the IcsBackedObjectFactoryTemplate class.  
+	* IcsBackedObjectFactoryTemplate has been DEPRECATED, replaced with a new Factory implementation: IcsObjectFactory. You should stop using, extending and customizing the IcsBackedObjectFactoryTemplate class.
 
 	* 11g's implementation of DefaultWebAppContext has been DEPRECATED, code has been moved onto a new class: LegacyDefaultWebAppContext.
 
-	* A new, WCS 12.x-friendly version of DefaultWebAppContext has been implemented; this one allows your specifying the FQN of the Factory implementation you want to use inside META-INF/gsf-factory. Methods related to DEPRECATED features have been removed (createActionLocator, createActionNameResolver, createNavigationService, ...)
-
-	* Renamed all loggers from "com.fatwire.gsf.foundation..." to "tools.gsf..." so that WCS 12.x's logging framework doesn't break and replaced Apache Commons Logging with SLF4J, which integrates with ODL natively in WCS 12.x.
+	* A new, WCS 12.x-friendly version of DefaultWebAppContext has been implemented; this one does not require your editing web.xml anymore and it has been streamlined by removing all methods related to deprecated features (createActionLocator, createActionNameResolver, createNavigationService, ...). Check out the How-To's / Highlights section for more info.	
   
 	* The entire com.fatwire.gst.foundation.facade.logging package has been DEPRECATED. You must not use any of those classes in WCS 12.x as they won't work properly. This entire package will be wiped out in an upcoming release.
 
-	* Packages remain the same, have not been renamed in accordance to the renamed loggers.
-
-	* DefaultWebAppContext now defaults to the new SimpleIcsBackedObjectFactoryTemplate instead of IcsBackedObjectFactoryTemplate (DEPRECATED)
+	* The new DefaultWebAppContext defaults to IcsObjectFactory instead of IcsBackedObjectFactoryTemplate (which has been deprecated along with the former DefaultWebAppContext implementation)
 
 	* The entire GSTAttribute flex family is deprecated. You should stop using / extending / customizing this flex family. Future releases of the GSF-12 will not use the GSTAttribute flex family AT ALL.
 
@@ -60,3 +56,5 @@ Release Notes
 
 	* The entire com.fatwire.gst.foundation.html package has been DEPRECATED. You should stop using and/or extending and/or customizing them; they will all be wiped out in a future release.
   
+	* WCS 12c's base Controller has been extended so to simplify integration of the GSF's injection mechanism (et al GSF-specific features) and WCS 12c's new dispatching framework and API.
+	

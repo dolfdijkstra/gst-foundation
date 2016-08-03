@@ -98,12 +98,6 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
         return new SimpleSearchEngine("lucene");
     }
 
-    @ServiceProducer(cache = true)
-    public NavService<AssetNode> createNavService(final ICS ics) {
-        TemplateAssetAccess dao = getObject("templateAssetAccess", TemplateAssetAccess.class);
-        return new LightweightSitePlanNavService(ics, dao);
-    }
-
     @ServiceProducer(cache = false)
     public Stopwatch createStopwatch(ICS ics) {
         return LoggerStopwatch.getInstance();

@@ -54,7 +54,7 @@ public abstract class AnnotationController extends AbstractController {
     /*
      * (non-Javadoc)
      * 
-     * @see com.fatwire.gst.foundation.controller.AbstractController#doExecute()
+     * @see "com.fatwire.gst.foundation.controller.AbstractController#doExecute()"
      */
     @Override
     protected void doExecute() {

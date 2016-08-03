@@ -16,9 +16,9 @@
 package tools.gsf.config.inject;
 
 import COM.FutureTense.Interfaces.ICS;
-import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import tools.gsf.config.Factory;
 import tools.gsf.config.FactoryProducer;
+import tools.gsf.facade.assetapi.AssetIdWithSite;
 
 /**
  * @author Tony Field

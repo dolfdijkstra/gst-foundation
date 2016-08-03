@@ -15,7 +15,6 @@
  */
 package tools.gsf.config.inject;
 
-import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +22,9 @@ import org.springframework.beans.BeanUtils;
 import tools.gsf.config.Factory;
 import tools.gsf.time.Stopwatch;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Tony Field
@@ -78,34 +74,6 @@ final class InjectForRequestInjector {
         } finally {
             stopwatch.elapsed("inject model for {}", object.getClass().getName());
         }
-    }
-
-    /**
-     * Finds the fields in the class or super class that are annotated with the
-     * <tt>annnotationClass</tt> annotation.
-     *
-     * @param object           the object to inspect.
-     * @param annnotationClass the annotation to find.
-     * @return the array of fields with the annotation, never null.
-     */
-    public static Field[] findFieldsWithAnnotation(final Object object, final Class<? extends Annotation> annnotationClass) {
-        if (object == null) {
-            throw new IllegalArgumentException("object must not be null.");
-        }
-        if (annnotationClass == null) {
-            throw new IllegalArgumentException("clazz must not be null.");
-        }
-        final List<Field> x = new ArrayList<>();
-        Class<?> c = object.getClass();
-        while (c != Object.class && c != null) {
-            for (final Field field : c.getDeclaredFields()) {
-                if (field.isAnnotationPresent(annnotationClass)) {
-                    x.add(field);
-                }
-            }
-            c = c.getSuperclass();
-        }
-        return x.toArray(new Field[x.size()]);
     }
 
     /**

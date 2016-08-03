@@ -17,17 +17,18 @@ package tools.gsf.config.inject;
 
 import COM.FutureTense.Util.ftErrors;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.gst.foundation.CSRuntimeException;
-import com.fatwire.gst.foundation.controller.AssetIdWithSite;
-import com.fatwire.gst.foundation.controller.annotation.Mapping;
-import com.fatwire.gst.foundation.mapping.AssetName;
-import com.fatwire.gst.foundation.mapping.MappingService;
-import com.fatwire.gst.foundation.mapping.MappingValue;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.gsf.config.Factory;
+import tools.gsf.facade.assetapi.AssetIdWithSite;
+import tools.gsf.mapping.AssetName;
+import tools.gsf.mapping.AssetNameImpl;
+import tools.gsf.mapping.Mapping;
+import tools.gsf.mapping.MappingService;
+import tools.gsf.mapping.MappingValue;
+import tools.gsf.runtime.CSRuntimeException;
 import tools.gsf.time.Stopwatch;
 
 import java.lang.annotation.Annotation;
@@ -93,7 +94,7 @@ final class MappingInjector {
         } else if (AssetId.class.isAssignableFrom(field.getType()) && value.getType() == MappingValue.Type.asset) {
             injectionValue = new AssetIdImpl(value.getLeft(), Long.parseLong(value.getRight()));
         } else if (AssetName.class.isAssignableFrom(field.getType()) && value.getType() == MappingValue.Type.assetname) {
-            injectionValue = new AssetName(value.getLeft(), value.getRight());
+            injectionValue = new AssetNameImpl(value.getLeft(), value.getRight());
         } else {
             injectionValue = value.getValue();
             final Mapping.Match what = ifr.match();
