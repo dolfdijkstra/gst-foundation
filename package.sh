@@ -37,97 +37,99 @@ then
    # first install the build tools
    # then run install on the whole kit to force-download all dependencies (even ones not caught by dependency:go-offline)
    (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd ..)
-   mvn -q install >/tmp/gsf-deploy/mvn-gsf.out
+   mvn -q install > /tmp/gsf-deploy/mvn-gsf.out
    echo "Finished initial build"
 fi
 
-echo "Downloading all artifacts"
-mvn -q dependency:go-offline >/tmp/gsf-deploy/mvn-gsf.out
+echo "[$(date)] Downloading all artifacts"
+mvn -q dependency:go-offline | awk '{ print "[DOWNLOADING ARTIFACTS] ", $0; }' > /tmp/gsf-deploy/mvn-gsf.out
 
-echo "Building jars"
-mvn -o clean install >/tmp/gsf-deploy/mvn-gsf.out
+echo "[$(date)] Building jars"
+mvn -o clean install | awk '{ print "[BUILDING JARS] ", $0; }' >> /tmp/gsf-deploy/mvn-gsf.out
 
-echo "Clearing $tmpLocation"
+echo "[$(date)] Clearing $tmpLocation"
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 mkdir -p "$tmpLocation"
 
-echo "Building site"
+echo "[$(date)] Building site"
 
-echo "  preparing"
-mvn -P '!samples' site >/tmp/gsf-deploy/mvn-gsf.out
+echo "[$(date)]   preparing site"
+mvn -P '!samples' site | awk '{ print "[PREPARING SITE] ", $0; }' >> /tmp/gsf-deploy/mvn-gsf.out
 
-echo "  staging site under $siteLocation"
-mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation > /dev/null
+echo "[$(date)]   staging site under $siteLocation"
+#mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation > /dev/null
+mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation | awk '{ print "[STAGING SITE] ", $0; }' >> /tmp/gsf-deploy/mvn-gsf.out
 
-echo "  initializing 'downloads' folder $siteLocation/downloads"
+echo "[$(date)]   initializing 'downloads' folder $siteLocation/downloads"
 if [ ! -d $siteLocation/downloads ] ;
 then
 	mkdir $siteLocation/downloads
 fi
 
-echo "  copying JAR files inside $siteLocation/downloads"
+echo "[$(date)]   copying JAR files inside $siteLocation/downloads"
 cp gsf-core/target/gsf-core-$VERSION.jar $siteLocation/downloads/
 cp gsf-legacy/target/gsf-legacy-$VERSION.jar $siteLocation/downloads/
 
-echo "  copying JavaDoc and Source Files inside $siteLocation/downloads"
+echo "[$(date)]   copying JavaDoc and Source Files inside $siteLocation/downloads"
 cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $siteLocation/downloads/
 cp gsf-core/target/gsf-core-$VERSION-sources.jar $siteLocation/downloads/
 cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
 cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $siteLocation/downloads/
 
-echo "Adding license to $siteLocation"
+echo "[$(date)] Adding license to $siteLocation"
 cp LICENSE "$siteLocation"
 
-echo "  compressing site"
+echo "[$(date)]   compressing site"
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 websiteArchive=`pwd`/target/gsf-$VERSION-website
 cd $tmpLocation
 tar -czf ${websiteArchive}.tgz site
 zip -q -r ${websiteArchive}.zip site
 
-echo "GSF's website is ready for pick-up here:"
-echo "  ${websiteArchive}.tgz"
-echo "  ${websiteArchive}.zip"
+echo "[$(date)] GSF's website is ready for pick-up here:"
+echo "[$(date)]   ${websiteArchive}.tgz"
+echo "[$(date)]   ${websiteArchive}.zip"
 echo
 
 cd $execLocation
 
-echo "Building kit"
+echo "[$(date)] Building kit"
 
-echo "  initializing 'kit' folder $kitLocation"
+echo "[$(date)]   initializing 'kit' folder $kitLocation"
 if [ ! -d $kitLocation ] ;
 then
         mkdir $kitLocation
 fi
 
-echo "  copying JAR files with compiled classes inside $kitLocation"
+echo "[$(date)]   copying JAR files with compiled classes inside $kitLocation"
 cp gsf-core/target/gsf-core-$VERSION.jar $kitLocation
 cp gsf-legacy/target/gsf-legacy-$VERSION.jar $kitLocation
 
-echo "  copying JavaDoc and Source Files inside $kitLocation"
+echo "[$(date)]   copying JavaDoc and Source Files inside $kitLocation"
 cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $kitLocation
 cp gsf-core/target/gsf-core-$VERSION-sources.jar $kitLocation
 cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $kitLocation
 cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $kitLocation
 
-echo "  copying README.md inside $kitLocation"
+echo "[$(date)]   copying README.md inside $kitLocation"
 cp ./README.md $kitLocation
 
 #mkdir "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
 #cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
 
-echo "Adding license to $kitLocation"
+echo "[$(date)] Adding license to $kitLocation"
 cp LICENSE "$kitLocation"
 
-echo "  compressing kit"
+echo "[$(date)]   compressing kit"
 if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 kitArchive=`pwd`/target/gsf-$VERSION-kit
 cd $tmpLocation
 tar -czf ${kitArchive}.tgz kit
 zip -q -r ${kitArchive}.zip kit
 
-echo "GSF Packaging complete. Kits are ready for pick-up here:"
+echo "[$(date)] GSF Packaging complete."
+echo "Kits are ready for pick-up here:"
 echo "  ${kitArchive}.tgz"
 echo "  ${kitArchive}.zip"
 echo
