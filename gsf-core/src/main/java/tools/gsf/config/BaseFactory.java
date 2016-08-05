@@ -239,19 +239,27 @@ public abstract class BaseFactory implements Factory {
         LOG.trace("trying to create a {} object with name {} from method {}", c.getName(), name, m.toGenericString());
 
         if (c.isAssignableFrom(m.getReturnType())) {
-            Object from = null;
+            Object objectFromWhichTheMethodWillBeInvoked = null;
 
             if (!Modifier.isStatic(m.getModifiers())) {
+                // The following block essentially forces the factory to use the class in which the method is declared
+                // to invoke the method, instead of allowing the actual returned factory (which could be a subclass
+                // of the one in which the method is declared) from invoking it. (e.g. if the createFoo method is
+                // declared in BaseFactory but we have another factory called TonyFactory that extends BaseFactory,
+                // then if we are looping through factory classes to find a create method, and find createFoo in
+                // TonyFactory, the reflection code below will use BaseFactory to invoke createFoo not TonyFactory,
+                // even though outside of reflection, we could invoke it from TonyFactory perfectly fine.)
+                // HOWEVER: we do not know why this has to be this way!!
                 Class<?> reflectionClass = m.getDeclaringClass();
                 if (reflectionClass.isAssignableFrom(getClass())) {
-                    from = this; // TODO will this clash if this class and declared class have same parent class?
+                    objectFromWhichTheMethodWillBeInvoked = this; // TODO will this clash if this class and declared class have same parent class?
                 } else {
                     Constructor<?> ctor;
 
                     try {
                         ctor = reflectionClass.getConstructor(ICS.class, Factory.class);
                         if (Modifier.isPublic(ctor.getModifiers())) {
-                            from = ctor.newInstance(ics, this);
+                            objectFromWhichTheMethodWillBeInvoked = ctor.newInstance(ics, this);
                         } else {
                             throw new IllegalStateException(reflectionClass.getName() + " does not have a public (ICS,Factory) constructor.");
                         }
@@ -269,11 +277,11 @@ public abstract class BaseFactory implements Factory {
             if (m.getParameterTypes().length == 2
                     && m.getParameterTypes()[0].isAssignableFrom(ICS.class)
                     && m.getParameterTypes()[1].isAssignableFrom(Factory.class)) {
-                o = invokeCreateMethod(m, from, ics, this);
+                o = invokeCreateMethod(m, objectFromWhichTheMethodWillBeInvoked, ics, this);
             } else if (m.getParameterTypes().length == 1 && m.getParameterTypes()[0].isAssignableFrom(ICS.class)) {
-                o = invokeCreateMethod(m, from, ics);
+                o = invokeCreateMethod(m, objectFromWhichTheMethodWillBeInvoked, ics);
             } else if (m.getParameterTypes().length == 0) {
-                o = invokeCreateMethod(m, from);
+                o = invokeCreateMethod(m, objectFromWhichTheMethodWillBeInvoked);
             }
             if (shouldCache(m)) {
                 objectCache.put(name, o);

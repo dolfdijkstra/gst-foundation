@@ -33,13 +33,13 @@ public class InjectingController extends BaseController {
         ServletContext srvCtx = ics.getIServlet().getServlet().getServletContext();
         AppContext ctx = WebAppContextUtil.getWebAppContext(srvCtx);
 
-        Injector injector = ctx.getBean("Injector", Injector.class);
-        FactoryProducer fp = ctx.getBean("FactoryProducer", FactoryProducer.class);
+        FactoryProducer fp = ctx.getBean("factoryProducer", FactoryProducer.class);
         Factory factory = fp.getFactory(ics);
         Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
 
         stopwatch.start();
 
+        Injector injector = ctx.getBean("Injector", Injector.class);
         injector.inject(ics, this);
         stopwatch.split("Injecting into controller {}", this.getClass().getSimpleName());
 
