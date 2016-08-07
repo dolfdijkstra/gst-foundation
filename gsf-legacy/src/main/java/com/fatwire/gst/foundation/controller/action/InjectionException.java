@@ -19,33 +19,24 @@ package com.fatwire.gst.foundation.controller.action;
 /**
  * @author Dolf Dijkstra
  * @since 12 jun. 2012
- * @deprecated see {@link tools.gsf.config.inject.InjectionException}
  */
-public class InjectionException extends tools.gsf.config.inject.InjectionException {
+public class InjectionException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
 
     public InjectionException() {
         super();
-
     }
 
     public InjectionException(String message, Throwable cause) {
         super(message, cause);
-
     }
 
     public InjectionException(String message) {
         super(message);
-
     }
 
     public InjectionException(Throwable cause) {
         super(cause);
-
     }
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
 }

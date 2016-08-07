@@ -16,43 +16,38 @@
 
 package com.fatwire.gst.foundation.controller.action;
 
+import COM.FutureTense.Interfaces.ICS;
+import com.fatwire.cs.core.db.Util;
+import com.fatwire.gst.foundation.controller.annotation.Bind;
+import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import javax.servlet.http.HttpSession;
-
-import tools.gsf.time.LoggerStopwatch;
-import tools.gsf.time.Stopwatch;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import COM.FutureTense.Interfaces.ICS;
-
-import com.fatwire.cs.core.db.Util;
-import com.fatwire.gst.foundation.controller.annotation.Bind;
-import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
-
 /**
  * Helper to bind variables to an Object based on annotated fields.
- * 
+ *
  * @author Dolf Dijkstra
  * @since 12 mei 2012
  * @deprecated - class due for rewriting
  */
 public final class AnnotationBinder {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationBinder");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationBinder");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the
      * {@link InjectForRequest} annotation will be populated by this method by
-     * retrieving the value from the {@link Factory#getObject(String,Class)}
+     * retrieving the value from the {@link Factory#getObject(String, Class)}
      * method.
-     * 
+     *
      * @param object the object to inject into.
-     * @param ics the ics context.
+     * @param ics    the ics context.
      */
     public static void bind(final Object object, ICS ics) {
         if (object == null) {
@@ -61,30 +56,25 @@ public final class AnnotationBinder {
         if (ics == null) {
             throw new IllegalArgumentException("CS cannot be null.");
         }
-        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
-        try {
-            Class<?> c = object.getClass();
-            // all annotated fields.
-            while (c != Object.class && c != null) {
-                for (final Field field : c.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(Bind.class)) {
-                        bindToField(object, ics, field);
-                    }
-
+        Class<?> c = object.getClass();
+        // all annotated fields.
+        while (c != Object.class && c != null) {
+            for (final Field field : c.getDeclaredFields()) {
+                if (field.isAnnotationPresent(Bind.class)) {
+                    bindToField(object, ics, field);
                 }
 
-                c = c.getSuperclass();
             }
-        } finally {
-            stopwatch.elapsed("bind model for {}", object.getClass().getName());
+
+            c = c.getSuperclass();
         }
     }
 
     /**
      * @param object object to bind to
-     * @param ics the ics context
-     * @param field the field to inject to
-     * @throws SecurityException security exception 
+     * @param ics    the ics context
+     * @param field  the field to inject to
+     * @throws SecurityException security exception
      */
     private static void bindToField(final Object object, final ICS ics, final Field field) throws SecurityException {
 
@@ -170,8 +160,9 @@ public final class AnnotationBinder {
     }
 
     private static void put(Object object, Field field, Object value) throws IllegalAccessException {
-        if (value == null)
+        if (value == null) {
             return;
+        }
         if (value instanceof String) {
             put(object, field, (String) value);
         } else if (field.getType().isPrimitive()) {
@@ -181,8 +172,9 @@ public final class AnnotationBinder {
     }
 
     private static void put(Object object, Field field, String var) throws IllegalAccessException {
-        if (StringUtils.isBlank(var))
+        if (StringUtils.isBlank(var)) {
             return;
+        }
         if (field.getType().isPrimitive()) {
             putPrimitive(object, field, var);
         } else {
@@ -218,8 +210,9 @@ public final class AnnotationBinder {
     }
 
     private static void putPrimitive(Object object, Field field, String s) throws IllegalAccessException {
-        if (StringUtils.isBlank(s))
+        if (StringUtils.isBlank(s)) {
             return;
+        }
         try {
             if (field.getType() == Byte.TYPE) {
                 field.setByte(object, Byte.parseByte(s));

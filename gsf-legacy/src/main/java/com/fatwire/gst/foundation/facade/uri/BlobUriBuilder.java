@@ -22,10 +22,10 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.data.BlobObject.BlobAddress;
+import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.facade.assetapi.AttributeDataUtils;
 import com.fatwire.gst.foundation.facade.runtag.render.GetBlobUrl;
 import org.apache.commons.lang3.StringUtils;
-import tools.gsf.runtime.DebugHelper;
 
 /**
  * Builder support for blob urls.

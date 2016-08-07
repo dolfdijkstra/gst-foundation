@@ -23,4 +23,8 @@ package com.fatwire.gst.foundation.controller.action;
  * @since Mar 26, 2011
  * @deprecated see {@link tools.gsf.config.Factory}
  */
-public interface Factory extends tools.gsf.config.Factory { }
+public interface Factory  {
+
+    <T> T getObject(String name, Class<T> type);
+
+}

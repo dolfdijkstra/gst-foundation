@@ -19,8 +19,8 @@ package com.fatwire.gst.foundation.facade.runtag.commercecontext;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
+import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
-import tools.gsf.facade.sql.IListUtils;
 
 /**
  * Retrieves and lists the assets that match the recommendation constraints

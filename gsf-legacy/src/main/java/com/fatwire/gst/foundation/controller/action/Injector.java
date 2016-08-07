@@ -15,12 +15,19 @@
  */
 package com.fatwire.gst.foundation.controller.action;
 
+import COM.FutureTense.Interfaces.ICS;
+
 /**
  * Implementations inject services into the dependent object.
  * <p>
- * See <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a> for more information on Dependency Injection.
- * 
+ * See <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a>
+ * for more information on Dependency Injection.
+ *
  * @author Dolf.Dijkstra
- * @deprecated {@link tools.gsf.config.inject.Injector}
+ *
  */
-public interface Injector extends tools.gsf.config.inject.Injector {}
+public interface Injector {
+
+    void inject(ICS ics, Object dependent);
+
+}

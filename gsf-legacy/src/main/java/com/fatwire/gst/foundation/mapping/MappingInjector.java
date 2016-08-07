@@ -20,6 +20,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.AnnotationInjector;
+import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.annotation.Mapping;
 import com.fatwire.gst.foundation.controller.annotation.Mapping.Match;
 import com.fatwire.gst.foundation.mapping.MappingValue.Type;
@@ -27,8 +28,6 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.gsf.config.Factory;
-import tools.gsf.time.Stopwatch;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -48,23 +47,18 @@ public final class MappingInjector {
         if (factory == null) {
             throw new IllegalArgumentException("factory cannot be null.");
         }
-        Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
-        try {
-            final Field[] fields = AnnotationInjector.findFieldsWithAnnotation(object, Mapping.class);
+        final Field[] fields = AnnotationInjector.findFieldsWithAnnotation(object, Mapping.class);
 
-            if (fields.length > 0) {
-                final MappingService mappingService = factory.getObject("mappingService", MappingService.class);
-                if (mappingService == null) {
-                    throw new IllegalStateException("MappingService can not be retrieved from "
-                            + factory.getClass().getName());
-                }
-                final Map<String, MappingValue> map = mappingService.readMapping(id);
-                for (final Field field : fields) {
-                    injectIntoField(object, map, field, id);
-                }
+        if (fields.length > 0) {
+            final MappingService mappingService = factory.getObject("mappingService", MappingService.class);
+            if (mappingService == null) {
+                throw new IllegalStateException("MappingService can not be retrieved from "
+                        + factory.getClass().getName());
             }
-        } finally {
-            stopwatch.elapsed("inject mapping for {}", object.getClass().getName());
+            final Map<String, MappingValue> map = mappingService.readMapping(id);
+            for (final Field field : fields) {
+                injectIntoField(object, map, field, id);
+            }
         }
     }
 

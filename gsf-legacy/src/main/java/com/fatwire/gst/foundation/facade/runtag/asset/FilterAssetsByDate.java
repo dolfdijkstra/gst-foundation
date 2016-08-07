@@ -21,6 +21,7 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetDataUtils;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdIList;
 import com.fatwire.gst.foundation.facade.assetapi.AssetIdUtils;
@@ -33,7 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.gsf.facade.sql.IListUtils;
 
 import java.text.ParseException;
 import java.util.ArrayList;

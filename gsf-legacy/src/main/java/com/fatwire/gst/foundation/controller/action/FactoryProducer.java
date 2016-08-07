@@ -16,15 +16,21 @@
 package com.fatwire.gst.foundation.controller.action;
 
 import COM.FutureTense.Interfaces.ICS;
-import tools.gsf.config.*;
 
 /**
  * A factory for a Factory to provide access to services that need access to ICS.
  * <p>
+ *
  * @author Dolf.Dijkstra
  * @deprecated see {@link tools.gsf.config.FactoryProducer}
  */
-public interface FactoryProducer extends tools.gsf.config.FactoryProducer {
-    @Override
+public interface FactoryProducer {
+
+    /**
+     * Method to produce a {@link tools.gsf.config.Factory} to access services that need access to ICS
+     *
+     * @param ics Content Server context object
+     * @return the Factory to create services that need access to ics.
+     */
     Factory getFactory(final ICS ics);
 }

@@ -35,7 +35,7 @@ public class AnnotationInjector implements Injector {
         this.factoryProducer = factoryProducer;
         this.bindInjector = new BindInjector(factoryProducer);
         this.ifrInjector = new InjectForRequestInjector();
-        this.mappingInjector = new tools.gsf.config.inject.MappingInjector();
+        this.mappingInjector = new MappingInjector();
     }
 
     @Override

@@ -27,11 +27,6 @@ import com.fatwire.gst.foundation.facade.mda.LocaleService;
 import com.fatwire.gst.foundation.facade.search.SimpleSearchEngine;
 import com.fatwire.gst.foundation.mapping.IcsMappingService;
 import com.fatwire.gst.foundation.mapping.MappingService;
-import tools.gsf.navigation.AssetNode;
-import tools.gsf.navigation.LightweightSitePlanNavService;
-import tools.gsf.navigation.NavService;
-import tools.gsf.time.LoggerStopwatch;
-import tools.gsf.time.Stopwatch;
 
 
 /**
@@ -96,11 +91,6 @@ public class SimpleIcsBackedObjectFactoryTemplate extends BaseFactory {
     @ServiceProducer(cache = true)
     public SimpleSearchEngine createSimpleSearchEngine(final ICS ics) {
         return new SimpleSearchEngine("lucene");
-    }
-
-    @ServiceProducer(cache = false)
-    public Stopwatch createStopwatch(ICS ics) {
-        return LoggerStopwatch.getInstance();
     }
 
 }

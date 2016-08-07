@@ -21,38 +21,30 @@ import javax.servlet.jsp.JspException;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.ActionLocatorUtils;
-import com.fatwire.gst.foundation.controller.action.Factory;
-import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.AnnotationUtils;
-import com.fatwire.gst.foundation.controller.support.WebContextUtil;
 import com.fatwire.gst.foundation.include.DefaultIncludeService;
 import com.fatwire.gst.foundation.include.IncludeService;
-
-import tools.gsf.time.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * JSP tag that replaces the GsfRoot tag and adds Action support. If the action
  * name argument is provided, than a Action is looked up and executed.
- * 
+ *
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
- * 
- * 
- * @deprecated as of release 12.x
- * 
  */
 public class PageTag extends GsfRootTag {
-    static final Logger LOG = LoggerFactory.getLogger("tools.gsf.taglib.PageTag");
+    static final Logger LOG = LoggerFactory.getLogger(PageTag.class.getPackage().getName());
+    static final Logger LOG_TIME = LoggerFactory.getLogger(PageTag.class.getPackage().getName() + ".time");
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -5979095889062674072L;
     private String action;
@@ -60,8 +52,8 @@ public class PageTag extends GsfRootTag {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see "com.fatwire.gst.foundation.taglib.GsfRootTag#doStartTag()"
+     *
+     * @see com.fatwire.gst.foundation.taglib.GsfRootTag#doStartTag()
      */
     @Override
     public int doStartTag() throws JspException {
@@ -70,8 +62,7 @@ public class PageTag extends GsfRootTag {
         if (action != null) {
             final ICS ics = getICS();
 
-            Stopwatch stopwatch = getStopwatch(ics);
-            stopwatch.start();
+            final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
             final ActionLocator locator = getActionLocator();
             if (locator == null)
                 throw new IllegalStateException("The ActionLocator cannot be found.");
@@ -81,21 +72,26 @@ public class PageTag extends GsfRootTag {
             final Action a = locator.getAction(ics, action);
 
             if (a != null) {
-                stopwatch.elapsed("Locating Action {}" , a.getClass().getName());
+                if (LOG_TIME.isDebugEnabled()) {
+
+                    DebugHelper.printTime(LOG_TIME, "Locating Action " + a.getClass().getName(), start);
+                }
 
                 IncludeService o = AnnotationUtils.findService(a, IncludeService.class);
                 if (o instanceof DefaultIncludeService) {
                     includeService = (DefaultIncludeService) o; // TODO:minor
-                                                                // fix this ugly
-                                                                // upcast
+                    // fix this ugly
+                    // upcast
                 }
                 if (includeService == null && LOG.isTraceEnabled()) {
                     LOG.trace("includeService is null");
                 }
-                stopwatch.start();
+                final long beforeHandleRequest = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
                 a.handleRequest(ics);
                 copyModelData(a);
-                stopwatch.elapsed("Executing Action {}",  a.getClass().getName());
+                if (LOG_TIME.isDebugEnabled()) {
+                    DebugHelper.printTime(LOG_TIME, "Executing Action " + a.getClass().getName(), beforeHandleRequest);
+                }
             } else {
                 throw new IllegalArgumentException("Action with name '" + action + "' cannot be found.");
             }
@@ -106,7 +102,7 @@ public class PageTag extends GsfRootTag {
 
     /**
      * Copies the data from the Model to the jsp page scope
-     * 
+     *
      * @param a the action to copy from.
      */
     private void copyModelData(final Action a) {
@@ -154,7 +150,7 @@ public class PageTag extends GsfRootTag {
      * <tt>pageContext</tt>. It was chosen not to do this as maintaining it on
      * the tag reduces scope and possible intermingling by the accidental
      * developer.
-     * 
+     *
      * @return the IncludeService
      */
     public DefaultIncludeService getJspIncludeService() {
@@ -163,18 +159,12 @@ public class PageTag extends GsfRootTag {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.servlet.jsp.tagext.BodyTagSupport#release()
      */
     @Override
     public void release() {
         includeService = null;
         super.release();
-    }
-    private static Stopwatch getStopwatch(ICS ics) {
-        AppContext ctx = WebContextUtil.getWebAppContext(ics.getIServlet().getServlet().getServletContext());
-        FactoryProducer factoryProducer = ctx.getBean("factoryProducer", FactoryProducer.class);
-        Factory factory = factoryProducer.getFactory(ics);
-        return factory.getObject("stopwatch", Stopwatch.class);
     }
 }

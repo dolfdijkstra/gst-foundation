@@ -21,8 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import tools.gsf.time.LoggerStopwatch;
-import tools.gsf.time.Stopwatch;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -52,35 +50,30 @@ public final class AnnotationInjector {
      * @param factory the factory that created the objects that need to be
      *                injected.
      */
-    public static void inject(final Object object, final tools.gsf.config.Factory factory) {
+    public static void inject(final Object object, final Factory factory) {
         if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
         if (factory == null) {
             throw new IllegalArgumentException("factory cannot be null.");
         }
-        Stopwatch stopwatch = LoggerStopwatch.getInstance(); // TODO: dependency injection breakdown in static method
-        try {
-            Class<?> c = object.getClass();
-            // first to all annotated public setter methods.
-            for (final Method method : c.getMethods()) {
-                if (method.isAnnotationPresent(InjectForRequest.class)) {
-                    injectIntoMethod(object, factory, method);
-                }
+        Class<?> c = object.getClass();
+        // first to all annotated public setter methods.
+        for (final Method method : c.getMethods()) {
+            if (method.isAnnotationPresent(InjectForRequest.class)) {
+                injectIntoMethod(object, factory, method);
             }
-            // and then all annotated fields.
-            while (c != Object.class && c != null) {
-                for (final Field field : c.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(InjectForRequest.class)) {
-                        injectIntoField(object, factory, field);
-                    }
-
+        }
+        // and then all annotated fields.
+        while (c != Object.class && c != null) {
+            for (final Field field : c.getDeclaredFields()) {
+                if (field.isAnnotationPresent(InjectForRequest.class)) {
+                    injectIntoField(object, factory, field);
                 }
 
-                c = c.getSuperclass();
             }
-        } finally {
-            stopwatch.elapsed("inject model for {}", object.getClass().getName());
+
+            c = c.getSuperclass();
         }
     }
 
@@ -123,7 +116,7 @@ public final class AnnotationInjector {
      * @param field   field to inject into
      * @throws SecurityException security exception injecting values into field
      */
-    private static void injectIntoField(final Object object, final tools.gsf.config.Factory factory, final Field field)
+    private static void injectIntoField(final Object object, final Factory factory, final Field field)
             throws SecurityException {
 
         final InjectForRequest ifr = field.getAnnotation(InjectForRequest.class);
@@ -160,7 +153,7 @@ public final class AnnotationInjector {
      * @param method  the method to inject into
      * @throws SecurityException security exception when injecting value into field
      */
-    private static void injectIntoMethod(final Object object, final tools.gsf.config.Factory factory, final Method method)
+    private static void injectIntoMethod(final Object object, final Factory factory, final Method method)
             throws SecurityException {
         // LOG.trace("Found annotated field: "+field.getName());
         final InjectForRequest ifr = method.getAnnotation(InjectForRequest.class);

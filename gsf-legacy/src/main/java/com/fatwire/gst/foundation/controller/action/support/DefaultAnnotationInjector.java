@@ -20,6 +20,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.gst.foundation.controller.AssetIdWithSite;
 import com.fatwire.gst.foundation.controller.action.AnnotationBinder;
 import com.fatwire.gst.foundation.controller.action.AnnotationInjector;
+import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.mapping.MappingInjector;
@@ -43,7 +44,7 @@ public class DefaultAnnotationInjector implements Injector {
 
     @Override
     public void inject(ICS ics, Object action) {
-        final tools.gsf.config.Factory factory = factoryFactory.getFactory(ics);
+        final Factory factory = factoryFactory.getFactory(ics);
         AnnotationInjector.inject(action, factory);
         AnnotationBinder.bind(action, ics);
         final AssetIdWithSite id = figureOutTemplateOrCSElementId(ics);
