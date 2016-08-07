@@ -59,11 +59,6 @@
 			<artifactId>groovy-all</artifactId>
 			<version>2.4.5</version>
 		</dependency>
-    	<dependency>
-			<groupId>com.fatwire.gst</groupId>
-			<artifactId>gsf-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>

@@ -59,7 +59,7 @@ function packageKit() {
 	echo "[$(date)]   copying JavaDoc and Source Files inside $kitLocation"
 	cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $kitLocation
 	cp gsf-core/target/gsf-core-$VERSION-sources.jar $kitLocation
-	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $kitLocation
+	#cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $kitLocation
 	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $kitLocation
 
 	echo "[$(date)]   copying README.md inside $kitLocation"
@@ -112,7 +112,7 @@ function packageWebsite() {
 	echo "[$(date)]   copying JavaDoc and Source Files inside $siteLocation/downloads"
 	cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $siteLocation/downloads/
 	cp gsf-core/target/gsf-core-$VERSION-sources.jar $siteLocation/downloads/
-	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
+	#cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
 	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $siteLocation/downloads/
 
 	echo "[$(date)] Adding license to $siteLocation"
