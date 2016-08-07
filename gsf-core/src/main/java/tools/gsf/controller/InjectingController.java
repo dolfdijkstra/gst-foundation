@@ -17,9 +17,9 @@ package tools.gsf.controller;
 
 import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
 import com.fatwire.assetapi.data.BaseController;
-import tools.gsf.config2.Factory;
-import tools.gsf.config2.FactoryLocator;
-import tools.gsf.config2.inject.Injector;
+import tools.gsf.config.Factory;
+import tools.gsf.config.FactoryLocator;
+import tools.gsf.config.inject.Injector;
 import tools.gsf.time.Stopwatch;
 
 /**

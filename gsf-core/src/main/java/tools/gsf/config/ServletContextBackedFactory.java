@@ -15,29 +15,26 @@
  */
 package tools.gsf.config;
 
-import org.springframework.context.ApplicationContext;
+import tools.gsf.time.LoggerStopwatch;
+import tools.gsf.time.Stopwatch;
+
+import javax.servlet.ServletContext;
 
 /**
- * Factory with access to Spring framework beans.
- *
- * @author Dolf Dijkstra
+ * @author Tony Field
+ * @since 2016-08-05
  */
-public class SpringObjectFactory implements Factory {
+public class ServletContextBackedFactory extends AbstractDelegatingFactory<ServletContext> {
 
-    private final ApplicationContext app;
+    private final ServletContext servletContext;
 
-    /**
-     * @param app application context
-     */
-    public SpringObjectFactory(ApplicationContext app) {
-        super();
-        this.app = app;
+    public ServletContextBackedFactory(ServletContext servletContext, Factory delegate) {
+        super(servletContext, delegate);
+        this.servletContext = servletContext;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> T getObject(String name, Class<T> requiredType) {
-        return (T) app.getBean(name, requiredType);
+    @ServiceProducer
+    public Stopwatch newStopwatch() {
+        return LoggerStopwatch.getInstance();
     }
-
 }

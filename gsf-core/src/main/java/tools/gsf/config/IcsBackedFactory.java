@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.config2;
+package tools.gsf.config;
 
 import COM.FutureTense.Interfaces.ICS;
-import tools.gsf.config2.inject.AnnotationInjector;
-import tools.gsf.config2.inject.BindInjector;
-import tools.gsf.config2.inject.InjectForRequestInjector;
-import tools.gsf.config2.inject.Injector;
-import tools.gsf.config2.inject.MappingInjector;
+import tools.gsf.config.inject.AnnotationInjector;
+import tools.gsf.config.inject.BindInjector;
+import tools.gsf.config.inject.InjectForRequestInjector;
+import tools.gsf.config.inject.Injector;
+import tools.gsf.config.inject.MappingInjector;
 import tools.gsf.mapping.IcsMappingService;
 import tools.gsf.mapping.MappingService;
 import tools.gsf.time.Stopwatch;
