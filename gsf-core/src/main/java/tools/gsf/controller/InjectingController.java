@@ -17,31 +17,37 @@ package tools.gsf.controller;
 
 import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
 import com.fatwire.assetapi.data.BaseController;
-import tools.gsf.config.AppContext;
-import tools.gsf.config.Factory;
-import tools.gsf.config.FactoryProducer;
-import tools.gsf.config.WebAppContextUtil;
-import tools.gsf.config.inject.Injector;
+import tools.gsf.config2.Factory;
+import tools.gsf.config2.FactoryLocator;
+import tools.gsf.config2.inject.Injector;
 import tools.gsf.time.Stopwatch;
 
-import javax.servlet.ServletContext;
-
+/**
+ * Extension of Oracle's <code>BaseController</code> that invokes the
+ * {@link Injector} to inject dependencies into itself. Injection is
+ * done in the <code>handleRequest()</code> method. As most implementing
+ * classes of <code>BaseController</code> are meant to override the
+ * <code>doWork(Models models)</code> method, objects will be injected by
+ * the time doWork is executed.
+ *
+ * The injector is configured in the {@link Factory}. Additional injection
+ * capabilities can therefore be added without having to alter this object.
+ *
+ * This class also times the execution of the handleRequest() method using
+ * the {@link Stopwatch} class.
+ */
 public class InjectingController extends BaseController {
 
     public DependenciesAwareModelAndView handleRequest() {
 
-        ServletContext srvCtx = ics.getIServlet().getServlet().getServletContext();
-        AppContext ctx = WebAppContextUtil.getWebAppContext(srvCtx);
+        Factory factory = FactoryLocator.locateFactory(ics);
 
-        FactoryProducer fp = ctx.getBean("factoryProducer", FactoryProducer.class);
-        Factory factory = fp.getFactory(ics);
         Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
-
         stopwatch.start();
 
-        Injector injector = ctx.getBean("Injector", Injector.class);
-        injector.inject(ics, this);
-        stopwatch.split("Injecting into controller {}", this.getClass().getSimpleName());
+        Injector injector = factory.getObject("injector", Injector.class);
+        injector.inject(this);
+        stopwatch.split("InjectingController: injecting into controller {}", this.getClass().getSimpleName());
 
         DependenciesAwareModelAndView result = super.handleRequest();
         stopwatch.elapsed("Executed controller {}", this.getClass().getSimpleName());
