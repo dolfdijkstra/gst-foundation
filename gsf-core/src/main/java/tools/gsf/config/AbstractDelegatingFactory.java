@@ -39,8 +39,8 @@ public abstract class AbstractDelegatingFactory<SCOPE> implements Factory {
 
     private final Map<String, Object> objectCache = new HashMap<>();
 
-    private final Factory delegate;
     private final SCOPE scope;
+    private final Factory delegate;
 
     protected AbstractDelegatingFactory(SCOPE scope, Factory delegate) {
         this.scope = scope;
