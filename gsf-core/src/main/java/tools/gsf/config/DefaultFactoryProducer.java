@@ -43,6 +43,20 @@ import java.util.Set;
  * <p>
  * Only one factory class per scope may be defined. If more than one is found, a configuration
  * error will be thrown.
+ * <p>
+ * By default, DefaultFactoryProducer knows how to get access to the ServletContext from within the
+ * ICS object, and so a factory corresponding to the ServletContext scope will be used
+ * as the delegate for the ICS scoped factory. Users may override either of these two and the
+ * relationship will be preserved.
+ * <p>
+ * Conversely, this factory producer does not know the relationship between any custom scope
+ * and the two it knows about, and so it is unable to automatically wire delegation between
+ * factories involving custom scopes. To do this, it is necessary to extend this class (or
+ * replace it).
+ * <p>
+ * Also, this factory producer does not know how to cache factories with custom scopes, so
+ * new versions will be created whenever one is requested. For the known scopes, caching
+ * is built-in.
  *
  * @author Tony Field
  * @since 2016-08-05
@@ -90,8 +104,27 @@ public class DefaultFactoryProducer implements FactoryProducer {
             return getFactory((ServletContext) scope);
         } else if (scope == null) {
             throw new IllegalArgumentException("Null scope not allowed");
+        } else if (factoryConstructors.containsKey(scope.getClass())) {
+            return createFactory(scope);
         } else {
             throw new IllegalArgumentException("Unsupported scope: " + scope.getClass().getName());
+        }
+    }
+
+    /**
+     * Create a custom-scoped factory. Note that there is no caching support for a custom scope (because
+     * this class does not know enough about the scope to know how to cache against it).
+     *
+     * Subclasses can override this method and create their own internal cache.
+     * @param customScope custom scope
+     * @return the factory
+     */
+    protected Factory createFactory(Object customScope) {
+        Constructor<Factory> con = factoryConstructors.get(customScope.getClass());
+        try {
+            return con.newInstance(customScope, null /* delegate is not knowable */);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("Could not instantiate factory: " + e, e);
         }
     }
 
