@@ -41,7 +41,7 @@ public final class FactoryLocator {
         if (o instanceof FactoryProducer) {
             return (FactoryProducer) o;
         } else {
-            throw new IllegalStateException("No factory prouducer found");
+            throw new IllegalStateException("No factory producer found");
         }
     }
 
