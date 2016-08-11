@@ -15,60 +15,55 @@
  */
 package com.fatwire.gst.foundation.controller.action.support;
 
+import javax.servlet.ServletContext;
+
 import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.controller.action.ActionLocator;
+import com.fatwire.gst.foundation.controller.action.ActionNameResolver;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.support.WebAppContext;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.servlet.ServletContext;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
- * This is the WebAppContext with accessor to the injector but without accessors
- * to the ActionLocator and ActionNameResolver, with the companion FactoryProducer.
- *
- * Developers are expected to either subclass this class or use as a reference
- * for their own implementations.
- *
+ * This is the WebAppContext with accessors to the ActionLocator,
+ * ActionNameResolver and the Injector, with the companion FactoryProducer.
+ * <p>
+ * Developer are expected to subclass this class for their own implementations.
  * In most cases they would only like to override {@link #getFactory(ICS)} for
  * their own Service factory.
- *
- * @author Freddy Villalba
- * @deprecated see {@link tools.gsf.config.DefaultWebAppContext}
+ * 
+ * @author Dolf Dijkstra
+ * 
+ * @deprecated Replaced with new scoped Factory instances approach. See "tools.gsf.config.FactoryProducer".
+ * 
  */
 public class DefaultWebAppContext extends WebAppContext implements FactoryProducer {
 
-    private static final String FACTORY_CONFIG_FILE = "META-INF/gsf-factory";
-    private static final Class[] FACTORY_CONSTRUCTOR_ARGS = {ICS.class};
-
-    private final Constructor<Factory> factoryConstructor;
-
     public DefaultWebAppContext(final ServletContext context) {
-        this(context, null);
+        super(context, null);
     }
 
     public DefaultWebAppContext(final ServletContext context, final AppContext parent) {
         super(context, parent);
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        Constructor<Factory> f = _findFactoryClassConstructorFromServiceLocator(classLoader);
-        if (f == null) {
-            this.factoryConstructor = _createFactoryConstructor(classLoader, SimpleIcsBackedObjectFactoryTemplate.class.getName());
-        } else {
-            this.factoryConstructor = f;
-        }
-        LOG.debug("DefaultWebAppContext instance bound to factoryConstructor = " + this.factoryConstructor);
+
+    }
+
+    public ActionLocator createActionLocator() {
+        // this method is expected to be called only once during the lifecycle
+        // of the WebAppContext, though more often does not need to be a
+        // problem per se.
+        final Injector injector = createInjector();
+        final ActionLocator root = new RenderPageActionLocator(injector);
+        final ClassActionLocator cal = new ClassActionLocator(root, injector);
+        return cal;
+
+    }
+
+    public ActionNameResolver createActionNameResolver() {
+        return new CommandActionNameResolver("action");
     }
 
     public Injector createInjector() {
@@ -82,75 +77,8 @@ public class DefaultWebAppContext extends WebAppContext implements FactoryProduc
 
     @Override
     public Factory getFactory(final ICS ics) {
-        Factory result;
-        try {
-            result = factoryConstructor.newInstance(ics);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException("Could not instantiate factory (illegal access)", e);
-        } catch (InvocationTargetException e) {
-            throw new IllegalStateException("Could not instantiate factory (invocation target)", e);
-        } catch (InstantiationException e) {
-            throw new IllegalStateException("Could not instantiate factory (instantiation)", e);
-        }
-        return result;
+        // called very often; once per request/pagelet, scoped per ICS context
+        return new IcsBackedObjectFactoryTemplate(ics);
     }
 
-    private Constructor<Factory> _findFactoryClassConstructorFromServiceLocator(ClassLoader classLoader) {
-
-        int c = 0;
-        List<String> init = new LinkedList<String>();
-        Enumeration<URL> configs;
-        try {
-            configs = classLoader.getResources(FACTORY_CONFIG_FILE);
-        } catch (IOException e) {
-            throw new IllegalStateException("Could not search classpath for configuration files", e);
-        }
-        while (configs.hasMoreElements()) {
-
-            URL u = configs.nextElement();
-            if (c++ > 0) {
-                throw new IllegalStateException("Found second service locator in classpath at " + u
-                        + ". Please make sure that only one " + FACTORY_CONFIG_FILE
-                        + " file is found on the classpath or configure the Factory through a custom " + AppContext.class.getName());
-            }
-            InputStream in = null;
-            BufferedReader r = null;
-            try {
-                in = u.openStream();
-                r = new BufferedReader(new InputStreamReader(in, "utf-8"));
-                String s;
-                while ((s = r.readLine()) != null) {
-                    if (StringUtils.isNotBlank(s) && !StringUtils.startsWith(s, "#")) {
-                        init.add(s);
-                    }
-                }
-            } catch (IOException e) {
-                throw new RuntimeException("Error reading configuration file", e);
-            } finally {
-                try {
-                    if (r != null) {
-                        r.close();
-                    }
-                    if (in != null) {
-                        in.close();
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException("Error closing configuration file", e);
-                }
-            }
-            return _createFactoryConstructor(classLoader, init.get(0));
-        }
-        return null;
-    }
-
-    private Constructor<Factory> _createFactoryConstructor(ClassLoader classLoader, String clazz) {
-        try {
-            final Class<Factory> cls = (Class<Factory>) classLoader.loadClass(clazz);
-            return cls.getConstructor(FACTORY_CONSTRUCTOR_ARGS);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Could not locate class " + clazz, e);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Could not find constructor for " + clazz + " that took ICS as an argument");
-        }
-    }
 }

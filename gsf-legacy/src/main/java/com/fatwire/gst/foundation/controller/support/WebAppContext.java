@@ -119,10 +119,11 @@ public class WebAppContext implements AppContext {
         }
         return null;
     }
-
+    
     private static <T> T createByConstructor(Class<T> c) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException   {
         if(c.isInterface()) return null; //TODO medium test for abstract class
         final Constructor<T> constr = c.getConstructor(NO_PARAMS);
         return constr.newInstance();
     }
+        
 }

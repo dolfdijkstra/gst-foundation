@@ -144,18 +144,20 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
         // get packedargs just in case we need them
         Map<String, String[]> packedargs = getPackedargs(definition);
 
-        String virtualWebroot = definition.getParameter(VIRTUAL_WEBROOT);
+        String virtualWebroot = definition.getParameter(VIRTUAL_WEBROOT);        
         if (!goodString(virtualWebroot) && packedargs.containsKey(VIRTUAL_WEBROOT)) {
             String[] s = packedargs.get(VIRTUAL_WEBROOT);
             if (s != null && s.length > 0)
                 virtualWebroot = s[0];
         }
+        
         String urlPath = definition.getParameter(URL_PATH);
         if (!goodString(urlPath) && packedargs.containsKey(URL_PATH)) {
             String[] s = packedargs.get(URL_PATH);
             if (s != null && s.length > 0)
                 urlPath = s[0];
         }
+                
         if (!goodString(virtualWebroot) || !goodString(urlPath)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("WRAPathAssembler can't assemble definition due to missing '" + VIRTUAL_WEBROOT
@@ -168,7 +170,14 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             LOG.debug("WRAPathAssembler is assembling definition: " + definition);
         }
         String quotedQueryString = _getQuotedQueryString(definition);
-        return constructURI(virtualWebroot, urlPath, quotedQueryString, definition.getFragment());
+                
+        URI out = constructURI(virtualWebroot, urlPath, quotedQueryString, definition.getFragment());
+        
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug(this.getClass().getName() + ".assemble: output of constructURI = " + out);
+        }
+        
+        return out;
     }
 
     private String _getQuotedQueryString(Definition definition) {
@@ -282,9 +291,16 @@ public final class WraPathAssembler extends LightweightAbstractAssembler {
             final String scheme = uri.getScheme();
             final String authority = uri.getAuthority();
             final String fragment = uri.getFragment();
+            
+            if (LOG.isDebugEnabled()) {
+            	LOG.debug("Will attempt instantiating Simple with: \n sessionEncode = " + sessionEncode + " \n satelliteContext = " + satelliteContext + " \n containerType = " + containerType + " \n scheme = " + scheme + " \n authority = " + authority + " \n appType " + appType + " \n fragment = " + fragment + " \n query string params = " + params);
+            }
 
             result = new Simple(sessionEncode, satelliteContext, containerType, scheme, authority, appType, fragment);
             result.setQueryStringParameters(params);
+            
+            LOG.debug("Simple object successfully instantiated by WraPathAsssembler");
+            
         } catch (IllegalArgumentException e) {
             // Something bad happened
             throw new URISyntaxException(uri.toString(), e.toString());
