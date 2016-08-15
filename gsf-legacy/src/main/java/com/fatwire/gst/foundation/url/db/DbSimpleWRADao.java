@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DbSimpleWRADao implements SimpleWRADao {
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.url.db.DbSimpleWRADao");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.url.db.DbSimpleWRADao");
 
     private final ICS ics;
 

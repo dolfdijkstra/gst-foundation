@@ -38,7 +38,7 @@ import java.util.Date;
  * @deprecated - class due for rewriting
  */
 public final class AnnotationBinder {
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationBinder");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.action.AnnotationBinder");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the

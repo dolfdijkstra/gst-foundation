@@ -73,9 +73,9 @@ Upgrading From WCS 11g to 12c
 	
 	Here is a checklist of the scenarios we can envision and what those would imply for you in terms of setting up LEGACY:  
 
-		* In case you want to use <<any>> deprecated feature / class (for instance, GSF actions):
+		* In case you want to use <<any>> deprecated class or feature (for instance, GSF actions):
     
-			* Deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app (same procedure as for the "CORE" JAR file)
+			* Deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
 			
     	* In case you want to use a custom AppContext loader:
         
@@ -101,7 +101,7 @@ Upgrading From WCS 11g to 12c
         	
         	[]
         	
-		* If you are upgrading an existing WCS 11g instance to WCS 12c (i.e. no clean install of WCS 12c) where GSF (11) is already correctly setup, you don't need to recreate nor register your GSF-specific asset event listeners; the WCS 12c installer won't touch them.
+		* If you are upgrading an existing WCS 11g instance to WCS 12c (i.e. no clean install of WCS 12c) where GSF (11) is already setup, you don't need to recreate nor register your GSF-specific asset event listeners; the WCS 12c installer won't touch them.
 		
         * If you need to use GSF vanity URLs support, the you might need to re-create the GSTUrlRegistry from scratch (e.g. on a clean WCS 12c install):
         
@@ -269,7 +269,7 @@ Upgrading From WCS 11g to 12c
 		
 			* You can do this either via the Admin UI or via CSDT export / import.
 			
-			* OOTB version looks more or less like this (reuse - and adjust, if needed - your own code, this is just a hint):
+			* GSF's legacy dispatcher looked like this (reuse and adjust your own code as and if needed, this is just a hint):
 			
 				<?xml version="1.0" ?>
 				<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
@@ -298,7 +298,7 @@ Upgrading From WCS 11g to 12c
 			
 			[[5]] Tweak the concerned WCS 12c properties so that it doesn't reject URLs due to the hostname / port being used (cas.properties, customBeans.xml, etc...) 
 			
-			[[6]] Add the custom (WRA) URL Assembler (/ Disassembler) inside "ServletRequest.properties" via Admin UI (use "Property Management") or the Import / Export Utility:
+			[[6]] Add the custom (WRA) URL Assembler inside "ServletRequest.properties" via Admin UI (e.g. "Property Management") or the Import / Export Utility:
 
 				uri.assembler.1.shortform=wrapath
 				uri.assembler.1.classname=com.fatwire.gst.foundation.url.WraPathAssembler
@@ -319,20 +319,24 @@ Upgrading From WCS 11g to 12c
 						Description:	GST Dispatcher Site Entry
 						Value:			GST/Dispatcher
 
-			[[8]] Replace WCS 12c's out-of-the-box PageRef implementation with GST's deprecated one by rewiring the xcelerate.pageref property as follows (using the aforementioned "Property Management" feature or the Property "Export/Import" Utility)
+			[[8]] Replace WCS 12c's out-of-the-box PageRef implementation with GST's deprecated one by rewiring the xcelerate.pageref property as follows (use the aforementioned "Property Management" feature or the Property "Export/Import" Utility)
 			
 				(...)
 				"key" : "xcelerate.pageref",
 				"value" : "com.fatwire.gst.foundation.url.WraPageReference",
 				(...)
+				
+			[[9]] Note that GSF's own PageRef implementation does not support WCS 12c's (native) vanity urls. In other words, GSF's and WCS' are mutually exclusive.
 			
 			[]
 		
-		* Migrate your GSTProperty, GSTVirtualWebroot, GSTAlias assets using CSDT, publishing or whichever approach suits your needs. 
+		* Migrate your GSTProperty, GSTVirtualWebroot, GSTAlias assets using CSDT, publishing or whichever approach that suits your needs. 
 					
 		* If you want to keep using GSF Actions or any other features / services which depend on DefaultWebAppContext and are DEPRECATED on GSF-12, then you must either:
 
-			* Use "LegacyDefaultWebAppContext" instead of "DefaultWebAppContext" by wiring it up explicitly inside WCS 12c's web.xml file as a context param:
+			* Manually wire up the GSF's legacy servlet context listener by editing (and redeploying) WCS 12c's web.xml file:
+			
+			* You can also wire up a custom AppContext implementation by editing (and redeploying) WCS 12c's web.xml file, as a context-param:
 
 				(...)
 				<context-param>
@@ -340,23 +344,25 @@ Upgrading From WCS 11g to 12c
 					<param-value>com.mycompany.gst.MyCustomGSF11gLegacyAppContext</param-value>
 				</context-param>
 				(...)
+				
+			[]
 
-			* Alternatively, code your own AppContext implementation in order to support such deprecated features and wire it up inside web.xml (see above).
-
-			* You can also wire-up a specific AppContext implementation by packaging inside the CORE JAR's META-INF folder a file named "gsf-contexts" where you specify the FQN of the due listener class.
-
-		* If you want to keep using "IcsBackedObjectFactoryTemplate", which is now DEPRECATED, then you must wire it up explicitly by packaging inside the CORE JAR's META-INF folder a file named "gsf-factory" where you specify the FQN of that class: << com.fatwire.gst.foundation.controller.action.support.IcsBackedObjectFactoryTemplate >> 
+		* If you wire up the legacy AppContext loader (the "legacy servlet context listener" above), you will be defaulting to "IcsBackedObjectFactoryTemplate", also deprecated. 
 
 		* If you want to keep using GST Properties with the now DEPRECATED GSTProperty asset type / subtype, then: 
 
 			* If you are still using the DEPRECATED object factory ("IcsBackedObjectFactoryTemplate", see above), then you don't need to do anything; the old object factory is still wired up to use GSTProperty.
 
-			* If you prefer using the brand new implementation, then you must implement your own object factory from scratch and make sure it has a "create" method which instantiates the NEW com.fatwire.gst.foundation.properties.AssetApiPropertyDao.
+			* If you want to use your own asset type / subtype as GST Property assets (new CORE feature), you must code and wire this up manually into your AppContext, e.g. by extending your object factory.
+			
+			[]
+			
+		[]
       			
-  				* HINT: look at IcsBackedObjectFactoryTemplate.createPropertyDao.
+	In case you have customized any GSF classes themselves, then you must reengineer your codebase to either:
 
-    * In case you have customized any GSF classes themselves, then you must reengineer your codebase to either:
-
-        * Stop using those customizations and rely on GSF-12's OOTB features / codebase, and/or
+		* Stop using those customizations and rely on GSF-12's CORE classes / features, and/or
         
         * Re-implement your customizations on top of GSF-12's codebase and regression test your app.
+        
+        []

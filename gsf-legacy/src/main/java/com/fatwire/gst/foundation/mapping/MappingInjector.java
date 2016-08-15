@@ -38,7 +38,7 @@ import java.util.Map;
  * @deprecated - class due for rewriting
  */
 public final class MappingInjector {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.mapping.MappingInjector");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.mapping.MappingInjector");
 
     public static void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
         if (object == null) {

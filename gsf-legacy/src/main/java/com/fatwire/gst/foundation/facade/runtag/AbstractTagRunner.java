@@ -33,7 +33,7 @@ import com.fatwire.gst.foundation.facade.FTValListFacade;
  */
 public abstract class AbstractTagRunner extends FTValListFacade implements TagRunner {
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.runtag.AbstractTagRunner");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.runtag.AbstractTagRunner");
 
     private final String tagName;
 

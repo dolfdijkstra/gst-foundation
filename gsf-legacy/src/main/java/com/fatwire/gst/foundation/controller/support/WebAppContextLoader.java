@@ -57,7 +57,7 @@ import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext
 public class WebAppContextLoader implements ServletContextListener {
     public static final String CONTEXTS = "gsf-contexts";
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.support.WebAppContextLoader");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.support.WebAppContextLoader");
     private static final Class<?>[] ARGS = new Class[] { ServletContext.class, AppContext.class };
 
     public void contextInitialized(final ServletContextEvent sce) {

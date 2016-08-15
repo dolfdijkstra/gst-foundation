@@ -32,7 +32,7 @@ import java.util.Map;
  * @since 2016-07-20
  */
 public class WebAppContext implements AppContext {
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.WebAppContext");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.config.WebAppContext");
 
     public static final String WEB_CONTEXT_NAME = "gsf/AppContext";
 

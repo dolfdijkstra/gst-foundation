@@ -29,7 +29,7 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
  *              ICS should be blocking.
  */
 public class NonBlockingDebugAssetListener extends AbstractAssetEventListener {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.assetapi.listener.NonBlockingDebugAssetListener");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.assetapi.listener.NonBlockingDebugAssetListener");
 	private ICS ics;
 
 	void printAsset(final AssetId id) {

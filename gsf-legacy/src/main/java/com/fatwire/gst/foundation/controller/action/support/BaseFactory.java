@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public abstract class BaseFactory implements Factory {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.support.BaseFactory");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.action.support.BaseFactory");
 
     protected final ICS ics;
 

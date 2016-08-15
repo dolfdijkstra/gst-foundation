@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractActionLocator implements ActionLocator {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.support.AbstractActionLocator");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.action.support.AbstractActionLocator");
     
     /**
      * The default fallbackActionLocator in case no action is found.

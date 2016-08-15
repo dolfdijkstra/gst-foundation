@@ -48,7 +48,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * 
  */
 public final class WraPathAssembler extends LightweightAbstractAssembler {
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.url.WraPathAssembler");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.url.WraPathAssembler");
 
     /**
      * Name of query string parameter for virtual webroot
