@@ -52,6 +52,19 @@ import org.slf4j.LoggerFactory;
  * &lt;/RENDER.CALLTEMPLATE&gt;
  * </code>
  * 
+ * <p>
+ * <b>
+ * IMPORTANT: this LEGACY render:calltemplate facade defaults to style="element", amongst other scenarios: 1) If you are rendering
+ *            an "uncached" template from another "uncached" pagelet and you have not explicitly set style to something other
+ *            than "element" (i.e. "pagelet" or "embedded") or 2) If the cid for the called Template is the same as that of the
+ *            current (callee) Template.
+ *            
+ *            In WCS 12c, calling an uncached Template with render.calltemplate using style="element" implies any Controller
+ *            attached to the called Template WILL NOT GET INVOKED. That, in turn, may result in unexpected behaviour or, most
+ *            likely, broken code.
+ * </b> 
+ * </p>
+ * 
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since Jun 10, 2010
@@ -253,7 +266,7 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
         if (currentCache == false) // we are not caching for the current pagelet
         {
             if (targetCache == false) {
-                return Style.element; // call as element is target is also not
+                return Style.element; // call as element is target is also not (WARNING: in WCS 12c, this means Controller does not get invoked)
                 // cacheable
             } else {
                 checkPageCriteria(ics, pname);
@@ -283,7 +296,7 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
                         LOG.trace("Calling " + pname + " as an element from " + ics.ResolveVariables("CS.elementname")
                                 + " because cid is same as on current pagelet.");
                     }
-                    return Style.element;
+                    return Style.element; // (WARNING: in WCS 12c, this means Controller does not get invoked)
                 } else {
                     checkPageCriteria(ics, pname);
                     return Style.embedded; // this is calltemplate, assuming

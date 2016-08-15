@@ -16,61 +16,76 @@
 
 Installation Guide
 
-    This release of the GSF is transitional, meaning it is primarily aimed at users upgrading their WCS 11g implementations to WCS 12c.
+    This release of the GSF is <<transitional>>, meaning it is primarily aimed at users upgrading their WCS 11g implementations
+    to WCS 12c -- although we are also shipping a couple of new "toys" for those enthusiastic new adopters!  :)
 
-    Brand new and re-engineered features specifically designed for WCS 12c will be released in the next major release of the GSF,
-    coming very soon (2016).
+    Both brand new and re-engineered features specifically designed for WCS 12c will be included in future releases of the GSF,
+    coming soon.
 
     You are strongly advised not to use any of the DEPRECATED features (e.g. classes) in this release, which are packaged inside the "-legacy" JAR file.
 
-    Deprecated features will be wiped out from the GSF JAR files in the upcoming releases. Hence, any application whose code depends on them will stop working properly unless its codebase gets updated so to remove such dependencies.
-
-    Affected classes / components must use WCS 12c's native feature(s) whenever possible (and applicable)
+    Deprecated features will be wiped out from the GSF project's codebase (and JAR files) in upcoming releases.
     
-    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version older than WCS 12c (YOU HAVE BEEN WARNED!).
+    Thus, applications whose code depends on deprecated classes will stop working properly unless the concerned code is updated so to remove such dependencies before the concerned deprecated classes are wiped out.
+    
+    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version of WCS older than 12c (YOU HAVE BEEN WARNED!).
+    
+    We have simplified the installation process for this release and - hopefully - all future releases:
+	
+		* No need to tweak any configuration files (if opting for default usage / behaviour).
+		* No need to install any custom asset types.
+		* No need to import any WEM App.
+		[]    
     
 Starting Fresh With GSF-12 and WCS 12c
     
-	Starting fresh with GSF-12 on WCS 12c is very simple; just deploy GSF-12's "CORE" JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app:
-		
-		* If the WCS 12c web app is getting deployed as a WAR file, then you must:
+	Starting fresh with GSF-12 on WCS 12c is as simple as a 1-step procedure:
+	
+		[[1]] Deploy GSF-12's "CORE" JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
+		[]
+	
+	If the WCS 12c web app is getting deployed <<as a WAR file>>, then you must:
 
-			[[1]] Stop your WCS 12c instance.
-			[[2]] Copy the WCS 12c WAR file.
-			[[3]] Unpack the copied WAR file.
-			[[4]] Copy the "CORE" JAR file inside your copied WAR file's WEB-INF/lib folder.
-			[[5]] Repack the copied WAR file.
-			[[6]] Replace the original WAR file with your new WAR file.
-			[[7]] Restart your WCS 12c instance and validate everything works as expected.
-			[]
-			
-		* If the WCS 12c web app is getting deployed as an "exploited" folder, then you must:
+		[[1]] Stop your WCS 12c instance.
+		[[2]] Copy the WCS 12c WAR file.
+		[[3]] Unpack the copied WAR file.
+		[[4]] Copy the "CORE" JAR file inside your copied WAR file's WEB-INF/lib folder.
+		[[5]] Repack the copied WAR file.
+		[[6]] Replace the original WAR file with your new WAR file.
+		[[7]] Restart your WCS 12c instance and validate everything works as expected.
+		[]
 		
-			[[1]] Locate your web app's root folder and
-			[[2]] Copy the "CORE" JAR file inside your web app's WEB-INF/lib folder (which should be located right under the web app's root folder)
-			[]
+	If the WCS 12c web app is getting deployed <<as an "exploited" folder>>, then you must:
+	
+		[[1]] Locate your web app's root folder and
+		[[2]] Copy the "CORE" JAR file inside your web app's WEB-INF/lib folder (which should be located right under the web app's root folder)
+		[]
 			
-	Note that not deploying the "LEGACY" JAR file implies deprecated features will not (and cannot) be used.
+	Deprecated features and classes will not get deployed with the procedure above. In order to use those, you must deploy the LEGACY jar (keep reading)
+	
+	Additional steps might be needed if you needed to extend any of the CORE's OOTB classes / mechanisms. Take a look at our {{{./How-To.html} "How-To" page} for some typical scenarios.
 		
 Upgrading From WCS 11g to 12c
 
-	If you are not using any of the GSF features deprecated by GSF-12, then upgrading from WCS 11g to 12c (and GSF-12) requires the same procedure as a fresh start (see above)
+	If you are not extending any of the GSF's LEGACY classes and you don't need any deprecated features, then upgrading from WCS 11g to 12c (and GSF-12) requires the same procedure as a fresh start (see above)
 	
-	However, if you are upgrading from WCS 11g to 12c and you were using the GSF extensively already, you might need to set up and use deprecated features until you migrate your code so it uses WCS 12c's native features instead and verify it works adequately with GSF-12:  
+	However, if you are upgrading from WCS 11g to 12c and you did extend and/or customize deprecated classes / features, you probably need some time to transition from your GSF LEGACY-driven code to either a GSF CORE-driven alternative or just switch to a 12c native implementation.
+	
+	Here is a checklist of the scenarios we can envision and what those would imply for you in terms of setting up LEGACY:  
 
-		* In case you want to use a deprecated feature / class (for instance, GSF actions):
+		* In case you want to use <<any>> deprecated feature / class (for instance, GSF actions):
     
 			* Deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app (same procedure as for the "CORE" JAR file)
-    
+			
     	* In case you want to use a custom AppContext loader:
         
-        	[[1]] Configure your custom listener as needed inside WCS 12c's web.xml file (see "STARTING FRESH..." above)
+        	[[1]] Configure your custom listener as needed inside WCS 12c's web.xml file.
         
         	[[2]] Deploy your custom listener's classes.
         	
-        	[[3]] Make sure only your custom listener gets loaded and executed. GSF-12 defaults to its OOTB AppContext loader via annotations (@WebListener) or that, at the very least, they don't collide / cause the other's malfunctioning.  
+        	[[3]] Make sure your custom listener gets loaded and executed. GSF-12 plugs in its own, brand new AppContext loader via annotations (@WebListener). Hence, make sure the new listener doesn't collide with yours.
         
-        	[[4]] Make sure your custom listener works properly with WCS 12c (and GSF-12 itself)
+        	[[4]] Make sure your custom listener works properly with WCS 12c -- and GSF-12 itself.
         	
         	[]
 
