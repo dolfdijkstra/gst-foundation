@@ -40,38 +40,56 @@ At a high level, the GSF offers a non-rendering foundation which aims at providi
 
 This release of the GSF, GSF-12, is considered to be a "transitional" one.
 
-The main goal is providing the means for clients out there already using GSF to reuse as much of their existing
+Its main goal is providing the means for clients out there already using GSF to reuse as much of their existing
 code as possible when upgrading from WCS 11.x to WCS 12.x.
 
-GSF features that became partially or totally unnecessary due to WCS 12.x offering them natively have been either
-deprecated or wiped off the GSF-12's codebase.
+Some of the GSF's features have become partially or totally unnecessary due to WCS 12.x offering a native equivalent.
 
-Only those classes / components which are still valid and/or useful and/or expected to be building blocks for NEW
-features to be implemented in future releases of the GSF-12 have been either left untouched or adjusted specifically
+Such features have been deprecated and, in some cases, even wiped off the GSF's codebase.
+
+Only those classes / components which are still valid and/or useful and/or expected to become building blocks for NEW
+features to be implemented in future releases of the GSF have been either left untouched or adjusted specifically
 for WCS 12.x.
 
 This release acknowledges the small but mission-critical differences that sometimes exist amongst WCS implementations
-out there. In this regard, GSF-12's roadmap contemplates reengineering some of the core features in previous versions
-- such as the Navigation Service - so they can be tailored to address those small differences, painlessly.
+out there.
+    
+In this regard, GSF-12's roadmap contemplates reengineering some of the core features in previous versions - such as the
+Navigation Service - so tailoring them to address those small differences is as painless as possible.
 
-Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding
+Developers and Architects are encouraged to build upon - and extend - this framework with the long-term goal of folding
 in such enhancements into future versions of the GST Site Foundation.
 
-July, 2016
+August, 2016
 
 ##An Important Note on Backwards-Compatibility
 
-One of the major changes introduced into the GSF codebase in version 12 (and up) is a brand new namespace for all classes and loggers.
+One of the major changes introduced into the GSF codebase in version 12 (and up) is a brand new namespace for all classes
+and loggers.
 
-The new namespace is: tools.gsf.
-
-Starting the initial release of GSF-12, pre-existing classes will be progressively moved onto the LEGACY artifact.
-
-As per the LEGACY artifact's semantic, this implies "old" classes will enter the deprecation cycle.
-
-Components that get deprecated will be physically removed from the GSF's codebase / project in the next major release after deprecation occurs.
-
-Therefore, you are strongly advised to start using the new namespace (e.g. packages / classnames). 
+In doing so, all of the GSF's pre-existing classes have been <<deprecated>> in this release.
+	
+The new namespace is: <<tools.gsf>>.
+	
+Starting this initial release of GSF-12, new "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself) 
+	
+All deprecated classes will be packaged inside a separate artifact / JAR file we will call "LEGACY".
+	
+The above implies all pre-existing classes - i.e. all classes under the legacy namespace - <<com.fatwire.gst>> - will enter
+the GSF	deprecation cycle.
+	
+The GSF's deprecation cycle dictates that deprecated components will be physically removed from the GSF's codebase / project in
+the	next major release after deprecation occurs.
+	
+If you are extending the GSF (or looking at the the source code anyway), you will notice that there are classes in the CORE
+artifact which are exactly the same as one in the LEGACY artifact.
+	
+This is our way of allowing your smoothly transitioning from the old namespace / classes onto the new ones.
+	
+However, note that deprecated classes will not be enhanced, ever. Only the CORE classes will. In other words, as
+CORE features / classes evolve they will gradually diverge from their LEGACY counterpart, whenever applicable.  
+	
+For all of the above, <<you are strongly advised to start using the new namespace (e.g. packages / classnames) right away>>. 
 
 ##Documentation
 
@@ -82,11 +100,11 @@ Therefore, you are strongly advised to start using the new namespace (e.g. packa
 ##Download
 
 For this transitional release, classes are shipped in 2 JAR files:
-
-	* gsf-core-<version>.jar: here you'll find the classes that make up the new (and temporarily slim) CORE of the GSF.    
-
-	* gsf-legacy-<version>.jar: here you'll find the classes that have been deprecated and are planned for complete removal in future releases.
-
+    
+	* gsf-core-<version>.jar: here you'll find the classes that make up GSF's new CORE.    
+    
+	* gsf-legacy-<version>.jar: here you'll find deprecated classes scheduled for physical removal in a future release.
+	
 This kit includes both JAR files. 
 
 Alternatively, you can obtain them by either:
@@ -100,12 +118,19 @@ Alternatively, you can obtain them by either:
 	* Downloading the pre-compiled JARs from the GSF's website:
 	
 		http://gst-foundation.org/	
-
+    
 ##Support
 
 The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
 
 Oracle Support does NOT provide support on GSF.
+
+##Requirements
+
+Java 1.8 (or newer)
+Servlet 3.0
+WCS 12c
+SLF4J 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
 
 ##Support
 

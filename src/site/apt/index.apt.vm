@@ -49,7 +49,7 @@ GSF-12 Overview
 
     This release of the GSF, GSF-12, is considered to be a "transitional" one.
     
-    The main goal is providing the means for clients out there already using GSF to reuse as much of their existing
+    Its main goal is providing the means for clients out there already using GSF to reuse as much of their existing
     code as possible when upgrading from WCS 11.x to WCS 12.x.
     
     Some of the GSF's features have become partially or totally unnecessary due to WCS 12.x offering a native equivalent.
