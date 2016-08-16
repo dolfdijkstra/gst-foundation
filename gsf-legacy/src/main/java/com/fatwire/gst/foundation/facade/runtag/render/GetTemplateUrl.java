@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  * @deprecated - com.fatwire.gst.foundation.facade and all subpackages have moved to the tools.gsf.facade package
  */
 public final class GetTemplateUrl extends TagRunnerWithArguments {
-    private static Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.runtag.render.GetTemplateUrl");
+    private static Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.runtag.render.GetTemplateUrl");
 
     /**
      * 

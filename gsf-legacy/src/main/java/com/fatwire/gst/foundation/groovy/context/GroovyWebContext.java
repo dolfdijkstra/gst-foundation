@@ -42,8 +42,8 @@ public class GroovyWebContext extends DefaultWebAppContext {
 
     /**
      *
-     * @param context
-     * @param app
+     * @param context The ServletContext instance
+     * @param app The AppContext instance
      */
     public GroovyWebContext(ServletContext context, AppContext app) {
         super(context, app);

@@ -19,10 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,23 +53,21 @@ public abstract class AbstractDelegatingFactory<SCOPE> implements Factory {
             // try to locate it internally
             o = locate(name, fieldType);
             if (o != null) {
-                LOG.debug("Located object {} of type {} locally", name, fieldType.getName());
+                LOG.debug("Located object {} of type {} in scope {}", name, fieldType.getName(), this.getClass().getName());
             } else {
                 // delegate to another factory
+            	LOG.debug("Did NOT locate object {} of type {} in scope {}", name, fieldType.getName(), this.getClass().getName());
                 if (delegate != null) {
+                	LOG.debug("Will attempt locating object {} of type {} in delegate {}", name, fieldType.getName(), delegate.getClass().getName());
                     o = delegate.getObject(name, fieldType);
                     if (o != null) {
-                        LOG.debug("Located object {} of type {} in delegate", name, fieldType.getName());
+                        LOG.debug("Located object {} of type {} in delegate {}", name, fieldType.getName(), delegate.getClass().getName());
                     }
-                }
-
-                // we can't build it and we can't delegate it.
-                // try looking for a constructor
-                if (o == null && delegate == null) {
-                    o = constructorStrategy(fieldType);
-                    if (o != null) {
-                        LOG.debug("Created object {} of type {} using constructor", name, fieldType.getName());
-                    }
+                } else {
+	                // we can't build it and we can't delegate it.
+	                // try looking for a constructor
+                	LOG.debug("Cannot delegate lookup onto any other scope.");
+                	LOG.debug("Cannot locate object {} of type {} in delegate {}", name, fieldType.getName(), delegate.getClass().getName());
                 }
             }
         } catch (InvocationTargetException e) {
@@ -205,31 +201,6 @@ public abstract class AbstractDelegatingFactory<SCOPE> implements Factory {
                 throw new UnsupportedOperationException("Cannot create object using method " + m.getName() + " in class " + m.getDeclaringClass().getName() + " - invalid number of parameters");
             }
         }
-    }
-
-    /**
-     * @param <T> invoked object given class
-     * @param c   current asset
-     * @return newly created object
-     * @throws InvocationTargetException exception from invoking constructor
-     */
-    private <T> T constructorStrategy(final Class<T> c) throws InvocationTargetException {
-        T o = null;
-        try {
-            if (c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
-                LOG.debug("Could not create a {} via a Template method. The class {} is an interface or abstract class. Giving up as a class cannot be constructed", c.getName(), c.getName());
-                return null;
-            }
-            LOG.debug("Could not create a {} via a Template method. Trying via constructor.", c.getName());
-            final Constructor<T> constr = c.getConstructor(scope.getClass());
-            o = constr.newInstance(scope);
-        } catch (final NoSuchMethodException
-                | IllegalArgumentException
-                | InstantiationException
-                | IllegalAccessException e1) {
-            LOG.debug("Could not create a {} via a constructor method.", c.getName());
-        }
-        return o;
     }
 
     @Override

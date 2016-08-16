@@ -59,7 +59,7 @@ import static COM.FutureTense.Interfaces.Utilities.goodString;
  * @deprecated - com.fatwire.gst.foundation.facade and all subpackages have moved to the tools.gsf.facade package
  */
 public final class FilterAssetsByDate {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.runtag.asset.FilterAssetsByDate");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.runtag.asset.FilterAssetsByDate");
 
     private static String[] jdbcDateFormatStrings = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSS"};
 

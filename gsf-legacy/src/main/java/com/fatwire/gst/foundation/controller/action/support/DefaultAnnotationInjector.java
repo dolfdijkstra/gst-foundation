@@ -26,7 +26,7 @@ import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.mapping.MappingInjector;
 
 /**
- * @deprecated see {@link tools.gsf.config.inject.AnnotationInjector}
+ * @deprecated see "tools.gsf.config.inject.AnnotationInjector"
  */
 public class DefaultAnnotationInjector implements Injector {
 

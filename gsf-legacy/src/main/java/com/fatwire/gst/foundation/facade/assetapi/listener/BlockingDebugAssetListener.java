@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BlockingDebugAssetListener extends AbstractAssetEventListener {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.assetapi.listener.BlockingDebugAssetListener");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.assetapi.listener.BlockingDebugAssetListener");
     private ICS ics;
 
     void printAsset(final AssetId id) {

@@ -52,7 +52,7 @@ import java.util.List;
  * @deprecated - com.fatwire.gst.foundation.facade and all subpackages have moved to the tools.gsf.facade package
  */
 public final class LocaleUtils {
-    private static final Logger _log = LoggerFactory.getLogger("tools.gsf.facade.mda.LocaleUtils");
+    private static final Logger _log = LoggerFactory.getLogger("tools.gsf.legacy.facade.mda.LocaleUtils");
 
     private LocaleUtils() {
     }

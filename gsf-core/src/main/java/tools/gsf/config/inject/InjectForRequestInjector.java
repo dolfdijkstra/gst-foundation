@@ -86,7 +86,7 @@ public final class InjectForRequestInjector {
         }
         final Object injectionValue = factory.getObject(name, field.getType());
         if (injectionValue == null) {
-            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + field.getType().getName() + "' into the field '" + field.getName() + "' for an action.");
+            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + field.getType().getName() + "' into the field '" + field.getName() + "' of object " + object.hashCode() + " (" + object.getClass().getName() + ").");
         }
         field.setAccessible(true); // make private fields accessible
         LOG.debug("Injecting {} into field {} for {}", injectionValue.getClass().getName(), field.getName(), object.getClass().getName());
@@ -117,7 +117,7 @@ public final class InjectForRequestInjector {
         final Class<?> type = method.getParameterTypes()[0];
         final Object injectionValue = factory.getObject(name, type);
         if (injectionValue == null) {
-            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + type.getName() + "' into the field '" + method.getName() + "' for an action.");
+            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + type.getName() + "' into the method '" + method.getName() + "' of object " + object.hashCode() + " (" + object.getClass().getName() + ").");
         }
 
         // accessible

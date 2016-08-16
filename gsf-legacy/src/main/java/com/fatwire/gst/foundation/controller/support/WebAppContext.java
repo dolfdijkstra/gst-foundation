@@ -32,7 +32,7 @@ import java.util.Map;
  * @since 2016-07-20
  */
 public class WebAppContext implements AppContext {
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.WebAppContext");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.config.WebAppContext");
 
     public static final String WEB_CONTEXT_NAME = "gsf/AppContext";
 
@@ -119,10 +119,11 @@ public class WebAppContext implements AppContext {
         }
         return null;
     }
-
+    
     private static <T> T createByConstructor(Class<T> c) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException   {
         if(c.isInterface()) return null; //TODO medium test for abstract class
         final Constructor<T> constr = c.getConstructor(NO_PARAMS);
         return constr.newInstance();
     }
+        
 }

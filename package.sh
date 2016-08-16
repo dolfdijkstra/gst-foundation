@@ -3,7 +3,6 @@ set -o nounset
 set -o errexit
 VERSION=`python -c "from xml.dom.minidom import parse;dom = parse('pom.xml');print [n.firstChild for n in dom.getElementsByTagName('version') if n.parentNode == dom.childNodes[0]][0].toxml()"`
 echo "GST Site Foundation version $VERSION packager"
-#echo "Building GSF version $VERSION"
 
 execLocation="$PWD"
 
@@ -59,7 +58,7 @@ function packageKit() {
 	echo "[$(date)]   copying JavaDoc and Source Files inside $kitLocation"
 	cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $kitLocation
 	cp gsf-core/target/gsf-core-$VERSION-sources.jar $kitLocation
-	#cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $kitLocation
+	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $kitLocation
 	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $kitLocation
 
 	echo "[$(date)]   copying README.md inside $kitLocation"
@@ -112,7 +111,7 @@ function packageWebsite() {
 	echo "[$(date)]   copying JavaDoc and Source Files inside $siteLocation/downloads"
 	cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $siteLocation/downloads/
 	cp gsf-core/target/gsf-core-$VERSION-sources.jar $siteLocation/downloads/
-	#cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
+	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
 	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $siteLocation/downloads/
 
 	echo "[$(date)] Adding license to $siteLocation"

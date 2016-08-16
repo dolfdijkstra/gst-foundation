@@ -38,7 +38,7 @@ import java.util.List;
  * @deprecated - class due for rewriting
  */
 public final class AnnotationInjector {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.action.AnnotationInjector");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.action.AnnotationInjector");
 
     /**
      * Inject ICS runtime objects into the object. Objects flagged with the

@@ -34,7 +34,7 @@ import com.fatwire.gst.foundation.controller.support.TemplateMethodFactory;
  *
  */
 public class SpringWebAppContext implements AppContext {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.support.SpringWebAppContext");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.support.SpringWebAppContext");
     private static final ActionNameResolver nullActionNameResolver = new NullActionNameResolver();
     private final WebApplicationContext wac;
 

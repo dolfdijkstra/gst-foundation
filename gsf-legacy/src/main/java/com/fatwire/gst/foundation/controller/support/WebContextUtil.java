@@ -25,11 +25,11 @@ import com.fatwire.gst.foundation.controller.AppContext;
 /**
  * @author Dolf.Dijkstra
  * @since 4 April 2012
- * @deprecated see {@link tools.gsf.config.WebAppContextUtil}
+ * @deprecated see "tools.gsf.config.WebAppContextUtil"
  */
 public class WebContextUtil {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.support.WebContextUtil");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.support.WebContextUtil");
     private WebContextUtil() {
         super();
     }

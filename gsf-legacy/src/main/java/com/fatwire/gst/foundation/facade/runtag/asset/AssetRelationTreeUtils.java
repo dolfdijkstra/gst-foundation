@@ -49,7 +49,7 @@ import java.util.List;
  */
 public final class AssetRelationTreeUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.runtag.asset.AssetRelationTreeUtils");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.runtag.asset.AssetRelationTreeUtils");
 
     /**
      * Get all of the parent assets in the AssetRelationTree for the specified

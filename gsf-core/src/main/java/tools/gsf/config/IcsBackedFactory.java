@@ -15,15 +15,28 @@
  */
 package tools.gsf.config;
 
+import com.fatwire.assetapi.data.AssetDataManager;
+import com.fatwire.assetapi.site.SiteManager;
+import com.fatwire.system.Session;
+import com.fatwire.system.SessionFactory;
+
 import COM.FutureTense.Interfaces.ICS;
+
 import tools.gsf.config.inject.AnnotationInjector;
 import tools.gsf.config.inject.BindInjector;
 import tools.gsf.config.inject.InjectForRequestInjector;
 import tools.gsf.config.inject.Injector;
 import tools.gsf.config.inject.MappingInjector;
+import tools.gsf.facade.assetapi.AssetAccessTemplate;
+import tools.gsf.facade.assetapi.asset.ScatteredAssetAccessTemplate;
+import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 import tools.gsf.mapping.IcsMappingService;
 import tools.gsf.mapping.MappingService;
 import tools.gsf.time.Stopwatch;
+import tools.gsf.properties.AssetApiPropertyDao;
+import tools.gsf.properties.PropertyDao;
+import tools.gsf.facade.mda.DefaultLocaleService;
+import tools.gsf.facade.mda.LocaleService;
 
 /**
  * @author Tony Field
@@ -32,6 +45,10 @@ import tools.gsf.time.Stopwatch;
 public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
 
     private final ICS ics;
+    
+    protected ICS getICS() {
+    	return this.ics;
+    }
 
     public IcsBackedFactory(ICS ics, Factory delegate) {
         super(ics, delegate);
@@ -68,5 +85,38 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
         Stopwatch stopwatch = getObject("stopwatch", Stopwatch.class);
         return new AnnotationInjector(ics, bind, map, ifr, stopwatch);
     }
+    
+    @ServiceProducer(cache = true)
+    public PropertyDao createPropertyDao(final ICS ics) {
+    	Session session = SessionFactory.getSession(ics);
+    	AssetDataManager adm = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+    	SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
+    	String type = "GSTProperty";
+    	String flexDefName = "GSTProperty";
+    	String propNameAttr = "name";
+    	String propDescAttr = "description";
+    	String propValueAttr = "value";
+    	return new AssetApiPropertyDao(adm, sm, type, flexDefName, propNameAttr, propDescAttr, propValueAttr, ics);
+    }
+    
+    @ServiceProducer(cache = true)
+    public AssetAccessTemplate createAssetAccessTemplate() {
+        return new AssetAccessTemplate(this.ics);
+    }
+    
+    @ServiceProducer(cache = true)
+    public ScatteredAssetAccessTemplate createScatteredAssetAccessTemplate() {
+        return new ScatteredAssetAccessTemplate(this.ics);
+    }
 
+    @ServiceProducer(cache = true)
+    public TemplateAssetAccess createTemplateAssetAccess() {
+        return new TemplateAssetAccess(this.ics);
+    }
+    
+    @ServiceProducer(cache = true)
+    public LocaleService createLocaleService(final ICS ics) {
+        return new DefaultLocaleService(ics);
+    }
+    
 }
