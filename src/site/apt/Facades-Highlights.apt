@@ -36,3 +36,9 @@ Highlights: Facades Package
 	
 	[]
 	
+	As explained in the {{{./How-To#Inject Your Own Beans / Objects Into a WCS 12c Controller} How-To}} page, <<WCS 12c does not invoke a Controller attached to a Template when you call that Template using style="element>>.
+	
+	Due to this particularity in how WCS 12c behaves in this specific scenario, we opted for having the CORE's (CallTemplate) Facade(s) diverge from the LEGACY's so the former better adjusts to WCS 12c's behaviour.
+	
+	As for all other deprecated classes / features, you are strongly advised to use the CORE's Facades instead of the LEGACY's and you are reminded that LEGACY classes / components will be (physically) wiped off the GSF project in a future release.
+

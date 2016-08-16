@@ -18,43 +18,67 @@ Release Notes
 
 	* GSF-12 requires Java v1.8 (or newer) and Servlet 3.0 (or newer)
 	
-	* A brand new namespace for classes and loggers will be used from now on: <<tools.gsf>>. Pre-existing classes will get progressively deprecated, moved onto the LEGACY artifact and (eventually) physically removed from the GSF's codebase / project in future versions.
+	* A brand new namespace for classes and loggers will be used from now on: <<tools.gsf>>.
+	
+	* Pre-existing classes using the old namespace ("com.fatwire.gst.foundation...") have all been DEPRECATED, moved onto the LEGACY artifact and will be (eventually) removed from the GSF's codebase in a future release:
 
-	* All GSF taglibs have been DEPRECATED (see gsf-taglib-legacy). You should stop using and/or extending and/or customizing them; some of them will be wiped out in future releases and some will be completely replaced by new ones.
+		* The entire gsf-mobile module has been WIPED OUT. Hence, you must stop using and/or extending and/or customizing those classes right away, rely on WCS 12.x's native multi-device support instead.
+		
+		* The entire com.fatwire.gst.foundation.facade.logging package has been DEPRECATED. You must not use any of those classes in WCS 12c as they won't work properly. This entire package will be physically wiped off the GSF project in an upcoming release.
+		
+		* The entire com.fatwire.gst.foundation.html package has been DEPRECATED. You must stop using and/or extending and/or customizing them as soon as possible as they will all be wiped off the GSF project in a future release.
+		
+		* The Simple Search Engine Service has been DEPRECATED and it will be physically wiped off the GSF project in an upcoming release. Hence, you must stop using and/or extending and/or customizing those classes right away, rely on WCS's own (Lucene) Search API and/or Lucene's own API instead.
+		
+		* You should stop using and/or extending and/or customizing GSF Taglibs as soon as possible; most of these taglibs will be definitively wiped off the project in a future release and some will be repurposed (and enhanced).
   
-	* GSF Tagging has been DEPRECATED (see gsf-tagging-legacy), including the GSTTagRegistry table. You should stop using and/or extending and/or customizing them, rely instead on WCS 12.x's native tagging support.
+		* You must stop using and/or extending and/or customizing the LEGACY Navigation Service / Framework (injected by default by the LEGACY factory) as soon as possible. Use the CORE's brand new Navigation Service / Framework / APIs instead, which significantly improves its predecessor. Check out the {{{./How-To} How-To's / Highlights section}} for more info. 
 
-	* The entire Groovy module has been DEPRECATED (see gsf-groovy-legacy). You must stop using and/or extending and/or customizing these classes as soon as possible, rely on WCS 12.x's native Groovy support instead (in conjunction with WCS 12.x's Controllers / Templates / CSElements)
+		* You must stop using and/or extending and/or customizing GSF Tagging as soon as possible, rely instead on WCS 12.x's native tagging support.
+
+		* You must stop using and/or extending and/or customizing GSF's Groovy support as soon as possible, rely on WCS 12.x's native Groovy support instead, in conjunction with WCS 12.x's Controllers / Templates / CSElements.
+			
+		* You must stop using and/or extending and/or customizing GSF actions (both type 1 and 2) and the entire dispatching framework (including GST/Dispatcher, BaseController, AbstractController and subclasses, ActionFrameworkController, ActionController, etc..) as soon as possible, leverage WCS' native Controllers and Wrappers instead. More info can be found in the {{{./How-To} How-To} page.
+		
+		* You must stop using and/or extending and/or customizing GSF vanity URLs as soon as possible, including all supporting classes / mechanisms (custom PageRef implementations, the entire "wra" subpackage, the GSTUrlRegistry table, Virtual Webroots assets, etc...), and replace that with WCS's native vanity URLs support. We will be releasing a GSF Vanity URLs MIGRATION TOOL shortly!
+		
+		* You must stop using the entire "include" subpackage, including IncludeService and GsfCallTemplate as soon as possible, use WCS' native features instead.
+		
+		* You must stop using and/or extending and/or customizing all LEGACY factories and app context implementations, including IcsBackedObjectFactoryTemplate and the corresponding servlet context listener, as soon as possible. Use the CORE's brand-new scoped object factories framework (look at IcsBackedFactory and ServletContextBackedFactory) which allows for cleaner, better encapsulated, more intuitive, faster code (and coding)
+		
+		* You must stop using and/or extending and/or customizing all LEGACY facades as soon as possible. Use the new ones instead (CORE's), which are specifically adjusted to behave consistently in WCS 12.
+		
+			* A special mention must be made for the CallTemplate facade. Refer to the {{{./How-To} How-To}} section for more details.
+			
+			[]  
+		
+		[]
+	
+	* The GST Properties mechanism has been <<enhanced>> so that users can use their own "GST Property" flex definition / asset type (instead of the GSF-specific asset type / subtype), provided that it has 3 fields: "name", "description" and "value".
+	
+	* All GST Property-related Tag Libraries (as all other taglibs) have been DEPRECATED; brand new, enhanced versions of those will be implemented in future releases!
+		
+	* The entire GSTAttribute flex family has been deprecated. You should stop using / extending / customizing this flex family as soon as possible.
+	
+		* The only reference to this LEGACY flex family from the CORE's classes is in the <<IcsBackedFactory.createPropertyDao method>>, for backwards compatibility reason.
+		
+		* The GST Property feature <<has not and will not be deprecated>>, just the pre-existing classes / taglibs (see above)
+		
+		[] 
 
 	* All GSF-specific samples have been wiped out, although the gsf-samples module itself is still there; we will implement brand new samples in a future release! (and new development guidelines will be outlined)
 
-	* The entire gsf-mobile module has been WIPED OUT. You should stop using and/or extending and/or customizing these classes, rely on WCS 12.x's native multi-device support instead.
-
-	* GSF actions (both type 1 and 2) and the entire dispatching framework (including GST/Dispatcher, BaseController, AbstractController and subclasses, ActionFrameworkController, ActionController, etc..) has been deprecated. You should stop using and/or extending and/or customizing these classes / mechanism and replace that with WCS 12.x's built-in Controllers.
-
-	* GSF vanity URLs, including all supporting classes / mechanisms (custom PageRef implementations, the entire "wra" subpackage, the GSTUrlRegistry table, Virtual Webroots assets, etc...) have been DEPRECATED. You should stop using and/or extending and/or customizing these classes / mechanism and replace that with WCS 12.x's built-in vanity URLs support. We will be releasing a GSF Vanity URLs MIGRATION TOOL shortly! 
-
-	* The entire "include" subpackage, including IncludeService and GsfCallTemplate, has been DEPRECATED. You should stop using these, use WCS 12.x's OOTB features instead.
-
-	* A brand new implementation of the Navigation Service has been implemented. The existing (former) implementation has been DEPRECATED. Check out the How-To's / Highlights section for more info.
-
-	* IcsBackedObjectFactoryTemplate has been DEPRECATED, replaced with a new Factory implementation: IcsObjectFactory. You should stop using, extending and customizing the IcsBackedObjectFactoryTemplate class.
-
-	* 11g's implementation of DefaultWebAppContext has been DEPRECATED, code has been moved onto a new class: LegacyDefaultWebAppContext.
-
-	* A new, WCS 12.x-friendly version of DefaultWebAppContext has been implemented; this one does not require your editing web.xml anymore and it has been streamlined by removing all methods related to deprecated features (createActionLocator, createActionNameResolver, createNavigationService, ...). Check out the How-To's / Highlights section for more info.	
-  
-	* The entire com.fatwire.gst.foundation.facade.logging package has been DEPRECATED. You must not use any of those classes in WCS 12.x as they won't work properly. This entire package will be wiped out in an upcoming release.
-
-	* The new DefaultWebAppContext defaults to IcsObjectFactory instead of IcsBackedObjectFactoryTemplate (which has been deprecated along with the former DefaultWebAppContext implementation)
-
-	* The entire GSTAttribute flex family is deprecated. You should stop using / extending / customizing this flex family. Future releases of the GSF-12 will not use the GSTAttribute flex family AT ALL.
-
-	* The GST Properties framework has been enhanced so that users can use their own "GST Property" flex definition / asset type, provided that it has 3 fields: "name", "description" and "value".
-
-	* All GST Property-related Tag Libraries (as all other taglibs) have been DEPRECATED; brand new, enhanced versions of those will be implemented in future releases!
-
-	* The entire com.fatwire.gst.foundation.html package has been DEPRECATED. You should stop using and/or extending and/or customizing them; they will all be wiped out in a future release.
-  
-	* WCS 12c's base Controller has been extended so to simplify integration of the GSF's injection mechanism (et al GSF-specific features) and WCS 12c's new dispatching framework and API.
+	* A new, WCS 12.x-friendly version of DefaultWebAppContext has been implemented.
 	
+		* This new version does not require your editing web.xml anymore and it has been streamlined by removing all methods related to deprecated features (createActionLocator, createActionNameResolver, createNavigationService, ...).
+		
+		* The new DefaultWebAppContext defaults to IcsBackedFactory instead of IcsBackedObjectFactoryTemplate, which has been deprecated along with the former DefaultWebAppContext implementation.
+		
+		* Check out the How-To's / Highlights section for more info.
+		
+		[]
+  
+	* WCS 12c's Base Controller has been extended so to simplify integration of the GSF's annotation-based injection mechanism and WCS 12c's new dispatching framework / APIs.
+	
+	[]
+
