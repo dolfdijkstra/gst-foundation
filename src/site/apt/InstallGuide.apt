@@ -42,12 +42,8 @@ Installation Guide
     
 Starting Fresh With GSF-12 and WCS 12c
     
-	Starting fresh with GSF-12 on WCS 12c is as simple as a 1-step procedure:
-	
-		* Deploy GSF-12's "CORE" JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
+	Starting fresh with GSF (12) on WCS 12c is now <<as simple as deploying the CORE JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app>>.
 
-		[]
-	
 	If the WCS 12c web app is getting deployed <<as a WAR file>>, then you must:
 
 		[[1]] Stop your WCS 12c instance.
@@ -86,39 +82,35 @@ Upgrading From WCS 11g to 12c
 	
 	Here is a checklist of the scenarios we can envision and what those would imply for you in terms of setting up LEGACY:  
 
-		* In case you want to use <<any>> deprecated class or feature (for instance, GSF actions):
-    
-			* Deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
+		* In case you want to use <<any>> deprecated class or feature (say, GSF actions), you <<must>> deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
+									
+		* In case you want to use a custom AppContext loader:
+        
+			[[1]] Configure your custom listener as needed inside WCS 12c's web.xml file.
+        
+			[[1]] Deploy your custom listener's classes.
+        	
+			[[1]] Make sure your custom listener gets loaded and executed. GSF-12 plugs in its own, brand new AppContext loader via annotations (@WebListener). Hence, make sure the new listener doesn't collide with yours.
+        
+			[[1]] Make sure your custom listener works properly with WCS 12c (and GSF-12 itself).
 			
 			[]
-						
-    	* In case you want to use a custom AppContext loader:
-        
-        	* Configure your custom listener as needed inside WCS 12c's web.xml file.
-        
-        	* Deploy your custom listener's classes.
         	
-        	* Make sure your custom listener gets loaded and executed. GSF-12 plugs in its own, brand new AppContext loader via annotations (@WebListener). Hence, make sure the new listener doesn't collide with yours.
-        
-        	* Make sure your custom listener works properly with WCS 12c (and GSF-12 itself).
-        	
-        	[]
-
 		* If you are upgrading an existing implementation from WCS 11g to WCS 12c where GSF (v11.x) is correctly setup and being used, you don't need to recreate nor register your GSF-specific tables; the WCS 12c installer won't touch them.
             
 		* If you need to use any DEPRECATED features which rely on GSF-specific asset event listeners and you are setting up GSF-12 on a clean WCS 12c install, then you can register those by:
         
-        	[[1]] Exporting the due row(s) from your WCS 11g instance's AssetListener_reg with CatalogMover or CSExplorer.
+			[[1]] Exporting the due row(s) from your WCS 11g instance's AssetListener_reg with CatalogMover or CSExplorer.
         	
-        	[[1]] Importing the due row(s) onto your WCS 12c instance's AssetListener_reg with CatalogMover or CSExplorer.
+			[[1]] Importing the due row(s) onto your WCS 12c instance's AssetListener_reg with CatalogMover or CSExplorer.
         	
-        	[[1]] In case you have customized GSF's asset event listeners (the actual java classes), you'd need to port those customizations to WCS 12c.
-        	
-        	[]
-        	
+			[[1]] In case you have customized GSF's asset event listeners (the actual java classes), you'd need to port those customizations to WCS 12c.
+
+			[]			
+        	        	
 		* If you are upgrading an existing WCS 11g instance to WCS 12c (i.e. no clean install of WCS 12c) where GSF (11) was already setup, you don't need to recreate nor register your GSF-specific asset event listeners; the WCS 12c installer won't touch them.
 		
-        * If you need to use GSF vanity URLs support, the you might need to re-create the GSTUrlRegistry from scratch (e.g. on a clean WCS 12c install):
+		* If you need to use GSF vanity URLs support, the you might need to re-create the GSTUrlRegistry from scratch (e.g. on a clean WCS 12c install):
         
 			[[1]] Extract the DDL script for that table - and the due constraints / indexes - directly from your DBMS. Find below an EXAMPLE for HSQLDB (you are advised to extract this from your existing DB schema):
 
@@ -133,8 +125,8 @@ CREATE UNIQUE INDEX SYS_IDX_GSTURLREG ON "PUBLIC"."GSTURLREGISTRY"(ID);
 				        	
 			[[1]] The old GSF installer - as well as the GSF WemApp - has been DEPRECATED and they are not supported anymore in WCS 12c. Do NOT install them nor attempt to execute them (YOU HAVE BEEN WARNED!)
 			
-			[]			
-		
+			[]
+						
 		* If you need to use any other deprecated feature which relies on GSF-specific tables, use the same procedure as for GSTUrlRegistry (see above)
 		
 		* If you need to use any asset type of the GST Flex Family and you are not upgrading on top of WCS 11g but setting up a fresh WCS 12c install, then:
@@ -278,12 +270,12 @@ Attribute #13's Description:	Tag
 Attribute #13's Type:			string
 Attribute #13's Value Style:	single
 +--
-					
+				
 				[]
-					
+			
 			[[1]] Initialize the (deprecated) GST-specific flex definitions either via the Admin UI or via CSDT export / import:
 
-				* FOR Vanity URLs:
+				[[A]] FOR Vanity URLs:
 
 +--				
 Flex Definition Type:			GSTDefinition
@@ -293,7 +285,7 @@ Flex Definition Parents:		(NONE)
 Flex Definition Attributes:		env_name (required), env_vwebroot (optional), master_vwebroot (optional)
 +--
 				
-				* For Aliasing / Links:
+				[[A]] For Aliasing / Links:
 
 +--				
 Flex Definition Type:			GSTDefinition
@@ -304,7 +296,7 @@ Flex Definition Attributes:		h1title (required), metadescription (required), met
 Associations:					target (any child asset type / subtype, EXISTS)
 +--
 					
-				* For GST Properties:
+				[[A]] For GST Properties:
 
 +--				
 Flex Definition Type:			GSTDefinition
@@ -314,14 +306,14 @@ Flex Definition Parents:		(NONE)
 Flex Definition Attributes:		value (required)
 +--
 					
-				* For Tagging: "gsttag" is added only to project-specific definitions, not GST's.
+				[[A]] For Tagging: "gsttag" is added only to project-specific definitions, not GST's.
 				
 				[]
-				
+								
 			[[1]] Enable the GST-specific asset types (GSTAttribute, GSTProperty, GSTVirtualWebroot, etc...) for the appropriate sites, as needed -- and initialize their corresponding START MENUS.
 			
 			[]
-		
+			
 		* If you want to keep using GSF's Actions, Controllers and/or vanity URLs, you must initialize the GST/Dispatcher wrapper and make it the DEFAULT WRAPPER of the appropriate sites.
 		
 			* You can do this either via the Admin UI or via CSDT export / import.
@@ -347,21 +339,19 @@ SiteEntry Cache Rule (Satellite):	false
 SiteEntry Cache Criteria:		rendermode, seid, site, sitepfx, ft_ss (default)
 +--
 			
-			[]					
-			
 		* If you want to keep using GSF's vanity URL support:
 		
-			[[1]] Set up the appropriate rewrite rules.
+			* Set up the appropriate rewrite rules.
 			
-			[[1]] Make sure you pass in the appropriate "com.fatwire.gst.foundation.env-name" value to your JVM. For example: (...) -Dcom.fatwire.gst.foundation.env-name=fatwire-dev (...)
+			* Make sure you pass in the appropriate "com.fatwire.gst.foundation.env-name" value to your JVM. For example: (...) -Dcom.fatwire.gst.foundation.env-name=fatwire-dev (...)
 			
-			[[1]] Make sure you pass in the appropriate "sites.node" value to your JVM. For example: (...)-Dsites.node=unicorn-1 (...)
+			* Make sure you pass in the appropriate "sites.node" value to your JVM. For example: (...)-Dsites.node=unicorn-1 (...)
 			
-			[[1]] Make sure your existing GSTVirtualWebroot assets remain valid.
+			* Make sure your existing GSTVirtualWebroot assets remain valid.
 			
-			[[1]] Tweak the concerned WCS 12c properties so that it doesn't reject URLs due to the hostname / port being used (cas.properties, customBeans.xml, etc...) 
+			* Tweak the concerned WCS 12c properties so that it doesn't reject URLs due to the hostname / port being used (cas.properties, customBeans.xml, etc...) 
 			
-			[[1]] Add the custom (WRA) URL Assembler inside "ServletRequest.properties" via Admin UI (e.g. "Property Management") or the Import / Export Utility:
+			* Add the custom (WRA) URL Assembler inside "ServletRequest.properties" via Admin UI (e.g. "Property Management") or the Import / Export Utility:
 
 +--
 uri.assembler.1.shortform=wrapath
@@ -370,11 +360,13 @@ url.assembler.2.shortform=(...)
 (...)
 +--
 
-			[[1]] Initialize the property that holds the GST dispatcher site entry:
+			* Initialize the property that holds the GST dispatcher site entry:
 			
 				* In case you are using file system-based storage for your properties / property files, add the following to ServletRequest.properties:
 			
-						com.fatwire.gst.foundation.url.wrapathassembler.dispatcher=GST/Dispatcher
++--
+com.fatwire.gst.foundation.url.wrapathassembler.dispatcher=GST/Dispatcher
++--
 			
 				* In case you are using DB-based storage for your properties / property files, create a new property:
 
@@ -386,21 +378,17 @@ Description:	GST Dispatcher Site Entry
 Value:			GST/Dispatcher
 +--
 
-				[]
-				
-			[[1]] Replace WCS 12c's out-of-the-box PageRef implementation with GST's deprecated one by rewiring the xcelerate.pageref property as follows (use the aforementioned "Property Management" feature or the Property "Export/Import" Utility)
+			* Replace WCS 12c's out-of-the-box PageRef implementation with GST's deprecated one by rewiring the xcelerate.pageref property as follows (use the aforementioned "Property Management" feature or the Property "Export/Import" Utility)
 
-+..			
++--
 (...)
 "key" : "xcelerate.pageref",
 "value" : "com.fatwire.gst.foundation.url.WraPageReference",
 (...)
 +--
 				
-			[[1]] Note that GSF's own PageRef implementation does not support WCS 12c's (native) vanity urls. In other words, GSF's and WCS' are mutually exclusive.
+			* Note that GSF's own PageRef implementation does not support WCS 12c's (native) vanity urls. In other words, GSF's and WCS' are mutually exclusive.
 			
-			[]
-		
 		* Migrate your GSTProperty, GSTVirtualWebroot, GSTAlias assets using CSDT, publishing or whichever approach that suits your needs. 
 					
 		* If you want to keep using GSF Actions or any other features / services which depend on DefaultWebAppContext and are DEPRECATED on GSF-12, then you must either:
@@ -418,8 +406,6 @@ Value:			GST/Dispatcher
 (...)
 +--
 				
-			[]
-
 		* If you wire up the legacy AppContext loader (the "legacy servlet context listener" above), you will be defaulting to "IcsBackedObjectFactoryTemplate", also deprecated. 
 
 		* If you want to keep using GST Properties with the now DEPRECATED GSTProperty asset type / subtype, then: 
@@ -427,15 +413,11 @@ Value:			GST/Dispatcher
 			* If you are still using the DEPRECATED object factory ("IcsBackedObjectFactoryTemplate", see above), then you don't need to do anything; the old object factory is still wired up to use GSTProperty.
 
 			* If you want to use your own asset type / subtype as GST Property assets (new CORE feature), you must code and wire this up manually into your AppContext, e.g. by extending your object factory.
+
+A Friendly Reminder To Those Who Have Forked Off The GSF... (e.g. Customized GSF's own Classes)
 			
-			[]
-			
-		[]
-      			
-	In case you have customized any GSF classes themselves, then you must reengineer your codebase to either:
+	In case you have customized any of the GSF classes, you must reengineer your own codebase to either:
 
 		* Stop using those customizations and rely on GSF-12's CORE classes / features, and/or
         
         * Re-implement your customizations on top of GSF-12's codebase and regression test your app.
-        
-        []
