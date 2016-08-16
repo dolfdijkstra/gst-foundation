@@ -32,13 +32,13 @@ Release Notes
 		
 		* You should stop using and/or extending and/or customizing GSF Taglibs as soon as possible; most of these taglibs will be definitively wiped off the project in a future release and some will be repurposed (and enhanced).
   
-		* You must stop using and/or extending and/or customizing the LEGACY Navigation Service / Framework (injected by default by the LEGACY factory) as soon as possible. Use the CORE's brand new Navigation Service / Framework / APIs instead, which significantly improves its predecessor. Check out the {{{./How-To} How-To's / Highlights section}} for more info. 
+		* You must stop using and/or extending and/or customizing the LEGACY Navigation Service / Framework (injected by default by the LEGACY factory) as soon as possible. Use the CORE's brand new Navigation Service / Framework / APIs instead, which significantly improves its predecessor. Check out the {{{./How-To.html} How-To's / Highlights section}} for more info. 
 
 		* You must stop using and/or extending and/or customizing GSF Tagging as soon as possible, rely instead on WCS 12.x's native tagging support.
 
 		* You must stop using and/or extending and/or customizing GSF's Groovy support as soon as possible, rely on WCS 12.x's native Groovy support instead, in conjunction with WCS 12.x's Controllers / Templates / CSElements.
 			
-		* You must stop using and/or extending and/or customizing GSF actions (both type 1 and 2) and the entire dispatching framework (including GST/Dispatcher, BaseController, AbstractController and subclasses, ActionFrameworkController, ActionController, etc..) as soon as possible, leverage WCS' native Controllers and Wrappers instead. More info can be found in the {{{./How-To} How-To} page.
+		* You must stop using and/or extending and/or customizing GSF actions (both type 1 and 2) and the entire dispatching framework (including GST/Dispatcher, BaseController, AbstractController and subclasses, ActionFrameworkController, ActionController, etc..) as soon as possible, leverage WCS' native Controllers and Wrappers instead. More info can be found in the {{{./How-To.html} How-To's / Highlights section}}.
 		
 		* You must stop using and/or extending and/or customizing GSF vanity URLs as soon as possible, including all supporting classes / mechanisms (custom PageRef implementations, the entire "wra" subpackage, the GSTUrlRegistry table, Virtual Webroots assets, etc...), and replace that with WCS's native vanity URLs support. We will be releasing a GSF Vanity URLs MIGRATION TOOL shortly!
 		
@@ -48,7 +48,7 @@ Release Notes
 		
 		* You must stop using and/or extending and/or customizing all LEGACY facades as soon as possible. Use the new ones instead (CORE's), which are specifically adjusted to behave consistently in WCS 12.
 		
-			* A special mention must be made for the CallTemplate facade. Refer to the {{{./How-To} How-To}} section for more details.
+			* A special mention must be made for the CallTemplate facade. Refer to the {{{./How-To.html} How-To's / Highlights section}} for more details.
 			
 			[]  
 		
@@ -56,7 +56,9 @@ Release Notes
 	
 	* The GST Properties mechanism has been <<enhanced>> so that users can use their own "GST Property" flex definition / asset type (instead of the GSF-specific asset type / subtype), provided that it has 3 fields: "name", "description" and "value".
 	
-	* All GST Property-related Tag Libraries (as all other taglibs) have been DEPRECATED; brand new, enhanced versions of those will be implemented in future releases!
+		* All GST Property-related Tag Libraries (as all other taglibs) have been DEPRECATED; brand new, enhanced versions of those will be implemented in future releases!
+		
+		[]
 		
 	* The entire GSTAttribute flex family has been deprecated. You should stop using / extending / customizing this flex family as soon as possible.
 	
@@ -74,7 +76,7 @@ Release Notes
 		
 		* The new DefaultWebAppContext defaults to IcsBackedFactory instead of IcsBackedObjectFactoryTemplate, which has been deprecated along with the former DefaultWebAppContext implementation.
 		
-		* Check out the How-To's / Highlights section for more info.
+		* Check out the {{{./How-To.html} How-To's / Highlights section}} for more info.
 		
 		[]
   

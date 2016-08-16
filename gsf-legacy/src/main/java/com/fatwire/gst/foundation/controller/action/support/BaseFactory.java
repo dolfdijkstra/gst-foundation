@@ -38,7 +38,7 @@ import java.util.Map;
  * Effectively this means the lifetime of the ICS object.
  * 
  * @author Dolf Dijkstra
- * @deprecated see {@link tools.gsf.config.BaseFactory}
+ * @deprecated see "tools.gsf.config.BaseFactory"
  */
 public abstract class BaseFactory implements Factory {
 

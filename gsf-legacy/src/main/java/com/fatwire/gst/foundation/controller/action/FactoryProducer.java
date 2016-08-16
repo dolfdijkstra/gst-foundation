@@ -22,12 +22,12 @@ import COM.FutureTense.Interfaces.ICS;
  * <p>
  *
  * @author Dolf.Dijkstra
- * @deprecated see {@link tools.gsf.config.FactoryProducer}
+ * @deprecated see "tools.gsf.config.FactoryProducer"
  */
 public interface FactoryProducer {
 
     /**
-     * Method to produce a {@link tools.gsf.config.Factory} to access services that need access to ICS
+     * Method to produce a "tools.gsf.config.Factory" to access services that need access to ICS
      *
      * @param ics Content Server context object
      * @return the Factory to create services that need access to ics.

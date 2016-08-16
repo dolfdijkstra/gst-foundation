@@ -21,7 +21,7 @@ package com.fatwire.gst.foundation.controller.action;
  * 
  * @author Dolf Dijkstra
  * @since Mar 26, 2011
- * @deprecated see {@link tools.gsf.config.Factory}
+ * @deprecated see "tools.gsf.config.Factory"
  */
 public interface Factory  {
 

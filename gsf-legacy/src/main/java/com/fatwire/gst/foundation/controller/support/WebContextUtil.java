@@ -25,7 +25,7 @@ import com.fatwire.gst.foundation.controller.AppContext;
 /**
  * @author Dolf.Dijkstra
  * @since 4 April 2012
- * @deprecated see {@link tools.gsf.config.WebAppContextUtil}
+ * @deprecated see "tools.gsf.config.WebAppContextUtil"
  */
 public class WebContextUtil {
 

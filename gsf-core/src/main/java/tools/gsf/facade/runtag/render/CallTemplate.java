@@ -42,16 +42,14 @@ import java.util.List;
  * [&lt;RENDER.ARGUMENT NAME="variable1" VALUE="value1"/&gt;]
  * &lt;/RENDER.CALLTEMPLATE&gt;
  * </code>
+ * </p>
  * 
  * <p>
  * <b>
  * MAIN CHANGES WITH REGARDS TO LEGACY render:calltemplate FACADE:
- * <ul>
- * <li>"override" property / mechanism has been removed from this tag.</li>
- * <li>Default "style" property / mechanism has been removed from this tag.</li>
- * <li>Style calculation intelligence has been removed from this tag. Style must now be explicitly set by the caller; otherwise, this facade will throw an Exception.</li>
- * <li></li>
- * </ul>
+ * - "override" property / mechanism has been removed from this tag.
+ * - Default "style" property / mechanism has been removed from this tag.
+ * - Style calculation intelligence has been removed from this tag. Style must now be explicitly set by the caller; otherwise, this facade will throw an Exception.
  * </b>
  * </p>
  *
