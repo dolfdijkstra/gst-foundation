@@ -48,12 +48,13 @@ public final class MappingInjector {
         this.mappingService = mappingService;
     }
 
-    public void inject(final Object target, final AssetIdWithSite id) {
+    public void inject(final Object target, final String pagename) {
         if (target == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
         final Field[] fields = findFieldsWithAnnotation(target, Mapping.class);
         if (fields.length > 0) {
+            AssetIdWithSite id = mappingService.resolveMapped(pagename);
             final Map<String, MappingValue> map = mappingService.readMapping(id);
             for (final Field field : fields) {
                 injectIntoField(target, map, field, id);

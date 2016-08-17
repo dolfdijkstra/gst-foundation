@@ -46,25 +46,11 @@ public class AnnotationInjector implements Injector {
         bindInjector.bind(dependent);
         stopwatch.split("AnnotationInjector: Bind injection done");
 
-        AssetIdWithSite idWithSite = figureOutTemplateOrCSElementId(ics);
-        if (idWithSite != null) {
-            mappingInjector.inject(dependent, idWithSite);
-            stopwatch.split("AnnotationInjector: Mapping injection done");
-        }
+        mappingInjector.inject(dependent, ics.GetVar("pagename"));
+        stopwatch.split("AnnotationInjector: Mapping injection done");
 
         ifrInjector.inject(dependent);
         stopwatch.split("AnnotationInjector: InjectForRequest injection done");
     }
 
-    private AssetIdWithSite figureOutTemplateOrCSElementId(final ICS ics) {
-        String eid = ics.GetVar("eid");
-        if (eid != null) {
-            return new AssetIdWithSite("CSElement", Long.parseLong(eid), ics.GetVar("site"));
-        }
-        eid = ics.GetVar("tid");
-        if (eid != null) {
-            return new AssetIdWithSite("Template", Long.parseLong(eid), ics.GetVar("site"));
-        }
-        return null;
-    }
 }
