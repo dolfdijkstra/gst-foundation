@@ -20,9 +20,9 @@ import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import COM.FutureTense.Util.IterableIListWrapper;
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.IListUtils;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-import tools.gsf.facade.sql.IListUtils;
 
 import java.util.ArrayList;
 import java.util.List;

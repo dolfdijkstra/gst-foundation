@@ -20,19 +20,14 @@ import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.Utilities;
 import COM.FutureTense.Util.ftErrors;
-import COM.FutureTense.Util.ftMessage;
 import com.fatwire.assetapi.data.AssetId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.gsf.facade.RenderUtils;
 import tools.gsf.facade.runtag.TagRunnerRuntimeException;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * CallTemplate tag with many improvements around context and style.
@@ -47,10 +42,21 @@ import java.util.Map.Entry;
  * [&lt;RENDER.ARGUMENT NAME="variable1" VALUE="value1"/&gt;]
  * &lt;/RENDER.CALLTEMPLATE&gt;
  * </code>
+ * </p>
+ * 
+ * <p>
+ * <b>
+ * MAIN CHANGES WITH REGARDS TO LEGACY render:calltemplate FACADE:
+ * - "override" property / mechanism has been removed from this tag.
+ * - Default "style" property / mechanism has been removed from this tag.
+ * - Style calculation intelligence has been removed from this tag. Style must now be explicitly set by the caller; otherwise, this facade will throw an Exception.
+ * </b>
+ * </p>
  *
  * @author Tony Field
  * @author Dolf Dijkstra
- * @since Jun 10, 2010
+ * @author Freddy Villalba
+ * @since Aug 15, 2016
  */
 public class CallTemplate extends TagRunnerWithRenderArguments {
 
@@ -58,13 +64,8 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
 
     static private boolean configLoaded = false;
     /**
-     * The default style, used if present
-     */
-    static private Style defaultStyle = null;
-    /**
      * Do not use the user provided value for style, override
      */
-    static private boolean override = true;
     static private boolean config_FixPageCriteria = false;
     private boolean fixPageCriteria = false;
     private String site, type, tname, cid;
@@ -83,17 +84,22 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
     }
 
     /**
-     * Sets up CallTemplate with default <tt>Style.element</tt>
+     * Sets up CallTemplate.
+     * 
+     * <b>IMPORTANT: note that Style is now required, as opposed to previous versions of the GSF. Also, bear in mind that,
+     * in WCS 12c, using style="element" implies the called Template's Controller does NOT get invoked at all.</b> 
      *
      * @param slotname slot name
      * @param tname    template name
      * @param type     template type
+     * @param style    call style (e.g. pagelet, embedded or element) 
      */
-    public CallTemplate(final String slotname, final String tname, final Type type) {
+    public CallTemplate(final String slotname, final String tname, final Type type, final CallTemplate.Style style) {
         super("RENDER.CALLTEMPLATE");
         setSlotname(slotname);
         setTname(tname);
         setTtype(type);
+        setStyle(style);
         setContext("");
     }
 
@@ -108,13 +114,12 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
 
         // default value
         readConfig(ics);
-
-        if (defaultStyle != null) {
-            setStyle(defaultStyle);
-        } else if (override || style == null) {
-            final Style newStyle = proposeStyle(ics);
-            setStyle(newStyle);
-        }
+    	
+    	// if style has not been explicitly set, bomb out
+    	if (this.style == null) {
+    		throw new IllegalStateException("Starting GSF-12, you must explicitly set 'style'. Also, bear in mind that, in WCS 12c, calling a template with style='element' prevents the corresponding Controller from getting invoked.");
+    	}
+        
         ics.ClearErrno();
         super.preExecute(ics);
     }
@@ -188,14 +193,8 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
         if (configLoaded) {
             return;
         }
-        final String tmp = getProperty(ics, "style");
-        if (tmp != null) {
-            CallTemplate.defaultStyle = Style.valueOf(tmp);
-        }
-        CallTemplate.override = "true".equals(getProperty(ics, "override"));
         CallTemplate.config_FixPageCriteria = "true".equals(getProperty(ics, "config_FixPageCriteria"));
         CallTemplate.configLoaded = true;
-
     }
 
     private String getProperty(final ICS ics, final String name) {
@@ -207,140 +206,9 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
         return val;
     }
 
-    public Style proposeStyle(final ICS ics) {
-
-        /**
-         * Considerations 1) Check target for parameter callstyle and use that
-         *
-         */
-        String pname = getTargetPagename();
-
-        // String targetStyle =(String)
-        // ics.getPageData(pname).getDefaultArguments().get("callstyle");
-        final boolean targetCached = RenderUtils.isCacheable(ics, pname);
-        final boolean currentCached = RenderUtils.isCacheable(ics, ics.GetVar(ftMessage.PageName));
-
-        final Style proposal = calculateStyle(ics, pname, currentCached, targetCached);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Setting style to '" + proposal + (style != null ? "' (user did set '" + style + "')" : "'")
-                    + " for calltemplate to '" + pname + "' with " + type + "," + cid + "," + getList()
-                    + " in element: '" + ics.ResolveVariables("CS.elementname") + "', caching: '" + currentCached + "/"
-                    + targetCached + "', page: " + ics.pageURL());
-        }
-        return proposal;
-
-    }
-
-    private String getTargetPagename() {
-        String pname;
-
-        if (tname.startsWith("/")) // typeless
-        {
-            pname = site + tname;
-        } else {
-            pname = site + "/" + type + "/" + tname;
-        }
-        return pname;
-    }
-
-    private Style calculateStyle(final ICS ics, final String pname, final boolean currentCache,
-                                 final boolean targetCache) {
-        if (currentCache == false) // we are not caching for the current pagelet
-        {
-            if (targetCache == false) {
-                return Style.element; // call as element is target is also not
-                // cacheable
-            } else {
-                checkPageCriteria(ics, pname);
-                return Style.pagelet; // otherwise call as pagelet
-            }
-
-        } else { // currently we are caching
-
-            if (targetCache == false) {
-                checkPageCriteria(ics, pname);
-                return Style.pagelet;
-            } else {
-                // LOG.debug("getvar.cid=" + ics.GetVar("cid") + " at " +
-                // ics.pageURL());
-
-                final FTValList m = COM.FutureTense.Interfaces.Utilities.getParams(ics.pageURL());
-                final String pageCid = m.getValString("cid");
-                if (pageCid != null && !pageCid.equals(ics.GetVar("cid"))) {
-                    LOG.warn(ics.GetVar("cid") + " does not match cid (" + pageCid + ") in " + ics.pageURL());
-                }
-                // should we check if cid is current page criteria, we are a
-                // Template??
-                if (cid != null && cid.equals(pageCid)) {
-                    // if c/cid does not change than we call this as an element,
-                    // as reuse is unlikely
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace("Calling " + pname + " as an element from " + ics.ResolveVariables("CS.elementname")
-                                + " because cid is same as on current pagelet.");
-                    }
-                    return Style.element;
-                } else {
-                    checkPageCriteria(ics, pname);
-                    return Style.embedded; // this is calltemplate, assuming
-                    // that
-                    // headers/footers/leftnavs etc will be
-                    // via CSElements/SiteEntry
-                }
-            }
-
-        }
-    }
-
     protected static final List<String> CALLTEMPLATE_EXCLUDE_VARS = Collections.unmodifiableList(Arrays.asList("TNAME",
             "C", "CID", "EID", "SEID", "PACKEDARGS", "VARIANT", "CONTEXT", "SITE", "TID", "rendermode", "ft_ss",
             "SystemAssetsRoot", "cshttp", "errno", "tablename", "empty", "errdetail", "null"));
-
-    @SuppressWarnings("unchecked")
-    private void checkPageCriteria(final ICS ics, final String target) {
-        final FTValList o = getList();
-
-        if (o != null) {
-            String[] pc = ics.pageCriteriaKeys(target);
-            if (pc == null) {
-                pc = new String[0];
-            }
-            final Map<String, ?> m = o;
-            for (final Iterator<?> i = m.entrySet().iterator(); i.hasNext(); ) {
-                final Entry<String, ?> e = (Entry<String, ?>) i.next();
-                final String key = e.getKey();
-                // only inspect arguments that start with ARGS_
-                if (key.startsWith(ARGS)) {
-
-                    String shortKey = key.substring(ARGS.length());
-                    boolean found = CALLTEMPLATE_EXCLUDE_VARS.contains(shortKey);
-                    if (!found) {
-                        for (final String c : pc) {
-                            if (c.equalsIgnoreCase(shortKey)) {
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!found) {
-                        LOG.error("Argument '" + key + "' not found as PageCriterium on " + target
-                                        + ". Calling element is " + ics.ResolveVariables("CS.elementname")
-                                        + ". Arguments are: " + m.keySet().toString() + ". PageCriteria: " + Arrays.asList(pc),
-                                new Exception());
-                        // we could correct this by calling as an element
-                        // or by removing the argument
-                        if (isFixPageCriteria() || config_FixPageCriteria) {
-                            i.remove();
-                            LOG.warn("Argument '" + key + "' is removed from the call to '" + target
-                                    + "' as it is not a PageCriterium.");
-                        }
-
-                    }
-                }
-            }
-
-        }
-
-    }
 
     protected void handleError(ICS ics) {
 

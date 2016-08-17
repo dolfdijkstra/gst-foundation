@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * @deprecated - com.fatwire.gst.foundation.facade and all subpackages have moved to the tools.gsf.facade package
  */
 public class DateFilterClosure implements AssetClosure {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.assetapi.asset.DateFilterClosure");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.assetapi.asset.DateFilterClosure");
 
     private final Date cutoff;
 

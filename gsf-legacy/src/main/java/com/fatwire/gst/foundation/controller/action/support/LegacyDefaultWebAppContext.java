@@ -43,11 +43,6 @@ import com.fatwire.gst.foundation.controller.support.WebAppContext;
  */
 public class LegacyDefaultWebAppContext extends WebAppContext implements FactoryProducer {
 
-    public LegacyDefaultWebAppContext(final ServletContext context) {
-        super(context);
-
-    }
-
     public LegacyDefaultWebAppContext(final ServletContext context, final AppContext parent) {
         super(context, parent);
 

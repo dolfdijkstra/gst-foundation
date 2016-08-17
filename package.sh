@@ -3,7 +3,6 @@ set -o nounset
 set -o errexit
 VERSION=`python -c "from xml.dom.minidom import parse;dom = parse('pom.xml');print [n.firstChild for n in dom.getElementsByTagName('version') if n.parentNode == dom.childNodes[0]][0].toxml()"`
 echo "GST Site Foundation version $VERSION packager"
-#echo "Building GSF version $VERSION"
 
 execLocation="$PWD"
 

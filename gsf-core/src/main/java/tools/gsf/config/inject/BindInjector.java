@@ -20,8 +20,6 @@ import com.fatwire.cs.core.db.Util;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.gsf.config.FactoryProducer;
-import tools.gsf.time.Stopwatch;
 
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
@@ -35,14 +33,14 @@ import java.util.Date;
  * @author Dolf Dijkstra
  * @since 12 mei 2012
  */
-final class BindInjector {
+public final class BindInjector {
 
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.inject.AnnotationBinder");
 
-    private final FactoryProducer factoryProducer;
+    private final ICS ics;
 
-    BindInjector(FactoryProducer factoryProducer) {
-        this.factoryProducer = factoryProducer;
+    public BindInjector(ICS ics) {
+        this.ics = ics;
     }
 
     /**
@@ -50,32 +48,23 @@ final class BindInjector {
      * {@link Bind} annotation will be populated by this method by
      * retrieving the value from ics context, request context, or session, as per the scope of the Bind annotation.
      *
-     * @param object the object to inject into.
-     * @param ics    the ics context.
+     * @param target the object to inject into.
      */
-    void bind(final Object object, ICS ics) {
-        if (object == null) {
-            throw new IllegalArgumentException("Object cannot be null.");
+    public void bind(final Object target) {
+        if (target == null) {
+            throw new IllegalArgumentException("Target cannot be null.");
         }
-        if (ics == null) {
-            throw new IllegalArgumentException("CS cannot be null.");
-        }
-        Stopwatch stopwatch = factoryProducer.getFactory(ics).getObject("stopwatch", Stopwatch.class);
-        try {
-            Class<?> c = object.getClass();
-            // all annotated fields.
-            while (c != Object.class && c != null) {
-                for (final Field field : c.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(Bind.class)) {
-                        bindToField(object, ics, field);
-                    }
-
+        Class<?> c = target.getClass();
+        // all annotated fields.
+        while (c != Object.class && c != null) {
+            for (final Field field : c.getDeclaredFields()) {
+                if (field.isAnnotationPresent(Bind.class)) {
+                    bindToField(target, ics, field);
                 }
 
-                c = c.getSuperclass();
             }
-        } finally {
-            stopwatch.elapsed("bind model for {}", object.getClass().getName());
+
+            c = c.getSuperclass();
         }
     }
 

@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
  * indicates if this should be cached.
  *
  * @author Dolf Dijkstra
- *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

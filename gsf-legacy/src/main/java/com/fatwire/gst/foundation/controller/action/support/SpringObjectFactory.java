@@ -23,7 +23,7 @@ import com.fatwire.gst.foundation.controller.action.Factory;
  * Factory with access to Spring framework beans.
  * 
  * @author Dolf Dijkstra
- * @deprecated see {@link tools.gsf.config.SpringObjectFactory}
+ * @deprecated see "tools.gsf.config.SpringObjectFactory"
  */
 public class SpringObjectFactory implements Factory {
 

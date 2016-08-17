@@ -20,9 +20,9 @@ import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Interfaces.IList;
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.gsf.runtime.CSRuntimeException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
  * @deprecated - com.fatwire.gst.foundation.facade and all subpackages have moved to the tools.gsf.facade package
  */
 public final class TreeHelper {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.sql.TreeHelper");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.sql.TreeHelper");
 
     private TreeHelper() {
     }

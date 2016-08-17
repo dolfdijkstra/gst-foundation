@@ -55,7 +55,7 @@ import com.fatwire.gst.foundation.facade.sql.SqlHelper;
  */
 public class GroovyElementCatalogLoader extends DiskGroovyLoader {
 	private PreparedStmt stmt;
-	private Logger logger = LoggerFactory.getLogger("tools.gsf.groovy.GroovyElementCatalogLoader");
+	private Logger logger = LoggerFactory.getLogger("tools.gsf.legacy.groovy.GroovyElementCatalogLoader");
 	private boolean isLoaded = false;
 	private String path;
 

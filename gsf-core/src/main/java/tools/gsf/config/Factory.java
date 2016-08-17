@@ -16,14 +16,27 @@
 package tools.gsf.config;
 
 /**
- * Interface for a object factory. This factory is used by the
- * AnnotationInjector.
+ * Factory clas used to get and/or create objects. This can be used to
+ * configure an application, and is used internally by other components
+ * like the {@link tools.gsf.config.inject.InjectForRequestInjector}.
  *
- * @author Dolf Dijkstra
- * @since Mar 26, 2011
+ * @author Tony Field
+ * @since 2016-08-05
  */
 public interface Factory {
 
+    /**
+     * Return an object with the type specified. If a name is provided,
+     * more than one variant of the specified type could be returned.
+     *
+     * @param name the name used to identify the variant of the class
+     *             to be returned. If no name is specified, then the
+     *             class name of the type specified is assumed.
+     * @param type the type of the oblject to return
+     * @param <T>  the type of the object to return
+     * @return the matching object, or null if the factory does not
+     * know how to create the type specified.
+     */
     <T> T getObject(String name, Class<T> type);
 
 }

@@ -23,7 +23,7 @@ import com.fatwire.gst.foundation.controller.action.Factory;
  * Factory that reads the producer methods of the passed in class names.
  * 
  * @author Dolf Dijkstra
- * @deprecated see {@link tools.gsf.config.ClassBasedFactory}
+ * @deprecated see "tools.gsf.config.ClassBasedFactory"
  */
 public class ClassBasedFactory extends BaseFactory {
 

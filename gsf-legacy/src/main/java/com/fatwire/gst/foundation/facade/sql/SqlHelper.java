@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SqlHelper {
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.sql.SqlHelper");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.sql.SqlHelper");
 
     private SqlHelper() {
     }

@@ -22,44 +22,38 @@ import javax.servlet.jsp.PageContext;
 
 import COM.FutureTense.Interfaces.ICS;
 
-import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.ActionLocatorUtils;
-import com.fatwire.gst.foundation.controller.action.Factory;
-import com.fatwire.gst.foundation.controller.action.FactoryProducer;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.AnnotationUtils;
-
-import com.fatwire.gst.foundation.controller.support.WebContextUtil;
-import tools.gsf.time.Stopwatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JSP tag that replaces the GsfRoot tag and adds Action support. If the action
  * name argument is provided, than a Action is looked up and executed.
- * 
+ *
  * @author Dolf Dijkstra
  * @since Apr 13, 2011
- * 
- * 
- * @deprecated as of release 12.x, replace with WCS 12c's native features (Controllers et al)
- * 
  */
 public class ActionTag extends GsfSimpleTag {
+    static final Logger LOG = LoggerFactory.getLogger(ActionTag.class.getPackage().getName());
+    static final Logger LOG_TIME = LoggerFactory.getLogger(ActionTag.class.getPackage().getName() + ".time");
 
     private String action;
 
     /*
      * (non-Javadoc)
-     * 
-     * @see "com.fatwire.gst.foundation.taglib.GsfRootTag#doStartTag()"
+     *
+     * @see com.fatwire.gst.foundation.taglib.GsfRootTag#doStartTag()
      */
     @Override
     public void doTag() throws JspException {
         final ICS ics = getICS();
 
-        Stopwatch stopwatch = getStopwatch(ics);
-        stopwatch.start();
+        final long start = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
         final ActionLocator locator = getActionLocator();
         if (locator == null)
             throw new IllegalStateException("The ActionLocator cannot be found.");
@@ -69,12 +63,17 @@ public class ActionTag extends GsfSimpleTag {
         final Action a = locator.getAction(ics, action);
 
         if (a != null) {
-            stopwatch.elapsed("Locating Action {}" , a.getClass().getName());
+            if (LOG_TIME.isDebugEnabled()) {
 
-            stopwatch.start();
+                DebugHelper.printTime(LOG_TIME, "Locating Action " + a.getClass().getName(), start);
+            }
+
+            final long beforeHandleRequest = LOG_TIME.isDebugEnabled() ? System.nanoTime() : 0;
             a.handleRequest(ics);
             copyModelData(a);
-            stopwatch.elapsed("Executing Action {}", a.getClass().getName());
+            if (LOG_TIME.isDebugEnabled()) {
+                DebugHelper.printTime(LOG_TIME, "Executing Action " + a.getClass().getName(), beforeHandleRequest);
+            }
         } else {
             throw new IllegalArgumentException("Action with name '" + action + "' cannot be found.");
         }
@@ -83,7 +82,7 @@ public class ActionTag extends GsfSimpleTag {
 
     /**
      * Copies the data from the Model to the jsp page scope
-     * 
+     *
      * @param a the action to copy from.
      */
     private void copyModelData(final Action a) {
@@ -123,13 +122,5 @@ public class ActionTag extends GsfSimpleTag {
     public void setAction(final String action) {
         this.action = action;
     }
-
-    private static Stopwatch getStopwatch(ICS ics) {
-        AppContext ctx = WebContextUtil.getWebAppContext(ics.getIServlet().getServlet().getServletContext());
-        FactoryProducer factoryProducer = ctx.getBean("factoryProducer", FactoryProducer.class);
-        Factory factory = factoryProducer.getFactory(ics);
-        return factory.getObject("stopwatch", Stopwatch.class);
-    }
-
 
 }

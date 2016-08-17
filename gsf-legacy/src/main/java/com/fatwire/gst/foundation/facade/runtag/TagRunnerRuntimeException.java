@@ -18,8 +18,8 @@ package com.fatwire.gst.foundation.facade.runtag;
 
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Util.ftErrors;
+import com.fatwire.gst.foundation.CSRuntimeException;
 
-import tools.gsf.runtime.CSRuntimeException;
 
 /**
  * Exception that is thrown when a TagRunner is invoked and the

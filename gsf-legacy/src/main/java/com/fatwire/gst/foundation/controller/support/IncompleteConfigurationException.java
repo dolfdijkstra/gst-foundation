@@ -18,14 +18,14 @@ package com.fatwire.gst.foundation.controller.support;
 /**
  * @author Dolf.Dijkstra
  * @since 4 April 2012
- * @deprecated see {@link tools.gsf.config.IncompleteConfigurationException}
+ *
  */
-public class IncompleteConfigurationException extends tools.gsf.config.IncompleteConfigurationException {
+public class IncompleteConfigurationException extends RuntimeException {
 
     /**
-     * 
+     *
      */
-    private static final long serialVersionUID = -411240247677991694L;
+    private static final long serialVersionUID = -411240247677991695L;
 
     public IncompleteConfigurationException(String message) {
         super(message);

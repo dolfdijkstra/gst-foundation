@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.navigation.support;
+package com.fatwire.gst.foundation.wra.navigation.support;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -56,7 +56,7 @@ import com.fatwire.gst.foundation.wra.WraUriBuilder;
  */
 public class SimpleNavigationHelper extends AbstractNavigationService implements NavigationService {
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.navigation.support.SimpleNavigationHelper");
+    protected static final Logger LOG = LoggerFactory.getLogger("com.fatwire.gst.foundation.wra.navigation.support.SimpleNavigationHelper");
 
     private static final String CHILD_SQL = "SELECT otype,oid,nrank,nid from SitePlanTree where nparentid=? and ncode='Placed' order by nrank";
     private static final PreparedStmt CHILD_STMT = new PreparedStmt(CHILD_SQL, Arrays.asList("SitePlanTree"));

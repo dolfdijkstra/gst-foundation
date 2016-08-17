@@ -52,7 +52,7 @@ $ sh package.sh
 		
 		[]
 		
-	The script is quite verbose so it should be trivial understanding what it is doing and where you can pick up the output (files)
+	The script is quite verbose; hence, it should be trivial understanding what it is doing and where you can pick up the output (files)
 	
 	In addition to the default behaviour, you also have the ability to invoke just one part of the whole packaging process:
 	
@@ -182,7 +182,7 @@ Use Your Own Asset Type as a GST Property Asset
 
 	* Implement your own object factory from scratch.
 	
-	* Add to your custom object factory a "create" method which instantiates the new <<com.fatwire.gst.foundation.properties.AssetApiPropertyDao>>.
+	* Add to your custom object factory a Service Producer method (i.e. annotated with @ServiceProducer) which instantiates the new <<com.fatwire.gst.foundation.properties.AssetApiPropertyDao>>.
 		
 	* Example:
 	
@@ -207,13 +207,13 @@ public PropertyDao createPropertyDao(final ICS ics) {
 
 Use Your Own NavService Implementation
 
-	* Implement your own object factory from scratch.
+	* Implement your own object factory.
 	
-	* Make your custom bean / object available by adding the due "create" method to your Factory implementation.
+	* Make your custom bean / object available by having a Service Producer method in your own object factory instantiate it:
 		
 		* In case you have <<extended>> IcsObjectFactory, you probably want to override the existing <<"createNavService">> method.
 		
-		* In case you have not extended IcsObjectFactory, you must add the due "create" method to your Factory implementation; for example: 
+		* In case you have not extended IcsObjectFactory, you must add the due Service Producer method to your own implementation; for example: 
 	
 +--
 
@@ -233,6 +233,8 @@ public NavService<AssetNode> createNavService(final ICS ics) {
 Make Your Own Beans / Objects Available for Injection
 				
 	See "Use a Custom Asset Type as a GST Property Asset" and "Implement (and Use) Your Own NavService Implementation" above.
+	
+	In general, all you need to do is implement your own object factory and make your custom bean available by adding the due Service Producer (annotated) method to it.
 
 Use Your Own NavigationNode Implementation
 
@@ -252,10 +254,42 @@ Inject Your Own Beans / Objects Into a WCS 12c Controller
 
 	* Extend GSF's own <<tools.gsf.controller.InjectingController>> instead of WCS 12c's BaseController.
 	
-		* We suggest you look at the source code of GSF's <<InjectingController.java>> for better understanding how GSF's injection and WCS' Controllers are being integrated.
+		We suggest you look at the source code of GSF's <<InjectingController.java>> for better understanding how GSF's injection and WCS' Controllers are being integrated.
+				
+	* <<A VERY IMPORTANT NOTE (WARNING) ON style="element" IN WCS 12c>>.
+	
+		WCS 12c will not invoke your Template's controller in case you invoke it using a render:calltemplate tag call with style="element".
 		
-		[]
+		In such scenario, if your Template's code depended on its own Controller's logic (which is usually the case), it would break.
+		
+		Previous versions of the GSF defaulted to style="element" under certain conditions, in an attempt to intelligently set the call's style whenever you didn't set it explicitly.
+		
+		This did not occur in WCS 11.x and previous versions since Controllers were just introduced in WCS 12c.
+		
+		If you are using the <<GST/Dispatcher wrapper>>, <<GSF actions>> or any other LEGACY (hence deprecated) feature related to those two, be aware that combining those with the use of WCS 12c Controllers may yield erratic behaviour for the same reason.
+		
+		You can work around this by:
+		
+			[[1]] Making sure all Layout Templates ever invoked via the GST/Dispatcher (e.g. GSF actions) are set to "cached", hence preventing GSF's LEGACY CallTemplate Facade from automatically setting style="element" for you, OR
+			
+			[[1]] Avoiding the use of Layout Template which rely on Controllers attached to them in conjunction with GSF Actions and/or GST/Dispatcher.
+			
+			[]
+			
+		In addition to this, if you really need to use GSF Actions AND Controllers, here are some ideas to minimize chance of your CallTemplate calls breaking (DISCLAIMER: as per the above explanation, these may not cover you 100%):			
+															
+			[[A]] Adjust all of your calls to GSF-12 LEGACY's CallTemplate facade so to set "style" explicitly to something other than "element" whenever the called Template has a Controller attached to it.
+			
+			[[A]] Use GSF-12 CORE's (new) CallTemplate facade (instead of LEGACY's), which forces your explicitly setting "style" on each call, and make sure you set style to the appropriate value, as per the aforementioned considerations.
+
+		From the above, you've probably figured out already that GSF-12 deals with the potential chaos this style-related behaviour could cause on pre-existing code you attempt migrating to WCS 12c's Controller-based paradigm simply by getting rid of the "legacy" intelligence.
+		
+		This implies there are now 2 CallTemplate facades:
+		
+			* The new one, which ships with the CORE artifact / JAR. In this one, style will NEVER be autocalculated for you. Either you set it explicitly - to the appropriate value - on each call or an Exception will be thrown, thus breaking your code.
+			
+			* The old one, which ships with the LEGACY artifact / JAR. This one has been left untouched, which means the style auto-selection intelligence is still there, with all that implies.
+			
+			[]		
 		
 	[]
-	
-  

@@ -15,8 +15,6 @@
  */
 package tools.gsf.config.inject;
 
-import COM.FutureTense.Interfaces.ICS;
-
 /**
  * Implementations inject services into the dependent object.
  * <p>
@@ -28,6 +26,6 @@ import COM.FutureTense.Interfaces.ICS;
  */
 public interface Injector {
 
-    void inject(ICS ics, Object dependent);
+    void inject(Object dependent);
 
 }
