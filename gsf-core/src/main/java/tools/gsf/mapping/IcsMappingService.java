@@ -49,7 +49,7 @@ public final class IcsMappingService implements MappingService {
     private final static PreparedStmt element = new PreparedStmt("SELECT * FROM CSElement_Map WHERE cs_ownerid=? AND cs_siteid=?",
             Arrays.asList("CSElement", "CSElement_Map"));
     private static final PreparedStmt lookup_sitecatalog = new PreparedStmt("select * from SiteCatalog where pagename = ?",
-            Arrays.asList("SiteEntry","Template")); // we will only query pagenames that map to these, we promise
+            Arrays.asList("SiteEntry","Template")); // we will only query pagenames that map to these, we promise... we use SiteEntry and Template instead of SiteCatalog to avoid security blocking the query
     private static final PreparedStmt lookup_template = new PreparedStmt("select * from Template where rootelement = ?",
             Collections.singletonList("Template")); // we will only query pagenames that map to these, we promise
     private static final PreparedStmt lookup_cselement = new PreparedStmt("select * from CSElement where rootelement = ?",
@@ -59,7 +59,7 @@ public final class IcsMappingService implements MappingService {
         template.setElement(1, "Template_Map", "cs_siteid");
         element.setElement(0, "CSElement_Map", "cs_ownerid");
         element.setElement(1, "CSElement_Map", "cs_siteid");
-        lookup_sitecatalog.setElement(0, "SiteEntry", "pagename");
+        lookup_sitecatalog.setElement(0, "SiteEntry", "pagename"); // Using SiteEntry instead of SiteCatalog so to avoid security blocking the query
         lookup_template.setElement(0, "Template", "rootelement");
         lookup_cselement.setElement(0, "CSElement", "rootelement");
     }
