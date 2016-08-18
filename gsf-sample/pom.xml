@@ -31,21 +31,31 @@
 		<maven>3.3.9</maven>
 	</prerequisites>
     <dependencies>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>cs</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>assetapi</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fatwire.cs</groupId>
-            <artifactId>cs-core</artifactId>
-            <version>${fatwire.contentserver.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.oracle.sites</groupId>
+			<artifactId>sites-app</artifactId>
+			<version>${fatwire.contentserver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.sites</groupId>
+			<artifactId>sites-asset-api</artifactId>
+			<version>${fatwire.contentserver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.sites</groupId>
+			<artifactId>sites-core</artifactId>
+			<version>${fatwire.contentserver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.sites</groupId>
+			<artifactId>sites-cs</artifactId>
+			<version>${fatwire.contentserver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.sites</groupId>
+			<artifactId>sites-framework</artifactId>
+			<version>${fatwire.contentserver.version}</version>
+		</dependency>
         <dependency>
             <groupId>com.fatwire.gst</groupId>
             <artifactId>gsf-core</artifactId>

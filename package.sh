@@ -39,6 +39,9 @@ function buildJARs() {
 	echo "[$(date)] Building GSF jars"
 	mvn -o clean install | awk '{ print "[BUILDING JARS] ", $0; }' >> $mavenOutputLog
 
+	echo "[$(date)] Building GSF sample"
+	(cd gsf-sample && mvn -o clean install | awk '{ print "[BUILDING SAMPLE] ", $0; }') >> $mavenOutputLog
+
 	echo "[$(date)] GSF jars successfully built !"
 }
 

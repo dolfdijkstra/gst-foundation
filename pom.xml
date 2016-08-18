@@ -50,9 +50,7 @@
 		<maven>3.3.9</maven>
 	</prerequisites>
 	<modules>
-		<!-- core -->
 		<module>gsf-core</module>
-		<!-- legacy -->
 		<module>gsf-legacy</module>
 	</modules>
 	<dependencies>
@@ -60,190 +58,25 @@
 		    <groupId>com.oracle.sites</groupId>
 		    <artifactId>sites-app</artifactId>
 		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 		    <groupId>com.oracle.sites</groupId>
 		    <artifactId>sites-asset-api</artifactId>
 		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-batch</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-cache</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-cas-plugin</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-cg-integration</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-conversion-api</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 		    <groupId>com.oracle.sites</groupId>
 		    <artifactId>sites-core</artifactId>
 		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-cors-filter</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 		    <groupId>com.oracle.sites</groupId>
 		    <artifactId>sites-cs</artifactId>
 		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-directory</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 		    <groupId>com.oracle.sites</groupId>
 		    <artifactId>sites-framework</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-insights-cs-tracking</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-install-bootstrap</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-lucene-search</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-monitoring</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-monitoring-core</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-msxml</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-nio</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-request-authenticator</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-rest-api</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-rest-local-impl</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-satellite</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-security</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-seed</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-services-api</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-services-impl</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-sitecapture-publish-listener</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-sso-api</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-sso-cas-impl</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-sso-oam-impl</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-systemtools</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-timezone</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-transformer</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-ucm-poller</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-ui</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-utilities</artifactId>
-		    <version>${fatwire.contentserver.version}</version>
-		</dependency>		
-		<dependency>
-		    <groupId>com.oracle.sites</groupId>
-		    <artifactId>sites-wurfl</artifactId>
 		    <version>${fatwire.contentserver.version}</version>
 		</dependency>
         <dependency>
