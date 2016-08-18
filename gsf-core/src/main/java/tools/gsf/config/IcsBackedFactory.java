@@ -68,7 +68,8 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
 
     @ServiceProducer(cache = true)
     public MappingService createMappingService() {
-        return new IcsMappingService(ics);
+        AssetAccessTemplate aat = getObject("assetAccessTemplate", AssetAccessTemplate.class);
+        return new IcsMappingService(ics, aat);
     }
 
     @ServiceProducer(cache = true)

@@ -414,7 +414,7 @@ Value:			GST/Dispatcher
 
 			* If you want to use your own asset type / subtype as GST Property assets (new CORE feature), you must code and wire this up manually into your AppContext, e.g. by extending your object factory.
 
-A Friendly Reminder To Those Who Have Forked Off The GSF... (e.g. Customized GSF's own Classes)
+A Friendly Reminder To Those Who Have Forked The GSF... (e.g. Customized GSF's own Classes)
 			
 	In case you have customized any of the GSF classes, you must reengineer your own codebase to either:
 
