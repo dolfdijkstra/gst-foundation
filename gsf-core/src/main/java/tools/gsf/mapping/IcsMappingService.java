@@ -75,13 +75,6 @@ public final class IcsMappingService implements MappingService {
         this.aat = aat;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * tools.gsf.mapping.MappingService#readMapping(com.fatwire
-     * .gst.foundation.controller.AssetIdWithSite)
-     */
     public Map<String, MappingValue> readMapping(final AssetIdWithSite id) {
         if ("Template".equals(id.getType())) {
             return readIt(id, template);
