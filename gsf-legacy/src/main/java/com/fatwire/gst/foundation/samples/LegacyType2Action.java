@@ -17,10 +17,16 @@
 package com.fatwire.gst.foundation.samples;
 
 import COM.FutureTense.Interfaces.ICS;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.gst.foundation.controller.action.Action;
 import com.fatwire.gst.foundation.controller.action.Model;
 import com.fatwire.gst.foundation.controller.annotation.InjectForRequest;
+import com.fatwire.gst.foundation.controller.annotation.Mapping;
+import com.fatwire.gst.foundation.controller.annotation.Bind;
 import com.fatwire.gst.foundation.facade.assetapi.asset.ScatteredAsset;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset;
 import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
@@ -41,6 +47,8 @@ import com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAssetAccess;
  *
  */
 public class LegacyType2Action implements Action {
+	
+	private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.samples.LegacyType2Action");
 
 	/**
      * Inject an ICS into the action for convenience
@@ -59,7 +67,18 @@ public class LegacyType2Action implements Action {
      */
     @InjectForRequest
     protected TemplateAssetAccess templateAssetAccess;
- 
+    
+    /**
+     * Bind rendermode to local variable
+     */
+    @Bind(value="rendermode")
+    protected String myRenderMode;
+    
+    /**
+     * Bind map key to local variable
+     */
+    @Mapping(value="myMappedAsset")
+    protected String mappedAsset;
  
     public void handleRequest(ICS ics) {
         // get the asset id corresponding to the ICS variables c, cid
@@ -67,5 +86,9 @@ public class LegacyType2Action implements Action {
         
         TemplateAsset asset = templateAssetAccess.read(id);
 		model.add("legacyGsfAsset", new ScatteredAsset(asset.getDelegate()));
+		
+		LOG.info("Value copied from ICS variable rendermode onto local variable myRenderMode = " + myRenderMode);
+		
+		LOG.info("Value copied from Map Key myMappedAsset onto local variable mappedAsset = " + mappedAsset);
     }
 }

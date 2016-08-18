@@ -55,9 +55,13 @@ public final class MappingInjector {
         final Field[] fields = findFieldsWithAnnotation(target, Mapping.class);
         if (fields.length > 0) {
             AssetIdWithSite id = mappingService.resolveMapped(pagename);
-            final Map<String, MappingValue> map = mappingService.readMapping(id);
-            for (final Field field : fields) {
-                injectIntoField(target, map, field, id);
+            if (id != null) {
+	            final Map<String, MappingValue> map = mappingService.readMapping(id);
+	            for (final Field field : fields) {
+	                injectIntoField(target, map, field, id);
+	            }
+            } else {
+            	LOG.error("Cannot determine eid / tid for current code element (CSElement / Template) based on pagename '" + pagename + "', @Mapping annotations will be ignored.");
             }
         }
     }
