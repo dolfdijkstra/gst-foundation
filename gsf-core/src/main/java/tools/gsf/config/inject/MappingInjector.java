@@ -61,7 +61,7 @@ public final class MappingInjector {
 	                injectIntoField(target, map, field, id);
 	            }
             } else {
-            	LOG.error("Cannot determine eid / tid for current code element (CSElement / Template) based on pagename '" + pagename + "', @Mapping annotations will be ignored.");
+            	LOG.warn("Cannot determine eid / tid for current code element (CSElement / Template) based on pagename '" + pagename + "', @Mapping annotations will be ignored.");
             }
         }
     }

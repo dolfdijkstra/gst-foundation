@@ -69,6 +69,7 @@ public final class IcsMappingService implements MappingService {
 
     /**
      * @param ics Content Server context object
+     * @param aat AssetAccessTemplate object 
      */
     public IcsMappingService(final ICS ics, final AssetAccessTemplate aat) {
         this.ics = ics;

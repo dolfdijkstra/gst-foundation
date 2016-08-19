@@ -99,29 +99,17 @@ public final class BindInjector {
                     }
                     break;
                 case request:
-                    put(object, field, ics.getAttribute(name));
-
+                	if (!field.getType().isArray()) {
+                		put(object, field, ics.getAttribute(name));
+                	}
                     break;
                 case session:
                     @SuppressWarnings("deprecation")
                     HttpSession s = ics.getIServlet().getServletRequest().getSession(false);
                     if (s != null) {
-                        Object obj = s.getAttribute(name);
-                        if (obj == null) {
-                            try {
-                                Method m = object.getClass().getMethod("create" + field.getType().getSimpleName(),
-                                        ICS.class);
-                                obj = m.invoke(object, ics);
-                                s.setAttribute(name, obj);
-                            } catch (NoSuchMethodException e) {
-                                // ignore
-                            } catch (IllegalArgumentException e) {
-                                LOG.debug("Exception whilst introspecting session object {}", obj);
-                            } catch (InvocationTargetException e) {
-                                LOG.warn(e.getMessage());
-                            }
-                        }
-                        put(object, field, obj);
+                    	if (!field.getType().isArray()) {
+                    		put(object, field, s.getAttribute(name));
+                    	}
                     }
                     break;
 
@@ -190,6 +178,10 @@ public final class BindInjector {
                 value = var.charAt(0);
             } else if (field.getType() == Long.class) {
                 value = new Long(var);
+            } else {
+            	if (LOG.isDebugEnabled()) {
+            		LOG.debug("Annotated field {} has type {} but the object being bound has type {} which is not explicitly supported (yet)", field.getName(), field.getType(), var.getClass().getName());
+            	}
             }
             LOG.debug("Binding {} to field {} for {}", value, field.getName(), object.getClass().getName());
             try {

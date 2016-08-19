@@ -37,4 +37,5 @@ public class ServletContextBackedFactory extends AbstractDelegatingFactory<Servl
     public Stopwatch newStopwatch() {
         return LoggerStopwatch.getInstance();
     }
+
 }
