@@ -68,7 +68,7 @@ public class AssetApiWraCoreFieldDao implements WraCoreFieldDao {
         this.ics = ics;
     }
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.wra.AssetApiWraCoreFieldDao");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.wra.AssetApiWraCoreFieldDao");
 
     /**
      * Return an AssetData object containing the core fields found in a

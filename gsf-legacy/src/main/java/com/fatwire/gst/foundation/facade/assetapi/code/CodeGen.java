@@ -25,10 +25,10 @@ import com.fatwire.assetapi.def.AssetTypeDefProperties;
 import com.fatwire.assetapi.def.AttributeDef;
 import com.fatwire.assetapi.def.AttributeDefProperties;
 import com.fatwire.assetapi.def.AttributeTypeEnum;
+import com.fatwire.gst.foundation.DebugHelper;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
 import org.apache.commons.lang3.StringEscapeUtils;
-import tools.gsf.runtime.DebugHelper;
 
 import javax.servlet.jsp.JspWriter;
 import java.io.IOException;

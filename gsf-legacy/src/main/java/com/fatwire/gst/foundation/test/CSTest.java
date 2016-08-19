@@ -78,7 +78,7 @@ import org.slf4j.LoggerFactory;
  * @see "tools.gsf.test.CSTest"
  */
 public abstract class CSTest extends TestCase {
-    static Logger log = LoggerFactory.getLogger("tools.gsf.test.CSTest");
+    static Logger log = LoggerFactory.getLogger("tools.gsf.legacy.test.CSTest");
 
     /*
      * (non-Javadoc)

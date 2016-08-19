@@ -59,7 +59,7 @@ public abstract class BaseRenderPage {
             "eid", "seid", PACKEDARGS, "variant", "context", "pagename", "childpagename", "site", "tid",
             "SystemAssetsRoot", "rendermode", "cshttp", "errno", "tablename", "empty", "ft_ss", "errdetail", "null"));
 
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.controller.BaseRenderPage");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.BaseRenderPage");
     protected ICS ics;
 
     public BaseRenderPage() {

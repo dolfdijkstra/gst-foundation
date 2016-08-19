@@ -16,9 +16,8 @@
 package tools.gsf.config.inject;
 
 import COM.FutureTense.Interfaces.ICS;
-import tools.gsf.config.Factory;
-import tools.gsf.config.FactoryProducer;
 import tools.gsf.facade.assetapi.AssetIdWithSite;
+import tools.gsf.time.Stopwatch;
 
 /**
  * @author Tony Field
@@ -26,38 +25,32 @@ import tools.gsf.facade.assetapi.AssetIdWithSite;
  */
 public class AnnotationInjector implements Injector {
 
-    private final FactoryProducer factoryProducer;
+    private final ICS ics;
     private final BindInjector bindInjector;
     private final InjectForRequestInjector ifrInjector;
     private final MappingInjector mappingInjector;
+    private final Stopwatch stopwatch;
 
-    public AnnotationInjector(FactoryProducer factoryProducer) {
-        this.factoryProducer = factoryProducer;
-        this.bindInjector = new BindInjector(factoryProducer);
-        this.ifrInjector = new InjectForRequestInjector();
-        this.mappingInjector = new tools.gsf.config.inject.MappingInjector();
+    public AnnotationInjector(ICS ics, BindInjector bind, MappingInjector mapping, InjectForRequestInjector ifr, Stopwatch stopwatch) {
+        this.ics = ics;
+        this.bindInjector = bind;
+        this.mappingInjector = mapping;
+        this.ifrInjector = ifr;
+        this.stopwatch = stopwatch;
     }
 
     @Override
-    public void inject(ICS ics, Object dependent) {
-        Factory factory = factoryProducer.getFactory(ics);
-        ifrInjector.inject(dependent, factory);
-        bindInjector.bind(dependent, ics);
-        AssetIdWithSite id = figureOutTemplateOrCSElementId(ics);
-        if (id != null) {
-            mappingInjector.inject(dependent, factory, id);
-        }
+    public void inject(Object dependent) {
+        stopwatch.start();
+
+        bindInjector.bind(dependent);
+        stopwatch.split("AnnotationInjector: Bind injection done");
+
+        mappingInjector.inject(dependent, ics.GetVar("pagename"));
+        stopwatch.split("AnnotationInjector: Mapping injection done");
+
+        ifrInjector.inject(dependent);
+        stopwatch.split("AnnotationInjector: InjectForRequest injection done");
     }
 
-    private AssetIdWithSite figureOutTemplateOrCSElementId(final ICS ics) {
-        String eid = ics.GetVar("eid");
-        if (eid != null) {
-            return new AssetIdWithSite("CSElement", Long.parseLong(eid), ics.GetVar("site"));
-        }
-        eid = ics.GetVar("tid");
-        if (eid != null) {
-            return new AssetIdWithSite("Template", Long.parseLong(eid), ics.GetVar("site"));
-        }
-        return null;
-    }
 }

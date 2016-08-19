@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package tools.gsf.navigation.support;
+package com.fatwire.gst.foundation.wra.navigation.support;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -43,7 +43,7 @@ import com.fatwire.gst.foundation.wra.navigation.NavigationService;
  *
  */
 public abstract class AbstractNavigationService implements NavigationService {
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.navigation.support.AbstractNavigationService");
+    private static final Logger LOG = LoggerFactory.getLogger("com.fatwire.gst.foundation.wra.navigation.support.AbstractNavigationService");
 
     private static final String NODE_SQL = "SELECT nid,oid,otype FROM SitePlanTree WHERE otype='Publication' AND exists (SELECT 1 FROM Publication WHERE name=? AND id=SitePlanTree.oid)";
 

@@ -41,7 +41,7 @@ public abstract class LightweightAbstractAssembler implements Assembler {
     /**
      * Logger for use by sub-classes.
      */
-    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.url.LightweightAbstractAssembler");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.url.LightweightAbstractAssembler");
 
     private static final String CHARSET_lower = "_charset_";
     private static final String CHARSET_upper = "_CHARSET_";

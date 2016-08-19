@@ -15,19 +15,22 @@
  */
 package tools.gsf.config;
 
-import COM.FutureTense.Interfaces.ICS;
-
 /**
- * A factory for a Factory to provide access to services that need access to ICS.
+ * This class defines a way by which factories can be returned for the scope specified.
  *
- * @author Dolf.Dijkstra
+ * @author Tony Field
+ * @since 2016-08-05
  */
 public interface FactoryProducer {
 
     /**
-     * Method to produce a {@link Factory} to access services that need access to ICS
-     * @param ics Content Server context object
-     * @return the Factory to create services that need access to ics.
+     * Get the factory configured for the scope specified. If no factory is present for the
+     * specified scope, an IllegalArgumentException is thrown.
+     *
+     * @param scope the scope
+     * @return the factory
+     * @throws IllegalArgumentException if no factory exists for the specified scope. null is
+     *                                  not a valid scope.
      */
-    Factory getFactory(final ICS ics);
+    Factory getFactory(Object scope);
 }

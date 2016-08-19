@@ -19,8 +19,8 @@ package com.fatwire.gst.foundation.facade.runtag.vdm;
 import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 import COM.FutureTense.Util.ftStatusCode;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner;
-import tools.gsf.runtime.CSRuntimeException;
 
 /**
  * {@code <VDM.SETSCALAR ATTRIBUTE="attribute" VALUE="value"/>}

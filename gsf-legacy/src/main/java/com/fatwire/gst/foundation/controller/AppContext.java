@@ -16,7 +16,9 @@
 package com.fatwire.gst.foundation.controller;
 
 /**
- * @deprecated see {@link tools.gsf.config.AppContext}
+ * @deprecated
  */
-public interface AppContext extends tools.gsf.config.AppContext {
+public interface AppContext {
+    void init();
+    <T> T getBean(String name, Class<T> c);
 }

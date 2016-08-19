@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.config;
+package com.fatwire.gst.foundation.controller.support;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,30 +26,38 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fatwire.gst.foundation.controller.AppContext;
+import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
+
 /**
  * ServletContextListener that loads and configures the AppContext for this
  * application.
  *
- * It is configured to auto-load into the servlet context by way of the
- * {@code @WebListener} annotation.  Overriding of this class is allowed.
+ * It is NOT configured to auto-load into the servlet context by way of the
+ * {@code @WebListener} annotation.  Overriding of this class is allowed
+ * but not advised as it is now deprecated.
+ * 
+ * GSF's own Groovy Loader / support has been deprecated, must not be used anymore.
  * 
  * @author Dolf Dijkstra
  * @author Tony Field
+ * 
+ * @deprecated Replaced by the brand new ServletContextLoader (which requires Servlet 3.0 and differs in usage)
+ * 
  */
-@WebListener
 public class WebAppContextLoader implements ServletContextListener {
-
-    /**
-     * Name of the servlet context init parameter containing the app context to be booted
-     */
     public static final String CONTEXTS = "gsf-contexts";
 
-    /**
-     * Name of config file where context classes can be configured.
-     */
-    public static final String CONFIG_FILE = "META-INF/gsf-contexts";
-
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.WebAppContextLoader");
+    protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.controller.support.WebAppContextLoader");
     private static final Class<?>[] ARGS = new Class[] { ServletContext.class, AppContext.class };
 
     public void contextInitialized(final ServletContextEvent sce) {
@@ -101,12 +101,15 @@ public class WebAppContextLoader implements ServletContextListener {
         return parent;
     }
 
+    private static final String PREFIX = "META-INF/";
+
     private AppContext configureFromServiceLocator(ServletContext context, ClassLoader cl) {
+        String fullName = PREFIX + CONTEXTS;
 
         List<String> init = new LinkedList<>();
         Enumeration<URL> configs;
         try {
-            configs = cl.getResources(CONFIG_FILE);
+            configs = cl.getResources(fullName);
         } catch (IOException e) {
             LOG.warn("Exception when loading the service descriptor for the AppContext from the classpath.", e);
             return null;
@@ -137,7 +140,7 @@ public class WebAppContextLoader implements ServletContextListener {
      * @param cl class loader
      * @return the AppContext as configured from the web app init parameter.
      */
-    private AppContext configureFromInitParam(final ServletContext context, final ClassLoader cl) {
+    protected AppContext configureFromInitParam(final ServletContext context, final ClassLoader cl) {
         final String init = context.getInitParameter(CONTEXTS);
         AppContext parent = null;
 
@@ -185,9 +188,8 @@ public class WebAppContextLoader implements ServletContextListener {
      * @throws IllegalAccessException no access to perform this operation
      * @throws InvocationTargetException exception from invocation
      */
-    private AppContext createAppContext(final ClassLoader cl, final String c,
-                                        final ServletContext context, final AppContext parent)
-            throws ClassNotFoundException, SecurityException, NoSuchMethodException,
+    AppContext createAppContext(final ClassLoader cl, final String c, final ServletContext context,
+            final AppContext parent) throws ClassNotFoundException, SecurityException, NoSuchMethodException,
             InstantiationException, IllegalAccessException, InvocationTargetException {
         @SuppressWarnings("unchecked")
         final Class<AppContext> cls = (Class<AppContext>) cl.loadClass(c);
@@ -202,4 +204,5 @@ public class WebAppContextLoader implements ServletContextListener {
         sce.getServletContext().removeAttribute(WebAppContext.WEB_CONTEXT_NAME);
         LOG.info("AppContext un-registered from servlet context.");
     }
+
 }

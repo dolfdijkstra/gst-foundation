@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import tools.gsf.config.Factory;
-import tools.gsf.time.Stopwatch;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -30,10 +29,13 @@ import java.lang.reflect.Method;
  * @author Tony Field
  * @since 2016-07-21
  */
-final class InjectForRequestInjector {
+public final class InjectForRequestInjector {
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.inject.InjectForRequestInjector");
 
-    InjectForRequestInjector() {
+    private final Factory factory;
+
+    public InjectForRequestInjector(Factory factory) {
+        this.factory = factory;
     }
 
     /**
@@ -42,37 +44,28 @@ final class InjectForRequestInjector {
      * retrieving the value from the {@link Factory#getObject(String, Class)}
      * method.
      *
-     * @param object  the object to inject into
-     * @param factory the factory that created the objects that need to be
-     *                injected.
+     * @param target the object to inject into
      */
-    void inject(final Object object, final Factory factory) {
-        if (object == null) {
-            throw new IllegalArgumentException("object cannot be null.");
+    public void inject(final Object target) {
+        if (target == null) {
+            throw new IllegalArgumentException("target cannot be null.");
         }
-        if (factory == null) {
-            throw new IllegalArgumentException("factory cannot be null.");
+
+        Class<?> c = target.getClass();
+        // first to all annotated public setter methods.
+        for (final Method method : c.getMethods()) {
+            if (method.isAnnotationPresent(InjectForRequest.class)) {
+                injectIntoMethod(target, factory, method);
+            }
         }
-        Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
-        try {
-            Class<?> c = object.getClass();
-            // first to all annotated public setter methods.
-            for (final Method method : c.getMethods()) {
-                if (method.isAnnotationPresent(InjectForRequest.class)) {
-                    injectIntoMethod(object, factory, method);
+        // and then all annotated fields.
+        while (c != Object.class && c != null) {
+            for (final Field field : c.getDeclaredFields()) {
+                if (field.isAnnotationPresent(InjectForRequest.class)) {
+                    injectIntoField(target, factory, field);
                 }
             }
-            // and then all annotated fields.
-            while (c != Object.class && c != null) {
-                for (final Field field : c.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(InjectForRequest.class)) {
-                        injectIntoField(object, factory, field);
-                    }
-                }
-                c = c.getSuperclass();
-            }
-        } finally {
-            stopwatch.elapsed("inject model for {}", object.getClass().getName());
+            c = c.getSuperclass();
         }
     }
 
@@ -93,7 +86,7 @@ final class InjectForRequestInjector {
         }
         final Object injectionValue = factory.getObject(name, field.getType());
         if (injectionValue == null) {
-            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + field.getType().getName() + "' into the field '" + field.getName() + "' for an action.");
+            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + field.getType().getName() + "' into the field '" + field.getName() + "' of object " + object.hashCode() + " (" + object.getClass().getName() + ").");
         }
         field.setAccessible(true); // make private fields accessible
         LOG.debug("Injecting {} into field {} for {}", injectionValue.getClass().getName(), field.getName(), object.getClass().getName());
@@ -124,7 +117,7 @@ final class InjectForRequestInjector {
         final Class<?> type = method.getParameterTypes()[0];
         final Object injectionValue = factory.getObject(name, type);
         if (injectionValue == null) {
-            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + type.getName() + "' into the field '" + method.getName() + "' for an action.");
+            throw new InjectionException(factory.getClass().getName() + " does not know how to inject '" + type.getName() + "' into the method '" + method.getName() + "' of object " + object.hashCode() + " (" + object.getClass().getName() + ").");
         }
 
         // accessible

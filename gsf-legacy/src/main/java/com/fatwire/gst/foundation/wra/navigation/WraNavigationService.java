@@ -43,7 +43,7 @@ import com.fatwire.gst.foundation.facade.sql.IListIterable;
 import com.fatwire.gst.foundation.facade.sql.Row;
 import com.fatwire.gst.foundation.facade.sql.SqlHelper;
 import com.fatwire.gst.foundation.facade.uri.TemplateUriBuilder;
-import tools.gsf.navigation.support.AbstractNavigationService;
+import com.fatwire.gst.foundation.wra.navigation.support.AbstractNavigationService;
 import com.fatwire.gst.foundation.wra.Alias;
 import com.fatwire.gst.foundation.wra.AliasCoreFieldDao;
 import com.fatwire.gst.foundation.wra.WraUriBuilder;
@@ -58,7 +58,7 @@ import com.fatwire.mda.DimensionFilterInstance;
  */
 public class WraNavigationService extends AbstractNavigationService implements NavigationService {
 
-    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.wra.navigation.WraNavigationService");
+    private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.wra.navigation.WraNavigationService");
     /**
      * Name of the page subtype indicating that this page is NOT rendered on the
      * site but is instead merely used to group navigation components on the

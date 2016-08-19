@@ -21,7 +21,6 @@ import com.openmarket.xcelerate.asset.AssetIdImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.gsf.config.Factory;
 import tools.gsf.facade.assetapi.AssetIdWithSite;
 import tools.gsf.mapping.AssetName;
 import tools.gsf.mapping.AssetNameImpl;
@@ -29,7 +28,6 @@ import tools.gsf.mapping.Mapping;
 import tools.gsf.mapping.MappingService;
 import tools.gsf.mapping.MappingValue;
 import tools.gsf.runtime.CSRuntimeException;
-import tools.gsf.time.Stopwatch;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -41,35 +39,30 @@ import java.util.Map;
  * @author Tony Field
  * @since 2016-07-21
  */
-final class MappingInjector {
+public final class MappingInjector {
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.inject.MappingInjector");
 
-    MappingInjector() {
+    private final MappingService mappingService;
+
+    public MappingInjector(MappingService mappingService) {
+        this.mappingService = mappingService;
     }
 
-    void inject(final Object object, final Factory factory, final AssetIdWithSite id) {
-        if (object == null) {
+    public void inject(final Object target, final String pagename) {
+        if (target == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
-        if (factory == null) {
-            throw new IllegalArgumentException("factory cannot be null.");
-        }
-        Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
-        try {
-            final Field[] fields = findFieldsWithAnnotation(object, Mapping.class);
-
-            if (fields.length > 0) {
-                final MappingService mappingService = factory.getObject("mappingService", MappingService.class);
-                if (mappingService == null) {
-                    throw new IllegalStateException("MappingService can not be retrieved from " + factory.getClass().getName());
-                }
-                final Map<String, MappingValue> map = mappingService.readMapping(id);
-                for (final Field field : fields) {
-                    injectIntoField(object, map, field, id);
-                }
+        final Field[] fields = findFieldsWithAnnotation(target, Mapping.class);
+        if (fields.length > 0) {
+            AssetIdWithSite id = mappingService.resolveMapped(pagename);
+            if (id != null) {
+	            final Map<String, MappingValue> map = mappingService.readMapping(id);
+	            for (final Field field : fields) {
+	                injectIntoField(target, map, field, id);
+	            }
+            } else {
+            	LOG.warn("Cannot determine eid / tid for current code element (CSElement / Template) based on pagename '" + pagename + "', @Mapping annotations will be ignored.");
             }
-        } finally {
-            stopwatch.elapsed("inject mapping for {}", object.getClass().getName());
         }
     }
 

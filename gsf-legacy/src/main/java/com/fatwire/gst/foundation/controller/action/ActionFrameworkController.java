@@ -43,6 +43,9 @@ public class ActionFrameworkController extends AbstractActionController {
         // get the servlet context
         final ServletContext servletContext = getServletContext();
         ActionLocator l = ActionLocatorUtils.getActionLocator(servletContext);
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("getActionLocator() will return action locator = " + l);
+        }
         return l;
     }
 
@@ -50,6 +53,9 @@ public class ActionFrameworkController extends AbstractActionController {
     protected ActionNameResolver getActionNameResolver() {
         final ServletContext servletContext = getServletContext();
         ActionNameResolver l = ActionNameResolverUtils.getActionNameResolver(servletContext);
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("getActionNameResolver() will return action name resolver = " + l);
+        }
         return l;
     }
 

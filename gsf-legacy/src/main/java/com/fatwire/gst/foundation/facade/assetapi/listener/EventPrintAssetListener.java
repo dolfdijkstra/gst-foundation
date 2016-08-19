@@ -28,7 +28,7 @@ import com.openmarket.basic.event.AbstractAssetEventListener;
  * @deprecated - com.fatwire.gst.foundation.facade and all subpackages have moved to the tools.gsf.facade package
  */
 public class EventPrintAssetListener extends AbstractAssetEventListener {
-	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.facade.assetapi.listener.EventPrintAssetListener");
+	protected static final Logger LOG = LoggerFactory.getLogger("tools.gsf.legacy.facade.assetapi.listener.EventPrintAssetListener");
 
     @Override
     public void assetAdded(final AssetId id) {

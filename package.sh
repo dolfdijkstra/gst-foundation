@@ -3,7 +3,6 @@ set -o nounset
 set -o errexit
 VERSION=`python -c "from xml.dom.minidom import parse;dom = parse('pom.xml');print [n.firstChild for n in dom.getElementsByTagName('version') if n.parentNode == dom.childNodes[0]][0].toxml()"`
 echo "GST Site Foundation version $VERSION packager"
-#echo "Building GSF version $VERSION"
 
 execLocation="$PWD"
 
@@ -39,6 +38,9 @@ function buildJARs() {
 
 	echo "[$(date)] Building GSF jars"
 	mvn -o clean install | awk '{ print "[BUILDING JARS] ", $0; }' >> $mavenOutputLog
+
+	echo "[$(date)] Building GSF sample"
+	(cd gsf-sample && mvn -o clean install | awk '{ print "[BUILDING SAMPLE] ", $0; }') >> $mavenOutputLog
 
 	echo "[$(date)] GSF jars successfully built !"
 }

@@ -528,7 +528,7 @@ public class AssetAccessTemplate {
         try {
 
             for (SiteInfo si : sm.list()) {
-                if (name.equals(si.getName())) {
+                if (si.getName().equals(name)) {
                     return si;
                 }
             }

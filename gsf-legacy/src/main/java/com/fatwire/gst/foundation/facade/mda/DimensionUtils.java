@@ -43,7 +43,7 @@ import com.fatwire.system.SessionFactory;
  * @deprecated - com.fatwire.gst.foundation.facade and all subpackages have moved to the tools.gsf.facade package
  */
 public final class DimensionUtils {
-    private static final Logger _log = LoggerFactory.getLogger("tools.gsf.facade.mda.DefaultLocaleService");
+    private static final Logger _log = LoggerFactory.getLogger("tools.gsf.legacy.facade.mda.DefaultLocaleService");
 
     /**
      * Shorthand function for returning the DimensionableAssetManager given an

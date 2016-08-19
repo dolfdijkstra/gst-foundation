@@ -24,8 +24,8 @@ import com.fatwire.cs.core.search.engine.SearchEngineException;
 import com.fatwire.cs.core.search.engine.SearchResult;
 import com.fatwire.cs.core.search.query.Operation;
 import com.fatwire.cs.core.search.query.QueryExpression;
+import com.fatwire.gst.foundation.CSRuntimeException;
 import com.fatwire.search.util.SearchUtils;
-import tools.gsf.runtime.CSRuntimeException;
 
 import java.util.Arrays;
 import java.util.List;

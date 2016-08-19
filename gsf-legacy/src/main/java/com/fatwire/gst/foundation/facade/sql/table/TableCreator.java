@@ -18,7 +18,7 @@ package com.fatwire.gst.foundation.facade.sql.table;
 
 import COM.FutureTense.Interfaces.FTValList;
 import COM.FutureTense.Interfaces.ICS;
-import tools.gsf.runtime.CSRuntimeException;
+import com.fatwire.gst.foundation.CSRuntimeException;
 
 /**
  * Facade over table create and delete CatalogManager operations

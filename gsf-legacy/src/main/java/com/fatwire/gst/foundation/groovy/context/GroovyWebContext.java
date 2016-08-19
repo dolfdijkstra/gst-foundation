@@ -15,50 +15,47 @@
  */
 package com.fatwire.gst.foundation.groovy.context;
 
-import groovy.lang.GroovyClassLoader;
-
-import javax.servlet.ServletContext;
-
 import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.gst.foundation.controller.AppContext;
 import com.fatwire.gst.foundation.controller.action.ActionLocator;
 import com.fatwire.gst.foundation.controller.action.Factory;
 import com.fatwire.gst.foundation.controller.action.Injector;
 import com.fatwire.gst.foundation.controller.action.support.ClassActionLocator;
-import com.fatwire.gst.foundation.controller.action.support.LegacyDefaultWebAppContext;
+import com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext;
 import com.fatwire.gst.foundation.controller.action.support.RenderPageActionLocator;
 import com.fatwire.gst.foundation.groovy.GroovyElementCatalogLoader;
 import com.fatwire.gst.foundation.groovy.GroovyLoader;
 import com.fatwire.gst.foundation.groovy.action.GroovyActionLocator;
+import groovy.lang.GroovyClassLoader;
+
+import javax.servlet.ServletContext;
 
 /**
  * WebAppContext that is using Groovy to load Actions.
- * 
+ *
  * @author Dolf Dijkstra
  * @since 11 mei 2012
- * 
- * @deprecated as of release 12.x, replace with WCS 12c's native Groovy support
  */
-public class GroovyWebContext extends LegacyDefaultWebAppContext {
+public class GroovyWebContext extends DefaultWebAppContext {
     private GroovyClassLoader classLoader;
+    private ServletContext servletContext;
 
     /**
-     * This constructor was needed for the WebAppContextLoader.
-     * 
-     * @param context servlet context
-     * @param app application context
+     *
+     * @param context The ServletContext instance
+     * @param app The AppContext instance
      */
     public GroovyWebContext(ServletContext context, AppContext app) {
         super(context, app);
         classLoader = new GroovyClassLoader();
-        String path = getServletContext().getRealPath("/WEB-INF/gsf-groovy");
+        this.servletContext = context;
+        String path = context.getRealPath("/WEB-INF/gsf-groovy");
         classLoader.addClasspath(path);
 
     }
 
     /* (non-Javadoc)
-     * @see "com.fatwire.gst.foundation.controller.action.support.LegacyDefaultWebAppContext#createActionLocator()"
+     * @see com.fatwire.gst.foundation.controller.action.support.DefaultWebAppContext#createActionLocator()
      */
     public ActionLocator createActionLocator() {
         // this method is expected to be called only once during the lifecycle
@@ -85,7 +82,7 @@ public class GroovyWebContext extends LegacyDefaultWebAppContext {
      * @return GroovyLoader that looks at elementcatalog and /WEB-INF/gsf-groovy for groovy classes.
      */
     protected GroovyLoader getGroovyLoader() {
-        return new GroovyElementCatalogLoader(getServletContext());
+        return new GroovyElementCatalogLoader(servletContext);
     }
 
     protected ActionLocator getRootActionLocator(Injector injector) {

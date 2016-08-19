@@ -16,332 +16,408 @@
 
 Installation Guide
 
-    This release of the GSF is transitional, meaning it is primarily aimed at users upgrading their WCS 11g implementations to WCS 12c.
+    This release of the GSF is <<transitional>>, meaning it is primarily aimed at users upgrading their WCS 11g implementations
+    to WCS 12c -- although we are also shipping a couple of new "toys" for those enthusiastic new adopters!  :)
 
-    Brand new and re-engineered features specifically designed for WCS 12c will be released in the next major release of the GSF,
-    coming very soon (2016).
+    Both brand new and re-engineered features specifically designed for WCS 12c will be included in future releases of the GSF,
+    coming soon.
 
     You are strongly advised not to use any of the DEPRECATED features (e.g. classes) in this release, which are packaged inside the "-legacy" JAR file.
 
-    Deprecated features will be wiped out from the GSF JAR files in the upcoming releases. Hence, any application whose code depends on them will stop working properly unless its codebase gets updated so to remove such dependencies.
-
-    Affected classes / components must use WCS 12c's native feature(s) whenever possible (and applicable)
+    Deprecated features will be wiped out from the GSF project's codebase (and JAR files) in upcoming releases.
     
-    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version older than WCS 12c (YOU HAVE BEEN WARNED!).
+    Thus, applications whose code depends on deprecated classes will stop working properly unless the concerned code is updated so to remove such dependencies before the concerned deprecated classes are wiped out.
+    
+    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version of WCS older than 12c (YOU HAVE BEEN WARNED!).
+    
+    We have simplified the installation process for this release and - hopefully - all future releases:
+	
+	* No need to tweak any configuration files (if opting for default usage / behaviour).
+
+	* No need to install any custom asset types.
+
+	* No need to import any WEM App.
+
+	[]    
     
 Starting Fresh With GSF-12 and WCS 12c
     
-	Starting fresh with GSF-12 on WCS 12c is very simple; just deploy GSF-12's "CORE" JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app:
-		
-		* If the WCS 12c web app is getting deployed as a WAR file, then you must:
+	Starting fresh with GSF (12) on WCS 12c is now <<as simple as deploying the CORE JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app>>.
 
-			[[1]] Stop your WCS 12c instance.
-			[[2]] Copy the WCS 12c WAR file.
-			[[3]] Unpack the copied WAR file.
-			[[4]] Copy the "CORE" JAR file inside your copied WAR file's WEB-INF/lib folder.
-			[[5]] Repack the copied WAR file.
-			[[6]] Replace the original WAR file with your new WAR file.
-			[[7]] Restart your WCS 12c instance and validate everything works as expected.
-			[]
-			
-		* If the WCS 12c web app is getting deployed as an "exploited" folder, then you must:
+	If the WCS 12c web app is getting deployed <<as a WAR file>>, then you must:
+
+		[[1]] Stop your WCS 12c instance.
+
+		[[1]] Copy the WCS 12c WAR file.
+
+		[[1]] Unpack the copied WAR file.
+
+		[[1]] Copy the "CORE" JAR file inside your copied WAR file's WEB-INF/lib folder.
+
+		[[1]] Repack the copied WAR file.
+
+		[[1]] Replace the original WAR file with your new WAR file.
+
+		[[1]] Restart your WCS 12c instance and validate everything works as expected.
+
+		[]
 		
-			[[1]] Locate your web app's root folder and
-			[[2]] Copy the "CORE" JAR file inside your web app's WEB-INF/lib folder (which should be located right under the web app's root folder)
-			[]
+	If the WCS 12c web app is getting deployed <<as an "exploited" folder>>, then you must:
+	
+		[[1]] Locate your web app's root folder and
+
+		[[1]] Copy the "CORE" JAR file inside your web app's WEB-INF/lib folder (which should be located right under the web app's root folder)
+
+		[]
 			
-	Note that not deploying the "LEGACY" JAR file implies deprecated features will not (and cannot) be used.
+	Deprecated features and classes will not get deployed with the procedure above. In order to use those, you must deploy the LEGACY jar (keep reading)
+	
+	Additional steps might be needed if you needed to extend any of the CORE's OOTB classes / mechanisms. Take a look at our {{{./How-To.html} "How-To" page}} for some typical scenarios.
 		
 Upgrading From WCS 11g to 12c
 
-	If you are not using any of the GSF features deprecated by GSF-12, then upgrading from WCS 11g to 12c (and GSF-12) requires the same procedure as a fresh start (see above)
+	If you are not extending any of the GSF's LEGACY classes and you don't need any deprecated features, then upgrading from WCS 11g to 12c (and GSF-12) requires the same procedure as a fresh start (see above)
 	
-	However, if you are upgrading from WCS 11g to 12c and you were using the GSF extensively already, you might need to set up and use deprecated features until you migrate your code so it uses WCS 12c's native features instead and verify it works adequately with GSF-12:  
+	However, if you are upgrading from WCS 11g to 12c and you did extend and/or customize deprecated classes / features, you probably need some time to transition from your GSF LEGACY-driven code to either a GSF CORE-driven alternative or just switch to a 12c native implementation.
+	
+	Here is a checklist of the scenarios we can envision and what those would imply for you in terms of setting up LEGACY:  
 
-		* In case you want to use a deprecated feature / class (for instance, GSF actions):
-    
-			* Deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app (same procedure as for the "CORE" JAR file)
-    
-    	* In case you want to use a custom AppContext loader:
+		* In case you want to use <<any>> deprecated class or feature (say, GSF actions), you <<must>> deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
+									
+		* In case you want to use a custom AppContext loader:
         
-        	[[1]] Configure your custom listener as needed inside WCS 12c's web.xml file (see "STARTING FRESH..." above)
+			[[1]] Configure your custom listener as needed inside WCS 12c's web.xml file.
         
-        	[[2]] Deploy your custom listener's classes.
+			[[1]] Deploy your custom listener's classes.
         	
-        	[[3]] Make sure only your custom listener gets loaded and executed. GSF-12 defaults to its OOTB AppContext loader via annotations (@WebListener) or that, at the very least, they don't collide / cause the other's malfunctioning.  
+			[[1]] Make sure your custom listener gets loaded and executed. GSF-12 plugs in its own, brand new AppContext loader via annotations (@WebListener). Hence, make sure the new listener doesn't collide with yours.
         
-        	[[4]] Make sure your custom listener works properly with WCS 12c (and GSF-12 itself)
+			[[1]] Make sure your custom listener works properly with WCS 12c (and GSF-12 itself).
+			
+			[]
         	
-        	[]
-
 		* If you are upgrading an existing implementation from WCS 11g to WCS 12c where GSF (v11.x) is correctly setup and being used, you don't need to recreate nor register your GSF-specific tables; the WCS 12c installer won't touch them.
             
 		* If you need to use any DEPRECATED features which rely on GSF-specific asset event listeners and you are setting up GSF-12 on a clean WCS 12c install, then you can register those by:
         
-        	[[1]] Exporting the due row(s) from your WCS 11g instance's AssetListener_reg with CatalogMover or CSExplorer.
+			[[1]] Exporting the due row(s) from your WCS 11g instance's AssetListener_reg with CatalogMover or CSExplorer.
         	
-        	[[2]] Importing the due row(s) onto your WCS 12c instance's AssetListener_reg with CatalogMover or CSExplorer.
+			[[1]] Importing the due row(s) onto your WCS 12c instance's AssetListener_reg with CatalogMover or CSExplorer.
         	
-        	[[3]] In case you have customized GSF's asset event listeners (the actual java classes), you'd need to port those customizations to WCS 12c.
-        	
-        	[]
-        	
-		* If you are upgrading an existing WCS 11g instance to WCS 12c (i.e. no clean install of WCS 12c) where GSF (11) is already correctly setup, you don't need to recreate nor register your GSF-specific asset event listeners; the WCS 12c installer won't touch them.
+			[[1]] In case you have customized GSF's asset event listeners (the actual java classes), you'd need to port those customizations to WCS 12c.
+
+			[]			
+        	        	
+		* If you are upgrading an existing WCS 11g instance to WCS 12c (i.e. no clean install of WCS 12c) where GSF (11) was already setup, you don't need to recreate nor register your GSF-specific asset event listeners; the WCS 12c installer won't touch them.
 		
-        * If you need to use GSF vanity URLs support, the you might need to re-create the GSTUrlRegistry from scratch (e.g. on a clean WCS 12c install):
+		* If you need to use GSF vanity URLs support, the you might need to re-create the GSTUrlRegistry from scratch (e.g. on a clean WCS 12c install):
         
-			[[1]] Extract the DDL script for that table - and the due constraints / indexes - directly from your DBMS.
-			
-				* Here is an EXAMPLE for HSQLDB (you are strongly advised to gather it on your own):
-				
-					CREATE TABLE GSTURLREGISTRY (ID BIGINT NOT NULL, PATH VARCHAR(4000) NOT NULL, ASSETTYPE VARCHAR(255) NOT NULL, ASSETID BIGINT NOT NULL, STARTDATE TIMESTAMP, ENDDATE TIMESTAMP, OPT_VWEBROOT VARCHAR(255), OPT_URL_PATH VARCHAR(4000), OPT_DEPTH INTEGER, OPT_SITE VARCHAR(255), PRIMARY KEY (ID));
-					CREATE UNIQUE INDEX SYS_IDX_GSTURLREG ON "PUBLIC"."GSTURLREGISTRY"(ID);
+			[[1]] Extract the DDL script for that table - and the due constraints / indexes - directly from your DBMS. Find below an EXAMPLE for HSQLDB (you are advised to extract this from your existing DB schema):
+
++--								
+CREATE TABLE GSTURLREGISTRY (ID BIGINT NOT NULL, PATH VARCHAR(4000) NOT NULL, ASSETTYPE VARCHAR(255) NOT NULL, ASSETID BIGINT NOT NULL, STARTDATE TIMESTAMP, ENDDATE TIMESTAMP, OPT_VWEBROOT VARCHAR(255), OPT_URL_PATH VARCHAR(4000), OPT_DEPTH INTEGER, OPT_SITE VARCHAR(255), PRIMARY KEY (ID));
+CREATE UNIQUE INDEX SYS_IDX_GSTURLREG ON "PUBLIC"."GSTURLREGISTRY"(ID);
++--
+					
+			[[1]] Run the DDL script on the new WCS 12c instance's DB so to get the corresponding objects initialized there.
         	
-			[[2]] Run the DDL script on the new WCS 12c instance's DB so to get the corresponding objects initialized there.
-        	
-			[[3]] Register the corresponding table on the new WCS 12c instance's SystemInfo table.
+			[[1]] Register the corresponding table on the new WCS 12c instance's SystemInfo table.
 				        	
-			[[4]] The old GSF installer - as well as the GSF WemApp - has been DEPRECATED and they are not supported anymore in WCS 12c. Do NOT install them nor attempt to execute them (YOU HAVE BEEN WARNED!)			
-		
+			[[1]] The old GSF installer - as well as the GSF WemApp - has been DEPRECATED and they are not supported anymore in WCS 12c. Do NOT install them nor attempt to execute them (YOU HAVE BEEN WARNED!)
+			
+			[]
+						
 		* If you need to use any other deprecated feature which relies on GSF-specific tables, use the same procedure as for GSTUrlRegistry (see above)
 		
 		* If you need to use any asset type of the GST Flex Family and you are not upgrading on top of WCS 11g but setting up a fresh WCS 12c install, then:
 		
 			[[1]] Initialize The GSTAttribute flex family manually, either via Admin UI or via CSDT export / import:
-		
-				Flex Attribute:		GSTAttribute
-				Description:		GST Attribute
-				Plural Form:		GST Attributes
-				Flex Parent Definition:	GSTPDefinition
-				Description:		GST Parent Definition
-				Plural Form:		GST Parent Definitions
-				Flex Definition:	GSTDefinition
-				Description:		GST Definition
-				Plural Form:		GST Definitions
-				Flex Parent:		GSTParent
-				Description:		GST Parent
-				Plural Form:		GST Parents
-				Flex Asset:			GSTProperty
-				Description:		GST Property
-				Plural Form:		GST Properties
-				Flex Filter:		GSTFilter
-				Description:		GST Filter
-				Plural Form:		GST Filters
 
-			... PLUS:
++--		
+Flex Attribute:		GSTAttribute
+Description:		GST Attribute
+Plural Form:		GST Attributes
++--
++--
+Flex Parent Definition:	GSTPDefinition
+Description:		GST Parent Definition
+Plural Form:		GST Parent Definitions
++--
++--
+Flex Definition:	GSTDefinition
+Description:		GST Definition
+Plural Form:		GST Definitions
++--
++--
+Flex Parent:		GSTParent
+Description:		GST Parent
+Plural Form:		GST Parents
++--
++--
+Flex Asset:			GSTProperty
+Description:		GST Property
+Plural Form:		GST Properties
++--
++--
+Flex Filter:		GSTFilter
+Description:		GST Filter
+Plural Form:		GST Filters
++--
 
-			[[2]] For Aliasing / Links:
+			[[1]] For Aliasing / Links:
 
-				Flex Asset:			GSTAlias
-				Description:		GST Alias
-				Plural Form:		GST Aliases
-				Flex Parent Type:	GSTParent
++--
+Flex Asset:			GSTAlias
+Description:		GST Alias
+Plural Form:		GST Aliases
+Flex Parent Type:	GSTParent
++--
 
-			[[3]] For Vanity URLs:
-				
-				Flex Asset:			GSTVirtualWebroot
-				Description:		GST VirtualWebroot
-				Plural Form:		GST VirtualWebroots
-				Flex Parent Type:	GSTParent
+			[[1]] For Vanity URLs:
+
++--				
+Flex Asset:			GSTVirtualWebroot
+Description:		GST VirtualWebroot
+Plural Form:		GST VirtualWebroots
+Flex Parent Type:	GSTParent
++--
 							
-			[[4]] Initialize the due (deprecated) GSTAttribute assets manually, either via the Admin UI or via CSDT export / import: 
+			[[1]] Initialize the due (deprecated) GSTAttribute assets manually, either via the Admin UI or via CSDT export / import: 
 
-				* For GST Property:
+				[[A]] For GST Property:
+
++--
+Attribute #1's Name:			value
+Attribute #1's Description:		Value
+Attribute #1's Type:			string
+Attribute #1's Value Style:		single
++--
 			
-					Attribute #1's Name:			value
-					Attribute #1's Description:		Value
-					Attribute #1's Type:			string
-					Attribute #1's Value Style:		single
+				[[A]] For Virtual Webroot:
+
++--			
+Attribute #2's Name:			env_name
+Attribute #2's Description:		Environment Name
+Attribute #2's Type:			string
+Attribute #2's Value Style:		single
++--
++--
+Attribute #3's Name:			env_vwebroot
+Attribute #3's Description:		Virtual Webroot
+Attribute #3's Type:			string
+Attribute #3's Value Style:		single
++--
++--
+Attribute #4's Name:			master_vwebroot
+Attribute #4's Description:		Master Webroot
+Attribute #4's Type:			string
+Attribute #4's Value Style:		single
++--
 			
-				* For Virtual Webroot:
-			
-					Attribute #2's Name:			env_name
-					Attribute #2's Description:		Environment Name
-					Attribute #2's Type:			string
-					Attribute #2's Value Style:		single
-			
-					Attribute #3's Name:			env_vwebroot
-					Attribute #3's Description:		Virtual Webroot
-					Attribute #3's Type:			string
-					Attribute #3's Value Style:		single
-			
-					Attribute #4's Name:			master_vwebroot
-					Attribute #4's Description:		Master Webroot
-					Attribute #4's Type:			string
-					Attribute #4's Value Style:		single
-			
-				* For GST Alias:
+				[[A]] For GST Alias:
 
-					Attribute #5's Name:			popup
-					Attribute #5's Description:		Popup
-					Attribute #5's Type:			int
-					Attribute #5's Value Style:		single
-			
-					Attribute #6's Name:			target_url
-					Attribute #6's Description:		Target URL
-					Attribute #6's Type:			string
-					Attribute #6's Value Style:		single
-					
-					Attribute #7's Name:			h1title
-					Attribute #7's Description:		h1title
-					Attribute #7's Type:			string
-					Attribute #7's Value Style:		single
-
-					Attribute #8's Name:			metadescription
-					Attribute #8's Description:		Metadescription
-					Attribute #8's Type:			string
-					Attribute #8's Value Style:		single
-					
-					Attribute #9's Name:			metakeyword
-					Attribute #9's Description:		Metakeyword
-					Attribute #9's Type:			string
-					Attribute #9's Value Style:		single
-
-					Attribute #10's Name:			metatitle
-					Attribute #10's Description:	Metatitle
-					Attribute #10's Type:			string
-					Attribute #10's Value Style:	single
-
-					Attribute #11's Name:			linktext
-					Attribute #11's Description:	Link text
-					Attribute #11's Type:			string
-					Attribute #11's Value Style:	single
-
-					Attribute #12's Name:			linkimage
-					Attribute #12's Description:	Link image
-					Attribute #12's Type:			string
-					Attribute #12's Value Style:	single
-
-					Attribute #13's Name:			gsttag
-					Attribute #13's Description:	Tag
-					Attribute #13's Type:			string
-					Attribute #13's Value Style:	single
-					
-			[[5]] Initialize the (deprecated) GST-specific flex definitions either via the Admin UI or via CSDT export / import:
-
-				* FOR Vanity URLs:
++--
+Attribute #5's Name:			popup
+Attribute #5's Description:		Popup
+Attribute #5's Type:			int
+Attribute #5's Value Style:		single
++--
++--
+Attribute #6's Name:			target_url
+Attribute #6's Description:		Target URL
+Attribute #6's Type:			string
+Attribute #6's Value Style:		single
++--
++--
+Attribute #7's Name:			h1title
+Attribute #7's Description:		h1title
+Attribute #7's Type:			string
+Attribute #7's Value Style:		single
++--
++--
+Attribute #8's Name:			metadescription
+Attribute #8's Description:		Metadescription
+Attribute #8's Type:			string
+Attribute #8's Value Style:		single
++--
++--
+Attribute #9's Name:			metakeyword
+Attribute #9's Description:		Metakeyword
+Attribute #9's Type:			string
+Attribute #9's Value Style:		single
++--
++--
+Attribute #10's Name:			metatitle
+Attribute #10's Description:	Metatitle
+Attribute #10's Type:			string
+Attribute #10's Value Style:	single
++--
++--
+Attribute #11's Name:			linktext
+Attribute #11's Description:	Link text
+Attribute #11's Type:			string
+Attribute #11's Value Style:	single
++--
++--
+Attribute #12's Name:			linkimage
+Attribute #12's Description:	Link image
+Attribute #12's Type:			string
+Attribute #12's Value Style:	single
++--
++--
+Attribute #13's Name:			gsttag
+Attribute #13's Description:	Tag
+Attribute #13's Type:			string
+Attribute #13's Value Style:	single
++--
 				
-					Flex Definition Type:			GSTDefinition
-					Flex Definition Name:			GSTVirtualWebroot
-					Flex Definition Description:	GST Virtual Webroot
-					Flex Definition Parents:		(NONE)
-					Flex Definition Attributes:		env_name (required), env_vwebroot (optional), master_vwebroot (optional)
+				[]
+			
+			[[1]] Initialize the (deprecated) GST-specific flex definitions either via the Admin UI or via CSDT export / import:
+
+				[[A]] FOR Vanity URLs:
+
++--				
+Flex Definition Type:			GSTDefinition
+Flex Definition Name:			GSTVirtualWebroot
+Flex Definition Description:	GST Virtual Webroot
+Flex Definition Parents:		(NONE)
+Flex Definition Attributes:		env_name (required), env_vwebroot (optional), master_vwebroot (optional)
++--
 				
-				* For Aliasing / Links:
-				
-					Flex Definition Type:			GSTDefinition
-					Flex Definition Name:			GSTAlias
-					Flex Definition Description:	GST Alias
-					Flex Definition Parents:		(NONE)
-					Flex Definition Attributes:		h1title (required), metadescription (required), metakeyword (required), metatitle (required), target_url (optional), linktext (optional), linkimage (optional), popup (required)
-					Associations:					target (any child asset type / subtype, EXISTS)
+				[[A]] For Aliasing / Links:
+
++--				
+Flex Definition Type:			GSTDefinition
+Flex Definition Name:			GSTAlias
+Flex Definition Description:	GST Alias
+Flex Definition Parents:		(NONE)
+Flex Definition Attributes:		h1title (required), metadescription (required), metakeyword (required), metatitle (required), target_url (optional), linktext (optional), linkimage (optional), popup (required)
+Associations:					target (any child asset type / subtype, EXISTS)
++--
 					
-				* For GST Properties:
-				
-					Flex Definition Type:			GSTDefinition
-					Flex Definition Name:			GSTProperty
-					Flex Definition Description:	GST Property
-					Flex Definition Parents:		(NONE)
-					Flex Definition Attributes:		value (required)
+				[[A]] For GST Properties:
+
++--				
+Flex Definition Type:			GSTDefinition
+Flex Definition Name:			GSTProperty
+Flex Definition Description:	GST Property
+Flex Definition Parents:		(NONE)
+Flex Definition Attributes:		value (required)
++--
 					
-				* For Tagging: "gsttag" is added only to project-specific definitions, not GST's.
+				[[A]] For Tagging: "gsttag" is added only to project-specific definitions, not GST's.
 				
-			[[6]] Enable the GST-specific asset types (GSTAttribute, GSTProperty, GSTVirtualWebroot, etc...) for the appropriate sites, as needed -- and initialize their corresponding START MENUS.
+				[]
+								
+			[[1]] Enable the GST-specific asset types (GSTAttribute, GSTProperty, GSTVirtualWebroot, etc...) for the appropriate sites, as needed -- and initialize their corresponding START MENUS.
 			
 			[]
-		
+			
 		* If you want to keep using GSF's Actions, Controllers and/or vanity URLs, you must initialize the GST/Dispatcher wrapper and make it the DEFAULT WRAPPER of the appropriate sites.
 		
 			* You can do this either via the Admin UI or via CSDT export / import.
 			
-			* OOTB version looks more or less like this (reuse - and adjust, if needed - your own code, this is just a hint):
+			* GSF's legacy dispatcher looked like this (reuse and adjust your own code as and if needed, this is just a hint):
+
++--			
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1"><CALLJAVA CLASS="com.fatwire.gst.foundation.controller.action.ActionController" /></FTCS>
++--
 			
-				<?xml version="1.0" ?>
-				<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
-				<FTCS Version="1.1"><CALLJAVA CLASS="com.fatwire.gst.foundation.controller.action.ActionController" /></FTCS>
-				
 			* Remember you must initialize both the CSElement holding the code (as per above) and the due SiteEntry which, unless you've customized it, should look like this: 
 			
-				SiteEntry Name:				GST/Dispatcher
-				SiteEntry Pagename:			GST/Dispatcher
-				SiteEntry Rootelement:			GST/Dispatcher
-				SiteEntry Wrapper page:			yes
-				SiteEntry Pagelet parameters:		(default)
-				SiteEntry Cache Rule (Sites):		false
-				SiteEntry Cache Rule (Satellite):	false
-				SiteEntry Cache Criteria:		rendermode, seid, site, sitepfx, ft_ss (default)					
++--
+SiteEntry Name:				GST/Dispatcher
+SiteEntry Pagename:			GST/Dispatcher
+SiteEntry Rootelement:			GST/Dispatcher
+SiteEntry Wrapper page:			yes
+SiteEntry Pagelet parameters:		(default)
+SiteEntry Cache Rule (Sites):		false
+SiteEntry Cache Rule (Satellite):	false
+SiteEntry Cache Criteria:		rendermode, seid, site, sitepfx, ft_ss (default)
++--
 			
 		* If you want to keep using GSF's vanity URL support:
 		
-			[[1]] Set up the appropriate rewrite rules.
+			* Set up the appropriate rewrite rules.
 			
-			[[2]] Make sure you pass in the appropriate "com.fatwire.gst.foundation.env-name" value to your JVM. For example: (...) -Dcom.fatwire.gst.foundation.env-name=fatwire-dev (...)
+			* Make sure you pass in the appropriate "com.fatwire.gst.foundation.env-name" value to your JVM. For example: (...) -Dcom.fatwire.gst.foundation.env-name=fatwire-dev (...)
 			
-			[[3]] Make sure you pass in the appropriate "sites.node" value to your JVM. For example: (...)-Dsites.node=unicorn-1 (...)
+			* Make sure you pass in the appropriate "sites.node" value to your JVM. For example: (...)-Dsites.node=unicorn-1 (...)
 			
-			[[4]] Make sure your existing GSTVirtualWebroot assets remain valid.
+			* Make sure your existing GSTVirtualWebroot assets remain valid.
 			
-			[[5]] Tweak the concerned WCS 12c properties so that it doesn't reject URLs due to the hostname / port being used (cas.properties, customBeans.xml, etc...) 
+			* Tweak the concerned WCS 12c properties so that it doesn't reject URLs due to the hostname / port being used (cas.properties, customBeans.xml, etc...) 
 			
-			[[6]] Add the custom (WRA) URL Assembler (/ Disassembler) inside "ServletRequest.properties" via Admin UI (use "Property Management") or the Import / Export Utility:
+			* Add the custom (WRA) URL Assembler inside "ServletRequest.properties" via Admin UI (e.g. "Property Management") or the Import / Export Utility:
 
-				uri.assembler.1.shortform=wrapath
-				uri.assembler.1.classname=com.fatwire.gst.foundation.url.WraPathAssembler
-				url.assembler.2.shortform=(...)
-				(...)
++--
+uri.assembler.1.shortform=wrapath
+uri.assembler.1.classname=com.fatwire.gst.foundation.url.WraPathAssembler
+url.assembler.2.shortform=(...)
+(...)
++--
 
-			[[7]] Initialize the property that holds the GST dispatcher site entry:
+			* Initialize the property that holds the GST dispatcher site entry:
 			
 				* In case you are using file system-based storage for your properties / property files, add the following to ServletRequest.properties:
 			
-						com.fatwire.gst.foundation.url.wrapathassembler.dispatcher=GST/Dispatcher
++--
+com.fatwire.gst.foundation.url.wrapathassembler.dispatcher=GST/Dispatcher
++--
 			
 				* In case you are using DB-based storage for your properties / property files, create a new property:
-			
-						Key:			com.fatwire.gst.foundation.url.wrapathassembler.dispatcher
-						Category:		ServletRequest
-						SubCategory:	GST
-						Description:	GST Dispatcher Site Entry
-						Value:			GST/Dispatcher
 
-			[[8]] Replace WCS 12c's out-of-the-box PageRef implementation with GST's deprecated one by rewiring the xcelerate.pageref property as follows (using the aforementioned "Property Management" feature or the Property "Export/Import" Utility)
++--			
+Key:			com.fatwire.gst.foundation.url.wrapathassembler.dispatcher
+Category:		ServletRequest
+SubCategory:	GST
+Description:	GST Dispatcher Site Entry
+Value:			GST/Dispatcher
++--
+
+			* Replace WCS 12c's out-of-the-box PageRef implementation with GST's deprecated one by rewiring the xcelerate.pageref property as follows (use the aforementioned "Property Management" feature or the Property "Export/Import" Utility)
+
++--
+(...)
+"key" : "xcelerate.pageref",
+"value" : "com.fatwire.gst.foundation.url.WraPageReference",
+(...)
++--
+				
+			* Note that GSF's own PageRef implementation does not support WCS 12c's (native) vanity urls. In other words, GSF's and WCS' are mutually exclusive.
 			
-				(...)
-				"key" : "xcelerate.pageref",
-				"value" : "com.fatwire.gst.foundation.url.WraPageReference",
-				(...)
-			
-			[]
-		
-		* Migrate your GSTProperty, GSTVirtualWebroot, GSTAlias assets using CSDT, publishing or whichever approach suits your needs. 
+		* Migrate your GSTProperty, GSTVirtualWebroot, GSTAlias assets using CSDT, publishing or whichever approach that suits your needs. 
 					
 		* If you want to keep using GSF Actions or any other features / services which depend on DefaultWebAppContext and are DEPRECATED on GSF-12, then you must either:
 
-			* Use "LegacyDefaultWebAppContext" instead of "DefaultWebAppContext" by wiring it up explicitly inside WCS 12c's web.xml file as a context param:
+			* Manually wire up the GSF's legacy servlet context listener by editing (and redeploying) WCS 12c's web.xml file:
+			
+			* You can also wire up a custom AppContext implementation by editing (and redeploying) WCS 12c's web.xml file, as a context-param:
 
-				(...)
-				<context-param>
-					<param-name>gsf-contexts</param-name>
-					<param-value>com.mycompany.gst.MyCustomGSF11gLegacyAppContext</param-value>
-				</context-param>
-				(...)
-
-			* Alternatively, code your own AppContext implementation in order to support such deprecated features and wire it up inside web.xml (see above).
-
-			* You can also wire-up a specific AppContext implementation by packaging inside the CORE JAR's META-INF folder a file named "gsf-contexts" where you specify the FQN of the due listener class.
-
-		* If you want to keep using "IcsBackedObjectFactoryTemplate", which is now DEPRECATED, then you must wire it up explicitly by packaging inside the CORE JAR's META-INF folder a file named "gsf-factory" where you specify the FQN of that class: << com.fatwire.gst.foundation.controller.action.support.IcsBackedObjectFactoryTemplate >> 
++--
+(...)
+<context-param>
+	<param-name>gsf-contexts</param-name>
+	<param-value>com.mycompany.gst.MyCustomGSF11gLegacyAppContext</param-value>
+</context-param>
+(...)
++--
+				
+		* If you wire up the legacy AppContext loader (the "legacy servlet context listener" above), you will be defaulting to "IcsBackedObjectFactoryTemplate", also deprecated. 
 
 		* If you want to keep using GST Properties with the now DEPRECATED GSTProperty asset type / subtype, then: 
 
 			* If you are still using the DEPRECATED object factory ("IcsBackedObjectFactoryTemplate", see above), then you don't need to do anything; the old object factory is still wired up to use GSTProperty.
 
-			* If you prefer using the brand new implementation, then you must implement your own object factory from scratch and make sure it has a "create" method which instantiates the NEW com.fatwire.gst.foundation.properties.AssetApiPropertyDao.
-      			
-  				* HINT: look at IcsBackedObjectFactoryTemplate.createPropertyDao.
+			* If you want to use your own asset type / subtype as GST Property assets (new CORE feature), you must code and wire this up manually into your AppContext, e.g. by extending your object factory.
 
-    * In case you have customized any GSF classes themselves, then you must reengineer your codebase to either:
+A Friendly Reminder To Those Who Have Forked The GSF... (e.g. Customized GSF's own Classes)
+			
+	In case you have customized any of the GSF classes, you must reengineer your own codebase to either:
 
-        * Stop using those customizations and rely on GSF-12's OOTB features / codebase, and/or
+		* Stop using those customizations and rely on GSF-12's CORE classes / features, and/or
         
         * Re-implement your customizations on top of GSF-12's codebase and regression test your app.
