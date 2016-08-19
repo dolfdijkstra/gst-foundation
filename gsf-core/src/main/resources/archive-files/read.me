@@ -1,12 +1,13 @@
-The gsf-contexts file in this folder will get deployed under the "META-INF" folder of the CORE JAR file.
-Regardless of whether you want to use the new (default) AppContext implementation,  the deprecated (legacy)
-implementation or even a custom one, you can use the gsf-contexts file in this folder to specify that.
-Since the LEGACY JAR file requires the CORE JAR file being deployed, this will cover all possible scenarios.
-You can also configure gsf-contexts inside web.xml.
+The files in this folder will get deployed under the "META-INF" folder of the CORE JAR file.
 
-Same rationale applies for the gsf-factory file in this folder which allows your specifying the Factory implementation
-GSF will rely upon.
+This is where you'd place the gsf-factory-producer and gsf-factory files.
 
-Note that the gsf-factory file is the only way to customize that setting, which defaults to:
+If you want to deploy any files under the LEGACY JAR's "META-INF" folder, you must use the gsf-legacy module for that.
 
-	tools.gsf.config.IcsObjectFactory
+VERY IMPORTANT: make sure that 2 files with the same name are not packaged inside 2+ JARs. Alternatively, do not deploy
+more than one JAR file which contains such file at any moment.
+
+This is especially relevant for "gsf-factory".
+
+Both CORE and LEGACY make use of a configuration file with that name. However, each requires a different format for the
+contents of such file.

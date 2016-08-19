@@ -18,6 +18,10 @@ package tools.gsf.config;
 import COM.FutureTense.Interfaces.ICS;
 
 import javax.servlet.ServletContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -62,6 +66,8 @@ import java.util.Set;
  * @since 2016-08-05
  */
 public class DefaultFactoryProducer implements FactoryProducer {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultFactoryProducer.class);
 
     /**
      * The configuration file(s) that this class will read while looking for
@@ -91,9 +97,14 @@ public class DefaultFactoryProducer implements FactoryProducer {
         if (!conf.containsKey(ServletContext.class)) {
             conf.put(ServletContext.class, ServletContextBackedFactory.class);
         }
-
+        
         // get the constructors
         factoryConstructors = getConstructorMap(conf);
+        
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("DefaultFactoryProducer constructor is done... factoryConstructors = " + factoryConstructors);
+        }
+
     }
 
     @Override
