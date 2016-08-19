@@ -431,3 +431,58 @@ protected String mappedAsset;
 +--
 	
 	[]
+
+Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)
+
+	* This annotation will look up the specified object (bean / service) in the factory(ies) being used and it will inject it into the annotated field / method. 
+	
+	* It provides the following settings:
+	
+		* <<value>> (OPTIONAL): the "name" of the object (bean / service) to be looked up. Lookup will be carried out by the factories being used. Lookup logic is defined by the Factory.getObject() implementation. If not specified, "name" (to drive the lookup) will default to:
+		
+			* Case annotated field: the name of the annotated field.
+			
+			* Case annotated method: org.springframework.beans.BeanUtils.findPropertyForMethod(method).getName(); 
+		
+		[]
+		
+	* Lookup logic and limitations:
+	
+		* Lookup logic is ultimately implemented by the FactoryProducer and Factory implementations being used.
+		
+		* If you are using GSF's DefaultFactoryProducer, fallback from the ICS-scoped factory onto the ServletContext-scoped factory is provided OOTB, meaning:
+		
+			* Lookup first in the ICS-scoped factory (Factory.getObject())
+			
+			* If the object is found, that's the object that gets injected.
+				
+			* Otherwise:
+				
+				* Lookup in the ServletContext-scoped factory.
+				
+				* If the object is found, that's the object that gets injected.
+				
+				* Otherwise, no object gets injected.
+				
+				[]
+			
+			[]
+			
+		[]
+		
+	* Example:
+	
++--
+(...)
+
+/**
+ * Provide a DAO that allows an asset to be easily mapped
+ */
+@InjectForRequest
+protected TemplateAssetAccess templateAssetAccess;
+
+(...)
++--
+	
+	[]
+
