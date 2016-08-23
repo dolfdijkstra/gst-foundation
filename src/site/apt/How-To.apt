@@ -18,6 +18,8 @@ HOW-TO
 
 	{{Build and Package the GSF Project}}
 	
+	{{Use the OOTB Factory Producer and Factory Implementations}}
+	
 	{{Use Your Own Factory Producer Implementation}}
 
 	{{Use Your Own Factory Implementation}}
@@ -75,7 +77,62 @@ $ sh package.sh
 		[]
 		
 	If you want MAVEN to include a timestamp on every line it outputs, make sure you configure MAVEN accordingly. You can find useful information {{{https://maven.apache.org/maven-logging.html} here}}.
+
+Use the OOTB Factory Producer and Factory Implementations
+
+	* GSF-12 gets rid of the getObject / getBean duality in previous versions and cleans up the design considerably by unifying everything under the concept of <<scoped Factories>>.
 	
+	* GSF-12 requires 2 scoped factories at all times, one for each scope driving WCS (and the GSF itself):
+	
+		* ICS scope and
+		
+		* ServletContext scope.
+		
+		[]
+	
+	* Base factory implementations are provided for each scope, out-of-the-box:
+	
+		* ICS scope: <<tools.gsf.config.IcsBackedFactory>>
+
+		* ServletContext scope: <<tools.gsf.config.ServletContextBackedFactory>>
+		
+		[]
+		
+	* Factory Producer is responsible for instantiating all scoped factories supporting the system. A base factory producer implementation is provided, out-of-the-box: DefaultFactoryProducer.
+
+	* A <<fallback mechanism>> enables the GSF automatically looking up an object in the ServletContext-scoped factory whenever it is not found in the ICS-scoped factory. <<DefaultFactoryProducer>> is responsible for wiring up such fallback mechanism, e.g. by making ServletContextBackedFactory the <<"delegate" factory>> of IcsBackedFactory. 
+		
+	* No settings / tweaks are required in order to use the built-in Factory Producer (DefaultFactoryProducer). GSF will default to it unless you configure a custom Factory Producer.
+	
+	* No settings / tweaks are required in order to use the built-in scoped Factories, provided that:
+	
+		* You are using the DefaultFactoryProducer, and
+		
+		* You are not using any custom built factories instead of the OOTB ones.
+		
+		[]
+		
+	* You can easily retrieve your ICS-scoped factory instance in one line:
+	
++--
+Factory myIcsScopedFactory = FactoryLocator.locateFactory(ics);  // ics is your ICS instance
++-- 
+
+	* If, for whatever reason, you needed to get ahold of the ServletContext-scoped factory (remember that magical fallback mechanism), you can easily do so:
+
++--
+FactoryProducer fp = FactoryProducer.locateFactoryProducer(servletContext); // servletContext is your ServletContext instance
+Factory myServletContextScopedFactory = fp.getFactory(servletContext);
++-- 
+
+	* In theory, you can even define your own "scopes", as long as you comply with the due interfaces / contract.
+	
+		* GSF does not know how to delegate from any custom scopes onto the built-in ones (nor viceversa). It's your responsibility defining your own Factory implementation's lookup logic as well as the due delegation strategy -- perhaps, supported by a custom Factory Producer implementation, too.
+		
+		[]
+			
+	[] 
+		
 Use Your Own Factory Producer Implementation
 
 	* Implement your own custom factory producer.
@@ -237,7 +294,9 @@ Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)
 			[]
 			
 		[]
-			
+		
+	* Make sure your own Service Producers' annotations (particularly, the "name") don't collide with the OOTB Factories' (or amongst them).
+
 	* Example:
 	
 +--
@@ -251,7 +310,7 @@ public Stopwatch newStopwatch() {
 (...)
 +--
 	
-	(NOTE: you can find multiple examples inside the IcsBackedFactory and ServletContextBackedFactory classes) 
+	(NOTE: you can find multiple examples inside the IcsBackedFactory and ServletContextBackedFactory classes)	
 	
 	[]
 
