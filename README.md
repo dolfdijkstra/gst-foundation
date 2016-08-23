@@ -119,12 +119,6 @@ Alternatively, you can obtain them by either:
 	
 		http://gst-foundation.org/	
     
-##Support
-
-The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
-
-Oracle Support does NOT provide support on GSF.
-
 ##Requirements
 
 Java 1.8 (or newer)
@@ -134,9 +128,15 @@ SLF4J 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
 
 ##Support
 
-The Global Site Foundation is supported by the community. Questions and remarks can be send to ips-link@yahoogroups.com. 
+The Global Site Foundation is supported by the community. Questions and remarks can be send to:
+
+	ips-link@yahoogroups.com. 
 
 Oracle Support does NOT provide support on GSF.
+
+Issues / Bugs can be entered directly into our GitHub project's page:
+
+	https://github.com/dolfdijkstra/gst-foundation/issues
 
 ##License
 
