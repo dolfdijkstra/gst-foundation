@@ -75,9 +75,9 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
     }
 
     @ServiceProducer(cache = true)
-    public MappingInjector createMappingInjector() {
+    public MappingInjector createMappingInjector(final ICS ics) {
         MappingService mappingService = getObject("mappingService", MappingService.class);
-        return new MappingInjector(mappingService);
+        return new MappingInjector(ics, mappingService);
     }
 
     @ServiceProducer(cache = true)
@@ -95,7 +95,7 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
         InjectForRequestInjector ifr = getObject("injectForRequestInjector", InjectForRequestInjector.class);
         CurrentAssetInjector currentAsset = getObject("currentAssetInjector", CurrentAssetInjector.class);
         Stopwatch stopwatch = getObject("stopwatch", Stopwatch.class);
-        return new AnnotationInjector(ics, bind, map, ifr, currentAsset, stopwatch);
+        return new AnnotationInjector(stopwatch, bind, map, ifr, currentAsset);
     }
     
     @ServiceProducer(cache = true)

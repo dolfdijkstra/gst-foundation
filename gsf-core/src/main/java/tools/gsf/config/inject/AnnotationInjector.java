@@ -24,37 +24,21 @@ import tools.gsf.time.Stopwatch;
  */
 public class AnnotationInjector implements Injector {
 
-    private final ICS ics;
-    private final BindInjector bindInjector;
-    private final InjectForRequestInjector ifrInjector;
-    private final MappingInjector mappingInjector;
-    private final CurrentAssetInjector currentAssetInjector;
     private final Stopwatch stopwatch;
+    private final Injector[] injectors;
 
-    public AnnotationInjector(ICS ics, BindInjector bind, MappingInjector mapping, InjectForRequestInjector ifr, CurrentAssetInjector currAssetInj, Stopwatch stopwatch) {
-        this.ics = ics;
-        this.bindInjector = bind;
-        this.mappingInjector = mapping;
-        this.ifrInjector = ifr;
-        this.currentAssetInjector = currAssetInj;
+    public AnnotationInjector(Stopwatch stopwatch, Injector... injectors) {
         this.stopwatch = stopwatch;
+        this.injectors = injectors;
     }
 
     @Override
     public void inject(Object dependent) {
         stopwatch.start();
-
-        bindInjector.bind(dependent);
-        stopwatch.split("AnnotationInjector: Bind injection done");
-
-        mappingInjector.inject(dependent, ics.GetVar("pagename"));
-        stopwatch.split("AnnotationInjector: Mapping injection done");
-
-        ifrInjector.inject(dependent);
-        stopwatch.split("AnnotationInjector: InjectForRequest injection done");
-
-        currentAssetInjector.inject(dependent);
-        stopwatch.split("AnnotationInjector: CurrentAssetInjector injection done");
+        for (Injector injector : injectors) {
+            injector.inject(dependent);
+            stopwatch.split("AnnotationInjector: {} injection done", injector.getClass().getSimpleName());
+        }
+        stopwatch.elapsed("AnnotationInjector: injection complete");
     }
-
 }
