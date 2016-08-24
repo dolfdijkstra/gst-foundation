@@ -16,7 +16,6 @@
 package tools.gsf.config.inject;
 
 import COM.FutureTense.Interfaces.ICS;
-import tools.gsf.facade.assetapi.AssetIdWithSite;
 import tools.gsf.time.Stopwatch;
 
 /**
@@ -29,13 +28,15 @@ public class AnnotationInjector implements Injector {
     private final BindInjector bindInjector;
     private final InjectForRequestInjector ifrInjector;
     private final MappingInjector mappingInjector;
+    private final CurrentAssetInjector currentAssetInjector;
     private final Stopwatch stopwatch;
 
-    public AnnotationInjector(ICS ics, BindInjector bind, MappingInjector mapping, InjectForRequestInjector ifr, Stopwatch stopwatch) {
+    public AnnotationInjector(ICS ics, BindInjector bind, MappingInjector mapping, InjectForRequestInjector ifr, CurrentAssetInjector currAssetInj, Stopwatch stopwatch) {
         this.ics = ics;
         this.bindInjector = bind;
         this.mappingInjector = mapping;
         this.ifrInjector = ifr;
+        this.currentAssetInjector = currAssetInj;
         this.stopwatch = stopwatch;
     }
 
@@ -51,6 +52,9 @@ public class AnnotationInjector implements Injector {
 
         ifrInjector.inject(dependent);
         stopwatch.split("AnnotationInjector: InjectForRequest injection done");
+
+        currentAssetInjector.inject(dependent);
+        stopwatch.split("AnnotationInjector: CurrentAssetInjector injection done");
     }
 
 }
