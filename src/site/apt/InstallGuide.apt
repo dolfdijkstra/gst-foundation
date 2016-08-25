@@ -16,19 +16,16 @@
 
 Installation Guide
 
-    This release of the GSF is <<transitional>>, meaning it is primarily aimed at users upgrading their WCS 11g implementations
-    to WCS 12c -- although we are also shipping a couple of new "toys" for those enthusiastic new adopters!  :)
+    This release of the GSF is primarily aimed at users upgrading their WCS 11g implementations to WCS 12c,
+    although we are also shipping a few new "toys" for those enthusiastic adopters!  :)
 
-    Both brand new and re-engineered features specifically designed for WCS 12c will be included in future releases of the GSF,
-    coming soon.
+    Brand new features specifically designed for WCS 12c will be included in future releases of the GSF, coming soon.
 
-    You are strongly advised not to use any of the DEPRECATED features (e.g. classes) in this release, which are packaged inside the "-legacy" JAR file.
+    You are strongly advised to stop using the DEPRECATED features (e.g. classes) as soon as possible; e.g. those packaged inside the "-legacy" JAR file.
 
-    Deprecated features will be wiped out from the GSF project's codebase (and JAR files) in upcoming releases.
+    Deprecated features and classes will be physically removed from the GSF project's codebase (and JAR files) in upcoming <<major>> releases. In general, this cycle is expected to last 2 major releases.
     
-    Thus, applications whose code depends on deprecated classes will stop working properly unless the concerned code is updated so to remove such dependencies before the concerned deprecated classes are wiped out.
-    
-    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version of WCS older than 12c (YOU HAVE BEEN WARNED!).
+    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version of WCS older than 12c. YOU HAVE BEEN <<WARNED>> !
     
     We have simplified the installation process for this release and - hopefully - all future releases:
 	
@@ -62,7 +59,7 @@ Starting Fresh With GSF-12 and WCS 12c
 
 		[]
 		
-	If the WCS 12c web app is getting deployed <<as an "exploited" folder>>, then you must:
+	If the WCS 12c web app is getting deployed <<as an "exploded" folder>>, then you must:
 	
 		[[1]] Locate your web app's root folder and
 
@@ -78,7 +75,7 @@ Upgrading From WCS 11g to 12c
 
 	If you are not extending any of the GSF's LEGACY classes and you don't need any deprecated features, then upgrading from WCS 11g to 12c (and GSF-12) requires the same procedure as a fresh start (see above)
 	
-	However, if you are upgrading from WCS 11g to 12c and you did extend and/or customize deprecated classes / features, you probably need some time to transition from your GSF LEGACY-driven code to either a GSF CORE-driven alternative or just switch to a 12c native implementation.
+	However, if you are upgrading from WCS 11g to 12c and you did extend and/or customize deprecated classes / features, you probably need some time to transition from GSF LEGACY-driven code to either a GSF CORE-driven alternative or just switch to a 12c native implementation.
 	
 	Here is a checklist of the scenarios we can envision and what those would imply for you in terms of setting up LEGACY:  
 
@@ -378,6 +375,8 @@ Description:	GST Dispatcher Site Entry
 Value:			GST/Dispatcher
 +--
 
+				[]
+
 			* Replace WCS 12c's out-of-the-box PageRef implementation with GST's deprecated one by rewiring the xcelerate.pageref property as follows (use the aforementioned "Property Management" feature or the Property "Export/Import" Utility)
 
 +--
@@ -388,6 +387,8 @@ Value:			GST/Dispatcher
 +--
 				
 			* Note that GSF's own PageRef implementation does not support WCS 12c's (native) vanity urls. In other words, GSF's and WCS' are mutually exclusive.
+			
+			[]
 			
 		* Migrate your GSTProperty, GSTVirtualWebroot, GSTAlias assets using CSDT, publishing or whichever approach that suits your needs. 
 					
@@ -405,19 +406,25 @@ Value:			GST/Dispatcher
 </context-param>
 (...)
 +--
+			
+			[]
 				
 		* If you wire up the legacy AppContext loader (the "legacy servlet context listener" above), you will be defaulting to "IcsBackedObjectFactoryTemplate", also deprecated. 
 
 		* If you want to keep using GST Properties with the now DEPRECATED GSTProperty asset type / subtype, then: 
 
 			* If you are still using the DEPRECATED object factory ("IcsBackedObjectFactoryTemplate", see above), then you don't need to do anything; the old object factory is still wired up to use GSTProperty.
-
-			* If you want to use your own asset type / subtype as GST Property assets (new CORE feature), you must code and wire this up manually into your AppContext, e.g. by extending your object factory.
+			
+			[]
+		[]
 
 A Friendly Reminder To Those Who Have Forked The GSF... (e.g. Customized GSF's own Classes)
 			
-	In case you have customized any of the GSF classes, you must reengineer your own codebase to either:
+	In case you have customized any of the GSF classes, you must reengineer your own custom code so to:
 
-		* Stop using those customizations and rely on GSF-12's CORE classes / features, and/or
+	* Stop using those customizations and rely on GSF-12's CORE classes / features instead, and/or
         
-        * Re-implement your customizations on top of GSF-12's codebase and regression test your app.
+	* Re-implement your custom code on top of GSF-12's classes / API and regression test your app.
+        
+	[]
+	
