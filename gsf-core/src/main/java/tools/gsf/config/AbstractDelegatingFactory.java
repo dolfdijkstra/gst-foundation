@@ -27,6 +27,21 @@ import java.util.Map;
 /**
  * This class caches the produced objects for the lifetime of this object.
  *
+ * The object is located in subclasses by searching for methods annotated with the {@link ServiceProducer}
+ * annotation, whose return type is assignable from
+ * the class requested in the {@link #getObject(String,Class)} method. NOTE: It does not require an
+ * exact match of the return type, only that it is <em>assignable</em>. Subclasses should not declare
+ * ambiguous {@link ServiceProducer} methods (without specifying a unique <code>name</code>) in the
+ * annotation, or else users may be surprised by which object is returned.
+ *
+ * It is possible to differentiate between two objects that are of the same type (or supertype) by using
+ * the <code>name</code> attribute on the {@link ServiceProducer} annotation. If provided, the name
+ * of the producer takes precedence over unnamed producer methods.
+ *
+ * If an object created in this factory is flagged as cached (using the <code>cache</code> attribute of
+ * the {@link ServiceProducer} annotation, the object will be cached against the <code>name</code> (if provided,
+ * or else the simple name of the requested type will be used) for the lifetime of this factory.
+ *
  * @author Tony Field
  * @author Dolf Dijkstra
  * @since 2016-08-06
@@ -65,9 +80,7 @@ public abstract class AbstractDelegatingFactory<SCOPE> implements Factory {
                     }
                 } else {
 	                // we can't build it and we can't delegate it.
-	                // try looking for a constructor
-                	LOG.debug("Cannot delegate lookup onto any other scope.");
-                	LOG.debug("Cannot locate object {} of type {} in delegate {}", name, fieldType.getName(), delegate.getClass().getName());
+                	LOG.debug("Cannot locate object {} of type {} in delegate {}.", name, fieldType.getName(), delegate.getClass().getName());
                 }
             }
         } catch (InvocationTargetException e) {
@@ -110,10 +123,14 @@ public abstract class AbstractDelegatingFactory<SCOPE> implements Factory {
 
     private <T> Object locateInCache(Class<T> c, String name) {
         Object o = objectCache.get(name);
-        if (o != null && !c.isAssignableFrom(o.getClass())) {
-            throw new IllegalStateException("Name conflict: '" + name + "' is in cache and is of type  '"
-                    + o.getClass() + "' but a '" + c.getName()
-                    + "' was asked for. Please check your factories for naming conflicts.");
+        if (o != null) {
+            if (!c.isAssignableFrom(o.getClass())) {
+                throw new IllegalStateException("Name conflict: '" + name + "' is in cache and is of type  '"
+                        + o.getClass() + "' but a '" + c.getName()
+                        + "' was asked for. Please check your factories for naming conflicts.");
+            } else {
+                LOG.debug("Object named {} was found in cache in factory {}. An object of type {} was requested, which is assignable from the returned object, whose type is {}.", name, this.getClass().getName(), c.getName(), o.getClass().getName());
+            }
         }
         return o;
     }

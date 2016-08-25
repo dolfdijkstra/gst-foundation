@@ -57,13 +57,13 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
         this.ics = ics;
     }
 
-    @ServiceProducer(cache = true)
-    public BindInjector createBindInjector() {
+    @ServiceProducer(cache = true, name="bindInjector")
+    public Injector createBindInjector() {
         return new BindInjector(ics);
     }
 
-    @ServiceProducer(cache = true)
-    public InjectForRequestInjector createInjectForRequestInjector() {
+    @ServiceProducer(cache = true, name="injectForRequestInjector")
+    public Injector createInjectForRequestInjector() {
         Factory factory = FactoryLocator.locateFactory(ics);
         return new InjectForRequestInjector(factory);
     }
@@ -74,30 +74,30 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
         return new IcsMappingService(ics, aat);
     }
 
-    @ServiceProducer(cache = true)
-    public MappingInjector createMappingInjector(final ICS ics) {
+    @ServiceProducer(cache = true, name="mappingInjector")
+    public Injector createMappingInjector(final ICS ics) {
         MappingService mappingService = getObject("mappingService", MappingService.class);
         return new MappingInjector(ics, mappingService);
     }
 
-    @ServiceProducer(cache = true)
-    public CurrentAssetInjector createCurrentAssetInjector(final ICS ics) {
+    @ServiceProducer(cache = true, name="currentAssetInjector")
+    public Injector createCurrentAssetInjector(final ICS ics) {
         AssetAccessTemplate aat = getObject("assetAccessTemplate", AssetAccessTemplate.class);
         TemplateAssetAccess taa = getObject("templateAssetAccess", TemplateAssetAccess.class);
         ScatteredAssetAccessTemplate saa = getObject("scatteredAssetAccessTemplate", ScatteredAssetAccessTemplate.class);
         return new CurrentAssetInjector(ics, taa, saa, aat);
     }
 
-    @ServiceProducer(cache = true)
-    public Injector createInjector() {
-        BindInjector bind = getObject("bindInjector", BindInjector.class);
-        MappingInjector map = getObject("mappingInjector", MappingInjector.class);
-        InjectForRequestInjector ifr = getObject("injectForRequestInjector", InjectForRequestInjector.class);
-        CurrentAssetInjector currentAsset = getObject("currentAssetInjector", CurrentAssetInjector.class);
+    @ServiceProducer(cache = true, name="compositeInjector")
+    public Injector createCompositeInjector() {
+        Injector bind = getObject("bindInjector", BindInjector.class);
+        Injector map = getObject("mappingInjector", MappingInjector.class);
+        Injector ifr = getObject("injectForRequestInjector", InjectForRequestInjector.class);
+        Injector asset = getObject("currentAssetInjector", CurrentAssetInjector.class);
         Stopwatch stopwatch = getObject("stopwatch", Stopwatch.class);
-        return new AnnotationInjector(stopwatch, bind, map, ifr, currentAsset);
+        return new AnnotationInjector(stopwatch, bind, map, ifr, asset);
     }
-    
+
     @ServiceProducer(cache = true)
     public PropertyDao createPropertyDao(final ICS ics) {
     	Session session = SessionFactory.getSession(ics);
@@ -110,7 +110,7 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
     	String propValueAttr = "value";
     	return new AssetApiPropertyDao(adm, sm, type, flexDefName, propNameAttr, propDescAttr, propValueAttr, ics);
     }
-    
+
     @ServiceProducer(cache = true)
     public AssetAccessTemplate createAssetAccessTemplate() {
         return new AssetAccessTemplate(this.ics);
