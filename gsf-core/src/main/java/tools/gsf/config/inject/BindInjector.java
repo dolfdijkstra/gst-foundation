@@ -23,8 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Date;
 
 /**
@@ -33,7 +31,7 @@ import java.util.Date;
  * @author Dolf Dijkstra
  * @since 12 mei 2012
  */
-public final class BindInjector {
+public final class BindInjector implements Injector {
 
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.inject.AnnotationBinder");
 
@@ -48,18 +46,18 @@ public final class BindInjector {
      * {@link Bind} annotation will be populated by this method by
      * retrieving the value from ics context, request context, or session, as per the scope of the Bind annotation.
      *
-     * @param target the object to inject into.
+     * @param dependent the object to inject into.
      */
-    public void bind(final Object target) {
-        if (target == null) {
+    public void inject(final Object dependent) {
+        if (dependent == null) {
             throw new IllegalArgumentException("Target cannot be null.");
         }
-        Class<?> c = target.getClass();
+        Class<?> c = dependent.getClass();
         // all annotated fields.
         while (c != Object.class && c != null) {
             for (final Field field : c.getDeclaredFields()) {
                 if (field.isAnnotationPresent(Bind.class)) {
-                    bindToField(target, ics, field);
+                    bindToField(dependent, ics, field);
                 }
 
             }

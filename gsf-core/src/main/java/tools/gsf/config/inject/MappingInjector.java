@@ -15,6 +15,7 @@
  */
 package tools.gsf.config.inject;
 
+import COM.FutureTense.Interfaces.ICS;
 import COM.FutureTense.Util.ftErrors;
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
@@ -39,26 +40,33 @@ import java.util.Map;
  * @author Tony Field
  * @since 2016-07-21
  */
-public final class MappingInjector {
+public final class MappingInjector implements Injector {
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.inject.MappingInjector");
 
+    private final ICS ics;
     private final MappingService mappingService;
 
-    public MappingInjector(MappingService mappingService) {
+    public MappingInjector(ICS ics, MappingService mappingService) {
+        this.ics = ics;
         this.mappingService = mappingService;
     }
 
-    public void inject(final Object target, final String pagename) {
-        if (target == null) {
+    @Override
+    public void inject(Object dependent) {
+        if (dependent == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
-        final Field[] fields = findFieldsWithAnnotation(target, Mapping.class);
+        String pagename = ics.GetVar("pagename");
+        if (pagename == null) {
+            throw new IllegalArgumentException("pagename cannot be identified");
+        }
+        final Field[] fields = findFieldsWithAnnotation(dependent, Mapping.class);
         if (fields.length > 0) {
             AssetIdWithSite id = mappingService.resolveMapped(pagename);
             if (id != null) {
 	            final Map<String, MappingValue> map = mappingService.readMapping(id);
 	            for (final Field field : fields) {
-	                injectIntoField(target, map, field, id);
+	                injectIntoField(dependent, map, field, id);
 	            }
             } else {
             	LOG.warn("Cannot determine eid / tid for current code element (CSElement / Template) based on pagename '" + pagename + "', @Mapping annotations will be ignored.");

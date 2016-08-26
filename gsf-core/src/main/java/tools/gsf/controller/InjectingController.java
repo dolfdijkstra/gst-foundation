@@ -45,7 +45,7 @@ public class InjectingController extends BaseController {
         Stopwatch stopwatch = factory.getObject("stopwatch", Stopwatch.class);
         stopwatch.start();
 
-        Injector injector = factory.getObject("injector", Injector.class);
+        Injector injector = factory.getObject("compositeInjector", Injector.class);
         injector.inject(this);
         stopwatch.split("InjectingController: injecting into controller {}", this.getClass().getSimpleName());
 

@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
  * @author Tony Field
  * @since 2016-07-21
  */
-public final class InjectForRequestInjector {
+public final class InjectForRequestInjector implements Injector {
     private static final Logger LOG = LoggerFactory.getLogger("tools.gsf.config.inject.InjectForRequestInjector");
 
     private final Factory factory;
@@ -44,25 +44,25 @@ public final class InjectForRequestInjector {
      * retrieving the value from the {@link Factory#getObject(String, Class)}
      * method.
      *
-     * @param target the object to inject into
+     * @param dependent the object to inject into
      */
-    public void inject(final Object target) {
-        if (target == null) {
-            throw new IllegalArgumentException("target cannot be null.");
+    public void inject(final Object dependent) {
+        if (dependent == null) {
+            throw new IllegalArgumentException("dependent cannot be null.");
         }
 
-        Class<?> c = target.getClass();
+        Class<?> c = dependent.getClass();
         // first to all annotated public setter methods.
         for (final Method method : c.getMethods()) {
             if (method.isAnnotationPresent(InjectForRequest.class)) {
-                injectIntoMethod(target, factory, method);
+                injectIntoMethod(dependent, factory, method);
             }
         }
         // and then all annotated fields.
         while (c != Object.class && c != null) {
             for (final Field field : c.getDeclaredFields()) {
                 if (field.isAnnotationPresent(InjectForRequest.class)) {
-                    injectIntoField(target, factory, field);
+                    injectIntoField(dependent, factory, field);
                 }
             }
             c = c.getSuperclass();
