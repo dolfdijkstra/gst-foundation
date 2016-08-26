@@ -80,7 +80,7 @@ public abstract class AbstractDelegatingFactory<SCOPE> implements Factory {
                     }
                 } else {
 	                // we can't build it and we can't delegate it.
-                	LOG.debug("Cannot locate object {} of type {} in delegate {}.", name, fieldType.getName(), delegate.getClass().getName());
+                	LOG.debug("Cannot delegate lookup onto any other scope.");
                 }
             }
         } catch (InvocationTargetException e) {

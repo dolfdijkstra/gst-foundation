@@ -32,6 +32,8 @@ HOW-TO
 	
 		{{Use the @Bind Annotation (tools.gsf.config.inject.Bind)}}
 		
+		{{Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)}}
+
 		{{Use the @Mapping Annotation (tools.gsf.mapping.Mapping)}}
 		
 		{{Use Your Own Asset Type as a GST Property Asset}}
@@ -277,10 +279,18 @@ Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)
 				[]
 			
 			[]
+
+		* Whenever you specify a ServiceProducer.name for a given method in your factory class, make sure it is unique -- including all inherited methods.
+		
+		* Although specifying ServiceProducer.name is optional, you are advised to specify it for every Service Producer or, at the very least, for all Service Producers whose return type is the same; this will avoid ambiguity and, potentially, unexpected results from your factory's "getObject" method.
+		
+			* This is especially relevant when your own factory inherits other Service Producers with the same return type from an existing factory it extends.
+			
+			* Unless you really know what you are doing, avoid overriding inherited Service Producers.
+			
+			[] 
 			
 		[]
-		
-	* Make sure your own Service Producers' annotations (particularly, the "name") don't collide with the OOTB Factories' (or amongst them).
 
 	* Example:
 	
@@ -337,8 +347,10 @@ Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)
 			
 			[]
 			
+		* Although InjectForRequest.value is optional, you are advised to specify it for every InjectForRequest annotations or, at the very least, for all InjectForRequest annotations injecting an object whose type matches more than one Service Producer in any of the factories being used (including any Service Producers those factory may inherit). This will avoid ambiguity and, potentially, unexpected objects getting injected.
+
 		[]
-		
+	
 	* Example:
 	
 +--
@@ -413,6 +425,101 @@ protected String myRenderMode;
 		
 		<<Factories are meant to be in charge of instantiating all objects (e.g. beans / services) meant for injection.>>
 	
+	[]
+
+Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)
+
+	* This brand new annotation determines the current asset for the current ICS object (e.g. via c + cid), loads the asset along with the value of the attributes specified by the annotation and injects the appropriate object into the annotated field. 
+	
+	* It provides the following settings:
+	
+		* <<name>> (OPTIONAL): the "name" of the attributes whose values we want to pre-load for the current asset. If not specified, "value" will default to "name" (meaning the std field on every asset type / subtype named "name")
+
+		[]
+		
+	* Lookup logic and limitations:
+	
+		* Current asset is determined as per the following call: AssetIdUtils.currentId(ics).
+		
+		* Supports TemplateAsset, ScatteredAsset and AssetData fields.
+		
+		[]
+		
+	* IMPORTANT: be aware of the language-specific convention for specifying String arrays (Groovy = [], Java = {})
+		
+	* Examples (Groovy):
+		
+			* TemplateAsset:
+			
++--
+
+class MyController extends InjectingController {
+	
+	(...)
+ 
+	@CurrentAsset(attributes=["title", "body", "headline"]) TemplateAsset currentTemplateAsset;
+ 
+	protected void handleRequest() {
+		String headline = currentAsset.asString("headline");
+		
+		(...)
+	}
+ 	
+	(...)
+ 
+}
+
++--
+
+			* ScatteredAsset:
+			
++--
+
+class AnotherController extends InjectingController {
+
+	(...)
+
+	@CurrentAsset(attributes=["title", "body", "headline"]) ScatteredAsset currentScatteredAsset;
+
+	protected void handleRequest() {
+		models.add("asset", currentScatteredAsset);
+		
+		(...)
+	}
+	
+	(...)
+
+}
+
++--
+
+			* AssetData:
+			
++--
+
+class ThirdController extends InjectingController {
+
+	(...)
+
+	@CurrentAsset(attributes=["title", "body", "headline"]) AssetData currentAssetData;
+	
+	protected void handleRequest() {
+		AttributeData ad = currentAssetData.getAttribute("title");
+		
+		(...)
+
+	}
+	
+	(...)
+
+}
+
++--
+
+			[]
+			
+		[]
+			
 	[]
 	
 Use the @Mapping Annotation (tools.gsf.mapping.Mapping)

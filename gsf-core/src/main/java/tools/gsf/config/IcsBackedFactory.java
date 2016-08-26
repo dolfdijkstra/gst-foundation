@@ -90,12 +90,12 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
 
     @ServiceProducer(cache = true, name="compositeInjector")
     public Injector createCompositeInjector() {
-        Injector bind = getObject("bindInjector", BindInjector.class);
-        Injector map = getObject("mappingInjector", MappingInjector.class);
-        Injector ifr = getObject("injectForRequestInjector", InjectForRequestInjector.class);
-        Injector asset = getObject("currentAssetInjector", CurrentAssetInjector.class);
+        Injector bind = getObject("bindInjector", Injector.class);
+        Injector map = getObject("mappingInjector", Injector.class);
+        Injector ifr = getObject("injectForRequestInjector", Injector.class);
+        Injector currentAsset = getObject("currentAssetInjector", Injector.class);
         Stopwatch stopwatch = getObject("stopwatch", Stopwatch.class);
-        return new AnnotationInjector(stopwatch, bind, map, ifr, asset);
+        return new AnnotationInjector(stopwatch, bind, map, ifr, currentAsset);
     }
 
     @ServiceProducer(cache = true)

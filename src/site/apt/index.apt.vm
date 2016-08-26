@@ -116,7 +116,7 @@ An Important Note on Backwards-Compatibility
 	However, note that deprecated classes will not be enhanced, ever. Only the CORE classes will. In other words, as
 	CORE features / classes evolve they will gradually diverge from their LEGACY counterpart, whenever applicable.  
 	
-	For all of the above, <<you are strongly advised to start using the new namespace (e.g. packages / classnames) right away>>. 
+	For all of the above, <<you are strongly advised to start using the new namespace (e.g. packages / classnames)>>. 
 
 Documentation
   
@@ -124,7 +124,7 @@ Documentation
 	
 	* {{{./ReleaseNotes.html}GSF-12 Release Notes}} - GSF-12 Release Notes
 
-	* {{{./How-To.html}GSF-12 HOW-TO}} - Covers the tasks / goals you'll most probably face when developing on top of GSF-12's CORE. 
+	* {{{./How-To.html}GSF-12 HOW-TO}} - Covers the tasks / goals you'll most frequently face when developing on top of GSF-12's CORE. 
 
 Download
 

@@ -74,5 +74,7 @@ Release Notes
 	
 	* WCS 12c's Base Controller has been extended so to simplify integration of the GSF's annotation-based injection mechanism and WCS 12c's new dispatching framework / APIs.
 	
+	* New @CurrentAsset annotation.
+	
 	[]
 

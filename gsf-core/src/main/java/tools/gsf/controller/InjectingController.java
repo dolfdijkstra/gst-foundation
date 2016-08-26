@@ -15,6 +15,9 @@
  */
 package tools.gsf.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import COM.FutureTense.Interfaces.DependenciesAwareModelAndView;
 import com.fatwire.assetapi.data.BaseController;
 import tools.gsf.config.Factory;
@@ -38,7 +41,18 @@ import tools.gsf.time.Stopwatch;
  */
 public class InjectingController extends BaseController {
 
+	private static final Logger LOG = LoggerFactory.getLogger(InjectingController.class);
+
     public DependenciesAwareModelAndView handleRequest() {
+
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("These are all the vars available inside InjectingController for the current ICS:");
+	        java.util.Enumeration allVars = ics.GetVars();
+	        while (allVars.hasMoreElements()) {
+	        	String varName = (String) allVars.nextElement();
+	        	LOG.debug("ICS variable " + varName + " = " + ics.GetVar(varName));
+	        }
+        }
 
         Factory factory = FactoryLocator.locateFactory(ics);
 
