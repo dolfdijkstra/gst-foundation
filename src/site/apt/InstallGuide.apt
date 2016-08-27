@@ -16,18 +16,9 @@
 
 Installation Guide
 
-    This release of the GSF is primarily aimed at users upgrading their WCS 11g implementations to WCS 12c,
-    although we are also shipping a few new "toys" for those enthusiastic adopters!  :)
-
-    Brand new features specifically designed for WCS 12c will be included in future releases of the GSF, coming soon.
-
-    You are strongly advised to stop using the DEPRECATED features (e.g. classes) as soon as possible; e.g. those packaged inside the "-legacy" JAR file.
-
-    Deprecated features and classes will be physically removed from the GSF project's codebase (and JAR files) in upcoming <<major>> releases. In general, this cycle is expected to last 2 major releases.
+    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version of WCS older than 12c.
     
-    GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version of WCS older than 12c. YOU HAVE BEEN <<WARNED>> !
-    
-    We have simplified the installation process for this release and - hopefully - all future releases:
+    We have simplified the installation process:
 	
 	* No need to tweak any configuration files (if opting for default usage / behaviour).
 
@@ -39,47 +30,47 @@ Installation Guide
     
 Starting Fresh With GSF-12 and WCS 12c
     
-	Starting fresh with GSF (12) on WCS 12c is now <<as simple as deploying the CORE JAR (e.g. gsf-core-<version>.jar, as in "gsf-core-12.0-SNAPSHOT.jar") inside your WCS 12c's web app>>.
+	Starting fresh with GSF (12) on WCS 12c is now as simple as <<deploying the gsf-core-<version>.jar into your WCS app>>
 
-	If the WCS 12c web app is getting deployed <<as a WAR file>>, then you must:
+	Deprecated features and classes will not be deployed with the procedure above. In order to use those, you must deploy the LEGACY jar (keep reading)
 
-		[[1]] Stop your WCS 12c instance.
+	Your site, which is presumably being built on top of the GSF, would obviously not be deployed as part of these GSF installation steps. Take a look at our {{{./How-To.html} "How-To" page}} for some typical scenarios.
 
-		[[1]] Copy the WCS 12c WAR file.
+* Installing into an exploded war folder
 
-		[[1]] Unpack the copied WAR file.
+    [[1]] Locate your web app's root folder and
 
-		[[1]] Copy the "CORE" JAR file inside your copied WAR file's WEB-INF/lib folder.
+    [[1]] Copy the "CORE" JAR file inside your web app's WEB-INF/lib folder (which should be located right under the web app's root folder)
 
-		[[1]] Repack the copied WAR file.
+    []
 
-		[[1]] Replace the original WAR file with your new WAR file.
+* Installing into an existing deployed Sites WAR
 
-		[[1]] Restart your WCS 12c instance and validate everything works as expected.
+    [[1]] Stop your WCS 12c instance.
 
-		[]
-		
-	If the WCS 12c web app is getting deployed <<as an "exploded" folder>>, then you must:
-	
-		[[1]] Locate your web app's root folder and
+    [[1]] Copy the WCS 12c WAR file.
 
-		[[1]] Copy the "CORE" JAR file inside your web app's WEB-INF/lib folder (which should be located right under the web app's root folder)
+    [[1]] Unpack the copied WAR file.
 
-		[]
-			
-	Deprecated features and classes will not get deployed with the procedure above. In order to use those, you must deploy the LEGACY jar (keep reading)
-	
-	Additional steps might be needed if you needed to extend any of the CORE's OOTB classes / mechanisms. Take a look at our {{{./How-To.html} "How-To" page}} for some typical scenarios.
+    [[1]] Copy the "CORE" JAR file inside your copied WAR file's WEB-INF/lib folder.
+
+    [[1]] Repack the copied WAR file.
+
+    [[1]] Replace the original WAR file with your new WAR file.
+
+    [[1]] Restart your WCS 12c instance and validate everything works as expected.
+
+    []
 		
 Upgrading From WCS 11g to 12c
 
-	If you are not extending any of the GSF's LEGACY classes and you don't need any deprecated features, then upgrading from WCS 11g to 12c (and GSF-12) requires the same procedure as a fresh start (see above)
+	If you are not extending any of the GSF's LEGACY classes and you don't need any deprecated features, then upgrading from WCS 11g to 12c (and GSF) requires the same procedure as a fresh start (see above)
 	
 	However, if you are upgrading from WCS 11g to 12c and you did extend and/or customize deprecated classes / features, you probably need some time to transition from GSF LEGACY-driven code to either a GSF CORE-driven alternative or just switch to a 12c native implementation.
 	
 	Here is a checklist of the scenarios we can envision and what those would imply for you in terms of setting up LEGACY:  
 
-		* In case you want to use <<any>> deprecated class or feature (say, GSF actions), you <<must>> deploy GSF-12's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
+		* In case you want to use <<any>> deprecated class or feature (say, GSF actions), you <<must>> deploy GSF's "LEGACY" JAR (e.g. gsf-legacy-<version>.jar, as in "gsf-legacy-12.0-SNAPSHOT.jar") inside your WCS 12c's web app.
 									
 		* In case you want to use a custom AppContext loader:
         
@@ -87,15 +78,15 @@ Upgrading From WCS 11g to 12c
         
 			[[1]] Deploy your custom listener's classes.
         	
-			[[1]] Make sure your custom listener gets loaded and executed. GSF-12 plugs in its own, brand new AppContext loader via annotations (@WebListener). Hence, make sure the new listener doesn't collide with yours.
+			[[1]] Make sure your custom listener is loaded and executed.
         
-			[[1]] Make sure your custom listener works properly with WCS 12c (and GSF-12 itself).
+			[[1]] Make sure your custom listener works properly with WCS 12c (and GSF itself).
 			
 			[]
         	
-		* If you are upgrading an existing implementation from WCS 11g to WCS 12c where GSF (v11.x) is correctly setup and being used, you don't need to recreate nor register your GSF-specific tables; the WCS 12c installer won't touch them.
+		* If you are upgrading an existing implementation from WCS 11g to WCS 12c where GSF (v11.x) is correctly set up and being used, you don't need to recreate nor register your GSF-specific tables; the WCS 12c installer won't touch them.
             
-		* If you need to use any DEPRECATED features which rely on GSF-specific asset event listeners and you are setting up GSF-12 on a clean WCS 12c install, then you can register those by:
+		* If you need to use any DEPRECATED features which rely on GSF-specific asset event listeners and you are setting up GSF on a clean WCS 12c install, then you can register those by:
         
 			[[1]] Exporting the due row(s) from your WCS 11g instance's AssetListener_reg with CatalogMover or CSExplorer.
         	
@@ -151,7 +142,7 @@ Description:		GST Parent
 Plural Form:		GST Parents
 +--
 +--
-Flex Asset:			GSTProperty
+Flex Asset:		GSTProperty
 Description:		GST Property
 Plural Form:		GST Properties
 +--
@@ -164,7 +155,7 @@ Plural Form:		GST Filters
 			[[1]] For Aliasing / Links:
 
 +--
-Flex Asset:			GSTAlias
+Flex Asset:		GSTAlias
 Description:		GST Alias
 Plural Form:		GST Aliases
 Flex Parent Type:	GSTParent
@@ -173,7 +164,7 @@ Flex Parent Type:	GSTParent
 			[[1]] For Vanity URLs:
 
 +--				
-Flex Asset:			GSTVirtualWebroot
+Flex Asset:		GSTVirtualWebroot
 Description:		GST VirtualWebroot
 Plural Form:		GST VirtualWebroots
 Flex Parent Type:	GSTParent
@@ -245,27 +236,27 @@ Attribute #9's Value Style:		single
 +--
 +--
 Attribute #10's Name:			metatitle
-Attribute #10's Description:	Metatitle
+Attribute #10's Description:    Metatitle
 Attribute #10's Type:			string
-Attribute #10's Value Style:	single
+Attribute #10's Value Style:    single
 +--
 +--
 Attribute #11's Name:			linktext
-Attribute #11's Description:	Link text
+Attribute #11's Description:    Link text
 Attribute #11's Type:			string
-Attribute #11's Value Style:	single
+Attribute #11's Value Style:    single
 +--
 +--
 Attribute #12's Name:			linkimage
-Attribute #12's Description:	Link image
+Attribute #12's Description:    Link image
 Attribute #12's Type:			string
-Attribute #12's Value Style:	single
+Attribute #12's Value Style:    single
 +--
 +--
-Attribute #13's Name:			gsttag
-Attribute #13's Description:	Tag
+Attribute #13's Name:           gsttag
+Attribute #13's Description:    Tag
 Attribute #13's Type:			string
-Attribute #13's Value Style:	single
+Attribute #13's Value Style:    single
 +--
 				
 				[]
@@ -277,7 +268,7 @@ Attribute #13's Value Style:	single
 +--				
 Flex Definition Type:			GSTDefinition
 Flex Definition Name:			GSTVirtualWebroot
-Flex Definition Description:	GST Virtual Webroot
+Flex Definition Description:	    GST Virtual Webroot
 Flex Definition Parents:		(NONE)
 Flex Definition Attributes:		env_name (required), env_vwebroot (optional), master_vwebroot (optional)
 +--
@@ -287,7 +278,7 @@ Flex Definition Attributes:		env_name (required), env_vwebroot (optional), maste
 +--				
 Flex Definition Type:			GSTDefinition
 Flex Definition Name:			GSTAlias
-Flex Definition Description:	GST Alias
+Flex Definition Description:	    GST Alias
 Flex Definition Parents:		(NONE)
 Flex Definition Attributes:		h1title (required), metadescription (required), metakeyword (required), metatitle (required), target_url (optional), linktext (optional), linkimage (optional), popup (required)
 Associations:					target (any child asset type / subtype, EXISTS)
@@ -298,7 +289,7 @@ Associations:					target (any child asset type / subtype, EXISTS)
 +--				
 Flex Definition Type:			GSTDefinition
 Flex Definition Name:			GSTProperty
-Flex Definition Description:	GST Property
+Flex Definition Description:	    GST Property
 Flex Definition Parents:		(NONE)
 Flex Definition Attributes:		value (required)
 +--
@@ -392,7 +383,7 @@ Value:			GST/Dispatcher
 			
 		* Migrate your GSTProperty, GSTVirtualWebroot, GSTAlias assets using CSDT, publishing or whichever approach that suits your needs. 
 					
-		* If you want to keep using GSF Actions or any other features / services which depend on DefaultWebAppContext and are DEPRECATED on GSF-12, then you must either:
+		* If you want to keep using GSF Actions or any other features / services which depend on DefaultWebAppContext and are DEPRECATED on GSF, then you must either:
 
 			* Manually wire up the GSF's legacy servlet context listener by editing (and redeploying) WCS 12c's web.xml file:
 			
@@ -422,9 +413,9 @@ A Friendly Reminder To Those Who Have Forked The GSF... (e.g. Customized GSF's o
 			
 	In case you have customized any of the GSF classes, you must reengineer your own custom code so to:
 
-	* Stop using those customizations and rely on GSF-12's CORE classes / features instead, and/or
+	* Stop using those customizations and rely on GSF's CORE classes / features instead, and/or
         
-	* Re-implement your custom code on top of GSF-12's classes / API and regression test your app.
+	* Re-implement your custom code on top of GSF's classes / API and regression test your app.
         
 	[]
 	

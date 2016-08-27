@@ -16,111 +16,55 @@
 
 HOW-TO
 
-	* THE BASICS:
+This page is not intended to be read start to finish - it is intended to be a quick reference page. If you are looking for a "Getting started" page, well, it's not quite ready yet. Sorry, it's in progress.
 
-		{{Prepare your local MAVEN repository}}	
+* The basics
 
-		{{Build and Package the GSF Project}}
-	
-		{{Use the OOTB Factory Producer and Factory Implementations}}
-		
-		{{Use Your Own Factory Implementation}}
+    {{Using the GSF in your project}}
 
-		{{Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)}}
-		
-		{{Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)}}
-	
-		{{Use the @Bind Annotation (tools.gsf.config.inject.Bind)}}
-		
-		{{Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)}}
+    {{Use the OOTB Factory Producer and Factory Implementations}}
 
-		{{Use the @Mapping Annotation (tools.gsf.mapping.Mapping)}}
-		
-		{{Use Your Own Asset Type as a GST Property Asset}}
-		
-		{{Make Your Own Beans / Objects Available for Injection}}
-		
-		{{Inject Your Own Beans / Objects Into a WCS 12c Controller}}
-		
-	* JUST A TAD MORE ADVANCED:
-	
-		{{Use Your Own Factory Producer Implementation}}	
-	
-		{{Use Your Own NavService Implementation}}
-	
-		{{Use Your Own NavigationNode Implementation}}
+    {{Use Your Own Factory Implementation}}
 
-THE BASICS
+    {{Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)}}
 
-Prepare your local MAVEN repository
+    {{Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)}}
 
-	In order to build and package the GSF project, first you must ensure all artifacts can be found by your MAVEN install.
-	
-	Unfortunately, at the time of this release, Oracle had not yet set up a public MAVEN repository where WCS 12c's own JAR files - i.e. those starting with "sites-*" - can be found (as MAVEN artifacts) by the general public.
-	
-	For that reason, the (only) artifacts you'll most likely be missing are those concerning WCS 12c's own JAR files.
-	
-	Hence, in order to build the GSF, you must either:
-	
-	*	Deploy all missing MAVEN artifacts onto your local MAVEN repository and/or
-	
-	*	Create all missing MAVEN artifacts in your own remote MAVEN repository (for ex.: artifactory) and make sure your local MAVEN install gets them from such repository.
-	
-	[]
-	
-	The strategy we've opted for is treating each sites-* JAR file as a separate artifact.
-	
-	This allows our streamlining the list of dependencies for each pom in the GSF project and, thus, reducing the total build time.
-	
-	It also provides better visibility of the actual dependencies of each GSF artifact -- i.e. CORE's and LEGACY's.
-	
-	Note that we are building only against WCS 12c's artifacts / JARs. GSF-12 <<is not and will not be compatible with previous versions of WCS>>.
-	
-	All other artifacts referenced by the GSF's POMs are public, available from standard locations.
+    {{Use the @Bind Annotation (tools.gsf.config.inject.Bind)}}
 
-Build and Package the GSF Project
+    {{Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)}}
 
-	Once you've set up MAVEN locally (one-timer), you'd be all set for building the GSF artifacts.
-	
-	Building (and packaging) the GSF artifacts is <<very easy>>; just execute the package.sh shell script located in the project's root folder:
+    {{Use the @Mapping Annotation (tools.gsf.mapping.Mapping)}}
 
-+--				
-$ sh package.sh
-+--
+    {{Use Your Own Asset Type as a GST Property Asset}}
 
-	This will:
+    {{Make Your Own Beans / Objects Available for Injection}}
+
+    {{Inject Your Own Beans / Objects Into a WCS 12c Controller}}
+
+* Not quite basic
 	
-		[[1]] Download all due MAVEN artifacts
-	
-		[[1]] Build the entire MAVEN project, including both CORE and LEGACY submodules / components.
-	
-		[[1]] Build the GSF website.
-	
-		[[1]] Package all of the above in 2 separate files: the GSF "KIT" and the GSF "SITE".
-		
-		[]
-		
-	The script is quite verbose; hence, it should be trivial understanding what it is doing and where you can pick up the output (files)
-	
-	In addition to the default behaviour, you also have the ability to invoke just one part of the whole packaging process:
-	
-		* <<"sh package.sh jar">>: this will download the artifacts and build the project (e.g. produce the JARs), but it won't generate the website, package it nor will it package the Kit.
-		
-		* <<"sh package.sh kit">>: this will package the GSF Kit for you, but it will not build the project for you (e.g. it won't re-compile the code)
-		
-		* <<"sh package.sh site">>: this will package the GSF Website for you, but it will not build the project nor package the GSF Kit for you.
-		
-		* <<"sh package.sh all">>: this is the default behaviour, i.e. it is <<equivalent to "sh package.sh">>.
-		
-		[]
-		
-	If you want MAVEN to include a timestamp on every line it outputs, make sure you configure MAVEN accordingly. You can find useful information {{{https://maven.apache.org/maven-logging.html} here}}.
+    {{Use Your Own Factory Producer Implementation}}
+
+    {{Use Your Own NavService Implementation}}
+
+    {{Use Your Own NavigationNode Implementation}}
+
+* Building and contributing to the GSF
+
+    {{Prepare your local MAVEN repository}}
+
+    {{Build and Package the GSF Project}}
+
+Using the GSF in your project
+
+    Adding the GSF to your project does not require any special setup or configuration. To begin leveraging the features of <<gsf-core>>, simply add <<gsf-core-VERSION.jar>> to your project's Java classpath.
 
 Use the OOTB Factory Producer and Factory Implementations
 
-	* GSF-12 gets rid of the getObject / getBean duality in previous versions and cleans up the design considerably by unifying everything under the concept of <<scoped Factories>>.
+	* GSF object factories are very powerful and allow you to leverage inversion of control by configuring your application in a central location.  GSF 12 introduces the concept of <<scoped factories>>:
 	
-	* GSF-12 requires 2 scoped factories at all times, one for each scope driving WCS (and the GSF itself):
+	* GSF requires 2 scoped factories at all times, one for each scope driving WCS (and the GSF itself):
 	
 		* ICS scope and
 		
@@ -175,7 +119,7 @@ Use Your Own Factory Implementation
 
 	* Implement your own custom factory.
 	
-		* Typically, you'll want to extend either <<tools.gsf.config.IcsBackedFactory>>, <<tools.gsf.config.ServletContextBackedFactory>> or even <<tools.gsf.config.BaseFactory>>.
+		* Typically, you'll want to extend either <<tools.gsf.config.IcsBackedFactory>> or <<tools.gsf.config.ServletContextBackedFactory>> .
 		
 		* The only true requisite is that you implement the <<tools.gsf.config.Factory>> interface.
 		
@@ -236,23 +180,27 @@ javax.servlet.ServletContext:tools.gsf.config.ServletContextBackedFactory
 
 Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)
 
-	* This annotation will identify a method as a Service Producer.
+	* This annotation supports the <<AbstractDelegatingFactory>> base class for factory implementations.
+
+	* This annotation will identify a method as a Service Producer. A service producer is a method that creates an object that is returned by the factory class.
 	
-	* Service Producer methods are meant to be defined <<inside Factory classes only!>> 
+	* Service Producer methods are meaningful only to subclasses of <<AbstractDelegatingFactory>>
 	
 	* This annotation provides the following settings:
 	
 		* <<cache>> (OPTIONAL): indicates if the object should be cached or not. It defaults to <<false>>.
 		
-		* <<name>> (OPTIONAL): the "name" of the Service. It's an "alias" for the method's prototype, used by factories when looking up an object. It defaults to the method's name.
+		* <<name>> (OPTIONAL): the "name" of the Service. It's an "alias" for the method's prototype, used by factories when looking up an object. It defaults to an empty string.
 		
 		[]
 		
 	* Lookup logic and limitations:
 	
-		* Lookup logic is ultimately implemented by the FactoryProducer and Factory implementations being used, primarily by means of the <<Factory.getObject(String name, Class<T> type)>> method.
+		* The <<Factory.getObject(String name, Class<T> type)>> method ultimately provide the ability to look up or retrieve an object from the factory. The mechanism by which this lookup occurs is up to the implementation to decide.
+
+		* <<AbstractDelegatingFactory>>'s subclasses, like <<IcsBackedFactory>> and <<ServletContextBackedFactory>> utilize the following lookup mechanism:.
 		
-		* If you are using GSF's DefaultFactoryProducer, fallback from "named" ServiceProducer methods onto "unnamed" ServiceProducer methods is provided OOTB, meaning:
+		* Fallback from "named" ServiceProducer methods onto "unnamed" ServiceProducer methods is provided OOTB, meaning:
 		
 			* Factory.getObject(objectName, type) looks across all "named" Service Producers (i.e. methods where @ServiceProducer.name != null):
 			
@@ -311,11 +259,11 @@ public Stopwatch newStopwatch() {
 
 Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)
 
-	* This annotation will look up the specified object (bean / service) in the factory(ies) being used and it will inject it into the annotated field / method. 
+	* This annotation will look up the specified object (bean / service) in the configured <<ics-scoped>> Factory and it will inject it into the annotated field / method.
 	
 	* It provides the following settings:
 	
-		* <<value>> (OPTIONAL): the "name" of the object (bean / service) to be looked up. Lookup will be carried out by the factories being used. Lookup logic is defined by the Factory.getObject() implementation. If not specified, "value" will default to:
+		* <<value>> (OPTIONAL): the "name" of the object (bean / service) to be looked up.  If not specified, "value" will default to:
 		
 			* Case annotated field: the name of the annotated field.
 			
@@ -324,33 +272,7 @@ Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)
 			[] 
 		
 		[]
-		
-	* Lookup logic and limitations:
-	
-		* Lookup logic is ultimately implemented by the FactoryProducer and Factory implementations being used.
-		
-		* If you are using GSF's DefaultFactoryProducer, fallback from the ICS-scoped factory onto the ServletContext-scoped factory is provided OOTB, meaning:
-		
-			* Lookup first in the ICS-scoped factory (Factory.getObject())
-			
-			* If the object is found, that's the object that gets injected.
-				
-			* Otherwise:
-				
-				* Lookup in the ServletContext-scoped factory.
-				
-				* If the object is found, that's the object that gets injected.
-				
-				* Otherwise, no object gets injected.
-				
-				[]
-			
-			[]
-			
-		* Although InjectForRequest.value is optional, you are advised to specify it for every InjectForRequest annotations or, at the very least, for all InjectForRequest annotations injecting an object whose type matches more than one Service Producer in any of the factories being used (including any Service Producers those factory may inherit). This will avoid ambiguity and, potentially, unexpected objects getting injected.
 
-		[]
-	
 	* Example:
 	
 +--
@@ -417,23 +339,13 @@ protected String myRenderMode;
 (...)
 +--
 
-	* <<VERY IMPORTANT:>>
-		
-		<<Previous versions of this annotation would attempt instantiating the bean whenever it was not found in the current session (i.e. when using scope="session").>>
-		
-		<<Starting GSF-12, this is no longer the case. This annotation does NOT instantiate objects on its own.>>
-		
-		<<Factories are meant to be in charge of instantiating all objects (e.g. beans / services) meant for injection.>>
-	
-	[]
-
 Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)
 
 	* This brand new annotation determines the current asset for the current ICS object (e.g. via c + cid), loads the asset along with the value of the attributes specified by the annotation and injects the appropriate object into the annotated field. 
 	
 	* It provides the following settings:
 	
-		* <<name>> (OPTIONAL): the "name" of the attributes whose values we want to pre-load for the current asset. If not specified, "value" will default to "name" (meaning the std field on every asset type / subtype named "name")
+		* <<attributes>> (OPTIONAL): the "name" of the attributes whose values we want to pre-load for the current asset. If not specified, "value" will default to "name" (meaning the std field on every asset type / subtype named "name")
 
 		[]
 		
@@ -441,7 +353,7 @@ Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)
 	
 		* Current asset is determined as per the following call: AssetIdUtils.currentId(ics).
 		
-		* Supports TemplateAsset, ScatteredAsset and AssetData fields.
+		* Supports TemplateAsset, ScatteredAsset and AssetData typed fields. Asset containers provided by other DAOs may be configured by overriding the <<CurrentAssetInjector>> class.
 		
 		[]
 		
@@ -627,17 +539,17 @@ Make Your Own Beans / Objects Available for Injection
 
 Inject Your Own Beans / Objects Into a WCS 12c Controller
 
-	* Extend GSF's own <<tools.gsf.controller.InjectingController>> instead of WCS 12c's BaseController.
+	* Instead of extending WCS 12c's <<BaseController>> class, have your controller extend the GSF's <<tools.gsf.controller.InjectingController>> instead. It is simple and lightweight but provides injection support to your standard <<doWork(Map models)>> method..
 	
-		We suggest you look at the source code of GSF's <<InjectingController.java>> for better understanding how GSF's injection and WCS' Controllers are being integrated.
+		If you are curious (or suspicious) as to how this works, look at the source code for GSF's <<InjectingController.java>>. It's trivially short.
 				
 	* <<A VERY IMPORTANT NOTE (WARNING) ON style="element" IN WCS 12c>>.
 	
-		WCS 12c will not invoke your Template's controller in case you invoke it using a render:calltemplate tag call with style="element".
+		WCS 12c will not invoke your Template's controller if you invoke your template using a render:calltemplate tag call with style="element".
 		
 		In such scenario, if your Template's code depended on its own Controller's logic (which is usually the case), it would break.
 		
-		Previous versions of the GSF defaulted to style="element" under certain conditions, in an attempt to intelligently set the call's style whenever you didn't set it explicitly.
+		Previous versions of the GSF defaulted to style="element" when Type 1 controllers called the childpagename template (in an attempt to intelligently set the call's style whenever you didn't set it explicitly).
 		
 		This did not occur in WCS 11.x and previous versions since Controllers were just introduced in WCS 12c.
 		
@@ -653,11 +565,11 @@ Inject Your Own Beans / Objects Into a WCS 12c Controller
 			
 		In addition to this, if you really need to use GSF Actions AND Controllers, here are some ideas to minimize chance of your CallTemplate calls breaking (DISCLAIMER: as per the above explanation, these may not cover you 100%):			
 															
-			[[A]] Adjust all of your calls to GSF-12 LEGACY's CallTemplate facade so to set "style" explicitly to something other than "element" whenever the called Template has a Controller attached to it.
+			[[A]] Adjust all of your calls to <<gsf-legacy>>'s CallTemplate facade so to set "style" explicitly to something other than "element" whenever the called Template has a Controller attached to it.
 			
-			[[A]] Use GSF-12 CORE's (new) CallTemplate facade (instead of LEGACY's), which forces your explicitly setting "style" on each call, and make sure you set style to the appropriate value, as per the aforementioned considerations.
+			[[A]] Use <<gsf-core>>'s (new) CallTemplate facade (instead of LEGACY's), which forces your explicitly setting "style" on each call, and make sure you set style to the appropriate value, as per the aforementioned considerations.
 
-		From the above, you've probably figured out already that GSF-12 deals with the potential chaos this style-related behaviour could cause on pre-existing code you attempt migrating to WCS 12c's Controller-based paradigm simply by getting rid of the "legacy" intelligence.
+		From the above, you've probably figured out already that GSF deals with the potential chaos this style-related behaviour could cause on pre-existing code you attempt migrating to WCS 12c's Controller-based paradigm simply by getting rid of the "legacy" intelligence.
 		
 		This implies there are now 2 CallTemplate facades:
 		
@@ -687,7 +599,7 @@ Use Your Own Factory Producer Implementation
 		
 			[[A]] Create a file named "gsf-factory-producer".
 			
-			[[A]] Inside your "gsf-factory" file, add a line with the fully-qualified name of your custom factory producer class, as in:
+			[[A]] Inside the file, add a line with the fully-qualified name of your custom factory producer class, as in:
 		
 +--
 com.mycompany.wcs.gsf.config.MyCustomFactoryProducer
@@ -699,7 +611,7 @@ com.mycompany.wcs.gsf.config.MyCustomFactoryProducer
 				
 				[]
 
-			[[A]] Deploy the JAR file containing your "gsf-factory" file inside the WCS web app.
+			[[A]] Deploy the JAR file containing your "gsf-factory-producer" file inside the WCS web app.
 			
 			[]
 			
@@ -760,4 +672,69 @@ Use Your Own NavigationNode Implementation
 	
 	[]
 
-	
+BUILDING AND CONTRIBUTING TO THE GSF
+
+Prepare your local MAVEN repository
+
+	In order to build and package the GSF project, first you must ensure all artifacts can be found by your MAVEN install.
+
+	Unfortunately, at the time of this release, Oracle had not yet set up a public MAVEN repository where WCS 12c's own JAR files - i.e. those starting with "sites-*" - can be found (as MAVEN artifacts) by the general public.
+
+	For that reason, the (only) artifacts you'll most likely be missing are those concerning WCS 12c's own JAR files.
+
+	Hence, in order to build the GSF, you must either:
+
+	*	Deploy all missing MAVEN artifacts onto your local MAVEN repository and/or
+
+	*	Create all missing MAVEN artifacts in your own remote MAVEN repository (for ex.: artifactory) and make sure your local MAVEN install gets them from such repository.
+
+	[]
+
+	The strategy we've opted for is treating each sites-* JAR file as a separate artifact.
+
+	This allows our streamlining the list of dependencies for each pom in the GSF project and, thus, reducing the total build time.
+
+	It also provides better visibility of the actual dependencies of each GSF artifact -- i.e. CORE's and LEGACY's.
+
+	Note that we are building only against WCS 12c's artifacts / JARs. GSF version 12 <<is not and will not be compatible with previous versions of WCS>>.
+
+	All other artifacts referenced by the GSF's POMs are public, available from standard locations.
+
+Build and Package the GSF Project
+
+	Once you've set up MAVEN locally (one-timer), you'd be all set for building the GSF artifacts.
+
+	Building (and packaging) the GSF artifacts is <<very easy>>; just execute the package.sh shell script located in the project's root folder:
+
++--
+$ sh package.sh
++--
+
+	This will:
+
+		[[1]] Download all due MAVEN artifacts
+
+		[[1]] Build the entire MAVEN project, including both CORE and LEGACY submodules / components.
+
+		[[1]] Build the GSF website.
+
+		[[1]] Package all of the above in 2 separate files: the GSF "KIT" and the GSF "SITE".
+
+		[]
+
+	The script is quite verbose; hence, it should be trivial understanding what it is doing and where you can pick up the output (files)
+
+	In addition to the default behaviour, you also have the ability to invoke just one part of the whole packaging process:
+
+		* <<"sh package.sh jar">>: this will download the artifacts and build the project (e.g. produce the JARs), but it won't generate the website, package it nor will it package the Kit.
+
+		* <<"sh package.sh kit">>: this will package the GSF Kit for you, but it will not build the project for you (e.g. it won't re-compile the code)
+
+		* <<"sh package.sh site">>: this will package the GSF Website for you, but it will not build the project nor package the GSF Kit for you.
+
+		* <<"sh package.sh all">>: this is the default behaviour, i.e. it is <<equivalent to "sh package.sh">>.
+
+		[]
+
+	If you want MAVEN to include a timestamp on every line it outputs, make sure you configure MAVEN accordingly. You can find useful information {{{https://maven.apache.org/maven-logging.html} here}}.
+

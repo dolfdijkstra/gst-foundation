@@ -25,6 +25,15 @@
 		<developer>
 			<name>Tony Field</name>
 		</developer>
+		<developer>
+			<name>Freddy Villalba</name>
+		</developer>
+		<developer>
+			<name>David Chesebro</name>
+		</developer>
+		<developer>
+			<name>Allan Mai</name>
+		</developer>
 	</developers>
 	<scm>
 		<connection>scm:git:git@github.com:dolfdijkstra/gst-foundation.git</connection>
