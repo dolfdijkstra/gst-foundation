@@ -112,7 +112,7 @@ function packageWebsite() {
 
 	echo "[$(date)]   staging site under $siteLocation"
 	#mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation > /dev/null
-	mvn site:stage -X -P '!samples' -DstagingDirectory=$siteLocation | awk '{ print "[STAGING SITE] ", $0; }' >> $mavenOutputLog
+	mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation | awk '{ print "[STAGING SITE] ", $0; }' >> $mavenOutputLog
 
 	echo "[$(date)]   initializing 'downloads' folder $siteLocation/downloads"
 	if [ ! -d $siteLocation/downloads ] ;
