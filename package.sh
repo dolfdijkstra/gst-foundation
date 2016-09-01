@@ -6,7 +6,20 @@ echo "GST Site Foundation version $VERSION packager"
 
 execLocation="$PWD"
 
-tmpBase=/tmp/gsf-deploy
+if [[ $(uname -s | tr '[:lower:]' '[:upper:]') = *CYGWIN* ]]; 
+then
+	tmpBase="c:\tmp\gsf-deploy"
+	echo
+	echo "CygWin DETECTED!"
+	echo "Will use temporary folder: $tmpBase"
+	echo
+else
+	tmpBase=/cygdrive/c/tmp/gsf-deploy
+	echo
+	echo "CygWin not detected... running on Linux, Mac or some other Linux distro"
+	echo "Will use temporary folder: $tmpBase"
+	echo
+fi
 
 mavenOutputLog=$tmpBase/mvn-gsf-$VERSION.out
 
