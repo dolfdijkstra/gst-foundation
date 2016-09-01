@@ -6,7 +6,20 @@ echo "GST Site Foundation version $VERSION packager"
 
 execLocation="$PWD"
 
-tmpBase=/tmp/gsf-deploy
+if [[ $(uname -s | tr '[:lower:]' '[:upper:]') = *CYGWIN* ]]; 
+then
+	tmpBase="c:\tmp\gsf-deploy"
+	echo
+	echo "CygWin DETECTED!"
+	echo "Will use temporary folder: $tmpBase"
+	echo
+else
+	tmpBase=/cygdrive/c/tmp/gsf-deploy
+	echo
+	echo "CygWin not detected... running on Linux, Mac or some other Linux distro"
+	echo "Will use temporary folder: $tmpBase"
+	echo
+fi
 
 mavenOutputLog=$tmpBase/mvn-gsf-$VERSION.out
 
@@ -99,7 +112,7 @@ function packageWebsite() {
 
 	echo "[$(date)]   staging site under $siteLocation"
 	#mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation > /dev/null
-	mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation | awk '{ print "[STAGING SITE] ", $0; }' >> $mavenOutputLog
+	mvn site:stage -X -P '!samples' -DstagingDirectory=$siteLocation | awk '{ print "[STAGING SITE] ", $0; }' >> $mavenOutputLog
 
 	echo "[$(date)]   initializing 'downloads' folder $siteLocation/downloads"
 	if [ ! -d $siteLocation/downloads ] ;
