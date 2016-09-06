@@ -14,7 +14,7 @@ then
 	echo "Will use temporary folder: $tmpBase"
 	echo
 else
-	tmpBase=/cygdrive/c/tmp/gsf-deploy
+	tmpBase=/tmp/gsf-deploy
 	echo
 	echo "CygWin not detected... running on Linux, Mac or some other Linux distro"
 	echo "Will use temporary folder: $tmpBase"
