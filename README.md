@@ -97,7 +97,7 @@ As CORE features / classes evolve they will gradually diverge from their LEGACY 
 
 ##Documentation
 
-* {{{./InstallGuide.html}GSF-12 Installation ReadMe}} - Guide for manually installing and configuring GSF-12
+* GSF-12 Installation Guide (InstallGuide.apt) - Guide for manually installing and configuring GSF-12. The website's installation guide is generated off this APT file.
 
 * JavaDocs are included in this kit. Alternatively, you can get them from the GSF's website.
 
