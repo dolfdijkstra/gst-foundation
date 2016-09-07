@@ -81,9 +81,9 @@ September, 2016.
 
 ##An Important Note on Backwards-Compatibility
 
-All of the GSF's pre-existing classes have been <<deprecated>> in this release.
+All of the GSF's pre-existing classes have been **deprecated** in this release.
 
-The new namespace is: <<tools.gsf>>.
+The new namespace is: **tools.gsf**.
 
 Starting this initial release of GSF-12, new "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself) 
 
@@ -93,7 +93,7 @@ Deprecated classes will not be enhanced, ever. Only the CORE classes will.
 
 As CORE features / classes evolve they will gradually diverge from their LEGACY counterpart, whenever applicable.  
 
-<<You are strongly advised to start using the new namespace (e.g. packages / classnames) right away>>. 
+**You are strongly advised to start using the new namespace (e.g. packages / classnames) right away.** 
 
 ##Documentation
 
