@@ -57,7 +57,7 @@
 			<version>${fatwire.contentserver.version}</version>
 		</dependency>
         <dependency>
-            <groupId>com.fatwire.gst</groupId>
+            <groupId>tools.gsf</groupId>
             <artifactId>gsf-core</artifactId>
             <version>${gsf.version}</version>
         </dependency>
