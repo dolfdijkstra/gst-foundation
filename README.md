@@ -114,9 +114,13 @@ This kit builds both JAR files, including the due JavaDocs.
 ##Requirements
 
 Java 1.8
+
 Servlet 3.0
+
 JSP 2.2
+
 WCS 12c
+
 SLF4J 1.7.21 -- NOTE: WCS 12c already ships with SLF4J
 
 ##Support
