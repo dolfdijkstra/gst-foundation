@@ -21,6 +21,8 @@ HOW-TO
 		{{Prepare your local MAVEN repository}}	
 
 		{{Build and Package the GSF Project}}
+		
+		{{Add a dependency to GSF-12's CORE from your own project's pom.xml}}
 	
 		{{Use the OOTB Factory Producer and Factory Implementations}}
 		
@@ -115,6 +117,22 @@ $ sh package.sh
 		[]
 		
 	If you want MAVEN to include a timestamp on every line it outputs, make sure you configure MAVEN accordingly. You can find useful information {{{https://maven.apache.org/maven-logging.html} here}}.
+	
+Add a dependency to GSF-12's CORE from your own project's pom.xml
+
+	* Add the following dependency to your pom.xml file:
+	
++--
+<dependency>
+	<groupId>tools.gsf</groupId>
+	<artifactId>gsf-core</artifactId>
+	<version>${gsf.version}</version>
+</dependency>
++--
+
+	* Make sure your POM sets the "gsf.version" property to the appropriate version you want to use OR, alternatively, just replace that property value placeholder with the actual value. For example: 12.0-SNAPSHOT
+	
+	* Note that you must use the new "groupId" (<<tools.gsf>>), not the old one.  
 
 Use the OOTB Factory Producer and Factory Implementations
 
