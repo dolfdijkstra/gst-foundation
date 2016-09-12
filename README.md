@@ -18,35 +18,35 @@
 
 The GSF aims at:
 
-	1.	Standardizing processes for business users.
-
-	2.	Simplifying coding greatly, to the point where much can be provided in common libraries.
-
-	3.	Clearly defining extension points.
+1.	Standardizing processes for business users.
 	
-	4. Not imposing any design / data model requirements whilst encouraging the use of design patterns, optimal coding and best practices.   
+2.	Simplifying coding greatly, to the point where much can be provided in common libraries.
+
+3.	Clearly defining extension points.
+	
+4.	Not imposing any design / data model requirements whilst encouraging the use of design patterns, optimal coding and best practices.   
 
 At a high level, the GSF offers a non-rendering foundation which aims at providing the following primary benefits:
 
-	*	Is suitable for use "out of the box" for a large number of sites
+*	Is suitable for use "out of the box" for a large number of sites
 
-	*	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
+*	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
 	
-	*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
+*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
 
-	*	Can be cleanly extended to address custom client requirements
+*	Can be cleanly extended to address custom client requirements
 
 This is the first GSF release which embraces WCS 12c's features and rendering practices.
 
 The main goals of this specific release were:
 
-	1.	Providing the means for clients out there already using GSF to reuse as much of their existing code as possible when upgrading from WCS 11.x to WCS 12c,
+1.	Providing the means for clients out there already using GSF to reuse as much of their existing code as possible when upgrading from WCS 11.x to WCS 12c,
 
-	2.	Leveraging the use of WCS 12c's new features / API,
+2.	Leveraging the use of WCS 12c's new features / API,
 
-	3.	Simplifying GSF's installation / deployment to the utmost and making it as agile and CI-friendly as possible, and
+3.	Simplifying GSF's installation / deployment to the utmost and making it as agile and CI-friendly as possible, and
 
-	4.	Encouraging GSF users and potential adopters to benefit from GSF's optimized code whilst leveraging better encapsulation, cleaner design and more intuitive, simpler usage and deployment.
+4.	Encouraging GSF users and potential adopters to benefit from GSF's optimized code whilst leveraging better encapsulation, cleaner design and more intuitive, simpler usage and deployment.
 
 Many of the GSF's existing features have become partially or totally unnecessary due to WCS 12c (and 11.x) offering a native equivalent.
 
@@ -97,7 +97,7 @@ As CORE features / classes evolve they will gradually diverge from their LEGACY 
 
 ##Documentation
 
-* GSF-12 Installation Guide (InstallGuide.apt) - Guide for manually installing and configuring GSF-12. The website's installation guide is generated off this APT file.
+* GSF-12 Installation Guide / ReadMe - Guide for manually installing and configuring GSF-12.
 
 * JavaDocs are included in this kit. Alternatively, you can get them from the GSF's website.
 
@@ -105,18 +105,23 @@ As CORE features / classes evolve they will gradually diverge from their LEGACY 
 
 In this release, classes are shipped in 2 JAR files:
     
-	* gsf-core-<version>.jar: here you'll find the classes that make up GSF's new CORE.    
+*	*gsf-core-<version>.jar*: here you'll find the classes that make up GSF's new CORE.    
     
-	* gsf-legacy-<version>.jar: here you'll find deprecated classes scheduled for physical removal in a future release.
+*	*gsf-legacy-<version>.jar*: here you'll find deprecated classes scheduled for physical removal in a future release.
 	
 This kit builds both JAR files, including the due JavaDocs. 
 
 ##Requirements
 
-Java 1.8 (or newer)
+Java 1.8
+
 Servlet 3.0
+
+JSP 2.2
+
 WCS 12c
-SLF4J 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
+
+SLF4J 1.7.21 -- NOTE: WCS 12c already ships with SLF4J
 
 ##Support
 
