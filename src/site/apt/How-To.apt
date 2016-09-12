@@ -596,7 +596,7 @@ protected String mappedAsset;
 	
 Use Your Own Asset Type as a GST Property Asset
 
-	* Implement your own object factory and add to it a <<Service Producer method>> (i.e. annotated with @ServiceProducer) which instantiates the new <<com.fatwire.gst.foundation.properties.AssetApiPropertyDao>>.
+	* Implement your own object factory and add to it a <<Service Producer method>> (i.e. annotated with @ServiceProducer) which instantiates the new <<tools.gsf.properties.AssetApiPropertyDao>>.
 	
 	* Example:
 	
