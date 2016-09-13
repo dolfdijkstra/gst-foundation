@@ -220,7 +220,7 @@ public class AssetList extends AbstractTagRunner {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.runtag.AbstractTagRunner#handleError
+     * tools.gsf.facade.runtag.AbstractTagRunner#handleError
      * (COM.FutureTense.Interfaces.ICS)
      */
     @Override
