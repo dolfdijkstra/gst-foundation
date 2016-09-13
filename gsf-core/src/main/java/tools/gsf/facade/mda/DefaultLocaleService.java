@@ -99,7 +99,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#findTranslation(java
+     * tools.gsf.facade.mda.LocaleService#findTranslation(java
      * .lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
@@ -113,7 +113,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#findTranslation(com
+     * tools.gsf.facade.mda.LocaleService#findTranslation(com
      * .fatwire.assetapi.data.AssetId, java.lang.String, long)
      */
 
@@ -129,7 +129,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#findTranslation(com
+     * tools.gsf.facade.mda.LocaleService#findTranslation(com
      * .fatwire.assetapi.data.AssetId, long, long)
      */
 
@@ -160,7 +160,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#findTranslation(com
+     * tools.gsf.facade.mda.LocaleService#findTranslation(com
      * .fatwire.assetapi.data.AssetId, long, java.lang.String)
      */
 
@@ -196,7 +196,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#findTranslation(com
+     * tools.gsf.facade.mda.LocaleService#findTranslation(com
      * .fatwire.assetapi.data.AssetId, long,
      * com.fatwire.mda.DimensionSetInstance)
      */
@@ -333,7 +333,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#getDimensionSet(java
+     * tools.gsf.facade.mda.LocaleService#getDimensionSet(java
      * .lang.String)
      */
 
@@ -399,7 +399,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#getLocaleForAsset
+     * tools.gsf.facade.mda.LocaleService#getLocaleForAsset
      * (com.fatwire.assetapi.data.AssetId)
      */
 
@@ -418,7 +418,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#getDimensionIdForName
+     * tools.gsf.facade.mda.LocaleService#getDimensionIdForName
      * (java.lang.String)
      */
 
@@ -431,7 +431,7 @@ public class DefaultLocaleService implements LocaleService {
     /*
      * (non-Javadoc)
      * 
-     * @see "com.fatwire.gst.foundation.facade.mda.LocaleService#"
+     * @see "tools.gsf.facade.mda.LocaleService#"
      * getDimensionAssetIdForName(java.lang.String)
      */
 
@@ -445,7 +445,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#getDimensionForName
+     * tools.gsf.facade.mda.LocaleService#getDimensionForName
      * (java.lang.String)
      */
 
@@ -459,7 +459,7 @@ public class DefaultLocaleService implements LocaleService {
      * (non-Javadoc)
      * 
      * @see
-     * com.fatwire.gst.foundation.facade.mda.LocaleService#getNameForDimensionId
+     * tools.gsf.facade.mda.LocaleService#getNameForDimensionId
      * (long)
      */
 

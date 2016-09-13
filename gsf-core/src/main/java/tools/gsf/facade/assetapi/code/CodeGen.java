@@ -475,7 +475,7 @@ public class CodeGen {
          * (non-Javadoc)
          * 
          * @see
-         * com.fatwire.gst.foundation.facade.assetapi.code.CodeGen.AssetApiGen
+         * tools.gsf.facade.assetapi.code.CodeGen.AssetApiGen
          * #printAssetTypeDef(com.fatwire.assetapi.def.AssetTypeDef)
          */
         @Override
