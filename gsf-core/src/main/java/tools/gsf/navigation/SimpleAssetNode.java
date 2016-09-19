@@ -75,17 +75,6 @@ public class SimpleAssetNode implements AssetNode {
         return children.stream().filter(n -> n != null).collect(Collectors.toList());
     }
 
-    public List<AssetNode> getBreadcrumb() {
-        List<AssetNode> ancestors = new ArrayList<>();
-        AssetNode node = this;
-        do {
-            ancestors.add(node);
-            node = node.getParent();
-        } while (node != null);
-        Collections.reverse(ancestors);
-        return ancestors;
-    }
-
     public AssetId asAssetId(String name) {
         return asset.asAssetId(name);
     }

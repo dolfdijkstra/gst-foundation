@@ -52,10 +52,4 @@ public interface Node<NODE extends Node, ID> {
      */
     List<NODE> getChildren();
 
-    /**
-     * Return the path down the navigation structure to this node, starting at the root of the structure and ending
-     * with this node. Designed for use in creating breadcrumbs.
-     * @return breadcrumb-ordered ancestor list.
-     */
-    List<NODE> getBreadcrumb();
 }

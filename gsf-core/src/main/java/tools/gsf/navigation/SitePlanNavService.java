@@ -28,7 +28,6 @@ import tools.gsf.facade.sql.IListIterable;
 import tools.gsf.facade.sql.Row;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Simple navigation service implementation that loads objects from the Site Plan. Supports populating node data via
@@ -175,7 +174,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
         BREADCRUMBS_LOOKUP.setElement(0, "SITEPLANTREE", "OID");
     }
 
-    public List<AssetId> getBreadcrumb(AssetId id) {
+    public List<AssetNode> getBreadcrumb(AssetId id) {
 
         if (id == null) {
             throw new IllegalArgumentException("Cannot calculate breadcrumb of a null asset");
@@ -183,8 +182,19 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
 
         return isHsqldb ? _breadcrumbByFullScan(id) : _breadcrumbByQuery(id);
     }
+    
+    private List<AssetNode> _getAllAncestors(AssetNode node) {
+        List<AssetNode> ancestors = new ArrayList<>();
+        do {
+            ancestors.add(node);
+            node = node.getParent();
+        } while (node != null);
+        Collections.reverse(ancestors);
+        return ancestors;
+    }
 
-    private List<AssetId> _breadcrumbByFullScan(AssetId id) {
+
+    private List<AssetNode> _breadcrumbByFullScan(AssetId id) {
 
         Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
         StatementParam dumpParam = NAVIGATION_TREE_DUMP.newParam();
@@ -216,18 +226,23 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
         if (myNode == null) throw new IllegalArgumentException("Could not find breadcrumb for "+id);
 
         // return the breadcrumb for it in the form of assetids
-        return myNode.getBreadcrumb().stream().map(Node::getId).collect(Collectors.toList());
+        return this._getAllAncestors(myNode);
     }
 
-    private List<AssetId> _breadcrumbByQuery(AssetId id) {
-        List<AssetId> results = new ArrayList<>();
+    private List<AssetNode> _breadcrumbByQuery(AssetId id) {
+		List<AssetNode> results = new ArrayList<AssetNode>();
         StatementParam breadcrumbParam = BREADCRUMBS_LOOKUP.newParam();
         breadcrumbParam.setLong(0, id.getId());
 
         for (Row row : new IListIterable(ics.SQL(BREADCRUMBS_LOOKUP, breadcrumbParam, true))) {
-            AssetId result = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
-            results.add(0, result);
+            AssetId currentAssetId = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
+            SimpleAssetNode currentNode = new SimpleAssetNode(currentAssetId);
+            SimpleAssetNode child = (SimpleAssetNode) results.get(0);
+        	child.setParent(currentNode);
+            results.add(0, currentNode);
         }
+        
         return results;
     }
+    
 }
