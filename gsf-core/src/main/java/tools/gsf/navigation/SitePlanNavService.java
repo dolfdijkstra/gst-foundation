@@ -165,7 +165,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
             + " WHERE spt.OID = ? "
             + " UNION ALL "
             + " SELECT spt.NID, spt.NPARENTID, spt.OID, spt.OTYPE, spt.nrank from "
-            + " SITEPLANTREE spt JOIN tblChildren ON spt.NID = tblChildren.NPARENTID where spt.OTYPE = 'Page' "
+            + " SITEPLANTREE spt JOIN tblChildren ON spt.NID = tblChildren.NPARENTID where spt.OTYPE = 'Page' and spt.NCODE = 'Placed'"
             + ") "
             + " SELECT NID, NPARENTID, OID, OTYPE, NRANK "
             + " FROM tblChildren ",
@@ -237,8 +237,17 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
         for (Row row : new IListIterable(ics.SQL(BREADCRUMBS_LOOKUP, breadcrumbParam, true))) {
             AssetId currentAssetId = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
             SimpleAssetNode currentNode = new SimpleAssetNode(currentAssetId);
-            SimpleAssetNode child = (SimpleAssetNode) results.get(0);
-        	child.setParent(currentNode);
+
+            // populate the asset
+            LogDep.logDep(ics, currentAssetId); // record compositional dependency
+            TemplateAsset data = populateNodeData(currentAssetId);
+            if (data == null) {
+                throw new IllegalStateException("Null node data returned for id "+id);
+            }
+            currentNode.setAsset(data);
+
+            if (! results.isEmpty())
+            	((SimpleAssetNode) results.get(0)).setParent(currentNode);
             results.add(0, currentNode);
         }
         
