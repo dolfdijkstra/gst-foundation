@@ -165,7 +165,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
             + " WHERE spt.OID = ? "
             + " UNION ALL "
             + " SELECT spt.NID, spt.NPARENTID, spt.OID, spt.OTYPE, spt.nrank from "
-            + " SITEPLANTREE spt JOIN tblChildren ON spt.NID = tblChildren.NPARENTID where spt.OTYPE = 'Page' "
+            + " SITEPLANTREE spt JOIN tblChildren ON spt.NID = tblChildren.NPARENTID where spt.OTYPE = 'Page' and spt.NCODE = 'Placed'"
             + ") "
             + " SELECT NID, NPARENTID, OID, OTYPE, NRANK "
             + " FROM tblChildren ",
