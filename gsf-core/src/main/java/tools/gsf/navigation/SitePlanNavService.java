@@ -237,8 +237,17 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
         for (Row row : new IListIterable(ics.SQL(BREADCRUMBS_LOOKUP, breadcrumbParam, true))) {
             AssetId currentAssetId = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
             SimpleAssetNode currentNode = new SimpleAssetNode(currentAssetId);
-            SimpleAssetNode child = (SimpleAssetNode) results.get(0);
-        	child.setParent(currentNode);
+
+            // populate the asset
+            LogDep.logDep(ics, currentAssetId); // record compositional dependency
+            TemplateAsset data = populateNodeData(currentAssetId);
+            if (data == null) {
+                throw new IllegalStateException("Null node data returned for id "+id);
+            }
+            currentNode.setAsset(data);
+
+            if (! results.isEmpty())
+            	((SimpleAssetNode) results.get(0)).setParent(currentNode);
             results.add(0, currentNode);
         }
         
