@@ -42,8 +42,8 @@ public interface NavService<NODE extends Node> {
      * structure.
      *
      * @param id The id of the asset whose path to the root of the navigation structure will be traced.
-     * @return A list of assets starting with the root of the navigation structure up to the specified asset.
+     * @return A list of NODEs starting with the root of the navigation structure up to the specified NODE.
      */
-    List<AssetId> getBreadcrumb(AssetId id);
+    List<NODE> getBreadcrumb(AssetId id);
 
 }
