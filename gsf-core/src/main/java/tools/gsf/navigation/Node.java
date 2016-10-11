@@ -15,6 +15,7 @@
  */
 package tools.gsf.navigation;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -26,13 +27,7 @@ import java.util.List;
  * @author Tony Field
  * @since 2016-07-02.
  */
-public interface Node<NODE extends Node, ID> {
-
-    /**
-     * Get the id of the object represented by this node.
-     * @return object id
-     */
-    ID getId();
+public interface Node<NODE extends Node> extends Serializable {
 
     /**
      * Get the parent node
@@ -51,11 +46,4 @@ public interface Node<NODE extends Node, ID> {
      * @return this node's children, never null.
      */
     List<NODE> getChildren();
-
-    /**
-     * Return the path down the navigation structure to this node, starting at the root of the structure and ending
-     * with this node. Designed for use in creating breadcrumbs.
-     * @return breadcrumb-ordered ancestor list.
-     */
-    List<NODE> getBreadcrumb();
 }

@@ -33,9 +33,10 @@ import java.util.List;
  * node attribute data.
  * @author Tony Field
  * @since 2016-07-04.
- * @see "com.fatwire.gst.foundation.facade.assetapi.asset.TemplateAsset"
  */
-public interface AssetNode extends Node<AssetNode, AssetId> {
+public interface AssetNode extends Node<AssetNode> {
+
+    AssetId getId();
 
     AssetId asAssetId(String name);
     BlobObject asBlob(String name);
