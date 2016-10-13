@@ -36,13 +36,13 @@ import java.util.List;
 public interface NavService<N extends Node, S, P> {
 
     /**
-     * Load the nodes corresponding to the nav structure specified.
+     * Returns the nodes corresponding to the nav structure specified.
      *
      * @param id an identifier that specifies which nav structure should be loaded.
      * @return a list of the nodes at the root of the nav structure specified. Never null.
      * @throws IllegalArgumentException if the structure specified is invalid.
      */
-    List<N> loadNav(S id);
+    List<N> getNav(S id);
 
     /**
      * Return the preferred breadcrumb path from the root of the site to the object specified.

@@ -114,7 +114,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         }
     }
 
-    public List<AssetNode> loadNav(AssetId sitePlan) {
+    public List<AssetNode> getNav(AssetId sitePlan) {
 
         if (sitePlan == null) {
             throw new IllegalArgumentException("Null param not allowed");
@@ -138,6 +138,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         // gather the empty nodes we care about
         Collection<AssetNode> nodesToPopulate = new HashSet<>();
         for (AssetNode unpopulatedNode : emptyNodes) {
+            nodesToPopulate.add(unpopulatedNode);
             nodesToPopulate.addAll(_getDescendents(unpopulatedNode));
             nodesToPopulate.addAll(_getAncestors(unpopulatedNode));
         }
@@ -158,6 +159,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
     private Collection<AssetNode> _getDescendents(AssetNode n) {
         Set<AssetNode> descendents = new HashSet<>();
         for (AssetNode kid : n.getChildren()) {
+            descendents.add(kid);
             descendents.addAll(_getDescendents(kid));
         }
         return descendents;

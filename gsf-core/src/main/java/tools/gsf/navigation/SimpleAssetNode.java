@@ -211,7 +211,7 @@ public class SimpleAssetNode implements AssetNode {
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + (parent != null ? parent.hashCode() : 0);
+        result = 31 * result + (parent != null ? parent.id.hashCode() : 0);
         result = 31 * result + children.hashCode();
         return result;
     }
