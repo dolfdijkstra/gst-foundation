@@ -218,7 +218,6 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
     /**
      * Get the breadcrumb corresponding to the specified node.
      *
-     * @implSpec
      * Default implementation simply uses the specified node's parents.
      *
      * @param node the node whose breadcrumb needs to be calculated
@@ -237,7 +236,6 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
     /**
      * Pick which breadcrumb to return if more than one path has been found.
      *
-     * @implSpec
      * Default implementation simply returns the first one returned by the specified collection's iterator.
      *
      * @param options candidate breadcrumbs
