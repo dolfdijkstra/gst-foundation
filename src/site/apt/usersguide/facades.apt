@@ -1,0 +1,44 @@
+~~
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+Highlights: Facades Package
+
+    As in previous versions of the GSF, the <<Facades>> package comprises a series of facade classes providing utility methods that should make your life easier in your day-to-day WCS-specific coding.
+
+    It comprises several sub-packages:
+
+	* <<assetapi>>: utility classes / methods that make it easier to manipulate assets and their data in non-trivial, yet frequently needed ways (for instance, AttributeDataUtils.getWithFallback). It also provides a few base classes upon which you can build your own asset event listeners, quite handy.
+
+	* <<cm>>: utility classes / methods  which make it easier to invoke some of the CatalogManager's most frequently used commands. For example: InsertRow.
+
+	* <<mda>>: multilanguage support-oriented utility classes and methods (DimensionUtils, LocaleUtils...)
+
+	* <<runtag>>: multiple facade classes that considerably simplify your invoking the most frequently used tags from WCS' taglibs (asset, assetset, commercecontext, listobject, publication, render, satellite, siteplan, user et al)
+
+	* <<search>>: search-related utility class / methods.
+
+	* <<sql>>: SQL-oriented utility classes / methods. Amongst other things, here you will find a SqlHelper class and a wrapper class that makes IList objects "iterable".
+
+	* <<uri>>: utility classes for building URLs by invoking the appropriate URL-building WCS tag via the corresponding GSF-specific facade class / method. Covers both Blob and webpages / public pagelets.
+
+	[]
+
+	<<WCS 12c does not invoke a Controller attached to a Template when you call that Template using style="element>>.
+
+	Due to this particularity in how WCS 12c behaves in this specific scenario, we opted for having the CORE's (CallTemplate) Facade(s) diverge from the LEGACY's so the former better adjusts to WCS 12c's behaviour.
+
+	As for all other deprecated classes / features, you are advised to use the CORE's Facades instead of the LEGACY's. Also, let us remind you that LEGACY classes / components will be physically removed from the GSF project in a future major release.
+

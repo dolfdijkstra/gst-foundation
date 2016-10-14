@@ -1,0 +1,115 @@
+~~
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+HOW-TO
+
+    {{Use Your Own Factory Producer Implementation}}
+
+    {{Use Your Own NavService Implementation}}
+
+    {{Use Your Own NavigationNode Implementation}}
+
+
+
+Use Your Own Factory Producer Implementation
+
+	* Implement your own custom factory producer.
+
+		* You can extend the existing DefaultFactoryProducer class.
+
+		* Otherwise, make sure your own class implements the <<tools.gsf.config.FactoryProducer>> interface.
+
+		[]
+
+	* Register it, in one of the following ways:
+
+		[[1]] Via META-INF/gsf-factory-producer:
+
+			[[A]] Create a file named "gsf-factory-producer".
+
+			[[A]] Inside the file, add a line with the fully-qualified name of your custom factory producer class, as in:
+
++--
+com.mycompany.wcs.gsf.config.MyCustomFactoryProducer
++--
+
+			[[A]] Package that file inside the "META-INF" folder of any JAR you are deploying inside the WCS 12c web app.
+
+				* Typically, you'd put it inside your custom JAR file (e.g. the one containing the custom factory producer class itself).
+
+				[]
+
+			[[A]] Deploy the JAR file containing your "gsf-factory-producer" file inside the WCS web app.
+
+			[]
+
+		[[1]] Via web.xml:
+
+			[[A]] Inside your WCS 12c web app's web.xml descriptor, add a context-param called "gsf-factory-producer" and specify the fully-qualified classname of your factory producer class. For example:
+
++--
+<context-param>
+   <param-name>gsf-factory-producer</param-name>
+   <param-value>com.mycompany.wcs.gsf.config.MyCustomFactoryProducer</param-value>
+</context-param>
++--
+
+			[[A]] Redeploy (and restart) the WCS 12c web app so it picks up the updated web.xml descriptor.
+
+			[]
+
+		[]
+
+	[]
+
+Use Your Own NavService Implementation
+
+	* Implement your own object factory.
+
+	* Make your custom bean / object available by having a Service Producer method in your own object factory instantiate it:
+
+		* In case you have <<extended>> IcsObjectFactory, you probably want to override the existing <<"createNavService">> method.
+
+		* In case you have not extended IcsObjectFactory, you must add the due Service Producer method to your own implementation; for example:
+
++--
+
+@ServiceProducer(cache = true)
+public NavService<AssetNode> createNavService(final ICS ics) {
+    TemplateAssetAccess dao = getObject("templateAssetAccess", TemplateAssetAccess.class);
+    return new MyCustomNavServiceImplementation(ics, dao);
+}
+
++--
+
+		[]
+
+	[]
+
+Use Your Own NavigationNode Implementation
+
+	This one depends on what "using your own NavigationNode implementation" means to you:
+
+	* If you literally want to use your own <<Node>> implementation, then doing so requires your implementing your own <<NavService>>, too.
+
+		* You can either implement your own NavService from scratch or extend the existing ones (see <<SitePlanNavService>> or <<LightweightSitePlanNavService>>)
+
+		* Plugging in your own NavService is simple (see above)
+
+	* If you are using one of the OOTB NavService implementations and you just want each <<AssetNode>> to be pre-populated with additional data other than the asset's "name" and "template", then you just need to override the <<"populateNodeData">> method.
+
+	[]
+

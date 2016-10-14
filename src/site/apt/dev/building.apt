@@ -1,0 +1,84 @@
+~~
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+HOW-TO
+
+BUILDING AND CONTRIBUTING TO THE GSF
+
+Prepare your local MAVEN repository
+
+	In order to build and package the GSF project, first you must ensure all artifacts can be found by your MAVEN install.
+
+	Unfortunately, at the time of this release, Oracle had not yet set up a public MAVEN repository where WCS 12c's own JAR files - i.e. those starting with "sites-*" - can be found (as MAVEN artifacts) by the general public.
+
+	For that reason, the (only) artifacts you'll most likely be missing are those concerning WCS 12c's own JAR files.
+
+	Hence, in order to build the GSF, you must either:
+
+	*	Deploy all missing MAVEN artifacts onto your local MAVEN repository and/or
+
+	*	Create all missing MAVEN artifacts in your own remote MAVEN repository (for ex.: artifactory) and make sure your local MAVEN install gets them from such repository.
+
+	[]
+
+	The strategy we've opted for is treating each sites-* JAR file as a separate artifact.
+
+	This allows our streamlining the list of dependencies for each pom in the GSF project and, thus, reducing the total build time.
+
+	It also provides better visibility of the actual dependencies of each GSF artifact -- i.e. CORE's and LEGACY's.
+
+	Note that we are building only against WCS 12c's artifacts / JARs. GSF version 12 <<is not and will not be compatible with previous versions of WCS>>.
+
+	All other artifacts referenced by the GSF's POMs are public, available from standard locations.
+
+Build and Package the GSF Project
+
+	Once you've set up MAVEN locally (one-timer), you'd be all set for building the GSF artifacts.
+
+	Building (and packaging) the GSF artifacts is <<very easy>>; just execute the package.sh shell script located in the project's root folder:
+
++--
+$ sh package.sh
++--
+
+	This will:
+
+		[[1]] Download all due MAVEN artifacts
+
+		[[1]] Build the entire MAVEN project, including both CORE and LEGACY submodules / components.
+
+		[[1]] Build the GSF website.
+
+		[[1]] Package all of the above in 2 separate files: the GSF "KIT" and the GSF "SITE".
+
+		[]
+
+	The script is quite verbose; hence, it should be trivial understanding what it is doing and where you can pick up the output (files)
+
+	In addition to the default behaviour, you also have the ability to invoke just one part of the whole packaging process:
+
+		* <<"sh package.sh jar">>: this will download the artifacts and build the project (e.g. produce the JARs), but it won't generate the website, package it nor will it package the Kit.
+
+		* <<"sh package.sh kit">>: this will package the GSF Kit for you, but it will not build the project for you (e.g. it won't re-compile the code)
+
+		* <<"sh package.sh site">>: this will package the GSF Website for you, but it will not build the project nor package the GSF Kit for you.
+
+		* <<"sh package.sh all">>: this is the default behaviour, i.e. it is <<equivalent to "sh package.sh">>.
+
+		[]
+
+	If you want MAVEN to include a timestamp on every line it outputs, make sure you configure MAVEN accordingly. You can find useful information {{{https://maven.apache.org/maven-logging.html} here}}.
+

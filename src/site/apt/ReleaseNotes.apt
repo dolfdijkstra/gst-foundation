@@ -81,7 +81,7 @@ Release Notes for GSF version 12.0.0
 
     * <<NavigationService>>
 
-		* The existing Navigation Service - and related classes, taglibs and asset types / subtypes - has been DEPRECATED. You should stop using and/or extending and/or customizing the LEGACY Navigation Service / Framework (injected by default by the LEGACY factory) as it will be removed from the GSF project's codebase in an upcoming release. Use the CORE's brand new Navigation Service / Framework / APIs instead, which significantly improves its predecessor. Check out the {{{./How-To.html} How-To's / Highlights section}} for more info.
+		* The existing Navigation Service - and related classes, taglibs and asset types / subtypes - has been DEPRECATED. You should stop using and/or extending and/or customizing the LEGACY Navigation Service / Framework (injected by default by the LEGACY factory) as it will be removed from the GSF project's codebase in an upcoming release. Use the CORE's brand new Navigation Service / Framework / APIs instead, which significantly improves its predecessor. Check out the {{{./usersguide/overview.html} User's Guide}} for more info.
 
 	    []
 
@@ -99,7 +99,7 @@ Release Notes for GSF version 12.0.0
 
 	* <<GSF Actions, Controllers and Request Dispatching>>
 
-		* GSF Actions / Controllers / Request Dispatching have been entirely DEPRECATED. You should stop using and/or extending and/or customizing GSF actions (both type 1 and 2) and the entire GSF dispatching framework (including GST/Dispatcher, BaseController, AbstractController and subclasses, ActionFrameworkController, ActionController, etc..) as it will be physically removed from the GSF project's codebase in an upcoming release. Instead, leverage WCS 12c's native Controllers and Wrappers. More info can be found in the {{{./How-To.html} How-To's / Highlights section}}.
+		* GSF Actions / Controllers / Request Dispatching have been entirely DEPRECATED. You should stop using and/or extending and/or customizing GSF actions (both type 1 and 2) and the entire GSF dispatching framework (including GST/Dispatcher, BaseController, AbstractController and subclasses, ActionFrameworkController, ActionController, etc..) as it will be physically removed from the GSF project's codebase in an upcoming release. Instead, leverage WCS 12c's native Controllers and Wrappers. More info can be found in the {{{./usersguide/overview.html} User's Guide}}.
 
 		* Applications (as opposed to web pages) requiring element actions must implement their own action dispatching infrastructure.
 
@@ -127,7 +127,7 @@ Release Notes for GSF version 12.0.0
 
 		* All LEGACY facades have been DEPRECATED. You should stop using and/or extending and/or customizing them because all of them will be physically removed from the GSF project's codebase in an upcoming release. You should use the (new) CORE's facades instead.
 		
-			* A special mention must be made for the CallTemplate facade. Please, refer to the {{{./How-To.html} How-To's / Highlights section}} for more details.
+			* A special mention must be made for the CallTemplate facade. Please, refer to the {{{./usersguide/overview.html} User's Guide}} for more details.
 
 			[]
 
