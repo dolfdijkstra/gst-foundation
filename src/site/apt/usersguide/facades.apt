@@ -14,7 +14,9 @@
 ~~ limitations under the License.
 ~~
 
-Highlights: Facades Package
+GSF User's Guide
+
+* Highlights: Facades Package
 
     As in previous versions of the GSF, the <<Facades>> package comprises a series of facade classes providing utility methods that should make your life easier in your day-to-day WCS-specific coding.
 

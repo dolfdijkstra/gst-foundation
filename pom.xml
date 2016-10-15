@@ -5,7 +5,7 @@
 	<artifactId>gst-foundation</artifactId>
 	<version>12.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Sites GST Site Foundation</name>
+	<name>GST Site Foundation for WebCenter Sites</name>
 	<description>The GST Site Foundation parent project</description>
 	<url>http://dolfdijkstra.github.com/gst-foundation</url>
 	<inceptionYear>2010</inceptionYear>
@@ -110,12 +110,6 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>${commons-logging.version}</version>
-            <scope>test</scope>
-        </dependency>
 	</dependencies>
 	<build>
 		<extensions>

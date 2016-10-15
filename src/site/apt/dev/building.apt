@@ -14,9 +14,12 @@
 ~~ limitations under the License.
 ~~
 
-HOW-TO
+Building
 
-BUILDING AND CONTRIBUTING TO THE GSF
+    Check out the source code from GitHub and build the code yourself
+
+    * {{{https://github.com/dolfdijkstra/gst-foundation.git} https://github.com/dolfdijkstra/gst-foundation.git}}
+
 
 Prepare your local MAVEN repository
 

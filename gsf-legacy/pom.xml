@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>gsf-legacy</artifactId>
 	<packaging>jar</packaging>
-	<name>Sites GSF: LEGACY</name>
+	<name>GSF Legacy</name>
 	<url>http://dolfdijkstra.github.com/gst-foundation</url>
 	<inceptionYear>2016</inceptionYear>
 	<properties>
@@ -48,11 +48,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -63,12 +65,13 @@
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>${commons-logging.version}</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

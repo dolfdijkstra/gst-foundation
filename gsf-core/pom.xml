@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>gsf-core</artifactId>
 	<packaging>jar</packaging>
-	<name>Sites GSF: CORE</name>
+	<name>GSF Core</name>
 	<url>http://dolfdijkstra.github.com/gst-foundation</url>
 	<inceptionYear>2016</inceptionYear>
 	<properties>
@@ -42,6 +42,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

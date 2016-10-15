@@ -24,20 +24,54 @@ under the License.
 		<artifactId>maven-fluido-skin</artifactId>
 		<version>1.5</version>
 	</skin>
+	<custom>
+		<fluidoSkin>
+			<sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+			<topBarEnabled>false</topBarEnabled>
+			<sideBarEnabled>true</sideBarEnabled>
+			<googleSearch>
+				<sitesearch/>
+			</googleSearch>
+			<facebookLike />
+		</fluidoSkin>
+        <head>
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-30024219-1']);
+                _gaq.push(['_trackPageview']);
+                (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+            </script>
+        </head>
+	</custom>
 	<body>
-	<menu name="GSF">
-		<item name="Introduction" href="index.html"/>
-		<item name="Release Notes" href="ReleaseNotes.html"/>
-		<item name="Install Guide" href="InstallGuide.html"/>
-		<item name="How To..." href="How-To.html"/>
-		<item name="Facades Highlights" href="Facades-Highlights.html"/>
-		<!--
-		 According to https://issues.apache.org/jira/browse/MNGSITE-152 
-		-->
-		<item name="License" href="http://www.apache.org/licenses/"/>
-	</menu>
-	
-	<menu ref="modules" />
-	
+        <menu name="Overview">
+            <item name="Introduction" href="./index.html"/>
+            <item name="Download" href="./download.html"/>
+            <item name="Quick Start Guide" href="./quickstart.html"/>
+            <item name="User's Guide" href="./usersguide/overview.html">
+                <item name="Typical usage" href="./usersguide/typical-usage.html" />
+                <item name="Upgrading" href="./usersguide/upgrade.html" />
+                <item name="Basic features" href="./usersguide/basic-features.html" />
+                <item name="Advanced features" href="./usersguide/advanced-features.html" />
+                <item name="Facades highlights" href="./usersguide/facades.html" />
+                <item name="Built-in variables" href="./usersguide/variables.html" />
+            </item>
+            <item name="Install Guide" href="./install.html"/>
+            <item name="Javadoc" href="./apidocs/index.html" />
+            <item name="Release Notes" href="./ReleaseNotes.html"/>
+            <item name="Documentation Home" href="./docs.html" />
+            <item name="News Archive" href="./news-archive.html"/>
+            <item name="License" href="./license.html"/>
+        </menu>
+        <menu name="Development">
+            <item name="Building" href="./dev/building.html"/>
+            <item name="Issue Tracking" href="./issue-tracking.html"/>
+            <item name="Source Repository" href="./source-repository.html"/>
+        </menu>
+        <menu ref="reports" />
 </body>
 </project>

@@ -14,7 +14,7 @@
 ~~ limitations under the License.
 ~~
 
-Installation Guide
+Installation
 
     GSF-12 is not backwards compatible with WCS 11g (or any older version). You must not use GSF-12 on any version of WCS older than 12c.
 
@@ -25,6 +25,18 @@ Installation Guide
 	* No need to install any custom asset types.
 
 	* No need to import any WEM App.
+
+	[]
+
+Requirements
+
+	* Java 1.8 (or newer)
+
+	* WCS 12c
+
+	* Servlet 3.0
+
+	* slf4j 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
 
 	[]
 
