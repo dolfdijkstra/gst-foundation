@@ -19,20 +19,20 @@
 The GSF aims at:
 
 1.	Standardizing processes for business users.
-	
+
 2.	Simplifying coding greatly, to the point where much can be provided in common libraries.
 
 3.	Clearly defining extension points.
-	
-4.	Not imposing any design / data model requirements whilst encouraging the use of design patterns, optimal coding and best practices.   
+
+4.	Not imposing any design / data model requirements whilst encouraging the use of design patterns, optimal coding and best practices.
 
 At a high level, the GSF offers a non-rendering foundation which aims at providing the following primary benefits:
 
 *	Is suitable for use "out of the box" for a large number of sites
 
 *	Standardizes usage of the Page asset for modeling navigation (e.g. Site Maps, Menus, etc...)
-	
-*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity 
+
+*	Extends Webcenter Sites's controller infrastructure, leveraging clean, reusable code and productivity
 
 *	Can be cleanly extended to address custom client requirements
 
@@ -85,31 +85,31 @@ All of the GSF's pre-existing classes have been **deprecated** in this release.
 
 The new namespace is: **tools.gsf**.
 
-Starting this initial release of GSF-12, new "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself) 
+Starting this initial release of GSF-12, new "CORE" classes will belong to a subpackage of "tools.gsf" (or "tools.gsf" itself)
 
 All deprecated classes have been packaged inside a separate artifact / JAR file called "LEGACY". These enter the GSF	deprecation cycle, which dictates that deprecated components will be physically removed from the GSF project's codebase in the next major release after deprecation occurs.
 
 Deprecated classes will not be enhanced, ever. Only the CORE classes will.
 
-As CORE features / classes evolve they will gradually diverge from their LEGACY counterpart, whenever applicable.  
+As CORE features / classes evolve they will gradually diverge from their LEGACY counterpart, whenever applicable.
 
-**You are strongly advised to start using the new namespace (e.g. packages / classnames) right away.** 
+**You are strongly advised to start using the new namespace (e.g. packages / classnames) right away.**
 
 ##Documentation
 
-* GSF-12 Installation Guide / ReadMe - Guide for manually installing and configuring GSF-12.
+* GSF-12 Installation Guide / Readme - Guide for manually installing and configuring GSF-12
 
 * JavaDocs are included in this kit. Alternatively, you can get them from the GSF's website.
 
 ##Contents
 
 In this release, classes are shipped in 2 JAR files:
-    
-*	*gsf-core-<version>.jar*: here you'll find the classes that make up GSF's new CORE.    
-    
+
+*	*gsf-core-<version>.jar*: here you'll find the classes that make up GSF's new CORE.
+
 *	*gsf-legacy-<version>.jar*: here you'll find deprecated classes scheduled for physical removal in a future release.
-	
-This kit builds both JAR files, including the due JavaDocs. 
+
+This kit builds both JAR files, including the due JavaDocs.
 
 ##Requirements
 
@@ -127,7 +127,7 @@ SLF4J 1.7.21 -- NOTE: WCS 12c already ships with SLF4J
 
 The Global Site Foundation is supported by the community. Questions and remarks can be send to:
 
-	ips-link@yahoogroups.com. 
+	ips-link@yahoogroups.com.
 
 Oracle Support does NOT provide support on GSF.
 
@@ -138,4 +138,3 @@ Issues / Bugs can be entered directly into our GitHub project's page:
 ##License
 
 This project is licensed under the [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) license.
-

@@ -20,30 +20,46 @@ import com.fatwire.assetapi.data.AssetId;
 import java.util.List;
 
 /**
- * Navigation service used to access site plan-based nav structures in WebCenter Sites. Not all data driving this
- * structure needs to come from the Site Plan, but it is designed to work with structures rooted in it.
+ * Service that exposes hierarchical navigation structures in the form of <code>Node</code>s.
+ *
+ * The service also allows an object present in or related to the navigation structures to access its breadcrumb.
+ * An object's breadcrumb is defined as the <em>preferred</em> path through the navigation structures from the
+ * root of the entire site to the specified object.
+ *
+ * In specifying "preferred" it therefore follows that an object that is present or related to more than one location
+ * in the navigation structures (and can therefore be reached by traversing the navs in more than one way) may only
+ * have one single breadcrumb path.
  *
  * @author Tony Field
  * @since 2016-06-28
  */
-public interface NavService<NODE extends Node> {
+public interface NavService<N extends Node, S, P> {
 
     /**
-     * Load the navigation structure based on an object in the site plan.
+     * Returns the nodes corresponding to the nav structure specified.
      *
-     * @param assetInSitePlan asset ID of the object in the site plan tree. The type of this object is not specified.
-     *                        This object, as well as all nodes below this object will be returned.
-     * @return Site plan node.
+     * @param id an identifier that specifies which nav structure should be loaded.
+     * @return a list of the nodes at the root of the nav structure specified. Never null.
+     * @throws IllegalArgumentException if the structure specified is invalid.
      */
-    NODE loadNav(AssetId assetInSitePlan);
+    List<N> getNav(S id);
 
     /**
-     * Return the breadcrumb path from the root of the site plan to the specified asset in the navigation
-     * structure.
+     * Return the preferred breadcrumb path from the root of the site to the object specified.
      *
-     * @param id The id of the asset whose path to the root of the navigation structure will be traced.
-     * @return A list of NODEs starting with the root of the navigation structure up to the specified NODE.
+     * An object's breadcrumb is defined as the <em>preferred</em> path through the navigation structures from the
+     * root of the entire site to the specified object.
+     *
+     * In specifying "preferred" it therefore follows that an object that is present or related to more than one location
+     * in the navigation structures (and can therefore be reached by traversing the navs in more than one way) may only
+     * have one single breadcrumb path.
+     *
+     * @param obj object participating in the navigation structure
+     * @return list of nodes, starting with the root node of the site and ending with the node corresponding to
+     * the specified object.
+     * @throws IllegalArgumentException if the specified object is not present or related to an object in the nav
+     * structures of this site.
      */
-    List<NODE> getBreadcrumb(AssetId id);
+    List<N> getBreadcrumb(P obj);
 
 }

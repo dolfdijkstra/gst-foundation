@@ -34,12 +34,10 @@ import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
  */
 public final class LightweightSitePlanNavService extends SitePlanNavService {
 
-    private final ICS ics;
     private final TemplateAssetAccess dao;
 
     public LightweightSitePlanNavService(ICS ics, TemplateAssetAccess dao) {
-        super(ics, dao);
-        this.ics = ics;
+        super(ics);
         this.dao = dao;
     }
 
@@ -49,7 +47,7 @@ public final class LightweightSitePlanNavService extends SitePlanNavService {
      * @param id asset ID to load
      * @return asset data in the form of a TemplateAsset, never null
      */
-    protected TemplateAsset populateNodeData(AssetId id) {
+    protected TemplateAsset getNodeData(AssetId id) {
         return dao.read(id, "name", "template");
     }
 }

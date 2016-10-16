@@ -5,13 +5,10 @@
 	<artifactId>gsf-parent</artifactId>
 	<version>12.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Sites GST Site Foundation</name>
+	<name>GST Site Foundation for WebCenter Sites</name>
 	<description>The GST Site Foundation parent project</description>
 	<url>http://dolfdijkstra.github.com/gst-foundation</url>
 	<inceptionYear>2010</inceptionYear>
-	<organization>
-		<name>Oracle Corporation</name>
-	</organization>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -24,6 +21,15 @@
 		</developer>
 		<developer>
 			<name>Tony Field</name>
+		</developer>
+		<developer>
+			<name>Freddy Villalba</name>
+		</developer>
+		<developer>
+			<name>David Chesebro</name>
+		</developer>
+		<developer>
+			<name>Allan Mai</name>
 		</developer>
 	</developers>
 	<scm>
@@ -101,12 +107,6 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>${commons-logging.version}</version>
-            <scope>test</scope>
-        </dependency>
 	</dependencies>
 	<build>
 		<extensions>

@@ -16,16 +16,13 @@
 package tools.gsf.navigation;
 
 import COM.FutureTense.Interfaces.ICS;
-import COM.FutureTense.Interfaces.IList;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
-import com.fatwire.cs.core.db.StatementParam;
 import tools.gsf.facade.assetapi.AssetIdUtils;
 import tools.gsf.facade.assetapi.asset.TemplateAsset;
-import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 import tools.gsf.facade.runtag.render.LogDep;
-import tools.gsf.facade.sql.IListIterable;
 import tools.gsf.facade.sql.Row;
+import tools.gsf.facade.sql.SqlHelper;
 
 import java.util.*;
 
@@ -34,106 +31,64 @@ import java.util.*;
  * a dedicated method that can be overridden to load any data that is required, as long as it can be presented
  * as a TemplateAsset.
  *
- * Reads the full site plan tree in one query.
+ * Reads the full site plan tree in one query, but only reads asset data for nodes that it is going to actually return.
+ *
  * @author Tony Field
  * @since 2016-07-06
  */
-public abstract class SitePlanNavService implements NavService<AssetNode> {
+public abstract class SitePlanNavService implements NavService<AssetNode, AssetId, AssetId> {
 
     private final ICS ics;
-    private final TemplateAssetAccess dao;
-    private final boolean isHsqldb;
+    private final Map<AssetId,SimpleAssetNode[]> nodesById = new HashMap<>();
 
-    public SitePlanNavService(ICS ics, TemplateAssetAccess dao) {
-        this.ics = ics;
-        this.dao = dao;
-        this.isHsqldb = "HSQLDB".equals(ics.GetProperty("cs.dbtype"));
-    }
-
-    private static final PreparedStmt NAVIGATION_TREE_LOOKUP = new PreparedStmt(
-            "WITH tblChildren (nid, nparentid, oid, otype, nrank) AS "
-                    + "( "
-                    + " select spt.NID, spt.NPARENTID, spt.OID, spt.otype, spt.nrank from SITEPLANTREE spt "
-                    + " WHERE spt.OID = ? "
-                    + " UNION ALL "
-                    + " SELECT spt.NID, spt.NPARENTID, spt.OID, spt.OTYPE, spt.nrank from "
-                    + " SITEPLANTREE spt JOIN tblChildren ON spt.NPARENTID = tblChildren.NID where spt.NCODE = 'Placed' "
-                    + ") "
-                    + " SELECT NID, NPARENTID, OID, OTYPE, NRANK "
-                    + " FROM tblChildren order by NRANK ",
-            Collections.singletonList("SITEPLANTREE"));
-    static {
-        NAVIGATION_TREE_LOOKUP.setElement(0, "SITEPLANTREE", "OID");
-    }
     private static final PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
             "select * from SITEPLANTREE where ncode = 'Placed'",
             Collections.singletonList("SITEPLANTREE"));
 
-    public AssetNode loadNav(AssetId sitePlan) {
+    public SitePlanNavService(ICS ics) {
 
-        if (sitePlan == null) {
-            throw new IllegalArgumentException("Null param not allowed");
-        }
+        this.ics = ics;
 
         // read the site plan tree in one massive query
-        StatementParam assetIdParam = NAVIGATION_TREE_LOOKUP.newParam();
-        assetIdParam.setLong(0, sitePlan.getId());
         Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
-        IList sitePlanTree = isHsqldb
-                ? ics.SQL(NAVIGATION_TREE_DUMP, NAVIGATION_TREE_DUMP.newParam(), true)
-                : ics.SQL(NAVIGATION_TREE_LOOKUP, assetIdParam, true);
 
-        for (Row row : new IListIterable(sitePlanTree)) {
+        for (Row row : SqlHelper.select(ics, NAVIGATION_TREE_DUMP, NAVIGATION_TREE_DUMP.newParam())) {
             SitePlanTreeData nodeInfo = new SitePlanTreeData(row);
             rowMap.put(nodeInfo.nid, nodeInfo);
         }
 
         // create Node objects
-        Map<Long, SimpleAssetNode> nodeMap = new HashMap<>();
+        Map<Long, SimpleAssetNode> nidNodeMap = new HashMap<>();
         for (long nid : rowMap.keySet()) {
             SimpleAssetNode node = new SimpleAssetNode(rowMap.get(nid).assetId);
-            nodeMap.put(nid, node);
+            nidNodeMap.put(nid, node);
         }
 
         // hook up parent-child relationships
         for (long nid : rowMap.keySet()) {
             SitePlanTreeData sptRow = rowMap.get(nid);
-            SimpleAssetNode node = nodeMap.get(nid);
-            SimpleAssetNode parent = nodeMap.get(sptRow.nparentid);
+            SimpleAssetNode node = nidNodeMap.get(nid);
+            SimpleAssetNode parent = nidNodeMap.get(sptRow.nparentid);
             if (parent != null) {
                 node.setParent(parent);
                 parent.addChild(sptRow.nrank, node); // this ranks them too!
             }
-        }
 
-        // populate each asset
-        for (SimpleAssetNode node : nodeMap.values()) {
-            AssetId id = node.getId();
-            LogDep.logDep(ics, id); // record compositional dependency
-            TemplateAsset data = populateNodeData(id);
-            if (data == null) {
-                throw new IllegalStateException("Null node data returned for id "+id);
-            }
-            node.setAsset(data);
-        }
-
-        // return the loaded root node
-        for (SimpleAssetNode node : nodeMap.values()) {
-            if (node.getId().equals(sitePlan)) {
-                return node;
+            // Stash for later. Probably won't have many duplicates so optimize and don't create too many lists
+            AssetId assetId = node.getId();
+            SimpleAssetNode[] a1 = nodesById.get(assetId);
+            if (a1 == null) {
+                a1 = new SimpleAssetNode[1];
+                a1[0] = node;
+                nodesById.put(assetId, a1);
+            } else {
+                SimpleAssetNode[] a2 = new SimpleAssetNode[a1.length+1];
+                System.arraycopy(a1, 0, a2, 0, a1.length);
+                a2[a1.length] = node;
+                nodesById.put(assetId, a2);
             }
         }
-
-        throw new IllegalStateException("Could not locate root node in processed tree data. Possible bug.");
     }
-
-    /**
-     * Method to retrieve data that will be loaded into a node. Implementing classes should take care
-     * to be very efficient both for cpu time as well as memory usage.
-     * @param id asset ID to load
-     * @return asset data in the form of a TemplateAsset, never null
-     */
-    protected abstract TemplateAsset populateNodeData(AssetId id);
 
     private static class SitePlanTreeData {
         final long nid;
@@ -159,20 +114,88 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
         }
     }
 
-    private static final PreparedStmt BREADCRUMBS_LOOKUP = new PreparedStmt("WITH tblChildren (nid, nparentid, oid, otype, nrank) AS "
-            + "( "
-            + " select spt.NID, spt.NPARENTID, spt.OID, spt.otype, spt.nrank from SITEPLANTREE spt "
-            + " WHERE spt.OID = ? "
-            + " UNION ALL "
-            + " SELECT spt.NID, spt.NPARENTID, spt.OID, spt.OTYPE, spt.nrank from "
-            + " SITEPLANTREE spt JOIN tblChildren ON spt.NID = tblChildren.NPARENTID where spt.OTYPE = 'Page' and spt.NCODE = 'Placed'"
-            + ") "
-            + " SELECT NID, NPARENTID, OID, OTYPE, NRANK "
-            + " FROM tblChildren ",
-            Collections.singletonList("SITEPLANTREE"));
-    static {
-        BREADCRUMBS_LOOKUP.setElement(0, "SITEPLANTREE", "OID");
+    public List<AssetNode> getNav(AssetId sitePlan) {
+
+        if (sitePlan == null) {
+            throw new IllegalArgumentException("Null param not allowed");
+        }
+
+        // find the requested structure
+        AssetNode[] spNodes = nodesById.get(sitePlan);
+        if (spNodes == null) throw new IllegalArgumentException("Could not locate nav structure corresponding to "+sitePlan);
+        if (spNodes.length > 1) throw new IllegalStateException("Cannot have more than one site plan node with the same id in the tree");
+        AssetNode requestedRoot = spNodes[0]; // never null
+
+        // populate asset data into the structure requested
+        _populateNodes(requestedRoot);
+
+        // return the loaded children of the structure root
+        return requestedRoot.getChildren();
     }
+
+    private void _populateNodes(AssetNode... emptyNodes) {
+
+        // gather the empty nodes we care about
+        Collection<AssetNode> nodesToPopulate = new HashSet<>();
+        for (AssetNode unpopulatedNode : emptyNodes) {
+            nodesToPopulate.add(unpopulatedNode);
+            nodesToPopulate.addAll(_getDescendents(unpopulatedNode));
+            nodesToPopulate.addAll(_getAncestors(unpopulatedNode));
+        }
+
+        // fill 'em up
+        for (AssetNode node : nodesToPopulate) {
+            AssetId id = node.getId();
+            LogDep.logDep(ics, id);
+            TemplateAsset data = getNodeData(id);
+            if (data == null) {
+                throw new IllegalStateException("Null node data returned for id " + id);
+            }
+            SimpleAssetNode san = _asSimpleAssetNode(node);
+            san.setAsset(data);
+        }
+    }
+
+    private Collection<AssetNode> _getDescendents(AssetNode n) {
+        Set<AssetNode> descendents = new HashSet<>();
+        for (AssetNode kid : n.getChildren()) {
+            descendents.add(kid);
+            descendents.addAll(_getDescendents(kid));
+        }
+        return descendents;
+    }
+
+    private Collection<AssetNode> _getAncestors(AssetNode node) {
+        Set<AssetNode> ancestors = new HashSet<>();
+        do {
+            ancestors.add(node);
+            node = node.getParent();
+        } while (node != null);
+        return ancestors;
+    }
+
+    /**
+     * We can't modify AssetNode objects, but we can modify SimpleAssetNodes. We do have a map of SimpleAssetNode
+     * objects that we can look through though, so look through all of them and find the handle to the SimpleAssetNodes
+     * corresponding to the input.
+     * @param node asset node
+     * @return asset node as simple asset node
+     */
+    private SimpleAssetNode _asSimpleAssetNode(AssetNode node) {
+        for (SimpleAssetNode san : nodesById.get(node.getId())) {
+            if (san.equals(node))
+                return san;
+        }
+        throw new IllegalStateException("Could not find SimpleAsseNode corresponding to AssetNode: "+node);
+    }
+
+    /**
+     * Method to retrieve data that will be loaded into a node. Implementing classes should take care
+     * to be very efficient both for cpu time as well as memory usage.
+     * @param id asset ID to load
+     * @return asset data in the form of a TemplateAsset, never null
+     */
+    protected abstract TemplateAsset getNodeData(AssetId id);
 
     public List<AssetNode> getBreadcrumb(AssetId id) {
 
@@ -180,10 +203,27 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
             throw new IllegalArgumentException("Cannot calculate breadcrumb of a null asset");
         }
 
-        return isHsqldb ? _breadcrumbByFullScan(id) : _breadcrumbByQuery(id);
+        Collection<List<AssetNode>> breadcrumbs = new ArrayList<>();
+        for (AssetNode node : nodesById.get(id)) {
+            breadcrumbs.add(getBreadcrumbForNode(node));
+        }
+
+        List<AssetNode> breadcrumb = chooseBreadcrumb(breadcrumbs);
+
+        _populateNodes(breadcrumb.toArray(new AssetNode[breadcrumb.size()]));
+
+        return breadcrumb;
     }
-    
-    private List<AssetNode> _getAllAncestors(AssetNode node) {
+
+    /**
+     * Get the breadcrumb corresponding to the specified node.
+     *
+     * Default implementation simply uses the specified node's parents.
+     *
+     * @param node the node whose breadcrumb needs to be calculated
+     * @return the breadcrumb
+     */
+    protected List<AssetNode> getBreadcrumbForNode(AssetNode node) {
         List<AssetNode> ancestors = new ArrayList<>();
         do {
             ancestors.add(node);
@@ -193,65 +233,15 @@ public abstract class SitePlanNavService implements NavService<AssetNode> {
         return ancestors;
     }
 
-
-    private List<AssetNode> _breadcrumbByFullScan(AssetId id) {
-
-        Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
-        StatementParam dumpParam = NAVIGATION_TREE_DUMP.newParam();
-        for (Row row : new IListIterable(ics.SQL(NAVIGATION_TREE_DUMP, dumpParam, true))) {
-            SitePlanTreeData nodeInfo = new SitePlanTreeData(row);
-            rowMap.put(nodeInfo.nid, nodeInfo);
-        }
-
-        // create Node objects
-        Map<Long, SimpleAssetNode> nodeMap = new HashMap<>();
-        for (long nid : rowMap.keySet()) {
-            SimpleAssetNode node = new SimpleAssetNode(rowMap.get(nid).assetId);
-            nodeMap.put(nid, node);
-        }
-
-        // hook up parent-child relationships
-        for (long nid : rowMap.keySet()) {
-            SitePlanTreeData sptRow = rowMap.get(nid);
-            SimpleAssetNode node = nodeMap.get(nid);
-            SimpleAssetNode parent = nodeMap.get(sptRow.nparentid);
-            if (parent != null) {
-                node.setParent(parent);
-                parent.addChild(sptRow.nrank, node); // this ranks them too!
-            }
-        }
-
-        // find my node
-        AssetNode myNode = nodeMap.values().stream().filter(n -> n.getId().equals(id)).findFirst().get();
-        if (myNode == null) throw new IllegalArgumentException("Could not find breadcrumb for "+id);
-
-        // return the breadcrumb for it in the form of assetids
-        return this._getAllAncestors(myNode);
+    /**
+     * Pick which breadcrumb to return if more than one path has been found.
+     *
+     * Default implementation simply returns the first one returned by the specified collection's iterator.
+     *
+     * @param options candidate breadcrumbs
+     * @return the breadcrumb to use.
+     */
+    protected List<AssetNode> chooseBreadcrumb(Collection<List<AssetNode>> options) {
+        return options.iterator().next();
     }
-
-    private List<AssetNode> _breadcrumbByQuery(AssetId id) {
-		List<AssetNode> results = new ArrayList<AssetNode>();
-        StatementParam breadcrumbParam = BREADCRUMBS_LOOKUP.newParam();
-        breadcrumbParam.setLong(0, id.getId());
-
-        for (Row row : new IListIterable(ics.SQL(BREADCRUMBS_LOOKUP, breadcrumbParam, true))) {
-            AssetId currentAssetId = AssetIdUtils.createAssetId(row.getString("otype"), row.getLong("oid"));
-            SimpleAssetNode currentNode = new SimpleAssetNode(currentAssetId);
-
-            // populate the asset
-            LogDep.logDep(ics, currentAssetId); // record compositional dependency
-            TemplateAsset data = populateNodeData(currentAssetId);
-            if (data == null) {
-                throw new IllegalStateException("Null node data returned for id "+id);
-            }
-            currentNode.setAsset(data);
-
-            if (! results.isEmpty())
-            	((SimpleAssetNode) results.get(0)).setParent(currentNode);
-            results.add(0, currentNode);
-        }
-        
-        return results;
-    }
-    
 }

@@ -110,6 +110,9 @@ function packageWebsite() {
 	echo "[$(date)]   preparing site"
 	mvn -P '!samples' site | awk '{ print "[PREPARING SITE] ", $0; }' >> $mavenOutputLog
 
+	echo "[$(date)]   aggregating javadoc"
+    mvn -P '!samples' javadoc:aggregate | awk '{ print "[AGGREGATING JAVADOC] ", $0; }' >> $mavenOutputLog
+
 	echo "[$(date)]   staging site under $siteLocation"
 	#mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation > /dev/null
 	mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation | awk '{ print "[STAGING SITE] ", $0; }' >> $mavenOutputLog
@@ -129,6 +132,10 @@ function packageWebsite() {
 	cp gsf-core/target/gsf-core-$VERSION-sources.jar $siteLocation/downloads/
 	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
 	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $siteLocation/downloads/
+
+	echo "[$(date)] Adding module sites to $siteLocation"
+	cp -R gsf-core/target/site "$siteLocation/gsf-core/"
+	cp -R gsf-legacy/target/site "$siteLocation/gsf-legacy/"
 
 	echo "[$(date)] Adding license to $siteLocation"
 	cp LICENSE "$siteLocation"

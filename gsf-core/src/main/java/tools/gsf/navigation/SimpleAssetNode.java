@@ -39,8 +39,8 @@ public class SimpleAssetNode implements AssetNode {
 
     private final AssetId id;
     private TemplateAsset asset = null;
-    AssetNode parent = null;
-    ArrayList<AssetNode> children = new ArrayList<>();
+    SimpleAssetNode parent = null;
+    ArrayList<SimpleAssetNode> children = new ArrayList<>();
 
     SimpleAssetNode(AssetId id) {
         this.id = id;
@@ -50,11 +50,11 @@ public class SimpleAssetNode implements AssetNode {
         this.asset = asset;
     }
 
-    void setParent(AssetNode parent) {
+    void setParent(SimpleAssetNode parent) {
         this.parent = parent;
     }
 
-    void addChild(int rank, AssetNode child) {
+    void addChild(int rank, SimpleAssetNode child) {
         while (children.size() < rank) children.add(null);
         children.set(rank-1, child);
     }
@@ -63,7 +63,7 @@ public class SimpleAssetNode implements AssetNode {
         return id;
     }
 
-    public AssetNode getParent() {
+    public SimpleAssetNode getParent() {
         return parent;
     }
 
@@ -185,5 +185,34 @@ public class SimpleAssetNode implements AssetNode {
                 "id=" + id +
                 (isAttribute("name") ? " name=" + asString("name") :  "") +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        SimpleAssetNode that = (SimpleAssetNode) o;
+
+        if (!id.equals(that.id)) {
+            return false;
+        }
+        if (parent != null ? !parent.equals(that.parent) : that.parent != null) {
+            return false;
+        }
+        return children.equals(that.children);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + (parent != null ? parent.id.hashCode() : 0);
+        result = 31 * result + children.hashCode();
+        return result;
     }
 }
