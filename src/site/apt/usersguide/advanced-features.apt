@@ -111,7 +111,7 @@ Use Your Own NavigationNode Implementation
 
 		* Plugging in your own NavService is simple (see above)
 
-	* If you are using one of the OOTB NavService implementations and you just want each <<AssetNode>> to be pre-populated with additional data other than the asset's "name" and "template", then you just need to override the <<"populateNodeData">> method.
+	* If you are using one of the OOTB NavService implementations and you just want each <<AssetNode>> to be pre-populated with additional data other than the asset's "name" and "template", then you just need to override the <<"getNodeData">> method.
 
 	[]
 
