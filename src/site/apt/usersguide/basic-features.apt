@@ -534,7 +534,7 @@ Inject Your Own Beans / Objects Into a WCS 12c Controller
 
 		In such scenario, if your Template's code depended on its own Controller's logic (which is usually the case), it would break.
 
-		Previous versions of the GSF defaulted to style="element" when Type 1 controllers called the childpagename template (in an attempt to intelligently set the call's style whenever you didn't set it explicitly).
+		Previous versions of the GSF defaulted to style="element" when Type 1 actions called the childpagename template (in an attempt to intelligently set the call's style whenever you didn't set it explicitly).
 
 		This did not occur in WCS 11.x and previous versions since Controllers were just introduced in WCS 12c.
 

@@ -30,13 +30,15 @@ Installation
 
 Requirements
 
-	* Java 1.8 (or newer)
+	* Java 1.8
 
 	* WCS 12c
 
 	* Servlet 3.0
+	
+	* JSP 2.2
 
-	* slf4j 1.7.21 (or newer) -- NOTE: WCS 12c already ships with SLF4J
+	* slf4j 1.7.21 -- NOTE: WCS 12c already ships with SLF4J
 
 	[]
 
