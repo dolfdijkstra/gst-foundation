@@ -183,7 +183,7 @@ public class SimpleAssetNode implements AssetNode {
     public String toString() {
         return "SimpleAssetNode{" +
                 "id=" + id +
-                (isAttribute("name") ? " name=" + asString("name") :  "") +
+                (asset != null ? (isAttribute("name") ? " name=" + asString("name") :  "") : ", 'no asset data loaded yet'") +
                 '}';
     }
 
