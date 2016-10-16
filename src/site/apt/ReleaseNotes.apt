@@ -21,7 +21,7 @@ Release Notes for GSF version 12.0.0
     * GSF requires Oracle WebCenter Sites 12.2.1
 
 	    * Therefore the following are also required: Java v1.8, Servlet 3.0 and JSP 2.2
-	
+
 	* GSF has split into two sub-projects - <<core>> and <<legacy>>.
 
 	    * The <<core>> package employs a new namespace: <<tools.gsf.*>>.
@@ -126,20 +126,20 @@ Release Notes for GSF version 12.0.0
 	* <<Facades>>
 
 		* All LEGACY facades have been DEPRECATED. You should stop using and/or extending and/or customizing them because all of them will be physically removed from the GSF project's codebase in an upcoming release. You should use the (new) CORE's facades instead.
-		
+
 			* A special mention must be made for the CallTemplate facade. Please, refer to the {{{./usersguide/overview.html} User's Guide}} for more details.
 
 			[]
 
 		[]
-			
+
 	* <<GSTAttribute Flex Family>>
 
 	    * The entire GSTAttribute flex family has been DEPRECATED. You should stop using / extending / customizing this flex family as it will be physically removed from the GSF project's codebase in an upcoming release.
-	
+
 		* The GST Property mechanism itself <<is NOT and WILL NOT be deprecated>>, only the pre-existing classes / taglibs. In fact, it has been already enhanced (see above)
-		
-		[] 
+
+		[]
 
 	* All GSF-specific samples have been physically removed from the GSF project's codebase, although the gsf-samples module itself is still there. New samples are planned for a future release.
 

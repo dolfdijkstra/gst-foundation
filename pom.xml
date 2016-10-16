@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.fatwire.gst</groupId>
-	<artifactId>gst-foundation</artifactId>
+	<groupId>tools.gsf</groupId>
+	<artifactId>gsf-parent</artifactId>
 	<version>12.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GST Site Foundation for WebCenter Sites</name>
@@ -45,8 +45,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<fatwire.contentserver.version>12.2.1.0.0</fatwire.contentserver.version>
-		<javax.servlet.servlet-api.version>3.0.1</javax.servlet.servlet-api.version><!-- switch to 3.0 -->
-		<javax.servlet.jsp-api.version>2.0</javax.servlet.jsp-api.version><!-- switch to 2.2.1 -->
+		<javax.servlet.servlet-api.version>3.0.1</javax.servlet.servlet-api.version>
+		<javax.servlet.jsp-api.version>2.2.1</javax.servlet.jsp-api.version>
 		<spring.version>3.2.6.RELEASE</spring.version>
 		<junit.version>4.10</junit.version>
 		<commons-logging.version>1.1.3</commons-logging.version>
@@ -221,15 +221,15 @@
                 <version>2.11</version>
 				<dependencies>
 					<dependency>
-						<groupId>com.fatwire.gst</groupId>
+						<groupId>tools.gsf</groupId>
 						<artifactId>gsf-build-tools</artifactId>
 						<version>${project.version}</version>
 					</dependency>
 				</dependencies>
 				<configuration>
-					<header>com/fatwire/gst/foundation/license/APACHE2-HEADER.txt</header>
+					<header>tools/gsf/license/APACHE2-HEADER.txt</header>
 					<validHeaders>
-						<validHeader>com/fatwire/gst/foundation/license/LicenseHeader.txt</validHeader>
+						<validHeader>tools/gsf/license/LicenseHeader.txt</validHeader>
 					</validHeaders>
 					<failIfMissing>true</failIfMissing>
 					<strictCheck>true</strictCheck>
