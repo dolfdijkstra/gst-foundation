@@ -27,11 +27,11 @@ Website to do
 
     * commit legacy projects to gh-pages
 
+    * move legacy doc links to legacy module
+
     * add a logo for fun because... logos!
 
     * version-independent doc structure in gh-pages
-
-    * verify reports c.f. https://maven.apache.org/plugins/maven-project-info-reports-plugin/examples/selective-project-info-reports.html
 
     * QA
 

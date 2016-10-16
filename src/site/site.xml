@@ -19,21 +19,21 @@ specific language governing permissions and limitations
 under the License.
 -->
 <project xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
-	<skin>
-		<groupId>org.apache.maven.skins</groupId>
-		<artifactId>maven-fluido-skin</artifactId>
-		<version>1.5</version>
-	</skin>
-	<custom>
-		<fluidoSkin>
-			<sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
-			<topBarEnabled>false</topBarEnabled>
-			<sideBarEnabled>true</sideBarEnabled>
-			<googleSearch>
-				<sitesearch/>
-			</googleSearch>
-			<facebookLike />
-		</fluidoSkin>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.5</version>
+    </skin>
+    <custom>
+        <fluidoSkin>
+            <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+            <topBarEnabled>false</topBarEnabled>
+            <sideBarEnabled>true</sideBarEnabled>
+            <googleSearch>
+                <sitesearch/>
+            </googleSearch>
+            <facebookLike />
+        </fluidoSkin>
         <head>
             <script type="text/javascript">
                 var _gaq = _gaq || [];
@@ -46,8 +46,8 @@ under the License.
                 })();
             </script>
         </head>
-	</custom>
-	<body>
+    </custom>
+    <body>
         <menu name="Overview">
             <item name="Introduction" href="./index.html"/>
             <item name="Download" href="./download.html"/>
@@ -61,7 +61,7 @@ under the License.
                 <item name="Built-in variables" href="./usersguide/variables.html" />
             </item>
             <item name="Install Guide" href="./install.html"/>
-            <item name="Javadoc" href="./apidocs/index.html" />
+            <item name="Javadoc" href="./gsf-core/apidocs/index.html" />
             <item name="Release Notes" href="./ReleaseNotes.html"/>
             <item name="Documentation Home" href="./docs.html" />
             <item name="News Archive" href="./news-archive.html"/>
@@ -71,12 +71,7 @@ under the License.
             <item name="Building" href="./dev/building.html"/>
             <item name="Issue Tracking" href="./issue-tracking.html"/>
             <item name="Source Repository" href="./source-repository.html"/>
-            <item name="Dependencies" href="./gsf-core/dependencies.html" />
-            <item name="Dependency Info" href="./gsf-core/dependency-info.html" />
-            <item name="Legacy Info">
-                <item name="Legacy Dependencies" href="./gsf-legacy/dependencies.html" />
-                <item name="Legacy Dependency Info" href="./gsf-legacy/dependency-info.html" />
-            </item>
         </menu>
-</body>
+        <menu ref="modules" />
+    </body>
 </project>
