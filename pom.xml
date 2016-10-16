@@ -9,9 +9,6 @@
 	<description>The GST Site Foundation parent project</description>
 	<url>http://dolfdijkstra.github.com/gst-foundation</url>
 	<inceptionYear>2010</inceptionYear>
-	<organization>
-		<name>Oracle Corporation</name>
-	</organization>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>

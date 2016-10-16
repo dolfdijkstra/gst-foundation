@@ -31,6 +31,8 @@ Website to do
 
     * version-independent doc structure in gh-pages
 
+    * verify reports c.f. https://maven.apache.org/plugins/maven-project-info-reports-plugin/examples/selective-project-info-reports.html
+
     * QA
 
 Introducing GSF 12.0!
