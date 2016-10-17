@@ -19,25 +19,9 @@ limitations under the License.
    uber pom.xml.
 *#
 
-Website to do
+Introducing GSF 12!
 
-    * build quickstart page
-
-    * build typical usage page
-
-    * commit legacy projects to gh-pages
-
-    * add a logo for fun because... logos!
-
-    * version-independent doc structure in gh-pages
-
-    * verify reports c.f. https://maven.apache.org/plugins/maven-project-info-reports-plugin/examples/selective-project-info-reports.html
-
-    * QA
-
-Introducing GSF 12.0!
-
-    After years of waiting, WebCenter Sites 12c is out, and we are thrilled to present GSF 12 - brand new and optimized
+    After years of work, WebCenter Sites 12c is out, and we are thrilled to present GSF 12 - brand new, and optimized
     for the latest from Oracle.
 
 * What is the GSF?
@@ -52,33 +36,45 @@ Introducing GSF 12.0!
 
 	[[1]]	Clearly defines extension points
 
-	[[1]]	Avoids imposing any design / data model requirements whilst encouraging the use of design patterns, optimal coding and best practices.
+	[[1]]	Avoids imposing any design / data model requirements whilst encouraging the use of design patterns,
+	optimal coding and best practices.
 
 	[[1]]   Is suitable for use "out of the box" for a large number of sites
 
 	[]
 
-	This is the first GSF release built for WCS 12c's features and rendering practices. The main goals of this release are to:
+	This is the first GSF release built for WCS 12c's features and rendering practices. The main goals of this
+	release are to:
     
 	* Provide a fresh library optimized for WCS 12c projects
 
-	* Move to a distinct namespace for current code that does not clash with Oracle's namespaces, thus simplifying debugging and removing ambiguity pertaining to support (moved from <<com.fatwire.gst.foundation.*>> to <<tools.gsf.*>>)
+	* Move to a distinct namespace for current code that does not clash with Oracle's namespaces, thus simplifying
+	debugging and removing ambiguity pertaining to support (moved from
+	<<<com.fatwire.gst.foundation.*>>> to <<<tools.gsf.*>>>)
 
-	* Provide the means for 11g GSF clients to reuse as much of their existing code as possible when upgrading from WCS 11.x to WCS 12c,
+	* Provide the means for 11g GSF clients to reuse as much of their existing code as possible when upgrading from
+	WCS 11.x to WCS 12c,
     
 	* Simplify installation / deployment to the utmost, making it as agile and CI-friendly as possible, and
     
-	* Encourage GSF users and potential adopters to benefit from GSF's optimized code whilst leveraging better encapsulation, cleaner design and more intuitive, simpler usage and deployment.
+	* Encourage GSF users and potential adopters to benefit from GSF's optimized code whilst leveraging better
+	encapsulation, cleaner design and more intuitive, simpler usage and deployment.
     
 	[]  
 
-	Many of the GSF's existing features have become partially or totally unnecessary due to WCS 12c (and 11.x) offering a native equivalent. Such features are therefore deprecated in this release and, in some cases, physically removed from the codebase. Those classes / components which are still valid and/or useful and/or expected to become building blocks for NEW features to be implemented in future releases of the GSF have been left untouched -- or adjusted specifically for WCS 12c.
+	Many of the GSF's existing features have become partially or totally unnecessary due to WCS 12c (and 11.x)
+	offering a native equivalent. Such features are therefore deprecated in this release and, in some cases,
+	physically removed from the codebase. Those classes / components which are still valid and/or useful and/or
+	expected to become building blocks for NEW features to be implemented in future releases of the GSF have
+	been left untouched -- or adjusted specifically for WCS 12c.
     
-	Deprecated features will be physically removed from the GSF project's codebase in future major releases. We still aim at keeping the GSF's code - and footprint - as clean and minimal as possible!
+	Deprecated features will be physically removed from the GSF project's codebase in future major releases. We
+	still aim at keeping the GSF's code - and footprint - as clean and minimal as possible!
 
 	The GSF was initiated in 2010 by Tony Field, Dolf Dijkstra, Michael Sullivan and Suzanne Bourdeaux.
 
-    Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of folding in such enhancements into future versions of the GST Site Foundation.
+    Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of
+    folding in such enhancements into future versions of the GST Site Foundation.
 
 	October, 2016.
 

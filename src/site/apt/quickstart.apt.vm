@@ -1,0 +1,111 @@
+#* Copyright 2016 Function1, Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#* In order to auto-adjust the download links to the version being
+   specifically built, this apt-velocity script relies on the
+   "projectVersionForAPTs" property defined inside the project's
+   uber pom.xml.
+*#
+
+Quickstart Guide for the Impatient
+
+* Quickstart instructions for working with the GSF core library, for a new site on a 12c system
+
+    [[1]] Download the GSF core jar ({{{./downloads/gsf-core-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}).
+
+    [[1]] Add it to your maven repo & add it to your WCS site build project here:
+
++--
+    <dependency>
+      <groupId>tools.gsf</groupId>
+      <artifactId>gsf-core</artifactId>
+      <version>${projectVersionForAPTs}</version>
+    </dependency>
++--
+
+    [[1]] Create your service factory class - like this one:
+
++--
+    package com.mycompany.myproject.gsf.config;
+
+    import COM.FutureTense.Interfaces.ICS;
+
+    import tools.gsf.config.Factory;
+    import tools.gsf.config.ServiceProducer;
+    import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
+    import tools.gsf.navigation.AssetNode;
+    import tools.gsf.navigation.NavService;
+
+    import com.mycompany.myproject.gsf.navigation.MainNavService;
+
+    /**
+     * This is the custom IcsBackedFactory implementation we will be using at myproject.
+     *
+     * @author fvillalba
+     * @author Tony Field
+     * @since 29-Sept-2016
+     *
+     */
+    public class IcsBackedFactory extends tools.gsf.config.IcsBackedFactory {
+
+    	public IcsBackedFactory(ICS ics, Factory delegate) {
+    		super(ics, delegate);
+    	}
+
+    	/*
+    	 * This is a sample service that the object factory will be able to
+    	 * return - it's accessible in controllers via annotation injection,
+    	 * like
+    	 *
+    	 * @InjectForRequest("mainNavService") private NavService<AssetNode> navSvc;
+    	 *
+    	 * making it incredibly easy to gain quick access to your services inside
+    	 * your WCS 12c controller classes
+    	 */
+        @ServiceProducer(cache = true, name="mainNavService")
+        public NavService<AssetNode> createMainNavService() {
+        	TemplateAssetAccess taa = getObject("templateAssetAccess", TemplateAssetAccess.class);
+            return new MainNavService(getICS(), taa);
+        }
+
+    }
++--
+
+    [[1]] Declare your factory. Add a file called <<<gsf-factory>>> to your jar (if using maven, place the file in the
+    <<<src/main/resources/META-INF>>> folder). It should look like this:
+
++--
+     COM.FutureTense.Interfaces.ICS:com.mycompany.myproject.gsf.config.IcsBackedFactory
++--
+
+    [[1]] Drop your jar, as well as <<<gsf-core-${projectVersionForAPTs}.jar>>>, into your app
+    server's <<<WEB-INF/lib>>> folder & re-deploy the application.
+
+    [[1]] Log in to WCS, create a template, and create a groovy WCS controller. Instead of extending Oracle's
+    <<<com.fatwire.assetapi.data.BaseController>>>, extend <<<tools.gsf.controller.InjectingController>>>.
+    It works exactly the same way, except that it's injection-aware. You can now
+    access your nav service, or any other pre-defined injections, in one line (see above).
+
+    [[1]] That's it!
+
+    []
+
+    Have a look at the {{{./gsf-core/apidocs/index.html}Java API Reference}} for a review of the services
+    available. Review the {{{./usersguide/overview.html}User's Guide}} for more detailed how-to instructions, more
+    about typical usage, as well as some advanced features. Have fun!
+
+* GSF Legacy
+
+    Sorry, there's no quickstart available for GSF Legacy.
