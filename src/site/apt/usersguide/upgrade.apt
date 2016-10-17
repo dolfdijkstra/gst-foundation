@@ -1,0 +1,50 @@
+~~
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+GSF User's Guide
+
+* Upgrading the GSF
+
+    Most aspects of the GSF 11 have been moved to gsf-legacy-12, and so installing the legacy module will suffice in
+    most cases. Detailed installation instructions are available in the installation guide. However, the legacy
+    package is now deprecated, and we do recommend moving to gsf-core-12 (or later) soon, to take advantage of
+    new functionality and enhancements.
+
+An Important Note on Backwards-Compatibility
+
+	One of the major changes introduced into the GSF codebase in version 12 (and up) is a brand new namespace for all
+	classes and loggers. In doing so, all of the GSF's pre-existing classes have been <<deprecated>> in this release.
+
+	The new namespace is: <<tools.gsf>>. Starting this initial release of GSF, new "CORE" classes belong to a
+	subpackage of "tools.gsf" (or "tools.gsf" itself). All deprecated classes are packaged inside a separate artifact
+	/ JAR file called "LEGACY".
+
+	The above implies all pre-existing classes - i.e. all classes under the legacy namespace - <<com.fatwire.gst>> -
+	will enter the GSF deprecation cycle.
+
+	The GSF's deprecation cycle dictates that deprecated components will be physically removed from the GSF's codebase
+	/ project in the next major release after deprecation occurs.
+
+	If you are extending the GSF (or looking at the the source code anyway), you will notice that there are classes in
+	the CORE artifact which are exactly the same as one in the LEGACY artifact.
+
+	This is our way of allowing your smoothly transitioning from the old namespace / classes onto the new ones.
+
+	However, note that deprecated classes will not be enhanced, ever. Only the CORE classes will. In other words, as
+	CORE features / classes evolve they will gradually diverge from their LEGACY counterpart, whenever applicable.
+
+	For all of the above, <<you are strongly advised to move away from the legacy module, and utilize
+	gsf-core exclusively>>.

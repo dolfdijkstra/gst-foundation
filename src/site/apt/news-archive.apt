@@ -1,0 +1,137 @@
+~~
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+News archive
+
+* GSF 11.6.2 Released!
+
+    May 3, 2016 - Version 11.6.2 of the GSF is now generally available. This version is built for Oracle WebCenter
+    Sites 11gR1 (11.1.1.8). It contains important fixes to the controller infrastructure that greatly simplify
+    creating your own custom actions - along with a number of bug fixes. Some quick links:
+
+    * Download the complete kit (20MB)
+     ({{{../gsf-11.6.2/gst-foundation-11.6.2.zip}zip}})
+     ({{{../gsf-11.6.2/gst-foundation-11.6.2.tgz}tgz}})
+
+    * {{{../gsf-11.6.2/site/index.html}GSF 11.6.2 Site}}
+
+    * Documentation quick-links:
+    {{{../gsf-11.6.2/site/apidocs/index.html}JavaDocs}} •
+    {{{../gsf-11.6.2/site/gsf-taglib/tagreference.html}Tag Library}} •
+    {{{../gsf-11.6.2/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
+    {{{https://github.com/dolfdijkstra/gst-foundation/releases/tag/gst-foundation-11.6.2}Change Log}}
+
+    * {{{https://github.com/dolfdijkstra/gst-foundation}Project home on GitHub}}
+
+    []
+
+* GSF 11.6.1 Released!
+
+    October 4, 2013 - Version 11.6.1 of the GSF is now generally available. This version is built for Oracle WebCenter
+    Sites 11gR1 (11.1.1.8). It contains important fixes to the controller infrastructure that greatly simplify
+    creating your own custom actions - along with a number of bug fixes. Some quick links:
+
+    * Download the complete kit (20MB)
+     ({{{../gsf-11.6.1/gst-foundation-11.6.1.zip}zip}})
+     ({{{../gsf-11.6.1/gst-foundation-11.6.1.tgz}tgz}})
+
+    * {{{../gsf-11.6.1/site/index.html}GSF 11.6.1 Site}}
+
+    * Documentation quick-links:
+    {{{../gsf-11.6.1/site/apidocs/index.html}JavaDocs}} •
+    {{{../gsf-11.6.1/site/gsf-taglib/tagreference.html}Tag Library}} •
+    {{{../gsf-11.6.1/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
+    {{{../gsf-11.6.1/site/new-features-11g.html}Change Log}}
+
+    * {{{https://github.com/dolfdijkstra/gst-foundation}Project home on GitHub}}
+
+    []
+
+* GSF 11.6.0 Released!
+
+    June 10, 2013 - Version 11.6.0 of the GSF is now generally available. This version is built for Oracle WebCenter
+    Sites 11gR1 BP1 (11.1.1.6.1). Some quick links:
+
+    * Download the complete kit (20MB)
+    ({{{../gsf-11.6.0/gst-foundation-11.6.0.zip}zip}})
+    ({{{../gsf-11.6.0/gst-foundation-11.6.0.tgz}tgz}})
+
+    * {{{../gsf-11.6.0/site/index.html}GSF 11.6.0 Site}}
+
+    * Documentation quick-links:
+    {{{../gsf-11.6.0/site/apidocs/index.html}JavaDocs}} •
+    {{{../gsf-11.6.0/site/gsf-taglib/tagreference.html}Tag Library}} •
+    {{{../gsf-11.6.0/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
+    {{{../gsf-11.6.0/site/new-features-11g.html}Change Log}}
+
+    * {{{https://github.com/dolfdijkstra/gst-foundation}Project home on GitHub}}
+
+    []
+
+* GSF 11.x reaches release candidate stage
+
+    November 15, 2012 - The version 11.x of the GSF has now reached release candidate stage. Too many features to
+    describe here, but if you are running WebCenter Sites 11gR1 this is the kit you are looking for.
+
+    Also, this website is currently moving towards being consumed by the github site, so don't be surprised if you see
+    gradual updates over the next little while.
+
+* GSF 1.3.1 released
+
+    August 3, 2012 - Version 1.3.1 was released today. It includes some minor installation improvements relating to
+    site assignment of the GST/Dispatcher. Also properly positions web artifacts in the gsf folder. No functional
+    changes.
+
+* GSF 1.3 is out!
+
+    August 1, 2012 - The GST Site Foundation version 1.3 is now generally available. It contains a number of bug fixes
+    and new features, including a new installer. It's available as a single
+    download {{{../gsf-1.3/gst-foundation-kit-1.3.tar}here}}. GSF 1.3 is designed for
+    WebCenter Sites 7.6, and is compatible with 11gR1 (see below for details about this).
+
+* GST Site Foundation 1.3.0 Release
+
+    The 1.3.0 release is currently being prepared and will be ready for download by 9am EDT on Wednesday, August 1, 2012.
+
+* GST Site Foundation 1.3-SNAPSHOT Compatibility with Oracle WebCenter Sites 11gR1
+
+    Tony Field has written a blog post on the topic of compatibility of the 1.3 version of the GSF on OWCS 11gR1.
+    Essentially, GSF 1.3 is compatible with Oracle WebCenter Sites 11gR1 for sites built with the 7.6 / GST 1.0.3
+    architecture specificaiton
+
+* Installing GST Site Foundation 1.3-SNAPSHOT on Oracle WebCenter Sites 11gR1
+
+    Here are some very brief instructions on installing GSF 1.3 on OWCS 11gR1.
+
+* 7.6.2 Compatibility Alert
+
+    In Oracle WebCenter Sites (Content Server) 7.6.2, the COM.FutureTense.Util.ftErrors class was changed so that it no
+    longer extends java.lang.Exception. (FatWire Content Server 7.6 Release Notes (February 3, 2012): (#25446) Since
+    ftErrors objects are created frequently, there is a performance impact since it inherits from java.lang.Exception.
+    Break that inheritance chain)
+
+    This caused an effective change to the signature of the 13-year old COM.FutureTense.Interfaces.ICS.GetComplexError()
+    method, which was not documented. The GSF makes use of this API in the Facades module. If you are using GSF version
+    1.0, 1.1, 1.2, or 1.3-SNAPSHOT (dated March 2012 or earlier), you must upgrade to the current 1.3-SNAPSHOT (dated
+    March 29) to ensure that GSF will continue to operate with version 7.6.2 of Oracle WebCenter Sites. You can confirm
+    that you are experiencing this compatibility issue by looking for the following snippet in your application server
+    log file, immediately before the application server crashes (the JVM will exit immediately upon encountering this
+    error): java.lang.VerifyError: (class: com/fatwire/gst/foundation/CSRuntimeException, method: signature:
+    (Ljava/lang/String;LCOM/FutureTense/Util/ftErrors;I)V) Incompatible argument to function at
+    com.fatwire.gst.foundation.facade.runtag.render.CallTemplate.handleError(CallTemplate.java:349). GSF Version 1.3
+    (GA) is expected to be released by the end of June, 2012.
+
+    For more information, please contact {{{mailto:tony@function1.com?subject=GSF Inquiry}Tony Field}}.

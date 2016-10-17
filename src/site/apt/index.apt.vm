@@ -1,0 +1,86 @@
+#* Copyright 2016 Function1, Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#* In order to auto-adjust the download links to the version being
+   specifically built, this apt-velocity script relies on the
+   "projectVersionForAPTs" property defined inside the project's
+   uber pom.xml.
+*#
+
+Introducing GSF 12!
+
+    After years of work, WebCenter Sites 12c is out, and we are thrilled to present GSF 12 - brand new, and optimized
+    for the latest from Oracle.
+
+* What is the GSF?
+
+	The GSF:
+
+	[[1]]	Provides application configuration capabilities for WebCenter Sites
+
+	[[1]]   Extends WebCenter Sites' controller infrastructure, leveraging clean, reusable code and productivity
+
+	[[1]]   Provides streamlined APIs optimized for efficient page rendering, built upon supported Oracle APIs
+
+	[[1]]	Clearly defines extension points
+
+	[[1]]	Avoids imposing any design / data model requirements whilst encouraging the use of design patterns,
+	optimal coding and best practices.
+
+	[[1]]   Is suitable for use "out of the box" for a large number of sites
+
+	[]
+
+	This is the first GSF release built for WCS 12c's features and rendering practices. The main goals of this
+	release are to:
+    
+	* Provide a fresh library optimized for WCS 12c projects
+
+	* Move to a distinct namespace for current code that does not clash with Oracle's namespaces, thus simplifying
+	debugging and removing ambiguity pertaining to support (moved from
+	<<<com.fatwire.gst.foundation.*>>> to <<<tools.gsf.*>>>)
+
+	* Provide the means for 11g GSF clients to reuse as much of their existing code as possible when upgrading from
+	WCS 11.x to WCS 12c,
+    
+	* Simplify installation / deployment to the utmost, making it as agile and CI-friendly as possible, and
+    
+	* Encourage GSF users and potential adopters to benefit from GSF's optimized code whilst leveraging better
+	encapsulation, cleaner design and more intuitive, simpler usage and deployment.
+    
+	[]  
+
+	Many of the GSF's existing features have become partially or totally unnecessary due to WCS 12c (and 11.x)
+	offering a native equivalent. Such features are therefore deprecated in this release and, in some cases,
+	physically removed from the codebase. Those classes / components which are still valid and/or useful and/or
+	expected to become building blocks for NEW features to be implemented in future releases of the GSF have
+	been left untouched -- or adjusted specifically for WCS 12c.
+    
+	Deprecated features will be physically removed from the GSF project's codebase in future major releases. We
+	still aim at keeping the GSF's code - and footprint - as clean and minimal as possible!
+
+	The GSF was initiated in 2010 by Tony Field, Dolf Dijkstra, Michael Sullivan and Suzanne Bourdeaux.
+
+    Developers and Architects are encouraged to build upon and extend this framework with the long-term goal of
+    folding in such enhancements into future versions of the GST Site Foundation.
+
+	October, 2016.
+
+
+Support
+
+        The Global Site Foundation is supported by the community. Questions and remarks can be sent to ips-link@yahoogroups.com.
+
+        Oracle Support Services does not provide support on GSF. You cannot contact Oracle Support on issues or questions related to or caused by GSF, and expect to get an answer. Support can be obtained through the community.

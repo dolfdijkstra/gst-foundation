@@ -1,0 +1,13 @@
+The files in this folder will get deployed under the "META-INF" folder of the CORE JAR file.
+
+This is where you'd place the gsf-factory-producer and gsf-factory files.
+
+If you want to deploy any files under the LEGACY JAR's "META-INF" folder, you must use the gsf-legacy module for that.
+
+VERY IMPORTANT: make sure that 2 files with the same name are not packaged inside 2+ JARs. Alternatively, do not deploy
+more than one JAR file which contains such file at any moment.
+
+This is especially relevant for "gsf-factory".
+
+Both CORE and LEGACY make use of a configuration file with that name. However, each requires a different format for the
+contents of such file.

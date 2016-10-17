@@ -1,0 +1,567 @@
+~~
+~~ Copyright 2016 Function1, Inc. All Rights Reserved.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~    http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+GSF User's Guide
+
+* How to - basic features
+
+    {{Using the GSF in your project}}
+
+    {{Use the OOTB Factory Producer and Factory Implementations}}
+
+    {{Use Your Own Factory Implementation}}
+
+    {{Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)}}
+
+    {{Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)}}
+
+    {{Use the @Bind Annotation (tools.gsf.config.inject.Bind)}}
+
+    {{Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)}}
+
+    {{Use the @Mapping Annotation (tools.gsf.mapping.Mapping)}}
+
+    {{Use Your Own Asset Type as a GST Property Asset}}
+
+    {{Make Your Own Beans / Objects Available for Injection}}
+
+    {{Inject Your Own Beans / Objects Into a WCS 12c Controller}}
+
+
+Using the GSF in your project
+
+    Adding the GSF to your project does not require any special setup or configuration. To begin leveraging the features of <<gsf-core>>, simply add <<gsf-core-VERSION.jar>> to your project's Java classpath.
+
+Use the OOTB Factory Producer and Factory Implementations
+
+	* GSF object factories are very powerful and allow you to leverage inversion of control by configuring your application in a central location.  GSF 12 introduces the concept of <<scoped factories>>:
+
+	* GSF requires 2 scoped factories at all times, one for each scope driving WCS (and the GSF itself):
+
+		* ICS scope and
+
+		* ServletContext scope.
+
+		[]
+
+	* Base factory implementations are provided for each scope, out-of-the-box:
+
+		* ICS scope: <<tools.gsf.config.IcsBackedFactory>>
+
+		* ServletContext scope: <<tools.gsf.config.ServletContextBackedFactory>>
+
+		[]
+
+	* Factory Producer is responsible for instantiating all scoped factories supporting the system. A base factory producer implementation is provided, out-of-the-box: DefaultFactoryProducer.
+
+	* A <<fallback mechanism>> enables the GSF automatically looking up an object in the ServletContext-scoped factory whenever it is not found in the ICS-scoped factory. <<DefaultFactoryProducer>> is responsible for wiring up such fallback mechanism, e.g. by making ServletContextBackedFactory the <<"delegate" factory>> of IcsBackedFactory.
+
+	* No settings / tweaks are required in order to use the built-in Factory Producer (DefaultFactoryProducer). GSF will default to it unless you configure a custom Factory Producer.
+
+	* No settings / tweaks are required in order to use the built-in scoped Factories, provided that:
+
+		* You are using the DefaultFactoryProducer, and
+
+		* You are not using any custom built factories instead of the OOTB ones.
+
+		[]
+
+	* You can easily retrieve your ICS-scoped factory instance in one line:
+
++--
+Factory myIcsScopedFactory = FactoryLocator.locateFactory(ics);  // ics is your ICS instance
++--
+
+	* If, for whatever reason, you needed to get ahold of the ServletContext-scoped factory (remember that magical fallback mechanism), you can easily do so:
+
++--
+FactoryProducer fp = FactoryProducer.locateFactoryProducer(servletContext); // servletContext is your ServletContext instance
+Factory myServletContextScopedFactory = fp.getFactory(servletContext);
++--
+
+	* In theory, you can even define your own "scopes", as long as you comply with the due interfaces / contract.
+
+		* GSF does not know how to delegate from any custom scopes onto the built-in ones (nor viceversa). It's your responsibility defining your own Factory implementation's lookup logic as well as the due delegation strategy -- perhaps, supported by a custom Factory Producer implementation, too.
+
+		[]
+
+	[]
+
+Use Your Own Factory Implementation
+
+	* Implement your own custom factory.
+
+		* Typically, you'll want to extend either <<tools.gsf.config.IcsBackedFactory>> or <<tools.gsf.config.ServletContextBackedFactory>> .
+
+		* The only true requisite is that you implement the <<tools.gsf.config.Factory>> interface.
+
+		* There are other factories you could either extend or reuse (for instance, SpringObjectFactory)
+
+		[]
+
+	* Register it:
+
+		[[1]] Create a file named "gsf-factory".
+
+		[[1]] Inside your "gsf-factory" file, specify the fully-qualified name of your custom factory class(es).
+
+			* For overriding the default ICS-scoped factory, add a line like this:
+
++--
+COM.FutureTense.Interfaces.ICS:foo.wee.whatever.MyCustomIcsBackedFactory
++--
+
+			* For overriding the default ServletContext-scoped factory, add a line like this:
+
++--
+javax.servlet.ServletContext:foo.wee.whatever.MyCustomServletContextBackedFactory
++--
+
+			[]
+
+		[[1]] Package that file inside the "META-INF" folder of any JAR you are deploying inside the WCS 12c web app.
+
+			* Typically, you'd put it inside your custom JAR file (e.g. the one containing the custom factory producer class itself).
+
+			[]
+
+		[[1]] Deploy the JAR file containing your "gsf-factory" file inside the WCS web app.
+
+		[]
+
+	* BEAR IN MIND:
+
+		* GSF requires (at least) 2 factories, one for each supported <<scope>>:
+
+			* COM.FutureTense.Interfaces.ICS (a.k.a. "ICS" scope) and
+
+			* javax.servlet.ServletContext (a.k.a. "ServletContext" scope).
+
+		* GSF's <<built-in fallback mechanism>> enables its looking up an object in the ServletContext-scoped factory whenever it is not found in the ICS-scoped factory.
+
+		* If you don't explicitly configure a factory for these 2 scopes via "gsf-factory" file, they will default to:
+
++--
+COM.FutureTense.Interfaces.ICS:tools.gsf.config.IcsBackedFactory
+javax.servlet.ServletContext:tools.gsf.config.ServletContextBackedFactory
++--
+
+		[]
+
+	[]
+
+Use the @ServiceProducer Annotation (tools.gsf.config.ServiceProducer)
+
+	* This annotation supports the <<AbstractDelegatingFactory>> base class for factory implementations.
+
+	* This annotation will identify a method as a Service Producer. A service producer is a method that creates an object that is returned by the factory class.
+
+	* Service Producer methods are meaningful only to subclasses of <<AbstractDelegatingFactory>>
+
+	* This annotation provides the following settings:
+
+		* <<cache>> (OPTIONAL): indicates if the object should be cached or not. It defaults to <<false>>.
+
+		* <<name>> (OPTIONAL): the "name" of the Service. It's an "alias" for the method's prototype, used by factories when looking up an object. It defaults to an empty string.
+
+		[]
+
+	* Lookup logic and limitations:
+
+		* The <<Factory.getObject(String name, Class<T> type)>> method ultimately provide the ability to look up or retrieve an object from the factory. The mechanism by which this lookup occurs is up to the implementation to decide.
+
+		* <<AbstractDelegatingFactory>>'s subclasses, like <<IcsBackedFactory>> and <<ServletContextBackedFactory>> utilize the following lookup mechanism:.
+
+		* Fallback from "named" ServiceProducer methods onto "unnamed" ServiceProducer methods is provided OOTB, meaning:
+
+			* Factory.getObject(objectName, type) looks across all "named" Service Producers (i.e. methods where @ServiceProducer.name != null):
+
+				* If a method is found, then that's the method producing the object to be returned, lookup finishes.
+
+				* Otherwise, Factory.getObject(objectName, type) looks across all "unnamed" Service Producers (i.e. methods where @ServiceProducer.name == null):
+
+					* If the object is found, that's the object that gets injected.
+
+					* Otherwise, Factory.getObject(objectName, type) returns:
+
+						* If there is a delegate factory: delegateFactory.getObject().
+
+							* OOTB, IcsBackedFactory delegates into ServletContextBackedFactory.
+
+							[]
+
+						* If there is not a delegate factory: null.
+
+						[]
+
+					[]
+
+				[]
+
+			[]
+
+		* Whenever you specify a ServiceProducer.name for a given method in your factory class, make sure it is unique -- including all inherited methods.
+
+		* Although specifying ServiceProducer.name is optional, you are advised to specify it for every Service Producer or, at the very least, for all Service Producers whose return type is the same; this will avoid ambiguity and, potentially, unexpected results from your factory's "getObject" method.
+
+			* This is especially relevant when your own factory inherits other Service Producers with the same return type from an existing factory it extends.
+
+			* Unless you really know what you are doing, avoid overriding inherited Service Producers.
+
+			[]
+
+		[]
+
+	* Example:
+
++--
+(...)
+
+@ServiceProducer
+public Stopwatch newStopwatch() {
+    return LoggerStopwatch.getInstance();
+}
+
+(...)
++--
+
+	(NOTE: you can find multiple examples inside the IcsBackedFactory and ServletContextBackedFactory classes)
+
+	[]
+
+Use the @InjectForRequest Annotation (tools.gsf.config.inject.InjectForRequest)
+
+	* This annotation will look up the specified object (bean / service) in the configured <<ics-scoped>> Factory and it will inject it into the annotated field / method.
+
+	* It provides the following settings:
+
+		* <<value>> (OPTIONAL): the "name" of the object (bean / service) to be looked up.  If not specified, "value" will default to:
+
+			* Case annotated field: the name of the annotated field.
+
+			* Case annotated method: output of org.springframework.beans.BeanUtils.findPropertyForMethod(method).getName().
+
+			[]
+
+		[]
+
+	* Example:
+
++--
+(...)
+
+/**
+ * Provide a DAO that allows an asset to be easily mapped
+ */
+@InjectForRequest
+protected TemplateAssetAccess templateAssetAccess;
+
+(...)
++--
+
+	[]
+
+Use the @Bind Annotation (tools.gsf.config.inject.Bind)
+
+	* This annotation will look for the specified variable in the specified scope ("ics", "request" or "session") and, if found, it will inject the value into the annotated field.
+
+	* It provides the following settings:
+
+		* <<value>> (OPTIONAL): the name of the variable we want to look up. It defaults to the name of the annotated field.
+
+		* <<scope>> (OPTIONAL): the scope in which we want to look up. Supported values are "ics", "request" and "session". It defaults to "ics".
+
+		[]
+
+	* Lookup logic and limitations:
+
+		* When the <<extracted object is a String>>:
+
+			* If the annotated field's type is String, then it will assign the object as-is.
+
+			* If the annotated field's type <<is primitive (byte, int, double, float, long, short or boolean)>>, then conversion is attempted.
+
+			* If the annotated field's type <<is String, Date, Integer, Double, Character or Long>>, then conversion is attempted.
+
+			* If the annotate field's type is none of the above, it will try to assign the object to the annotated field as-is (no conversion). If the object is not assignable, an exception will be thrown.
+
+			[]
+
+		* When the <<extracted object is NOT a String>>:
+
+			* If the annotated field's type <<is primitive (byte, int, double, float, long, short or boolean)>>, then conversion is attempted.
+
+			* If the annotated field's type is of any other type, no value gets injected, annotation has no effect, no exception is thrown.
+
+			[]
+
+		[]
+
+	* Example:
+
++--
+(...)
+
+/**
+ * Bind rendermode to local variable
+ */
+@Bind(value="rendermode")
+protected String myRenderMode;
+
+(...)
++--
+
+Use the @CurrentAsset Annotation (tools.gsf.facade.assetapi.asset.CurrentAsset)
+
+	* This brand new annotation determines the current asset for the current ICS object (e.g. via c + cid), loads the asset along with the value of the attributes specified by the annotation and injects the appropriate object into the annotated field.
+
+	* It provides the following settings:
+
+		* <<attributes>> (OPTIONAL): the "name" of the attributes whose values we want to pre-load for the current asset. If not specified, "value" will default to "name" (meaning the std field on every asset type / subtype named "name")
+
+		[]
+
+	* Lookup logic and limitations:
+
+		* Current asset is determined as per the following call: AssetIdUtils.currentId(ics).
+
+		* Supports TemplateAsset, ScatteredAsset and AssetData typed fields. Asset containers provided by other DAOs may be configured by overriding the <<CurrentAssetInjector>> class.
+
+		[]
+
+	* IMPORTANT: be aware of the language-specific convention for specifying String arrays (Groovy = [], Java = {})
+
+	* Examples (Groovy):
+
+			* TemplateAsset:
+
++--
+
+class MyController extends InjectingController {
+
+	(...)
+
+	@CurrentAsset(attributes=["title", "body", "headline"]) TemplateAsset currentTemplateAsset;
+
+	protected void handleRequest() {
+		String headline = currentAsset.asString("headline");
+
+		(...)
+	}
+
+	(...)
+
+}
+
++--
+
+			* ScatteredAsset:
+
++--
+
+class AnotherController extends InjectingController {
+
+	(...)
+
+	@CurrentAsset(attributes=["title", "body", "headline"]) ScatteredAsset currentScatteredAsset;
+
+	protected void handleRequest() {
+		models.add("asset", currentScatteredAsset);
+
+		(...)
+	}
+
+	(...)
+
+}
+
++--
+
+			* AssetData:
+
++--
+
+class ThirdController extends InjectingController {
+
+	(...)
+
+	@CurrentAsset(attributes=["title", "body", "headline"]) AssetData currentAssetData;
+
+	protected void handleRequest() {
+		AttributeData ad = currentAssetData.getAttribute("title");
+
+		(...)
+
+	}
+
+	(...)
+
+}
+
++--
+
+			[]
+
+		[]
+
+	[]
+
+Use the @Mapping Annotation (tools.gsf.mapping.Mapping)
+
+	* This annotation will look up a map entry matching the specified key in the Template / CSElement being executed (for the current site) and, if found, it will inject the mapped value into the annotated field.
+
+	* It provides the following settings:
+
+		* <<match>> (OPTIONAL): the "side" of the mapped value you want to (retrieve and) inject. Supported values are "all" (equivalent to "x"), "right" (equivalent to ":x") and "left" (equivalent to "x:"). It defaults to "all".
+
+		* <<value>> (OPTIONAL): the key of the map entry whose value we want to retrieve. It defaults to the name of the annotated field.
+
+		[]
+
+	* Lookup logic and limitations:
+
+		* If the eid (/ tid) of the CSElement (/ Template) being executed cannot be determined, then the annotation has no effect, no exception is thrown.
+
+		* Only fields of the following types can use this annotation (conversion is done automatically at runtime):
+
+			* tools.gsf.mapping.MappingValue (applicable to all map entry types: <asset type: asset id>, template name, ...)
+
+			* com.fatwire.assetapi.data.AssetId (applicable only to <asset type: asset id> map entries)
+
+			* tools.gsf.mapping.AssetName (applicable only to <asset type: asset name> map entries)
+
+			* String (applicable to all map entry types)
+
+			[]
+
+		* The "match" setting is only relevant when the annotated field's type is String.
+
+		* If a map entry matching the specified key and site is found, but it doesn't have a valid (and assignable) value, then an Exception is thrown.
+
+		* Controllers can only be bound to SiteEntry and Template assets, not CSElements. However, map entries can only be specified for Template and CSElements. Hence:
+
+			* You can use this annotation for mapping Template-specific map entries onto a Controller's field if you call the Template using style="embedded" or style="pagelet".
+
+				* When a Template is called with style="element", no Controller gets invoked.
+
+				[]
+
+			* You can use this annotation for mapping CSElement-specific map entries onto a Controller's field if you invoke the CSElement via the SiteEntry the Controller is bound to.
+
+				* If you call the CSElement directly, no Controller gets invoked.
+
+				[]
+
+			[]
+
+		* This annotation only works if the "pagename" of the Template / SiteEntry being executed is accessible (at runtime) from within the Controller (i.e. via the ICS "pagename" variable).
+
+			* This is due exclusively to a bug in WCS 12c's rendering logic which prevents eid / tid from being accessible at runtime from within Controllers bound to a SiteEntry(+CSELement) / Template asset.
+
+			[]
+
+		[]
+
+	* Example:
+
++--
+(...)
+
+/**
+ * Bind map entry's value to local variable
+ */
+@Mapping(value="myMappedAsset")
+protected String mappedAsset;
+
+(...)
++--
+
+	[]
+
+Use Your Own Asset Type as a GST Property Asset
+
+	* Implement your own object factory and add to it a <<Service Producer method>> (i.e. annotated with @ServiceProducer) which instantiates the new <<com.fatwire.gst.foundation.properties.AssetApiPropertyDao>>.
+
+	* Example:
+
++--
+
+@ServiceProducer(cache = true)
+public PropertyDao instantiateCustomPropertyDao(final ICS ics) {
+	Session session = SessionFactory.getSession(ics);
+	AssetDataManager adm = (AssetDataManager) session.getManager(AssetDataManager.class.getName());
+	SiteManager sm = (SiteManager) session.getManager(SiteManager.class.getName());
+	String type = "MyCustomAssetType";
+	String flexDefName = "MyCustomFlexDefName";
+	String propNameAttr = "nameOfAttributeToGetThePropertyNameFrom"; \\ Typically "name"
+	String propDescAttr = "nameOfAttributeToGetThePropertyDescriptionFrom"; \\ Typically "description"
+	String propValueAttr = "nameOfAttributeToGetThePropertyValueFrom"; \\ Typically "value"
+	return new AssetApiPropertyDao(adm, sm, type, flexDefName, propNameAttr, propDescAttr, propValueAttr, ics);
+}
+
++--
+
+	[]
+
+Make Your Own Beans / Objects Available for Injection
+
+	See "Use a Custom Asset Type as a GST Property Asset" and "Implement (and Use) Your Own NavService Implementation" above.
+
+	In general, all you need to do is implement your own object factory and make your custom bean available by adding the due Service Producer (annotated) method to it.
+
+Inject Your Own Beans / Objects Into a WCS 12c Controller
+
+	* Instead of extending WCS 12c's <<BaseController>> class, have your controller extend the GSF's <<tools.gsf.controller.InjectingController>> instead. It is simple and lightweight but provides injection support to your standard <<doWork(Map models)>> method..
+
+		If you are curious (or suspicious) as to how this works, look at the source code for GSF's <<InjectingController.java>>. It's trivially short.
+
+	* <<A VERY IMPORTANT NOTE (WARNING) ON style="element" IN WCS 12c>>.
+
+		WCS 12c will not invoke your Template's controller if you invoke your template using a render:calltemplate tag call with style="element".
+
+		In such scenario, if your Template's code depended on its own Controller's logic (which is usually the case), it would break.
+
+		Previous versions of the GSF defaulted to style="element" when Type 1 actions called the childpagename template (in an attempt to intelligently set the call's style whenever you didn't set it explicitly).
+
+		This did not occur in WCS 11.x and previous versions since Controllers were just introduced in WCS 12c.
+
+		If you are using the <<GST/Dispatcher wrapper>>, <<GSF actions>> or any other LEGACY (hence deprecated) feature related to those two, be aware that combining those with the use of WCS 12c Controllers may yield erratic behaviour for the same reason.
+
+		You can work around this by:
+
+			[[1]] Making sure all Layout Templates ever invoked via the GST/Dispatcher (e.g. GSF actions) are set to "cached", hence preventing GSF's LEGACY CallTemplate Facade from automatically setting style="element" for you, OR
+
+			[[1]] Avoiding the use of Layout Template which rely on Controllers attached to them in conjunction with GSF Actions and/or GST/Dispatcher.
+
+			[]
+
+		In addition to this, if you really need to use GSF Actions AND Controllers, here are some ideas to minimize chance of your CallTemplate calls breaking (DISCLAIMER: as per the above explanation, these may not cover you 100%):
+
+			[[A]] Adjust all of your calls to <<gsf-legacy>>'s CallTemplate facade so to set "style" explicitly to something other than "element" whenever the called Template has a Controller attached to it.
+
+			[[A]] Use <<gsf-core>>'s (new) CallTemplate facade (instead of LEGACY's), which forces your explicitly setting "style" on each call, and make sure you set style to the appropriate value, as per the aforementioned considerations.
+
+		From the above, you've probably figured out already that GSF deals with the potential chaos this style-related behaviour could cause on pre-existing code you attempt migrating to WCS 12c's Controller-based paradigm simply by getting rid of the "legacy" intelligence.
+
+		This implies there are now 2 CallTemplate facades:
+
+			* The new one, which ships with the CORE artifact / JAR. In this one, style will NEVER be autocalculated for you. Either you set it explicitly - to the appropriate value - on each call or an Exception will be thrown.
+
+			* The old one, which ships with the LEGACY artifact / JAR. This one has been left untouched, which means the style auto-selection intelligence is still there, with all that implies.
+
+			[]
+
+	[]

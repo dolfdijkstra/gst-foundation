@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>tools.gsf</groupId>
+		<artifactId>gsf-parent</artifactId>
+		<version>12.0.0</version>
+	</parent>
+	<artifactId>gsf-core</artifactId>
+	<packaging>jar</packaging>
+	<name>GSF Core</name>
+	<url>http://dolfdijkstra.github.com/gst-foundation</url>
+	<inceptionYear>2016</inceptionYear>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<developers>
+		<developer>
+			<name>Dolf Dijkstra</name>
+		</developer>
+		<developer>
+			<name>Tony Field</name>
+		</developer>
+		<developer>
+			<name>Mike Field</name>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>${javax.servlet.jsp-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>		
+	</dependencies>
+	<distributionManagement>
+		<site>
+			<id>github-project-site</id>
+			<url>file://${user.home}/.m2/deploy-site/gst-foundation/${project.version}/gsf-core</url>
+		</site>
+	</distributionManagement>
+	<build>
+		<plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-enforcer-plugin</artifactId>
+			    <version>1.4.1</version>
+			    <executions>
+				<execution>
+				    <id>enforce-versions</id>
+				    <phase>validate</phase>
+				    <goals>
+					<goal>enforce</goal>
+				    </goals>
+				    <configuration>
+					<rules>
+					    <requireJavaVersion>
+						<version>[1.8,)</version>
+					    </requireJavaVersion>
+					</rules>
+				    </configuration>
+				</execution>
+			    </executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>clirr-maven-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<comparisonVersion>2.0</comparisonVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	  	<resources>
+	  		<resource>
+				<directory>src/main/resources/archive-files</directory>
+				<targetPath>META-INF</targetPath>
+			</resource>
+		</resources>
+	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<inherited>false</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<configuration>
+					<source>1.8</source>
+					<javadocVersion>1.8</javadocVersion>
+					<quiet>true</quiet>
+					<detectLinks>false</detectLinks>
+					<detectOfflineLinks>true</detectOfflineLinks>
+					<header>
+            <![CDATA[
+              <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-41996736-1']);
+                _gaq.push(['_trackPageview']);
+                (function() {
+                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+              </script>
+  ]]>
+					</header>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<id>non-aggregate</id>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>		
+		</plugins>
+	</reporting>
+	<description>This submodule comprises the GSF's stable components (classes, configuration files, features, etc...)</description>
+</project>

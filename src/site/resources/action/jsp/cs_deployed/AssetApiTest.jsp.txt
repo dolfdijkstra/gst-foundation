@@ -1,6 +1,0 @@
-<%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
-%><%@ taglib prefix="gsf" uri="http://gst.fatwire.com/foundation/tags/gsf"
-%><cs:ftcs>
-  <gsf:root action="test/AssetApi">
-  </gsf:root>
-</cs:ftcs>
