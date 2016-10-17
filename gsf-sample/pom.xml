@@ -22,7 +22,7 @@
         <javax.servlet.servlet-api.version>3.0.1</javax.servlet.servlet-api.version>
         <javax.servlet.jsp-api.version>2.2.1</javax.servlet.jsp-api.version>
         <fatwire.contentserver.version>12.2.1.0.0</fatwire.contentserver.version>
-        <gsf.version>12.0-SNAPSHOT</gsf.version>
+        <gsf.version>12.0.0</gsf.version>
         <junit.version>4.10</junit.version>
         <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
         <buildNumber>${maven.build.timestamp}</buildNumber>
