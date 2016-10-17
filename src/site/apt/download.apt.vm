@@ -49,6 +49,33 @@ Download
 
 Prior Versions
 
+* Version 12.0.0 (Released 2016-10-17)
+
+	<<Binaries (jars)>>
+
+	* {{{./downloads/gsf-core-12.0.0.jar} gsf-core-12.0.0.jar}}
+
+	* {{{./downloads/gsf-legacy-12.0.0.jar} gsf-legacy-12.0.0.jar}}
+
+	[]
+
+	<<Source>>
+
+	* {{{./downloads/gsf-core-12.0.0-sources.jar} gsf-core-12.0.0-sources.jar}}
+
+	* {{{./downloads/gsf-legacy-12.0.0-sources.jar} gsf-legacy-12.0.0-sources.jar}}
+
+	[]
+
+	<<Javadoc>>
+
+	* {{{./downloads/gsf-core-12.0.0-javadoc.jar} gsf-core-12.0.0-javadoc.jar}}
+
+	* {{{./downloads/gsf-legacy-12.0.0-javadoc.jar} gsf-legacy-12.0.0-javadoc.jar}}
+
+	[]
+
+
 * Version 11.6.2 (Released 2016-05-03)
 
     Download the complete kit (20MB)
