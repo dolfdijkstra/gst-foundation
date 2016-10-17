@@ -25,3 +25,25 @@ GSF LEGACY Submodule
 	Components that get deprecated (and added to the LEGACY jar) will be physically removed from the GSF's codebase / project in the next major release after deprecation occurs.
 	
 	Full backwards-compatibility is not guaranteed for deprecated components. In fact, in some exceptional cases, deprecated components and new features could be incompatible with each other.
+
+* Some Legacy Documents & Presentations
+
+    * {{{../gsf-11.6.0/site/GST Site Foundation 1.0.3.pdf}Architecture specification document}} - the core specification.
+
+    * {{{../gsf-11.6.0/site/GSF Developers Guide 1.1.docx}Developers Guide 1.1}}
+
+    * {{{../gsf-11.6.0/site/GSF_Beginner_Guide_v1.3.pdf}Beginner Guide 1.3}}
+
+    * {{{../gsf-11.6.0/site/Controllers and the GSF.pptx}Controllers and the GSF}}
+
+    * {{{../gsf-11.6.0/site/PS UTH April 2011 - GSF.pptx}PS UTH April 2011 - GSF}}
+
+    * {{{../gsf-1.3/GSF-Install-Video-2012-04-05.mov}GSF 1.3 and 11.6 Installation Video}}
+
+    * {{{http://youtu.be/hmB29xi7xIE}Installation Walk-through Video (GSF 1.3 on FatWire Content Server 7.6.2}}
+
+    * {{{http://youtu.be/L6IiBpVdDos}Installation Walk-through Video (GSF 1.3 on OWCS 11gR1}}
+
+    * {{{http://img.en25.com/Web/Fatwire/TTRNG%20-%20Introducing%20GST%20Site%20Foundation.pdf} Introducing GST Site Foundation}} - Interact 2010 User Conference Presentation.
+
+    * {{{http://img.en25.com/Web/Fatwire/SEO%20Optimization%20Using%20CS%20-%20condensed.pdf} SEO with CS and the GSF}} - Interact 2010 User Conference Presentation.

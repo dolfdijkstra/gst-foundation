@@ -23,15 +23,15 @@ News archive
     creating your own custom actions - along with a number of bug fixes. Some quick links:
 
     * Download the complete kit (20MB)
-     ({{{./version-archive/gsf-11.6.2/gst-foundation-11.6.2.zip}zip}})
-     ({{{./version-archive/gsf-11.6.2/gst-foundation-11.6.2.tgz}tgz}})
+     ({{{../gsf-11.6.2/gst-foundation-11.6.2.zip}zip}})
+     ({{{../gsf-11.6.2/gst-foundation-11.6.2.tgz}tgz}})
 
-    * {{{./version-archive/gsf-11.6.2/site/index.html}GSF 11.6.2 Site}}
+    * {{{../gsf-11.6.2/site/index.html}GSF 11.6.2 Site}}
 
     * Documentation quick-links:
-    {{{./version-archive/gsf-11.6.2/site/apidocs/index.html}JavaDocs}} •
-    {{{./version-archive/gsf-11.6.2/site/gsf-taglib/tagreference.html}Tag Library}} •
-    {{{./version-archive/gsf-11.6.2/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
+    {{{../gsf-11.6.2/site/apidocs/index.html}JavaDocs}} •
+    {{{../gsf-11.6.2/site/gsf-taglib/tagreference.html}Tag Library}} •
+    {{{../gsf-11.6.2/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
     {{{https://github.com/dolfdijkstra/gst-foundation/releases/tag/gst-foundation-11.6.2}Change Log}}
 
     * {{{https://github.com/dolfdijkstra/gst-foundation}Project home on GitHub}}
@@ -45,16 +45,16 @@ News archive
     creating your own custom actions - along with a number of bug fixes. Some quick links:
 
     * Download the complete kit (20MB)
-     ({{{./version-archive/gsf-11.6.1/gst-foundation-11.6.1.zip}zip}})
-     ({{{./version-archive/gsf-11.6.1/gst-foundation-11.6.1.tgz}tgz}})
+     ({{{../gsf-11.6.1/gst-foundation-11.6.1.zip}zip}})
+     ({{{../gsf-11.6.1/gst-foundation-11.6.1.tgz}tgz}})
 
-    * {{{./version-archive/gsf-11.6.1/site/index.html}GSF 11.6.1 Site}}
+    * {{{../gsf-11.6.1/site/index.html}GSF 11.6.1 Site}}
 
     * Documentation quick-links:
-    {{{./version-archive/gsf-11.6.1/site/apidocs/index.html}JavaDocs}} •
-    {{{./version-archive/gsf-11.6.1/site/gsf-taglib/tagreference.html}Tag Library}} •
-    {{{./version-archive/gsf-11.6.1/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
-    {{{./version-archive/gsf-11.6.1/site/new-features-11g.html}Change Log}}
+    {{{../gsf-11.6.1/site/apidocs/index.html}JavaDocs}} •
+    {{{../gsf-11.6.1/site/gsf-taglib/tagreference.html}Tag Library}} •
+    {{{../gsf-11.6.1/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
+    {{{../gsf-11.6.1/site/new-features-11g.html}Change Log}}
 
     * {{{https://github.com/dolfdijkstra/gst-foundation}Project home on GitHub}}
 
@@ -66,16 +66,16 @@ News archive
     Sites 11gR1 BP1 (11.1.1.6.1). Some quick links:
 
     * Download the complete kit (20MB)
-    ({{{./version-archive/gsf-11.6.0/gst-foundation-11.6.0.zip}zip}})
-    ({{{./version-archive/gsf-11.6.0/gst-foundation-11.6.0.tgz}tgz}})
+    ({{{../gsf-11.6.0/gst-foundation-11.6.0.zip}zip}})
+    ({{{../gsf-11.6.0/gst-foundation-11.6.0.tgz}tgz}})
 
-    * {{{./version-archive/gsf-11.6.0/site/index.html}GSF 11.6.0 Site}}
+    * {{{../gsf-11.6.0/site/index.html}GSF 11.6.0 Site}}
 
     * Documentation quick-links:
-    {{{./version-archive/gsf-11.6.0/site/apidocs/index.html}JavaDocs}} •
-    {{{./version-archive/gsf-11.6.0/site/gsf-taglib/tagreference.html}Tag Library}} •
-    {{{./version-archive/gsf-11.6.0/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
-    {{{./version-archive/gsf-11.6.0/site/new-features-11g.html}Change Log}}
+    {{{../gsf-11.6.0/site/apidocs/index.html}JavaDocs}} •
+    {{{../gsf-11.6.0/site/gsf-taglib/tagreference.html}Tag Library}} •
+    {{{../gsf-11.6.0/site/GST Site Foundation 1.0.3.pdf}Architecture}} •
+    {{{../gsf-11.6.0/site/new-features-11g.html}Change Log}}
 
     * {{{https://github.com/dolfdijkstra/gst-foundation}Project home on GitHub}}
 
@@ -99,7 +99,7 @@ News archive
 
     August 1, 2012 - The GST Site Foundation version 1.3 is now generally available. It contains a number of bug fixes
     and new features, including a new installer. It's available as a single
-    download {{{./version-archive/gsf-1.3/gst-foundation-kit-1.3.tar}here}}. GSF 1.3 is designed for
+    download {{{../gsf-1.3/gst-foundation-kit-1.3.tar}here}}. GSF 1.3 is designed for
     WebCenter Sites 7.6, and is compatible with 11gR1 (see below for details about this).
 
 * GST Site Foundation 1.3.0 Release
