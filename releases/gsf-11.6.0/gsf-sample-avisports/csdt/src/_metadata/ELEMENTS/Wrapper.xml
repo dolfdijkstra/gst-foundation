@@ -1,0 +1,3 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1"><CALLJAVA CLASS="com.fatwire.gst.foundation.controller.action.ActionController" /></FTCS>

@@ -1,0 +1,56 @@
+<%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
+%><%@ taglib  prefix="gsf" uri="http://gst.fatwire.com/foundation/tags/gsf"
+%><cs:ftcs>
+  <gsf:root action="GTLayout">
+    <head>
+<gsf:include name="StyleSheetSlot" />
+<%-- Display head content that is asset-specific --%>
+<gsf:include name="Head" />
+    </head>
+    <body>
+      <div id="Container">
+        <div id="HeaderContainer">
+          <div id="TopNav1">
+            <div id="TopNav2">
+              <gsf:include name="TopNav" />
+            </div>
+          </div>
+        </div>
+        <div id="HomePageBanner">
+          <gsf:include name="BannerSlot" />
+        </div>
+        <%-- Load the main body.  The main body contains a section-specific part as well as an asset-specific part.  --%>
+        <div id="BodyContainer">
+          <%-- The section nav displays section-specific stuff, like product categories for product pages, recommendations for generic pages, and so-on. --%>
+          <div id="SideNavContainer">
+            <div id="SideNav1">
+              <div id="SideNav2">
+                <gsf:include name="SideNav" />
+                <div id="PoweredBy">
+                  <img src="${PoweredBy.src}" alt="${PoweredBy.alt}" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="MainBodyContainer">
+            <div id="MainBody1">
+              <div id="MainBody2">
+                <gsf:include name="Detail" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <%-- Finally, the footer nav bar --%>
+        <div id="FooterContainer">
+          <div id="BottomNavContainer">
+            <div id="BottomNav1">
+              <div id="BottomNav2">
+                <gsf:include name="BottomNav" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </gsf:root>
+</cs:ftcs>
