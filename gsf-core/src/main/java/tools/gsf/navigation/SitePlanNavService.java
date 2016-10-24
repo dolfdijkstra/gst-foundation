@@ -42,7 +42,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
     private final Map<AssetId,SimpleAssetNode[]> nodesById = new HashMap<>();
 
     private static final PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
-            "select * from SITEPLANTREE where ncode = 'Placed'",
+            "select * from SITEPLANTREE where ncode = 'Placed' and otype = 'Page'",
             Collections.singletonList("SITEPLANTREE"));
 
     public SitePlanNavService(ICS ics) {
