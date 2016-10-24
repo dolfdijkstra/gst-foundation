@@ -166,7 +166,7 @@ then
 	mkdir $tmpBase
 fi
 
-if [ ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation ] ;
+if [  ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation    -o    ! -d $HOME/.m2/repository/tools/gsf ] ;
 then 
    echo "[$(date)] The GSF artifacts are not present in your maven repository. This is expected if you are building for the first time on this computer."
    echo "[$(date)] Starting initial build"
