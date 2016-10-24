@@ -246,3 +246,24 @@ esac
 # sed -i  's/<david.chesebro@metastratus.com>//g' /tmp/git-log 
 # vi src/site/apt/changes-11g.apt 
 
+# Site Update instructions (tested for version 12.0.1 on Oct 24, 2016 by Tony Field)
+# - update poms to new release version for all modules (gst-foundation, gsf-build-tools, gsf-core, gsf-legacy)
+# - update site.xml to link to new "previous version" site
+# - update the download.apt.vm page to link to the new download and update prior versions
+# - update documentation as needed
+# - run this script to build the package (sh package.sh)
+# - validate build
+# - commit poms & site
+# - issue pull request into version trunk (e.g. gst-foundation-12)
+# - save full site zip from target folder
+# - checkout gh-pages branch
+# - add new folder to releases directory for new version (e.g. gsf-12.0.1)
+# - extract full site zip from gh-pages branch
+# - place content from teh site folder into the release folder in the gh-pages checkout
+# - edit index.html to redirect users to the new version (i.e. update the meta refresh tag)
+# - commit the gh-pages changes
+# - verify the site - navigate to gst-foundation.org and you should be directed to the new version
+# - if your release is the latest major version, (i.e. 12 not 11 or 1) then issue a pull request to pull your changes from the version trunk into the master branch, so that the master branch remains the most stable release
+# - checkout the version branch again
+# - update the pom files to reflect the next minor/patch version's snapshot label (e.g. 12.0.2-SNAPSHOT)
+
