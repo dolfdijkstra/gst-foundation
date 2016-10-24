@@ -53,7 +53,7 @@ under the License.
         </menu>
         <menu name="Development">
             <item name="Building" href="./dev/building.html"/>
-            <item name="Issue Tracking" href="./issue-tracking.html"/>
+            <item name="Issue Tracking" href="https://github.com/dolfdijkstra/gst-foundation/issues"/>
             <item name="Source Repository" href="./source-repository.html"/>
         </menu>
         <menu ref="modules" />
