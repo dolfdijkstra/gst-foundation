@@ -39,6 +39,7 @@ public class SimpleAssetNode implements AssetNode {
 
     private final AssetId id;
     private TemplateAsset asset = null;
+    private Map<String,Object> auxData = Collections.EMPTY_MAP;
     SimpleAssetNode parent = null;
     ArrayList<SimpleAssetNode> children = new ArrayList<>();
 
@@ -48,6 +49,10 @@ public class SimpleAssetNode implements AssetNode {
 
     void setAsset(TemplateAsset asset) {
         this.asset = asset;
+    }
+
+    void setAuxData(Map<String,Object> auxData) {
+        if (auxData != null) this.auxData = auxData;
     }
 
     void setParent(SimpleAssetNode parent) {
@@ -177,6 +182,11 @@ public class SimpleAssetNode implements AssetNode {
 
     public boolean isSingleValued(String name) {
         return asset.isSingleValued(name);
+    }
+
+    @Override
+    public Object getAuxiliaryAttribute(String name) {
+        return auxData.get(name);
     }
 
     @Override

@@ -147,12 +147,13 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         for (AssetNode node : nodesToPopulate) {
             AssetId id = node.getId();
             LogDep.logDep(ics, id);
-            TemplateAsset data = getNodeData(id);
+            AssetNodeData data = getNodeData(id);
             if (data == null) {
                 throw new IllegalStateException("Null node data returned for id " + id);
             }
             SimpleAssetNode san = _asSimpleAssetNode(node);
-            san.setAsset(data);
+            san.setAsset(data.getTemplateAsset());
+            san.setAuxData(data.getAuxData());
         }
     }
 
@@ -195,7 +196,37 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
      * @param id asset ID to load
      * @return asset data in the form of a TemplateAsset, never null
      */
-    protected abstract TemplateAsset getNodeData(AssetId id);
+    protected abstract AssetNodeData getNodeData(AssetId id);
+
+    protected static final class AssetNodeData {
+        AssetId id;
+        TemplateAsset templateAsset; // names can be changed
+        Map<String,Object> auxData; // names can be changed
+        protected AssetNodeData(AssetId id) {
+            this.id = id;
+        }
+
+        public AssetId getId() {
+            return id;
+        }
+
+        public TemplateAsset getTemplateAsset() {
+            return templateAsset;
+        }
+
+        public void setTemplateAsset(TemplateAsset templateAsset) {
+            this.templateAsset = templateAsset;
+        }
+
+        public Map<String, Object> getAuxData() {
+            return auxData;
+        }
+
+        public void setAuxData(Map<String, Object> auxData) {
+            this.auxData = auxData;
+        }
+
+    }
 
     public List<AssetNode> getBreadcrumb(AssetId id) {
 

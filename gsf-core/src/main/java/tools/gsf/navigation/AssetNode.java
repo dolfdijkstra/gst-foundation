@@ -26,6 +26,7 @@ import com.fatwire.mda.Dimension;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Simple node, representing an asset, that can be populated with asset data. Not all attributes
@@ -64,4 +65,5 @@ public interface AssetNode extends Node<AssetNode> {
     AttributeTypeEnum getAttributeType(String name);
     boolean isAttribute(String name);
     boolean isSingleValued(String name);
+    Object getAuxiliaryAttribute(String name); //${myAsset.auxiliaryAttribute["__url__"]}
 }

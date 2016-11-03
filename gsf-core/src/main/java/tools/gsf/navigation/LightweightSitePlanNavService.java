@@ -47,7 +47,9 @@ public final class LightweightSitePlanNavService extends SitePlanNavService {
      * @param id asset ID to load
      * @return asset data in the form of a TemplateAsset, never null
      */
-    protected TemplateAsset getNodeData(AssetId id) {
-        return dao.read(id, "name", "template");
+    protected AssetNodeData getNodeData(AssetId id) {
+        AssetNodeData nodeData = new AssetNodeData(id);
+        nodeData.setTemplateAsset(dao.read(id, "name", "template"));
+        return nodeData;
     }
 }
