@@ -198,11 +198,12 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
      */
     protected abstract AssetNodeData getNodeData(AssetId id);
 
-    protected static final class AssetNodeData {
+    public static final class AssetNodeData {
         AssetId id;
         TemplateAsset templateAsset; // names can be changed
         Map<String,Object> auxData; // names can be changed
-        protected AssetNodeData(AssetId id) {
+
+        public AssetNodeData(AssetId id) {
             this.id = id;
         }
 
