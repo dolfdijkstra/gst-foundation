@@ -43,23 +43,23 @@ public class SimpleAssetNode implements AssetNode {
     SimpleAssetNode parent = null;
     ArrayList<SimpleAssetNode> children = new ArrayList<>();
 
-    SimpleAssetNode(AssetId id) {
+    public SimpleAssetNode(AssetId id) {
         this.id = id;
     }
 
-    void setAsset(TemplateAsset asset) {
+    public void setAsset(TemplateAsset asset) {
         this.asset = asset;
     }
 
-    void setAuxData(Map<String,Object> auxData) {
+    public void setAuxData(Map<String,Object> auxData) {
         if (auxData != null) this.auxData = auxData;
     }
 
-    void setParent(SimpleAssetNode parent) {
+    public void setParent(SimpleAssetNode parent) {
         this.parent = parent;
     }
 
-    void addChild(int rank, SimpleAssetNode child) {
+    public void addChild(int rank, SimpleAssetNode child) {
         while (children.size() < rank) children.add(null);
         children.set(rank-1, child);
     }
