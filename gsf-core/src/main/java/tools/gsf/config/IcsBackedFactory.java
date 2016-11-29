@@ -47,8 +47,9 @@ import tools.gsf.facade.mda.LocaleService;
 public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
 
     private final ICS ics;
-    
-    protected ICS getICS() {
+
+    @ServiceProducer(cache = true, name="ics")
+    public ICS getICS() {
     	return this.ics;
     }
 
