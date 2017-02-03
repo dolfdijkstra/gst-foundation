@@ -62,7 +62,7 @@ Starting Fresh With GSF-12 and WCS 12c
 
     [[1]] Stop your WCS 12c instance.
 
-    [[1]] Copy the WCS 12c WAR file.
+    [[1]] Copy the WCS 12c WAR file. (extend.sites.webapp-lib.war)
 
     [[1]] Unpack the copied WAR file.
 
