@@ -43,7 +43,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
 
     private static final PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
             "select * from SITEPLANTREE where ncode = 'Placed'",
-            Arrays.asList("PAGE", "SITEPLANTREE"));
+            Arrays.asList("page", "siteplantree", "Page", "SitePlanTree", "PAGE", "SITEPLANTREE"));
 
     public SitePlanNavService(ICS ics) {
 
