@@ -20,7 +20,6 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 import tools.gsf.navigation.impl.SitePlanNavService;
-import tools.gsf.navigation.impl.TrivialAssetNodeImpl;
 
 /**
  * Simple implementation of the SitePlanNavService that simply populates the
