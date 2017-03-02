@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.navigation;
+package tools.gsf.samples.navigation.siteplan;
 
 import COM.FutureTense.Interfaces.ICS;
+
 import com.fatwire.assetapi.data.AssetId;
-import tools.gsf.facade.assetapi.asset.TemplateAsset;
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
+import tools.gsf.navigation.impl.SitePlanNavService;
+import tools.gsf.navigation.impl.TrivialAssetNodeImpl;
 
 /**
  * Simple implementation of the SitePlanNavService that simply populates the
@@ -32,7 +34,7 @@ import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
  * @author Tony Field
  * @since 2016-07-11
  */
-public final class LightweightSitePlanNavService extends SitePlanNavService {
+public final class LightweightSitePlanNavService extends SitePlanNavService<TrivialAssetNodeImpl> {
 
     private final TemplateAssetAccess dao;
 
@@ -41,13 +43,12 @@ public final class LightweightSitePlanNavService extends SitePlanNavService {
         this.dao = dao;
     }
 
-    /**
-     * Method to retrieve data that will be loaded into a node. Implementing classes should take care
-     * to be very efficient both for cpu time as well as memory usage.
-     * @param id asset ID to load
-     * @return asset data in the form of a TemplateAsset, never null
-     */
-    protected TemplateAsset getNodeData(AssetId id) {
-        return dao.read(id, "name", "template");
+    protected TrivialAssetNodeImpl createAssetNode(AssetId assetId) {
+    	// NOTE: here you could instantiate your own AssetNode implementation. That class could have
+    	//       its own methods and could extend any class you wanted (yes, even HashMap ;-)  ). 
+    	//       You could even return subtype-specific implementations (for instance, via a
+    	//       TrivialAssetNodeFactory component).     	
+    	return new TrivialAssetNodeImpl(this.dao, assetId);
     }
+
 }

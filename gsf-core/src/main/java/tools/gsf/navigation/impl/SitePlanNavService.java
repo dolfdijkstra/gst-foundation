@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.navigation;
+package tools.gsf.navigation.impl;
 
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import tools.gsf.facade.assetapi.AssetIdUtils;
-import tools.gsf.facade.assetapi.asset.TemplateAsset;
 import tools.gsf.facade.runtag.render.LogDep;
 import tools.gsf.facade.sql.Row;
 import tools.gsf.facade.sql.SqlHelper;
+import tools.gsf.navigation.AssetNode;
+import tools.gsf.navigation.NavService;
 
 import java.util.*;
 
@@ -36,15 +37,21 @@ import java.util.*;
  * @author Tony Field
  * @since 2016-07-06
  */
-public abstract class SitePlanNavService implements NavService<AssetNode, AssetId, AssetId> {
+public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> implements NavService<ANODE, AssetId, AssetId> {
 
     private final ICS ics;
-    private final Map<AssetId,SimpleAssetNode[]> nodesById = new HashMap<>();
+    private final Map<AssetId, List<ANODE>> nodesById = new HashMap<>();
 
     private static final PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
             "select * from SITEPLANTREE where ncode = 'Placed'",
             Arrays.asList("page", "siteplantree", "Page", "SitePlanTree", "PAGE", "SITEPLANTREE"));
-
+    
+    protected abstract ANODE createAssetNode(AssetId assetId);
+    
+    protected ICS getIcs() {
+    	return this.ics;
+    }
+    
     public SitePlanNavService(ICS ics) {
 
         this.ics = ics;
@@ -58,35 +65,53 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         }
 
         // create Node objects
-        Map<Long, SimpleAssetNode> nidNodeMap = new HashMap<>();
+        Map<Long, ANODE> nidNodeMap = new HashMap<Long, ANODE>();
         for (long nid : rowMap.keySet()) {
-            SimpleAssetNode node = new SimpleAssetNode(rowMap.get(nid).assetId);
+        	ANODE node = createAssetNode(rowMap.get(nid).assetId);
+            
+            // Log a dependency with every node (asset) we populate
+            LogDep.logDep(ics, node.getId());
+            
             nidNodeMap.put(nid, node);
         }
 
         // hook up parent-child relationships
         for (long nid : rowMap.keySet()) {
             SitePlanTreeData sptRow = rowMap.get(nid);
-            SimpleAssetNode node = nidNodeMap.get(nid);
-            SimpleAssetNode parent = nidNodeMap.get(sptRow.nparentid);
+            ANODE node = nidNodeMap.get(nid);
+            ANODE parent = nidNodeMap.get(sptRow.nparentid);
             if (parent != null) {
                 node.setParent(parent);
-                parent.addChild(sptRow.nrank, node); // this ranks them too!
+                parent.addChild(node, sptRow.nrank);
             }
 
-            // Stash for later. Probably won't have many duplicates so optimize and don't create too many lists
+            // Stash for later. Probably won't have many duplicates so optimize
             AssetId assetId = node.getId();
-            SimpleAssetNode[] a1 = nodesById.get(assetId);
+            List<ANODE> a1 = nodesById.get(assetId);
             if (a1 == null) {
-                a1 = new SimpleAssetNode[1];
+                a1 = Collections.singletonList(node);
+                nodesById.put(assetId, a1);
+            } else {
+            	// NOT SURE WHAT THIS ELSE IS FOR, BUT LET'S KEEP IT UNTIL TONY EXPLAINS
+            	a1.add(node);
+            }
+            
+            // Stash for later. Probably won't have many duplicates so optimize and don't create too many lists
+            /* OLD VERSION -- WHAT IS THIS ELSE FOR ???????????????????????
+            AssetId assetId = node.getId();
+            N[] a1 = nodesById.get(assetId);
+            if (a1 == null) {
+                a1 = new N[1];
                 a1[0] = node;
                 nodesById.put(assetId, a1);
             } else {
-                SimpleAssetNode[] a2 = new SimpleAssetNode[a1.length+1];
+                N[] a2 = new N[a1.length+1];
                 System.arraycopy(a1, 0, a2, 0, a1.length);
                 a2[a1.length] = node;
                 nodesById.put(assetId, a2);
             }
+            */
+
         }
     }
 
@@ -114,25 +139,25 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         }
     }
 
-    public List<AssetNode> getNav(AssetId sitePlan) {
-
+    public List<ANODE> getNav(AssetId sitePlan) {
         if (sitePlan == null) {
             throw new IllegalArgumentException("Null param not allowed");
         }
 
         // find the requested structure
-        AssetNode[] spNodes = nodesById.get(sitePlan);
+        List<ANODE> spNodes = nodesById.get(sitePlan);
         if (spNodes == null) throw new IllegalArgumentException("Could not locate nav structure corresponding to "+sitePlan);
-        if (spNodes.length > 1) throw new IllegalStateException("Cannot have more than one site plan node with the same id in the tree");
-        AssetNode requestedRoot = spNodes[0]; // never null
+        if (spNodes.size() > 1) throw new IllegalStateException("Cannot have more than one site plan node with the same id in the tree");
+        ANODE requestedRoot = spNodes.get(0); // never null
 
         // populate asset data into the structure requested
-        _populateNodes(requestedRoot);
+        //_populateNodes(requestedRoot); // <-- Nodes are already populated by the time they are instantiated
 
         // return the loaded children of the structure root
-        return requestedRoot.getChildren();
+        return (List<ANODE>) requestedRoot.getChildren();
     }
 
+    /*
     private void _populateNodes(AssetNode... emptyNodes) {
 
         // gather the empty nodes we care about
@@ -155,7 +180,9 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
             san.setAsset(data);
         }
     }
+    */
 
+    /*
     private Collection<AssetNode> _getDescendents(AssetNode n) {
         Set<AssetNode> descendents = new HashSet<>();
         for (AssetNode kid : n.getChildren()) {
@@ -164,7 +191,9 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         }
         return descendents;
     }
+    */
 
+    /*
     private Collection<AssetNode> _getAncestors(AssetNode node) {
         Set<AssetNode> ancestors = new HashSet<>();
         do {
@@ -173,6 +202,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         } while (node != null);
         return ancestors;
     }
+    */
 
     /**
      * We can't modify AssetNode objects, but we can modify SimpleAssetNodes. We do have a map of SimpleAssetNode
@@ -181,6 +211,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
      * @param node asset node
      * @return asset node as simple asset node
      */
+    /*
     private SimpleAssetNode _asSimpleAssetNode(AssetNode node) {
         for (SimpleAssetNode san : nodesById.get(node.getId())) {
             if (san.equals(node))
@@ -188,6 +219,7 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
         }
         throw new IllegalStateException("Could not find SimpleAsseNode corresponding to AssetNode: "+node);
     }
+    */
 
     /**
      * Method to retrieve data that will be loaded into a node. Implementing classes should take care
@@ -195,22 +227,23 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
      * @param id asset ID to load
      * @return asset data in the form of a TemplateAsset, never null
      */
-    protected abstract TemplateAsset getNodeData(AssetId id);
+    //protected abstract TemplateAsset getNodeData(AssetId id);
 
-    public List<AssetNode> getBreadcrumb(AssetId id) {
+    
+    public List<ANODE> getBreadcrumb(AssetId id) {
 
         if (id == null) {
             throw new IllegalArgumentException("Cannot calculate breadcrumb of a null asset");
         }
 
-        Collection<List<AssetNode>> breadcrumbs = new ArrayList<>();
-        for (AssetNode node : nodesById.get(id)) {
+        Collection<List<ANODE>> breadcrumbs = new ArrayList<>();
+        for (ANODE node : nodesById.get(id)) {
             breadcrumbs.add(getBreadcrumbForNode(node));
         }
 
-        List<AssetNode> breadcrumb = chooseBreadcrumb(breadcrumbs);
+        List<ANODE> breadcrumb = chooseBreadcrumb(breadcrumbs);
 
-        _populateNodes(breadcrumb.toArray(new AssetNode[breadcrumb.size()]));
+        //_populateNodes(breadcrumb.toArray(new AssetNode[breadcrumb.size()])); // <-- Nodes are already populated by the time they are instantiated
 
         return breadcrumb;
     }
@@ -223,8 +256,8 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
      * @param node the node whose breadcrumb needs to be calculated
      * @return the breadcrumb
      */
-    protected List<AssetNode> getBreadcrumbForNode(AssetNode node) {
-        List<AssetNode> ancestors = new ArrayList<>();
+    protected List<ANODE> getBreadcrumbForNode(ANODE node) {
+        List<ANODE> ancestors = new ArrayList<>();
         do {
             ancestors.add(node);
             node = node.getParent();
@@ -241,7 +274,8 @@ public abstract class SitePlanNavService implements NavService<AssetNode, AssetI
      * @param options candidate breadcrumbs
      * @return the breadcrumb to use.
      */
-    protected List<AssetNode> chooseBreadcrumb(Collection<List<AssetNode>> options) {
+    protected List<ANODE> chooseBreadcrumb(Collection<List<ANODE>> options) {
         return options.iterator().next();
     }
+    
 }
