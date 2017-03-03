@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package tools.gsf.navigation.impl;
+package tools.gsf.navigation.siteplan;
 
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;

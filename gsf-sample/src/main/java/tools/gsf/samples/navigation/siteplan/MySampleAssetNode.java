@@ -4,15 +4,15 @@ import com.fatwire.assetapi.data.AssetId;
 
 import tools.gsf.facade.assetapi.asset.TemplateAsset;
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
-import tools.gsf.navigation.impl.AbstractAssetNodeImpl;
+import tools.gsf.navigation.siteplan.AbstractAssetNodeImpl;
 
-public class TrivialAssetNodeImpl extends AbstractAssetNodeImpl<TrivialAssetNodeImpl> {
+public class MySampleAssetNode extends AbstractAssetNodeImpl<MySampleAssetNode> {
 	
 	private static final long serialVersionUID = -7637446633778028560L;
 
     private TemplateAsset asset;
 	
-	public TrivialAssetNodeImpl(TemplateAssetAccess taa, AssetId assetId) {
+	public MySampleAssetNode(TemplateAssetAccess taa, AssetId assetId) {
 		super(assetId);
 		// NOTE: you may gather the data to be exposed by this implementation
 		//       specific getters (getWraUrl, etc... e.g. project-specific ones) here
@@ -34,7 +34,7 @@ public class TrivialAssetNodeImpl extends AbstractAssetNodeImpl<TrivialAssetNode
 	
     @Override
     public String toString() {
-        return "TrivialAssetNodeImpl{" +
+        return "MySampleAssetNode{" +
                 "id=" + id +
                 "}";
     }

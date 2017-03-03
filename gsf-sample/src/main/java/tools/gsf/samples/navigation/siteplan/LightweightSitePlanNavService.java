@@ -19,7 +19,7 @@ import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
-import tools.gsf.navigation.impl.SitePlanNavService;
+import tools.gsf.navigation.siteplan.SitePlanNavService;
 
 /**
  * Simple implementation of the SitePlanNavService that simply populates the
@@ -33,7 +33,7 @@ import tools.gsf.navigation.impl.SitePlanNavService;
  * @author Tony Field
  * @since 2016-07-11
  */
-public final class LightweightSitePlanNavService extends SitePlanNavService<TrivialAssetNodeImpl> {
+public final class LightweightSitePlanNavService extends SitePlanNavService<MySampleAssetNode> {
 
     private final TemplateAssetAccess dao;
 
@@ -42,12 +42,12 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<Triv
         this.dao = dao;
     }
 
-    protected TrivialAssetNodeImpl createAssetNode(AssetId assetId) {
+    protected MySampleAssetNode createAssetNode(AssetId assetId) {
     	// NOTE: here you could instantiate your own AssetNode implementation. That class could have
     	//       its own methods and could extend any class you wanted (yes, even HashMap ;-)  ). 
     	//       You could even return subtype-specific implementations (for instance, via a
     	//       TrivialAssetNodeFactory component).     	
-    	return new TrivialAssetNodeImpl(this.dao, assetId);
+    	return new MySampleAssetNode(this.dao, assetId);
     }
 
 }
