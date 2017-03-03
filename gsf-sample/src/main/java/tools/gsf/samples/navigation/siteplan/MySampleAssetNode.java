@@ -4,9 +4,9 @@ import com.fatwire.assetapi.data.AssetId;
 
 import tools.gsf.facade.assetapi.asset.TemplateAsset;
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
-import tools.gsf.navigation.siteplan.AbstractAssetNodeImpl;
+import tools.gsf.navigation.siteplan.AbstractAssetNode;
 
-public class MySampleAssetNode extends AbstractAssetNodeImpl<MySampleAssetNode> {
+public class MySampleAssetNode extends AbstractAssetNode<MySampleAssetNode> {
 	
 	private static final long serialVersionUID = -7637446633778028560L;
 

@@ -34,7 +34,7 @@ import tools.gsf.navigation.AssetNode;
  * @author Freddy Villalba
  * @since 2017-03-02.
  */
-public class AbstractAssetNodeImpl<NODE extends AssetNode<NODE>> implements AssetNode<NODE> {
+public class AbstractAssetNode<NODE extends AssetNode<NODE>> implements AssetNode<NODE> {
 
 	private static final long serialVersionUID = -7637446633778028560L;
 
@@ -42,7 +42,7 @@ public class AbstractAssetNodeImpl<NODE extends AssetNode<NODE>> implements Asse
 	protected NODE parent = null;
 	protected ArrayList<NODE> children = new ArrayList<>();
 
-	public AbstractAssetNodeImpl(AssetId assetId) {
+	public AbstractAssetNode(AssetId assetId) {
 		this.id = assetId;		
 	}
 
