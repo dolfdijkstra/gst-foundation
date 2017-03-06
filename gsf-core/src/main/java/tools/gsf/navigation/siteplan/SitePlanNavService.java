@@ -32,12 +32,14 @@ import tools.gsf.navigation.NavService;
 import java.util.*;
 
 /**
- * Simple navigation service implementation that loads objects from the Site Plan. Supports populating node data via
- * a dedicated method that can be overridden to load any data that is required, as long as it can be presented
- * as a TemplateAsset.
+ * Simple navigation service implementation that loads objects from the Site Plan.
+ * 
+ * Reads the full site plan tree in one query. It does not filter assets by site.
+ * 
+ * Nodes are instantiated via a dedicated method where you can load any data that
+ * is required; you get to (define and) use your own AssetNode implementation.
  *
- * Reads the full site plan tree in one query, but only reads asset data for nodes that it is going to actually return.
- *
+ * 
  * @author Tony Field
  * @since 2016-07-06
  */
@@ -50,7 +52,7 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
     private final Map<AssetId, List<ANODE>> nodesById = new HashMap<>();
 
     private static final PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
-            "select * from SITEPLANTREE where ncode = 'Placed'",
+            "select * from SITEPLANTREE where ncode = 'Placed' and otype != 'SiteNavigation'",
             Arrays.asList("page", "siteplantree", "Page", "SitePlanTree", "PAGE", "SITEPLANTREE"));
     
     protected abstract ANODE createAssetNode(AssetId assetId);
@@ -97,11 +99,16 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
         // hook up parent-child relationships
         for (long nid : rowMap.keySet()) {
             SitePlanTreeData sptRow = rowMap.get(nid);
+            LOG.debug("Processing parent-child relationships for SitePlanTree row {}", sptRow);
             ANODE node = nidNodeMap.get(nid);
             ANODE parent = nidNodeMap.get(sptRow.nparentid);
+            LOG.debug("SPT row {} concerning asset {} refers to parent {}", nid, node.getId(), sptRow.nparentid);
             if (parent != null) {
+            	LOG.debug("Found parent node {} for asset {}", parent, node.getId());
                 node.setParent(parent);
                 parent.addChild(node, sptRow.nrank);
+            } else {
+            	LOG.debug("No parent node found for asset {} using nid {}", node.getId(), sptRow.nparentid);
             }
 
             // Stash for later. Probably won't have many duplicates so optimize
@@ -111,26 +118,9 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
                 a1 = Collections.singletonList(node);
                 nodesById.put(assetId, a1);
             } else {
-            	// NOT SURE WHAT THIS ELSE IS FOR, BUT LET'S KEEP IT UNTIL TONY EXPLAINS
             	a1.add(node);
             }
             
-            // Stash for later. Probably won't have many duplicates so optimize and don't create too many lists
-            /* OLD VERSION -- WHAT IS THIS ELSE FOR ???????????????????????
-            AssetId assetId = node.getId();
-            N[] a1 = nodesById.get(assetId);
-            if (a1 == null) {
-                a1 = new N[1];
-                a1[0] = node;
-                nodesById.put(assetId, a1);
-            } else {
-                N[] a2 = new N[a1.length+1];
-                System.arraycopy(a1, 0, a2, 0, a1.length);
-                a2[a1.length] = node;
-                nodesById.put(assetId, a2);
-            }
-            */
-
         }
     }
 
@@ -169,85 +159,9 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
         if (spNodes.size() > 1) throw new IllegalStateException("Cannot have more than one site plan node with the same id in the tree");
         ANODE requestedRoot = spNodes.get(0); // never null
 
-        // populate asset data into the structure requested
-        //_populateNodes(requestedRoot); // <-- Nodes are already populated by the time they are instantiated
-
         // return the loaded children of the structure root
         return (List<ANODE>) requestedRoot.getChildren();
     }
-
-    /*
-    private void _populateNodes(AssetNode... emptyNodes) {
-
-        // gather the empty nodes we care about
-        Collection<AssetNode> nodesToPopulate = new HashSet<>();
-        for (AssetNode unpopulatedNode : emptyNodes) {
-            nodesToPopulate.add(unpopulatedNode);
-            nodesToPopulate.addAll(_getDescendents(unpopulatedNode));
-            nodesToPopulate.addAll(_getAncestors(unpopulatedNode));
-        }
-
-        // fill 'em up
-        for (AssetNode node : nodesToPopulate) {
-            AssetId id = node.getId();
-            LogDep.logDep(ics, id);
-            TemplateAsset data = getNodeData(id);
-            if (data == null) {
-                throw new IllegalStateException("Null node data returned for id " + id);
-            }
-            SimpleAssetNode san = _asSimpleAssetNode(node);
-            san.setAsset(data);
-        }
-    }
-    */
-
-    /*
-    private Collection<AssetNode> _getDescendents(AssetNode n) {
-        Set<AssetNode> descendents = new HashSet<>();
-        for (AssetNode kid : n.getChildren()) {
-            descendents.add(kid);
-            descendents.addAll(_getDescendents(kid));
-        }
-        return descendents;
-    }
-    */
-
-    /*
-    private Collection<AssetNode> _getAncestors(AssetNode node) {
-        Set<AssetNode> ancestors = new HashSet<>();
-        do {
-            ancestors.add(node);
-            node = node.getParent();
-        } while (node != null);
-        return ancestors;
-    }
-    */
-
-    /**
-     * We can't modify AssetNode objects, but we can modify SimpleAssetNodes. We do have a map of SimpleAssetNode
-     * objects that we can look through though, so look through all of them and find the handle to the SimpleAssetNodes
-     * corresponding to the input.
-     * @param node asset node
-     * @return asset node as simple asset node
-     */
-    /*
-    private SimpleAssetNode _asSimpleAssetNode(AssetNode node) {
-        for (SimpleAssetNode san : nodesById.get(node.getId())) {
-            if (san.equals(node))
-                return san;
-        }
-        throw new IllegalStateException("Could not find SimpleAsseNode corresponding to AssetNode: "+node);
-    }
-    */
-
-    /**
-     * Method to retrieve data that will be loaded into a node. Implementing classes should take care
-     * to be very efficient both for cpu time as well as memory usage.
-     * @param id asset ID to load
-     * @return asset data in the form of a TemplateAsset, never null
-     */
-    //protected abstract TemplateAsset getNodeData(AssetId id);
-
     
     public List<ANODE> getBreadcrumb(AssetId id) {
 
@@ -261,8 +175,6 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
         }
 
         List<ANODE> breadcrumb = chooseBreadcrumb(breadcrumbs);
-
-        //_populateNodes(breadcrumb.toArray(new AssetNode[breadcrumb.size()])); // <-- Nodes are already populated by the time they are instantiated
 
         return breadcrumb;
     }

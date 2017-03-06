@@ -42,6 +42,8 @@ public class MySampleAssetNode extends AbstractAssetNode<MySampleAssetNode> {
     public String toString() {
         return "MySampleAssetNode{" +
                 "id=" + id +
+                ", name=" + this.getAssetName() +
+                ", template=" + this.getAssetTemplate() +
                 "}";
     }
 

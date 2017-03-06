@@ -30,8 +30,8 @@ import tools.gsf.navigation.siteplan.SitePlanNavService;
  * tree.
  *
  * Alternate implementations of this could perform complex logic in the
- * #populateNodeData(AssetId) method to figure out what data should be
- * loaded into this object.
+ * #createAssetNode(AssetId) method to figure out what data should be
+ * loaded into each object.
  *
  * @author Tony Field
  * @since 2016-07-11
@@ -46,10 +46,11 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
     }
 
     protected MySampleAssetNode createAssetNode(AssetId assetId) {
-    	// NOTE: here you could instantiate your own AssetNode implementation. That class could have
-    	//       its own methods and could extend any class you wanted (yes, even HashMap ;-)  ). 
-    	//       You could even return subtype-specific implementations (for instance, via a
-    	//       TrivialAssetNodeFactory component).
+    	// NOTE: here you could instantiate your own AssetNode implementation. That class
+    	//       could have its own methods and could extend any class you wanted (yes, 
+    	//       even HashMap ;-)  ). 
+    	//       You could even return subtype-specific implementations (for instance, via
+    	//       a TrivialAssetNodeFactory component).
     	LOG.debug("Starting LightweightSitePlanNavService.createAssetnode for asset id: {}", assetId);
     	
     	return new MySampleAssetNode(this.getTemplateAssetAccess(), assetId);
