@@ -1,5 +1,8 @@
 package tools.gsf.samples.navigation.siteplan;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fatwire.assetapi.data.AssetId;
 
 import tools.gsf.facade.assetapi.asset.TemplateAsset;

@@ -15,6 +15,9 @@
  */
 package tools.gsf.samples.navigation.siteplan;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
@@ -34,6 +37,8 @@ import tools.gsf.navigation.siteplan.SitePlanNavService;
  * @since 2016-07-11
  */
 public final class LightweightSitePlanNavService extends SitePlanNavService<MySampleAssetNode> {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(LightweightSitePlanNavService.class);
 
     private final TemplateAssetAccess dao;
 
@@ -46,7 +51,8 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
     	// NOTE: here you could instantiate your own AssetNode implementation. That class could have
     	//       its own methods and could extend any class you wanted (yes, even HashMap ;-)  ). 
     	//       You could even return subtype-specific implementations (for instance, via a
-    	//       TrivialAssetNodeFactory component).     	
+    	//       TrivialAssetNodeFactory component).
+    	
     	return new MySampleAssetNode(this.dao, assetId);
     }
 

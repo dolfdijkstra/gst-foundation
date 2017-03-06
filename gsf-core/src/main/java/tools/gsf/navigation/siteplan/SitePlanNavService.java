@@ -15,6 +15,9 @@
  */
 package tools.gsf.navigation.siteplan;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
@@ -38,6 +41,8 @@ import java.util.*;
  * @since 2016-07-06
  */
 public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> implements NavService<ANODE, AssetId, AssetId> {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SitePlanNavService.class);
 
     private final ICS ics;
     private final Map<AssetId, List<ANODE>> nodesById = new HashMap<>();
