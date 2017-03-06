@@ -29,12 +29,13 @@ import tools.gsf.navigation.AssetNode;
  * It is up to the concrete class extending this base class to decide what data to
  * expose and how.
  * 
- * This base class just deals with the annoying stuff required by all implementations.
+ * This base class just deals with the annoying stuff required by most (all?)
+ * AssetNode implementations.
  *  
  * @author Freddy Villalba
  * @since 2017-03-02.
  */
-public class AbstractAssetNode<NODE extends AssetNode<NODE>> implements AssetNode<NODE> {
+public abstract class AbstractAssetNode<NODE extends AssetNode<NODE>> implements AssetNode<NODE> {
 
 	private static final long serialVersionUID = -7637446633778028560L;
 
