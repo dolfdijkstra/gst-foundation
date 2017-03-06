@@ -11,6 +11,8 @@ import tools.gsf.navigation.siteplan.AbstractAssetNode;
 
 public class MySampleAssetNode extends AbstractAssetNode<MySampleAssetNode> {
 	
+	private static final Logger LOG = LoggerFactory.getLogger(MySampleAssetNode.class);
+	
 	private static final long serialVersionUID = -7637446633778028560L;
 
     private TemplateAsset asset;
@@ -20,6 +22,7 @@ public class MySampleAssetNode extends AbstractAssetNode<MySampleAssetNode> {
 		// NOTE: you may gather the data to be exposed by this implementation
 		//       specific getters (getWraUrl, etc... e.g. project-specific ones) here
 		//       or we could do it upon demand, inside each getter method. 
+		LOG.debug("Initializing instance of MySampleAssetNode, will now read data for asset {} using dao {}", assetId, taa);
 	    this.asset = taa.read(assetId, "name", "template");
 	}
 

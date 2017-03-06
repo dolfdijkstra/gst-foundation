@@ -40,11 +40,9 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
 	
 	private static final Logger LOG = LoggerFactory.getLogger(LightweightSitePlanNavService.class);
 
-    private final TemplateAssetAccess dao;
-
     public LightweightSitePlanNavService(ICS ics, TemplateAssetAccess dao) {
-        super(ics);
-        this.dao = dao;
+        super(ics, dao);
+        LOG.debug("Initialized instance of LightweightSitePlanNavService with: ics = {} / dao = {}", ics, dao);
     }
 
     protected MySampleAssetNode createAssetNode(AssetId assetId) {
@@ -52,8 +50,9 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
     	//       its own methods and could extend any class you wanted (yes, even HashMap ;-)  ). 
     	//       You could even return subtype-specific implementations (for instance, via a
     	//       TrivialAssetNodeFactory component).
+    	LOG.debug("Starting LightweightSitePlanNavService.createAssetnode for asset id: {}", assetId);
     	
-    	return new MySampleAssetNode(this.dao, assetId);
+    	return new MySampleAssetNode(this.getTemplateAssetAccess(), assetId);
     }
 
 }

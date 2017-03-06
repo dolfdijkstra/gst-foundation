@@ -22,6 +22,7 @@ import COM.FutureTense.Interfaces.ICS;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.cs.core.db.PreparedStmt;
 import tools.gsf.facade.assetapi.AssetIdUtils;
+import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 import tools.gsf.facade.runtag.render.LogDep;
 import tools.gsf.facade.sql.Row;
 import tools.gsf.facade.sql.SqlHelper;
@@ -45,6 +46,7 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
 	private static final Logger LOG = LoggerFactory.getLogger(SitePlanNavService.class);
 
     private final ICS ics;
+    private final TemplateAssetAccess dao;
     private final Map<AssetId, List<ANODE>> nodesById = new HashMap<>();
 
     private static final PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
@@ -57,27 +59,39 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
     	return this.ics;
     }
     
-    public SitePlanNavService(ICS ics) {
-
+    protected TemplateAssetAccess getTemplateAssetAccess() {
+    	return this.dao;
+    }
+    
+    public SitePlanNavService(ICS ics, TemplateAssetAccess dao) {
         this.ics = ics;
+        this.dao = dao;
 
         // read the site plan tree in one massive query
         Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
 
+        LOG.debug("Executing SitePlan query for gathering data for nav service...");
+        
         for (Row row : SqlHelper.select(ics, NAVIGATION_TREE_DUMP, NAVIGATION_TREE_DUMP.newParam())) {
             SitePlanTreeData nodeInfo = new SitePlanTreeData(row);
+            LOG.debug("Processing SitePlan row: {}", row);
             rowMap.put(nodeInfo.nid, nodeInfo);
+            LOG.debug("Added row {} to SitePlan rows map under key {}", row, nodeInfo.nid);
         }
 
         // create Node objects
         Map<Long, ANODE> nidNodeMap = new HashMap<Long, ANODE>();
         for (long nid : rowMap.keySet()) {
+        	LOG.debug("Will invoke createAssetNode for asset id {}", rowMap.get(nid).assetId);
         	ANODE node = createAssetNode(rowMap.get(nid).assetId);
+        	LOG.debug("AssetNode created for asset {}: {}", rowMap.get(nid).assetId, node);
             
             // Log a dependency with every node (asset) we populate
             LogDep.logDep(ics, node.getId());
+        	LOG.debug("Logged dependency for asset {} inside nav service...", rowMap.get(nid).assetId);
             
             nidNodeMap.put(nid, node);
+            LOG.debug("Added node {} to nodes map under key {}", node, nid);
         }
 
         // hook up parent-child relationships
