@@ -30,6 +30,8 @@ import tools.gsf.navigation.AssetNode;
 import tools.gsf.navigation.NavService;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Simple navigation service implementation that loads objects from the Site Plan.
@@ -111,7 +113,7 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
             AssetId assetId = node.getId();
             List<ANODE> a1 = nodesById.get(assetId);
             if (a1 == null) {
-                a1 = Collections.singletonList(node);
+            	a1 = Stream.of(node).collect(Collectors.toList());
                 nodesById.put(assetId, a1);
             } else {
             	a1.add(node);
