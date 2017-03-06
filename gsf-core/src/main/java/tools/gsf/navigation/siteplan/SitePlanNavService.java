@@ -57,10 +57,6 @@ public abstract class SitePlanNavService<ANODE extends AssetNode<ANODE>> impleme
     
     protected abstract ANODE createAssetNode(AssetId assetId);
     
-    protected ICS getIcs() {
-    	return this.ics;
-    }
-    
     protected TemplateAssetAccess getTemplateAssetAccess() {
     	return this.dao;
     }
