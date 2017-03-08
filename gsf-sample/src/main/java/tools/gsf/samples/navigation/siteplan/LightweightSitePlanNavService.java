@@ -40,11 +40,11 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
 	
 	private static final Logger LOG = LoggerFactory.getLogger(LightweightSitePlanNavService.class);
 
-    public LightweightSitePlanNavService(ICS ics, TemplateAssetAccess dao) {
-        super(ics, dao);
-        LOG.debug("Initialized instance of LightweightSitePlanNavService with: ics = {} / dao = {}", ics, dao);
-    }
-
+	public LightweightSitePlanNavService(ICS ics, TemplateAssetAccess dao) {
+		super(ics, dao);
+		LOG.debug("Initialized instance of LightweightSitePlanNavService with: ics = {} / dao = {} / no sitename specified", ics, dao);
+	}
+	
     protected MySampleAssetNode createAssetNode(AssetId assetId) {
     	// NOTE: here you could instantiate your own AssetNode implementation. That class
     	//       could have its own methods and could extend any class you wanted (yes, 

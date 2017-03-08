@@ -46,24 +46,5 @@ public interface Node<NODE extends Node<NODE>> extends Serializable {
      * @return this node's children, never null.
      */
     List<NODE> getChildren();
-    
-    /**
-     * Add a child to this node's list of children.
-     * For implementations where order / rank of children is relevant, this method would add
-     * the new child at the end of the list. 
-     * @param node
-     */
-    void addChild(NODE node);
-    
-    /**
-     * Add a child to this node's list of children, in the specified position.
-     * For implementations where order / rank of children is irrelevant, this method would ignore
-     * the position and calling this method would be equivalent to calling addChild(node). 
-     * @param node
-     * @param position
-     */
-    void addChild(NODE node, int position);
-    
-    void setParent(NODE node);
 
 }

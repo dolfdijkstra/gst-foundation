@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import com.fatwire.assetapi.data.AssetId;
 
 import tools.gsf.navigation.AssetNode;
+import tools.gsf.navigation.ConfigurableNode;
 
 /**
  * Simple node, representing an asset, that can be populated with asset data.
@@ -35,7 +36,7 @@ import tools.gsf.navigation.AssetNode;
  * @author Freddy Villalba
  * @since 2017-03-02.
  */
-public abstract class AbstractAssetNode<NODE extends AssetNode<NODE>> implements AssetNode<NODE> {
+public abstract class AbstractAssetNode<NODE extends AssetNode<NODE> & ConfigurableNode<NODE>> implements AssetNode<NODE>, ConfigurableNode<NODE> {
 
 	private static final long serialVersionUID = -7637446633778028560L;
 
@@ -52,12 +53,6 @@ public abstract class AbstractAssetNode<NODE extends AssetNode<NODE>> implements
 	}
 	
 	@Override
-    public void addChild(NODE child, int rank) {
-        while (children.size() < rank) children.add(null);
-        children.set(rank-1, child);
-    }
-
-	@Override
 	public void addChild(NODE node) {
 		children.add(node);
 	}
@@ -66,6 +61,18 @@ public abstract class AbstractAssetNode<NODE extends AssetNode<NODE>> implements
     public void setParent(NODE parent) {
         this.parent = parent;
     }
+	
+	@Override
+	public void removeChildren() {
+		for (NODE child : this.children) {
+			child.setParent(null);
+		}
+		this.children.clear();
+	}
+	
+	public boolean removeChild(NODE child) {
+		return this.children.remove(child);
+	}
 	
 	@Override
     public NODE getParent() {
