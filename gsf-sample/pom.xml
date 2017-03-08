@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.yourcompany.sites</groupId>
 	<artifactId>gsf-sample</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>Sample GSF-enabled Project</name>
 	<description>A sample project that can be used as an example for an implementation that uses the GSF.</description>
@@ -22,7 +22,7 @@
         <javax.servlet.servlet-api.version>3.0.1</javax.servlet.servlet-api.version>
         <javax.servlet.jsp-api.version>2.2.1</javax.servlet.jsp-api.version>
         <fatwire.contentserver.version>12.2.1.0.0</fatwire.contentserver.version>
-        <gsf.version>12.0.1-SNAPSHOT</gsf.version>
+        <gsf.version>12.0.1</gsf.version>
         <junit.version>4.10</junit.version>
         <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
         <buildNumber>${maven.build.timestamp}</buildNumber>
