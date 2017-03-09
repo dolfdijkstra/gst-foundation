@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import COM.FutureTense.Interfaces.ICS;
 
 import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.assetapi.data.DefaultBuildersFactory;
+
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 import tools.gsf.navigation.siteplan.SitePlanNavService;
 
@@ -39,7 +41,7 @@ import tools.gsf.navigation.siteplan.SitePlanNavService;
 public final class LightweightSitePlanNavService extends SitePlanNavService<MySampleAssetNode> {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(LightweightSitePlanNavService.class);
-
+	
 	public LightweightSitePlanNavService(ICS ics, TemplateAssetAccess dao) {
 		super(ics, dao);
 		LOG.debug("Initialized instance of LightweightSitePlanNavService with: ics = {} / dao = {} / no sitename specified", ics, dao);
@@ -49,11 +51,16 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
     	// NOTE: here you could instantiate your own AssetNode implementation. That class
     	//       could have its own methods and could extend any class you wanted (yes, 
     	//       even HashMap ;-)  ). 
-    	//       You could even return subtype-specific implementations (for instance, via
-    	//       a TrivialAssetNodeFactory component).
     	LOG.debug("Starting LightweightSitePlanNavService.createAssetnode for asset id: {}", assetId);
-    	
-    	return new MySampleAssetNode(this.getTemplateAssetAccess(), assetId);
+
+    	// You can either instantiate the BuildersFactory here as per below OR
+    	// you can have it passed onto this NavService implementation (for example:
+    	// by obtaining it through your project-specific IcsBackedFactory implementation).
+    	com.fatwire.assetapi.data.BuildersFactory buildersFactory = new DefaultBuildersFactory(this.getIcs());
+
+    	// You own 100% of your AssetNode implementation, so you can pass into its
+    	// constructor anything you need for it to do what it has to do.
+    	return new MySampleAssetNode(buildersFactory, this.getTemplateAssetAccess(), assetId, this.getSitename());
     }
 
 }

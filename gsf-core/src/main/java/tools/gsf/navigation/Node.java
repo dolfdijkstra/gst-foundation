@@ -19,8 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Navigation structure node. Knows how to return parent nodes, child nodes, sibling nodes, and the id of the object
- * represented by this node.
+ * Navigation structure node. Knows how to return parent nodes, child nodes and sibling nodes.
  *
  * Designed to be extended to support more sophisticated node types.
  *

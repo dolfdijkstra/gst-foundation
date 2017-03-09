@@ -108,6 +108,10 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
     	return this.sitename;
     }
     
+    protected ICS getIcs() {
+    	return this.ics;
+    }
+    
     public SitePlanNavService(ICS ics, TemplateAssetAccess dao) {
     	this(ics, dao, null);
     }
