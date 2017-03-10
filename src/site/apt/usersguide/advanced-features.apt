@@ -87,7 +87,7 @@ Use the SitePlanNavService Implementation
 		
 		* Create your own <<NavService>> implementation by extending <<SitePlanNavService>>.
 		
-		* Make sure your IcsBackedFactory (instantiates and) exposes your NavService implementation (via a <<@ServiceProducer>> method).  
+		* Make sure your <<IcsBackedFactory>> (instantiates and) exposes your NavService implementation (via a <<@ServiceProducer>> method).  
 		
 		[]
 
