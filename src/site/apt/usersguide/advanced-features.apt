@@ -20,9 +20,11 @@ GSF User's Guide
 
     {{Use Your Own Factory Producer Implementation}}
 
+    {{Use the SitePlanNavService Implementation}}
+    
     {{Use Your Own NavService Implementation}}
 
-    {{Use Your Own NavigationNode Implementation}}
+    
 
 
 
@@ -77,15 +79,51 @@ com.mycompany.wcs.gsf.config.MyCustomFactoryProducer
 
 	[]
 
-Use Your Own NavService Implementation
+Use the SitePlanNavService Implementation
+
+	* All you need is to:
+	
+		* Create your own <<AssetNode>> implementation, and
+		
+		* Create your own <<NavService>> implementation by extending <<SitePlanNavService>>.
+		
+		* Make sure your IcsBackedFactory (instantiates and) exposes your <<NavService>> implementation (via a <<@ServiceProducer>> method).  
+		
+		[]
+
+	* We strongly advise you to look at the gsf-sample's implementation before trying to figure everything out from scratch on your own.
+	
+		* In most cases, gsf-sample's <<AssetNode>> implementation should be reusable to the point where all you need to adjust is the logic for populating the node's data map with your own model-specific data.
+		
+			* In any case, that is just one of multiple ways of implementing <<AssetNode>>.
+
+			* If needed, you can create your own <<AssetNode>> from scratch. If you do so, we strongly advise you to look at <<AbstractAssetNode>> first.
+			
+			[]				
+				
+		* In most cases, gst-sample's <<SitePlanNavService>> implementation should be reusable to the point where implementing your own class only implies:
+		
+			* Specifying your own class' generic type as your own AssetNode implementation.
+		
+			* Implementing your own class' <<createAssetNode>> method, which is where you hook-up your own AssetNode implementation.
+			
+			* Implementing your own class' constructor, making sure it gets everything it needs in order to instantiate your own <<AssetNode>> implementation.
+			
+			[]
+		
+		[]
+
+	* Plugging in your own NavService is simple (see below)
+		
+	[]
+
+Expose Your Own NavService Implementation
 
 	* Implement your own object factory.
 
 	* Make your custom bean / object available by having a Service Producer method in your own object factory instantiate it:
 
-		* In case you have <<extended>> IcsObjectFactory, you probably want to override the existing <<"createNavService">> method.
-
-		* In case you have not extended IcsObjectFactory, you must add the due Service Producer method to your own implementation; for example:
+		* You must add the due Service Producer method to your own implementation; for example:
 
 +--
 
@@ -98,20 +136,6 @@ public NavService<AssetNode> createNavService(final ICS ics) {
 +--
 
 		[]
-
-	[]
-
-Use Your Own NavigationNode Implementation
-
-	This one depends on what "using your own NavigationNode implementation" means to you:
-
-	* If you literally want to use your own <<Node>> implementation, then doing so requires your implementing your own <<NavService>>, too.
-
-		* You can either implement your own NavService from scratch or extend the existing ones (see <<SitePlanNavService>> or <<LightweightSitePlanNavService>>)
-
-		* Plugging in your own NavService is simple (see above)
-
-	* If you are using one of the OOTB NavService implementations and you just want each <<AssetNode>> to be pre-populated with additional data other than the asset's "name" and "template", then you just need to override the <<"getNodeData">> method.
 
 	[]
 
