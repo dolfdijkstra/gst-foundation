@@ -1,5 +1,7 @@
 package tools.gsf.samples.navigation.siteplan;
 
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,18 +20,24 @@ import tools.gsf.navigation.siteplan.AbstractAssetNode;
  * This is just an example of what you can do inside your AssetNode implementation.
  * 
  * You may gather the data to be exposed by this class either at instantiation time
- * (e.g. inside the constructor) or on-demand (e.g. inside your own, project-specific
- * "get" methods: getWraUrl, etc...)
+ * (e.g. inside the constructor) or on-demand.
  * 
- * You may add as many getters as data you need to expose.
+ * You may add as many getters as data you need to expose and you may expose data in
+ * any way you want.
  * 
- * You could even expose the TemplateAsset itself, if that works best for you, as in:
+ * For instance, you could expose the TemplateAsset itself, if that works best for you,
+ * as in:
  *       
  *    public TemplateAsset getAssetData() {
  *         return this.asset;
  *    }
+ * 
+ * You could also expose a HashMap holding the specific data you want to expose instead
+ * of defining specific getters for that purpose.
  *    
  * The bottomline is: YOU HAVE FULL CONTROL OVER YOUR AssetNode IMPLEMENTATION.
+ * 
+ * In any case, always design your Node implementation(s) with performance in mind.
  * 
  * 
  * @author Freddy Villalba
@@ -44,27 +52,26 @@ public class MySampleAssetNode extends AbstractAssetNode<MySampleAssetNode> {
 	
 	private BuildersFactory buildersFactory;
     private TemplateAsset asset;
-    private String sitename;
-	
+    private HashMap<String, Object> data = new HashMap<String, Object>();
+    
 	public MySampleAssetNode(BuildersFactory buildersFactory, TemplateAssetAccess taa, AssetId assetId, String sitename) {
 		super(assetId);
-		
-		LOG.debug("Initializing instance of MySampleAssetNode, will now read data for asset {} using dao {}", assetId, taa);
-	    this.asset = taa.read(assetId, "name", "template");
-	    this.buildersFactory = buildersFactory;
-		this.sitename = sitename;
-	}
 
-	public String getAssetName() { 
-		return this.asset.asString("name");
+	    this.buildersFactory = buildersFactory;
+	    
+	    if (assetId.getType().equals("SiteNavigation")) {
+	    	// Do nothing
+	    	LOG.debug("No need to read any attribute data for node {}.", assetId);
+	    } else {
+			LOG.debug("Reading attribute data for asset {} using dao {}", assetId, taa);
+		    this.asset = taa.read(assetId, "name", "template");
+		    
+	    	this.data.put("title", this.asset.asString("name"));
+	    	this.data.put("url", this._buildUrl(assetId, this.asset.asString("template"), sitename));
+	    }
 	}
 	
-	public String getAssetTemplate() {
-		return this.asset.asString("template");
-	}
-	
-	public String getAssetUrl() throws AssetAccessException {
-		String tname = this.getAssetTemplate();
+	private String _buildUrl(AssetId assetId, String tname, String sitename) {
 		if (!Utilities.goodString(tname)) {
 			LOG.debug("There is no template bound to this node's asset. Hence, no url can be produced.");
 			return null;
@@ -76,28 +83,38 @@ public class MySampleAssetNode extends AbstractAssetNode<MySampleAssetNode> {
 			LOG.debug("No site was specified. Hence, no url can be produced.");
 			return null;			
 		}
+
 		// NOTE: YOU CAN USE AssetReader HERE (OR ANYTHING ELSE) FOR BUILDING
 		//       THE URL, IF YOU WANT / NEED TO !!!
 		LegacyLinkInfo linkInfo = this.buildersFactory.newLegacyAssetLinkInfo();
+		
 		linkInfo.logDep(DependencyTypeEnum.EXISTS)
-			.forAsset(this.asset.getAssetId())
-			.forSite(this.sitename)
+			.forAsset(assetId)
+			.forSite(sitename)
 			.useTemplate(tname);
 
-		String url = this.buildersFactory.newLinkFactory().makeLink(linkInfo);
+		String url;
+		try {
+			url = this.buildersFactory.newLinkFactory().makeLink(linkInfo);
+		} catch (AssetAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-		LOG.debug("Produced URL for asset {} and site {} using template {}: {}", id, tname, this.sitename, url);
+		LOG.debug("Produced URL for asset {} and site {} using template {}: {}", id, tname, sitename, url);
 		return url;
 	}
-
 	
+	public HashMap<String, Object> getData() {
+		return this.data;
+	}
+
     @Override
     public String toString() {
         return "MySampleAssetNode{" +
                 "id=" + id +
-                ", name=" + this.getAssetName() +
-                ", template=" + this.getAssetTemplate() +
-                ", url=" + this.getAssetTemplate() +
+                ", asset=" + this.asset +
+                ", data=" + this.data +
                 "}";
     }
 

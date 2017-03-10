@@ -46,35 +46,82 @@ import java.util.stream.Stream;
  * 
  * Nodes are instantiated via a dedicated method where you can load any data that
  * is required; you get to (define and) use your own AssetNode implementation.
+ * 
+ * This NavService implementation REQUIRES that the SitePlan models your navigational
+ * structures after the following design:
+ * 
+ * SitePlan root node (SiteNavigation asset)
+ *        |
+ *        ----------- Nav Structure "A" Placeholder (Page asset)
+ *        |                     |
+ *        |                     |----------- Webpage A.1 (Page asset)
+ *        |                     |                  |
+ *        |                     |                  |----------- Webpage A.1.1 (Page asset)
+ *        |                     |                                    |----------- (...) (Page assets)
+ *        |                     |
+ *        |                     |----------- Webpage A.2 (Page asset)
+ *        |                     |                  |
+ *        |                     |                  |----------- (...) (Page assets)
+ *        |                     |
+ *        |                     |----------- Webpage A.3 (Page asset)
+ *        |                     |                  |
+ *        |                     |                  |----------- (...) (Page assets)
+ *        |
+ *        ----------- Nav Structure "B" Placeholder (Page asset)
+ *        |                     |
+ *        |                     |----------- Webpage B.1 (Page asset)
+ *        |                     |                  |
+ *        |                     |                  |----------- (...) (Page assets)
+ *        |                     |                  
+ *        |                     |----------- Webpage B.2 (Page asset)
+ *        |                     |                  |
+ *        |                     |                  |----------- (...) (Page assets)
+ *        |                     |                                    
+ *        |                     |----------- Webpage A.3 (Page asset)
+ *        |                                        |
+ *        |                                        |----------- (...) (Page assets)
+ *        |
+ *        ----------- (...) (Other nav structures)
+ *
+ * ... where:
+ * 
+ * - SiteNavigation nodes will always be excluded from a Webpage node's definitive breadcrumb.
+ * - SiteNavigation nodes are not part of any nav structure.
+ * - Nav Structure Placeholder nodes will always be excluded from a Webpage node's definitive breadcrumb.
+ * - Nav Structure Placeholder are not part of a nav structure, they are just the entry point to it.
+ *
+ *
+ *
  *
  * 
  * @author Tony Field
  * @since 2016-07-06
  */
-public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & ConfigurableNode<NODE>> implements NavService<NODE, AssetId, AssetId> {
+public abstract class SitePlanNavService<N extends AssetNode<N> & ConfigurableNode<N>> implements NavService<N, AssetId, AssetId> {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SitePlanNavService.class);
 
     private final ICS ics;
     private final TemplateAssetAccess dao;
     private final String sitename;
-    private final Map<AssetId, List<NODE>> nodesById = new HashMap<>();
+    private final Map<AssetId, List<N>> nodesById = new HashMap<>();
 
     // Sure, we could join with PUBLICATION on the NAVIGATION_TREE_DUMP, but
     // this way we leverage cache further.
     private final static PreparedStmt FIND_PUBID = new PreparedStmt(
             "select id from Publication where name = ?",
             Arrays.asList("Publication"));
-    // Page assets cannot be shared across sites as of WCS 12c...
-    // but let's play it safe, just in case this changes.
+
     private final static PreparedStmt NAVIGATION_TREE_DUMP = new PreparedStmt(
             "select spt.* from SITEPLANTREE spt, ASSETPUBLICATION ap " +
             "where " +
-            "spt.ncode = 'Placed' and spt.otype != 'SiteNavigation' and " +
-            "spt.otype = ap.assettype and spt.oid = ap.assetid and " +
-            "((ap.pubid = ?) OR (ap.pubid = 0)) " +
+            "spt.ncode = 'Placed' and " +
+            "spt.otype = ap.assettype and " +
+            "spt.oid = ap.assetid and " +
+            "((ap.pubid = ?) OR (ap.pubid = 0)) " + // Pages cannot be shared across sites in 12c, but let's play it safe, just in case that changes
             "order by spt.nparentid, spt.nrank",
             Arrays.asList("page", "siteplantree", "assetpublication", "Page", "SitePlanTree", "AssetPublication", "PAGE", "SITEPLANTREE", "ASSETPUBLICATION"));
+    
     static {
     	FIND_PUBID.setElement(0, "Publication", "name");
     	NAVIGATION_TREE_DUMP.setElement(0, "ASSETPUBLICATION", "pubid");
@@ -98,7 +145,7 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
         }
     }
     
-    protected abstract NODE createAssetNode(AssetId assetId);
+    protected abstract N createAssetNode(AssetId assetId);
     
     protected TemplateAssetAccess getTemplateAssetAccess() {
     	return this.dao;
@@ -108,7 +155,7 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
     	return this.sitename;
     }
     
-    protected ICS getIcs() {
+    protected final ICS getIcs() {
     	return this.ics;
     }
     
@@ -159,10 +206,10 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
         }
 
         // create Node objects
-        Map<Long, NODE> nidNodeMap = new HashMap<Long, NODE>();
+        Map<Long, N> nidNodeMap = new HashMap<Long, N>();
         for (long nid : rowMap.keySet()) {
         	LOG.debug("Will invoke createAssetNode for asset id {}", rowMap.get(nid).assetId);
-        	NODE node = createAssetNode(rowMap.get(nid).assetId);
+        	N node = createAssetNode(rowMap.get(nid).assetId);
         	LOG.debug("AssetNode created for asset {}: {}", rowMap.get(nid).assetId, node);
             
             // Log a dependency with every node (asset) we populate
@@ -174,7 +221,7 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
             
             // Stash for later. Probably won't have many duplicates so optimize
             AssetId assetId = node.getId();
-            List<NODE> a1 = nodesById.get(assetId);
+            List<N> a1 = nodesById.get(assetId);
             if (a1 == null) {
             	a1 = Stream.of(node).collect(Collectors.toList());
                 nodesById.put(assetId, a1);
@@ -190,14 +237,14 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
         // of nodes with a parent
         for (long nparentid : childrenMap.keySet()) {
         	LOG.debug("Processing parent-child relationships for SitePlanTree row with nid = {}", nparentid);
-        	NODE parent = nidNodeMap.get(nparentid);
+        	N parent = nidNodeMap.get(nparentid);
         	if (parent != null) {
         		LOG.debug("AssetNode for nid {} is: {}", nparentid, parent);
         		List<SitePlanTreeData> children = childrenMap.get(nparentid);
         		if (children != null) {
         			LOG.debug("List of children for SPT whose nid = {} is: {}", nparentid, children);
         			for (SitePlanTreeData childRow : children) {
-	        			NODE child = nidNodeMap.get(childRow.nid);
+	        			N child = nidNodeMap.get(childRow.nid);
 	        			if (child != null) {
 	        				parent.addChild(child);
 	        				child.setParent(parent);
@@ -239,36 +286,41 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
         }
     }
 
-    public List<NODE> getNav(AssetId sitePlan) {
+    public List<N> getNav(AssetId sitePlan) {
         if (sitePlan == null) {
             throw new IllegalArgumentException("Null param not allowed");
         }
 
         // find the requested structure
-        List<NODE> spNodes = nodesById.get(sitePlan);
+        List<N> spNodes = nodesById.get(sitePlan);
         if (spNodes == null) throw new IllegalArgumentException("Could not locate nav structure corresponding to "+sitePlan);
         if (spNodes.size() > 1) throw new IllegalStateException("Cannot have more than one site plan node with the same id in the tree");
-        NODE requestedRoot = spNodes.get(0); // never null
+        N requestedRoot = spNodes.get(0); // never null
 
         // return the loaded children of the structure root
-        return (List<NODE>) requestedRoot.getChildren();
+        return (List<N>) requestedRoot.getChildren();
     }
     
-    public List<NODE> getBreadcrumb(AssetId id) {
+    public List<N> getBreadcrumb(AssetId id) {
 
         if (id == null) {
             throw new IllegalArgumentException("Cannot calculate breadcrumb of a null asset");
         }
 
-        Collection<List<NODE>> breadcrumbs = new ArrayList<>();
+        Collection<BreadcrumbCandidate<N>> breadcrumbs = new ArrayList<>();
         LOG.debug("Obtaining all nodes whose ID matches {}", id);
-        List<NODE> nodes = nodesById.get(id);
+        List<N> nodes = nodesById.get(id);
         if (nodes != null) {
-	        for (NODE node : nodesById.get(id)) {
-	            breadcrumbs.add(getBreadcrumbForNode(node));
+        	// Build all possible breadcrumbs
+	        for (N node : nodesById.get(id)) {
+	            breadcrumbs.add(new BreadcrumbCandidate<N>(getBreadcrumbForNode(node)));
 	        }
-	        List<NODE> breadcrumb = chooseBreadcrumb(breadcrumbs);
+	        
+	        // Choose the preferred breadcrumb. Users may override this method
+	        // to implement their own choosing logic.
+	        List<N> breadcrumb = chooseBreadcrumb(breadcrumbs);
 	        LOG.debug("This is the preferred breadcrumb for ID {}: {}", id, breadcrumb);
+	        	        
 	        return breadcrumb;
         } else {
         	LOG.info("Didn't find any node in this nav structure whose ID matched {}, thus a breadcrumb cannot be calculated. These are all available nodes: {}", id, this.nodesById);
@@ -287,8 +339,8 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
      * @param node the node whose breadcrumb needs to be calculated
      * @return the breadcrumb
      */
-    protected List<NODE> getBreadcrumbForNode(NODE node) {
-        List<NODE> ancestors = new ArrayList<>();
+    protected List<N> getBreadcrumbForNode(N node) {
+        List<N> ancestors = new ArrayList<>();
         do {
             ancestors.add(node);
             node = node.getParent();
@@ -298,15 +350,51 @@ public abstract class SitePlanNavService<NODE extends AssetNode<NODE> & Configur
     }
 
     /**
-     * Pick which breadcrumb to return if more than one path has been found.
+     * Determines a node's "preferred" breadcrumb from a list of "candidates".
      *
-     * Default implementation simply returns the first one returned by the specified collection's iterator.
-     *
-     * @param options candidate breadcrumbs
-     * @return the breadcrumb to use.
+     * This default implementation simply returns the first one returned by the specified
+     * collection's iterator.
+     * 
+     * However, you may override this method in order to implement your own ad-hoc logic for
+     * determining the preferred breadcrumb.
+     * 
+     * The candidates passed into this method have already parsed the raw breadcrumb so to split it
+     * up in the due SiteNavigation node, Nav Structure Placeholder node and the clean breadcrumb path.
+     * 
+     * @param candidates The candidates you get to choose the preferred breadcrumb from.
+     * @return The preferred breadcrumb (list of nodes).
      */
-    protected List<NODE> chooseBreadcrumb(Collection<List<NODE>> options) {
-        return options.iterator().next();
+    protected List<N> chooseBreadcrumb(Collection<BreadcrumbCandidate<N>> candidates) {
+        return candidates.iterator().next().getBreadcrumb();
+    }
+    
+    protected static class BreadcrumbCandidate<N extends AssetNode<N>> {
+    	private List<N> breadcrumb;
+    	private N siteNavigation;
+    	private N navStructurePlaceholder;
+    	
+    	public BreadcrumbCandidate(List<N> rawBreadcrumb) {
+    		if (rawBreadcrumb.size() < 2) {
+    			throw new IllegalArgumentException("Breadcrumb candidate is not valid, insufficient nodes.");
+    		}
+    		this.siteNavigation = rawBreadcrumb.get(0);
+    		if (!this.siteNavigation.getId().getType().equals("SiteNavigation")) {
+    			throw new IllegalArgumentException("Breadcrumb candidate is not valid, first node must be the SiteNavigation node, got this instead: " + this.siteNavigation);
+    		}
+    		this.navStructurePlaceholder = rawBreadcrumb.get(1);
+    		if (!this.navStructurePlaceholder.getId().getType().equals("Page")) {
+    			throw new IllegalArgumentException("Breadcrumb candidate is not valid, second node must be the Nav Structure Placeholder (Page) node, got this instead: " + this.navStructurePlaceholder);
+    		}
+    		this.breadcrumb = rawBreadcrumb.subList(2, rawBreadcrumb.size());
+    	}
+    	
+    	public N getNavStructurePlaceholder() {
+    		return this.navStructurePlaceholder;
+    	}
+    	
+    	public List<N> getBreadcrumb() {
+    		return this.breadcrumb;
+    	}
     }
     
 }

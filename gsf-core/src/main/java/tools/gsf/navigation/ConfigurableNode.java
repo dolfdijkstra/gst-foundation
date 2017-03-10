@@ -20,7 +20,7 @@ package tools.gsf.navigation;
  * 
  *
  */
-public interface ConfigurableNode<NODE extends Node<NODE>> {
+public interface ConfigurableNode<T extends Node<T>> {
 	
     
     /**
@@ -32,13 +32,13 @@ public interface ConfigurableNode<NODE extends Node<NODE>> {
      *  
      * @param node
      */
-    void addChild(NODE node);
+    void addChild(T node);
     
     /**
      * Can only be called once per instance. Otherwise, a runtime exception will be thrown.     
      * @param node
      */
-    void setParent(NODE node);
+    void setParent(T node);
     
     /**
      * Breaks the relationship between this node and all of its children, meaning:
@@ -60,6 +60,6 @@ public interface ConfigurableNode<NODE extends Node<NODE>> {
      * @param child The child node we want to remove
      * @return true if the node was removed, false otherwise
      */
-    boolean removeChild(NODE child);
+    boolean removeChild(T child);
 	
 }

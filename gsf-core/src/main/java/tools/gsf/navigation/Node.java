@@ -26,24 +26,24 @@ import java.util.List;
  * @author Tony Field
  * @since 2016-07-02.
  */
-public interface Node<NODE extends Node<NODE>> extends Serializable {
+public interface Node<N extends Node<N>> extends Serializable {
 
     /**
      * Get the parent node
      * @return parent node
      */
-    NODE getParent();
+    N getParent();
 
     /**
      * Get the siblings of this node. All siblings are returned in ranked order, including this node.
      * @return sibling nodes
      */
-    List<NODE> getSiblings();
+    List<N> getSiblings();
 
     /**
      * Return this node's children, if any, in ranked order
      * @return this node's children, never null.
      */
-    List<NODE> getChildren();
+    List<N> getChildren();
 
 }

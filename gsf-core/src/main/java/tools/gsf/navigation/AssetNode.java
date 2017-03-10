@@ -23,7 +23,7 @@ import com.fatwire.assetapi.data.AssetId;
  * @author Freddy Villalba
  * @since 2017-03-02.
  */
-public interface AssetNode<NODE extends AssetNode<NODE>> extends Node<NODE> {
+public interface AssetNode<A extends AssetNode<A>> extends Node<A> {
 
     AssetId getId();
     

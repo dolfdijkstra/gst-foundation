@@ -36,13 +36,13 @@ import tools.gsf.navigation.ConfigurableNode;
  * @author Freddy Villalba
  * @since 2017-03-02.
  */
-public abstract class AbstractAssetNode<NODE extends AssetNode<NODE> & ConfigurableNode<NODE>> implements AssetNode<NODE>, ConfigurableNode<NODE> {
+public abstract class AbstractAssetNode<N extends AssetNode<N> & ConfigurableNode<N>> implements AssetNode<N>, ConfigurableNode<N> {
 
 	private static final long serialVersionUID = -7637446633778028560L;
 
 	protected AssetId id;
-	protected NODE parent = null;
-	protected ArrayList<NODE> children = new ArrayList<>();
+	protected N parent = null;
+	protected ArrayList<N> children = new ArrayList<>();
 
 	public AbstractAssetNode(AssetId assetId) {
 		this.id = assetId;		
@@ -53,42 +53,42 @@ public abstract class AbstractAssetNode<NODE extends AssetNode<NODE> & Configura
 	}
 	
 	@Override
-	public void addChild(NODE node) {
+	public void addChild(N node) {
 		children.add(node);
 	}
 
 	@Override
-    public void setParent(NODE parent) {
+    public void setParent(N parent) {
         this.parent = parent;
     }
 	
 	@Override
 	public void removeChildren() {
-		for (NODE child : this.children) {
+		for (N child : this.children) {
 			child.setParent(null);
 		}
 		this.children.clear();
 	}
 	
-	public boolean removeChild(NODE child) {
+	public boolean removeChild(N child) {
 		return this.children.remove(child);
 	}
 	
 	@Override
-    public NODE getParent() {
+    public N getParent() {
         return parent;
     }
 
 	@Override
-    public List<NODE> getSiblings() {
+    public List<N> getSiblings() {
         return parent.getChildren();
     }
 
 	@Override
-    public List<NODE> getChildren() {
+    public List<N> getChildren() {
         return children.stream().filter(n -> n != null).collect(Collectors.toList());
     }
-
+	
     @Override
     public boolean equals(Object o) {
         if (this == o) {
