@@ -87,7 +87,7 @@ Use the SitePlanNavService Implementation
 		
 		* Create your own <<NavService>> implementation by extending <<SitePlanNavService>>.
 		
-		* Make sure your IcsBackedFactory (instantiates and) exposes your <<NavService>> implementation (via a <<@ServiceProducer>> method).  
+		* Make sure your IcsBackedFactory (instantiates and) exposes your NavService implementation (via a <<@ServiceProducer>> method).  
 		
 		[]
 
@@ -95,9 +95,9 @@ Use the SitePlanNavService Implementation
 	
 		* In most cases, gsf-sample's <<AssetNode>> implementation should be reusable to the point where all you need to adjust is the logic for populating the node's data map with your own model-specific data.
 		
-			* In any case, that is just one of multiple ways of implementing <<AssetNode>>.
+			* In any case, that is just one of multiple ways of implementing AssetNode.
 
-			* If needed, you can create your own <<AssetNode>> from scratch. If you do so, we strongly advise you to look at <<AbstractAssetNode>> first.
+			* If needed, you can create your own AssetNode from scratch. If you do so, we strongly advise you to look at <<AbstractAssetNode>> first.
 			
 			[]				
 				
@@ -107,7 +107,7 @@ Use the SitePlanNavService Implementation
 		
 			* Implementing your own class' <<createAssetNode>> method, which is where you hook-up your own AssetNode implementation.
 			
-			* Implementing your own class' constructor, making sure it gets everything it needs in order to instantiate your own <<AssetNode>> implementation.
+			* Implementing your own class' constructor, making sure it gets everything it needs in order to instantiate your own AssetNode implementation.
 			
 			[]
 		
