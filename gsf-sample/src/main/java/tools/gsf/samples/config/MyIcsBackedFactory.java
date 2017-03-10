@@ -27,6 +27,9 @@ import tools.gsf.samples.navigation.siteplan.MySampleAssetNode;
  * For real projects, you should use this class only as a guideline on how to expose a
  * custom NavService implementation via a ServiceProducer method added to your own
  * (custom) IcsBackedFactory implementation.
+ * 
+ * Remember that, in order to use a custom IcsBackedFactory implementation, you must configure
+ * it accordingly (e.g. inside the "META-INF/gsf-factory" file).
  *
  * 
  * @author fvillalba
