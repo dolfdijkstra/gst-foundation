@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>LightweightAbstractAssembler xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/com/fatwire/gst/foundation/url/LightweightAbstractAssembler.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright 2010 FatWire Corporation. All Rights Reserved.</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> *    <a href="http://www.apache.org/licenses/LICENSE-2." target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.</a>0</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">package</strong> com.fatwire.gst.foundation.url;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> com.fatwire.cs.core.uri.Assembler;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> com.fatwire.cs.core.uri.Util;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> java.io.UnsupportedEncodingException;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> java.net.URI;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> java.net.URISyntaxException;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> java.util.*;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> * Lightweight abstract assembler that handles property management, provides a</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment"> * logger, handles encoding and decoding and query string processing. Much</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment"> * lighter in weight than &lt;code&gt;com.fatwire.cs.core.uri.AbstractAssembler&lt;/code&gt;</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment"> * .</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment"> * @author Tony Field</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment"> * @since Sep 27, 2008</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment"> * @deprecated moved to new namespace</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment"> * @see "tools.gsf.url.LightweightAbstractAssembler"</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">abstract</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../com/fatwire/gst/foundation/url/LightweightAbstractAssembler.html">LightweightAbstractAssembler</a> <strong class="jxr_keyword">implements</strong> Assembler {
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">     * Logger for use by sub-classes.</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>      <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(<span class="jxr_string">"tools.gsf.legacy.url.LightweightAbstractAssembler"</span>);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CHARSET_lower = <span class="jxr_string">"_charset_"</span>;
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CHARSET_upper = <span class="jxr_string">"_CHARSET_"</span>;
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> String encoding;
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; properties = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     * Constructor. Upon object construction, support for UTF-8 encoding is</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     * tested, and the result is cached for future use in the encode() and</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     * decode() methods.</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">     * UTF-8 is the recommended URLEncoding:</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">     * &lt;ul&gt;</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;&lt;a</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">     * href="<a href="http://www.w3.org/TR/html40/appendix/notes.html" target="alexandria_uri">http://www.w3.org/TR/html40/appendix/notes.html</a>#non-ascii-chars"</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment">     * &gt;<a href="http://www.w3.org/TR/html40/appendix/notes.html" target="alexandria_uri">http://www.w3.org/TR/html40/appendix/notes.html</a>#non-ascii-chars&lt;/a&gt;&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;&lt;a</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">     * href="<a href="http://java.sun.com/j2ee/1.4/docs/tutorial/doc/WebI18N5.html" target="alexandria_uri">http://java.sun.com/j2ee/1.4/docs/tutorial/doc/WebI18N5.html</a>"</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">     * &gt;<a href="http://java.sun.com/j2ee/1.4/docs/tutorial/doc/WebI18N5.html&lt;/a&gt;&lt;/li&gt" target="alexandria_uri">http://java.sun.com/j2ee/1.4/docs/tutorial/doc/WebI18N5.html&lt;/a&gt;&lt;/li&gt</a>;</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">     * &lt;li&gt;&lt;a</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">     * href="<a href="http://www.ietf.org/rfc/rfc2396.txt" target="alexandria_uri">http://www.ietf.org/rfc/rfc2396.txt</a>"&gt;http://www.ietf.org/rfc/</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">     * rfc2396.txt&lt;/a&gt;&lt;/li&gt;</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">     * &lt;/ul&gt;</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">protected</strong> <a href="../../../../../com/fatwire/gst/foundation/url/LightweightAbstractAssembler.html">LightweightAbstractAssembler</a>() {
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          String enc = <span class="jxr_string">"UTF-8"</span>;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>              Util.encode(<span class="jxr_string">"fake string"</span>, enc);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          } <strong class="jxr_keyword">catch</strong> (UnsupportedEncodingException e) {
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>              LOG.warn(<span class="jxr_string">"UTF-8 encoding not supported by this platform. Using the platform's default encoding as the URL encoding."</span>);
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>              enc = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>          }
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>          <strong class="jxr_keyword">this</strong>.encoding = enc;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>      }
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setProperties(Properties props) {
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          Enumeration&lt;?&gt; en = props.propertyNames();
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>          <strong class="jxr_keyword">while</strong> (en.hasMoreElements()) {
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>              String pName = (String) en.nextElement();
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>              String pValue = props.getProperty(pName);
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>              <strong class="jxr_keyword">this</strong>.properties.put(pName, pValue);
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>          }
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>      }
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  <em class="jxr_javadoccomment">     * Convenience method to get a property value set into the assembler from</em>
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  <em class="jxr_javadoccomment">     * the configuration files.</em>
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  <em class="jxr_javadoccomment">     * @param name name of property to import</em>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  <em class="jxr_javadoccomment">     * @param dephault default value of property - returned if the property</em>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  <em class="jxr_javadoccomment">     *            value is not specified</em>
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">     * @return property value or dephault value</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <strong class="jxr_keyword">protected</strong> String getProperty(String name, String dephault) {
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         String result = properties.get(name);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a>         <strong class="jxr_keyword">if</strong> (result == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>             result = dephault;
+<a class="jxr_linenumber" name="L104" href="#L104">104</a>         }
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         <strong class="jxr_keyword">return</strong> result;
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>     }
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">     * URLEncodes a string using the encoding specified by this class.</em>
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">     * @param string the string to encode</em>
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">     * @return encoded string</em>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">     * @throws IllegalStateException if UTF-8 encoding is not supported and the</em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">     *             platform's default encoding is not supported.</em>
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String encode(String string) {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>         String result;
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>             <strong class="jxr_keyword">if</strong> (string == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                 result = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>                 result = Util.encode(string, encoding);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a>             }
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>         } <strong class="jxr_keyword">catch</strong> (UnsupportedEncodingException ex) {
+<a class="jxr_linenumber" name="L125" href="#L125">125</a>             String msg = <span class="jxr_string">"Unexpected failure encoding string '"</span> + string + <span class="jxr_string">"'using an encoding ("</span> + encoding
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>                     + <span class="jxr_string">").  Exception: "</span> + ex;
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(msg);
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>         }
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>         <strong class="jxr_keyword">return</strong> result;
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>     }
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">     * URLDecodes a string using the encoding specified by this class.</em>
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> <em class="jxr_javadoccomment">     * @param string encoded string</em>
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> <em class="jxr_javadoccomment">     * @return decoded string</em>
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> <em class="jxr_javadoccomment">     * @throws IllegalStateException if UTF-8 encoding is not supported and the</em>
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> <em class="jxr_javadoccomment">     *             platform's default encoding is not supported.</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_javadoccomment">     * @throws IllegalArgumentException if the string is not well-formed for</em>
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">     *             decoding.</em>
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String decode(String string) {
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>         <strong class="jxr_keyword">return</strong> decode(string, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L144" href="#L144">144</a>     }
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
+<a class="jxr_linenumber" name="L146" href="#L146">146</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> <em class="jxr_javadoccomment">     * URLDecodes a string using the encoding specified.</em>
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> <em class="jxr_javadoccomment">     * @param string encoded string</em>
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> <em class="jxr_javadoccomment">     * @param encoding the encoding to use to decode the string. If null is</em>
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> <em class="jxr_javadoccomment">     *            specified, the decoding specified by this class shall be used.</em>
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> <em class="jxr_javadoccomment">     * @return decoded string</em>
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> <em class="jxr_javadoccomment">     * @throws IllegalStateException if the encoding specified is not supported,</em>
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> <em class="jxr_javadoccomment">     *             or if UTF-8 encoding is not supported and the platform's</em>
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">     *             default encoding is not supported.</em>
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">     * @throws IllegalArgumentException if the string is not well-formed for</em>
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> <em class="jxr_javadoccomment">     *             decoding.</em>
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L159" href="#L159">159</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String decode(String string, String encoding) {
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>         String result;
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>         <strong class="jxr_keyword">if</strong> (string == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L162" href="#L162">162</a>             result = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>             <strong class="jxr_keyword">if</strong> (encoding == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>                 encoding = <strong class="jxr_keyword">this</strong>.encoding;
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>             }
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>             <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>                 result = Util.decode(string, encoding);
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>             } <strong class="jxr_keyword">catch</strong> (IllegalArgumentException iae) {
+<a class="jxr_linenumber" name="L170" href="#L170">170</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"Failure decoding string '"</span> + string + <span class="jxr_string">"' using encoding '"</span>
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>                         + encoding + <span class="jxr_string">"'.  ("</span> + iae.getMessage() + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L172" href="#L172">172</a>             } <strong class="jxr_keyword">catch</strong> (UnsupportedEncodingException ex) {
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>                 <em class="jxr_comment">// This is not expected to ever occur.</em>
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Unexpected failure decoding string '"</span> + string + <span class="jxr_string">"'using encoding '"</span>
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>                         + encoding + <span class="jxr_string">"'.  ("</span> + ex + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>             }
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>         }
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         <strong class="jxr_keyword">return</strong> result;
+<a class="jxr_linenumber" name="L179" href="#L179">179</a>     }
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 
+<a class="jxr_linenumber" name="L181" href="#L181">181</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> <em class="jxr_javadoccomment">     * The multi-arg &lt;code&gt;java.net.URI&lt;/code&gt; constructors quote illegal</em>
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> <em class="jxr_javadoccomment">     * characters. However, this class requires that the query string already be</em>
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> <em class="jxr_javadoccomment">     * properly URLEncoded. As a result, we can't use the multi-arg URI</em>
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> <em class="jxr_javadoccomment">     * constructor because all of our % symbols and the + symbol will end up</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">     * getting double-encoded. So, we need to construct a full URL ourselves so</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">     * we can use the single-arg URI constructor, because it does not quote</em>
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> <em class="jxr_javadoccomment">     * anything.</em>
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> <em class="jxr_javadoccomment">     * There are multiple variants of combinations of these parameters to create</em>
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> <em class="jxr_javadoccomment">     * a valid URL. Consult the URI specificaiton for what is allowed and what</em>
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> <em class="jxr_javadoccomment">     * is not. The URI constructor will throw a URISyntaxException if required</em>
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> <em class="jxr_javadoccomment">     * components are missing for a given combination.</em>
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> <em class="jxr_javadoccomment">     * @param scheme the URI scheme (protocol)</em>
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> <em class="jxr_javadoccomment">     * @param authority the URI authority (host:port)</em>
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> <em class="jxr_javadoccomment">     * @param path the path for the URI (servlet context path, servlet name,</em>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> <em class="jxr_javadoccomment">     *            pathinfo)</em>
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> <em class="jxr_javadoccomment">     * @param quotedQueryString the query string, with illegal characters</em>
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> <em class="jxr_javadoccomment">     *            already quoted.</em>
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">     * @param fragment the fragment (anchor)</em>
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">     * @return the valid URI with proper encoding</em>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">     * @throws URISyntaxException if there is a problem with what is passed in</em>
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> URI constructURI(<strong class="jxr_keyword">final</strong> String scheme, <strong class="jxr_keyword">final</strong> String authority, <strong class="jxr_keyword">final</strong> String path,
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>             <strong class="jxr_keyword">final</strong> String quotedQueryString, <strong class="jxr_keyword">final</strong> String fragment) <strong class="jxr_keyword">throws</strong> URISyntaxException {
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>         <em class="jxr_comment">// Update, Feb 25, 2005 by Tony Field</em>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>         StringBuilder bf = <strong class="jxr_keyword">new</strong> StringBuilder();
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>         <strong class="jxr_keyword">if</strong> (scheme != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>             bf.append(scheme).append(':'); <em class="jxr_comment">// nothing legal can be quoted</em>
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>         }
+<a class="jxr_linenumber" name="L212" href="#L212">212</a>         <strong class="jxr_keyword">if</strong> (authority != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>             bf.append(<span class="jxr_string">"//"</span>).append(authority); // nothing legal to quote until
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>                                                <em class="jxr_comment">// I18N URLs work</em>
+<a class="jxr_linenumber" name="L215" href="#L215">215</a>         }
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>         <em class="jxr_comment">// Path needs quoting though, so let the URI object do it for us.</em>
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>         <em class="jxr_comment">// Use the toASCIIString() method because we need the quoted values.</em>
+<a class="jxr_linenumber" name="L218" href="#L218">218</a>         <em class="jxr_comment">// (toString() is really just for readability and debugging, not</em>
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>         <em class="jxr_comment">// programmatic use)</em>
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>         <strong class="jxr_keyword">if</strong> (path != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>             bf.append(<strong class="jxr_keyword">new</strong> URI(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, path, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>).getRawPath());
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>         }
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>         <strong class="jxr_keyword">if</strong> (quotedQueryString != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>             bf.append('?').append(quotedQueryString); <em class="jxr_comment">// already quoted</em>
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>         }
+<a class="jxr_linenumber" name="L226" href="#L226">226</a>         <em class="jxr_comment">// needs quoting</em>
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>         <strong class="jxr_keyword">if</strong> (fragment != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L228" href="#L228">228</a>             bf.append(<strong class="jxr_keyword">new</strong> URI(<strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, fragment).toASCIIString());
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>         }
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>         URI uri = <strong class="jxr_keyword">new</strong> URI(bf.toString());
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> 
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>         <strong class="jxr_keyword">if</strong> (LOG.isDebugEnabled()) {
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>             LOG.trace(<span class="jxr_string">"Constructing new URI using the following components: \n"</span> + <span class="jxr_string">"scheme="</span> + scheme + <span class="jxr_string">" \n"</span>
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>                     + <span class="jxr_string">"authority="</span> + authority + <span class="jxr_string">" \n"</span> + <span class="jxr_string">"path="</span> + path + <span class="jxr_string">" \n"</span> + <span class="jxr_string">"query="</span> + quotedQueryString + <span class="jxr_string">" \n"</span>
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>                     + <span class="jxr_string">"fragment="</span> + fragment);
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>             LOG.debug(<span class="jxr_string">"Assembled URI: "</span> + uri.toASCIIString());
+<a class="jxr_linenumber" name="L238" href="#L238">238</a>         }
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>         <strong class="jxr_keyword">return</strong> uri;
+<a class="jxr_linenumber" name="L240" href="#L240">240</a>     }
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 
+<a class="jxr_linenumber" name="L242" href="#L242">242</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> <em class="jxr_javadoccomment">     * Parse a query string and put the parameters into a map. Input parameters</em>
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> <em class="jxr_javadoccomment">     * will be URLDecoded prior to their addition into the resultant map.</em>
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">     * Note that the map returned contains a &lt;em&gt;&lt;code&gt;String[]&lt;/code&gt; as the</em>
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> <em class="jxr_javadoccomment">     * value, not a single &lt;code&gt;String&lt;/code&gt; value&lt;/em&gt; This provides support</em>
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> <em class="jxr_javadoccomment">     * for query strings with multiple values for a given parameter name.</em>
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> <em class="jxr_javadoccomment">     * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L250" href="#L250">250</a> <em class="jxr_javadoccomment">     * This decoding method is smart enough to be able to interpret the</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> <em class="jxr_javadoccomment">     * &lt;code&gt;_charset_&lt;/code&gt; URL parameter that is often used by IE.</em>
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> <em class="jxr_javadoccomment">     * @param qry string value for query</em>
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">     * @return map containing &lt;code&gt;String&lt;/code&gt;/&lt;code&gt;String[]&lt;/code&gt; pairs.</em>
+<a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">     * @throws IllegalArgumentException if there are mistakes in the string that</em>
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">     *             make it impossible to parse.</em>
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> Map&lt;String, String[]&gt; parseQueryString(String qry) {
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>         Map&lt;String, String[]&gt; rawPairs = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String[]&gt;();
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">if</strong> (qry == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>             <strong class="jxr_keyword">return</strong> rawPairs;
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>         }
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         <strong class="jxr_keyword">int</strong> inlen = qry.length();
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         <strong class="jxr_keyword">if</strong> (inlen == 0) {
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>             <strong class="jxr_keyword">return</strong> rawPairs;
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         }
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>         <strong class="jxr_keyword">if</strong> (LOG.isTraceEnabled()) {
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>             LOG.trace(<span class="jxr_string">"Parsing query string: "</span> + qry);
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>         }
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>         <strong class="jxr_keyword">int</strong> iequal;
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>         <strong class="jxr_keyword">int</strong> iamper;
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>         <strong class="jxr_keyword">int</strong> startAt = 0;
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>         <strong class="jxr_keyword">boolean</strong> bDone = false;
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>         <strong class="jxr_keyword">while</strong> (!bDone) {
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>             String n;
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>             String v;
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>             <strong class="jxr_keyword">if</strong> ((iequal = qry.indexOf(<span class="jxr_string">"="</span>, startAt)) != -1) {
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>                 <em class="jxr_comment">// End of current name=value is '&amp;' or EOL</em>
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>                 iamper = qry.indexOf(<span class="jxr_string">"&amp;"</span>, iequal);
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>                 n = qry.substring(startAt, iequal);
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>                 n = n.trim(); <em class="jxr_comment">// deal with accidental odd chars in the URL</em>
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>                 iequal++;
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>                 <strong class="jxr_keyword">if</strong> (iequal &gt;= inlen) {
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>                 }
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 
+<a class="jxr_linenumber" name="L290" href="#L290">290</a>                 <strong class="jxr_keyword">if</strong> (iamper == -1) {
+<a class="jxr_linenumber" name="L291" href="#L291">291</a>                     v = qry.substring(iequal);
+<a class="jxr_linenumber" name="L292" href="#L292">292</a>                 } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L293" href="#L293">293</a>                     v = qry.substring(iequal, iamper);
+<a class="jxr_linenumber" name="L294" href="#L294">294</a>                 }
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>                 <strong class="jxr_keyword">if</strong> (iamper != -1) {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>                     startAt = iamper + 1;
+<a class="jxr_linenumber" name="L298" href="#L298">298</a>                 } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>                     bDone = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>                 }
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>                 v = v.trim(); <em class="jxr_comment">// deal with stupid value</em>
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>                 <em class="jxr_comment">// add the value to the result.</em>
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>                 String[] av = rawPairs.get(n);
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>                 <strong class="jxr_keyword">if</strong> (av == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>                     av = <strong class="jxr_keyword">new</strong> String[1];
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>                     av[0] = v;
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>                     rawPairs.put(n, av);
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>                 } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>                     <em class="jxr_comment">// param specified twice in the url.</em>
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>                     String[] newVal = <strong class="jxr_keyword">new</strong> String[av.length + 1];
+<a class="jxr_linenumber" name="L313" href="#L313">313</a>                     System.arraycopy(av, 0, newVal, 0, av.length);
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>                     newVal[av.length] = v;
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>                     rawPairs.put(n, newVal);
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>                 }
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>             } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>                 <strong class="jxr_keyword">break</strong>; <em class="jxr_comment">// no more pairs</em>
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>             }
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>         }
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> 
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>         <em class="jxr_comment">// Figure out which encoding to use to decode the params</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>         String[] _charset_ = rawPairs.get(CHARSET_lower) == <strong class="jxr_keyword">null</strong> ? rawPairs.get(CHARSET_upper) : rawPairs
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>                 .get(CHARSET_lower);
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>         <strong class="jxr_keyword">final</strong> String encoding;
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>         <strong class="jxr_keyword">if</strong> (_charset_ == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>             encoding = <strong class="jxr_keyword">null</strong>; <em class="jxr_comment">// try to follow the spec</em>
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>             <strong class="jxr_keyword">switch</strong> (_charset_.length) {
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>                 <strong class="jxr_keyword">case</strong> 0:
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>                             <span class="jxr_string">"Somehow an empty _charst_ param made it into our map. Impossible..."</span>);
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>                 <strong class="jxr_keyword">case</strong> 1:
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>                     encoding = _charset_[0]; <em class="jxr_comment">// url contains an override for the</em>
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>                                              <em class="jxr_comment">// spec</em>
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>                 <strong class="jxr_keyword">default</strong>:
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalStateException(<span class="jxr_string">"Too many values of _charset_ found in the URL"</span>);
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>             }
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>         }
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> 
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>         <em class="jxr_comment">// Decode the raw pairs using the proper encoding and set them into the</em>
+<a class="jxr_linenumber" name="L343" href="#L343">343</a>         <em class="jxr_comment">// result map</em>
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>         Map&lt;String, String[]&gt; res = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String[]&gt;(rawPairs.size());
+<a class="jxr_linenumber" name="L345" href="#L345">345</a>         <strong class="jxr_keyword">for</strong> (String rawKey : rawPairs.keySet()) {
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>             String key = decode(rawKey, encoding);
+<a class="jxr_linenumber" name="L347" href="#L347">347</a>             String[] val = rawPairs.get(rawKey);
+<a class="jxr_linenumber" name="L348" href="#L348">348</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; val.length; i++) {
+<a class="jxr_linenumber" name="L349" href="#L349">349</a>                 String rawVal = val[i];
+<a class="jxr_linenumber" name="L350" href="#L350">350</a>                 val[i] = decode(rawVal, encoding);
+<a class="jxr_linenumber" name="L351" href="#L351">351</a> 
+<a class="jxr_linenumber" name="L352" href="#L352">352</a>                 <strong class="jxr_keyword">if</strong> (LOG.isTraceEnabled()) {
+<a class="jxr_linenumber" name="L353" href="#L353">353</a>                     StringBuilder bf = <strong class="jxr_keyword">new</strong> StringBuilder(<span class="jxr_string">"Parsing query string.  Found raw pair [name]=[value]: "</span>);
+<a class="jxr_linenumber" name="L354" href="#L354">354</a>                     bf.append('[').append(rawKey).append(']').append('=').append('[').append(rawVal).append(']');
+<a class="jxr_linenumber" name="L355" href="#L355">355</a>                     bf.append(<span class="jxr_string">" decoded to: "</span>);
+<a class="jxr_linenumber" name="L356" href="#L356">356</a>                     bf.append('[').append(key).append(']').append('=').append('[').append(val[i]).append(']');
+<a class="jxr_linenumber" name="L357" href="#L357">357</a>                     LOG.trace(bf.toString());
+<a class="jxr_linenumber" name="L358" href="#L358">358</a>                 }
+<a class="jxr_linenumber" name="L359" href="#L359">359</a>             }
+<a class="jxr_linenumber" name="L360" href="#L360">360</a>             res.put(key, val);
+<a class="jxr_linenumber" name="L361" href="#L361">361</a>         }
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> 
+<a class="jxr_linenumber" name="L363" href="#L363">363</a>         <strong class="jxr_keyword">return</strong> res;
+<a class="jxr_linenumber" name="L364" href="#L364">364</a>     }
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> 
+<a class="jxr_linenumber" name="L366" href="#L366">366</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> <em class="jxr_javadoccomment">     * Given an input map of name-value pairs, construct a query string. This</em>
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">     * supports multiple values for any given parameter. Names and values are</em>
+<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">     * properly encoded.</em>
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> <em class="jxr_javadoccomment">     * @param parameters parameters to encode and place in the query string</em>
+<a class="jxr_linenumber" name="L372" href="#L372">372</a> <em class="jxr_javadoccomment">     * @return the query string, or null if no values needed to be added.</em>
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> <em class="jxr_javadoccomment">     * @see #encode(String)</em>
+<a class="jxr_linenumber" name="L374" href="#L374">374</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L375" href="#L375">375</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String constructQueryString(Map&lt;String, String[]&gt; parameters) {
+<a class="jxr_linenumber" name="L376" href="#L376">376</a>         StringBuilder qryStr = <strong class="jxr_keyword">new</strong> StringBuilder();
+<a class="jxr_linenumber" name="L377" href="#L377">377</a>         <strong class="jxr_keyword">for</strong> (String key : parameters.keySet()) {
+<a class="jxr_linenumber" name="L378" href="#L378">378</a>             String[] vals = parameters.get(key);
+<a class="jxr_linenumber" name="L379" href="#L379">379</a>             <strong class="jxr_keyword">if</strong> (vals != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L380" href="#L380">380</a>                 <em class="jxr_comment">// Loop through the values for the parameter</em>
+<a class="jxr_linenumber" name="L381" href="#L381">381</a>                 <strong class="jxr_keyword">for</strong> (String val : vals) {
+<a class="jxr_linenumber" name="L382" href="#L382">382</a>                     <strong class="jxr_keyword">if</strong> (val != <strong class="jxr_keyword">null</strong> &amp;&amp; val.length() &gt; 0) {
+<a class="jxr_linenumber" name="L383" href="#L383">383</a>                         <em class="jxr_comment">// Append the correct separator</em>
+<a class="jxr_linenumber" name="L384" href="#L384">384</a>                         <strong class="jxr_keyword">if</strong> (qryStr.length() &gt; 0) {
+<a class="jxr_linenumber" name="L385" href="#L385">385</a>                             qryStr.append('&amp;');
+<a class="jxr_linenumber" name="L386" href="#L386">386</a>                         }
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> 
+<a class="jxr_linenumber" name="L388" href="#L388">388</a>                         <em class="jxr_comment">// Append the name and value to the URL</em>
+<a class="jxr_linenumber" name="L389" href="#L389">389</a>                         <strong class="jxr_keyword">if</strong> (LOG.isTraceEnabled()) {
+<a class="jxr_linenumber" name="L390" href="#L390">390</a>                             StringBuilder bf = <strong class="jxr_keyword">new</strong> StringBuilder(<span class="jxr_string">"About to add [key]=[value] to url ["</span> + key + <span class="jxr_string">"]=["</span>
+<a class="jxr_linenumber" name="L391" href="#L391">391</a>                                     + val + <span class="jxr_string">"]"</span>);
+<a class="jxr_linenumber" name="L392" href="#L392">392</a>                             bf.append(<span class="jxr_string">" after encoding: ["</span>).append(encode(key)).append(<span class="jxr_string">"]=["</span>).append(encode(val))
+<a class="jxr_linenumber" name="L393" href="#L393">393</a>                                     .append(<span class="jxr_string">"]"</span>);
+<a class="jxr_linenumber" name="L394" href="#L394">394</a>                             LOG.trace(bf.toString());
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> 
+<a class="jxr_linenumber" name="L396" href="#L396">396</a>                         }
+<a class="jxr_linenumber" name="L397" href="#L397">397</a>                         qryStr.append(encode(key)).append('=').append(encode(val));
+<a class="jxr_linenumber" name="L398" href="#L398">398</a>                     }
+<a class="jxr_linenumber" name="L399" href="#L399">399</a>                 }
+<a class="jxr_linenumber" name="L400" href="#L400">400</a>             }
+<a class="jxr_linenumber" name="L401" href="#L401">401</a>         }
+<a class="jxr_linenumber" name="L402" href="#L402">402</a> 
+<a class="jxr_linenumber" name="L403" href="#L403">403</a>         <em class="jxr_comment">// prepare result</em>
+<a class="jxr_linenumber" name="L404" href="#L404">404</a>         <strong class="jxr_keyword">if</strong> (qryStr.length() &gt; 0) {
+<a class="jxr_linenumber" name="L405" href="#L405">405</a>             <strong class="jxr_keyword">return</strong> qryStr.toString();
+<a class="jxr_linenumber" name="L406" href="#L406">406</a>         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L407" href="#L407">407</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L408" href="#L408">408</a>         }
+<a class="jxr_linenumber" name="L409" href="#L409">409</a>     }
+<a class="jxr_linenumber" name="L410" href="#L410">410</a> 
+<a class="jxr_linenumber" name="L411" href="#L411">411</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L412" href="#L412">412</a> <em class="jxr_javadoccomment">     * Given an array of query-string-like packed arguments, eliminate the</em>
+<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">     * specified parameters and return the packedargs parameter with the values</em>
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">     * stripped.</em>
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">     * </em>
+<a class="jxr_linenumber" name="L416" href="#L416">416</a> <em class="jxr_javadoccomment">     * @param origPackedargsStrings array of query string-like packed args.</em>
+<a class="jxr_linenumber" name="L417" href="#L417">417</a> <em class="jxr_javadoccomment">     * @param toExclude list of args to remove from the packed args.</em>
+<a class="jxr_linenumber" name="L418" href="#L418">418</a> <em class="jxr_javadoccomment">     * @return array the same length as the original array, containing the same</em>
+<a class="jxr_linenumber" name="L419" href="#L419">419</a> <em class="jxr_javadoccomment">     *         values, except the &lt;code&gt;toExclude&lt;/code&gt; parameters are removed.</em>
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> <em class="jxr_javadoccomment">     *         If all params end up getting removed, the packedargs string ends</em>
+<a class="jxr_linenumber" name="L421" href="#L421">421</a> <em class="jxr_javadoccomment">     *         up being null. The array returned is never null though.</em>
+<a class="jxr_linenumber" name="L422" href="#L422">422</a> <em class="jxr_javadoccomment">     * @throws IllegalArgumentException if the input args or the input list are</em>
+<a class="jxr_linenumber" name="L423" href="#L423">423</a> <em class="jxr_javadoccomment">     *             null.</em>
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L425" href="#L425">425</a>     <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> String[] excludeFromPackedargs(String[] origPackedargsStrings, Collection&lt;String&gt; toExclude) {
+<a class="jxr_linenumber" name="L426" href="#L426">426</a>         <strong class="jxr_keyword">if</strong> (origPackedargsStrings == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L427" href="#L427">427</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"OrigPackedArgsStrings must not be null"</span>);
+<a class="jxr_linenumber" name="L428" href="#L428">428</a>         }
+<a class="jxr_linenumber" name="L429" href="#L429">429</a>         <strong class="jxr_keyword">if</strong> (toExclude == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L430" href="#L430">430</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IllegalArgumentException(<span class="jxr_string">"ToExclude list may not be null"</span>);
+<a class="jxr_linenumber" name="L431" href="#L431">431</a>         }
+<a class="jxr_linenumber" name="L432" href="#L432">432</a> 
+<a class="jxr_linenumber" name="L433" href="#L433">433</a>         String[] newPackedargsStrings = <strong class="jxr_keyword">new</strong> String[origPackedargsStrings.length];
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> 
+<a class="jxr_linenumber" name="L435" href="#L435">435</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; origPackedargsStrings.length; i++) {
+<a class="jxr_linenumber" name="L436" href="#L436">436</a>             Map&lt;String, String[]&gt; oldPacked = parseQueryString(origPackedargsStrings[i]);
+<a class="jxr_linenumber" name="L437" href="#L437">437</a>             Map&lt;String, String[]&gt; newPacked = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String[]&gt;();
+<a class="jxr_linenumber" name="L438" href="#L438">438</a>             <strong class="jxr_keyword">for</strong> (String opK : oldPacked.keySet()) {
+<a class="jxr_linenumber" name="L439" href="#L439">439</a>                 <strong class="jxr_keyword">if</strong> (LOG.isTraceEnabled()) {
+<a class="jxr_linenumber" name="L440" href="#L440">440</a>                     LOG.trace(<span class="jxr_string">"checking to see if a param should be excluded from packedargs: "</span> + opK);
+<a class="jxr_linenumber" name="L441" href="#L441">441</a>                 }
+<a class="jxr_linenumber" name="L442" href="#L442">442</a>                 <strong class="jxr_keyword">if</strong> (!toExclude.contains(opK)) {
+<a class="jxr_linenumber" name="L443" href="#L443">443</a>                     newPacked.put(opK, oldPacked.get(opK));
+<a class="jxr_linenumber" name="L444" href="#L444">444</a>                 }
+<a class="jxr_linenumber" name="L445" href="#L445">445</a>             }
+<a class="jxr_linenumber" name="L446" href="#L446">446</a> 
+<a class="jxr_linenumber" name="L447" href="#L447">447</a>             newPackedargsStrings[i] = constructQueryString(newPacked);
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> 
+<a class="jxr_linenumber" name="L449" href="#L449">449</a>         }
+<a class="jxr_linenumber" name="L450" href="#L450">450</a> 
+<a class="jxr_linenumber" name="L451" href="#L451">451</a>         <strong class="jxr_keyword">return</strong> newPackedargsStrings;
+<a class="jxr_linenumber" name="L452" href="#L452">452</a>     }
+<a class="jxr_linenumber" name="L453" href="#L453">453</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2016&#x2013;2017. All rights reserved.</div>
+</body>
+</html>
