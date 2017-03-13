@@ -14,6 +14,38 @@
 ~~ limitations under the License.
 ~~
 
+Release Notes for GSF version 12.0.1
+
+* Project changes
+
+    * The GSF NavService contract / APIs have been modified so to better accommodate custom implementations whilst leveraging cleaner design and coding.
+    
+    * Adjusted the OOTB NavService implementation (SitePlanNavService) to the new contract / APIs.
+    
+    * Fixed a bug in the SitePlanNavService.java class which affected caching / cache flushing.
+    
+    * Added a sample implementation of the SitePlanNavService inside the gsf-sample module.
+    
+    * Enhanced javadocs for the entire "navigation" subpackage.
+    
+    []
+
+* New Features
+
+	* Now you have absolute control over the AssetNode implementation (handled and) returned by SitePlanNavService.
+
+	* (Re-)Using SitePlanNavService is now simpler, cleaner and more flexible.
+	
+	[] 
+
+* Deprecated Features
+
+	* No features have been deprecated in this release.
+	
+	[]
+
+
+
 Release Notes for GSF version 12.0.0
 
 * Project changes

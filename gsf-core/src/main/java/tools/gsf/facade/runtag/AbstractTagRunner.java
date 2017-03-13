@@ -122,7 +122,7 @@ public abstract class AbstractTagRunner extends FTValListFacade implements TagRu
             LOG.trace(sb.toString());
         }
         postExecute(ics);
-        if (ics.GetErrno() < 0) {
+        if (ics.GetErrno() < 0 && ics.GetErrno()!=-101) {
             this.handleError(ics);
         }
         return s;
