@@ -15,8 +15,6 @@
  */
 package tools.gsf.navigation;
 
-import com.fatwire.assetapi.data.AssetId;
-
 import java.util.List;
 
 /**
@@ -33,7 +31,7 @@ import java.util.List;
  * @author Tony Field
  * @since 2016-06-28
  */
-public interface NavService<N extends Node, S, P> {
+public interface NavService<N extends Node<N>, S, P> {
 
     /**
      * Returns the nodes corresponding to the nav structure specified.
