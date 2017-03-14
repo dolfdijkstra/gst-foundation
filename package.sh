@@ -266,3 +266,4 @@ esac
 # - if your release is the latest major version, (i.e. 12 not 11 or 1) then issue a pull request to pull your changes from the version trunk into the master branch, so that the master branch remains the most stable release
 # - checkout the version branch again
 # - update the pom files to reflect the next minor/patch version's snapshot label (e.g. 12.0.2-SNAPSHOT)
+# - if using artifactory or another maven repository, be sure to upload the gsf-parent pom.xml file, gsf-core-x.jar and gsf-legacy-x.jar to the repo.
