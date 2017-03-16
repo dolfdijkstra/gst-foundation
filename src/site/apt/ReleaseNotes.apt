@@ -14,6 +14,30 @@
 ~~ limitations under the License.
 ~~
 
+Release Notes for GSF version 12.0.2
+
+* Project changes
+
+    * Removed the getIcs() method from SitePLanNavService and adjusted LightweightSitePlanNavService accordingly.
+    
+    []
+
+* New Features
+
+    * SitePlanNavService now builds the nav structure on demand (i.e. lazy-loading) instead of doing so automatically when instantiated (i.e. inside its constructor)
+    
+    * Now you can use inside your SitePlanNavService implementation's createAssetNode method any object you pass (e.g. inject) into its constructor. 
+	
+	[] 
+
+* Deprecated Features
+
+	* No features have been deprecated in this release.
+	
+	[]
+
+
+
 Release Notes for GSF version 12.0.1
 
 * Project changes
