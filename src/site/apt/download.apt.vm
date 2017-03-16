@@ -23,27 +23,39 @@ Download
 
 	This release is Version $projectVersionForAPTs
 
+	<<Complete kit>>
+
+	* {{{./downloads/gsf-${projectVersionForAPTs}-kit.zip} gsf-${projectVersionForAPTs}-kit.zip}}
+
+	* {{{./downloads/gsf-${projectVersionForAPTs}-kit.tgz} gsf-${projectVersionForAPTs}-kit.tgz}}
+
+	[]
+
+Prior Versions
+
+* Version 12.0.2 (Released 2017-03-16)
+
 	<<Binaries (jars)>>
 
-	* {{{./downloads/gsf-core-${projectVersionForAPTs}.jar} gsf-core-${projectVersionForAPTs}.jar}}
+	* {{{./downloads/gsf-core-12.0.2.jar} gsf-core-12.0.2.jar}}
 
-	* {{{./downloads/gsf-legacy-${projectVersionForAPTs}.jar} gsf-legacy-${projectVersionForAPTs}.jar}}
+	* {{{./downloads/gsf-legacy-12.0.2.jar} gsf-legacy-12.0.2.jar}}
 
 	[]
 
 	<<Source>>
 
-	* {{{./downloads/gsf-core-${projectVersionForAPTs}-sources.jar} gsf-core-${projectVersionForAPTs}-sources.jar}}
+	* {{{./downloads/gsf-core-12.0.2-sources.jar} gsf-core-12.0.2-sources.jar}}
 
-	* {{{./downloads/gsf-legacy-${projectVersionForAPTs}-sources.jar} gsf-legacy-${projectVersionForAPTs}-sources.jar}}
+	* {{{./downloads/gsf-legacy-12.0.2-sources.jar} gsf-legacy-12.0.2-sources.jar}}
 
 	[]
 
 	<<Javadoc>>
 
-	* {{{./downloads/gsf-core-${projectVersionForAPTs}-javadoc.jar} gsf-core-${projectVersionForAPTs}-javadoc.jar}}
+	* {{{./downloads/gsf-core-12.0.2-javadoc.jar} gsf-core-12.0.2-javadoc.jar}}
 
-	* {{{./downloads/gsf-legacy-${projectVersionForAPTs}-javadoc.jar} gsf-legacy-${projectVersionForAPTs}-javadoc.jar}}
+	* {{{./downloads/gsf-legacy-12.0.2-javadoc.jar} gsf-legacy-12.0.2-javadoc.jar}}
 
 	[]
 
@@ -55,7 +67,6 @@ Download
 
 	[]
 
-Prior Versions
 
 * Version 12.0.1 (Released 2017-03-13)
 

@@ -3,19 +3,16 @@ set -o nounset
 set -o errexit
 VERSION=`python -c "from xml.dom.minidom import parse;dom = parse('pom.xml');print [n.firstChild for n in dom.getElementsByTagName('version') if n.parentNode == dom.childNodes[0]][0].toxml()"`
 echo "[$(date)] GST Site Foundation version $VERSION packager"
-echo "[$(date)]"
 
 execLocation="$PWD"
 
 if [[ $(uname -s | tr '[:lower:]' '[:upper:]') = *CYGWIN* ]]; 
 then
 	tmpBase="c:\tmp\gsf-deploy"
-	echo "[$(date)]CygWin detected!"
-	echo "[$(date)]Will use temporary folder: $tmpBase"
+	echo "[$(date)]   CygWin detected!"
 else
 	tmpBase=/tmp/gsf-deploy
-	echo "[$(date)] CygWin not detected... running on Linux, Mac or some other Linux distro"
-	echo "[$(date)] Will use temporary folder: $tmpBase"
+	echo "[$(date)]   CygWin not detected... running on Linux, Mac or some other Linux distro"
 fi
 
 mavenOutputLog=$tmpBase/mvn-gsf-$VERSION.out
@@ -33,28 +30,29 @@ trap onexit ERR
 
 function onexit() {
     local exit_status=${1:-$?}
-    echo "[$(date)]"
-    echo "[$(date)]"
     echo "[$(date)] An error occured. The output of the failed build is probably in $mavenOutputLog"
     exit $exit_status
 }
 
 function buildJARs() {
 
-	echo "[$(date)] Preparing build"
+	echo "[$(date)] Building GSF"
+
+	echo "[$(date)]   maven output log: $mavenOutputLog"
+
+	echo "[$(date)]   preparing build"
     (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd ..) > $mavenOutputLog
 
-	echo "[$(date)] Downloading all artifacts"
+	echo "[$(date)]   downloading all artifacts"
 	mvn -q dependency:go-offline | awk '{ print "[DOWNLOADING ARTIFACTS] ", $0; }' >> $mavenOutputLog
 
-	echo "[$(date)] Building GSF jars"
+	echo "[$(date)]   building jars"
 	mvn clean install | awk '{ print "[BUILDING JARS] ", $0; }' >> $mavenOutputLog
 
-	echo "[$(date)] Building & zipping GSF sample"
-	(cd gsf-sample && mvn clean install && mkdir target/gsf-samples && cp pom.xml target/gsf-samples && cp -R src target/gsf-samples && cd target && tar -czf samples.tgz gsf-samples && zip -q -r samples.zip gsf-samples && cd .. | awk '{ print "[BUILDING SAMPLE] ", $0; }') >> $mavenOutputLog
+	echo "[$(date)]   building sample"
+	(cd gsf-sample && mvn clean install && cd .. | awk '{ print "[BUILDING SAMPLE] ", $0; }') >> $mavenOutputLog
 
 	echo "[$(date)] GSF build successful!"
-    echo "[$(date)]"
 }
 
 function packageKit() {
@@ -80,8 +78,9 @@ function packageKit() {
 	cp pom.xml $kitLocation
 
 	echo "[$(date)]   copying samples into $kitLocation"
-	cp gsf-sample/target/samples.tgz $kitLocation
-	cp gsf-sample/target/samples.zip $kitLocation
+	mkdir $kitLocation/samples
+	cp gsf-sample/pom.xml $kitLocation/samples/
+	cp -R gsf-sample/src $kitLocation/samples/
 
 	echo "[$(date)]   copying README.md into $kitLocation"
 	cp ./README.md $kitLocation
@@ -89,7 +88,7 @@ function packageKit() {
 	echo "[$(date)]   adding license to $kitLocation"
 	cp LICENSE "$kitLocation"
 
-	echo "[$(date)]   compressing kit"
+	echo "[$(date)]   compressing"
 	if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 	kitArchive=`pwd`/target/gsf-$VERSION-kit
 	cd $tmpLocation
@@ -99,7 +98,6 @@ function packageKit() {
 	echo "[$(date)] Kits are ready for pick-up here:"
 	echo "[$(date)]   ${kitArchive}.tgz"
 	echo "[$(date)]   ${kitArchive}.zip"
-    echo "[$(date)]"
 
 	cd $execLocation
 }
@@ -122,22 +120,9 @@ function packageWebsite() {
 	        mkdir $siteLocation/downloads
 	fi
 
-	echo "[$(date)]   copying JAR files into $siteLocation/downloads"
-	cp gsf-core/target/gsf-core-$VERSION.jar $siteLocation/downloads/
-	cp gsf-legacy/target/gsf-legacy-$VERSION.jar $siteLocation/downloads/
-
-	echo "[$(date)]   copying JavaDoc and Source Files into $siteLocation/downloads"
-	cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $siteLocation/downloads/
-	cp gsf-core/target/gsf-core-$VERSION-sources.jar $siteLocation/downloads/
-	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
-	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $siteLocation/downloads/
-
-	echo "[$(date)]   copying GSF parent pom into $siteLocation/downloads"
-	cp pom.xml $siteLocation/downloads/
-
-	echo "[$(date)]   copying samples into $siteLocation/downloads"
-	cp gsf-sample/target/samples.tgz $siteLocation/downloads/
-	cp gsf-sample/target/samples.zip $siteLocation/downloads/
+	echo "[$(date)]   copying kit archive into $siteLocation/downloads"
+	cp ${kitArchive}.tgz $siteLocation/downloads/
+	cp ${kitArchive}.zip $siteLocation/downloads/
 
 	echo "[$(date)]   adding module sites to $siteLocation"
 	cp -R gsf-core/target/site "$siteLocation/gsf-core/"
@@ -150,7 +135,7 @@ function packageWebsite() {
 	if [ -d `pwd`/target/site ] ; then rm -rf `pwd`/target/site ;fi
 	if [ -d `pwd`/target/javadoc-bundle-options ] ; then rm -rf `pwd`/target/javadoc-bundle-options ;fi
 
-	echo "[$(date)]   compressing GSF website"
+	echo "[$(date)]   compressing"
 	if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 	websiteArchive=`pwd`/target/gsf-$VERSION-website
 	cd $tmpLocation
@@ -160,17 +145,17 @@ function packageWebsite() {
 	echo "[$(date)] GSF's website is ready for pick-up here:"
 	echo "[$(date)]   ${websiteArchive}.tgz"
 	echo "[$(date)]   ${websiteArchive}.zip"
-    echo "[$(date)]"
 
 	cd $execLocation
 }
 
+echo "[$(date)]   using temporary folder: $tmpBase"
 if [ ! -d $tmpBase ] ;
 then
 	mkdir $tmpBase
 fi
 
-echo "[$(date)] Clearing $tmpLocation"
+echo "[$(date)]   clearing $tmpLocation"
 if [ -d "$tmpLocation" ] ; then rm -Rf "$tmpLocation" ;fi
 mkdir -p "$tmpLocation"
 
@@ -181,8 +166,8 @@ fi
 
 case ${commandName} in
 	"jar")	buildJARs ;;
-	"kit")	buildJARs && packageKit ;;
-	"site")	buildJARs && packageWebsite ;;
+	"kit")  packageKit ;;
+	"site")	packageWebsite ;;
 	"all")	buildJARs && packageKit && packageWebsite ;;
 	*)	echo UNSUPPORTED OPERATION "$commandName". Use \'jar\' \'kit\' \'site\' or \'all\'. ; exit ;;
 esac
@@ -239,7 +224,7 @@ esac
 # vi src/site/apt/changes-11g.apt 
 
 # Site Update instructions (tested for version 12.0.1 on Oct 24, 2016 by Tony Field)
-# - update poms to new release version for all modules (gst-foundation, gsf-build-tools, gsf-core, gsf-legacy)
+# - update poms to new release version for all modules (gst-foundation, gsf-core, gsf-legacy, gsf-build-tools & gsf-sample)
 # - update site.xml to link to new "previous version" site
 # - update the download.apt.vm page to link to the new download and update prior versions
 # - update documentation as needed
@@ -250,12 +235,13 @@ esac
 # - save full site zip from target folder
 # - checkout gh-pages branch
 # - add new folder to releases directory for new version (e.g. gsf-12.0.1)
-# - extract full site zip from gh-pages branch
-# - place content from teh site folder into the release folder in the gh-pages checkout
+# - extract full site zip that was saved
+# - place content from the site folder into the newly created release folder in the gh-pages checkout (e.g. releases/gsf-12.0.1/
 # - edit index.html to redirect users to the new version (i.e. update the meta refresh tag)
 # - commit the gh-pages changes
 # - verify the site - navigate to gst-foundation.org and you should be directed to the new version
 # - if your release is the latest major version, (i.e. 12 not 11 or 1) then issue a pull request to pull your changes from the version trunk into the master branch, so that the master branch remains the most stable release
+# - tag the release in github
 # - checkout the version branch again
 # - update the pom files to reflect the next minor/patch version's snapshot label (e.g. 12.0.2-SNAPSHOT)
 # - if using artifactory or another maven repository, be sure to upload the gsf-parent pom.xml file, gsf-core-x.jar and gsf-legacy-x.jar to the repo.
