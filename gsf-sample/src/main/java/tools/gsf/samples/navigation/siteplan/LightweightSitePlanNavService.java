@@ -42,9 +42,12 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
 	
 	private static final Logger LOG = LoggerFactory.getLogger(LightweightSitePlanNavService.class);
 	
+	private ICS ics;
+	
 	public LightweightSitePlanNavService(ICS ics, TemplateAssetAccess dao) {
 		super(ics, dao);
-		LOG.debug("Initialized instance of LightweightSitePlanNavService with: ics = {} / dao = {} / no sitename specified", ics, dao);
+		this.ics = ics;
+		LOG.debug("Initialized instance of LightweightSitePlanNavService with: ics = {} / dao = {} / no sitename specified (defaulting to {})", ics, dao, this.getSitename());
 	}
 	
     protected MySampleAssetNode createAssetNode(AssetId assetId) {
@@ -53,10 +56,10 @@ public final class LightweightSitePlanNavService extends SitePlanNavService<MySa
     	//       even HashMap ;-)  ). 
     	LOG.debug("Starting LightweightSitePlanNavService.createAssetnode for asset id: {}", assetId);
 
-    	// You can either instantiate the BuildersFactory here as per below OR
-    	// you can have it passed onto this NavService implementation (for example:
-    	// by obtaining it through your project-specific IcsBackedFactory implementation).
-    	com.fatwire.assetapi.data.BuildersFactory buildersFactory = new DefaultBuildersFactory(this.getIcs());
+    	// You can either instantiate the BuildersFactory here as per below OR you can 
+    	// have it passed onto this NavService's constructor (for example: by obtaining
+    	// it through your project-specific IcsBackedFactory implementation).
+    	com.fatwire.assetapi.data.BuildersFactory buildersFactory = new DefaultBuildersFactory(this.ics);
 
     	// You own 100% of your AssetNode implementation, so you can pass into its
     	// constructor anything you need for it to do what it has to do.

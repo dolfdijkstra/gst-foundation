@@ -100,10 +100,13 @@ import java.util.stream.Stream;
 public abstract class SitePlanNavService<N extends AssetNode<N> & ConfigurableNode<N>> implements NavService<N, AssetId, AssetId> {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SitePlanNavService.class);
+	
+	private boolean _initialized;
 
     private final ICS ics;
     private final TemplateAssetAccess dao;
     private final String sitename;
+	private final Long pubId;
     private final Map<AssetId, List<N>> nodesById = new HashMap<>();
 
     // Sure, we could join with PUBLICATION on the NAVIGATION_TREE_DUMP, but
@@ -145,6 +148,13 @@ public abstract class SitePlanNavService<N extends AssetNode<N> & ConfigurableNo
         }
     }
     
+    /**
+     * For a given (Page) AssetId, creates an object whose type matches this method's return type
+     * (Generic), which will be added to the nav structure produced by this NavService implementation.
+     * 
+     * @param assetId The ID of the asset you want to create an AssetNode instance for 
+     * @return An object whose type matches this method's return type (Generic type N)
+     */
     protected abstract N createAssetNode(AssetId assetId);
     
     protected TemplateAssetAccess getTemplateAssetAccess() {
@@ -153,10 +163,6 @@ public abstract class SitePlanNavService<N extends AssetNode<N> & ConfigurableNo
     
     protected String getSitename() {
     	return this.sitename;
-    }
-    
-    protected final ICS getIcs() {
-    	return this.ics;
     }
     
     public SitePlanNavService(ICS ics, TemplateAssetAccess dao) {
@@ -174,93 +180,103 @@ public abstract class SitePlanNavService<N extends AssetNode<N> & ConfigurableNo
         		throw new IllegalStateException("Missing argument sitename. Nav structure cannot be built unless you specify the name of the site (publication) it is for.");
         	}
     	}
-		Long pubId = _getPubId(theSitename);
-		if (pubId == null) {
-			throw new IllegalStateException("Cannot determine pubid for site '" + theSitename + "'. Nav structure cannot be built unless you specify the name of the site (publication) it is for.");
+		Long aPubId = _getPubId(theSitename);
+		if (aPubId == null) {
+			throw new IllegalStateException("Cannot determine pubid for site '" + theSitename + "'. Nav structure cannot be built unless you specify the (valid) name of the site (publication) it is for.");
 		}
         
+		this.pubId = aPubId;
 		this.sitename = theSitename;
-        StatementParam params = NAVIGATION_TREE_DUMP.newParam();
-        params.setLong(0, pubId);
-
-        // read the site plan tree in one massive query
-        Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
-        Map<Long, List<SitePlanTreeData>> childrenMap = new HashMap<>();
-
-        LOG.debug("Executing SitePlan query for gathering data for nav service...");
-                
-        for (Row row : SqlHelper.select(ics, NAVIGATION_TREE_DUMP, params)) {
-            SitePlanTreeData nodeInfo = new SitePlanTreeData(row);
-            LOG.debug("Processing SitePlan row: {}", nodeInfo);
-            rowMap.put(nodeInfo.nid, nodeInfo);
-            LOG.debug("Added row {} to SitePlan rows map under key {}", nodeInfo, nodeInfo.nid);
-            List<SitePlanTreeData> children = childrenMap.get(nodeInfo.nparentid);
-            if (children == null) {
-            	// Initialize the list of children for the current row's parent
-            	children = new ArrayList<SitePlanTreeData>();
-            	childrenMap.put(nodeInfo.nparentid, children);
-            }
-            // Add the current row to its parent's list of children  
-            children.add(nodeInfo);
-            LOG.debug("Added SPT row {} to the list of children of SPT (parent) row {}. That list now looks like this: {}", nodeInfo, nodeInfo.nparentid, children);
-        }
-
-        // create Node objects
-        Map<Long, N> nidNodeMap = new HashMap<Long, N>();
-        for (long nid : rowMap.keySet()) {
-        	LOG.debug("Will invoke createAssetNode for asset id {}", rowMap.get(nid).assetId);
-        	N node = createAssetNode(rowMap.get(nid).assetId);
-        	LOG.debug("AssetNode created for asset {}: {}", rowMap.get(nid).assetId, node);
-            
-            // Log a dependency with every node (asset) we populate
-            LogDep.logDep(ics, node.getId());
-        	LOG.debug("Logged dependency for asset {} inside nav service...", rowMap.get(nid).assetId);
-            
-            nidNodeMap.put(nid, node);
-            LOG.debug("Added node {} to nodes map under key {}", node, nid);
-            
-            // Stash for later. Probably won't have many duplicates so optimize
-            AssetId assetId = node.getId();
-            List<N> a1 = nodesById.get(assetId);
-            if (a1 == null) {
-            	a1 = Stream.of(node).collect(Collectors.toList());
-                nodesById.put(assetId, a1);
-            } else {
-            	a1.add(node);
-            }
-            
-            LOG.debug("nodesById map: {}", nodesById);
-
-        }
-
-        // hook up parent-child relationships, starting from the list
-        // of nodes with a parent
-        for (long nparentid : childrenMap.keySet()) {
-        	LOG.debug("Processing parent-child relationships for SitePlanTree row with nid = {}", nparentid);
-        	N parent = nidNodeMap.get(nparentid);
-        	if (parent != null) {
-        		LOG.debug("AssetNode for nid {} is: {}", nparentid, parent);
-        		List<SitePlanTreeData> children = childrenMap.get(nparentid);
-        		if (children != null) {
-        			LOG.debug("List of children for SPT whose nid = {} is: {}", nparentid, children);
-        			for (SitePlanTreeData childRow : children) {
-	        			N child = nidNodeMap.get(childRow.nid);
-	        			if (child != null) {
-	        				parent.addChild(child);
-	        				child.setParent(parent);
-	        				LOG.debug("Bound together parent node {} and child node {} as per SPT entry {}", parent, child, childRow);  
-	        			} else {
-	        				LOG.warn("There could be a problem here... we registered SPT row {} as a child of parent row {} but we did not instantiate a node for that child?", childRow, nparentid);
-	        			}
-	        		}
-        		} else {
-        			LOG.warn("Not sure how we ended up with a a parent node in the children nodes map with no children whatsoever.");
-        		}
-        	} else {
-        		LOG.warn("We have a list of children for SPT entry whose nid = {}. However, there is not a node matching that SPT entry's asset ({}). This is a bit weird, but also legitimate (for instance, the query excludes SiteNavigation assets)", nparentid, rowMap.get(nparentid));
-        	}
-        }
     }
+
+    private synchronized void _initializeNavStructure() {
+    	if (!this._initialized) {
+	        StatementParam params = NAVIGATION_TREE_DUMP.newParam();
+	        params.setLong(0, pubId);
+	
+	        // read the site plan tree in one massive query
+	        Map<Long, SitePlanTreeData> rowMap = new HashMap<>();
+	        Map<Long, List<SitePlanTreeData>> childrenMap = new HashMap<>();
+	
+	        LOG.debug("Executing SitePlan query for gathering data for nav service...");
+	                
+	        for (Row row : SqlHelper.select(ics, NAVIGATION_TREE_DUMP, params)) {
+	            SitePlanTreeData nodeInfo = new SitePlanTreeData(row);
+	            LOG.debug("Processing SitePlan row: {}", nodeInfo);
+	            rowMap.put(nodeInfo.nid, nodeInfo);
+	            LOG.debug("Added row {} to SitePlan rows map under key {}", nodeInfo, nodeInfo.nid);
+	            List<SitePlanTreeData> children = childrenMap.get(nodeInfo.nparentid);
+	            if (children == null) {
+	            	// Initialize the list of children for the current row's parent
+	            	children = new ArrayList<SitePlanTreeData>();
+	            	childrenMap.put(nodeInfo.nparentid, children);
+	            }
+	            // Add the current row to its parent's list of children  
+	            children.add(nodeInfo);
+	            LOG.debug("Added SPT row {} to the list of children of SPT (parent) row {}. That list now looks like this: {}", nodeInfo, nodeInfo.nparentid, children);
+	        }
+	
+	        // create Node objects
+	        Map<Long, N> nidNodeMap = new HashMap<Long, N>();
+	        for (long nid : rowMap.keySet()) {
+	        	LOG.debug("Will invoke createAssetNode for asset id {}", rowMap.get(nid).assetId);
+	        	N node = createAssetNode(rowMap.get(nid).assetId);
+	        	LOG.debug("AssetNode created for asset {}: {}", rowMap.get(nid).assetId, node);
+	            
+	            // Log a dependency with every node (asset) we populate
+	            LogDep.logDep(ics, node.getId());
+	        	LOG.debug("Logged dependency for asset {} inside nav service...", rowMap.get(nid).assetId);
+	            
+	            nidNodeMap.put(nid, node);
+	            LOG.debug("Added node {} to nodes map under key {}", node, nid);
+	            
+	            // Stash for later. Probably won't have many duplicates so optimize
+	            AssetId assetId = node.getId();
+	            List<N> a1 = nodesById.get(assetId);
+	            if (a1 == null) {
+	            	a1 = Stream.of(node).collect(Collectors.toList());
+	                nodesById.put(assetId, a1);
+	            } else {
+	            	a1.add(node);
+	            }
+	            
+	            LOG.debug("nodesById map: {}", nodesById);
+	
+	        }
+	
+	        // hook up parent-child relationships, starting from the list
+	        // of nodes with a parent
+	        for (long nparentid : childrenMap.keySet()) {
+	        	LOG.debug("Processing parent-child relationships for SitePlanTree row with nid = {}", nparentid);
+	        	N parent = nidNodeMap.get(nparentid);
+	        	if (parent != null) {
+	        		LOG.debug("AssetNode for nid {} is: {}", nparentid, parent);
+	        		List<SitePlanTreeData> children = childrenMap.get(nparentid);
+	        		if (children != null) {
+	        			LOG.debug("List of children for SPT whose nid = {} is: {}", nparentid, children);
+	        			for (SitePlanTreeData childRow : children) {
+		        			N child = nidNodeMap.get(childRow.nid);
+		        			if (child != null) {
+		        				parent.addChild(child);
+		        				child.setParent(parent);
+		        				LOG.debug("Bound together parent node {} and child node {} as per SPT entry {}", parent, child, childRow);  
+		        			} else {
+		        				LOG.warn("There could be a problem here... we registered SPT row {} as a child of parent row {} but we did not instantiate a node for that child?", childRow, nparentid);
+		        			}
+		        		}
+	        		} else {
+	        			LOG.warn("Not sure how we ended up with a a parent node in the children nodes map with no children whatsoever.");
+	        		}
+	        	} else {
+	        		LOG.warn("We have a list of children for SPT entry whose nid = {}. However, there is not a node matching that SPT entry's asset ({}). This is a bit weird, but also legitimate (for instance, the query excludes SiteNavigation assets)", nparentid, rowMap.get(nparentid));
+	        	}
+	        }
+	        
+	        this._initialized = true;
+    	} else {
+    		LOG.debug("Nav Structure had been already initialized for NavService instance {}", this);
+    	}
+    }    
 
     private static class SitePlanTreeData {
         final long nid;
@@ -291,6 +307,9 @@ public abstract class SitePlanNavService<N extends AssetNode<N> & ConfigurableNo
             throw new IllegalArgumentException("Null param not allowed");
         }
 
+        // Initialize the nav structure
+        _initializeNavStructure();
+
         // find the requested structure
         List<N> spNodes = nodesById.get(sitePlan);
         if (spNodes == null) throw new IllegalArgumentException("Could not locate nav structure corresponding to "+sitePlan);
@@ -302,10 +321,12 @@ public abstract class SitePlanNavService<N extends AssetNode<N> & ConfigurableNo
     }
     
     public List<N> getBreadcrumb(AssetId id) {
-
         if (id == null) {
             throw new IllegalArgumentException("Cannot calculate breadcrumb of a null asset");
         }
+        
+        // Initialize the nav structure
+        _initializeNavStructure();
 
         Collection<BreadcrumbCandidate<N>> breadcrumbs = new ArrayList<>();
         LOG.debug("Obtaining all nodes whose ID matches {}", id);

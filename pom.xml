@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tools.gsf</groupId>
 	<artifactId>gsf-parent</artifactId>
-	<version>12.0.1</version>
+	<version>12.0.2</version>
 	<packaging>pom</packaging>
 	<name>GST Site Foundation for WebCenter Sites</name>
 	<description>The GST Site Foundation parent project</description>
