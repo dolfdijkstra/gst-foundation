@@ -47,7 +47,42 @@ Download
 
 	[]
 
+	<<Samples>>
+
+	* {{{./downloads/samples.zip} sample.zip}}
+
+	* {{{./downloads/samples.tgz} samples.tgz}}
+
+	[]
+
 Prior Versions
+
+* Version 12.0.1 (Released 2017-03-13)
+
+	<<Binaries (jars)>>
+
+	* {{{./downloads/gsf-core-12.0.1.jar} gsf-core-12.0.1.jar}}
+
+	* {{{./downloads/gsf-legacy-12.0.1.jar} gsf-legacy-12.0.1.jar}}
+
+	[]
+
+	<<Source>>
+
+	* {{{./downloads/gsf-core-12.0.1-sources.jar} gsf-core-12.0.1-sources.jar}}
+
+	* {{{./downloads/gsf-legacy-12.0.1-sources.jar} gsf-legacy-12.0.1-sources.jar}}
+
+	[]
+
+	<<Javadoc>>
+
+	* {{{./downloads/gsf-core-12.0.1-javadoc.jar} gsf-core-12.0.1-javadoc.jar}}
+
+	* {{{./downloads/gsf-legacy-12.0.1-javadoc.jar} gsf-legacy-12.0.1-javadoc.jar}}
+
+	[]
+
 
 * Version 12.0.0 (Released 2016-10-17)
 

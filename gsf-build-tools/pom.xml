@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tools.gsf</groupId>
 	<artifactId>gsf-build-tools</artifactId>
-	<version>12.0.2-SNAPSHOT</version>
+	<version>12.0.2</version>
 	<packaging>jar</packaging>
 	<name>Sites GSF: Build Tools</name>
 	<inceptionYear>2012</inceptionYear>

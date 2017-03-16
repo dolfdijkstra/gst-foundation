@@ -2,23 +2,20 @@
 set -o nounset
 set -o errexit
 VERSION=`python -c "from xml.dom.minidom import parse;dom = parse('pom.xml');print [n.firstChild for n in dom.getElementsByTagName('version') if n.parentNode == dom.childNodes[0]][0].toxml()"`
-echo "GST Site Foundation version $VERSION packager"
+echo "[$(date)] GST Site Foundation version $VERSION packager"
+echo "[$(date)]"
 
 execLocation="$PWD"
 
 if [[ $(uname -s | tr '[:lower:]' '[:upper:]') = *CYGWIN* ]]; 
 then
 	tmpBase="c:\tmp\gsf-deploy"
-	echo
-	echo "CygWin DETECTED!"
-	echo "Will use temporary folder: $tmpBase"
-	echo
+	echo "[$(date)]CygWin detected!"
+	echo "[$(date)]Will use temporary folder: $tmpBase"
 else
 	tmpBase=/tmp/gsf-deploy
-	echo
-	echo "CygWin not detected... running on Linux, Mac or some other Linux distro"
-	echo "Will use temporary folder: $tmpBase"
-	echo
+	echo "[$(date)] CygWin not detected... running on Linux, Mac or some other Linux distro"
+	echo "[$(date)] Will use temporary folder: $tmpBase"
 fi
 
 mavenOutputLog=$tmpBase/mvn-gsf-$VERSION.out
@@ -29,33 +26,35 @@ siteLocation=$tmpLocation/site
 
 kitLocation=$tmpLocation/kit
 
+samplesLocation=$tmpLocation/samples
+
 trap onexit ERR
 
 
 function onexit() {
     local exit_status=${1:-$?}
-    echo
-    echo
-    echo "An error occured. In many case this is caused by missing artifacts from the local maven repository."
-    echo "Try running"
-    echo '(cd gsf-build-tools && mvn -q -Dmaven.test.skip=true install && cd .. && mvn install && mvn -P '\''!samples'\'' site)'
-    echo "mvn -o site:stage -P '!samples'" -DstagingDirectory=""$siteLocation""
-    echo "and then try to run package.sh again."
-    echo "the output of the failed build is probably in $mavenOutputLog"
+    echo "[$(date)]"
+    echo "[$(date)]"
+    echo "[$(date)] An error occured. The output of the failed build is probably in $mavenOutputLog"
     exit $exit_status
 }
 
 function buildJARs() {
+
+	echo "[$(date)] Preparing build"
+    (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd ..) > $mavenOutputLog
+
 	echo "[$(date)] Downloading all artifacts"
-	mvn -q dependency:go-offline | awk '{ print "[DOWNLOADING ARTIFACTS] ", $0; }' > $mavenOutputLog
+	mvn -q dependency:go-offline | awk '{ print "[DOWNLOADING ARTIFACTS] ", $0; }' >> $mavenOutputLog
 
 	echo "[$(date)] Building GSF jars"
-	mvn -o clean install | awk '{ print "[BUILDING JARS] ", $0; }' >> $mavenOutputLog
+	mvn clean install | awk '{ print "[BUILDING JARS] ", $0; }' >> $mavenOutputLog
 
-	echo "[$(date)] Building GSF sample"
-	(cd gsf-sample && mvn -o clean install | awk '{ print "[BUILDING SAMPLE] ", $0; }') >> $mavenOutputLog
+	echo "[$(date)] Building & zipping GSF sample"
+	(cd gsf-sample && mvn clean install && mkdir target/gsf-samples && cp pom.xml target/gsf-samples && cp -R src target/gsf-samples && cd target && tar -czf samples.tgz gsf-samples && zip -q -r samples.zip gsf-samples && cd .. | awk '{ print "[BUILDING SAMPLE] ", $0; }') >> $mavenOutputLog
 
-	echo "[$(date)] GSF jars successfully built !"
+	echo "[$(date)] GSF build successful!"
+    echo "[$(date)]"
 }
 
 function packageKit() {
@@ -67,24 +66,27 @@ function packageKit() {
         	mkdir $kitLocation
 	fi
 
-	echo "[$(date)]   copying JAR files with compiled classes inside $kitLocation"
+	echo "[$(date)]   copying JAR files with compiled classes into $kitLocation"
 	cp gsf-core/target/gsf-core-$VERSION.jar $kitLocation
 	cp gsf-legacy/target/gsf-legacy-$VERSION.jar $kitLocation
 
-	echo "[$(date)]   copying JavaDoc and Source Files inside $kitLocation"
+	echo "[$(date)]   copying JavaDoc and Source Files into $kitLocation"
 	cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $kitLocation
 	cp gsf-core/target/gsf-core-$VERSION-sources.jar $kitLocation
 	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $kitLocation
 	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $kitLocation
 
-	echo "[$(date)]   copying README.md inside $kitLocation"
+	echo "[$(date)]   copying GSF parent pom into $kitLocation"
+	cp pom.xml $kitLocation
+
+	echo "[$(date)]   copying samples into $kitLocation"
+	cp gsf-sample/target/samples.tgz $kitLocation
+	cp gsf-sample/target/samples.zip $kitLocation
+
+	echo "[$(date)]   copying README.md into $kitLocation"
 	cp ./README.md $kitLocation
 
-	#mkdir "$tmpLocation/gsf-sample/"
-	#cp -R gsf-sample/src "$tmpLocation/gsf-sample/"
-	#cp -R gsf-sample/resources "$tmpLocation/gsf-sample/"
-
-	echo "[$(date)] Adding license to $kitLocation"
+	echo "[$(date)]   adding license to $kitLocation"
 	cp LICENSE "$kitLocation"
 
 	echo "[$(date)]   compressing kit"
@@ -94,12 +96,10 @@ function packageKit() {
 	tar -czf ${kitArchive}.tgz kit
 	zip -q -r ${kitArchive}.zip kit
 
-	echo "[$(date)] GSF Kit packaging complete."
-
-	echo "Kits are ready for pick-up here:"
-	echo "  ${kitArchive}.tgz"
-	echo "  ${kitArchive}.zip"
-	echo
+	echo "[$(date)] Kits are ready for pick-up here:"
+	echo "[$(date)]   ${kitArchive}.tgz"
+	echo "[$(date)]   ${kitArchive}.zip"
+    echo "[$(date)]"
 
 	cd $execLocation
 }
@@ -114,7 +114,6 @@ function packageWebsite() {
     mvn -P '!samples' javadoc:aggregate | awk '{ print "[AGGREGATING JAVADOC] ", $0; }' >> $mavenOutputLog
 
 	echo "[$(date)]   staging site under $siteLocation"
-	#mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation > /dev/null
 	mvn site:stage -P '!samples' -DstagingDirectory=$siteLocation | awk '{ print "[STAGING SITE] ", $0; }' >> $mavenOutputLog
 
 	echo "[$(date)]   initializing 'downloads' folder $siteLocation/downloads"
@@ -123,24 +122,35 @@ function packageWebsite() {
 	        mkdir $siteLocation/downloads
 	fi
 
-	echo "[$(date)]   copying JAR files inside $siteLocation/downloads"
+	echo "[$(date)]   copying JAR files into $siteLocation/downloads"
 	cp gsf-core/target/gsf-core-$VERSION.jar $siteLocation/downloads/
 	cp gsf-legacy/target/gsf-legacy-$VERSION.jar $siteLocation/downloads/
 
-	echo "[$(date)]   copying JavaDoc and Source Files inside $siteLocation/downloads"
+	echo "[$(date)]   copying JavaDoc and Source Files into $siteLocation/downloads"
 	cp gsf-core/target/gsf-core-$VERSION-javadoc.jar $siteLocation/downloads/
 	cp gsf-core/target/gsf-core-$VERSION-sources.jar $siteLocation/downloads/
 	cp gsf-legacy/target/gsf-legacy-$VERSION-javadoc.jar $siteLocation/downloads/
 	cp gsf-legacy/target/gsf-legacy-$VERSION-sources.jar $siteLocation/downloads/
 
-	echo "[$(date)] Adding module sites to $siteLocation"
+	echo "[$(date)]   copying GSF parent pom into $siteLocation/downloads"
+	cp pom.xml $siteLocation/downloads/
+
+	echo "[$(date)]   copying samples into $siteLocation/downloads"
+	cp gsf-sample/target/samples.tgz $siteLocation/downloads/
+	cp gsf-sample/target/samples.zip $siteLocation/downloads/
+
+	echo "[$(date)]   adding module sites to $siteLocation"
 	cp -R gsf-core/target/site "$siteLocation/gsf-core/"
 	cp -R gsf-legacy/target/site "$siteLocation/gsf-legacy/"
 
-	echo "[$(date)] Adding license to $siteLocation"
+	echo "[$(date)]   adding license to $siteLocation"
 	cp LICENSE "$siteLocation"
 
-	echo "[$(date)] Compressing GSF website"
+	echo "[$(date)]   cleaning up."
+	if [ -d `pwd`/target/site ] ; then rm -rf `pwd`/target/site ;fi
+	if [ -d `pwd`/target/javadoc-bundle-options ] ; then rm -rf `pwd`/target/javadoc-bundle-options ;fi
+
+	echo "[$(date)]   compressing GSF website"
 	if [ ! -d `pwd`/target ] ; then mkdir `pwd`/target ;fi
 	websiteArchive=`pwd`/target/gsf-$VERSION-website
 	cd $tmpLocation
@@ -150,32 +160,14 @@ function packageWebsite() {
 	echo "[$(date)] GSF's website is ready for pick-up here:"
 	echo "[$(date)]   ${websiteArchive}.tgz"
 	echo "[$(date)]   ${websiteArchive}.zip"
-	echo
+    echo "[$(date)]"
 
 	cd $execLocation
-}
-
-function buildAndPackageAll() {
-	buildJARs 
-	packageWebsite
-	packageKit
 }
 
 if [ ! -d $tmpBase ] ;
 then
 	mkdir $tmpBase
-fi
-
-if [ ! -d $HOME/.m2/repository/com/fatwire/gst/gst-foundation -o ! -d $HOME/.m2/repository/tools/gsf ] ;
-then
-   echo "[$(date)] The GSF artifacts are not present in your maven repository. This is expected if you are building for the first time on this computer."
-   echo "[$(date)] Starting initial build"
-   echo
-   # first install the build tools
-   # then run install on the whole kit to force-download all dependencies (even ones not caught by dependency:go-offline)
-   (cd gsf-build-tools && mvn -q -Dmaven.test.skip=true clean install && cd ..)
-   mvn -q install > $mavenOutputLog
-   echo "[$(date)] Finished initial build"
 fi
 
 echo "[$(date)] Clearing $tmpLocation"
@@ -189,10 +181,10 @@ fi
 
 case ${commandName} in
 	"jar")	buildJARs ;;
-	"kit")	packageKit ;;
-	"site")	packageWebsite ;;
-	"all")	buildAndPackageAll ;;
-	*)	echo UNSUPPORTED OPERATION "$commandName". ; exit ;;
+	"kit")	buildJARs && packageKit ;;
+	"site")	buildJARs && packageWebsite ;;
+	"all")	buildJARs && packageKit && packageWebsite ;;
+	*)	echo UNSUPPORTED OPERATION "$commandName". Use \'jar\' \'kit\' \'site\' or \'all\'. ; exit ;;
 esac
 
 
