@@ -37,7 +37,7 @@ public final class FactoryLocator {
      * @return the factory producer, never null
      */
     public static FactoryProducer locateFactoryProducer(ServletContext servletContext) {
-        Object o = servletContext.getAttribute(ServletContextLoader.GSF_FACTORY_PRODUCER);
+        Object o = servletContext.getAttribute(ServletContextLoader.FACTORY_PRODUCER);
         if (o instanceof FactoryProducer) {
             return (FactoryProducer) o;
         } else {
