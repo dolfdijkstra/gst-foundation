@@ -43,6 +43,7 @@ under the License.
                 <item name="Advanced features" href="./usersguide/advanced-features.html" />
                 <item name="Facades highlights" href="./usersguide/facades.html" />
                 <item name="Built-in variables" href="./usersguide/variables.html" />
+                <item name="White Labelling" href="./usersguide/whitelabelling.html" />
             </item>
             <item name="Install Guide" href="./install.html"/>
             <item name="Javadoc" href="./gsf-core/apidocs/index.html" />
