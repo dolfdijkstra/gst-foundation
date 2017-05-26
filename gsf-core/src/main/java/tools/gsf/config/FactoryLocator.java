@@ -16,8 +16,11 @@
 package tools.gsf.config;
 
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IServlet;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 
 /**
  * Utility class for working with the factory producer and factories.
@@ -49,12 +52,34 @@ public final class FactoryLocator {
      * Convenience method for locating the factory producer that resides in the servlet context.
      * Never returns null.
      *
-     * @param ics the ics object (which of course holds a pointer to the servlet context)
+     * @param ics the ics object (which, should of course, hold a pointer to the servlet context). If the
+     *            specified ICS object does NOT hold a pointer to the servlet context, this locator method
+     *            will fall back to the <code>DefaultFactoryProducer</code> class, as there is no defined
+     *            configuration capability for creating custom factory producers without a servlet context.
      * @return the factory producer, never null
      */
     public static FactoryProducer locateFactoryProducer(ICS ics) {
-        ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
-        return locateFactoryProducer(servletContext);
+        if (ics == null) throw new IllegalArgumentException("No ICS found - cannot locate factory without a scope");
+
+        ServletContext servletContext;
+        try {
+            servletContext = ics.getIServlet().getServlet().getServletContext();
+        } catch (RuntimeException e) {
+            servletContext = null;
+        }
+
+        if (servletContext == null) {
+            Object o = ics.GetObj(ServletContextLoader.GSF_FACTORY_PRODUCER);
+            if (o == null) {
+                // There is no defined configuration capability for a factory producer that does not involve
+                // the servlet context. Rather than fail, return the default factory producer instead.
+                o = new DefaultFactoryProducer();
+                ics.SetObj(ServletContextLoader.GSF_FACTORY_PRODUCER, o);
+            }
+            return (FactoryProducer)o;
+        } else {
+            return locateFactoryProducer(servletContext);
+        }
     }
 
     /**
