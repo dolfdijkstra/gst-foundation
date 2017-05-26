@@ -18,9 +18,7 @@ package tools.gsf.config;
 import COM.FutureTense.Interfaces.ICS;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 
-import COM.FutureTense.Interfaces.IServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -167,20 +165,20 @@ public class DefaultFactoryProducer implements FactoryProducer {
      * <p>
      * This implementation uses the constructor configured in the {@link #CONFIG_FILE}. It also
      * uses ICS to locate the ServletContext, and then gets the servletContext-backed factory
-     * which it will use as a delegate for the ics-backed factory.
+     * which it will use as a delegate for the ics-backed factory, if possible.
      *
      * @param ics the ics context
      * @return the factory
      */
     protected Factory createFactory(ICS ics) {
-        ServletContext servletContext = getServletContext(ics);
+
         Factory delegate;
-        if (servletContext == null) {
-            LOG.debug("Creating ICS-backed factory, but no delegating factory could be created because no servlet context was found");
-            delegate = null;
-        } else {
+        try {
+            delegate = getFactory(ics.getIServlet().getServlet().getServletContext());
             LOG.debug("Creating ICS-backed factory that delegates to a servletContext-backed factory");
-            delegate = getFactory(servletContext);
+        } catch (RuntimeException e) {
+            delegate = null;
+            LOG.debug("Creating ICS-backed factory that has no delegate because no servletContext could be located");
         }
 
         Constructor<Factory> con = factoryConstructors.get(ICS.class);
@@ -189,17 +187,6 @@ public class DefaultFactoryProducer implements FactoryProducer {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new IllegalStateException("Could not instantiate factory: " + e, e);
         }
-    }
-
-    private static ServletContext getServletContext(ICS ics) {
-        IServlet iServlet = ics.getIServlet();
-        if (iServlet != null) {
-            HttpServlet servlet = iServlet.getServlet();
-            if (servlet != null) {
-                return servlet.getServletContext();
-            }
-        }
-        return null;
     }
 
     /**
