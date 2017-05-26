@@ -37,7 +37,7 @@ import static tools.gsf.config.ReflectionUtils.readConfigurationResource;
  * classes that are annotated with {@code @WebListener} will take precedence over this one.
  * <p>
  * By default, this class looks for the FactoryProducer class in a servletContext init
- * parameter called {@link #GSF_FACTORY_PRODUCER}. The class should have a public zero-arg
+ * parameter called {@link #FACTORY_PRODUCER}. The class should have a public zero-arg
  * constructor.
  * <p>
  * If no servlet context init parameter is found, this loader will search the classPath for
@@ -50,7 +50,7 @@ import static tools.gsf.config.ReflectionUtils.readConfigurationResource;
  * as the factory producer.
  * <p>
  * When the servlet context is initialized, the factory producer that is created is registered
- * the servlet context using the parameter {@link #GSF_FACTORY_PRODUCER}, and removed when the
+ * the servlet context using the parameter {@link #FACTORY_PRODUCER}, and removed when the
  * servlet context is destroyed.
  *
  * @author Tony Field
@@ -64,7 +64,7 @@ public class ServletContextLoader implements ServletContextListener {
     /**
      * Name of the servlet context init parameter containing the factory producer to be booted
      */
-    public static final String GSF_FACTORY_PRODUCER = "gsf-factory-producer";
+    public static final String FACTORY_PRODUCER = "gsf-factory-producer";
 
     /**
      * Name of config file where the factory producer class is configured.
@@ -103,18 +103,18 @@ public class ServletContextLoader implements ServletContextListener {
             LOG.info("FactoryProducer defaulting to: " + factoryProducer.getClass().getName());
         }
 
-        context.setAttribute(GSF_FACTORY_PRODUCER, factoryProducer);
+        context.setAttribute(FACTORY_PRODUCER, factoryProducer);
 
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        servletContextEvent.getServletContext().removeAttribute(GSF_FACTORY_PRODUCER);
+        servletContextEvent.getServletContext().removeAttribute(FACTORY_PRODUCER);
         LOG.info("FactoryProducer un-registered from servlet context.");
     }
 
     private FactoryProducer configureFromInitParam(ServletContext servletContext, ClassLoader classLoader) {
-        String factoryProducerClassName = servletContext.getInitParameter(GSF_FACTORY_PRODUCER);
+        String factoryProducerClassName = servletContext.getInitParameter(FACTORY_PRODUCER);
         return instantiateFactoryProducer(factoryProducerClassName, classLoader);
     }
 

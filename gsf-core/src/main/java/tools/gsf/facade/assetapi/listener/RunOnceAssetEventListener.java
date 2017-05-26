@@ -36,7 +36,7 @@ import java.util.Set;
 
 public abstract class RunOnceAssetEventListener extends AbstractAssetEventListener {
 
-    protected final Logger LOG = LoggerFactory.getLogger(getClass().getName().replaceFirst("fatwire.gst", "function1.gsf"));
+    protected final Logger LOG = LoggerFactory.getLogger(RunOnceAssetEventListener.class);
     private ICS ics;
 
     private static class RunOnceList {

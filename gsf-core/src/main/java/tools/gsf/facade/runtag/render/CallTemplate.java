@@ -86,7 +86,7 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
     /**
      * Sets up CallTemplate.
      * 
-     * <b>IMPORTANT: note that Style is now required, as opposed to previous versions of the GSF. Also, bear in mind that,
+     * <b>IMPORTANT: note that Style is now required, as opposed to previous versions. Also, bear in mind that,
      * in WCS 12c, using style="element" implies the called Template's Controller does NOT get invoked at all.</b> 
      *
      * @param slotname slot name
@@ -117,7 +117,7 @@ public class CallTemplate extends TagRunnerWithRenderArguments {
     	
     	// if style has not been explicitly set, bomb out
     	if (this.style == null) {
-    		throw new IllegalStateException("Starting GSF-12, you must explicitly set 'style'. Also, bear in mind that, in WCS 12c, calling a template with style='element' prevents the corresponding Controller from getting invoked.");
+    		throw new IllegalStateException("You must explicitly set 'style'. Also, bear in mind that, in WCS 12c, calling a template with style='element' prevents the corresponding Controller from getting invoked.");
     	}
         
         ics.ClearErrno();

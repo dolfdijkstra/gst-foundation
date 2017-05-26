@@ -31,7 +31,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Convenience class for working with reflection. Intended for internal GSF use only.
+ * Convenience class for working with reflection. Intended for internal use only.
  *
  * @author Tony Field
  * @since 2016-08-06
