@@ -21,13 +21,11 @@ limitations under the License.
 
 Download
 
-	This release is Version $projectVersionForAPTs
+* Version $projectVersionForAPTs (Current release)
 
-	<<Complete kit>>
-
-	* {{{./downloads/gsf-${projectVersionForAPTs}-kit.zip} gsf-${projectVersionForAPTs}-kit.zip}}
-
-	* {{{./downloads/gsf-${projectVersionForAPTs}-kit.tgz} gsf-${projectVersionForAPTs}-kit.tgz}}
+    Download the complete kit
+    ({{{./downloads/gsf-${projectVersionForAPTs}-kit.zip}zip}})
+    ({{{./downloads/gsf-${projectVersionForAPTs}-kit.tgz}tgz}})
 
 	[]
 
