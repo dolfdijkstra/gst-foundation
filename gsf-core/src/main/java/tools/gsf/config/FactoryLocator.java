@@ -16,8 +16,11 @@
 package tools.gsf.config;
 
 import COM.FutureTense.Interfaces.ICS;
+import COM.FutureTense.Interfaces.IServlet;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 
 /**
  * Utility class for working with the factory producer and factories.
@@ -53,8 +56,30 @@ public final class FactoryLocator {
      * @return the factory producer, never null
      */
     public static FactoryProducer locateFactoryProducer(ICS ics) {
-        ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
-        return locateFactoryProducer(servletContext);
+        if (ics == null) throw new IllegalArgumentException("No ICS found - cannot locate factory without a scope");
+        ServletContext servletContext = getServletContext(ics);
+        if (servletContext == null) {
+            Object o = ics.GetObj(ServletContextLoader.GSF_FACTORY_PRODUCER);
+            if (o == null) {
+                // ICS has no loader where factory producer creation can be connected, so create one on location.
+                o = new DefaultFactoryProducer();
+                ics.SetObj(ServletContextLoader.GSF_FACTORY_PRODUCER, o);
+            }
+            return (FactoryProducer)o;
+        } else {
+            return locateFactoryProducer(servletContext);
+        }
+    }
+
+    private static ServletContext getServletContext(ICS ics) {
+        IServlet iServlet = ics.getIServlet();
+        if (iServlet != null) {
+            HttpServlet servlet = iServlet.getServlet();
+            if (servlet != null) {
+                return servlet.getServletContext();
+            }
+        }
+        return null;
     }
 
     /**

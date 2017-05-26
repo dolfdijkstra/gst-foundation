@@ -18,7 +18,9 @@ package tools.gsf.config;
 import COM.FutureTense.Interfaces.ICS;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 
+import COM.FutureTense.Interfaces.IServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -171,8 +173,15 @@ public class DefaultFactoryProducer implements FactoryProducer {
      * @return the factory
      */
     protected Factory createFactory(ICS ics) {
-        ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
-        Factory delegate = getFactory(servletContext);
+        ServletContext servletContext = getServletContext(ics);
+        Factory delegate;
+        if (servletContext == null) {
+            LOG.debug("Creating ICS-backed factory, but no delegating factory could be created because no servlet context was found");
+            delegate = null;
+        } else {
+            LOG.debug("Creating ICS-backed factory that delegates to a servletContext-backed factory");
+            delegate = getFactory(servletContext);
+        }
 
         Constructor<Factory> con = factoryConstructors.get(ICS.class);
         try {
@@ -180,6 +189,17 @@ public class DefaultFactoryProducer implements FactoryProducer {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new IllegalStateException("Could not instantiate factory: " + e, e);
         }
+    }
+
+    private static ServletContext getServletContext(ICS ics) {
+        IServlet iServlet = ics.getIServlet();
+        if (iServlet != null) {
+            HttpServlet servlet = iServlet.getServlet();
+            if (servlet != null) {
+                return servlet.getServletContext();
+            }
+        }
+        return null;
     }
 
     /**
