@@ -34,6 +34,7 @@ import tools.gsf.facade.assetapi.asset.TemplateAsset;
 import tools.gsf.facade.assetapi.asset.TemplateAssetAccess;
 import tools.gsf.mapping.IcsMappingService;
 import tools.gsf.mapping.MappingService;
+import tools.gsf.time.LoggerStopwatch;
 import tools.gsf.time.Stopwatch;
 import tools.gsf.properties.AssetApiPropertyDao;
 import tools.gsf.properties.PropertyDao;
@@ -56,6 +57,11 @@ public class IcsBackedFactory extends AbstractDelegatingFactory<ICS> {
     public IcsBackedFactory(ICS ics, Factory delegate) {
         super(ics, delegate);
         this.ics = ics;
+    }
+
+    @ServiceProducer
+    public Stopwatch newStopwatch() {
+        return LoggerStopwatch.getInstance();
     }
 
     @ServiceProducer(cache = true, name="bindInjector")

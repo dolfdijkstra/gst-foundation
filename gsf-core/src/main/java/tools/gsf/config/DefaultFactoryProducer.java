@@ -165,14 +165,21 @@ public class DefaultFactoryProducer implements FactoryProducer {
      * <p>
      * This implementation uses the constructor configured in the {@link #CONFIG_FILE}. It also
      * uses ICS to locate the ServletContext, and then gets the servletContext-backed factory
-     * which it will use as a delegate for the ics-backed factory.
+     * which it will use as a delegate for the ics-backed factory, if possible.
      *
      * @param ics the ics context
      * @return the factory
      */
     protected Factory createFactory(ICS ics) {
-        ServletContext servletContext = ics.getIServlet().getServlet().getServletContext();
-        Factory delegate = getFactory(servletContext);
+
+        Factory delegate;
+        try {
+            delegate = getFactory(ics.getIServlet().getServlet().getServletContext());
+            LOG.debug("Creating ICS-backed factory that delegates to a servletContext-backed factory");
+        } catch (RuntimeException e) {
+            delegate = null;
+            LOG.debug("Creating ICS-backed factory that has no delegate because no servletContext could be located");
+        }
 
         Constructor<Factory> con = factoryConstructors.get(ICS.class);
         try {
